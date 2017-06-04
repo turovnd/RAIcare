@@ -4,7 +4,7 @@
 
 <div class="header__wrapper fl_r">
 
-    <ul class="header__menu">
+    <ul class="fl_r">
 
         <li class="header__item">
             <a id="openAsideMenu" role="button" class="header__link p-l-15 p-r-15 m-l-0">

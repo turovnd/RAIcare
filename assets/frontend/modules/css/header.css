@@ -154,7 +154,7 @@
         display: block;
     }
 
-    .header__menu.header__menu--opened{
+    .header__menu{
         position: fixed;
         padding-top: 56px;
         display: table;
@@ -167,12 +167,12 @@
         transition: all .2s;
     }
 
-    .header__menu--opened.header__item{
+    .header__menu--opened .header__item{
         display: block;
         text-align: center;
     }
 
-    .header__menu--opened.header__link{
+    .header__menu--opened .header__link{
         border-top: 1px solid #E0E0E0;
         width: 100%;
         margin: 0;
@@ -180,7 +180,7 @@
         font-weight: bold;
     }
 
-    .header__menu--opened.header__link.btn{
+    .header__menu--opened .header__link.btn{
         color: #008da7 !important;
         border: 0 !important;
         background: transparent !important;
