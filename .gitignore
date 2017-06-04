@@ -1,0 +1,21 @@
+.idea/*
+application/vendor/*
+application/cache/*
+application/logs/*
+
+# Config files
+application/config/redis.php
+application/config/database.php
+application/config/cache.php
+application/config/email.php
+application/config/url.php
+
+# Media files
+uploads/*
+
+# Others
+.env
+composer.lock
+
+# Node
+node_modules

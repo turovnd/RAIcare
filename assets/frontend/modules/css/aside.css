@@ -1,0 +1,118 @@
+.aside{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 200px;
+    background: #fdfdfd;
+    visibility: visible;
+    border-right: 1px solid #cfcfcf;
+    z-index: 9;
+    transition: all .1s;
+}
+
+.aside--opened{
+    left: 0 !important;
+    visibility: visible !important;
+}
+
+.aside__menu{
+    position: relative;
+    padding-top: 10px;
+    margin-top: 57px;
+}
+.aside__item{
+    position: relative;
+}
+
+.aside__link,
+.aside__collapse-link{
+    display: block;
+    padding: 10px 15px;
+    white-space: nowrap;
+}
+.aside__link:hover,
+.aside__link:focus,
+.aside__collapse-link:hover,
+.aside__collapse-link:focus {
+    color: #008DA7;
+    background: rgba(0,0,0,0.02);
+}
+.aside__collapse-link{
+    padding-left: 50px;
+}
+.aside__icon{
+    width: 20px;
+    margin-right: 10px;
+    text-align: center;
+}
+.aside__icon--right{
+    float: right;
+    font-weight: bold;
+    transition: all .3s;
+}
+.aside__link[data-opened="true"] .aside__icon--right{
+    padding-bottom: 2px;
+    padding-top: 0;
+    transform: rotate(180deg);
+}
+
+.aside__item--active{
+    background: rgba(0,0,0,0.02);
+    border-left: 2px solid #008DA7;
+}
+.aside__link--active,
+.aside__collapse-link--active{
+    color: #008DA7;
+}
+
+.aside--collapsed{
+    width: 65px;
+}
+.aside--collapsed .aside__menu{
+    padding-top: 0;
+}
+
+.aside--collapsed .aside__link {
+    padding: 20px 15px;
+}
+.aside--collapsed .aside__icon{
+    font-size: 1.3em;
+    margin: 0;
+    width: 100%;
+}
+.aside--collapsed .aside__text,
+.aside--collapsed .aside__icon--right{
+    display: none;
+}
+
+.aside--collapsed .aside__link + .aside__collapse{
+    visibility: hidden;
+}
+
+.aside--collapsed .aside__link:hover + .aside__collapse,
+.aside--collapsed .aside__collapse:hover{
+    visibility: visible;
+    position: absolute;
+    top: 0;
+    left: 64px;
+    height: inherit !important;
+    background: #FFFFFF;
+    border: 1px solid #cfcfcf;
+}
+
+.aside--collapsed .aside__collapse-link{
+    padding-left: 15px;
+}
+
+
+/** Phones */
+@media (max-width: 768px) {
+    .aside{
+        left: -210px;
+        visibility: hidden;
+    }
+    .aside__open-btn{
+        display: block;
+    }
+}
