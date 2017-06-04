@@ -181,18 +181,18 @@
     }
 
     .header__menu--opened .header__link.btn{
-        color: #008da7 !important;
-        border: 0 !important;
-        background: transparent !important;
-        height: 50px !important;;
-        padding: 0 !important;;
-        line-height: 50px !important;
+        color: #008da7 ;
+        border: 0 ;
+        background: transparent ;
+        height: 50px ;;
+        padding: 0 ;;
+        line-height: 50px ;
         border-radius: 0;
-        margin: 0 !important;
-        font-size: 1.2em !important;
-        border-top: 1px solid #E0E0E0 !important;
-        transform: none !important;
-        box-shadow: none !important;
+        margin: 0 ;
+        font-size: 1.2em ;
+        border-top: 1px solid #E0E0E0 ;
+        transform: none ;
+        box-shadow: none ;
     }
 
     .header__menu--opened{
