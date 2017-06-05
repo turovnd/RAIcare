@@ -7,6 +7,7 @@
     background: #fdfdfd;
     visibility: visible;
     border-right: 1px solid #cfcfcf;
+    overflow-x: hidden;
     z-index: 9;
     transition: all .1s;
 }
@@ -68,6 +69,7 @@
 
 .aside--collapsed{
     width: 65px;
+    overflow: visible;
 }
 .aside--collapsed .aside__menu{
     padding-top: 0;
@@ -103,6 +105,11 @@
 
 .aside--collapsed .aside__collapse-link{
     padding-left: 15px;
+}
+
+.aside--collapsed .label{
+    margin-top: 3px;
+    margin-right: 2px;
 }
 
 

@@ -1,4 +1,4 @@
-<a href="<?=URL::site('app'); ?>" class="header__brand fl_l">
+<a href="<?=URL::site('dashboard'); ?>" class="header__brand fl_l">
     <?=$GLOBALS['SITE_NAME'];?>
 </a>
 
@@ -13,7 +13,7 @@
         </li>
 
         <li class="header__item">
-            <a href="<?=URL::site('app/profile')?>" class="header__link p-l-15 p-r-15 m-l-0">
+            <a href="<?=URL::site('profile')?>" class="header__link p-l-15 p-r-15 m-l-0">
                 <i class="fa fa-user" aria-hidden="true"></i>
             </a>
         </li>

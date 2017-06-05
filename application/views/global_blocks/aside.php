@@ -1,10 +1,25 @@
 <ul class="aside__menu">
 
     <li class="aside__item <? echo $action == "dashboard" ? 'aside__item--active' : ''; ?>">
-       <a href="<?=URL::site('app'); ?>" class="aside__link">
-           <i class="fa fa-dashboard aside__icon" aria-hidden="true"></i>
-           <span class="aside__text">Главная</span>
-       </a>
+        <a href="<?=URL::site('dashboard'); ?>" class="aside__link">
+            <i class="fa fa-dashboard aside__icon" aria-hidden="true"></i>
+            <span class="aside__text">Главная</span>
+        </a>
+    </li>
+
+    <li class="aside__item <? echo $action == "admin" ? 'aside__item--active' : ''; ?>">
+        <a href="<?=URL::site('admin'); ?>" class="aside__link">
+            <i class="fa fa-cubes aside__icon" aria-hidden="true"></i>
+            <span class="aside__text">Панель админа</span>
+        </a>
+    </li>
+
+    <li class="aside__item <? echo $action == "applications" ? 'aside__item--active' : ''; ?>">
+        <a href="<?=URL::site('applications'); ?>" class="aside__link">
+            <i class="fa fa-id-card-o aside__icon" aria-hidden="true"></i>
+            <div class="label label--danger m-t-10 m-r-5">12</div>
+            <span class="aside__text">Заявки</span>
+        </a>
     </li>
 
     <li class="aside__item <? echo $action == 'members' || $action == 'reports' ? 'aside__item--active' : ''; ?>">
@@ -18,6 +33,11 @@
             <li class="aside__collapse-item">
                 <a href="<?=URL::site('org/members'); ?>"  class="aside__collapse-link <?= $action == 'members' ? 'aside__collapse-link--active' : ''; ?>">
                     Сотрудники
+                </a>
+            </li>
+            <li class="aside__collapse-item">
+                <a href="<?=URL::site('org/patients'); ?>"  class="aside__collapse-link <?= $action == 'members' ? 'aside__collapse-link--active' : ''; ?>">
+                    Пациенты
                 </a>
             </li>
             <li class="aside__collapse-item">

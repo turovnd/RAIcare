@@ -1,57 +1,18 @@
-<?php
+<?php defined('SYSPATH') or die('No direct script access.');
 
 /**
- * Class Controller_Profile
+ * Class Controller_Profile_Ajax
  *
  * @copyright raisoft
  * @author Nikolai Turov
  * @version 0.0.0
  */
-class Controller_Profile extends Dispatch
+
+class Controller_Profile_Ajax extends Ajax
 {
 
-    public $template = 'app/main';
-
-    public function before()
-    {
-        parent::before();
-
-        $isLogged   = self::isLogged();
-
-        if (!$isLogged) {
-            $this->redirect('login');
-        }
-
-        $data = array(
-            'action'    => $this->request->action(),
-        );
-
-        $this->template->header = View::factory('global_blocks/header');
-        $this->template->aside = View::factory('global_blocks/aside', $data);
-
-    }
-
-    /**
-     * action_index - show Profile page
-     */
-    public function action_index()
-    {
-        $id = $this->session->get('uid');
-
-        $profile = new Model_User($id);
-
-        $this->template->title = $this->user->name;
-        $this->template->section = View::factory('app/pages/profile')
-            ->set('profile', $profile);
-    }
-
-    /**
-     * action_update - Update Profile Main Info
-     */
     public function action_update()
     {
-        $this->checkRequest();
-
         $id = Arr::get($_POST, 'id');
         $uid = $this->session->get('uid');
 
@@ -80,8 +41,6 @@ class Controller_Profile extends Dispatch
      */
     public function action_updatepassword()
     {
-        $this->checkRequest();
-
         $id = Arr::get($_POST, 'id');
         $uid = $this->session->get('uid');
 
@@ -125,24 +84,5 @@ class Controller_Profile extends Dispatch
         $this->response->body(@json_encode($response->get_response()));
 
     }
-
-
-
-    /**
-     * Checking if request ajax and checkCsrf
-     * @throws HTTP_Exception_403
-     */
-    protected function checkRequest()
-    {
-        // Do not allow render
-        $this->auto_render = false;
-
-        if (!$this->request->is_ajax()) {
-            throw new HTTP_Exception_403;
-        }
-
-        $this->checkCsrf();
-    }
-
 
 }

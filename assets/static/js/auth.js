@@ -102,20 +102,20 @@ function ready() {
                 },
                 success: function(response) {
                     response = JSON.parse(response);
+                    forget.classList.remove('loading');
+                    raisoft.core.log(response.message, response.status, corePrefix);
 
                     raisoft.notification.notify({
                         type: response.status,
                         message: response.message
                     });
 
-                    forget.classList.remove('loading');
-
                     if (response.code === "62")
                         window.location.replace(protocol + '//' + host + '/login');
 
                 },
                 error: function(callbacks) {
-                    raisoft.core.log('ajax error occur on forget form','error','authorization',callbacks);
+                    raisoft.core.log('ajax error occur on forget form','error',corePrefix,callbacks);
                     forget.classList.remove('loading');
                 }
             };
@@ -141,20 +141,20 @@ function ready() {
                 },
                 success: function(response) {
                     response = JSON.parse(response);
+                    reset.classList.remove('loading');
+                    raisoft.core.log(response.message, response.status, corePrefix);
 
                     raisoft.notification.notify({
                         type: response.status,
                         message: response.message
                     });
 
-                    reset.classList.remove('loading');
-
                     if (response.code === "15")
                         window.location.reload();
 
                 },
                 error: function(callbacks) {
-                    raisoft.core.log('ajax error occur on reset form','error','authorization',callbacks);
+                    raisoft.core.log('ajax error occur on reset form','error',corePrefix,callbacks);
                     reset.classList.remove('loading');
                 }
             };

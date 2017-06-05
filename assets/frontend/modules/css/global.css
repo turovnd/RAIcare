@@ -275,7 +275,6 @@ fieldset .form-group {
 }
 
 .section__content{
-    display: block;
     position: relative;
     margin: 57px 0 0 200px;
 }
@@ -293,12 +292,12 @@ fieldset .form-group {
 .clear-fix,
 .row,
 .container,
-.section__container{
+.section__content{
     display: block;
 }
 .clear-fix:after, .clear-fix:before,
 .container:after, .container:before,
-.section__container:after, .section__container:before,
+.section__content:after, .section__content:before,
 .row:before, .row:after{
     content: " ";
     display: table;

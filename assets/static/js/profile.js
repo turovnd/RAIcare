@@ -1,6 +1,7 @@
 function ready() {
 
-    var changePassword  = document.getElementById('changePassword'),
+    var corePrefix      = "RAIsoft profile",
+        changePassword  = document.getElementById('changePassword'),
         changeProfile   = document.getElementById('changeProfile');
 
 
@@ -11,7 +12,7 @@ function ready() {
         event.preventDefault();
 
         var ajaxData = {
-            url: '/app/profile/update',
+            url: '/profile/update',
             type: 'POST',
             data: new FormData(changeProfile),
             beforeSend: function(){
@@ -19,25 +20,24 @@ function ready() {
             },
             success: function(response) {
                 response = JSON.parse(response);
+                raisoft.core.log(response.message, response.status, corePrefix);
+                changeProfile.classList.remove('loading');
 
-                pit.notification.notify({
+                raisoft.notification.notify({
                     type: response.status,
                     message: response.message
                 });
 
-                changeProfile.classList.remove('loading');
 
-                if (parseInt(response.code) === 40)
-                    document.getElementsByClassName('header')[0].getElementsByClassName('header__title')[0].innerHTML = "Профиль - " + document.getElementById('profileName').value;
 
             },
             error: function(callbacks) {
-                pit.core.log('ajax error occur on changeProfile form','danger','authorization',callbacks);
+                raisoft.core.log('ajax error occur on changeProfile form','danger', corePrefix, callbacks);
                 changeProfile.classList.remove('loading');
             }
         };
 
-        pit.ajax.send(ajaxData);
+        raisoft.ajax.send(ajaxData);
     });
 
 
@@ -48,7 +48,7 @@ function ready() {
         event.preventDefault();
 
         var ajaxData = {
-            url: '/app/profile/updatepassword',
+            url: '/profile/updatepassword',
             type: 'POST',
             data: new FormData(changePassword),
             beforeSend: function(){
@@ -56,24 +56,25 @@ function ready() {
             },
             success: function(response) {
                 response = JSON.parse(response);
+                raisoft.core.log(response.message, response.status, corePrefix);
+                changePassword.classList.remove('loading');
 
-                pit.notification.notify({
+                raisoft.notification.notify({
                     type: response.status,
                     message: response.message
                 });
 
-                if (response.code === "44")
+                if (response.code === "44") {
                     changePassword.reset();
-
-                changePassword.classList.remove('loading');
+                }
             },
             error: function(callbacks) {
-                pit.core.log('ajax error occur on changePassword form','danger','authorization',callbacks);
+                raisoft.core.log('ajax error occur on changePassword form','danger',corePrefix,callbacks);
                 changePassword.classList.remove('loading');
             }
         };
 
-        pit.ajax.send(ajaxData);
+        raisoft.ajax.send(ajaxData);
     });
 
 

@@ -6,9 +6,13 @@ $STRING = '\w+';
 
 require_once ('routes/welcome.php');
 require_once ('routes/auth.php');
+require_once ('routes/admin.php');
+require_once ('routes/applications.php');
 require_once ('routes/profile.php');
-require_once ('routes/app.php');
-//require_once ('');
+require_once ('routes/dashboard.php');
+require_once ('routes/organization.php');
+
+
 
 
 /**

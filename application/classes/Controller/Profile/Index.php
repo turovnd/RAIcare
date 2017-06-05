@@ -1,18 +1,16 @@
-<?php defined('SYSPATH') or die('No direct pattern access.');
+<?php
 
 /**
- * Class Controller_App_Index
+ * Class Controller_Profile_Index
  *
  * @copyright raisoft
  * @author Nikolai Turov
  * @version 0.0.0
  */
-
-class Controller_App_Index extends Dispatch
+class Controller_Profile_Index extends Dispatch
 {
 
-    public $template = 'app/main';
-
+    public $template = 'main';
 
     public function before()
     {
@@ -34,10 +32,15 @@ class Controller_App_Index extends Dispatch
     }
 
 
-    public function action_dashboard()
+    public function action_index()
     {
-        $this->template->title = "Панель управления";
-        $this->template->section = View::factory('app/pages/dashboard');
+        $id = $this->session->get('uid');
+
+        $profile = new Model_User($id);
+
+        $this->template->title = $this->user->name;
+        $this->template->section = View::factory('profile/content')
+            ->set('profile', $profile);
     }
 
 }
