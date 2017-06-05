@@ -17,7 +17,7 @@ class Model_Response_Roles extends Model_Response_Abstract
     protected $_ROLE_EMPTY_ID_ERROR = array (
         'type' => 'role',
         'code' => '102',
-        'message' => 'При передаче был потерян id, пожалйста, обновите страниц'
+        'message' => 'При передаче был потерян id, пожалйста, обновите страницу'
     );
 
     protected $_ROLE_UPDATE_SUCCESS = array (

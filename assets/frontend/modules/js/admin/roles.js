@@ -7,7 +7,7 @@ module.exports = (function (roles) {
         deleteRoleModal = null;
 
     /**
-     * Prepare roles for creating|editing|removing
+     * Prepare roles for creating|editing|deleting
      * @private
      */
     function prepareRoles_() {
@@ -179,7 +179,10 @@ module.exports = (function (roles) {
 
                     var element = document.querySelector('.role-name[data-id="' + id + '"]');
 
+                    element.parentNode.getElementsByClassName('js-edit-role')[0].removeEventListener('click', openEditRoleModal_);
+                    element.parentNode.getElementsByClassName('js-delete-role')[0].removeEventListener('click', openDeleteRoleModal_);
                     element.parentNode.remove();
+
                     deleteRoleModal.close();
                     deleteRoleModal= null;
 
@@ -200,58 +203,85 @@ module.exports = (function (roles) {
 
     function openNewRoleModal_() {
 
-        newRoleModal = raisoft.notification.notify({
-            type: 'confirm',
-            message:    '<div id="newRoleForm">' +
-            '<h2>Новая роль</h2>'+
-            '<div class="form-group">' +
-            '<input id="newRoleFormName" class="form-group__control" type="text" placeholder="Введите название роли">' +
-            '</div>' +
-            '</div>',
-            showCancelButton: true,
-            validation: true,
-            confirmText: 'Создать',
-            confirm: createNewRole_
-        });
+        if (newRoleModal === null) {
+
+            newRoleModal = raisoft.notification.notify({
+                type: 'confirm',
+                message:    '<div id="newRoleForm">' +
+                '<h2>Новая роль</h2>'+
+                '<div class="form-group">' +
+                '<input id="newRoleFormName" class="form-group__control" type="text" placeholder="Введите название роли">' +
+                '</div>' +
+                '</div>',
+                showCancelButton: true,
+                validation: true,
+                confirmText: 'Создать',
+                confirm: createNewRole_,
+                cancel: function () {
+
+                    newRoleModal = null;
+
+                }
+            });
+
+        }
 
     }
 
     function openEditRoleModal_() {
 
-        var id   = this.dataset.id,
-            name = this.dataset.name;
+        if (editRoleModal === null) {
 
-        editRoleModal = raisoft.notification.notify({
-            type: 'confirm',
-            message:    '<div id="editRoleForm">' +
-            '<h2>Редактировать роль</h2>'+
-            '<div class="form-group">' +
-            '<input id="editRoleFormName" class="form-group__control" data-id="' + id +'" value="' + name + '">' +
-            '</div>' +
-            '</div>',
-            showCancelButton: true,
-            validation: true,
-            confirmText: 'Изменить',
-            confirm: updateRole_
-        });
+            var id   = this.dataset.id,
+                name = this.dataset.name;
+
+            editRoleModal = raisoft.notification.notify({
+                type: 'confirm',
+                message:    '<div id="editRoleForm">' +
+                '<h2>Редактировать роль</h2>'+
+                '<div class="form-group">' +
+                '<input id="editRoleFormName" class="form-group__control" data-id="' + id +'" value="' + name + '">' +
+                '</div>' +
+                '</div>',
+                showCancelButton: true,
+                validation: true,
+                confirmText: 'Изменить',
+                confirm: updateRole_,
+                cancel: function () {
+
+                    editRoleModal = null;
+
+                }
+            });
+
+        }
 
     }
 
     function openDeleteRoleModal_() {
 
-        var id   = this.dataset.id;
+        if (deleteRoleModal === null) {
 
-        deleteRoleModal = raisoft.notification.notify({
-            type: 'confirm',
-            message:    '<div id="deleteRoleForm" data-id="' + id + '">' +
-            '<h2>Удалить роль</h2>'+
-            '<p>Удалив роль, Вы не сможете её восстановить</p>'+
-            '</div>',
-            showCancelButton: true,
-            validation: true,
-            confirmText: 'Удалить',
-            confirm: deleteRole_
-        });
+            var id   = this.dataset.id;
+
+            deleteRoleModal = raisoft.notification.notify({
+                type: 'confirm',
+                message:    '<div id="deleteRoleForm" data-id="' + id + '">' +
+                '<h2>Удалить роль</h2>'+
+                '<p>Удалив роль, Вы не сможете её восстановить</p>'+
+                '</div>',
+                showCancelButton: true,
+                validation: true,
+                confirmText: 'Удалить',
+                confirm: deleteRole_,
+                cancel: function () {
+
+                    deleteRoleModal = null;
+
+                }
+            });
+
+        }
 
     }
 

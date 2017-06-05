@@ -18,11 +18,17 @@
                 <button id="js-add-role" role="button" class="btn btn--default">добавить</button>
             </div>
             <div class="col-xs-12 col-sm-6">
-                <p class="h4">Права достпа</p>
-                <ol>
-                    <li>ла ла</li>
+                <p class="h4">Права достпа (модули)</p>
+                <ol id="permissions">
+                    <? foreach ($permissions as $permission) : ?>
+                        <li class="p-b-5">
+                            <span class="permission-name" data-id="<?= $permission['id']; ?>"><?= $permission['name']; ?></span>
+                            <button role="button" class="js-edit-permission" data-id="<?= $permission['id']; ?>" data-name="<?= $permission['name']; ?>"><i class="fa fa-edit m-l-5 text-brand" aria-hidden="true"></i></button>
+                            <button role="button" class="js-delete-permission" data-id="<?= $permission['id']; ?>"><i class="fa fa-trash m-l-5 text-danger" aria-hidden="true"></i></button>
+                        </li>
+                    <? endforeach; ?>
                 </ol>
-                <button class="btn btn--default">добавить</button>
+                <button id="js-add-permission" role="button" class="btn btn--default">добавить</button>
             </div>
         </div>
 
@@ -55,4 +61,5 @@
 <script type="text/javascript" src="<?=$assets; ?>frontend/bundles/admin.min.js?v=<?= filemtime("assets/frontend/bundles/admin.min.js") ?>"></script>
 <script type="text/javascript">
     admin.roles.init();
+    admin.permissions.init();
 </script>

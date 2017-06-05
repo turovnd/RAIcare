@@ -18,7 +18,7 @@
         <a href="<?=URL::site('applications'); ?>" class="aside__link">
             <i class="fa fa-id-card-o aside__icon" aria-hidden="true"></i>
             <div class="label label--danger m-t-10 m-r-5">12</div>
-            <span class="aside__text">Заявки</span>
+            <span class="aside__text">Клиенты</span>
         </a>
     </li>
 

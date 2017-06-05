@@ -5,7 +5,8 @@
 
 module.exports = ( function (admin) {
 
-    admin.roles     = require('./modules/js/admin/roles');
+    admin.roles         = require('./modules/js/admin/roles');
+    admin.permissions   = require('./modules/js/admin/permissions');
 
     return admin;
 
