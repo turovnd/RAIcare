@@ -1,14 +1,14 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
 /**
- * Class Controller_Applications_Ajax
+ * Class Controller_Clients_Ajax
  *
  * @copyright raisoft
  * @author Nikolai Turov
  * @version 0.0.0
  */
 
-class Controller_Applications_Ajax extends Ajax
+class Controller_Clients_Ajax extends Ajax
 {
 
     public function action_update()

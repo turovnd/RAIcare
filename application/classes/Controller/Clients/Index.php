@@ -1,14 +1,14 @@
 <?php defined('SYSPATH') or die('No direct pattern access.');
 
 /**
- * Class Controller_Applications_Index
+ * Class Controller_Clients_Index
  *
  * @copyright raisoft
  * @author Nikolai Turov
  * @version 0.0.0
  */
 
-class Controller_Applications_Index extends Dispatch
+class Controller_Clients_Index extends Dispatch
 {
 
     public $template = 'main';
@@ -34,18 +34,18 @@ class Controller_Applications_Index extends Dispatch
     }
 
 
-    public function action_applications()
+    public function action_clients()
     {
         $this->template->title = "Заявки";
-        $this->template->section = View::factory('applications/content');
+        $this->template->section = View::factory('clients/content');
     }
 
-    public function action_application()
+    public function action_client()
     {
         $id = $this->request->param('id');
 
         $this->template->title = "";
-        $this->template->section = View::factory('applications/card');
+        $this->template->section = View::factory('clients/card');
 
     }
 

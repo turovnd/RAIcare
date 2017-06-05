@@ -14,8 +14,8 @@
         </a>
     </li>
 
-    <li class="aside__item <? echo $action == "applications" ? 'aside__item--active' : ''; ?>">
-        <a href="<?=URL::site('applications'); ?>" class="aside__link">
+    <li class="aside__item <? echo $action == "сlients" ? 'aside__item--active' : ''; ?>">
+        <a href="<?=URL::site('сlients'); ?>" class="aside__link">
             <i class="fa fa-id-card-o aside__icon" aria-hidden="true"></i>
             <div class="label label--danger m-t-10 m-r-5">12</div>
             <span class="aside__text">Клиенты</span>
