@@ -8,7 +8,7 @@
         <?=$GLOBALS['SITE_NAME']; ?>
     </a>
 
-    <ul class="header__menu animated fade__in">
+    <ul class="header__menu animated fade__in list-style--none">
         <li class="header__item">
            <a href="<?=URL::site('/'); ?>" class="header__link">О системе</a>
         </li>

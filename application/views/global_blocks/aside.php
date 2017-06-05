@@ -1,4 +1,4 @@
-<ul class="aside__menu">
+<ul class="aside__menu list-style--none">
 
     <li class="aside__item <? echo $action == "dashboard" ? 'aside__item--active' : ''; ?>">
         <a href="<?=URL::site('dashboard'); ?>" class="aside__link">

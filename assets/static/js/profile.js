@@ -32,7 +32,7 @@ function ready() {
 
             },
             error: function(callbacks) {
-                raisoft.core.log('ajax error occur on changeProfile form','danger', corePrefix, callbacks);
+                raisoft.core.log('ajax error occur on changeProfile form','error', corePrefix, callbacks);
                 changeProfile.classList.remove('loading');
             }
         };
@@ -69,7 +69,7 @@ function ready() {
                 }
             },
             error: function(callbacks) {
-                raisoft.core.log('ajax error occur on changePassword form','danger',corePrefix,callbacks);
+                raisoft.core.log('ajax error occur on changePassword form','error',corePrefix,callbacks);
                 changePassword.classList.remove('loading');
             }
         };

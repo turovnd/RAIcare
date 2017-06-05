@@ -12,8 +12,8 @@
 
     <link rel="stylesheet" href="<?=$assets; ?>vendor/font-awesome/css/font-awesome.css?v=<?= filemtime("assets/vendor/font-awesome/css/font-awesome.css") ?>">
 
-    <link rel="stylesheet" href="<?=$assets; ?>frontend/bundles/app.min.css?v=<?= filemtime("assets/frontend/bundles/app.min.css") ?>">
-    <script type="text/javascript" src="<?=$assets; ?>frontend/bundles/app.min.js?v=<?= filemtime("assets/frontend/bundles/app.min.js") ?>"></script>
+    <link rel="stylesheet" href="<?=$assets; ?>frontend/bundles/raisoft.min.css?v=<?= filemtime("assets/frontend/bundles/raisoft.min.css") ?>">
+    <script type="text/javascript" src="<?=$assets; ?>frontend/bundles/raisoft.min.js?v=<?= filemtime("assets/frontend/bundles/raisoft.min.js") ?>"></script>
 
     <script type="text/javascript">
         function ready() {

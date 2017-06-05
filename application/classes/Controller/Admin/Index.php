@@ -36,8 +36,14 @@ class Controller_Admin_Index extends Dispatch
 
     public function action_admin()
     {
+        $roles = Model_Role::getAll();
+
+        $data = array(
+            'roles' => $roles
+        );
+
         $this->template->title = "Панель администратора";
-        $this->template->section = View::factory('admin/content');
+        $this->template->section = View::factory('admin/content', $data);
     }
 
 }

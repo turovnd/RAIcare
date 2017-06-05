@@ -1,6 +1,6 @@
 function ready() {
 
-    var corePrefix      = "RAIsoft authentication",
+    var corePrefix      = "RAIsoft auth",
         host            = window.location.host,
         protocol        = window.location.protocol,
         pathname        = window.location.pathname,
