@@ -122,11 +122,12 @@ class Dispatch extends Controller_Template
         return Session::instance($driver);
     }
 
-
     private function setGlobals()
     {
         $uid = $this->session->get('uid') ?: (int) Cookie::get('uid');
         $user = new Model_User($uid);
+
+        $user->permissions = Model_Rolepermis::getPermissionsByRole($user->role);
 
         /** Authentificated User is visible in all pages */
         View::set_global('user', $user);
@@ -207,6 +208,19 @@ class Dispatch extends Controller_Template
 
         return false;
 
+    }
+
+
+    /**
+     * Checking user access for module
+     * @param $module - module ID
+     * @throws HTTP_Exception_403
+     */
+    public function hasAccess($module)
+    {
+        if (!in_array($module, $this->user->permissions)) {
+            throw new HTTP_Exception_403;
+        }
     }
 
 }

@@ -78,19 +78,36 @@ Class Model_Rolepermis {
              ->execute();
      }
 
-    public static function deleteAll($role)
-    {
+     public static function deleteAll($role)
+     {
         Dao_Rolepermis::delete()
             ->where('role', '=', $role)
             ->clearcache($role)
             ->execute();
-    }
+     }
 
      public static function getAll()
      {
-         $select = Dao_Rolepermis::select()->order_by('role', 'ASC')->execute();
+         return Dao_Rolepermis::select()->order_by('role', 'ASC')->execute();
+     }
 
-         return $select;
+     public static function getPermissionsByRole($role)
+     {
+         $select = Dao_Rolepermis::select()
+            ->where('role', '=', $role)
+            ->order_by('role', 'ASC')
+            ->execute();
+
+         if (empty($select))
+             return [];
+
+         $permissions = array();
+
+         foreach ($select as $permission){
+             $permissions[] = $permission['permission'];
+         }
+
+         return $permissions;
      }
 
 

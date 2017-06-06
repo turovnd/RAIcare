@@ -6,6 +6,8 @@ Class Model_User {
     public $id;
     public $name;
     public $email;
+    public $username;
+    public $role;
     public $newsletter;
     public $is_confirmed;
     public $dt_create;

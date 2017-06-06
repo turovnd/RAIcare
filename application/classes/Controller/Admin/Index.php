@@ -10,19 +10,19 @@
 
 class Controller_Admin_Index extends Dispatch
 {
+    CONST MODULE_ID = 1;
 
     public $template = 'main';
-
 
     public function before()
     {
         parent::before();
 
-        $isLogged   = self::isLogged();
-
-        if (!$isLogged) {
+        if (!self::isLogged()) {
             $this->redirect('login');
         }
+
+        self::hasAccess(self::MODULE_ID);
 
         $data = array(
             'action'    => $this->request->action(),
