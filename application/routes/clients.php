@@ -18,3 +18,10 @@ Route::set('CLIENT_AJAX', 'client/<action>')
     ->defaults(array(
         'controller'  => 'Clients_Ajax'
     ));
+
+
+Route::set('NEW_CLIENT', 'application/new')
+    ->defaults(array(
+        'controller'  => 'Clients_Ajax',
+        'action'      => 'new_application'
+    ));

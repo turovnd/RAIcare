@@ -29,7 +29,7 @@ button {
     padding: 3px 8px;
 }
 .btn--round{
-    border-radius: 999px;
+    border-radius: 30px;
 }
 .btn--scaled:hover,
 .btn--scaled:focus{

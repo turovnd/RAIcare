@@ -68,7 +68,7 @@ function ready() {
                     raisoft.core.log(response.message, response.status, corePrefix);
 
                     if (parseInt(response.code) === 12) {
-                        window.location.replace(protocol + '//' + host + '/app');
+                        window.location.replace(protocol + '//' + host + '/dashboard');
                         return;
                     }
 
