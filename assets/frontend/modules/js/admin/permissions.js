@@ -45,6 +45,7 @@ module.exports = (function (permissions) {
 
         formData.append('id', id);
         formData.append('name', name);
+        formData.append('csrf', document.getElementById('csrf').value);
 
         var ajaxData = {
             url: '/admin/permission/add',
@@ -107,6 +108,7 @@ module.exports = (function (permissions) {
 
         formData.append('name', name);
         formData.append('id', id);
+        formData.append('csrf', document.getElementById('csrf').value);
 
         var ajaxData = {
             url: '/admin/permission/update',
@@ -131,6 +133,14 @@ module.exports = (function (permissions) {
                 if ( parseInt(response.code) === 113) {
 
                     var element = document.querySelector('.permission-name[data-id="' + id + '"]');
+
+                    var permis = document.querySelectorAll('[data-permission="' + id + '"]');
+
+                    for (i = 0; i < permis.length; i++) {
+
+                        permis[i].textContent = name;
+
+                    }
 
                     element.textContent = name;
                     element.parentNode.getElementsByClassName('js-edit-permission')[0].dataset.name = name;
@@ -159,6 +169,7 @@ module.exports = (function (permissions) {
             id       = form.dataset.id;
 
         formData.append('id', id);
+        formData.append('csrf', document.getElementById('csrf').value);
 
         var ajaxData = {
             url: '/admin/permission/delete',
@@ -182,11 +193,27 @@ module.exports = (function (permissions) {
 
                 if ( parseInt(response.code) === 114) {
 
-                    var element = document.querySelector('.permission-name[data-id="' + id + '"]');
+                    var element = document.querySelector('.permission-name[data-id="' + id + '"]').parentNode;
 
-                    element.parentNode.getElementsByClassName('js-edit-permission')[0].removeEventListener('click', openEditPermissionModal_);
-                    element.parentNode.getElementsByClassName('js-delete-permission')[0].removeEventListener('click', openDeletePermissionModal_);
-                    element.parentNode.remove();
+                    var permis = document.querySelectorAll('[data-permission="' + id + '"]');
+
+                    for (i = 0; i < permis.length; i++) {
+
+                        if (permis[i].parentNode.childElementCount === 1) {
+
+                            permis[i].parentNode.parentNode.remove();
+
+                        } else {
+
+                            permis[i].remove();
+
+                        }
+
+                    }
+
+                    element.getElementsByClassName('js-edit-permission')[0].removeEventListener('click', openEditPermissionModal_);
+                    element.getElementsByClassName('js-delete-permission')[0].removeEventListener('click', openDeletePermissionModal_);
+                    element.remove();
 
                     deletePermissionModal.close();
                     deletePermissionModal= null;

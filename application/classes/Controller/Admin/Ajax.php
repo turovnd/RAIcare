@@ -11,6 +11,12 @@
 class Controller_Admin_Ajax extends Ajax
 {
 
+    function before()
+    {
+        parent::before();
+        $this->checkCsrf();
+    }
+
     /**
      * ROLE - creating new role
      */
@@ -93,6 +99,7 @@ class Controller_Admin_Ajax extends Ajax
         }
 
         Model_Role::delete($id);
+        Model_Rolepermis::deleteAll($id);
 
         $response = new Model_Response_Roles('ROLE_DELETE_SUCCESS', 'success');
         $this->response->body(@json_encode($response->get_response()));
@@ -183,6 +190,7 @@ class Controller_Admin_Ajax extends Ajax
         }
 
         Model_Permission::delete($id);
+        Model_Rolepermis::deletePermission($id);
 
         $response = new Model_Response_Permissions('PERMISSION_DELETE_SUCCESS', 'success');
         $this->response->body(@json_encode($response->get_response()));

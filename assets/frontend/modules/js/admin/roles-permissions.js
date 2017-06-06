@@ -52,6 +52,7 @@ module.exports = (function (rolePermis) {
 
         formData.append('role', role);
         formData.append('permissions', JSON.stringify(permissions));
+        formData.append('csrf', document.getElementById('csrf').value);
 
         var ajaxData = {
             url: '/admin/rolepermis/add',
@@ -79,7 +80,7 @@ module.exports = (function (rolePermis) {
 
                     element.innerHTML =
                         '<span class="role-permis-role" data-role="' + role + '">' + response.roleName +'</span>' +
-                        '<button role="button" class="js-edit-role-permis" data-role="' + role  + '" data-permissions="' + JSON.stringify(permissions) + '"><i class="fa fa-edit m-l-5 text-brand" aria-hidden="true"></i></button>' +
+                        '<button role="button" class="js-edit-role-permis" data-role="' + role  + '" data-permissions=\'' + JSON.stringify(permissions) + '\'><i class="fa fa-edit m-l-5 text-brand" aria-hidden="true"></i></button>' +
                         '<button role="button" class="js-delete-role-permis" data-role="' + role + '"><i class="fa fa-trash m-l-5 text-danger" aria-hidden="true"></i></button>' +
                         '<ul>' + response.permissionsStr + '</ul>';
 
@@ -121,6 +122,7 @@ module.exports = (function (rolePermis) {
 
         formData.append('role', role);
         formData.append('permissions', JSON.stringify(permissions));
+        formData.append('csrf', document.getElementById('csrf').value);
 
 
         var ajaxData = {
@@ -149,7 +151,7 @@ module.exports = (function (rolePermis) {
 
                     element.innerHTML =
                         '<span class="role-permis-role" data-role="' + role + '">' + response.roleName +'</span>' +
-                        '<button role="button" class="js-edit-role-permis" data-role="' + role  + '" data-permissions="' + JSON.stringify(permissions) + '"><i class="fa fa-edit m-l-5 text-brand" aria-hidden="true"></i></button>' +
+                        '<button role="button" class="js-edit-role-permis" data-role="' + role  + '" data-permissions=\'' + JSON.stringify(permissions) + '\'><i class="fa fa-edit m-l-5 text-brand" aria-hidden="true"></i></button>' +
                         '<button role="button" class="js-delete-role-permis" data-role="' + role + '"><i class="fa fa-trash m-l-5 text-danger" aria-hidden="true"></i></button>' +
                         '<ul>' + response.permissionsStr + '</ul>';
 
@@ -181,6 +183,7 @@ module.exports = (function (rolePermis) {
             role     = form.dataset.role;
 
         formData.append('role', role);
+        formData.append('csrf', document.getElementById('csrf').value);
 
         var ajaxData = {
             url: '/admin/rolepermis/delete',

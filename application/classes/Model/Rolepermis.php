@@ -70,12 +70,11 @@ Class Model_Rolepermis {
         return $this->get_($result);
      }
 
-     public static function delete($role)
+     public static function deletePermission($permission)
      {
          Dao_Rolepermis::delete()
-             ->where('role', '=', $role)
-             ->clearcache($role)
-             ->limit(1)
+             ->where('permission', '=', $permission)
+             ->clearcache()
              ->execute();
      }
 

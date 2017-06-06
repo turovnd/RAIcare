@@ -50,6 +50,7 @@
 
     </section>
 
+    <input type="hidden" id="csrf" name="csrf" value="<?=Security::token();?>">
     <div class="backdrop hide"></div>
 </body>
 

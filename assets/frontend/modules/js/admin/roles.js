@@ -45,6 +45,7 @@ module.exports = (function (roles) {
 
         formData.append('id', id);
         formData.append('name', name);
+        formData.append('csrf', document.getElementById('csrf').value);
 
         var ajaxData = {
             url: '/admin/role/add',
@@ -107,7 +108,7 @@ module.exports = (function (roles) {
 
         formData.append('name', name);
         formData.append('id', id);
-
+        formData.append('csrf', document.getElementById('csrf').value);
 
         var ajaxData = {
             url: '/admin/role/update',
@@ -132,6 +133,9 @@ module.exports = (function (roles) {
                 if ( parseInt(response.code) === 103) {
 
                     var element = document.querySelector('.role-name[data-id="' + id + '"]');
+
+                    if (document.querySelector('.role-permis-role[data-role="' + id + '"]'))
+                        document.querySelector('.role-permis-role[data-role="' + id + '"]').textContent = name;
 
                     element.textContent = name;
                     element.parentNode.getElementsByClassName('js-edit-role')[0].dataset.name = name;
@@ -160,6 +164,7 @@ module.exports = (function (roles) {
             id       = form.dataset.id;
 
         formData.append('id', id);
+        formData.append('csrf', document.getElementById('csrf').value);
 
         var ajaxData = {
             url: '/admin/role/delete',
@@ -184,6 +189,9 @@ module.exports = (function (roles) {
                 if ( parseInt(response.code) === 104) {
 
                     var element = document.querySelector('.role-name[data-id="' + id + '"]');
+
+                    if (document.querySelector('.role-permis-role[data-role="' + id + '"]'))
+                        document.querySelector('.role-permis-role[data-role="' + id + '"]').parentNode.remove();
 
                     element.parentNode.getElementsByClassName('js-edit-role')[0].removeEventListener('click', openEditRoleModal_);
                     element.parentNode.getElementsByClassName('js-delete-role')[0].removeEventListener('click', openDeleteRoleModal_);
