@@ -75,6 +75,7 @@ Class Model_Permission {
          Dao_Permissions::delete()
              ->where('id', '=', $id)
              ->clearcache($id)
+             ->limit(1)
              ->execute();
      }
 

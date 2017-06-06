@@ -65,6 +65,7 @@ Class Model_Role {
 
         $insert->where('id', '=', $this->id);
         $insert->clearcache($this->id);
+
         $result = $insert->execute();
 
         return $this->get_($result);
@@ -75,6 +76,7 @@ Class Model_Role {
          Dao_Roles::delete()
              ->where('id', '=', $id)
              ->clearcache($id)
+             ->limit(1)
              ->execute();
      }
 

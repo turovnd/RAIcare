@@ -17,7 +17,7 @@ class Model_Response_Roles extends Model_Response_Abstract
     protected $_ROLE_EMPTY_ID_ERROR = array (
         'type' => 'role',
         'code' => '102',
-        'message' => 'При передаче был потерян id, пожалйста, обновите страницу'
+        'message' => 'Укажите id роли'
     );
 
     protected $_ROLE_UPDATE_SUCCESS = array (
@@ -30,6 +30,12 @@ class Model_Response_Roles extends Model_Response_Abstract
         'type' => 'role',
         'code' => '104',
         'message' => 'Роль успешно удалена'
+    );
+
+    protected $_ROLE_EXISTED_ERROR = array (
+        'type' => 'role',
+        'code' => '105',
+        'message' => 'Роль с данным id уже существет'
     );
 
 }

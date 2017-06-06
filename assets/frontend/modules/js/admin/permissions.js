@@ -40,8 +40,10 @@ module.exports = (function (permissions) {
 
         var form     = document.getElementById('newPermissionForm'),
             formData = new FormData(),
+            id       = document.getElementById('newPermissionFormId').value,
             name     = document.getElementById('newPermissionFormName').value;
 
+        formData.append('id', id);
         formData.append('name', name);
 
         var ajaxData = {
@@ -68,9 +70,11 @@ module.exports = (function (permissions) {
 
                     var element = raisoft.draw.node('LI', 'p-b-5');
 
-                    element.innerHTML = '<span class="permission-name" data-id="' + response.id + '" >' + name + '</span>'+
-                        '<button role="button" class="js-edit-permission" data-id="' + response.id + '" data-name="' + name+ '"><i class="fa fa-edit m-l-5 text-brand" aria-hidden="true"></i></button>' +
-                        '<button role="button" class="js-delete-permission" data-id="' + response.id + '"><i class="fa fa-trash m-l-5 text-danger" aria-hidden="true"></i></button>';
+                    element.innerHTML =
+                        '<span class="permission-id">id:' + id + ' - name:</span>' +
+                        '<span class="permission-name" data-id="' + id + '" >' + name + '</span>'+
+                        '<button role="button" class="js-edit-permission" data-id="' + id + '" data-name="' + name+ '"><i class="fa fa-edit m-l-5 text-brand" aria-hidden="true"></i></button>' +
+                        '<button role="button" class="js-delete-permission" data-id="' + id + '"><i class="fa fa-trash m-l-5 text-danger" aria-hidden="true"></i></button>';
 
                     permissionsWrapper.appendChild(element);
                     element.getElementsByClassName('js-edit-permission')[0].addEventListener('click', openEditPermissionModal_);
@@ -129,6 +133,7 @@ module.exports = (function (permissions) {
                     var element = document.querySelector('.permission-name[data-id="' + id + '"]');
 
                     element.textContent = name;
+                    element.parentNode.getElementsByClassName('js-edit-permission')[0].dataset.name = name;
                     editPermissionModal.close();
                     editPermissionModal = null;
 
@@ -209,8 +214,11 @@ module.exports = (function (permissions) {
                 type: 'confirm',
                 message: '<div id="newPermissionForm">' +
                 '<h2>Новое право доступа</h2>'+
-                '<div class="form-group">' +
-                '<input id="newPermissionFormName" class="form-group__control" type="text" placeholder="Введите название права доступа">' +
+                '<div class="form-group col-xs-12 col-sm-6">' +
+                '<input id="newPermissionFormId" class="form-group__control" type="number" placeholder="id права доступа" min="1">' +
+                '</div>' +
+                '<div class="form-group col-xs-12 col-sm-6">' +
+                '<input id="newPermissionFormName" class="form-group__control" type="text" placeholder="Наименование права доступа">' +
                 '</div>' +
                 '</div>',
                 showCancelButton: true,
@@ -240,7 +248,7 @@ module.exports = (function (permissions) {
                 message:    '<div id="editPermissionForm">' +
                 '<h2>Редактировать право доступа</h2>'+
                 '<div class="form-group">' +
-                '<input id="editPermissionFormName" class="form-group__control" data-id="' + id +'" value="' + name + '">' +
+                '<input id="editPermissionFormName" type="text" class="form-group__control" data-id="' + id +'" value="' + name + '">' +
                 '</div>' +
                 '</div>',
                 showCancelButton: true,

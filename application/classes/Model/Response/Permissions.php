@@ -17,7 +17,7 @@ class Model_Response_Permissions extends Model_Response_Abstract
     protected $_PERMISSION_EMPTY_ID_ERROR = array (
         'type' => 'permission',
         'code' => '112',
-        'message' => 'При передаче был потерян id, пожалйста, обновите страницу'
+        'message' => 'Укажите id права доступа'
     );
 
     protected $_PERMISSION_UPDATE_SUCCESS = array (
@@ -30,6 +30,12 @@ class Model_Response_Permissions extends Model_Response_Abstract
         'type' => 'permission',
         'code' => '114',
         'message' => 'Право доступа успешно удалено'
+    );
+
+    protected $_PERMISSION_EXISTED_ERROR = array (
+        'type' => 'permission',
+        'code' => '115',
+        'message' => 'Право доступа с данным id уже существет'
     );
 
 }

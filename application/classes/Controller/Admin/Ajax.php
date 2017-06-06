@@ -16,7 +16,14 @@ class Controller_Admin_Ajax extends Ajax
      */
     public function action_role_add()
     {
+        $id = Arr::get($_POST, 'id');
         $name = Arr::get($_POST, 'name');
+
+        if (empty($id)) {
+            $response = new Model_Response_Roles('ROLE_EMPTY_ID_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
 
         if (empty($name)) {
             $response = new Model_Response_Roles('ROLE_EMPTY_NAME_ERROR', 'error');
@@ -24,11 +31,20 @@ class Controller_Admin_Ajax extends Ajax
             return;
         }
 
-        $role = new Model_Role();
-        $role->name = $name;
-        $role = $role->save();
+        $role = new Model_Role($id);
 
-        $response = new Model_Response_Roles('ROLE_CREATE_SUCCESS', 'success', array('id' => $role->id));
+        if (!empty($role->id)) {
+            $response = new Model_Response_Roles('ROLE_EXISTED_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        $role = new Model_Role();
+        $role->id = $id;
+        $role->name = $name;
+        $role->save();
+
+        $response = new Model_Response_Roles('ROLE_CREATE_SUCCESS', 'success');
         $this->response->body(@json_encode($response->get_response()));
     }
 
@@ -37,8 +53,8 @@ class Controller_Admin_Ajax extends Ajax
      */
     public function action_role_update()
     {
-        $id = Arr::get($_POST, 'id');
-        $name = Arr::get($_POST, 'name');
+        $id     = Arr::get($_POST, 'id');
+        $name   = Arr::get($_POST, 'name');
 
         if (empty($name)) {
             $response = new Model_Response_Roles('ROLE_EMPTY_NAME_ERROR', 'error');
@@ -46,13 +62,14 @@ class Controller_Admin_Ajax extends Ajax
             return;
         }
 
-        if (empty($id)) {
-            $response = new Model_Response_Roles('ROLE_EMPTY_ID_ERROR', 'error');
+        $role = new Model_Role($id);
+
+        if (empty($role->id)) {
+            $response = new Model_Response_Roles('ROLE_EXISTED_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
             return;
         }
 
-        $role = new Model_Role($id);
         $role->name = $name;
         $role->update();
 
@@ -88,7 +105,14 @@ class Controller_Admin_Ajax extends Ajax
      */
     public function action_permission_add()
     {
+        $id = Arr::get($_POST, 'id');
         $name = Arr::get($_POST, 'name');
+
+        if (empty($id)) {
+            $response = new Model_Response_Permissions('PERMISSION_EMPTY_ID_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
 
         if (empty($name)) {
             $response = new Model_Response_Permissions('PERMISSION_EMPTY_NAME_ERROR', 'error');
@@ -96,11 +120,21 @@ class Controller_Admin_Ajax extends Ajax
             return;
         }
 
-        $role = new Model_Permission();
-        $role->name = $name;
-        $role = $role->save();
+        $permission = new Model_Permission($id);
 
-        $response = new Model_Response_Permissions('PERMISSION_CREATE_SUCCESS', 'success', array('id' => $role->id));
+        if (!empty($permission->id)) {
+            $response = new Model_Response_Permissions('PERMISSION_EXISTED_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+
+        $permission = new Model_Permission($id);
+        $permission->id = $id;
+        $permission->name = $name;
+        $permission->save();
+
+        $response = new Model_Response_Permissions('PERMISSION_CREATE_SUCCESS', 'success');
         $this->response->body(@json_encode($response->get_response()));
     }
 
@@ -109,8 +143,8 @@ class Controller_Admin_Ajax extends Ajax
      */
     public function action_permission_update()
     {
-        $id = Arr::get($_POST, 'id');
-        $name = Arr::get($_POST, 'name');
+        $id     = Arr::get($_POST, 'id');
+        $name   = Arr::get($_POST, 'name');
 
         if (empty($name)) {
             $response = new Model_Response_Permissions('PERMISSION_EMPTY_NAME_ERROR', 'error');
@@ -118,15 +152,16 @@ class Controller_Admin_Ajax extends Ajax
             return;
         }
 
-        if (empty($id)) {
-            $response = new Model_Response_Permissions('PERMISSION_EMPTY_ID_ERROR', 'error');
+        $permission = new Model_Permission($id);
+
+        if (empty($permission->id)) {
+            $response = new Model_Response_Permissions('PERMISSION_EXISTED_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
             return;
         }
 
-        $role = new Model_Permission($id);
-        $role->name = $name;
-        $role->update();
+        $permission->name = $name;
+        $permission->update();
 
         $response = new Model_Response_Permissions('PERMISSION_UPDATE_SUCCESS', 'success');
         $this->response->body(@json_encode($response->get_response()));

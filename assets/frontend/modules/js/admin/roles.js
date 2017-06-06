@@ -40,8 +40,10 @@ module.exports = (function (roles) {
 
         var form     = document.getElementById('newRoleForm'),
             formData = new FormData(),
+            id       = document.getElementById('newRoleFormId').value,
             name     = document.getElementById('newRoleFormName').value;
 
+        formData.append('id', id);
         formData.append('name', name);
 
         var ajaxData = {
@@ -68,9 +70,11 @@ module.exports = (function (roles) {
 
                     var element = raisoft.draw.node('LI', 'p-b-5');
 
-                    element.innerHTML = '<span class="role-name" data-id="' + response.id + '" >' + name + '</span>'+
-                        '<button role="button" class="js-edit-role" data-id="' + response.id + '" data-name="' + name+ '"><i class="fa fa-edit m-l-5 text-brand" aria-hidden="true"></i></button>' +
-                        '<button role="button" class="js-delete-role" data-id="' + response.id + '"><i class="fa fa-trash m-l-5 text-danger" aria-hidden="true"></i></button>';
+                    element.innerHTML =
+                        '<span class="role-id">id:'+ id + ' - name: </span>'+
+                        '<span class="role-name" data-id="' + id + '" >' + name + '</span>'+
+                        '<button role="button" class="js-edit-role" data-id="' + id + '" data-name="' + name+ '"><i class="fa fa-edit m-l-5 text-brand" aria-hidden="true"></i></button>' +
+                        '<button role="button" class="js-delete-role" data-id="' + id + '"><i class="fa fa-trash m-l-5 text-danger" aria-hidden="true"></i></button>';
 
                     rolesWrapper.appendChild(element);
                     element.getElementsByClassName('js-edit-role')[0].addEventListener('click', openEditRoleModal_);
@@ -104,6 +108,7 @@ module.exports = (function (roles) {
         formData.append('name', name);
         formData.append('id', id);
 
+
         var ajaxData = {
             url: '/admin/role/update',
             type: 'POST',
@@ -129,6 +134,7 @@ module.exports = (function (roles) {
                     var element = document.querySelector('.role-name[data-id="' + id + '"]');
 
                     element.textContent = name;
+                    element.parentNode.getElementsByClassName('js-edit-role')[0].dataset.name = name;
                     editRoleModal.close();
                     editRoleModal = null;
 
@@ -209,8 +215,11 @@ module.exports = (function (roles) {
                 type: 'confirm',
                 message:    '<div id="newRoleForm">' +
                 '<h2>Новая роль</h2>'+
-                '<div class="form-group">' +
-                '<input id="newRoleFormName" class="form-group__control" type="text" placeholder="Введите название роли">' +
+                '<div class="form-group col-xs-12 col-sm-6">' +
+                '<input id="newRoleFormId" class="form-group__control" type="number" placeholder="id роли" min="1">' +
+                '</div>' +
+                '<div class="form-group col-xs-12 col-sm-6">' +
+                '<input id="newRoleFormName" class="form-group__control" type="text" placeholder="наименование роли">' +
                 '</div>' +
                 '</div>',
                 showCancelButton: true,
@@ -239,9 +248,11 @@ module.exports = (function (roles) {
                 type: 'confirm',
                 message:    '<div id="editRoleForm">' +
                 '<h2>Редактировать роль</h2>'+
-                '<div class="form-group">' +
-                '<input id="editRoleFormName" class="form-group__control" data-id="' + id +'" value="' + name + '">' +
+                '<div class="form-group col-xs-12 col-sm-6">' +
+                '<input id="editRoleFormId" class="form-group__control" type="number" placeholder="id роли" value="' + id + '" min="1">' +
                 '</div>' +
+                '<div class="form-group col-xs-12 col-sm-6">' +
+                '<input id="editRoleFormName" class="form-group__control" type="text" placeholder="наименование роли" data-id="' + id + '" value="' + name + '">' +
                 '</div>',
                 showCancelButton: true,
                 validation: true,
