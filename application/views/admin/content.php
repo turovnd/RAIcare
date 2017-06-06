@@ -37,15 +37,21 @@
         <div class="row">
             <div class="col-xs-12">
                 <p class="h4">Связь роли и прав достпа</p>
-                <ol>
-                    <li>
-                        Администратор
-                        <ul>
-                            <li>ks ks</li>
-                            <li>as as</li>
-                        </ul>
-                    </li>
+                <ol id="rolePermis">
+                    <? foreach ($rolepermis as $relation) : ?>
+                        <li class="p-b-5">
+                            <span class="role-permis-role" data-role="<?= $relation['roleId']; ?>"><?= $relation['roleName']; ?></span>
+                            <button role="button" class="js-edit-role-permis" data-role="<?= $relation['roleId']; ?>" data-permissions='<?= json_encode($relation["json_permissions"]); ?>'><i class="fa fa-edit m-l-5 text-brand" aria-hidden="true"></i></button>
+                            <button role="button" class="js-delete-role-permis" data-role="<?= $relation['roleId']; ?>"><i class="fa fa-trash m-l-5 text-danger" aria-hidden="true"></i></button>
+                            <ul>
+                                <? foreach ($relation['permission'] as $permission) : ?>
+                                    <li data-permission="<?= $permission['id']; ?>"><?= $permission['name']; ?></li>
+                                <? endforeach; ?>
+                            </ul>
+                        </li>
+                    <? endforeach; ?>
                 </ol>
+                <button id="js-add-role-permis" role="button" class="btn btn--default">добавить</button>
             </div>
         </div>
 
@@ -64,4 +70,5 @@
 <script type="text/javascript">
     admin.roles.init();
     admin.permissions.init();
+    admin.rolePermis.init();
 </script>

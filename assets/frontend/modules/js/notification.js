@@ -112,7 +112,7 @@ module.exports = (function (notification) {
 
             if (!(settings && settings.message)) {
 
-                console.log('Can\'t create notification. Message is missed');
+                raisoft.core.log('Can\'t create notification. Message is missed', 'error', 'notification');
                 return;
 
             }

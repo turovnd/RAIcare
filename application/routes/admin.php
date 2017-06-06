@@ -10,7 +10,7 @@ Route::set('ADMIN_PANEL', 'admin')
 
 Route::set('ADMIN_AJAX', 'admin/<section>/<action>',
     array(
-        'section' => 'role|permission',
+        'section' => 'role|permission|rolepermis',
         'action'  => 'add|update|delete'
     ))
     ->filter(function ($route, $params, $request) {
