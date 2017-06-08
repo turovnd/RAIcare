@@ -1,4 +1,5 @@
-.form{
+.form,
+.block{
     position: relative;
     background-color: #fff;
     border-radius: 3px;
@@ -7,17 +8,33 @@
     border: 0;
 }
 
-.form__heading{
+.form__heading,
+.block__heading{
     font-weight: 700;
-    padding: 15px 30px;
     border-bottom: 1px solid #e7e8ec;
 }
 
-.form__body{
+.form__heading{
+    padding: 15px 30px;
+}
+
+.block__heading{
+    padding: 10px 15px;
+}
+
+.form__body,
+.block__body{
     position: relative;
-    padding: 0 15px;
     border-radius: 3px;
     overflow: hidden;
+}
+
+.form__body{
+    padding: 0 15px;
+}
+
+.block__body{
+    padding: 15px;
 }
 
 .form__submit{

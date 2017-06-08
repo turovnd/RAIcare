@@ -72,7 +72,7 @@ body{
 }
 
 
-.show, .block{
+.show{
     display: block;
 }
 .hide{
@@ -297,18 +297,21 @@ small{
 
 .wrapper .section__content{
     position: relative;
-    padding: 15px;
+    padding: 20px;
 }
 
 .wrapper .section__heading{
-    margin: -15px -15px 20px;
-    padding: 15px;
+    margin: -22px -20px 20px;
+    padding: 20px;
     background: #fafbfc;
-    font-size: 1.5em;
     line-height: 1.2;
     color: #999;
     font-weight: normal;
+    border-top: 1px solid #cfcfcf;
     border-bottom: 1px solid #cfcfcf;
+}
+.wrapper .section__heading:not(:first-child){
+    margin-top: 20px;
 }
 .wrapper .section__heading small{
     color: #BBB;
