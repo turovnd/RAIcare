@@ -5,7 +5,7 @@ Class Model_Client {
 
     public $id;
     public $name;
-    public $status;
+    public $status;     // 0 - spam || reject, 1 - new client, 2 - conversation || waiting payments, 3 - access allowed
     public $email;
     public $organization;
     public $city;
@@ -82,4 +82,22 @@ Class Model_Client {
     }
 
 
+    public static function getClientsByStatus($status)
+    {
+        $select = Dao_Clients::select()
+            ->where('status', '=', $status)
+            ->order_by('dt_create', 'DESC')
+            ->execute();
+
+        $clients = array();
+
+        if ( empty($select) ) return $clients;
+
+        foreach ($select as $item) {
+            $client = new Model_Client();
+            $clients[] = $client->fill_by_row($item);
+        }
+
+        return $clients;
+    }
 }

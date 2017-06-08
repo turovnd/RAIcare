@@ -20,7 +20,6 @@
             raisoft.header.init('app');
             raisoft.collapse.init();
             raisoft.aside.init();
-            raisoft.parallax.init();
             raisoft.notification.createHolder();
         }
 
@@ -31,27 +30,36 @@
 
 <body>
 
-    <header class="header clear-fix">
+    <div class="wrapper">
 
-        <?= $header; ?>
+        <header class="header clear-fix">
 
-    </header>
+            <?= $header; ?>
 
-    <aside class="aside">
+        </header>
 
-        <?= $aside; ?>
+        <aside class="aside">
 
-    </aside>
+            <?= $aside; ?>
+
+        </aside>
 
 
-    <section class="section">
+        <section class="section">
 
-        <?=$section; ?>
+            <?=$section; ?>
 
-    </section>
+        </section>
 
-    <input type="hidden" id="csrf" name="csrf" value="<?=Security::token();?>">
-    <div class="backdrop hide"></div>
+        <footer class="footer">
+            <?=View::factory('global_blocks/footer');?>
+        </footer>
+
+        <input type="hidden" id="csrf" name="csrf" value="<?=Security::token();?>">
+        <div class="backdrop hide"></div>
+
+    </div>
+
 </body>
 
 </html>

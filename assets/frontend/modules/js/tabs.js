@@ -1,41 +1,44 @@
 module.exports = (function (tabs) {
 
-
-    var tabsArray_ = null,
-        nodes_ = [],
-        node_ = null,
-        noResult = null;
+    var tabsArray = null,
+        nodes     = [];
 
     var prepare_ = function (options) {
 
-        noResult = document.createElement('div');
-        noResult.id = 'noResult';
-        noResult.style = 'padding: 20px;text-align: center;';
-        noResult.innerHTML = 'К сожалению, ничего ненеайдено. Попробуйте изменить запрос';
+        tabsArray = document.querySelectorAll('[data-toggle="tabs"]');
 
-        tabsArray_ = document.querySelectorAll('[data-toggle="tabs"]');
+        if (tabsArray.length > 0) {
 
-        if (tabsArray_.length > 0) {
+            for (var i = 0; i < tabsArray.length; i++) {
 
-            for (var i = 0; i < tabsArray_.length; i++) {
-
-                node_ = {
-                    btn: tabsArray_[i],
-                    block: document.getElementById(tabsArray_[i].dataset.block),
-                    search: options.search ? document.getElementById(tabsArray_[i].dataset.search) : '',
-                    input: options.search ? document.getElementById(tabsArray_[i].dataset.search + 'Input') : '',
-                    counter: options.counter ? document.getElementById(tabsArray_[i].dataset.block + 'Counter') : '',
-                    searchElements: options.search ? document.getElementById(tabsArray_[i].dataset.block).getElementsByClassName('item__info-name') : ''
+                var node = {
+                    btn: tabsArray[i],
+                    block: document.getElementById(tabsArray[i].dataset.block),
+                    search: options.search ? document.getElementById(tabsArray[i].dataset.search) : '',
+                    input: options.search ? document.getElementById(tabsArray[i].dataset.search + 'Input') : '',
+                    counter: options.counter ? document.getElementById(tabsArray[i].dataset.block + 'Counter') : '',
+                    searchElements: options.search ? document.getElementById(tabsArray[i].dataset.block).getElementsByClassName('item__search-text') : ''
                 };
-                nodes_.push(node_);
 
-                nodes_[i].btn.dataset.id = i;
-                nodes_[i].btn.addEventListener('click', changeTab, false);
+                nodes.push(node);
 
-                if (nodes_[i].input) {
+                nodes[i].btn.dataset.id = i;
+                nodes[i].btn.addEventListener('click', changeTab, false);
 
-                    nodes_[i].input.dataset.id = i;
-                    nodes_[i].input.addEventListener('keyup', searchItem, false);
+                if (nodes[i].counter && parseInt(nodes[i].counter.innerHTML) === 0) {
+
+                    var noItems = raisoft.draw.node('DIV', 'text-center p-20', {id: 'noItems'});
+
+                    noItems.textContent = 'К сожалению, элементы не найдены.';
+
+                    nodes[i].block.appendChild(noItems);
+
+                }
+
+                if (nodes[i].input) {
+
+                    nodes[i].input.dataset.id = i;
+                    nodes[i].input.addEventListener('keyup', searchItem, false);
 
                 }
 
@@ -45,35 +48,25 @@ module.exports = (function (tabs) {
 
     };
 
-
-
-    tabs.init = function (options) {
-
-        prepare_(options);
-
-    };
-
-
-
     var changeTab = function () {
 
-        for (var i = 0; i < nodes_.length; i++) {
+        for (var i = 0; i < nodes.length; i++) {
 
-            nodes_[i].btn.classList.remove('tabs__btn--active');
-            nodes_[i].block.classList.remove('tabs__block--active');
-            if (nodes_[i].search) {
+            nodes[i].btn.classList.remove('tabs__btn--active');
+            nodes[i].block.classList.remove('tabs__block--active');
+            if (nodes[i].search) {
 
-                nodes_[i].search.classList.remove('tabs__search-block--active');
+                nodes[i].search.classList.remove('tabs__search-block--active');
 
             }
 
         }
 
-        nodes_[this.dataset.id].btn.classList.add('tabs__btn--active');
-        nodes_[this.dataset.id].block.classList.add('tabs__block--active');
-        if (nodes_[this.dataset.id].search) {
+        nodes[this.dataset.id].btn.classList.add('tabs__btn--active');
+        nodes[this.dataset.id].block.classList.add('tabs__block--active');
+        if (nodes[this.dataset.id].search) {
 
-            nodes_[this.dataset.id].search.classList.add('tabs__search-block--active');
+            nodes[this.dataset.id].search.classList.add('tabs__search-block--active');
 
         }
 
@@ -82,31 +75,35 @@ module.exports = (function (tabs) {
 
     var searchItem = function () {
 
-        var node = nodes_[this.dataset.id],
+        var node = nodes[this.dataset.id],
             searchingText = new RegExp(node.input.value.toLowerCase()),
             elementBlock, element, elementText;
 
         for (var i = 0; i < node.searchElements.length; i++) {
 
-            element = node.searchElements[i].getElementsByTagName('a')[0];
-            elementBlock = element.parentNode.parentNode.parentNode;
+            element = node.searchElements[i];
+            elementBlock = element.closest('.item');
             elementText = element.innerHTML.toLowerCase();
 
             if ( ! searchingText.test(elementText) ) {
 
                 if (!elementBlock.classList.contains('hide'))
                     node.counter.innerHTML = parseInt(node.counter.innerHTML) - 1;
-                element.parentNode.parentNode.parentNode.classList.add('hide');
+                elementBlock.classList.add('hide');
 
             } else {
 
-                if (element.parentNode.parentNode.parentNode.classList.contains('hide'))
+                if (elementBlock.classList.contains('hide'))
                     node.counter.innerHTML = parseInt(node.counter.innerHTML) + 1;
-                element.parentNode.parentNode.parentNode.classList.remove('hide');
+                elementBlock.classList.remove('hide');
 
             }
 
-            if (parseInt(node.counter.innerHTML) == 0) {
+            if (parseInt(node.counter.innerHTML) === 0) {
+
+                var noResult = raisoft.draw.node('DIV', 'text-center p-20', {id: 'noResult'});
+
+                noResult.textContent = 'К сожалению, ничего не найдено. Попробуйте изменить запрос.';
 
                 elementBlock.parentNode.append(noResult);
 
@@ -118,6 +115,12 @@ module.exports = (function (tabs) {
 
 
         }
+
+    };
+
+    tabs.init = function (options) {
+
+        prepare_(options);
 
     };
 

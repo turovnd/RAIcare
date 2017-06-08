@@ -1,0 +1,1 @@
+<span>&copy; 2017 - <?=$GLOBALS["SITE_NAME"]; ?></span>

@@ -2,9 +2,9 @@
     position: absolute;
     top: 0;
     left: 0;
-    height: 100%;
+    bottom: 0;
     width: 200px;
-    background: #fdfdfd;
+    background: #FFF;
     visibility: visible;
     border-right: 1px solid #cfcfcf;
     overflow-x: hidden;

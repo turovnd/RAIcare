@@ -1,6 +1,15 @@
+.tabs{
+    position: relative;
+    background-color: #fff;
+    border-radius: 3px;
+    box-shadow: 0 1px 0 0 #d7d8db, 0 0 0 1px #e3e4e8;
+    margin-bottom: 20px;
+    border: 0;
+}
 .tabs__header{
     padding: 0 15px;
     list-style: none;
+    margin: 0;
     user-select: none;
     background-color: #fafbfc;
     font-size: 1em;
@@ -13,7 +22,6 @@
     border-bottom: 1px solid #E0E0E0;
     width: 100%;
     float: left;
-    border-right: 1px solid #e7e8ec;
 }
 
 .tabs__btn {
@@ -31,7 +39,7 @@
 }
 .tabs__btn--active,
 .tabs__btn--active:hover{
-    border-bottom: 2px solid #008DA7;
+    border-bottom: 2px solid #008DA7 !important;
 }
 
 .tabs__btn.btn{
@@ -44,7 +52,6 @@
     font-size: .9em;
     color: #959595;
 }
-
 
 .tabs__content{
     width: 100%;
@@ -60,10 +67,12 @@
 
 .item {
     border-bottom: 1px solid #e7e8ec;
-    border-right: 1px solid #e7e8ec;
-    padding-top: 12px;
-    padding-bottom: 12px;
     position: relative;
+    padding: 12px 15px;
+    width: 100%;
+}
+.item:last-child{
+    border-bottom: 0;
 }
 
 .item__img-wrap{
@@ -89,18 +98,15 @@
     float: left;
     overflow: hidden;
 }
-.item__info-name{
+.item__text{
     font-size: .9em;
-    margin-bottom: 9px;
-    font-weight: 700;
+    margin: 0 0 10px;
+    word-wrap: break-word;
 }
-.item__info-additional {
-    font-size: .8em;
-    margin-bottom: 9px;
+.item__text:last-child{
+    margin: 0;
 }
-.item__info-additional a:not(:last-child):after{
-    content: ','
-}
+
 .item__info-controls{
     margin: 11px 0 3px;
     float: none;
@@ -125,6 +131,15 @@
     color: #008DA7;
 }
 
+.tabs__header:after, .tabs__header:before,
+.tabs__content:after, .tabs__content:before,
+.tabs__search:after, .tabs__search:before{
+    content: " ";
+    display: table;
+    clear: both;
+}
+
+
 
 
 /**
@@ -134,6 +149,7 @@
 @media (max-width: 768px){
     .tabs__header{
         padding: 0;
+        border-bottom: 0;
     }
     .tabs__header .col-xs-12{
         padding: 0;
@@ -147,7 +163,7 @@
         margin: 0 auto;
         border: 0;
         border-radius: 0;
-        border-bottom: 2px solid #008DA7;
+        border-bottom: 2px solid #e0e0e0;
     }
 
     .tabs__btn.btn{
