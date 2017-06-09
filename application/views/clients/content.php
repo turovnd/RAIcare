@@ -7,15 +7,15 @@
 
     <div class="tabs">
 
-        <ul class="tabs__header">
+        <div class="tabs__header">
 
             <a data-toggle="tabs" data-block="newClients" data-search="newClientsSearch" class="tabs__btn tabs__btn--active">
-                Новые клиенты
+                Новые
                 <span id="newClientsCounter" class="tabs__count"><?= count($clients['new']); ?></span>
             </a>
 
             <a data-toggle="tabs" data-block="withoutAccessClients" data-search="withoutAccessClientsSearch" class="tabs__btn ">
-                Ведутся переговоры
+                Без доступа
                 <span id="withoutAccessClientsCounter" class="tabs__count"><?= count($clients['withoutAccess']); ?></span>
             </a>
 
@@ -24,7 +24,9 @@
                 <span id="hasAccessClientsCounter" class="tabs__count"><?= count($clients['hasAccess']); ?></span>
             </a>
 
-        </ul>
+            <button id="addClient" class="tabs__btn btn btn--brand fl_r">Добавить</button>
+
+        </div>
 
         <div class="tabs__search">
 
@@ -163,3 +165,5 @@
         counter: true
     });
 </script>
+
+<script type="text/javascript" src="<?=$assets; ?>static/js/client.js?v=<?= filemtime("assets/static/js/client.js") ?>"></script>

@@ -36,9 +36,10 @@ class Dispatch extends Controller_Template
 
         $driver = 'native';
         $this->session = self::sessionInstance($driver);
-        $this->setGlobals();
 
         parent::before();
+
+        $this->setGlobals();
 
         if ($this->auto_render) {
 
@@ -125,6 +126,7 @@ class Dispatch extends Controller_Template
     private function setGlobals()
     {
         $uid = $this->session->get('uid') ?: (int) Cookie::get('uid');
+
         $user = new Model_User($uid);
 
         $user->permissions = Model_Rolepermis::getPermissionsByRole($user->role);

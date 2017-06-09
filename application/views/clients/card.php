@@ -1,3 +1,8 @@
 <div class="section__content">
-    application card
+
+    <h3 class="section__heading">
+        Контактная карточка клиента
+        <small>Работа с клипентом - создание организации/пансионата, изменение статуса в соответствие с оплатой доступа.</small>
+    </h3>
+
 </div>

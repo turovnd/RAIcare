@@ -101,11 +101,15 @@ module.exports = (function (tabs) {
 
             if (parseInt(node.counter.innerHTML) === 0) {
 
-                var noResult = raisoft.draw.node('DIV', 'text-center p-20', {id: 'noResult'});
+                if (!document.getElementById('noResult')) {
 
-                noResult.textContent = 'К сожалению, ничего не найдено. Попробуйте изменить запрос.';
+                    var noResult = raisoft.draw.node('DIV', 'text-center p-20', {id: 'noResult'});
 
-                elementBlock.parentNode.append(noResult);
+                    noResult.textContent = 'К сожалению, ничего не найдено. Попробуйте изменить запрос.';
+
+                    elementBlock.parentNode.append(noResult);
+
+                }
 
             } else if ( document.getElementById('noResult') ) {
 

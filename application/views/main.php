@@ -47,7 +47,7 @@
 
         <section class="section">
 
-            <?=$section; ?>
+            <?= $section; ?>
 
         </section>
 

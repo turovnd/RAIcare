@@ -22,10 +22,10 @@
     <?  // Module Clients => id: 2
         if (in_array(2, $user->permissions)) : ?>
 
-        <li class="aside__item <? echo $action == "clients" ? 'aside__item--active' : ''; ?>">
+        <li class="aside__item <? echo $action == "clients" || $action == "client" ? 'aside__item--active' : ''; ?>">
             <a href="<?=URL::site('clients'); ?>" class="aside__link">
                 <i class="fa fa-id-card-o aside__icon" aria-hidden="true"></i>
-                <div class="label label--danger m-t-10 m-r-5">12</div>
+                <div class="label label--danger m-t-10 m-r-5"><?= count(Model_Client::getClientsByStatus(1)); ?></div>
                 <span class="aside__text">Клиенты</span>
             </a>
         </li>
