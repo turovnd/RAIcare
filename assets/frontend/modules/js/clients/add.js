@@ -161,7 +161,7 @@ module.exports = (function (add) {
 
         raisoft.cookies.set({
             name: 'clients',
-            value: 'clients-active-tab~' + this.dataset.block,
+            value: this.dataset.block,
             expires: 3600,
             path: '/'
         });

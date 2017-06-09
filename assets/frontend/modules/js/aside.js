@@ -39,7 +39,7 @@ module.exports = (function (aside) {
 
                 raisoft.cookies.set({
                     name: 'aside',
-                    value: 'collapsed~collapsed',
+                    value: 'collapsed',
                     path: '/'
                 });
                 destroyAsideCollapseBtns_();
