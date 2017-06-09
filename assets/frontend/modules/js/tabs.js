@@ -7,40 +7,36 @@ module.exports = (function (tabs) {
 
         tabsArray = document.querySelectorAll('[data-toggle="tabs"]');
 
-        if (tabsArray.length > 0) {
+        for (var i = 0; i < tabsArray.length; i++) {
 
-            for (var i = 0; i < tabsArray.length; i++) {
+            var node = {
+                btn: tabsArray[i],
+                block: document.getElementById(tabsArray[i].dataset.block),
+                search: options.search ? document.getElementById(tabsArray[i].dataset.search) : '',
+                input: options.search ? document.getElementById(tabsArray[i].dataset.search + 'Input') : '',
+                counter: options.counter ? document.getElementById(tabsArray[i].dataset.block + 'Counter') : '',
+                searchElements: options.search ? document.getElementById(tabsArray[i].dataset.block).getElementsByClassName('item__search-text') : ''
+            };
 
-                var node = {
-                    btn: tabsArray[i],
-                    block: document.getElementById(tabsArray[i].dataset.block),
-                    search: options.search ? document.getElementById(tabsArray[i].dataset.search) : '',
-                    input: options.search ? document.getElementById(tabsArray[i].dataset.search + 'Input') : '',
-                    counter: options.counter ? document.getElementById(tabsArray[i].dataset.block + 'Counter') : '',
-                    searchElements: options.search ? document.getElementById(tabsArray[i].dataset.block).getElementsByClassName('item__search-text') : ''
-                };
+            nodes.push(node);
 
-                nodes.push(node);
+            nodes[i].btn.dataset.id = i;
+            nodes[i].btn.addEventListener('click', changeTab, false);
 
-                nodes[i].btn.dataset.id = i;
-                nodes[i].btn.addEventListener('click', changeTab, false);
+            if (nodes[i].counter && parseInt(nodes[i].counter.innerHTML) === 0) {
 
-                if (nodes[i].counter && parseInt(nodes[i].counter.innerHTML) === 0) {
+                var noItems = raisoft.draw.node('DIV', 'text-center p-20', {id: 'noItems'});
 
-                    var noItems = raisoft.draw.node('DIV', 'text-center p-20', {id: 'noItems'});
+                noItems.textContent = 'К сожалению, элементы не найдены.';
 
-                    noItems.textContent = 'К сожалению, элементы не найдены.';
+                nodes[i].block.appendChild(noItems);
 
-                    nodes[i].block.appendChild(noItems);
+            }
 
-                }
+            if (nodes[i].input) {
 
-                if (nodes[i].input) {
-
-                    nodes[i].input.dataset.id = i;
-                    nodes[i].input.addEventListener('keyup', searchItem, false);
-
-                }
+                nodes[i].input.dataset.id = i;
+                nodes[i].input.addEventListener('keyup', searchItem, false);
 
             }
 
@@ -50,25 +46,18 @@ module.exports = (function (tabs) {
 
     var changeTab = function () {
 
-        for (var i = 0; i < nodes.length; i++) {
+        document.getElementsByClassName('tabs__btn--active')[0].classList.remove('tabs__btn--active');
+        document.getElementsByClassName('tabs__block--active')[0].classList.remove('tabs__block--active');
 
-            nodes[i].btn.classList.remove('tabs__btn--active');
-            nodes[i].block.classList.remove('tabs__block--active');
-            if (nodes[i].search) {
-
-                nodes[i].search.classList.remove('tabs__search-block--active');
-
-            }
-
-        }
+        if (document.getElementsByClassName('tabs__search-block--active')[0])
+            document.getElementsByClassName('tabs__search-block--active')[0].classList.remove('tabs__search-block--active');
 
         nodes[this.dataset.id].btn.classList.add('tabs__btn--active');
         nodes[this.dataset.id].block.classList.add('tabs__block--active');
-        if (nodes[this.dataset.id].search) {
 
+        if (nodes[this.dataset.id].search)
             nodes[this.dataset.id].search.classList.add('tabs__search-block--active');
 
-        }
 
     };
 

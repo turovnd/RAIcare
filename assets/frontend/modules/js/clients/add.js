@@ -12,6 +12,24 @@ module.exports = (function (add) {
 
     }
 
+
+    function prepareTabs_() {
+
+        var btns      = document.getElementsByClassName('tabs__btn'),
+            activeTab = raisoft.cookies.get('clients');
+
+        for (var i = 0; i < btns.length; i++) {
+
+            btns[i].addEventListener('click', changeTabs_);
+
+        }
+
+
+        if (activeTab !== undefined)
+            document.querySelector('[data-block="' + activeTab + '"]').click();
+
+    }
+
     function openAddClientModal_() {
 
         addClientModal = raisoft.notification.notify({
@@ -138,9 +156,23 @@ module.exports = (function (add) {
 
     }
 
+
+    function changeTabs_() {
+
+        raisoft.cookies.set({
+            name: 'clients',
+            value: 'clients-active-tab~' + this.dataset.block,
+            expires: 3600,
+            path: '/'
+        });
+
+    }
+
+
     add.init = function () {
 
         prepare_();
+        prepareTabs_();
 
     };
 
