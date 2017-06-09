@@ -1,10 +1,10 @@
 .header{
     position: fixed;
-    background: #fafafa;
+    background: #008DA7;
     top: 0;
     width: 100%;
     padding: 3px 0;
-    border-bottom: 1px solid #cfcfcf;
+    box-shadow: 0 1px 2px rgba(0,0,0,.15);
     transition: all .3s;
     z-index: 10;
     user-select: none;
@@ -12,6 +12,8 @@
 }
 .header--default{
     background: transparent;
+    box-shadow: none;
+    border-bottom: 1px solid #FCFCFC;
 }
 
 .header__brand{
@@ -20,17 +22,6 @@
     font-size: 2em;
     font-weight: bold;
 }
-
-.header__brand, .header__brand:hover, .header__brand:focus{
-    color: #008DA7;
-}
-
-.header--default .header__brand,
-.header--default .header__link{
-    color: #FCFCFC;
-    text-shadow: 0 0 3px rgba(0,0,0,0.5);
-}
-
 
 .header__menu{
     height: 50px;
@@ -42,30 +33,31 @@
 .header__link{
     position: relative;
     line-height: 50px;
-    color: #008DA7;
     margin-left: 30px;
     float: left;
 }
-.header--fixed .header__link:hover,
-.header--fixed .header__link:focus{
-    color: #413a41;
-}
-
-.header__link.btn,
-.header__link.btn:hover,
-.header__link.btn:focus{
-    color: #FFFFFF;
-    background: #008DA7;
-    border-color: #1F6E7D;
+.header__link.btn{
+    line-height: normal;
+    background: transparent;
+    border: 2px solid #FCFCFC;
     padding: 9px 15px;
     margin: 7px 0 7px 30px;
 }
-.header--default .header__link.btn{
+
+.header__brand,
+.header__brand:hover,
+.header__brand:focus,
+.header__link,
+.header__link.btn,
+.header__link.btn:hover,
+.header__link.btn:focus{
     color: #FCFCFC;
-    background: transparent;
-    border: 2px solid  #FCFCFC;
-    text-shadow: none;
-    box-shadow: 0 0 3px rgba(0,0,0,0.5);
+    text-shadow: 0 0 2px rgba(0,0,0,0.3);
+}
+.header__link:hover,
+.header__link:focus{
+    color: rgba(255,255,255,.8);
+    text-shadow: 0 0 2px rgba(0,0,0,0.3);
 }
 
 .header__wrapper{
@@ -97,7 +89,7 @@
 .header__open-btn i{
     display: block;
     position: absolute;
-    background-color: #008DA7;
+    background-color: #FCFCFC;
     border-radius: 20px;
     width: 25px;
     left: 12.5px;
@@ -106,7 +98,7 @@
     height: 3px;
     transition: all ease .25s;
 }
-.header--default .header__open-btn i{
+.header__open-btn i{
     background-color: #FCFCFC;
 }
 .header__open-btn i:first-child{
@@ -126,13 +118,9 @@
     opacity: 1;
 }
 .header__open-btn--opened i:first-child {
-    -webkit-transform: rotate(45deg);
-    -moz-transform: rotate(45deg);
     transform: rotate(45deg);
 }
 .header__open-btn--opened i:last-child {
-    -webkit-transform: rotate(-45deg);
-    -moz-transform: rotate(-45deg);
     transform: rotate(-45deg);
 }
 

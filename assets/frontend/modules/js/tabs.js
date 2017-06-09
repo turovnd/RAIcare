@@ -1,114 +1,104 @@
 module.exports = (function (tabs) {
 
-
-    var tabsArray_ = null,
-        nodes_ = [],
-        node_ = null,
-        noResult = null;
+    var tabsArray = null,
+        nodes     = [];
 
     var prepare_ = function (options) {
 
-        noResult = document.createElement('div');
-        noResult.id = 'noResult';
-        noResult.style = 'padding: 20px;text-align: center;';
-        noResult.innerHTML = 'К сожалению, ничего ненеайдено. Попробуйте изменить запрос';
+        tabsArray = document.querySelectorAll('[data-toggle="tabs"]');
 
-        tabsArray_ = document.querySelectorAll('[data-toggle="tabs"]');
+        for (var i = 0; i < tabsArray.length; i++) {
 
-        if (tabsArray_.length > 0) {
+            var node = {
+                btn: tabsArray[i],
+                block: document.getElementById(tabsArray[i].dataset.block),
+                search: options.search ? document.getElementById(tabsArray[i].dataset.search) : '',
+                input: options.search ? document.getElementById(tabsArray[i].dataset.search + 'Input') : '',
+                counter: options.counter ? document.getElementById(tabsArray[i].dataset.block + 'Counter') : '',
+                searchElements: options.search ? document.getElementById(tabsArray[i].dataset.block).getElementsByClassName('item__search-text') : ''
+            };
 
-            for (var i = 0; i < tabsArray_.length; i++) {
+            nodes.push(node);
 
-                node_ = {
-                    btn: tabsArray_[i],
-                    block: document.getElementById(tabsArray_[i].dataset.block),
-                    search: options.search ? document.getElementById(tabsArray_[i].dataset.search) : '',
-                    input: options.search ? document.getElementById(tabsArray_[i].dataset.search + 'Input') : '',
-                    counter: options.counter ? document.getElementById(tabsArray_[i].dataset.block + 'Counter') : '',
-                    searchElements: options.search ? document.getElementById(tabsArray_[i].dataset.block).getElementsByClassName('item__info-name') : ''
-                };
-                nodes_.push(node_);
+            nodes[i].btn.dataset.id = i;
+            nodes[i].btn.addEventListener('click', changeTab, false);
 
-                nodes_[i].btn.dataset.id = i;
-                nodes_[i].btn.addEventListener('click', changeTab, false);
+            if (nodes[i].counter && parseInt(nodes[i].counter.innerHTML) === 0) {
 
-                if (nodes_[i].input) {
+                var noItems = raisoft.draw.node('DIV', 'text-center p-20', {id: 'noItems'});
 
-                    nodes_[i].input.dataset.id = i;
-                    nodes_[i].input.addEventListener('keyup', searchItem, false);
+                noItems.textContent = 'К сожалению, элементы не найдены.';
 
-                }
+                nodes[i].block.appendChild(noItems);
+
+            }
+
+            if (nodes[i].input) {
+
+                nodes[i].input.dataset.id = i;
+                nodes[i].input.addEventListener('keyup', searchItem, false);
 
             }
 
         }
 
     };
-
-
-
-    tabs.init = function (options) {
-
-        prepare_(options);
-
-    };
-
-
 
     var changeTab = function () {
 
-        for (var i = 0; i < nodes_.length; i++) {
+        document.getElementsByClassName('tabs__btn--active')[0].classList.remove('tabs__btn--active');
+        document.getElementsByClassName('tabs__block--active')[0].classList.remove('tabs__block--active');
 
-            nodes_[i].btn.classList.remove('tabs__btn--active');
-            nodes_[i].block.classList.remove('tabs__block--active');
-            if (nodes_[i].search) {
+        if (document.getElementsByClassName('tabs__search-block--active')[0])
+            document.getElementsByClassName('tabs__search-block--active')[0].classList.remove('tabs__search-block--active');
 
-                nodes_[i].search.classList.remove('tabs__search-block--active');
+        nodes[this.dataset.id].btn.classList.add('tabs__btn--active');
+        nodes[this.dataset.id].block.classList.add('tabs__block--active');
 
-            }
+        if (nodes[this.dataset.id].search)
+            nodes[this.dataset.id].search.classList.add('tabs__search-block--active');
 
-        }
-
-        nodes_[this.dataset.id].btn.classList.add('tabs__btn--active');
-        nodes_[this.dataset.id].block.classList.add('tabs__block--active');
-        if (nodes_[this.dataset.id].search) {
-
-            nodes_[this.dataset.id].search.classList.add('tabs__search-block--active');
-
-        }
 
     };
 
 
     var searchItem = function () {
 
-        var node = nodes_[this.dataset.id],
+        var node = nodes[this.dataset.id],
             searchingText = new RegExp(node.input.value.toLowerCase()),
             elementBlock, element, elementText;
 
         for (var i = 0; i < node.searchElements.length; i++) {
 
-            element = node.searchElements[i].getElementsByTagName('a')[0];
-            elementBlock = element.parentNode.parentNode.parentNode;
+            element = node.searchElements[i];
+            elementBlock = element.closest('.item');
             elementText = element.innerHTML.toLowerCase();
 
             if ( ! searchingText.test(elementText) ) {
 
                 if (!elementBlock.classList.contains('hide'))
                     node.counter.innerHTML = parseInt(node.counter.innerHTML) - 1;
-                element.parentNode.parentNode.parentNode.classList.add('hide');
+                elementBlock.classList.add('hide');
 
             } else {
 
-                if (element.parentNode.parentNode.parentNode.classList.contains('hide'))
+                if (elementBlock.classList.contains('hide'))
                     node.counter.innerHTML = parseInt(node.counter.innerHTML) + 1;
-                element.parentNode.parentNode.parentNode.classList.remove('hide');
+                elementBlock.classList.remove('hide');
 
             }
 
-            if (parseInt(node.counter.innerHTML) == 0) {
+            if (parseInt(node.counter.innerHTML) === 0) {
 
-                elementBlock.parentNode.append(noResult);
+                if (!document.getElementById('noResult')) {
+
+                    var noResult = raisoft.draw.node('DIV', 'text-center p-20', {id: 'noResult'});
+
+                    noResult.textContent = 'К сожалению, ничего не найдено. Попробуйте изменить запрос.';
+
+                    elementBlock.parentNode.append(noResult);
+
+                }
 
             } else if ( document.getElementById('noResult') ) {
 
@@ -118,6 +108,12 @@ module.exports = (function (tabs) {
 
 
         }
+
+    };
+
+    tabs.init = function (options) {
+
+        prepare_(options);
 
     };
 

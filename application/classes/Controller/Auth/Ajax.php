@@ -13,10 +13,14 @@ class Controller_Auth_Ajax extends Auth
 
     public function before()
     {
-        // Do not allow render
         $this->auto_render = false;
+        if (!$this->request->is_ajax()) {
+            throw new HTTP_Exception_403;
+        }
 
         parent::before();
+
+        $this->checkCsrf();
 
     }
 
@@ -25,7 +29,6 @@ class Controller_Auth_Ajax extends Auth
      */
     public function action_signin()
     {
-        $this->checkRequest();
 
 //        if ($this->getAttempt() > 3) {
 //            $response = new Model_Response_Auth('ATTEMPT_NUMBER_ERROR', 'error');
@@ -64,99 +67,6 @@ class Controller_Auth_Ajax extends Auth
 
         $response = new Model_Response_Auth('LOGIN_SUCCESS', 'success');
         $this->response->body(@json_encode($response->get_response()));
-
-    }
-
-
-
-    /**
-     * action - SignUp new user
-     */
-    public function action_signup()
-    {
-
-        $this->checkRequest();
-
-        $email      = Arr::get($_POST, 'email', '');
-        $password   = Arr::get($_POST, 'password', '');
-        $name       = Arr::get($_POST, 'name', '');
-
-        if ( empty($email) || empty($password) || empty($name)) {
-            $response = new Model_Response_Form('EMPTY_FIELDS_ERROR', 'error');
-            $this->response->body(@json_encode($response->get_response()));
-            return;
-        }
-
-        if (!$email || Model_User::isUserExist($email)) {
-            $response = new Model_Response_SignUp('USER_EXISTS_ERROR', 'error');
-            $this->response->body(@json_encode($response->get_response()));
-            return;
-        }
-
-        if (!Valid::email($email)) {
-            $response = new Model_Response_Email('EMAIL_FORMAT_ERROR', 'error');
-            $this->response->body(@json_encode($response->get_response()));
-            return;
-        }
-
-        if (str_word_count($name) < 1) {
-            $response = new Model_Response_SignUp('NAME_VALIDATION_ERROR', 'error');
-            $this->response->body(@json_encode($response->get_response()));
-            return;
-        }
-
-        $password_hash = $this->makeHash('md5', $password . $_SERVER['SALT']);
-
-        $user = new Model_User();
-
-        $user->email        = $email;
-        $user->password     = $password_hash;
-        $user->name         = $name;
-        $user->is_confirmed = 0;
-        $user->newsletter   = 1;
-
-
-        $user->save();
-
-//        $isSuccess = $this->send_email_confirmation($user, $password);
-//
-//        if (!$isSuccess) {
-//            $response = new Model_Response_Email('EMAIL_SEND_ERROR', 'error');
-//            $this->response->body(@json_encode($response->get_response()));
-//            return;
-//        }
-
-        $auth = new Model_Auth();
-
-        $session = Session::instance();
-        $sid = $session->id();
-
-        $this->setSecret($sid, $user->id);
-
-        if ($auth->login($email, $password_hash)) {
-            $response = new Model_Response_SignUp('SIGNUP_SUCCESS', 'success');
-            $this->response->body(@json_encode($response->get_response()));
-        };
-
-    }
-
-    
-    /**
-     *  Send Email Request for confirming Email
-     * @param $user, $password
-     * @return int
-     */
-    private function send_email_confirmation($user, $password) {
-
-        $hash = $this->makeHash('sha256', $user->id . $_SERVER['SALT'] . $user->email . Date::formatted_time('now'));
-
-        $this->redis->set($_SERVER['REDIS_PACKAGE'] . ':confirmation:email:' . $hash, $user->id);
-
-        $template = View::factory('email_templates/confirm_email', array('user' => $user, 'password' => $password, 'hash' => $hash));
-
-        $email = new Email();
-
-        return $email->send($user->email, $_SERVER['INFO_EMAIL'], 'Добро пожаловать в ' . $_SERVER['SITE_NAME'] . '!', $template, true);
 
     }
 
@@ -316,22 +226,6 @@ class Controller_Auth_Ajax extends Auth
         Cookie::set('secret', $hash, Date::WEEK);
 
         $this->redis->set($_SERVER['REDIS_PACKAGE'] . ':sessions:secrets:' . $hash, $sid . ':' . $uid . ':' . Request::$client_ip, array('nx', 'ex' => Date::WEEK));
-    }
-
-    /**
-     * Checking if request ajax and checkCsrf
-     * @throws HTTP_Exception_403
-     */
-    protected function checkRequest()
-    {
-        // Do not allow render
-        $this->auto_render = false;
-
-        if (!$this->request->is_ajax()) {
-            throw new HTTP_Exception_403;
-        }
-
-        $this->checkCsrf();
     }
 
 }

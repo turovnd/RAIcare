@@ -25,5 +25,4 @@ Route::set('IMAGE_TRANSPORT', 'transport/<type>')
         'action'     => 'upload'
     ));
 
-
 ?>

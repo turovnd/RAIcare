@@ -36,16 +36,29 @@ class Controller_Clients_Index extends Dispatch
 
     public function action_clients()
     {
-        $this->template->title = "Заявки";
-        $this->template->section = View::factory('clients/content');
+        $clients = array(
+            'new' => Model_Client::getClientsByStatus(1) ?: [],
+            'withoutAccess' => Model_Client::getClientsByStatus(2) ?: [],
+            'hasAccess' => Model_Client::getClientsByStatus(3) ?: []
+        );
+
+        $this->template->title = "Клиенты";
+        $this->template->section = View::factory('clients/content')
+                ->set('clients', $clients);
     }
 
     public function action_client()
     {
         $id = $this->request->param('id');
+        $client = new Model_Client($id);
 
-        $this->template->title = "";
-        $this->template->section = View::factory('clients/card');
+        if (!$client->id) {
+            throw new HTTP_Exception_404;
+        }
+
+        $this->template->title = "Клиент " . $id;
+        $this->template->section = View::factory('clients/card')
+                ->set('client', $client);
 
     }
 
