@@ -16,7 +16,6 @@ class Controller_Clients_Ajax extends Ajax
     {
         parent::before();
         self::hasAccess(self::MODULE_ID);
-        $this->checkCsrf();
     }
 
 

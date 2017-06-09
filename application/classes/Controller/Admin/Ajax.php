@@ -16,7 +16,6 @@ class Controller_Admin_Ajax extends Ajax
     {
         parent::before();
         self::hasAccess(self::MODULE_ID);
-        $this->checkCsrf();
     }
 
     /**
