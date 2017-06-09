@@ -132,7 +132,6 @@ class Controller_Clients_Ajax extends Ajax
 
         $response = new Model_Response_Clients('CLIENT_STATUS_ACCEPT_SUCCESS', 'success');
         $this->response->body(@json_encode($response->get_response()));
-        return;
     }
 
     private function rejectApplication($client)
@@ -142,18 +141,41 @@ class Controller_Clients_Ajax extends Ajax
 
         $response = new Model_Response_Clients('CLIENT_STATUS_REJECT_SUCCESS', 'success');
         $this->response->body(@json_encode($response->get_response()));
-        return;
     }
 
 
 
     public function action_update()
     {
-        $id = Arr::get($_POST, 'id');
+        $id     = Arr::get($_POST, 'id');
+        $name   = Arr::get($_POST, 'name');
+        $value  = Arr::get($_POST, 'value');
 
-        //$response = new Model_Response_Application('', 'success');
-        //$this->response->body(@json_encode($response->get_response()));
+        if ($name== "name" && empty($value)) {
+            $response = new Model_Response_Clients('CLIENTS_EMPTY_NAME_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
 
+        if ($name== "email" && !Valid::email($value)) {
+            $response = new Model_Response_Email('EMAIL_FORMAT_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        $client = new Model_Client($id);
+
+        if (!$client->id) {
+            $response = new Model_Response_Clients('CLIENT_DOES_NOT_EXISTED_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        $client->$name = $value;
+        $client->update();
+
+        $response = new Model_Response_Clients('CLIENT_UPDATE_SUCCESS', 'success');
+        $this->response->body(@json_encode($response->get_response()));
     }
 
 }
