@@ -5,7 +5,7 @@ Class Model_Client {
 
     public $id;
     public $name;
-    public $status;     // 0 - spam || reject, 1 - new client, 2 - conversation || waiting payments, 3 - access allowed
+    public $status;     // 0 - spam || reject, 1 - new client, 2 - has no access, 3 - has access
     public $email;
     public $organization;
     public $city;

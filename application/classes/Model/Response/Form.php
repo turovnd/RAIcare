@@ -9,5 +9,4 @@ class Model_Response_Form extends Model_Response_Abstract
         'message' => 'Заполнены не все поля'
     );
 
-
 }

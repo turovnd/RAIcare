@@ -1,18 +1,14 @@
 <div class="section__content">
 
     <h3 class="section__heading">
-        Контактная карточка клиента
-        <small>Работа с клипентом - создание организации/пансионата, изменение статуса в соответствие с оплатой доступа.</small>
+        Анкета клиента
+        <a role="button" class="btn btn--default btn--sm m-b-0 m-r-0 fl_r js-request-reject <? echo $client->status == 1 ? '' : 'hide'; ?>">отклонить</a>
+        <a role="button" class="btn btn--brand btn--sm m-b-0 fl_r js-request-accept <? echo $client->status == 1 ? '' : 'hide'; ?>">принять</a>
     </h3>
 
     <div class="row">
         <div class="col-xs-12">
             <div id="application" class="form">
-                <div class="form__heading">
-                    Анкета
-                    <a role="button" class="btn btn--default btn--sm m-b-0 m-r-0 fl_r js-request-reject <? echo $client->status == 1 ? '' : 'hide'; ?>">в спам</a>
-                    <a role="button" class="btn btn--brand btn--sm m-b-0 fl_r js-request-accept <? echo $client->status == 1 ? '' : 'hide'; ?>">принять</a>
-                </div>
 
                 <div class="form__body">
 
@@ -130,9 +126,41 @@
 
     </div>
 
-
     <? if ($client->status != 1 && $client->status != 0) : ?>
-4
+
+        <h3 class="section__heading">
+            Организации
+            <small>У клиента есть хотя бы одна организация. Клиент может самостоятельно пригласить/исключить сотрдников для просмотра отчетов и статистики.</small>
+        </h3>
+
+        <div class="row">
+            <div class="col-xs-12">
+
+                <button class="btn btn--brand">Создать организацию</button>
+
+                <div id="" class="block">
+                    выф
+                </div>
+
+            </div>
+        </div>
+
+        <h3 class="section__heading">
+            Пансионаты
+            <small>У клиента может быть не ограниченное количество пансионатов. Каждый пансионат принадлежить конкретной организации. Пансионаты создаются только через сотрдника <?=$GLOBALS['SITE_NAME']; ?> при запросе. Основатель пансионата имеет право приглашать сотрдников и распределять между ними роли.</small>
+        </h3>
+
+        <div class="row">
+            <div class="col-xs-12">
+
+                <button class="btn btn--brand">Создать пансионат</button>
+
+                <div id="" class="block">
+                    выф
+                </div>
+
+            </div>
+        </div>
     <? endif; ?>
 
 </div>

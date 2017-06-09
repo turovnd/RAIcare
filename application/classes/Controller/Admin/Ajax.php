@@ -10,10 +10,12 @@
 
 class Controller_Admin_Ajax extends Ajax
 {
+    CONST MODULE_ID = 1;
 
     function before()
     {
         parent::before();
+        self::hasAccess(self::MODULE_ID);
         $this->checkCsrf();
     }
 

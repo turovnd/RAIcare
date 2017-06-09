@@ -10,6 +10,15 @@
 
 class Controller_Clients_Ajax extends Ajax
 {
+    CONST MODULE_ID = 2;
+
+    public function before()
+    {
+        parent::before();
+        self::hasAccess(self::MODULE_ID);
+        $this->checkCsrf();
+    }
+
 
     public function action_new_application()
     {
@@ -142,8 +151,6 @@ class Controller_Clients_Ajax extends Ajax
         $response = new Model_Response_Clients('CLIENT_STATUS_REJECT_SUCCESS', 'success');
         $this->response->body(@json_encode($response->get_response()));
     }
-
-
 
     public function action_update()
     {
