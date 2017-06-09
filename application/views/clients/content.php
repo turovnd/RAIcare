@@ -159,11 +159,17 @@
 
 </div>
 
-<script>
-    raisoft.tabs.init({
-        search: true,
-        counter: true
-    });
+
+<script type="text/javascript" src="<?=$assets; ?>frontend/bundles/clients.min.js?v=<?= filemtime("assets/frontend/bundles/clients.min.js") ?>"></script>
+<script type="text/javascript" >
+    function ready() {
+        raisoft.tabs.init({
+            search: true,
+            counter: true
+        });
+
+        clients.add.init();
+    }
+    document.addEventListener("DOMContentLoaded", ready);
 </script>
 
-<script type="text/javascript" src="<?=$assets; ?>static/js/client.js?v=<?= filemtime("assets/static/js/client.js") ?>"></script>

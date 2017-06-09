@@ -8,12 +8,13 @@ button {
 }
 .btn{
     display: inline-block;
-    line-height: normal;
+    line-height: 1;
     text-align: center;
     vertical-align: middle;
     border: 1px solid transparent;
     white-space: nowrap;
     font-size: .9em;
+    font-weight: normal;
     padding: 5px 13px;
     outline: 0;
     border-radius: 3px;
@@ -25,7 +26,6 @@ button {
     padding: 10px 18px;
 }
 .btn--sm{
-    font-size: .75em;
     padding: 3px 8px;
 }
 .btn--round{

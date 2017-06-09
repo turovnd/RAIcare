@@ -11,6 +11,7 @@
 .form__heading,
 .block__heading{
     font-weight: 700;
+    line-height: 1.4;
     border-bottom: 1px solid #e7e8ec;
 }
 
@@ -69,6 +70,11 @@
     color: #f05050;
 }
 
+@media (min-width: 768px) {
+    .form-group__label{
+        padding-top: 8px;
+    }
+}
 
 .form-group__control{
     display: block;
@@ -82,6 +88,17 @@
     border-radius: 3px;
     transition: all ease .15s;
 }
+.form-group__control-static{
+    padding: 6px 0;
+    line-height: 1.1em;
+    margin: 0;
+}
+@media (min-width: 768px) {
+    .form-group__control-static {
+        padding: 6px 10px;
+    }
+}
+
 .form-group__control:focus{
     border-color: #35BAD3;
 }
@@ -116,13 +133,7 @@
 /** control-group */
 .form-group__control-group{
     position: relative;
-    display: table;
-    border-collapse: separate;
-}
-
-.form-group__control-group-input,
-.form-group__control-group-addon{
-    display: table-cell;
+    display: flex;
 }
 
 .form-group__control-group-input{
@@ -134,15 +145,16 @@
 }
 
 .form-group__control-group-addon{
+    display: inline-flex;
+    align-items: center;
     padding: 6px 10px;
     font-size: .9em;
-    width: 1%;
+    min-width: 1%;
     text-align: center;
     background-color: #edf1f2;
     border: 1px solid #d7d8db;
     border-radius: 0;
     white-space: nowrap;
-    vertical-align: middle;
 }
 
 .form-group__control-group-addon:first-child {

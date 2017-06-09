@@ -1,24 +1,24 @@
 {
-  "name": "prezentit",
+  "name": "raisoft",
   "version": "1.0.0",
-  "description": "interactive presentations",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "build": "webpack"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kolyasha/prezentit.git"
+    "url": "git+https://github.com/kolyasha/raisoft.git"
   },
   "keywords": [
-    "prezentit"
+    "raisoft"
   ],
   "author": "Turov Nikolai",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/kolyasha/prezentit/issues"
+    "url": "https://github.com/kolyasha/raisoft/issues"
   },
-  "homepage": "https://github.com/kolyasha/prezentit#readme",
+  "homepage": "https://github.com/kolyasha/raisoft#readme",
   "devDependencies": {
     "autoprefixer": "^7.1.1",
     "css-loader": "^0.28.0",

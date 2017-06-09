@@ -59,13 +59,10 @@ Class Model_Client {
             if (property_exists($this, $fieldname)) $insert->set($fieldname, $value);
         }
 
-        $insert->clearcache('status' . $this->status);
-
         $result = $insert->execute();
 
         return $this->get_($result);
     }
-
 
     public function update()
     {
@@ -76,7 +73,6 @@ Class Model_Client {
         }
 
         $insert->clearcache($this->id);
-        $insert->clearcache('status' . $this->status);
         $insert->where('id', '=', $this->id);
 
         $insert->execute();
@@ -84,12 +80,10 @@ Class Model_Client {
         return $this->get_($this->id);
     }
 
-
     public static function getClientsByStatus($status)
     {
         $select = Dao_Clients::select()
             ->where('status', '=', $status)
-            ->cached(Date::MINUTE * 5, 'status' . $status)
             ->order_by('dt_create', 'DESC')
             ->execute();
 

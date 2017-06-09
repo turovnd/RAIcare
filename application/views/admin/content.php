@@ -99,7 +99,10 @@
 <!-----------  PAGE SCRIPT  ----------->
 <script type="text/javascript" src="<?=$assets; ?>frontend/bundles/admin.min.js?v=<?= filemtime("assets/frontend/bundles/admin.min.js") ?>"></script>
 <script type="text/javascript">
-    admin.roles.init();
-    admin.permissions.init();
-    admin.rolePermis.init();
+    function ready() {
+        admin.roles.init();
+        admin.permissions.init();
+        admin.rolePermis.init();
+    }
+    document.addEventListener("DOMContentLoaded", ready);
 </script>

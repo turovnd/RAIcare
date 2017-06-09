@@ -20,4 +20,34 @@ class Model_Response_Clients extends Model_Response_Abstract
         'message' => 'Клиент успешно добавлен'
     );
 
+    protected $_CLIENT_DOES_NOT_EXISTED_ERROR = array (
+        'type' => 'client',
+        'code' => '23',
+        'message' => 'Клиент не существет, перезагрузте страницу'
+    );
+
+    protected $_CLIENT_STATUS_ACCEPT_SUCCESS = array (
+        'type' => 'client',
+        'code' => '24',
+        'message' => 'Заявка успешно принята'
+    );
+
+    protected $_CLIENT_STATUS_REJECT_SUCCESS = array (
+        'type' => 'client',
+        'code' => '25',
+        'message' => 'Заявка успешно отклонена'
+    );
+
+    protected $_CLIENT_STATUS_REESTABLISH_SUCCESS = array (
+        'type' => 'client',
+        'code' => '26',
+        'message' => 'Заявка успешно восстановлена'
+    );
+
+    protected $_CLIENT_UPDATE_SUCCESS = array (
+        'type' => 'client',
+        'code' => '27',
+        'message' => 'Информация успешно изменена'
+    );
+
 }

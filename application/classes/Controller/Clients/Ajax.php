@@ -105,6 +105,48 @@ class Controller_Clients_Ajax extends Ajax
     }
 
 
+    public function action_changestatus()
+    {
+        $id     = Arr::get($_POST, 'id');
+        $status = Arr::get($_POST, 'status');
+
+        $client = new Model_Client($id);
+
+        if (!$client->id) {
+            $response = new Model_Response_Clients('CLIENT_DOES_NOT_EXISTED_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        switch ($status) {
+            case 'accept': $this->acceptApplication($client); break;
+            case 'reject': $this->rejectApplication($client); break;
+        }
+
+    }
+
+    private function acceptApplication($client)
+    {
+        $client->status = 2;
+        $client->update();
+
+        $response = new Model_Response_Clients('CLIENT_STATUS_ACCEPT_SUCCESS', 'success');
+        $this->response->body(@json_encode($response->get_response()));
+        return;
+    }
+
+    private function rejectApplication($client)
+    {
+        $client->status = 0;
+        $client->update();
+
+        $response = new Model_Response_Clients('CLIENT_STATUS_REJECT_SUCCESS', 'success');
+        $this->response->body(@json_encode($response->get_response()));
+        return;
+    }
+
+
+
     public function action_update()
     {
         $id = Arr::get($_POST, 'id');
