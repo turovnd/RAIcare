@@ -24,7 +24,7 @@
                 <span id="hasAccessClientsCounter" class="tabs__count"><?= count($clients['hasAccess']); ?></span>
             </a>
 
-            <button data-toggle="modal" data-area="addClientModal" id="ddClient" class="tabs__btn btn btn--brand fl_r">Добавить</button>
+            <button data-toggle="modal" data-area="addClientModal" class="tabs__btn btn btn--brand fl_r">Добавить</button>
 
         </div>
 
@@ -155,6 +155,7 @@
             </div>
 
         </div>
+
     </div>
 
 </div>

@@ -8,6 +8,7 @@ module.exports = ( function (clients) {
     clients.add         = require('./modules/js/clients/add');
     clients.request     = require('./modules/js/clients/request');
     clients.edit        = require('./modules/js/clients/edit-info');
+    clients.create      = require('./modules/js/clients/creating');
 
     return clients;
 

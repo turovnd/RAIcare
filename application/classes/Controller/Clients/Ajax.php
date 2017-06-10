@@ -184,4 +184,94 @@ class Controller_Clients_Ajax extends Ajax
         $this->response->body(@json_encode($response->get_response()));
     }
 
+    public function action_adduser()
+    {
+        $id = Arr::get($_POST, 'client_id');
+
+        $client = new Model_Client($id);
+
+        if (!$client->id) {
+            $response = new Model_Response_Clients('CLIENT_DOES_NOT_EXISTED_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        $username = Methods_Translit::getUsernameByName($client->name);
+        $user = Model_User::getByFieldName('username', $username);
+        if (!empty($user->id)) {
+            $t_username = $user;
+            $counter = 0;
+            while (!empty($t_username->id)) {
+                $counter++;
+                $t_username = Model_User::getByFieldName('username', $user->username . $counter);
+            }
+            $username .= $counter;
+        }
+
+
+        $user = new Model_User();
+
+        $user->name         = $client->name;
+        $user->email        = $client->email;
+        $user->username     = $username;
+        $user->password     = $this->makeHash('md5', Methods_Translit::getUsernameByName($client->name));
+        $user->role         = 10;
+        $user->newsletter   = 1;
+        $user->is_confirmed = 0;
+        $user = $user->save();
+
+        $client->user_id = $user->id;
+        $client->update();
+
+        $response = new Model_Response_Clients('CLIENT_USER_CREATE_SUCCESS', 'success');
+        $this->response->body(@json_encode($response->get_response()));
+
+    }
+
+
+    public function action_addorganization()
+    {
+        $name       = Arr::get($_POST,'name');
+        $uri        = Arr::get($_POST,'uri');
+        $cl_user    = Arr::get($_POST,'userId');
+
+        if (empty($cl_user)) {
+            $response = new Model_Response_Clients('CLIENT_USER_DOES_NOT_EXISTED_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        if (empty($name)) {
+            $response = new Model_Response_Organizations('ORGANIZATION_EMPTY_NAME_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        if (empty($uri)) {
+            $response = new Model_Response_Organizations('ORGANIZATION_EMPTY_URI_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        if (Model_Organization::check_uri($uri)) {
+            $response = new Model_Response_Organizations('ORGANIZATION_EXISTED_URI_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        $organization = new Model_Organization();
+
+        $organization->name         = $name;
+        $organization->uri          = $uri;
+        $organization->is_removed   = 0;
+        $organization->created_by   = $this->user->id;
+
+        $organization = $organization->save();
+
+        Model_UserOrganization::add($cl_user, $organization->id);
+
+        $response = new Model_Response_Organizations('ORGANIZATION_CREATE_SUCCESS', 'success', array('id' => $organization->id));
+        $this->response->body(@json_encode($response->get_response()));
+    }
+
 }

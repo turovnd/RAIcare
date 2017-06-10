@@ -56,9 +56,23 @@ class Controller_Clients_Index extends Dispatch
             throw new HTTP_Exception_404;
         }
 
+        $cl_user = new Model_User($client->user_id);
+
+        $organizations = array();
+
+        $organizationsIDs = Model_UserOrganization::getOrganizations($cl_user->id);
+
+        if (!empty($organizationsIDs)) {
+            foreach ($organizationsIDs as $item) {
+                $organizations[] = new Model_Organization($item['organization']);
+            }
+        }
+
         $this->template->title = "Клиент " . $id;
         $this->template->section = View::factory('clients/card')
-                ->set('client', $client);
+                ->set('client', $client)
+                ->set('cl_user', $cl_user)
+                ->set('organizations', $organizations);
 
     }
 

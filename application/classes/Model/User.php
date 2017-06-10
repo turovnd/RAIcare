@@ -8,6 +8,8 @@ Class Model_User {
     public $email;
     public $username;
     public $role;
+    public $city;
+    public $phone;
     public $newsletter;
     public $is_confirmed;
     public $dt_create;

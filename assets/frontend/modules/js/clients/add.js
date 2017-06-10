@@ -1,6 +1,6 @@
 module.exports = (function (add) {
 
-    var corePrefix      = 'RAIsoft clients';
+    var corePrefix      = 'Clients: add new';
 
     function prepare_() {
 

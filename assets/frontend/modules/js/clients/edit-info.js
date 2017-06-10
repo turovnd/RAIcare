@@ -1,6 +1,6 @@
 module.exports = (function (edit) {
 
-    var corePrefix  = 'RAIsoft clients', i,
+    var corePrefix  = 'Clients: edit info', i,
         form        = null,
         clientId    = null,
         csrf        = null;
@@ -74,7 +74,7 @@ module.exports = (function (edit) {
 
                 if (parseInt(response.code) === 27 ) {
 
-                    field.getElementsByClassName('js-client-name')[0].textContent = input;
+                    field.getElementsByClassName('js-client-info')[0].textContent = input;
                     field.getElementsByClassName('form-group__control-static')[0].classList.toggle('hide');
                     field.getElementsByClassName('form-group__control-group')[0].classList.toggle('hide');
 

@@ -1,6 +1,6 @@
 module.exports = (function (request) {
 
-    var corePrefix  = 'RAIsoft clients',
+    var corePrefix  = 'Clients: requests',
         formData    = null;
 
     function prepare_() {

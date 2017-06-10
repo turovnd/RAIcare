@@ -1,17 +1,12 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
 
-Class Model_Client {
+Class Model_Organization {
 
     public $id;
-    public $user_id;
     public $name;
-    public $status;     // 0 - spam || reject, 1 - new client, 2 - has no access, 3 - has access
-    public $email;
-    public $organization;
-    public $city;
-    public $phone;
-    public $comment;
+    public $uri;
+    public $is_removed;
     public $created_by;
     public $dt_create;
 
@@ -39,15 +34,13 @@ Class Model_Client {
     
     private function get_($id) {
 
-        $select = Dao_Clients::select()
+        $select = Dao_Organizations::select()
             ->where('id', '=', $id)
             ->limit(1)
             ->cached(Date::MINUTE * 5, $id)
             ->execute();
 
-        $this->fill_by_row($select);
-
-        return $this;
+        return $this->fill_by_row($select);
 
     }
 
@@ -55,7 +48,7 @@ Class Model_Client {
     {
         $this->dt_create = Date::formatted_time('now');
 
-        $insert = Dao_Clients::insert();
+        $insert = Dao_Organizations::insert();
 
         foreach ($this as $fieldname => $value) {
             if (property_exists($this, $fieldname)) $insert->set($fieldname, $value);
@@ -68,7 +61,7 @@ Class Model_Client {
 
     public function update()
     {
-        $insert = Dao_Clients::update();
+        $insert = Dao_Organizations::update();
 
         foreach ($this as $fieldname => $value) {
             if (property_exists($this, $fieldname)) $insert->set($fieldname, $value);
@@ -82,22 +75,16 @@ Class Model_Client {
         return $this->get_($this->id);
     }
 
-    public static function getClientsByStatus($status)
+    public static function check_uri($uri)
     {
-        $select = Dao_Clients::select()
-            ->where('status', '=', $status)
-            ->order_by('dt_create', 'DESC')
+        $select = Dao_Organizations::select()
+            ->where('uri', '=', $uri)
+            ->limit(1)
             ->execute();
 
-        $clients = array();
+        return boolval($select);
 
-        if ( empty($select) ) return $clients;
-
-        foreach ($select as $item) {
-            $client = new Model_Client();
-            $clients[] = $client->fill_by_row($item);
-        }
-
-        return $clients;
     }
+
+
 }
