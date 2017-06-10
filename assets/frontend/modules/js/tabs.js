@@ -7,40 +7,45 @@ module.exports = (function (tabs) {
 
         tabsArray = document.querySelectorAll('[data-toggle="tabs"]');
 
-        for (var i = 0; i < tabsArray.length; i++) {
+        if (tabsArray !== null) {
 
-            var node = {
-                btn: tabsArray[i],
-                block: document.getElementById(tabsArray[i].dataset.block),
-                search: options.search ? document.getElementById(tabsArray[i].dataset.search) : '',
-                input: options.search ? document.getElementById(tabsArray[i].dataset.search + 'Input') : '',
-                counter: options.counter ? document.getElementById(tabsArray[i].dataset.block + 'Counter') : '',
-                searchElements: options.search ? document.getElementById(tabsArray[i].dataset.block).getElementsByClassName('item__search-text') : ''
-            };
+            for (var i = 0; i < tabsArray.length; i++) {
 
-            nodes.push(node);
+                var node = {
+                    btn: tabsArray[i],
+                    block: document.getElementById(tabsArray[i].dataset.block),
+                    search: options.search ? document.getElementById(tabsArray[i].dataset.search) : '',
+                    input: options.search ? document.getElementById(tabsArray[i].dataset.search + 'Input') : '',
+                    counter: options.counter ? document.getElementById(tabsArray[i].dataset.block + 'Counter') : '',
+                    searchElements: options.search ? document.getElementById(tabsArray[i].dataset.block).getElementsByClassName('item__search-text') : ''
+                };
 
-            nodes[i].btn.dataset.id = i;
-            nodes[i].btn.addEventListener('click', changeTab, false);
+                nodes.push(node);
 
-            if (nodes[i].counter && parseInt(nodes[i].counter.innerHTML) === 0) {
+                nodes[i].btn.dataset.id = i;
+                nodes[i].btn.addEventListener('click', changeTab, false);
 
-                var noItems = raisoft.draw.node('DIV', 'text-center p-20', {id: 'noItems'});
+                if (nodes[i].counter && parseInt(nodes[i].counter.innerHTML) === 0) {
 
-                noItems.textContent = 'К сожалению, элементы не найдены.';
+                    var noItems = raisoft.draw.node('DIV', 'text-center p-20', {id: 'noItems'});
 
-                nodes[i].block.appendChild(noItems);
+                    noItems.textContent = 'К сожалению, элементы не найдены.';
 
-            }
+                    nodes[i].block.appendChild(noItems);
 
-            if (nodes[i].input) {
+                }
 
-                nodes[i].input.dataset.id = i;
-                nodes[i].input.addEventListener('keyup', searchItem, false);
+                if (nodes[i].input) {
+
+                    nodes[i].input.dataset.id = i;
+                    nodes[i].input.addEventListener('keyup', searchItem, false);
+
+                }
 
             }
 
         }
+
 
     };
 

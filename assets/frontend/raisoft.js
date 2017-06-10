@@ -17,6 +17,7 @@ module.exports = ( function (raisoft) {
     raisoft.collapse     = require('./modules/js/collapse');
     raisoft.cookies      = require('./modules/js/cookies');
     raisoft.tabs         = require('./modules/js/tabs');
+    raisoft.modal        = require('./modules/js/modal');
     raisoft.form         = require('./modules/js/form');
     raisoft.notification = require('./modules/js/notification');
 

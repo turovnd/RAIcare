@@ -105,7 +105,7 @@
     background: #cfcfcf;
 }
 
-.notification__backdrop{
+.notification-backdrop{
     position: fixed;
     top: 0;
     left: 0;
@@ -116,77 +116,14 @@
 }
 
 .notification--animation-in{
-    -webkit-animation-name: animation-in;
-    animation-name: animation-in;
+    animation-name: fade__in;
 }
 .notification--animation-in-down{
-    -webkit-animation-name: animation-in-down;
-    animation-name: animation-in-down;
+    animation-name: fade__in--down;
 }
 .notification--animation-out{
-    -webkit-animation-name: animation-out;
-    animation-name: animation-out;
+    animation-name: fade__out;
 }
 .notification--animation-in-up{
-    -webkit-animation-name: animation-in-up;
-    animation-name: animation-in-up;
-}
-
-
-@-webkit-keyframes animation-in {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-@keyframes animation-in {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-@-webkit-keyframes animation-out {
-    from { opacity: 1; } to { opacity: 0; }
-}
-@keyframes animation-out {
-    from { opacity: 1; } to { opacity: 0; }
-}
-
-@-webkit-keyframes animation-in-down {
-    from {
-        opacity: 0;
-        -webkit-transform: translate3d(0, -100%, 0);
-        transform: translate3d(0, -100%, 0);
-    }
-    to {
-        opacity: 1;
-        -webkit-transform: none;
-        transform: none;
-    }
-}
-@keyframes animation-in-down {
-    from {
-        opacity: 0;
-        -webkit-transform: translate3d(0, -100%, 0);
-        transform: translate3d(0, -100%, 0);
-    }
-    to {
-        opacity: 1;
-        -webkit-transform: none;
-        transform: none;
-    }
-}
-
-@-webkit-keyframes animation-in-up {
-    from { opacity: 1; }
-    to {
-        opacity: 0;
-        -webkit-transform: translate3d(0, -100%, 0);
-        transform: translate3d(0, -100%, 0);
-    }
-}
-@keyframes animation-in-up {
-    from { opacity: 1; }
-    to {
-        opacity: 0;
-        -webkit-transform: translate3d(0, -100%, 0);
-        transform: translate3d(0, -100%, 0);
-    }
+    animation-name: fade__out--up;
 }

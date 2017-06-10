@@ -125,7 +125,7 @@ module.exports = (function (notification) {
                 input       = raisoft.draw.node('INPUT', 'notification__input'),
                 confirmBtn  = raisoft.draw.node('SPAN', 'notification__confirm-btn'),
                 cancelBtn   = raisoft.draw.node('SPAN', 'notification__cancel-btn'),
-                backdropBl  = raisoft.draw.node('DIV', 'notification__backdrop');
+                backdropBl  = raisoft.draw.node('DIV', 'notification-backdrop');
 
             message.innerHTML       = settings.message;
 
@@ -146,6 +146,7 @@ module.exports = (function (notification) {
                 if (!document.getElementsByClassName('notification__backdrop')[0]) {
 
                     backdrop = document.body.appendChild(backdropBl);
+                    document.body.classList.add('overflow--hidden');
                     backdrop.addEventListener('click', cancelHandler);
 
                 }
@@ -236,6 +237,8 @@ module.exports = (function (notification) {
                 notifyWrapper.remove();
 
                 if (backdrop) {
+
+                    document.body.classList.remove('overflow--hidden');
 
                     backdrop.remove();
 

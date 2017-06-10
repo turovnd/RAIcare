@@ -21,6 +21,7 @@
             raisoft.collapse.init();
             raisoft.aside.init();
             raisoft.notification.createHolder();
+            raisoft.modal.init();
         }
 
         document.addEventListener("DOMContentLoaded", ready);
@@ -56,7 +57,6 @@
         </footer>
 
         <input type="hidden" id="csrf" name="csrf" value="<?=Security::token();?>">
-        <div class="backdrop hide"></div>
 
     </div>
 

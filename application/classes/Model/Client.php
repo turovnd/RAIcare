@@ -11,6 +11,7 @@ Class Model_Client {
     public $city;
     public $phone;
     public $comment;
+    public $created_by;
     public $dt_create;
 
     
