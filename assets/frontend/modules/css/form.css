@@ -86,7 +86,6 @@
     background: #FFFFFF;
     border: 1px solid #d7d8db;
     border-radius: 3px;
-    transition: all ease .15s;
 }
 .form-group__control-static{
     padding: 6px 0;

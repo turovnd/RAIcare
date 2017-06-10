@@ -159,26 +159,65 @@
 
 </div>
 
-<div class="modal" id="addClientModal" tabindex="-1">
+<form class="modal" id="addClientModal" tabindex="-1">
     <div class="modal__content">
         <div class="modal__header">
             <button type="button" class="modal__title-close" data-close="modal">
                 <i class="fa fa-close" aria-hidden="true"></i>
             </button>
-            <h4 class="modal__title" id="myModalLabel">Modal title</h4>
+            <h4 class="modal__title">Новый клиент</h4>
         </div>
         <div class="modal__body">
-            <h4>Text in a modal</h4>
-            <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula.</p>
-            <h4>Popover in a modal</h4>
-            <p>This <a href="#" class="btn btn-default popover-test" role="button" title="" data-content="And here's some amazing content. It's very engaging. right?" data-original-title="A Title">button</a> should trigger a popover on click.</p>
+            
+            <fieldset>
+                <div class="form-group">
+                    <label for="addClientName" class="form-group__label">Имя <span class="text-danger">*</span></label>
+                    <input type="text" id="addClientName" name="name" class="form-group__control" maxlength="256">
+                </div>
+            </fieldset>
+            
+            <fieldset>
+                <div class="form-group">
+                    <label for="addClientEmail" class="form-group__label">Адрес электронной почты <span class="text-danger">*</span></label>
+                    <input type="email" id="addClientEmail" name="email" class="form-group__control" maxlength="64">
+                </div>
+            </fieldset>
+            
+            <fieldset>
+                <div class="form-group">
+                    <label for="addClientOrganization" class="form-group__label">Организация / компания</label>
+                    <input type="text" id="addClientOrganization" name="organization" class="form-group__control">
+                </div>
+            </fieldset>
+            
+            <fieldset>
+                <div class="form-group">
+                    <label for="addClientCity" class="form-group__label">Город</label>
+                    <input type="text" id="addClientCity" name="city" class="form-group__control">
+                </div>
+            </fieldset>
+            
+            <fieldset>
+                <div class="form-group">
+                    <label for="addClientPhone" class="form-group__label">Телефон</label>
+                    <input type="text" id="addClientPhone" name="phone" class="form-group__control" maxlength="20">
+                </div>
+            </fieldset>
+            
+            <fieldset>
+                <div class="form-group">
+                    <label for="addClientComment" class="form-group__label">Комментарий</label>
+                    <textarea name="comment" id="addClientComment" rows="5" class="form-group__control"></textarea>
+                </div>
+            </fieldset>
+                
         </div>
         <div class="modal__footer">
-            <button type="button" class="btn btn--default" data-close="modal">Close</button>
-            <button type="button" class="btn btn--brand">Save changes</button>
+            <button type="button" class="btn btn--default" data-close="modal">Отмена</button>
+            <button type="submit" class="btn btn--brand">Создать</button>
         </div>
     </div>
-</div>
+</form>
 
 
 <script type="text/javascript" src="<?=$assets; ?>frontend/bundles/clients.min.js?v=<?= filemtime("assets/frontend/bundles/clients.min.js") ?>"></script>

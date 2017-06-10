@@ -5,12 +5,15 @@ module.exports = (function (modal) {
 
         var modalOpenBtns = document.querySelectorAll('[data-toggle="modal"]');
 
-        for (var i = 0; i < modalOpenBtns.length; i++) {
+        if (modalOpenBtns !== null) {
 
-            modalOpenBtns[i].addEventListener('click', modal.show);
+            for (var i = 0; i < modalOpenBtns.length; i++) {
+
+                modalOpenBtns[i].addEventListener('click', modal.show);
+
+            }
 
         }
-
 
     }
 
@@ -108,9 +111,15 @@ module.exports = (function (modal) {
 
         var backdrop = raisoft.draw.node('DIV', 'modal-backdrop');
 
-        block.classList.add('modal--opened');
+        block.classList.add('modal--opening', 'modal--opened');
         document.body.classList.add('overflow--hidden');
         document.body.appendChild(backdrop);
+
+        window.setTimeout(function () {
+
+            block.classList.remove('modal--opening');
+
+        }, 200);
 
     };
 
@@ -128,14 +137,15 @@ module.exports = (function (modal) {
 
         }
 
-        block.classList.remove('modal--opened');
+        block.classList.add('modal--closing');
 
         window.setTimeout(function () {
 
+            block.classList.remove('modal--opened', 'modal--closing');
             document.body.classList.remove('overflow--hidden');
             document.getElementsByClassName('modal-backdrop')[0].remove();
 
-        }, 150);
+        }, 200);
 
     };
 

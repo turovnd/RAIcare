@@ -6,15 +6,12 @@
     left: 0;
     z-index: 100;
     overflow: hidden;
-    transition: all .2s ease;
-    visibility: hidden;
-    transform: translate(0, -70%);
+    display: none;
 }
 .modal--opened {
     overflow-x: hidden;
     overflow-y: auto;
-    visibility: visible;
-    transform: translate(0, 0);
+    display: block;
 }
 
 .modal__content {
@@ -24,6 +21,17 @@
     box-shadow: 1px 1px 15px rgba(0,0,0,.5);
     width: auto;
     margin: 10px;
+    animation-fill-mode: both;
+    animation-duration: .2s;
+
+}
+
+.modal--closing .modal__content{
+    animation-name: fade__out--up;
+}
+
+.modal--opening .modal__content{
+    animation-name: fade__in--down;
 }
 
 .modal__header {
