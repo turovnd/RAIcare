@@ -28,7 +28,7 @@ Class Model_UserOrganization {
     {
         return Dao_UsersOrganizations::select()
             ->where('user', '=', $user)
-            //->cached(Date::MINUTE * 5, $user)
+            ->order_by('organization', 'DESC')
             ->execute();
     }
 

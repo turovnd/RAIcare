@@ -270,7 +270,7 @@ class Controller_Clients_Ajax extends Ajax
 
         Model_UserOrganization::add($cl_user, $organization->id);
 
-        $response = new Model_Response_Organizations('ORGANIZATION_CREATE_SUCCESS', 'success', array('id' => $organization->id));
+        $response = new Model_Response_Organizations('ORGANIZATION_CREATE_SUCCESS', 'success', array('organization' => json_encode($organization)));
         $this->response->body(@json_encode($response->get_response()));
     }
 

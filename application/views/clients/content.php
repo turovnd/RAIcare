@@ -215,7 +215,7 @@
         </div>
         <div class="modal__footer">
             <button type="button" class="btn btn--default" data-close="modal">Отмена</button>
-            <button type="submit" class="btn btn--brand">Создать</button>
+            <button onclick="clients.create.client()" type="button" class="btn btn--brand">Создать</button>
         </div>
     </div>
 </form>
@@ -229,7 +229,7 @@
             counter: true
         });
 
-        clients.add.init();
+        clients.tabs.init();
     }
     document.addEventListener("DOMContentLoaded", ready);
 </script>

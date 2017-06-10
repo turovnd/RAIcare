@@ -157,27 +157,33 @@
 
                 <? else: ?>
 
-                    <? foreach ($organizations as $organization) : ?>
+                    <ul id="organizations" class="list-style--none">
 
-                        <div id="organization_<?=$organization->id; ?>" class="block">
+                        <? foreach ($organizations as $organization) : ?>
 
-                            <a class="block__heading" href="<?=URL::site('organization/' . $organization->id); ?>">
-                                <?=$organization->name; ?>
-                            </a>
+                            <li id="organization_<?=$organization->id; ?>" class="block">
 
-                            <div class="block__body">
+                                <a class="block__heading" href="<?=URL::site('organization/' . $organization->id); ?>">
+                                    <?=$organization->name; ?>
+                                </a>
 
-                                Создана: <?= $organization->dt_create; ?>
+                                <div class="block__body">
 
-                            </div>
+                                    Создана: <?= $organization->dt_create; ?>
 
-                        </div>
+                                </div>
 
-                    <? endforeach; ?>
+                            </li>
+
+                        <? endforeach; ?>
+
+                    </ul>
 
                 <? endif; ?>
+
             </div>
         </div>
+
 
         <h3 class="section__heading">
             Пансионаты
