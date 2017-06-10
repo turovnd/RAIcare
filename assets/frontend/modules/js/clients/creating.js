@@ -133,7 +133,7 @@ module.exports = (function (create) {
         formData.append('userId', document.getElementById('userId').value);
 
         var ajaxData = {
-            url: '/client/addorganization',
+            url: '/organization/new',
             type: 'POST',
             data: formData,
             beforeSend: function () {
@@ -154,17 +154,10 @@ module.exports = (function (create) {
 
                 if (parseInt(response.code) === 133 ) {
 
-                    var org = JSON.parse(response.organization);
+                    var block = raisoft.draw.node('LI', '');
 
-                    var organization = raisoft.draw.node('LI', 'block', {id: 'organization_' + org['id']});
-
-                    organization.innerHTML =
-                        '<a class="block__heading" href="/organization/' + org['id'] + '">'+ org['name']+ '</a>'+
-                        '<div class="block__body">'+
-                        'Создана: ' + org['dt_create']+
-                        '</div>';
-
-                    document.getElementById('organizations').insertBefore(organization, document.getElementById('organizations').childNodes[0]);
+                    block.innerHTML = response.organization;
+                    document.getElementById('organizations').insertBefore(block, document.getElementById('organizations').childNodes[0]);
 
                     form.reset();
                     raisoft.modal.hide(form);

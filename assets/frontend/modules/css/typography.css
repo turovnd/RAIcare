@@ -173,6 +173,15 @@ a.bg-danger:focus {
     background-color: #ee3d3d;
 }
 
+.bg-gray {
+    background-color: #dde6e9;
+    color: #515253;
+}
+.bg-gray-dark{
+    background-color: #3a3f51;
+    color: #FFFFFF;
+}
+
 .label{
     position: absolute;
     top: 0;

@@ -10,7 +10,7 @@
 
 class Controller_Admin_Index extends Dispatch
 {
-    CONST MODULE_ID = 1;
+    CONST ADMIN = 1;
 
     public $template = 'main';
 
@@ -22,13 +22,12 @@ class Controller_Admin_Index extends Dispatch
             $this->redirect('login');
         }
 
-        self::hasAccess(self::MODULE_ID);
+        self::hasAccess(self::ADMIN);
 
         $data = array(
             'action'    => $this->request->action(),
         );
 
-        $this->template->header = View::factory('global_blocks/header');
         $this->template->aside = View::factory('global_blocks/aside', $data);
 
     }

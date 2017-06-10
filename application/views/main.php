@@ -35,7 +35,7 @@
 
         <header class="header clear-fix">
 
-            <?= $header; ?>
+            <?=View::factory('global_blocks/header');?>
 
         </header>
 
@@ -53,7 +53,9 @@
         </section>
 
         <footer class="footer">
+
             <?=View::factory('global_blocks/footer');?>
+
         </footer>
 
         <input type="hidden" id="csrf" name="csrf" value="<?=Security::token();?>">

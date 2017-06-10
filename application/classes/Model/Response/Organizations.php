@@ -27,40 +27,5 @@ class Model_Response_Organizations extends Model_Response_Abstract
         'message' => 'Организация успешно создана'
     );
 
-    protected $_CLIENT_ADD_SUCCESS = array (
-        'type' => 'organization',
-        'code' => '22',
-        'message' => 'Клиент успешно добавлен'
-    );
-
-    protected $_CLIENT_DOES_NOT_EXISTED_ERROR = array (
-        'type' => 'organization',
-        'code' => '23',
-        'message' => 'Клиент не существет, перезагрузте страницу'
-    );
-
-    protected $_CLIENT_STATUS_ACCEPT_SUCCESS = array (
-        'type' => 'organization',
-        'code' => '24',
-        'message' => 'Заявка успешно принята'
-    );
-
-    protected $_CLIENT_STATUS_REJECT_SUCCESS = array (
-        'type' => 'organization',
-        'code' => '25',
-        'message' => 'Заявка успешно отклонена'
-    );
-
-    protected $_CLIENT_STATUS_REESTABLISH_SUCCESS = array (
-        'type' => 'organization',
-        'code' => '26',
-        'message' => 'Заявка успешно восстановлена'
-    );
-
-    protected $_CLIENT_UPDATE_SUCCESS = array (
-        'type' => 'organization',
-        'code' => '27',
-        'message' => 'Информация успешно изменена'
-    );
 
 }

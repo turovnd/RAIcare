@@ -6,8 +6,9 @@ Class Model_Organization {
     public $id;
     public $name;
     public $uri;
+    public $creator;
+    public $cover;
     public $is_removed;
-    public $created_by;
     public $dt_create;
 
     
@@ -86,5 +87,42 @@ Class Model_Organization {
 
     }
 
+    public static function getAll()
+    {
+        $select = Dao_Organizations::select()
+            ->order_by('dt_create', 'DESC')
+            ->execute();
+
+        $organizations = array();
+
+        if ( empty($select) ) return $organizations;
+
+        foreach ($select as $item) {
+            $organization = new Model_Organization();
+            $organizations[] = $organization->fill_by_row($item);
+        }
+
+        return $organizations;
+    }
+
+
+    public static function getCreatdByUser($id)
+    {
+        $select = Dao_Organizations::select()
+            ->where('creator','=', $id)
+            ->order_by('dt_create', 'DESC')
+            ->execute();
+
+        $organizations = array();
+
+        if ( empty($select) ) return $organizations;
+
+        foreach ($select as $item) {
+            $organization = new Model_Organization();
+            $organizations[] = $organization->fill_by_row($item);
+        }
+
+        return $organizations;
+    }
 
 }

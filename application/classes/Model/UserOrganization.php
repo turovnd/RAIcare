@@ -32,5 +32,16 @@ Class Model_UserOrganization {
             ->execute();
     }
 
+    public static function getUser($organization)
+    {
+        $select = Dao_UsersOrganizations::select()
+            ->where('organization', '=', $organization)
+            ->limit(1)
+            ->order_by('user', 'DESC')
+            ->execute();
+
+        return $select['user'];
+    }
+
 
 }

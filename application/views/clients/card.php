@@ -161,17 +161,9 @@
 
                         <? foreach ($organizations as $organization) : ?>
 
-                            <li id="organization_<?=$organization->id; ?>" class="block">
+                            <li>
 
-                                <a class="block__heading" href="<?=URL::site('organization/' . $organization->id); ?>">
-                                    <?=$organization->name; ?>
-                                </a>
-
-                                <div class="block__body">
-
-                                    Создана: <?= $organization->dt_create; ?>
-
-                                </div>
+                                <?= View::factory('organizations/blocks/card',array('organization' => $organization)); ?>
 
                             </li>
 

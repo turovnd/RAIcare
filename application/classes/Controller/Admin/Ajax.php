@@ -10,12 +10,12 @@
 
 class Controller_Admin_Ajax extends Ajax
 {
-    CONST MODULE_ID = 1;
+    CONST ADMIN = 1;
 
     function before()
     {
         parent::before();
-        self::hasAccess(self::MODULE_ID);
+        self::hasAccess(self::ADMIN);
     }
 
     /**

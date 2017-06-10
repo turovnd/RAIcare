@@ -10,12 +10,12 @@
 
 class Controller_Clients_Ajax extends Ajax
 {
-    CONST MODULE_ID = 2;
+    CONST WORKING_WITH_CLIENTS = 2;
 
     public function before()
     {
         parent::before();
-        self::hasAccess(self::MODULE_ID);
+        self::hasAccess(self::WORKING_WITH_CLIENTS);
     }
 
 
@@ -226,52 +226,6 @@ class Controller_Clients_Ajax extends Ajax
         $response = new Model_Response_Clients('CLIENT_USER_CREATE_SUCCESS', 'success');
         $this->response->body(@json_encode($response->get_response()));
 
-    }
-
-
-    public function action_addorganization()
-    {
-        $name       = Arr::get($_POST,'name');
-        $uri        = Arr::get($_POST,'uri');
-        $cl_user    = Arr::get($_POST,'userId');
-
-        if (empty($cl_user)) {
-            $response = new Model_Response_Clients('CLIENT_USER_DOES_NOT_EXISTED_ERROR', 'error');
-            $this->response->body(@json_encode($response->get_response()));
-            return;
-        }
-
-        if (empty($name)) {
-            $response = new Model_Response_Organizations('ORGANIZATION_EMPTY_NAME_ERROR', 'error');
-            $this->response->body(@json_encode($response->get_response()));
-            return;
-        }
-
-        if (empty($uri)) {
-            $response = new Model_Response_Organizations('ORGANIZATION_EMPTY_URI_ERROR', 'error');
-            $this->response->body(@json_encode($response->get_response()));
-            return;
-        }
-
-        if (Model_Organization::check_uri($uri)) {
-            $response = new Model_Response_Organizations('ORGANIZATION_EXISTED_URI_ERROR', 'error');
-            $this->response->body(@json_encode($response->get_response()));
-            return;
-        }
-
-        $organization = new Model_Organization();
-
-        $organization->name         = $name;
-        $organization->uri          = $uri;
-        $organization->is_removed   = 0;
-        $organization->created_by   = $this->user->id;
-
-        $organization = $organization->save();
-
-        Model_UserOrganization::add($cl_user, $organization->id);
-
-        $response = new Model_Response_Organizations('ORGANIZATION_CREATE_SUCCESS', 'success', array('organization' => json_encode($organization)));
-        $this->response->body(@json_encode($response->get_response()));
     }
 
 }

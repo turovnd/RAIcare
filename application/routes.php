@@ -10,7 +10,7 @@ require_once ('routes/admin.php');
 require_once ('routes/clients.php');
 require_once ('routes/profile.php');
 require_once ('routes/dashboard.php');
-require_once ('routes/organization.php');
+require_once ('routes/organizations.php');
 
 
 

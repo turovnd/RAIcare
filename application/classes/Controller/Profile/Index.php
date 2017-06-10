@@ -26,7 +26,6 @@ class Controller_Profile_Index extends Dispatch
             'action'    => $this->request->action(),
         );
 
-        $this->template->header = View::factory('global_blocks/header');
         $this->template->aside = View::factory('global_blocks/aside', $data);
 
     }
