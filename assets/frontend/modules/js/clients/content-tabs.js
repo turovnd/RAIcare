@@ -1,8 +1,5 @@
 module.exports = (function (tabs) {
 
-    var corePrefix      = 'Clients: content-tabs';
-
-
     function prepareTabs_() {
 
         var btns      = document.getElementsByClassName('tabs__btn'),

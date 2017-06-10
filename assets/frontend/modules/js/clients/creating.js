@@ -184,7 +184,7 @@ module.exports = (function (create) {
 
     };
 
-    create.pension = function (event) {
+    create.pension = function (id) {
 
     };
 
