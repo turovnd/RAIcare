@@ -105,7 +105,7 @@
     background: #cfcfcf;
 }
 
-.notification__backdrop{
+.notification-backdrop{
     position: fixed;
     top: 0;
     left: 0;

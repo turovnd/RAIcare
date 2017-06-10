@@ -130,17 +130,14 @@
 
         <h3 class="section__heading">
             Организации
+            <a role="button" class="btn btn--brand btn--sm m-b-0 m-r-0 fl_r js-create-organization">Создать организацию</a>
             <small>У клиента есть хотя бы одна организация. Клиент может самостоятельно пригласить/исключить сотрдников для просмотра отчетов и статистики.</small>
         </h3>
 
         <div class="row">
             <div class="col-xs-12">
 
-                <button class="btn btn--brand">Создать организацию</button>
-
-                <div id="" class="block">
-                    выф
-                </div>
+                <div class="h3 text-center text-brand m-t-10 m-b-10">Организации не созданы</div>
 
             </div>
         </div>

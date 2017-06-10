@@ -25,7 +25,7 @@ module.exports = (function (add) {
         }
 
 
-        if (activeTab !== undefined)
+        if (activeTab !== undefined && document.querySelector('[data-block="' + activeTab + '"]'))
             document.querySelector('[data-block="' + activeTab + '"]').click();
 
     }

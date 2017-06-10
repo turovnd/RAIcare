@@ -49,6 +49,7 @@ class Controller_Clients_Ajax extends Ajax
         $client->city         = $city;
         $client->phone        = $phone;
         $client->comment      = $comment;
+        $client->created_by   = 0;
 
         $client->save();
 
@@ -73,7 +74,6 @@ class Controller_Clients_Ajax extends Ajax
         $email->send($client->email, $_SERVER['INFO_EMAIL'], 'Заявка принята - ' . $GLOBALS['SITE_NAME'], $template, true);
 
     }
-
 
     public function action_add()
     {
@@ -105,13 +105,13 @@ class Controller_Clients_Ajax extends Ajax
         $client->city         = $city;
         $client->phone        = $phone;
         $client->comment      = $comment;
+        $client->created_by   = $this->user->id;
 
         $client = $client->save();
 
         $response = new Model_Response_Clients('CLIENT_ADD_SUCCESS', 'success', array('id' => $client->id));
         $this->response->body(@json_encode($response->get_response()));
     }
-
 
     public function action_changestatus()
     {

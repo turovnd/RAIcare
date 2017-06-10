@@ -328,12 +328,7 @@ small{
     }
 }
 
-.clear-fix,
-.row,
-.container,
-.section__content{
-    display: block;
-}
+
 .clear-fix:after, .clear-fix:before,
 .container:after, .container:before,
 .section__content:after, .section__content:before,

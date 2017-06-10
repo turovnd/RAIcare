@@ -24,7 +24,7 @@
                 <span id="hasAccessClientsCounter" class="tabs__count"><?= count($clients['hasAccess']); ?></span>
             </a>
 
-            <button id="addClient" class="tabs__btn btn btn--brand fl_r">Добавить</button>
+            <button data-toggle="modal" data-area="addClientModal" id="ddClient" class="tabs__btn btn btn--brand fl_r">Добавить</button>
 
         </div>
 
@@ -157,6 +157,27 @@
         </div>
     </div>
 
+</div>
+
+<div class="modal" id="addClientModal" tabindex="-1">
+    <div class="modal__content">
+        <div class="modal__header">
+            <button type="button" class="modal__title-close" data-close="modal">
+                <i class="fa fa-close" aria-hidden="true"></i>
+            </button>
+            <h4 class="modal__title" id="myModalLabel">Modal title</h4>
+        </div>
+        <div class="modal__body">
+            <h4>Text in a modal</h4>
+            <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula.</p>
+            <h4>Popover in a modal</h4>
+            <p>This <a href="#" class="btn btn-default popover-test" role="button" title="" data-content="And here's some amazing content. It's very engaging. right?" data-original-title="A Title">button</a> should trigger a popover on click.</p>
+        </div>
+        <div class="modal__footer">
+            <button type="button" class="btn btn--default" data-close="modal">Close</button>
+            <button type="button" class="btn btn--brand">Save changes</button>
+        </div>
+    </div>
 </div>
 
 
