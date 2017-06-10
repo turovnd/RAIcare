@@ -11,6 +11,8 @@ class Ajax extends Dispatch {
 
         parent::before();
 
+        $this->checkCsrf();
+
     }
 
     public static function is_ajax()

@@ -6,15 +6,13 @@ Class Model_User {
     public $id;
     public $name;
     public $email;
+    public $username;
+    public $role;
     public $newsletter;
     public $is_confirmed;
     public $dt_create;
 
-
-    /**
-     * Model_User constructor.
-     * get user info if data exist
-     */
+    
     public function __construct($id = null) {
 
         if ( !empty($id) ) {
@@ -32,7 +30,6 @@ Class Model_User {
         }
 
         return $this;
-
     }
 
     private function get_($id) {
@@ -50,11 +47,6 @@ Class Model_User {
     }
 
 
-    /**
-     * @param $field
-     * @param $value
-     * @return $this|array|bool|mixed|object
-     */
     public static function getByFieldName($field, $value) {
 
         $select = Dao_Users::select()
@@ -68,34 +60,26 @@ Class Model_User {
     }
 
 
-    /**
-     * Saves User to Database
-     */
-     public function save()
-     {
+    public function save()
+    {
 
-        $this->dt_create = Date::formatted_time('now');
+       $this->dt_create = Date::formatted_time('now');
 
-        $insert = Dao_Users::insert();
+       $insert = Dao_Users::insert();
 
-        foreach ($this as $fieldname => $value) {
-            if (property_exists($this, $fieldname)) $insert->set($fieldname, $value);
-        }
+       foreach ($this as $fieldname => $value) {
+           if (property_exists($this, $fieldname)) $insert->set($fieldname, $value);
+       }
 
-        $result = $insert->execute();
+       $result = $insert->execute();
 
-        return $this->get_($result);
-     }
+       return $this->get_($result);
+    }
 
-    /**
-     * Updates user data in database
-     *
-     * @return Model_User
-     */
-     public function update()
-     {
+    public function update()
+    {
 
-        $insert = Dao_Users::update();
+       $insert = Dao_Users::update();
 
         foreach ($this as $fieldname => $value) {
             if (property_exists($this, $fieldname)) $insert->set($fieldname, $value);
@@ -103,11 +87,10 @@ Class Model_User {
 
         $insert->clearcache($this->id);
         $insert->where('id', '=', $this->id);
-
-        $id = $insert->execute();
+        $insert->execute();
 
         return $this->get_($this->id);
-     }
+    }
 
 
     /**
@@ -116,17 +99,17 @@ Class Model_User {
      * @param $pass
      * @return bool
      */
-     public function checkPassword ($pass) {
+    public function checkPassword ($pass) {
 
-         $selection = Dao_Users::select(array('password'))
-                        ->where('id', '=', $this->id)
-                        ->limit(1)
-                        ->execute();
+        $selection = Dao_Users::select(array('password'))
+                      ->where('id', '=', $this->id)
+                      ->limit(1)
+                      ->execute();
 
-         $password = $selection['password'];
+        $password = $selection['password'];
 
-         return $password == $pass;
-     }
+        return $password == $pass;
+    }
 
 
     /**
@@ -135,17 +118,15 @@ Class Model_User {
      * @param $newpass
      * @return object
      */
-     public function changePassword ($newpass) {
+    public function changePassword ($newpass) {
 
-         $insert = Dao_Users::update()
-                    ->set('password', $newpass)
-                    ->where('id', '=', $this->id)
-                    ->clearcache($this->id)
-                    ->execute();
-
-         return $insert;
-
-     }
+        $insert = Dao_Users::update()
+                   ->set('password', $newpass)
+                   ->where('id', '=', $this->id)
+                   ->clearcache($this->id)
+                   ->execute();
+        return $insert;
+    }
 
 
     /**

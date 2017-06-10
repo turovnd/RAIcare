@@ -23,13 +23,15 @@ const bundlePath    = path.resolve(__dirname, "../bundles/");
 module.exports = {
 
     entry: {
-        "app"       : path.resolve(__dirname, "../app.js")
+        "raisoft"   : path.resolve(__dirname, "../raisoft.js"),
+        "admin"     : path.resolve(__dirname, "../admin.js"),
+        "clients"   : path.resolve(__dirname, "../clients.js")
     },
 
     output: {
         path : bundlePath,
         filename: libJS,
-        library: "raisoft"
+        library: "[name]"
     },
 
     watch: true,

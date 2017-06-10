@@ -112,7 +112,7 @@ module.exports = (function (notification) {
 
             if (!(settings && settings.message)) {
 
-                console.log('Can\'t create notification. Message is missed');
+                raisoft.core.log('Can\'t create notification. Message is missed', 'error', 'notification');
                 return;
 
             }
@@ -143,8 +143,12 @@ module.exports = (function (notification) {
                 confirmBtn.textContent = settings.confirmText || 'ОК';
                 cancelBtn.textContent = settings.cancelText || 'Отмена';
 
-                backdrop = document.body.appendChild(backdropBl);
-                backdrop.addEventListener('click', cancelHandler);
+                if (!document.getElementsByClassName('notification__backdrop')[0]) {
+
+                    backdrop = document.body.appendChild(backdropBl);
+                    backdrop.addEventListener('click', cancelHandler);
+
+                }
 
                 if (settings.type === 'prompt') {
 

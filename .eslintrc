@@ -65,7 +65,6 @@
         "require": true,
         "window": true,
         "console" : true,
-        "pit": true,
         "raisoft": true,
         "VERSION" : true,
         "Promise" : true,
