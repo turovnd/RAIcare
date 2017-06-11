@@ -107,7 +107,7 @@ Class Model_Organization {
     }
 
 
-    public static function getCreatdByUser($id)
+    public static function getCreatedByUser($id)
     {
         $select = Dao_Organizations::select()
             ->where('creator','=', $id)

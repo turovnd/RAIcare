@@ -10,12 +10,14 @@
 
 class Controller_Organizations_Ajax extends Ajax
 {
+    CONST MODULE_CLIENTS      = 6;
+    CONST CREATE_ORGANIZATION = 13;
     const WORKING_WITH_CLIENTS = 2;
 
     public function action_new()
     {
-
-        self::hasAccess(self::WORKING_WITH_CLIENTS);
+        self::hasAccess(self::MODULE_CLIENTS);
+        self::hasAccess(self::CREATE_ORGANIZATION);
 
         $name       = Arr::get($_POST,'name');
         $uri        = Arr::get($_POST,'uri');

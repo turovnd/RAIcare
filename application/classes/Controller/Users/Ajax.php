@@ -56,7 +56,12 @@ class Controller_Users_Ajax extends Ajax
         $user = $user->save();
 
         $client->user_id = $user->id;
+        $client->status = 3;
         $client->update();
+
+        /**
+         * TODO send login+password to user
+         */
 
         $response = new Model_Response_Users('USER_CREATE_SUCCESS', 'success');
         $this->response->body(@json_encode($response->get_response()));

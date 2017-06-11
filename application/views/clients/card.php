@@ -5,8 +5,8 @@
         <a role="button" class="btn btn--default btn--sm m-b-0 m-r-0 fl_r js-request-reject <? echo $client->status == 1 ? '' : 'hide'; ?>">отклонить</a>
         <a role="button" class="btn btn--brand btn--sm m-b-0 fl_r js-request-accept <? echo $client->status == 1 ? '' : 'hide'; ?>">принять</a>
         <? // Module Clients => permission: CREATE_USER_BASED_ON_FORM = 9
-           if ($client->status != 1 && $client->status != 0 && empty($client->user_id) && in_array(9, $user->permissions)) : ?>
-            <a onclick="clients.create.user();" role="button" class="btn btn--brand btn--sm m-b-0 fl_r">Создать пользователя</a>
+           if ($client->status == 2 && in_array(9, $user->permissions)) : ?>
+                <a onclick="clients.create.user();" role="button" class="btn btn--brand btn--sm m-b-0 fl_r">Создать пользователя</a>
         <? endif; ?>
     </h3>
 
@@ -21,11 +21,11 @@
                         <div class="col-xs-12 col-sm-9 col-md-10">
                             <p class="form-group__control-static">
                                 <span class="js-client-info"><?= $cl_user->name ?: $client->name; ?></span>
-                                <? if ($client->status != 1 && $client->status != 0 && empty($client->user_id)) : ?>
+                                <? if ($client->status == 2) : ?>
                                     <a role="button" class="m-l-5 js-edit-info"><i class="fa fa-pencil" aria-hidden="true"></i></a>
                                 <? endif; ?>
                             </p>
-                            <? if ($client->status != 1 && $client->status != 0 && empty($client->user_id)) : ?>
+                            <? if ($client->status == 2) : ?>
                                 <div class="form-group__control-group hide">
                                     <input id="clientName" name="name" type="text" class="form-group__control form-group__control-group-input" value="<?= $client->name; ?>" maxlength="256">
                                     <label class="cursor-pointer form-group__control-group-addon js-save-info"><i class="fa fa-check" aria-hidden="true"></i></label>
@@ -34,7 +34,7 @@
                         </div>
                     </fieldset>
 
-                    <? if ($client->status != 1 && $client->status != 0 && !empty($client->user_id)) : ?>
+                    <? if ($client->status == 3) : ?>
                         <fieldset class="m-b-0 p-t-20 p-b-20 js-field-name">
                             <label for="clientName" class="col-sm-3 col-md-2 form-group__label">Логин</label>
                             <div class="col-xs-12 col-sm-9 col-md-10">
@@ -50,11 +50,11 @@
                         <div class="col-xs-12 col-sm-9 col-md-10">
                             <p class="form-group__control-static">
                                 <span class="js-client-info"><?= $cl_user->email ?: $client->email; ?></span>
-                                <? if ($client->status != 1 && $client->status != 0 && empty($client->user_id)) : ?>
+                                <? if ($client->status == 2) : ?>
                                     <a role="button" class="m-l-5 js-edit-info"><i class="fa fa-pencil" aria-hidden="true"></i></a>
                                 <? endif; ?>
                             </p>
-                            <? if ($client->status != 1 && $client->status != 0 && empty($client->user_id)) : ?>
+                            <? if ($client->status == 2) : ?>
                                 <div class="form-group__control-group hide">
                                     <input id="clientEmail" name="email" type="email" class="form-group__control form-group__control-group-input" value="<?= $client->email; ?>" maxlength="64">
                                     <label class="cursor-pointer form-group__control-group-addon js-save-info"><i class="fa fa-check" aria-hidden="true"></i></label>
@@ -68,11 +68,11 @@
                         <div class="col-xs-12 col-sm-9 col-md-10">
                             <p class="form-group__control-static">
                                 <span class="js-client-info"><?= $client->organization; ?></span>
-                                <? if ($client->status != 1 && $client->status != 0) : ?>
+                                <? if ($client->status == 2) : ?>
                                     <a role="button" class="m-l-5 js-edit-info"><i class="fa fa-pencil" aria-hidden="true"></i></a>
                                 <? endif; ?>
                             </p>
-                            <? if ($client->status != 1 && $client->status != 0) : ?>
+                            <? if ($client->status == 2) : ?>
                                 <div class="form-group__control-group hide">
                                     <input id="clientOrganization" name="organization" type="text" class="form-group__control form-group__control-group-input" value="<?= $client->organization; ?>">
                                     <label class="cursor-pointer form-group__control-group-addon js-save-info"><i class="fa fa-check" aria-hidden="true"></i></label>
@@ -86,11 +86,11 @@
                         <div class="col-xs-12 col-sm-9 col-md-10">
                             <p class="form-group__control-static">
                                 <span class="js-client-info"><?= $cl_user->city ?: $client->city; ?></span>
-                                <? if ($client->status != 1 && $client->status != 0 && empty($client->user_id)) : ?>
+                                <? if ($client->status == 2) : ?>
                                     <a role="button" class="m-l-5 js-edit-info"><i class="fa fa-pencil" aria-hidden="true"></i></a>
                                 <? endif; ?>
                             </p>
-                            <? if ($client->status != 1 && $client->status != 0 && empty($client->user_id)) : ?>
+                            <? if ($client->status == 2) : ?>
                                 <div class="form-group__control-group hide">
                                     <input id="clientCity" name="city" type="text" class="form-group__control form-group__control-group-input" value="<?= $client->city; ?>">
                                     <label class="cursor-pointer form-group__control-group-addon js-save-info"><i class="fa fa-check" aria-hidden="true"></i></label>
@@ -104,11 +104,11 @@
                         <div class="col-xs-12 col-sm-9 col-md-10">
                             <p class="form-group__control-static">
                                 <span class="js-client-info"><?= $cl_user->phone ?: $client->phone; ?></span>
-                                <? if ($client->status != 1 && $client->status != 0 && empty($client->user_id)) : ?>
+                                <? if ($client->status == 2) : ?>
                                     <a role="button" class="m-l-5 js-edit-info"><i class="fa fa-pencil" aria-hidden="true"></i></a>
                                 <? endif; ?>
                             </p>
-                            <? if ($client->status != 1 && $client->status != 0 && empty($client->user_id)) : ?>
+                            <? if ($client->status == 2) : ?>
                                 <div class="form-group__control-group hide">
                                     <input id="clientPhone" name="phone" type="text" class="form-group__control form-group__control-group-input" value="<?= $client->phone; ?>" maxlength="20">
                                     <label class="cursor-pointer form-group__control-group-addon js-save-info"><i class="fa fa-check" aria-hidden="true"></i></label>
@@ -122,11 +122,11 @@
                         <div class="col-xs-12 col-sm-9 col-md-10">
                             <p class="form-group__control-static">
                                 <span class="js-client-info"><?= $client->comment; ?></span>
-                                <? if ($client->status != 1 && $client->status != 0) : ?>
+                                <? if ($client->status == 2) : ?>
                                     <a role="button" class="m-l-5 js-edit-info"><i class="fa fa-pencil" aria-hidden="true"></i></a>
                                 <? endif; ?>
                             </p>
-                            <? if ($client->status != 1 && $client->status != 0) : ?>
+                            <? if ($client->status == 2) : ?>
                                 <div class="form-group__control-group hide">
                                     <textarea name="comment" id="clientComment" rows="5" class="form-group__control form-group__control-group-input"><?= $client->comment; ?></textarea>
                                     <label class="cursor-pointer form-group__control-group-addon js-save-info"><i class="fa fa-check" aria-hidden="true"></i></label>
@@ -141,7 +141,7 @@
 
     </div>
 
-    <? if ($client->status != 1 && $client->status != 0) : ?>
+    <? if ($client->status == 3) : ?>
 
         <h3 class="section__heading">
             Организации
@@ -255,7 +255,7 @@
             clients.request.init();
         <? endif; ?>
 
-        <? if ($client->status != 1 && $client->status != 0) : ?>
+        <? if ($client->status == 2) : ?>
             clients.edit.init();
         <? endif; ?>
 

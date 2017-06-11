@@ -50,7 +50,16 @@ module.exports = (function (create) {
                         '</li>' +
                         '</ul>';
 
-                    document.getElementById('withoutAccessClients').insertBefore(client, document.getElementById('withoutAccessClients').childNodes[0]);
+                    if (document.getElementById('withoutAccessClients').childElementCount === 0) {
+
+                        document.getElementById('withoutAccessClients').appendChild(client);
+
+                    } else {
+
+                        document.getElementById('withoutAccessClients').insertBefore(client, document.getElementById('withoutAccessClients').childNodes[0]);
+
+                    }
+
                     document.getElementById('withoutAccessClientsCounter').textContent = parseInt(document.getElementById('withoutAccessClientsCounter').textContent) + 1;
 
                     form.reset();
@@ -157,7 +166,16 @@ module.exports = (function (create) {
                     var block = raisoft.draw.node('LI', '');
 
                     block.innerHTML = response.organization;
-                    document.getElementById('organizations').insertBefore(block, document.getElementById('organizations').childNodes[0]);
+
+                    if (document.getElementById('organizations').childElementCount === 0) {
+
+                        document.getElementById('organizations').appendChild(block);
+
+                    } else {
+
+                        document.getElementById('organizations').insertBefore(block, document.getElementById('organizations').childNodes[0]);
+
+                    }
 
                     form.reset();
                     raisoft.modal.hide(form);

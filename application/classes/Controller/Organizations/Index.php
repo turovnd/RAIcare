@@ -10,9 +10,10 @@
 
 class Controller_Organizations_Index extends Dispatch
 {
-    CONST WATCH_ALL_ORGS_PAGES = 3;
-    CONST WATCH_CREATED_ORGS_PAGES = 4;
-    CONST WATCH_CERTAIN_ORGS_PAGES = 5;
+    CONST CREATE_ORGANIZATION      = 13;
+    CONST WATCH_ALL_ORGS_PAGES     = 14;
+    CONST WATCH_CREATED_ORGS_PAGES = 15;
+    CONST WATCH_CERTAIN_ORGS_PAGES = 16;
 
     public $template = 'main';
 
@@ -33,7 +34,7 @@ class Controller_Organizations_Index extends Dispatch
     }
 
 
-    public function action_organizations()
+    public function action_all()
     {
         self::hasAccess(self::WATCH_ALL_ORGS_PAGES);
 
@@ -42,63 +43,73 @@ class Controller_Organizations_Index extends Dispatch
 
         $this->template->title = "Все организации";
         $this->template->section = View::factory('organizations/content')
-                ->set('organizations', $organizations);
+            ->set('title', $this->template->title)
+            ->set('organizations', $organizations);
     }
 
 
-    public function action_created_organizations()
+    public function action_created()
     {
         self::hasAccess(self::WATCH_CREATED_ORGS_PAGES);
 
-        $orgs = Model_Organization::getCreatdByUser($this->user->id);
+        $orgs = Model_Organization::getCreatedByUser($this->user->id);
         $organizations = $this->getOrganizations($orgs);
 
         $this->template->title = "Созданные организации";
         $this->template->section = View::factory('organizations/content')
+            ->set('title', $this->template->title)
             ->set('organizations', $organizations );
     }
 
-    public function action_my_organizations()
+
+    public function action_my()
     {
         self::hasAccess(self::WATCH_CERTAIN_ORGS_PAGES);
 
-        $userorgs = Model_UserOrganization::getOrganizations($this->user->id);
-        $orgs = array();
-        foreach ($userorgs as $userorg) {
-            $org = new Model_Organization($userorg['organization']);
-            $orgs[] = $org;
+        $organizationsID = Model_UserOrganization::getOrganizations($this->user->id);
+
+        $organizations = array();
+
+        if (!empty($organizationsID)) {
+            foreach ($organizationsID as $id) {
+                $organizations[] = new Model_Organization($id);
+            }
         }
 
-        $organizations = $this->getOrganizations($orgs);
+        $organizations = $this->getOrganizations($organizations);
 
         $this->template->title = "Мои организации";
         $this->template->section = View::factory('organizations/content')
+            ->set('title', $this->template->title)
             ->set('organizations', $organizations);
     }
+
 
     public function action_organization()
     {
         $id = $this->request->param('id');
         $organization = new Model_Organization($id);
 
-        if (empty($organization->id))
+        if (!$organization->id)
             throw new HTTP_Exception_404();
 
-        $user = Model_UserOrganization::getUser($organization->id);
+        $users = Model_UserOrganization::getUsers($organization->id);
 
-        if ($organization->creator != $this->user->id)
-            if ($user != $this->user->id)
-                self::hasAccess(self::WATCH_CERTAIN_ORGS_PAGES);
+        if (in_array($this->user->id, $users) || $organization->creator == $this->user->id || $this->user->role == 1) {
 
-        $this->template->title = $organization->name;
-        $this->template->section = View::factory('organizations/page')
-            ->set('organization', $organization);
+            $this->template->title = $organization->name;
+            $this->template->section = View::factory('organizations/page')
+                ->set('organization', $organization);
+
+        } else {
+            throw new HTTP_Exception_403();
+        }
     }
 
 
     /**
-     * @param $array - Array of organizations
-     * @return array - Array of Models Organizations
+     * @param $array - Array of Models Organizations
+     * @return array - Array of Models Organizations + Models Users in `creator` and `owner`
      */
     private function getOrganizations($array)
     {
