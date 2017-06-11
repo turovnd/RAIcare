@@ -10,12 +10,12 @@
 
 class Controller_Clients_Ajax extends Ajax
 {
-    CONST MODULE_ID = 2;
+    CONST WORKING_WITH_CLIENTS = 2;
 
     public function before()
     {
         parent::before();
-        self::hasAccess(self::MODULE_ID);
+        self::hasAccess(self::WORKING_WITH_CLIENTS);
     }
 
 
@@ -182,6 +182,50 @@ class Controller_Clients_Ajax extends Ajax
 
         $response = new Model_Response_Clients('CLIENT_UPDATE_SUCCESS', 'success');
         $this->response->body(@json_encode($response->get_response()));
+    }
+
+    public function action_adduser()
+    {
+        $id = Arr::get($_POST, 'client_id');
+
+        $client = new Model_Client($id);
+
+        if (!$client->id) {
+            $response = new Model_Response_Clients('CLIENT_DOES_NOT_EXISTED_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        $username = Methods_Translit::getUsernameByName($client->name);
+        $user = Model_User::getByFieldName('username', $username);
+        if (!empty($user->id)) {
+            $t_username = $user;
+            $counter = 0;
+            while (!empty($t_username->id)) {
+                $counter++;
+                $t_username = Model_User::getByFieldName('username', $user->username . $counter);
+            }
+            $username .= $counter;
+        }
+
+
+        $user = new Model_User();
+
+        $user->name         = $client->name;
+        $user->email        = $client->email;
+        $user->username     = $username;
+        $user->password     = $this->makeHash('md5', Methods_Translit::getUsernameByName($client->name) . $_SERVER['SALT']);;
+        $user->role         = 10;
+        $user->newsletter   = 1;
+        $user->is_confirmed = 0;
+        $user = $user->save();
+
+        $client->user_id = $user->id;
+        $client->update();
+
+        $response = new Model_Response_Clients('CLIENT_USER_CREATE_SUCCESS', 'success');
+        $this->response->body(@json_encode($response->get_response()));
+
     }
 
 }

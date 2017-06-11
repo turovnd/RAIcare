@@ -215,14 +215,15 @@ class Dispatch extends Controller_Template
 
     /**
      * Checking user access for module
-     * @param $module - module ID
+     * @param $permission - module ID
      * @throws HTTP_Exception_403
      */
-    public function hasAccess($module)
+    public function hasAccess($permission)
     {
-        if (!in_array($module, $this->user->permissions)) {
+        if (!in_array($permission, $this->user->permissions)) {
             throw new HTTP_Exception_403;
         }
     }
+
 
 }

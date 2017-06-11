@@ -69,13 +69,15 @@ module.exports = (function (roles) {
 
                 if ( parseInt(response.code) === 101) {
 
-                    var element = raisoft.draw.node('LI', 'p-b-5');
+                    var element = raisoft.draw.node('LI', 'p-b-10');
 
                     element.innerHTML =
+                        '<div class="fl_r">' +
+                        '<button role="button" class="fl_l m-l-5 js-edit-role" data-id="' + id + '" data-name="' + name+ '"><i class="fa fa-edit text-brand" aria-hidden="true"></i></button>' +
+                        '<button role="button" class="fl_l m-l-5 js-delete-role" data-id="' + id + '"><i class="fa fa-trash text-danger" aria-hidden="true"></i></button>'+
+                        '</div>'+
                         '<span class="role-id">id:'+ id + ' - name: </span>'+
-                        '<span class="role-name" data-id="' + id + '" >' + name + '</span>'+
-                        '<button role="button" class="js-edit-role" data-id="' + id + '" data-name="' + name+ '"><i class="fa fa-edit m-l-5 text-brand" aria-hidden="true"></i></button>' +
-                        '<button role="button" class="js-delete-role" data-id="' + id + '"><i class="fa fa-trash m-l-5 text-danger" aria-hidden="true"></i></button>';
+                        '<span class="role-name" data-id="' + id + '" >' + name + '</span>';
 
                     rolesWrapper.appendChild(element);
                     element.getElementsByClassName('js-edit-role')[0].addEventListener('click', openEditRoleModal_);

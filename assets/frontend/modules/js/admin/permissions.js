@@ -69,13 +69,15 @@ module.exports = (function (permissions) {
 
                 if ( parseInt(response.code) === 111) {
 
-                    var element = raisoft.draw.node('LI', 'p-b-5');
+                    var element = raisoft.draw.node('LI', 'p-b-10');
 
                     element.innerHTML =
+                        '<div class="fl_r">'+
+                        '<button role="button" class="fl_l m-l-5 js-edit-permission" data-id="' + id + '" data-name="' + name+ '"><i class="fa fa-edit text-brand" aria-hidden="true"></i></button>' +
+                        '<button role="button" class="fl_l m-l-5 js-delete-permission" data-id="' + id + '"><i class="fa fa-trash text-danger" aria-hidden="true"></i></button>'+
+                        '</div>'+
                         '<span class="permission-id">id:' + id + ' - name:</span>' +
-                        '<span class="permission-name" data-id="' + id + '" >' + name + '</span>'+
-                        '<button role="button" class="js-edit-permission" data-id="' + id + '" data-name="' + name+ '"><i class="fa fa-edit m-l-5 text-brand" aria-hidden="true"></i></button>' +
-                        '<button role="button" class="js-delete-permission" data-id="' + id + '"><i class="fa fa-trash m-l-5 text-danger" aria-hidden="true"></i></button>';
+                        '<span class="permission-name" data-id="' + id + '" >' + name + '</span>';
 
                     permissionsWrapper.appendChild(element);
                     element.getElementsByClassName('js-edit-permission')[0].addEventListener('click', openEditPermissionModal_);

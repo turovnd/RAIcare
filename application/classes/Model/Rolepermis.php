@@ -28,7 +28,7 @@ Class Model_Rolepermis {
 
     private function get_($role) {
 
-        $select = Dao_Rolepermis::select()
+        $select = Dao_RolesPermissions::select()
             ->where('role', '=', $role)
             ->limit(1)
             ->cached(Date::MINUTE * 5, $role)
@@ -42,7 +42,7 @@ Class Model_Rolepermis {
 
      public function save()
      {
-        $insert = Dao_Rolepermis::insert();
+        $insert = Dao_RolesPermissions::insert();
 
         foreach ($this as $fieldname => $value) {
             if (property_exists($this, $fieldname)) $insert->set($fieldname, $value);
@@ -57,7 +57,7 @@ Class Model_Rolepermis {
 
      public function update()
      {
-        $insert = Dao_Rolepermis::update();
+        $insert = Dao_RolesPermissions::update();
 
         foreach ($this as $fieldname => $value) {
             if (property_exists($this, $fieldname)) $insert->set($fieldname, $value);
@@ -72,7 +72,7 @@ Class Model_Rolepermis {
 
      public static function deletePermission($permission)
      {
-         Dao_Rolepermis::delete()
+         Dao_RolesPermissions::delete()
              ->where('permission', '=', $permission)
              ->clearcache()
              ->execute();
@@ -80,7 +80,7 @@ Class Model_Rolepermis {
 
      public static function deleteAll($role)
      {
-        Dao_Rolepermis::delete()
+        Dao_RolesPermissions::delete()
             ->where('role', '=', $role)
             ->clearcache($role)
             ->execute();
@@ -88,12 +88,12 @@ Class Model_Rolepermis {
 
      public static function getAll()
      {
-         return Dao_Rolepermis::select()->order_by('role', 'ASC')->execute();
+         return Dao_RolesPermissions::select()->order_by('role', 'ASC')->execute();
      }
 
      public static function getPermissionsByRole($role)
      {
-         $select = Dao_Rolepermis::select()
+         $select = Dao_RolesPermissions::select()
             ->where('role', '=', $role)
             ->order_by('role', 'ASC')
             ->execute();

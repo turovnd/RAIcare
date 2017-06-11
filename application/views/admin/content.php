@@ -11,18 +11,23 @@
                 <div class="col-xs-12 col-sm-6">
                     <div class="block">
                         <div class="block__heading">Роли</div>
-                        <div id="roles" class="block__body">
+                        <div class="block__body">
+                            <ul id="roles" >
+                                <? foreach ($roles as $role) : ?>
 
-                            <? foreach ($roles as $role) : ?>
+                                    <li class="p-b-10">
+                                        <div class="fl_r">
+                                            <button role="button" class="fl_l m-l-5 js-edit-role" data-id="<?= $role['id']; ?>" data-name="<?= $role['name']; ?>"><i class="fa fa-edit text-brand" aria-hidden="true"></i></button>
+                                            <button role="button" class="fl_l m-l-5 js-delete-role" data-id="<?= $role['id']; ?>"><i class="fa fa-trash text-danger" aria-hidden="true"></i></button>
+                                        </div>
 
-                                <div class="p-b-5">
-                                    <span class="role-id"><?= 'id:' . $role['id'] . ' - name:'; ?></span>
-                                    <span class="role-name" data-id="<?= $role['id']; ?>" ><?= $role['name']; ?></span>
-                                    <button role="button" class="js-edit-role" data-id="<?= $role['id']; ?>" data-name="<?= $role['name']; ?>"><i class="fa fa-edit m-l-5 text-brand" aria-hidden="true"></i></button>
-                                    <button role="button" class="js-delete-role" data-id="<?= $role['id']; ?>"><i class="fa fa-trash m-l-5 text-danger" aria-hidden="true"></i></button>
-                                </div>
+                                        <span class="role-id"><?= 'id:' . $role['id'] . ' - name:'; ?></span>
+                                        <span class="role-name" data-id="<?= $role['id']; ?>" ><?= $role['name']; ?></span>
 
-                            <? endforeach; ?>
+                                    </li>
+
+                                <? endforeach; ?>
+                            </ul>
 
                             <button id="js-add-role" role="button" class="btn btn--default m-b-0 m-t-10">добавить</button>
                         </div>
@@ -31,18 +36,21 @@
                 <div class="col-xs-12 col-sm-6">
                     <div class="block">
                         <div class="block__heading">Права достпа (модули)</div>
-                        <div id="permissions" class="block__body">
+                        <div  class="block__body">
+                            <ul id="permissions">
+                                <? foreach ($permissions as $permission) : ?>
 
-                            <? foreach ($permissions as $permission) : ?>
+                                    <li class="p-b-10">
+                                        <div class="fl_r">
+                                            <button role="button" class="fl_l m-l-5 js-edit-permission" data-id="<?= $permission['id']; ?>" data-name="<?= $permission['name']; ?>"><i class="fa fa-edit text-brand" aria-hidden="true"></i></button>
+                                            <button role="button" class="fl_l m-l-5 js-delete-permission" data-id="<?= $permission['id']; ?>"><i class="fa fa-trash text-danger" aria-hidden="true"></i></button>
+                                        </div>
+                                        <span class="permission-id"><?= 'id:' . $permission['id'] . ' - name:'; ?></span>
+                                        <span class="permission-name" data-id="<?= $permission['id']; ?>"><?= $permission['name']; ?></span>
+                                    </li>
 
-                                <div class="p-b-5">
-                                    <span class="permission-id"><?= 'id:' . $permission['id'] . ' - name:'; ?></span>
-                                    <span class="permission-name" data-id="<?= $permission['id']; ?>"><?= $permission['name']; ?></span>
-                                    <button role="button" class="js-edit-permission" data-id="<?= $permission['id']; ?>" data-name="<?= $permission['name']; ?>"><i class="fa fa-edit m-l-5 text-brand" aria-hidden="true"></i></button>
-                                    <button role="button" class="js-delete-permission" data-id="<?= $permission['id']; ?>"><i class="fa fa-trash m-l-5 text-danger" aria-hidden="true"></i></button>
-                                </div>
-
-                            <? endforeach; ?>
+                                <? endforeach; ?>
+                            </ul>
 
                             <button id="js-add-permission" role="button" class="btn btn--default">добавить</button>
                         </div>
@@ -56,8 +64,8 @@
                                 <? foreach ($rolepermis as $relation) : ?>
                                     <li class="p-b-5">
                                         <span class="role-permis-role" data-role="<?= $relation['roleId']; ?>"><?= $relation['roleName']; ?></span>
-                                        <button role="button" class="js-edit-role-permis" data-role="<?= $relation['roleId']; ?>" data-permissions='<?= json_encode($relation["json_permissions"]); ?>'><i class="fa fa-edit m-l-5 text-brand" aria-hidden="true"></i></button>
-                                        <button role="button" class="js-delete-role-permis" data-role="<?= $relation['roleId']; ?>"><i class="fa fa-trash m-l-5 text-danger" aria-hidden="true"></i></button>
+                                        <button role="button" class="m-l-5 js-edit-role-permis" data-role="<?= $relation['roleId']; ?>" data-permissions='<?= json_encode($relation["json_permissions"]); ?>'><i class="fa fa-edit text-brand" aria-hidden="true"></i></button>
+                                        <button role="button" class="m-l-5 js-delete-role-permis" data-role="<?= $relation['roleId']; ?>"><i class="fa fa-trash text-danger" aria-hidden="true"></i></button>
                                         <ul>
                                             <? foreach ($relation['permission'] as $permission) : ?>
                                                 <li data-permission="<?= $permission['id']; ?>"><?= $permission['name']; ?></li>

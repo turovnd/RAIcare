@@ -1,8 +1,8 @@
 <?php defined('SYSPATH') or die('No direct access to script');
 
-class Dao_Rolepermis extends Dao_MySQL_Base {
+class Dao_RolesPermissions extends Dao_MySQL_Base {
 
-    protected $cache_key = 'Dao_Rolepermis';
+    protected $cache_key = 'Dao_RolesPermissions';
     protected $table = 'Roles_Permissions';
 
 }

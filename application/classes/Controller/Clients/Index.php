@@ -10,7 +10,7 @@
 
 class Controller_Clients_Index extends Dispatch
 {
-    CONST MODULE_ID = 2;
+    CONST WORKING_WITH_CLIENTS = 2;
 
     public $template = 'main';
 
@@ -22,13 +22,12 @@ class Controller_Clients_Index extends Dispatch
             $this->redirect('login');
         }
 
-        self::hasAccess(self::MODULE_ID);
+        self::hasAccess(self::WORKING_WITH_CLIENTS);
 
         $data = array(
             'action'    => $this->request->action(),
         );
 
-        $this->template->header = View::factory('global_blocks/header');
         $this->template->aside = View::factory('global_blocks/aside', $data);
 
     }
@@ -56,10 +55,36 @@ class Controller_Clients_Index extends Dispatch
             throw new HTTP_Exception_404;
         }
 
+        $cl_user = new Model_User($client->user_id);
+
         $this->template->title = "Клиент " . $id;
         $this->template->section = View::factory('clients/card')
-                ->set('client', $client);
+                ->set('client', $client)
+                ->set('cl_user', $cl_user)
+                ->set('organizations', $this->get_organizations($cl_user->id));
 
+    }
+
+
+    /**
+     * @param $u_id - user ID for client
+     * @return array
+     */
+    private function get_organizations($u_id)
+    {
+        $organizations = array();
+
+        $organizationsIDs = Model_UserOrganization::getOrganizations($u_id);
+
+        if (!empty($organizationsIDs)) {
+            foreach ($organizationsIDs as $item) {
+                $organization = new Model_Organization($item['organization']);
+                $organization->creator = new Model_User($organization->creator);
+                $organizations[] = $organization;
+            }
+        }
+
+        return $organizations;
     }
 
 }

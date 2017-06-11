@@ -1,5 +1,6 @@
 .form,
 .block{
+    display: block;
     position: relative;
     background-color: #fff;
     border-radius: 3px;
@@ -10,6 +11,7 @@
 
 .form__heading,
 .block__heading{
+    display: block;
     font-weight: 700;
     line-height: 1.4;
     border-bottom: 1px solid #e7e8ec;
@@ -25,6 +27,7 @@
 
 .form__body,
 .block__body{
+    display: block;
     position: relative;
     border-radius: 3px;
     overflow: hidden;

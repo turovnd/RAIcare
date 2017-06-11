@@ -50,4 +50,16 @@ class Model_Response_Clients extends Model_Response_Abstract
         'message' => 'Информация успешно изменена'
     );
 
+    protected $_CLIENT_USER_DOES_NOT_EXISTED_ERROR = array (
+        'type' => 'client',
+        'code' => '28',
+        'message' => 'Для клиента ещё не создан пользователь, пожалуйста, создайте его'
+    );
+
+    protected $_CLIENT_USER_CREATE_SUCCESS = array (
+        'type' => 'client',
+        'code' => '29',
+        'message' => 'Пользователь успешно создан'
+    );
+
 }
