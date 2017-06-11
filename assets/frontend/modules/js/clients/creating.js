@@ -79,7 +79,7 @@ module.exports = (function (create) {
         formData.append('client_id', document.getElementById('clientId').value);
 
         var ajaxData = {
-            url: '/client/adduser',
+            url: '/user/add',
             type: 'POST',
             data: formData,
 

@@ -4,7 +4,8 @@
         Анкета клиента
         <a role="button" class="btn btn--default btn--sm m-b-0 m-r-0 fl_r js-request-reject <? echo $client->status == 1 ? '' : 'hide'; ?>">отклонить</a>
         <a role="button" class="btn btn--brand btn--sm m-b-0 fl_r js-request-accept <? echo $client->status == 1 ? '' : 'hide'; ?>">принять</a>
-        <? if ($client->status != 1 && $client->status != 0 && empty($client->user_id)) : ?>
+        <? // Module Clients => permission: CREATE_USER_BASED_ON_FORM = 9
+           if ($client->status != 1 && $client->status != 0 && empty($client->user_id) && in_array(9, $user->permissions)) : ?>
             <a onclick="clients.create.user();" role="button" class="btn btn--brand btn--sm m-b-0 fl_r">Создать пользователя</a>
         <? endif; ?>
     </h3>
@@ -144,7 +145,10 @@
 
         <h3 class="section__heading">
             Организации
-            <button data-toggle="modal" data-area="createOrganizationModal" class="btn btn--brand btn--sm m-b-0 m-r-0 fl_r js-create-organization">Создать организацию</button>
+            <? // Module Organization => permission: CREATE_ORGANIZATION = 13
+               if (in_array(13, $user->permissions)) : ?>
+                    <button data-toggle="modal" data-area="createOrganizationModal" class="btn btn--brand btn--sm m-b-0 m-r-0 fl_r js-create-organization">Создать организацию</button>
+            <? endif; ?>
             <small>У клиента есть хотя бы одна организация. Клиент может самостоятельно пригласить/исключить сотрдников для просмотра отчетов и статистики.</small>
         </h3>
 
@@ -200,8 +204,10 @@
     <? endif; ?>
 
 </div>
+<?  // Module Organization => permission: CREATE_ORGANIZATION = 13
+    if (in_array(13, $user->permissions)) : ?>
 
-<form class="modal" id="createOrganizationModal" tabindex="-1">
+        <form class="modal" id="createOrganizationModal" tabindex="-1">
     <div class="modal__content">
         <div class="modal__header">
             <button type="button" class="modal__title-close" data-close="modal">
@@ -239,6 +245,8 @@
         </div>
     </div>
 </form>
+
+<?  endif;  ?>
 
 <script type="text/javascript" src="<?=$assets; ?>frontend/bundles/clients.min.js?v=<?= filemtime("assets/frontend/bundles/clients.min.js") ?>"></script>
 <script type="text/javascript">

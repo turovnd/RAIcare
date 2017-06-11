@@ -9,33 +9,48 @@
 
         <div class="tabs__header">
 
-            <a data-toggle="tabs" data-block="newClients" data-search="newClientsSearch" class="tabs__btn tabs__btn--active">
-                Новые
-                <span id="newClientsCounter" class="tabs__count"><?= count($clients['new']); ?></span>
-            </a>
+            <?  // Module Clients => permission: CLIENTS_REQUESTS = 8
+                if (in_array(8, $user->permissions)) : ?>
 
-            <a data-toggle="tabs" data-block="withoutAccessClients" data-search="withoutAccessClientsSearch" class="tabs__btn ">
+                <a data-toggle="tabs" data-block="newClients" data-search="newClientsSearch" class="tabs__btn tabs__btn--active">
+                    Новые
+                    <span id="newClientsCounter" class="tabs__count"><?= count($clients['new']); ?></span>
+                </a>
+
+            <? endif; ?>
+
+            <a data-toggle="tabs" data-block="withoutAccessClients" data-search="withoutAccessClientsSearch" class="tabs__btn <?= in_array(8, $user->permissions) ? '' : 'tabs__btn--active';?>">
                 Без доступа
                 <span id="withoutAccessClientsCounter" class="tabs__count"><?= count($clients['withoutAccess']); ?></span>
             </a>
 
-            <a data-toggle="tabs" data-block="hasAccessClients" data-search="hasAccessClientsSearch" class="tabs__btn ">
+            <a data-toggle="tabs" data-block="hasAccessClients" data-search="hasAccessClientsSearch" class="tabs__btn">
                 В системе
                 <span id="hasAccessClientsCounter" class="tabs__count"><?= count($clients['hasAccess']); ?></span>
             </a>
 
-            <button data-toggle="modal" data-area="addClientModal" class="tabs__btn btn btn--brand fl_r">Добавить</button>
+            <?  // Module Clients => permission: ADD_NEW_CLIENT = 7
+                if (in_array(7, $user->permissions)) : ?>
+
+                <button data-toggle="modal" data-area="addClientModal" class="tabs__btn btn btn--brand fl_r">Добавить</button>
+
+            <? endif; ?>
 
         </div>
 
         <div class="tabs__search">
 
-            <div id="newClientsSearch" class="tabs__search-block tabs__search-block--active">
-                <input id="newClientsSearchInput" type="text" class="tabs__search-input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Начните вводить имя нового клиента">
-                <label for="newClientsSearchInput" class="fa fa-search tabs__search-label" aria-hidden="true"></label>
-            </div>
+            <?  // Module Clients => permission: CLIENTS_REQUESTS = 8
+                if (in_array(8, $user->permissions)) : ?>
 
-            <div id="withoutAccessClientsSearch" class="tabs__search-block">
+                <div id="newClientsSearch" class="tabs__search-block tabs__search-block--active">
+                    <input id="newClientsSearchInput" type="text" class="tabs__search-input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Начните вводить имя нового клиента">
+                    <label for="newClientsSearchInput" class="fa fa-search tabs__search-label" aria-hidden="true"></label>
+                </div>
+
+            <? endif; ?>
+
+            <div id="withoutAccessClientsSearch" class="tabs__search-block <?= in_array(8, $user->permissions) ? '' : 'tabs__search-block--active';?>">
                 <input id="withoutAccessClientsSearchInput" type="text" class="tabs__search-input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Начните вводить имя клиента">
                 <label for="withoutAccessClientsSearchInput" class="fa fa-search tabs__search-label" aria-hidden="true"></label>
             </div>
@@ -49,7 +64,10 @@
 
         <div class="tabs__content clear_fix">
 
-            <div id="newClients" class="tabs__block tabs__block--active">
+            <?  // Module Clients => permission: CLIENTS_REQUESTS = 8
+                if (in_array(8, $user->permissions)) : ?>
+
+                <div id="newClients" class="tabs__block tabs__block--active">
 
                 <? foreach ($clients['new'] as $client) : ?>
 
@@ -84,7 +102,9 @@
 
             </div>
 
-            <div id="withoutAccessClients" class="tabs__block">
+            <? endif; ?>
+
+            <div id="withoutAccessClients" class="tabs__block <?= in_array(8, $user->permissions) ? '' : 'tabs__block--active';?>">
 
                 <? foreach ($clients['withoutAccess'] as $client) : ?>
 
@@ -160,65 +180,70 @@
 
 </div>
 
-<form class="modal" id="addClientModal" tabindex="-1">
-    <div class="modal__content">
-        <div class="modal__header">
-            <button type="button" class="modal__title-close" data-close="modal">
-                <i class="fa fa-close" aria-hidden="true"></i>
-            </button>
-            <h4 class="modal__title">Новый клиент</h4>
+<?  // Module Clients => permission: ADD_NEW_CLIENT = 7
+    if (in_array(7, $user->permissions)) : ?>
+
+    <form class="modal" id="addClientModal" tabindex="-1">
+        <div class="modal__content">
+            <div class="modal__header">
+                <button type="button" class="modal__title-close" data-close="modal">
+                    <i class="fa fa-close" aria-hidden="true"></i>
+                </button>
+                <h4 class="modal__title">Новый клиент</h4>
+            </div>
+            <div class="modal__body">
+
+                <fieldset>
+                    <div class="form-group">
+                        <label for="addClientName" class="form-group__label">Имя <span class="text-danger">*</span></label>
+                        <input type="text" id="addClientName" name="name" class="form-group__control" maxlength="256">
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <div class="form-group">
+                        <label for="addClientEmail" class="form-group__label">Адрес электронной почты <span class="text-danger">*</span></label>
+                        <input type="email" id="addClientEmail" name="email" class="form-group__control" maxlength="64">
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <div class="form-group">
+                        <label for="addClientOrganization" class="form-group__label">Организация / компания</label>
+                        <input type="text" id="addClientOrganization" name="organization" class="form-group__control">
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <div class="form-group">
+                        <label for="addClientCity" class="form-group__label">Город</label>
+                        <input type="text" id="addClientCity" name="city" class="form-group__control">
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <div class="form-group">
+                        <label for="addClientPhone" class="form-group__label">Телефон</label>
+                        <input type="text" id="addClientPhone" name="phone" class="form-group__control" maxlength="20">
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <div class="form-group">
+                        <label for="addClientComment" class="form-group__label">Комментарий</label>
+                        <textarea name="comment" id="addClientComment" rows="5" class="form-group__control"></textarea>
+                    </div>
+                </fieldset>
+
+            </div>
+            <div class="modal__footer">
+                <button type="button" class="btn btn--default" data-close="modal">Отмена</button>
+                <button onclick="clients.create.client()" type="button" class="btn btn--brand">Создать</button>
+            </div>
         </div>
-        <div class="modal__body">
-            
-            <fieldset>
-                <div class="form-group">
-                    <label for="addClientName" class="form-group__label">Имя <span class="text-danger">*</span></label>
-                    <input type="text" id="addClientName" name="name" class="form-group__control" maxlength="256">
-                </div>
-            </fieldset>
-            
-            <fieldset>
-                <div class="form-group">
-                    <label for="addClientEmail" class="form-group__label">Адрес электронной почты <span class="text-danger">*</span></label>
-                    <input type="email" id="addClientEmail" name="email" class="form-group__control" maxlength="64">
-                </div>
-            </fieldset>
-            
-            <fieldset>
-                <div class="form-group">
-                    <label for="addClientOrganization" class="form-group__label">Организация / компания</label>
-                    <input type="text" id="addClientOrganization" name="organization" class="form-group__control">
-                </div>
-            </fieldset>
-            
-            <fieldset>
-                <div class="form-group">
-                    <label for="addClientCity" class="form-group__label">Город</label>
-                    <input type="text" id="addClientCity" name="city" class="form-group__control">
-                </div>
-            </fieldset>
-            
-            <fieldset>
-                <div class="form-group">
-                    <label for="addClientPhone" class="form-group__label">Телефон</label>
-                    <input type="text" id="addClientPhone" name="phone" class="form-group__control" maxlength="20">
-                </div>
-            </fieldset>
-            
-            <fieldset>
-                <div class="form-group">
-                    <label for="addClientComment" class="form-group__label">Комментарий</label>
-                    <textarea name="comment" id="addClientComment" rows="5" class="form-group__control"></textarea>
-                </div>
-            </fieldset>
-                
-        </div>
-        <div class="modal__footer">
-            <button type="button" class="btn btn--default" data-close="modal">Отмена</button>
-            <button onclick="clients.create.client()" type="button" class="btn btn--brand">Создать</button>
-        </div>
-    </div>
-</form>
+    </form>
+
+<? endif; ?>
 
 
 <script type="text/javascript" src="<?=$assets; ?>frontend/bundles/clients.min.js?v=<?= filemtime("assets/frontend/bundles/clients.min.js") ?>"></script>
