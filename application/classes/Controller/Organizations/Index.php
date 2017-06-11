@@ -62,7 +62,13 @@ class Controller_Organizations_Index extends Dispatch
     {
         self::hasAccess(self::WATCH_CERTAIN_ORGS_PAGES);
 
-        $orgs = Model_UserOrganization::getOrganizations($this->user->id);
+        $userorgs = Model_UserOrganization::getOrganizations($this->user->id);
+        $orgs = array();
+        foreach ($userorgs as $userorg) {
+            $org = new Model_Organization($userorg['organization']);
+            $orgs[] = $org;
+        }
+
         $organizations = $this->getOrganizations($orgs);
 
         $this->template->title = "Мои организации";
@@ -80,12 +86,9 @@ class Controller_Organizations_Index extends Dispatch
 
         $user = Model_UserOrganization::getUser($organization->id);
 
-        if ($organization->creator == $this->user->id)
-            self::hasAccess(self::WATCH_CREATED_ORGS_PAGES);
-
-        if ($user == $this->user->id)
-            self::hasAccess(self::WATCH_CERTAIN_ORGS_PAGES);
-
+        if ($organization->creator != $this->user->id)
+            if ($user != $this->user->id)
+                self::hasAccess(self::WATCH_CERTAIN_ORGS_PAGES);
 
         $this->template->title = $organization->name;
         $this->template->section = View::factory('organizations/page')
@@ -105,6 +108,7 @@ class Controller_Organizations_Index extends Dispatch
 
         foreach ($array as $organization) {
             $organization->creator = new Model_User($organization->creator);
+            $organization->owner = new Model_User($organization->owner);
             $organizations[] = $organization;
         }
 

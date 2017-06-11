@@ -2,6 +2,7 @@
     display: table;
     list-style: none;
     padding: 0 0 20px;
+    margin-bottom: 30px;
     position: relative;
     width: 100%;
     z-index: 1;

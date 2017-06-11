@@ -18,16 +18,16 @@
     <div class="bg-gray-dark p-15 m-b-30">
         <div class="display-flex">
             <div class="col-xs-4 text-center b-r-light">
-                <h3 class="h3 m-0">2</h3>
-                <small class="m-0 ">Сотрудников</small>
+                <h3 class="h3 m-0">9,8</h3>
+                <small class="m-0 ">Рейтинг</small>
             </div>
             <div class="col-xs-4 text-center b-r-light">
-                <h3 class="h3 m-0">12</h3>
-                <small class="m-0 ">Пансионатов</small>
+                <h3 class="h3 m-0">40</h3>
+                <small class="m-0 ">Анкет</small>
             </div>
             <div class="col-xs-4 text-center">
-                <h3 class="h3 m-0">50</h3>
-                <small class="m-0 ">Клиентов</small>
+                <h3 class="h3 m-0">2</h3>
+                <small class="m-0 ">Пансината</small>
             </div>
         </div>
     </div>
