@@ -8,17 +8,58 @@
         </a>
     </li>
 
-    <? // Module Admin => permission: 1
+    <? // Module Admin => permission: ADMIN_PANEL = 1
         if (in_array(1, $user->permissions)) : ?>
 
-        <li class="aside__item <? echo $action == "admin" ? 'aside__item--active' : ''; ?>">
-            <a href="<?=URL::site('admin'); ?>" class="aside__link">
+        <li class="aside__item <? echo $action == 'rules' || $action == 'orgs' || $action == 'pensions' ? 'aside__item--active' : ''; ?>">
+
+            <a role="button" class="aside__link" data-toggle="collapse" data-area="moduleAdmin" data-opened="false">
                 <i class="fa fa-cubes aside__icon" aria-hidden="true"></i>
                 <span class="aside__text">Панель админа</span>
+                <i class="fa fa-angle-down aside__icon--right" aria-hidden="true"></i>
             </a>
+
+            <ul id="moduleAdmin" class="aside__collapse collapse list-style--none">
+
+                <? // Module Admin => permission: ROLES_AND_PERMISSIONS = 2
+                    if (in_array(2, $user->permissions)) : ?>
+
+                    <li class="aside__collapse-item">
+                        <a href="<?=URL::site('admin/rules'); ?>"  class="aside__collapse-link <?= $action == 'members' ? 'aside__collapse-link--active' : ''; ?>">
+                            Roles&Permissions
+                        </a>
+                    </li>
+
+                <? endif; ?>
+
+                <? // Module Admin => permission: CHANGE_ORGANIZATION_OWNER = 3
+                    if (in_array(3, $user->permissions)) : ?>
+
+                    <li class="aside__collapse-item">
+                        <a href="<?=URL::site('admin/orgs'); ?>"  class="aside__collapse-link <?= $action == 'members' ? 'aside__collapse-link--active' : ''; ?>">
+                            Организации
+                        </a>
+                    </li>
+
+                <? endif; ?>
+
+                <? // Module Admin => permission: CHANGE_PENSION_OWNER = 4
+                    if (in_array(4, $user->permissions)) : ?>
+
+                    <li class="aside__collapse-item">
+                        <a href="<?=URL::site('admin/pensions'); ?>" class="aside__collapse-link <?= $action == 'reports' ? 'aside__collapse-link--active' : ''; ?>">
+                            Пансионаты
+                        </a>
+                    </li>
+
+                <? endif; ?>
+
+            </ul>
+
         </li>
 
     <? endif; ?>
+
 
     <?  // Module Clients => permission: 2
         if (in_array(2, $user->permissions)) : ?>

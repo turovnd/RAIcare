@@ -10,12 +10,15 @@
 
 class Controller_Admin_Ajax extends Ajax
 {
-    CONST ADMIN = 1;
+    CONST ADMIN_PANEL               = 1;
+    CONST ROLES_AND_PERMISSIONS     = 2;
+    CONST CHANGE_ORGANIZATION_OWNER = 3;
+    CONST CHANGE_PENSION_OWNER      = 4;
 
     function before()
     {
         parent::before();
-        self::hasAccess(self::ADMIN);
+        self::hasAccess(self::ADMIN_PANEL);
     }
 
     /**
@@ -23,6 +26,7 @@ class Controller_Admin_Ajax extends Ajax
      */
     public function action_role_add()
     {
+        self::hasAccess(self::ROLES_AND_PERMISSIONS);
         $id = Arr::get($_POST, 'id');
         $name = Arr::get($_POST, 'name');
 
@@ -60,6 +64,7 @@ class Controller_Admin_Ajax extends Ajax
      */
     public function action_role_update()
     {
+        self::hasAccess(self::ROLES_AND_PERMISSIONS);
         $id     = Arr::get($_POST, 'id');
         $name   = Arr::get($_POST, 'name');
 
@@ -91,6 +96,7 @@ class Controller_Admin_Ajax extends Ajax
      */
     public function action_role_delete()
     {
+        self::hasAccess(self::ROLES_AND_PERMISSIONS);
         $id = Arr::get($_POST, 'id');
 
         if (empty($id)) {
@@ -113,6 +119,7 @@ class Controller_Admin_Ajax extends Ajax
      */
     public function action_permission_add()
     {
+        self::hasAccess(self::ROLES_AND_PERMISSIONS);
         $id = Arr::get($_POST, 'id');
         $name = Arr::get($_POST, 'name');
 
@@ -151,6 +158,7 @@ class Controller_Admin_Ajax extends Ajax
      */
     public function action_permission_update()
     {
+        self::hasAccess(self::ROLES_AND_PERMISSIONS);
         $id     = Arr::get($_POST, 'id');
         $name   = Arr::get($_POST, 'name');
 
@@ -182,6 +190,7 @@ class Controller_Admin_Ajax extends Ajax
      */
     public function action_permission_delete()
     {
+        self::hasAccess(self::ROLES_AND_PERMISSIONS);
         $id = Arr::get($_POST, 'id');
 
         if (empty($id)) {
@@ -200,10 +209,11 @@ class Controller_Admin_Ajax extends Ajax
 
 
     /**
-     * ROLEPERMIS - creating new role
+     * ROLEPERMIS - creating new relation between role and permission
      */
     public function action_rolepermis_add()
     {
+        self::hasAccess(self::ROLES_AND_PERMISSIONS);
         $role = Arr::get($_POST, 'role');
         $permissions = json_decode(Arr::get($_POST, 'permissions'));
 
@@ -241,10 +251,11 @@ class Controller_Admin_Ajax extends Ajax
     }
 
     /**
-     * ROLEPERMIS - updating role
+     * ROLEPERMIS - updating relation between role and permission
      */
     public function action_rolepermis_update()
     {
+        self::hasAccess(self::ROLES_AND_PERMISSIONS);
         $role = Arr::get($_POST, 'role');
         $permissions = json_decode(Arr::get($_POST, 'permissions'));
 
@@ -277,10 +288,11 @@ class Controller_Admin_Ajax extends Ajax
     }
 
     /**
-     * ROLEPERMIS - deleting role
+     * ROLEPERMIS - deleting relation between role and permission
      */
     public function action_rolepermis_delete()
     {
+        self::hasAccess(self::ROLES_AND_PERMISSIONS);
         $role = Arr::get($_POST, 'role');
 
         if (empty($role)) {

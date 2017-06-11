@@ -10,7 +10,10 @@
 
 class Controller_Admin_Index extends Dispatch
 {
-    CONST ADMIN = 1;
+    CONST ADMIN_PANEL               = 1;
+    CONST ROLES_AND_PERMISSIONS     = 2;
+    CONST CHANGE_ORGANIZATION_OWNER = 3;
+    CONST CHANGE_PENSION_OWNER      = 4;
 
     public $template = 'main';
 
@@ -22,7 +25,7 @@ class Controller_Admin_Index extends Dispatch
             $this->redirect('login');
         }
 
-        self::hasAccess(self::ADMIN);
+        self::hasAccess(self::ADMIN_PANEL);
 
         $data = array(
             'action'    => $this->request->action(),
@@ -33,8 +36,10 @@ class Controller_Admin_Index extends Dispatch
     }
 
 
-    public function action_admin()
+    public function action_rules()
     {
+        self::hasAccess(self::ROLES_AND_PERMISSIONS);
+
         $roles          = Model_Role::getAll();
         $permissions    = Model_Permission::getAll();
         $rolepermis     = Model_Rolepermis::getAll() ?: [];
@@ -75,8 +80,24 @@ class Controller_Admin_Index extends Dispatch
             'rolepermis'    => $rolepermisArr
         );
 
-        $this->template->title = "Панель администратора";
-        $this->template->section = View::factory('admin/content', $data);
+        $this->template->title = "Роли и права доступа";
+        $this->template->section = View::factory('admin/rules', $data);
+    }
+
+    public function action_orgs()
+    {
+        self::hasAccess(self::CHANGE_ORGANIZATION_OWNER);
+
+        $this->template->title = "Сменить основателя организации";
+        $this->template->section = View::factory('admin/organizations');
+    }
+
+    public function action_pensions()
+    {
+        self::hasAccess(self::CHANGE_PENSION_OWNER);
+
+        $this->template->title = "Сменить основателя пансионата";
+        $this->template->section = View::factory('admin/pension');
     }
 
 }

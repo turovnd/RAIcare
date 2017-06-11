@@ -29,7 +29,7 @@
                                 <? endforeach; ?>
                             </ul>
 
-                            <button id="js-add-role" role="button" class="btn btn--default m-b-0 m-t-10">добавить</button>
+                            <button id="js-add-role" role="button" class="btn btn--default m-0 fl_r">добавить</button>
                         </div>
                     </div>
                 </div>
@@ -52,7 +52,7 @@
                                 <? endforeach; ?>
                             </ul>
 
-                            <button id="js-add-permission" role="button" class="btn btn--default">добавить</button>
+                            <button id="js-add-permission" role="button" class="btn btn--default fl_r m-0">добавить</button>
                         </div>
                     </div>
                 </div>
@@ -60,9 +60,9 @@
                     <div class="block">
                         <div class="block__heading">Связь роли и прав достпа</div>
                         <div class="block__body">
-                            <ol id="rolePermis">
+                            <ol id="rolePermis" class="col-xs-12">
                                 <? foreach ($rolepermis as $relation) : ?>
-                                    <li class="p-b-5">
+                                    <li class="col-xs-12 col-sm-4 m-b-10">
                                         <span class="role-permis-role" data-role="<?= $relation['roleId']; ?>"><?= $relation['roleName']; ?></span>
                                         <button role="button" class="m-l-5 js-edit-role-permis" data-role="<?= $relation['roleId']; ?>" data-permissions='<?= json_encode($relation["json_permissions"]); ?>'><i class="fa fa-edit text-brand" aria-hidden="true"></i></button>
                                         <button role="button" class="m-l-5 js-delete-role-permis" data-role="<?= $relation['roleId']; ?>"><i class="fa fa-trash text-danger" aria-hidden="true"></i></button>
@@ -74,7 +74,7 @@
                                     </li>
                                 <? endforeach; ?>
                             </ol>
-                            <button id="js-add-role-permis" role="button" class="btn btn--default">добавить</button>
+                            <button id="js-add-role-permis" role="button" class="btn btn--default fl_r m-0">добавить</button>
                         </div>
                     </div>
                 </div>

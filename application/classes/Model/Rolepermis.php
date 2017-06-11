@@ -88,7 +88,10 @@ Class Model_Rolepermis {
 
      public static function getAll()
      {
-         return Dao_RolesPermissions::select()->order_by('role', 'ASC')->execute();
+         return Dao_RolesPermissions::select()
+             ->order_by('role', 'ASC')
+             ->order_by('permission', 'ASC')
+             ->execute();
      }
 
      public static function getPermissionsByRole($role)
@@ -96,6 +99,7 @@ Class Model_Rolepermis {
          $select = Dao_RolesPermissions::select()
             ->where('role', '=', $role)
             ->order_by('role', 'ASC')
+            ->order_by('permission', 'ASC')
             ->execute();
 
          if (empty($select))

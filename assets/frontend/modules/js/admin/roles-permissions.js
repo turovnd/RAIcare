@@ -76,7 +76,7 @@ module.exports = (function (rolePermis) {
 
                 if ( parseInt(response.code) === 123) {
 
-                    var element = raisoft.draw.node('LI', 'p-b-5');
+                    var element = raisoft.draw.node('LI', 'col-xs-12 col-sm-4 m-b-10');
 
                     element.innerHTML =
                         '<span class="role-permis-role" data-role="' + role + '">' + response.roleName +'</span>' +

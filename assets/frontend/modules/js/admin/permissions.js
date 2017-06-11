@@ -76,7 +76,7 @@ module.exports = (function (permissions) {
                         '<button role="button" class="fl_l m-l-5 js-edit-permission" data-id="' + id + '" data-name="' + name+ '"><i class="fa fa-edit text-brand" aria-hidden="true"></i></button>' +
                         '<button role="button" class="fl_l m-l-5 js-delete-permission" data-id="' + id + '"><i class="fa fa-trash text-danger" aria-hidden="true"></i></button>'+
                         '</div>'+
-                        '<span class="permission-id">id:' + id + ' - name:</span>' +
+                        '<span class="permission-id">id:' + id + ' - name: </span>' +
                         '<span class="permission-name" data-id="' + id + '" >' + name + '</span>';
 
                     permissionsWrapper.appendChild(element);
