@@ -10,7 +10,7 @@
 
 class Controller_Admin_Index extends Dispatch
 {
-    CONST ADMIN_PANEL               = 1;
+    CONST MODULE_ADMIN              = 1;
     CONST ROLES_AND_PERMISSIONS     = 2;
     CONST CHANGE_ORGANIZATION_OWNER = 3;
     CONST CHANGE_PENSION_OWNER      = 4;
@@ -27,7 +27,7 @@ class Controller_Admin_Index extends Dispatch
             $this->redirect('login');
         }
 
-        self::hasAccess(self::ADMIN_PANEL);
+        self::hasAccess(self::MODULE_ADMIN);
 
         $data = array(
             'action'    => $this->request->action(),
@@ -102,10 +102,9 @@ class Controller_Admin_Index extends Dispatch
         $this->template->section = View::factory('admin/pension');
     }
 
-    public function action_users()
+    public function action_newuser()
     {
         self::hasAccess(self::CREATE_USERS);
-        self::hasAccess(self::CHANGE_PENSION_OWNER);
 
         $this->template->title = "Содание пользователей";
         $this->template->section = View::factory('admin/users');

@@ -10,11 +10,9 @@
 
 class Controller_Clients_Index extends Dispatch
 {
-    CONST WORKING_WITH_CLIENTS = 2;
-    CONST ADMIN_PANEL               = 1;
-    CONST ROLES_AND_PERMISSIONS     = 2;
-    CONST CHANGE_ORGANIZATION_OWNER = 3;
-    CONST CHANGE_PENSION_OWNER      = 4;
+    CONST MODULE_CLIENTS   = 6;
+    CONST ADD_NEW_CLIENT   = 7;
+    CONST CLIENTS_REQUESTS = 8;
 
     public $template = 'main';
 
@@ -26,7 +24,7 @@ class Controller_Clients_Index extends Dispatch
             $this->redirect('login');
         }
 
-        self::hasAccess(self::WORKING_WITH_CLIENTS);
+        self::hasAccess(self::MODULE_CLIENTS);
 
         $data = array(
             'action'    => $this->request->action(),
@@ -57,6 +55,10 @@ class Controller_Clients_Index extends Dispatch
 
         if (!$client->id) {
             throw new HTTP_Exception_404;
+        }
+
+        if ($client->status == 1) {
+            self::hasAccess(self::CLIENTS_REQUESTS);
         }
 
         $cl_user = new Model_User($client->user_id);
