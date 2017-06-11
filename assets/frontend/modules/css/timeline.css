@@ -20,7 +20,7 @@
 .time-line__end{
     float: none;
     clear: both;
-    margin-bottom: 20px;
+    margin-bottom: 45px;
 }
 
 .time-line .popover.left > .arrow:after{
@@ -159,8 +159,7 @@
 }
 
 
-@media (min-width:992px) {
-
+@media (min-width:768px) {
     .time-line:before {
         left: 50%;
         margin-left: 18px;
@@ -184,6 +183,10 @@
 
     .time-line__separator:before {
         margin-left: 36px;
+    }
+
+    .time-line__end{
+        margin-bottom: 20px;
     }
 
     .time-line__badge {

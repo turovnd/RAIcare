@@ -5,6 +5,12 @@
         <div class="parallax" data-toggle="parallax">
             <img src="<?=URL::site('uploads/organizations/cover/'. $organization->cover); ?>" alt="Organization cover" class="parallax__img">
         </div>
+        <div class="section__cover-update-wrapper">
+            <a id="" role="button" class="section__cover-update-btn" data-pk="1">
+                <i class="fa fa-camera section__cover-update-icon" aria-hidden="true"></i>
+                <span class="section__cover-update-text">Обновить фото обложки</span>
+            </a>
+        </div>
         <div class="section__cover-text container"><?= $organization->name; ?></div>
         <div class="section__cover-filter"></div>
     </div>
@@ -27,7 +33,7 @@
     </div>
 
 
-    <div class="col-xs-12 col-lg-9">
+    <div class="col-xs-12 col-md-9">
 
         <ul class="time-line">
 
@@ -79,7 +85,7 @@
 
     </div>
 
-    <div class="col-xs-12 col-lg-3">
+    <div class="col-xs-12 col-md-3">
 
     </div>
 
