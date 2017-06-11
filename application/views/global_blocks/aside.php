@@ -11,7 +11,7 @@
     <? // Module Admin => permission: ADMIN_PANEL = 1
         if (in_array(1, $user->permissions)) : ?>
 
-        <li class="aside__item <? echo $action == 'rules' || $action == 'orgs' || $action == 'pensions' ? 'aside__item--active' : ''; ?>">
+        <li class="aside__item <? echo $action == 'rules' || $action == 'orgs' || $action == 'pensions' || $action == 'users'? 'aside__item--active' : ''; ?>">
 
             <a role="button" class="aside__link" data-toggle="collapse" data-area="moduleAdmin" data-opened="false">
                 <i class="fa fa-cubes aside__icon" aria-hidden="true"></i>
@@ -49,6 +49,17 @@
                     <li class="aside__collapse-item">
                         <a href="<?=URL::site('admin/pensions'); ?>" class="aside__collapse-link <?= $action == 'reports' ? 'aside__collapse-link--active' : ''; ?>">
                             Пансионаты
+                        </a>
+                    </li>
+
+                <? endif; ?>
+
+                <? // Module Admin => permission: CREATE_USERS = 5
+                if (in_array(5, $user->permissions)) : ?>
+
+                    <li class="aside__collapse-item">
+                        <a href="<?=URL::site('admin/users'); ?>" class="aside__collapse-link <?= $action == 'reports' ? 'aside__collapse-link--active' : ''; ?>">
+                            Пользователи
                         </a>
                     </li>
 

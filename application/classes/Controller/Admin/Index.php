@@ -14,6 +14,8 @@ class Controller_Admin_Index extends Dispatch
     CONST ROLES_AND_PERMISSIONS     = 2;
     CONST CHANGE_ORGANIZATION_OWNER = 3;
     CONST CHANGE_PENSION_OWNER      = 4;
+    CONST CREATE_USERS              = 5;
+
 
     public $template = 'main';
 
@@ -98,6 +100,15 @@ class Controller_Admin_Index extends Dispatch
 
         $this->template->title = "Сменить основателя пансионата";
         $this->template->section = View::factory('admin/pension');
+    }
+
+    public function action_users()
+    {
+        self::hasAccess(self::CREATE_USERS);
+        self::hasAccess(self::CHANGE_PENSION_OWNER);
+
+        $this->template->title = "Содание пользователей";
+        $this->template->section = View::factory('admin/users');
     }
 
 }

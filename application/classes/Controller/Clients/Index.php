@@ -11,6 +11,10 @@
 class Controller_Clients_Index extends Dispatch
 {
     CONST WORKING_WITH_CLIENTS = 2;
+    CONST ADMIN_PANEL               = 1;
+    CONST ROLES_AND_PERMISSIONS     = 2;
+    CONST CHANGE_ORGANIZATION_OWNER = 3;
+    CONST CHANGE_PENSION_OWNER      = 4;
 
     public $template = 'main';
 

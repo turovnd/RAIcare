@@ -14,6 +14,7 @@ class Controller_Admin_Ajax extends Ajax
     CONST ROLES_AND_PERMISSIONS     = 2;
     CONST CHANGE_ORGANIZATION_OWNER = 3;
     CONST CHANGE_PENSION_OWNER      = 4;
+    CONST CREATE_USERS              = 5;
 
     function before()
     {

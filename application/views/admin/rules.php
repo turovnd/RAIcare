@@ -84,24 +84,6 @@
 
     </div>
 
-    <h3 class="section__heading">
-        Сменить основателя организации
-    </h3>
-
-    <div class="row">
-
-    </div>
-
-    <h3 class="section__heading">
-        Сменить основателя пансионата
-    </h3>
-
-    <div class="row">
-        <fieldset class="col-xs-12 p-b-20 m-b-0">
-
-        </fieldset>
-    </div>
-
 </div>
 
 <!-----------  PAGE SCRIPT  ----------->
