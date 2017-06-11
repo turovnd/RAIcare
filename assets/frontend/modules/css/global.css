@@ -1,4 +1,4 @@
-html,body,main{
+html,main{
     width: 100%;
     height: 100%;
 }
@@ -6,10 +6,19 @@ body{
     font-family: sans-serif;
     padding:0;
     margin:0;
+    width: 100%;
     color: #212121;
     font-size: 16px;
 }
-
+.dark-bg{
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    background: #000;
+     opacity: .75;
+ }
 
 /**
  * Hidden xs | sm | md | lg
@@ -46,14 +55,22 @@ body{
 }
 
 
-.show{
+.show,
+.display-block{
     display: block;
 }
-.hide{
+.hide,
+.display-none{
     display: none !important;
 }
-.flex{
+.display-flex{
     display: flex;
+}
+.display-table{
+    display: table;
+}
+.display-table-cell{
+    display: table-cell;
 }
 .visible {
     visibility: visible;
@@ -79,8 +96,16 @@ body{
 .fl_n{
     float: none !important;
 }
-.in-circle{
-    border-radius: 999px;
+.img{
+    display: block;
+    vertical-align: middle;
+}
+.img--small {
+    width: 32px;
+    height: 32px;
+}
+.img--circle {
+    border-radius: 50%;
 }
 .divider{
     display: block;
