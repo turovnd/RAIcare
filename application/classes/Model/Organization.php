@@ -6,6 +6,7 @@ Class Model_Organization {
     public $id;
     public $name;
     public $uri;
+    public $owner;
     public $creator;
     public $cover;
     public $is_removed;

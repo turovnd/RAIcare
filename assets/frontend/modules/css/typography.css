@@ -177,9 +177,19 @@ a.bg-danger:focus {
     background-color: #dde6e9;
     color: #515253;
 }
+a.bg-gray:hover,
+a.bg-gray:focus {
+    color: #515253;
+    background-color: #DDDDDD;
+}
 .bg-gray-dark{
     background-color: #3a3f51;
     color: #FFFFFF;
+}
+a.bg-gray-dark:hover,
+a.bg-gray-dark:focus {
+    color: #FFFFFF;
+    background-color: #3a3a3a;
 }
 
 .label{

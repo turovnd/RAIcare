@@ -50,6 +50,7 @@ class Controller_Organizations_Ajax extends Ajax
         $organization->name         = $name;
         $organization->uri          = $uri;
         $organization->is_removed   = 0;
+        $organization->owner        = $cl_user;
         $organization->creator      = $this->user->id;
 
         $organization = $organization->save();

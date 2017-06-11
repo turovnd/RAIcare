@@ -13,7 +13,7 @@
         <div class="flex">
             <div class="col-xs-4 text-center b-r-light">
                 <h3 class="h3 m-0">2</h3>
-                <small class="m-0 ">Сотрднкиов</small>
+                <small class="m-0 ">Сотрудников</small>
             </div>
             <div class="col-xs-4 text-center b-r-light">
                 <h3 class="h3 m-0">12</h3>
@@ -27,13 +27,59 @@
     </div>
 
 
+    <div class="col-xs-12 col-lg-9">
 
-    <div class="row">
+        <ul class="time-line">
 
-        <div class="col-xs-12">
+            <li data-datetime="Today" class="time-line__separator"></li>
+
+            <li class="time-line__item">
+
+                <div class="time-line__badge bg-brand">
+                    <i class="fa fa-comment" aria-hidden="true"></i>
+                </div>
+
+                <div class="time-line__content">
+
+                    <div class="time-line__popover time-line__popover--left">
+                        <div class="time-line__popover-arrow"></div>
+                        <div class="time-line__popover-content">
+                            content
+                        </div>
+                    </div>
+                </div>
+
+            </li>
 
 
-        </div>
+            <li class="time-line__item time-line__inverted">
+
+                <div class="time-line__badge bg-danger">
+                    <i class="fa fa-comment" aria-hidden="true"></i>
+                </div>
+
+                <div class="time-line__content">
+
+                    <div class="time-line__popover time-line__popover--right">
+                        <div class="time-line__popover-arrow"></div>
+                        <div class="time-line__popover-content">
+                            content
+                        </div>
+                    </div>
+                </div>
+            </li>
+
+            <li class="time-line__end">
+                <a href="#" class="time-line__badge bg-gray-dark">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+
+        </ul>
+
+    </div>
+
+    <div class="col-xs-12 col-lg-3">
 
     </div>
 
