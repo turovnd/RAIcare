@@ -5,13 +5,28 @@
         <div class="parallax" data-toggle="parallax">
             <img src="<?=URL::site('uploads/organizations/cover/'. $organization->cover); ?>" alt="Organization cover" class="parallax__img">
         </div>
-        <div class="section__cover-update-wrapper">
-            <a id="" role="button" class="section__cover-update-btn" data-pk="1">
-                <i class="fa fa-camera section__cover-update-icon" aria-hidden="true"></i>
-                <span class="section__cover-update-text">Обновить фото обложки</span>
-            </a>
+        <? // Module Organizations => EDIT_ORGANIZATION = 17
+            if (in_array(17, $user->permissions)) : ?>
+
+            <div class="section__cover-update-wrapper">
+                <a id="" role="button" class="section__cover-update-btn" data-pk="1">
+                    <i class="fa fa-camera section__cover-update-icon" aria-hidden="true"></i>
+                    <span class="section__cover-update-text">Обновить фото обложки</span>
+                </a>
+            </div>
+
+        <? endif; ?>
+
+        <div class="section__cover-text container">
+            <?= $organization->name; ?>
+            <? // Module Organizations => EDIT_ORGANIZATION = 17
+               if (in_array(17, $user->permissions)) : ?>
+                   <a class="text-white p-5" role="button" style="vertical-align: top; font-size: .5em">
+                       <i class="fa fa-pencil" aria-hidden="true" style="vertical-align: top;"></i>
+                   </a>
+            <? endif; ?>
         </div>
-        <div class="section__cover-text container"><?= $organization->name; ?></div>
+
         <div class="section__cover-filter"></div>
     </div>
 
@@ -35,59 +50,71 @@
 
     <div class="col-xs-12 col-md-9">
 
-        <ul class="time-line">
+        <? // Module Organizations => TIME_LINE_ORGANIZATION = 21
+            if (!in_array(21, $user->permissions)) : ?>
 
-            <li data-datetime="Today" class="time-line__separator"></li>
+                <div class="h3 text-center text-brand m-t-20 m-b-50">Лента новостей не доступна</div>
 
-            <li class="time-line__item">
+        <? else: ?>
 
-                <div class="time-line__badge bg-brand">
-                    <i class="fa fa-comment" aria-hidden="true"></i>
-                </div>
+            <ul class="time-line">
 
-                <div class="time-line__content">
+                <li data-datetime="Today" class="time-line__separator"></li>
 
-                    <div class="time-line__popover time-line__popover--left">
-                        <div class="time-line__popover-arrow"></div>
-                        <div class="time-line__popover-content">
-                            content
+                <li class="time-line__item">
+
+                    <div class="time-line__badge bg-brand">
+                        <i class="fa fa-comment" aria-hidden="true"></i>
+                    </div>
+
+                    <div class="time-line__content">
+
+                        <div class="time-line__popover time-line__popover--left">
+                            <div class="time-line__popover-arrow"></div>
+                            <div class="time-line__popover-content">
+                                content
+                            </div>
                         </div>
                     </div>
-                </div>
 
-            </li>
+                </li>
 
 
-            <li class="time-line__item time-line__inverted">
+                <li class="time-line__item time-line__inverted">
 
-                <div class="time-line__badge bg-danger">
-                    <i class="fa fa-comment" aria-hidden="true"></i>
-                </div>
+                    <div class="time-line__badge bg-danger">
+                        <i class="fa fa-comment" aria-hidden="true"></i>
+                    </div>
 
-                <div class="time-line__content">
+                    <div class="time-line__content">
 
-                    <div class="time-line__popover time-line__popover--right">
-                        <div class="time-line__popover-arrow"></div>
-                        <div class="time-line__popover-content">
-                            content
+                        <div class="time-line__popover time-line__popover--right">
+                            <div class="time-line__popover-arrow"></div>
+                            <div class="time-line__popover-content">
+                                content
+                            </div>
                         </div>
                     </div>
-                </div>
-            </li>
+                </li>
 
-            <li class="time-line__end">
-                <a href="#" class="time-line__badge bg-gray-dark">
-                    <i class="fa fa-plus" aria-hidden="true"></i>
-                </a>
-            </li>
+                <li class="time-line__end">
+                    <a href="#" class="time-line__badge bg-gray-dark">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                    </a>
+                </li>
 
-        </ul>
+            </ul>
+
+        <? endif; ?>
 
     </div>
 
     <div class="col-xs-12 col-md-3">
 
-        <a href="/" class="btn btn--lg btn--brand col-xs-12 fl_n m-b-20">Статистика</a>
+        <? // Module Organizations => STATISTIC_ORGANIZATION = 20
+            if (in_array(20, $user->permissions)) : ?>
+                <a href="" class="btn btn--lg btn--brand col-xs-12 fl_n m-b-20">Статистика</a>
+        <? endif; ?>
 
         <div class="block">
             <div class="block__heading">
@@ -112,28 +139,27 @@
         <div class="block">
             <div class="block__heading">
                 <h4 class="m-0">
-                    <a href="" class="fl_r">
-                        <i class="fa fa-user-plus" aria-hidden="true"></i>
-                    </a>
+                    <? // Module Organizations => INVITE_CO_WORKER = 18
+                        if (in_array(18, $user->permissions)) : ?>
+                            <a role="button" class="fl_r">
+                                <i class="fa fa-user-plus" aria-hidden="true"></i>
+                            </a>
+                    <? endif; ?>
                     Сотрудники
                 </h4>
             </div>
-            <div id="assistants" class="block__body p-0">
-                <fieldset id="assistant_1" class="p-15 m-b-0">
-                    <a href="" class="fl_r m-l-5">
-                        <i class="fa fa-user-times" aria-hidden="true"></i>
-                    </a>
+            <div id="co_workers" class="block__body p-0">
+                <fieldset id="co_worker_1" class="p-15 m-b-0">
+                    <? // Module Organizations => EXCLUDE_CO_WORKER = 19
+                        if (in_array(19, $user->permissions)) : ?>
+                            <a href="" class="fl_r m-l-5">
+                                <i class="fa fa-user-times" aria-hidden="true"></i>
+                            </a>
+                    <? endif; ?>
                     <img src="/" alt="" class="img img--small img--circle fl_l m-r-10">
                     <div class="display-table">Имя фамилия </div>
                 </fieldset>
 
-                <fieldset id="assistant_2" class="p-15 m-b-0">
-                    <a href="" class="fl_r m-l-5">
-                        <i class="fa fa-user-times" aria-hidden="true"></i>
-                    </a>
-                    <img src="/" alt="" class="img img--small img--circle fl_l m-r-10">
-                    <div class="display-table">Имя фамилия </div>
-                </fieldset>
             </div>
         </div>
 

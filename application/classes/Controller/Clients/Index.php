@@ -83,9 +83,10 @@ class Controller_Clients_Index extends Dispatch
         $organizationsIDs = Model_UserOrganization::getOrganizations($u_id);
 
         if (!empty($organizationsIDs)) {
-            foreach ($organizationsIDs as $item) {
-                $organization = new Model_Organization($item['organization']);
+            foreach ($organizationsIDs as $id) {
+                $organization = new Model_Organization($id);
                 $organization->creator = new Model_User($organization->creator);
+                $organization->owner = new Model_User($organization->owner);
                 $organizations[] = $organization;
             }
         }

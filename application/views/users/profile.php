@@ -1,25 +1,30 @@
 <div class="section__content">
+
+    <h3 class="section__heading">
+        Профиль
+    </h3>
+
     <form class="col-xs-12" id="changeProfile">
         <h3 class="col-xs-12">Изменение основной информации</h3>
 
         <div class="form-group col-xs-12 col-md-8">
-            <label for="profileName" class="form-group__label">Имя</label>
-            <input id="profileName" type="text" name="name" class="form-group__control" value="<?=$profile->name; ?>">
+            <label for="userName" class="form-group__label">Имя</label>
+            <input id="userName" type="text" name="name" class="form-group__control" value="<?=$user->name; ?>">
         </div>
 
         <div class="form-group col-xs-12 col-md-8">
             <label class="form-group__label">Эл.почта</label>
-            <p class="form-group__control" disabled><?=$profile->email; ?></p>
+            <p class="form-group__control" disabled><?=$user->email; ?></p>
         </div>
 
         <div class="form-group col-xs-12 col-md-8">
-            <input type="checkbox" id="newsletter" name="newsletter" class="checkbox" <? if($profile->newsletter == 1): echo "checked"; endif;?>>
+            <input type="checkbox" id="newsletter" name="newsletter" class="checkbox" <? if($user->newsletter == 1): echo "checked"; endif;?>>
             <label for="newsletter" class="checkbox-label">Подписка на информационную рассылку</label>
         </div>
 
         <div class="form-group col-xs-12 col-md-8 m-t-15">
             <input type="hidden" name="csrf" value="<?=Security::token(); ?>">
-            <input type="hidden" name="id" value="<?=$profile->id?>">
+            <input type="hidden" name="id" value="<?=$user->id?>">
             <button type="submit" class="btn btn--round btn--brand btn--scaled">
                 Обновить информацию
             </button>
@@ -50,7 +55,7 @@
 
         <div class="form-group col-xs-12 col-md-8">
             <input type="hidden" name="csrf" value="<?=Security::token(); ?>">
-            <input type="hidden" name="id" value="<?=$profile->id?>">
+            <input type="hidden" name="id" value="<?=$user->id?>">
             <button type="submit" class="btn btn--round btn--brand btn--scaled">
                 Изменить пароль
             </button>

@@ -7,7 +7,7 @@ Route::set('USERS', 'users')
         'action'      => 'users'
     ));
 
-Route::set('USER', 'user/<id>', array(
+Route::set('PROFILE', 'profile(/<id>)', array(
         'id' => $DIGIT
     ))
     ->defaults(array(
@@ -16,7 +16,7 @@ Route::set('USER', 'user/<id>', array(
     ));
 
 
-Route::set('USER_AJAX', 'user/<action>', array(
+Route::set('PROFILE_AJAX', 'profile/<action>', array(
         'action' => $STRING
     ))
     ->defaults(array(
