@@ -129,7 +129,7 @@ class Dispatch extends Controller_Template
 
         $user = new Model_User($uid);
 
-        $user->permissions = Model_Rolepermis::getPermissionsByRole($user->role);
+        $user->permissions = Model_RolePermission::getPermissionsByRole($user->role);
 
         /** Authentificated User is visible in all pages */
         View::set_global('user', $user);

@@ -106,7 +106,7 @@ class Controller_Admin_Ajax extends Ajax
         }
 
         Model_Role::delete($id);
-        Model_Rolepermis::deleteAll($id);
+        Model_RolePermission::deleteAll($id);
 
         $response = new Model_Response_Roles('ROLE_DELETE_SUCCESS', 'success');
         $this->response->body(@json_encode($response->get_response()));
@@ -200,7 +200,7 @@ class Controller_Admin_Ajax extends Ajax
         }
 
         Model_Permission::delete($id);
-        Model_Rolepermis::deletePermission($id);
+        Model_RolePermission::deletePermission($id);
 
         $response = new Model_Response_Permissions('PERMISSION_DELETE_SUCCESS', 'success');
         $this->response->body(@json_encode($response->get_response()));
@@ -209,7 +209,7 @@ class Controller_Admin_Ajax extends Ajax
 
 
     /**
-     * ROLEPERMIS - creating new relation between role and permission
+     * ROLE_PERMISSION - creating new relation between role and permission
      */
     public function action_rolepermis_add()
     {
@@ -218,21 +218,21 @@ class Controller_Admin_Ajax extends Ajax
         $permissions = json_decode(Arr::get($_POST, 'permissions'));
 
         if (empty($role)) {
-            $response = new Model_Response_Rolepermis('ROLEPERMIS_EMPTY_ROLE_ERROR', 'error');
+            $response = new Model_Response_Rolepermis('ROLE_PERMISSION_EMPTY_ROLE_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
             return;
         }
 
         if (empty($permissions)) {
-            $response = new Model_Response_Rolepermis('ROLEPERMIS_EMPTY_PERMISSION_ERROR', 'error');
+            $response = new Model_Response_Rolepermis('ROLE_PERMISSION_EMPTY_PERMISSION_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
             return;
         }
 
-        $rolepermis = new Model_Rolepermis($role);
+        $rolepermis = new Model_RolePermission($role);
 
-        if (!empty($rolepermis->role)) {
-            $response = new Model_Response_Rolepermis('ROLEPERMIS_ROLE_EXISTED_ERROR', 'error');
+        if (!empty($rolepermis->r_id)) {
+            $response = new Model_Response_Rolepermis('ROLE_PERMISSION_ROLE_EXISTED_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
             return;
         }
@@ -246,12 +246,12 @@ class Controller_Admin_Ajax extends Ajax
             'permissionsStr' => $permissionsStr
         );
 
-        $response = new Model_Response_Rolepermis('ROLEPERMIS_CREATE_SUCCESS', 'success', $data);
+        $response = new Model_Response_Rolepermis('ROLE_PERMISSION_CREATE_SUCCESS', 'success', $data);
         $this->response->body(@json_encode($response->get_response()));
     }
 
     /**
-     * ROLEPERMIS - updating relation between role and permission
+     * ROLE_PERMISSION - updating relation between role and permission
      */
     public function action_rolepermis_update()
     {
@@ -260,18 +260,18 @@ class Controller_Admin_Ajax extends Ajax
         $permissions = json_decode(Arr::get($_POST, 'permissions'));
 
         if (empty($role)) {
-            $response = new Model_Response_Rolepermis('ROLEPERMIS_EMPTY_ROLE_ERROR', 'error');
+            $response = new Model_Response_Rolepermis('ROLE_PERMISSION_EMPTY_ROLE_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
             return;
         }
 
         if (empty($permissions)) {
-            $response = new Model_Response_Rolepermis('ROLEPERMIS_EMPTY_PERMISSION_ERROR', 'error');
+            $response = new Model_Response_Rolepermis('ROLE_PERMISSION_EMPTY_PERMISSION_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
             return;
         }
 
-        Model_Rolepermis::deleteAll($role);
+        Model_RolePermission::deleteAll($role);
 
         $permissionsStr = self::getPermissionsAsString($role, $permissions);
 
@@ -282,13 +282,13 @@ class Controller_Admin_Ajax extends Ajax
             'permissionsStr' => $permissionsStr
         );
 
-        $response = new Model_Response_Rolepermis('ROLEPERMIS_UPDATE_SUCCESS', 'success', $data);
+        $response = new Model_Response_Rolepermis('ROLE_PERMISSION_UPDATE_SUCCESS', 'success', $data);
         $this->response->body(@json_encode($response->get_response()));
 
     }
 
     /**
-     * ROLEPERMIS - deleting relation between role and permission
+     * ROLE_PERMISSION - deleting relation between role and permission
      */
     public function action_rolepermis_delete()
     {
@@ -296,14 +296,14 @@ class Controller_Admin_Ajax extends Ajax
         $role = Arr::get($_POST, 'role');
 
         if (empty($role)) {
-            $response = new Model_Response_Rolepermis('ROLEPERMIS_EMPTY_ROLE_ERROR', 'error');
+            $response = new Model_Response_Rolepermis('ROLE_PERMISSION_EMPTY_ROLE_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
             return;
         }
 
-        Model_Rolepermis::deleteAll($role);
+        Model_RolePermission::deleteAll($role);
 
-        $response = new Model_Response_Rolepermis('ROLEPERMIS_DELETE_SUCCESS', 'success');
+        $response = new Model_Response_Rolepermis('ROLE_PERMISSION_DELETE_SUCCESS', 'success');
         $this->response->body(@json_encode($response->get_response()));
 
     }
@@ -315,9 +315,9 @@ class Controller_Admin_Ajax extends Ajax
         $permissionsStr = '';
 
         foreach ($permissions as $permission) {
-            $rolepermis = new Model_Rolepermis();
-            $rolepermis->role = $role;
-            $rolepermis->permission = $permission;
+            $rolepermis = new Model_RolePermission();
+            $rolepermis->r_id = $role;
+            $rolepermis->p_id = $permission;
             $rolepermis->save();
 
             $permission = new Model_Permission($permission);

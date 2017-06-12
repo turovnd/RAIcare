@@ -13,6 +13,8 @@ class Controller_Pensions_Index extends Dispatch
     CONST WATCH_ALL_PENSIONS_PAGES     = 24;
     CONST WATCH_CREATED_PENSIONS_PAGES = 25;
     CONST WATCH_CERTAIN_PENSIONS_PAGES = 26;
+    CONST EDIT_PENSION                 = 27;
+    CONST STATISTIC_PENSION            = 30;
 
     public $template = 'main';
 
@@ -37,13 +39,13 @@ class Controller_Pensions_Index extends Dispatch
     {
         self::hasAccess(self::WATCH_ALL_PENSIONS_PAGES);
 
-        $orgs = Model_Organization::getAll();
-        $organizations = $this->getPensions($orgs);
+        $pens = Model_Pension::getAll();
+        $pensions = $this->getPensions($pens);
 
         $this->template->title = "Все пансионаты";
         $this->template->section = View::factory('pensions/content')
             ->set('title', $this->template->title)
-            ->set('organizations', $organizations);
+            ->set('pensions', $pensions);
     }
 
 
@@ -51,13 +53,13 @@ class Controller_Pensions_Index extends Dispatch
     {
         self::hasAccess(self::WATCH_CREATED_PENSIONS_PAGES);
 
-        $orgs = Model_Organization::getCreatedByUser($this->user->id);
-        $organizations = $this->getPensions($orgs);
+        $pens = Model_Pension::getCreatedByUser($this->user->id);
+        $pensions = $this->getPensions($pens);
 
         $this->template->title = "Созданные пансионаты";
         $this->template->section = View::factory('pensions/content')
             ->set('title', $this->template->title)
-            ->set('organizations', $organizations );
+            ->set('pensions', $pensions);
     }
 
 
@@ -65,44 +67,88 @@ class Controller_Pensions_Index extends Dispatch
     {
         self::hasAccess(self::WATCH_CERTAIN_PENSIONS_PAGES);
 
-        $organizationsID = Model_UserOrganization::getPensions($this->user->id);
+        $pensionsID = Model_UserPension::getPensions($this->user->id);
 
-        $organizations = array();
+        $pensions = array();
 
-        if (!empty($organizationsID)) {
-            foreach ($organizationsID as $id) {
-                $organizations[] = new Model_Organization($id);
+        if (!empty($pensionsID)) {
+            foreach ($pensionsID as $id) {
+                $pensions[] = new Model_Pension($id);
             }
         }
 
-        $organizations = $this->getPensions($organizations);
+        $pensions = $this->getPensions($pensions);
 
         $this->template->title = "Мои пансионаты";
         $this->template->section = View::factory('pensions/content')
             ->set('title', $this->template->title)
-            ->set('organizations', $organizations);
+            ->set('pensions', $pensions);
     }
 
 
-    public function action_organization()
+    public function action_pension()
     {
         $id = $this->request->param('id');
-        $organization = new Model_Organization($id);
+        $pension = new Model_Pension($id);
 
-        if (!$organization->id)
+        if (!$pension->id)
             throw new HTTP_Exception_404();
 
-        $users = Model_UserOrganization::getUsers($organization->id);
+        $users = Model_UserPension::getUsers($pension->id);
 
-        if (in_array($this->user->id, $users) || $organization->creator == $this->user->id || $this->user->role == 1) {
-
-            $this->template->title = $organization->name;
-            $this->template->section = View::factory('pensions/pages/main')
-                ->set('organization', $organization);
-
-        } else {
+        if (!(in_array($this->user->id, $users) || $pension->creator == $this->user->id || $this->user->role == 1)) {
             throw new HTTP_Exception_403();
         }
+
+        $this->template->title = $pension->name;
+        $this->template->section = View::factory('pensions/pages/main')
+            ->set('pension', $pension);
+
+    }
+
+
+    public function action_settings()
+    {
+        $id = $this->request->param('id');
+        $pension = new Model_Pension($id);
+
+        if (!$pension->id)
+            throw new HTTP_Exception_404();
+
+        self::hasAccess(self::EDIT_PENSION);
+
+        $users = Model_UserPension::getUsers($pension->id);
+
+        if (!(in_array($this->user->id, $users) || $pension->creator == $this->user->id || $this->user->role == 1)) {
+            throw new HTTP_Exception_403();
+        }
+
+        $this->template->title = $pension->name;
+        $this->template->section = View::factory('pensions/pages/settings')
+            ->set('pension', $pension);
+
+    }
+
+
+    public function action_statistic()
+    {
+        $id = $this->request->param('id');
+        $pension = new Model_Pension($id);
+
+        if (!$pension->id)
+            throw new HTTP_Exception_404();
+
+        self::hasAccess(self::STATISTIC_PENSION);
+
+        $users = Model_UserPension::getUsers($pension->id);
+
+        if (!(in_array($this->user->id, $users) || $pension->creator == $this->user->id || $this->user->role == 1)) {
+            throw new HTTP_Exception_403();
+        }
+
+        $this->template->title = $pension->name;
+        $this->template->section = View::factory('pensions/pages/statistic')
+            ->set('pension', $pension);
     }
 
 
@@ -112,17 +158,17 @@ class Controller_Pensions_Index extends Dispatch
      */
     private function getPensions($array)
     {
-        $organizations = array();
+        $pensions = array();
 
-        if (empty($array)) return $organizations;
+        if (empty($array)) return $pensions;
 
-        foreach ($array as $organization) {
-            $organization->creator = new Model_User($organization->creator);
-            $organization->owner = new Model_User($organization->owner);
-            $organizations[] = $organization;
+        foreach ($array as $pension) {
+            $pension->creator = new Model_User($pension->creator);
+            $pension->owner = new Model_User($pension->owner);
+            $pensions[] = $pension;
         }
 
-        return $organizations;
+        return $pensions;
     }
 
 

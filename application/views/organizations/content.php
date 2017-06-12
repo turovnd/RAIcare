@@ -11,7 +11,7 @@
 
             <? if (empty($organizations)) : ?>
 
-                <div class="h4 text-brand m-t-10 m-b-10">Организации не созданы, обратитесь к сотрудникам <?=$GLOBALS["SITE_NAME"]; ?> для создания организации.</div>
+                <div class="h4 text-brand m-t-10 m-b-10">Организации не созданы, обратитесь к сотрудникам <?=$GLOBALS["SITE_NAME"]; ?> для создания.</div>
 
             <? endif; ?>
 

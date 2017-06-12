@@ -74,7 +74,7 @@
 
 
     <?  // Module Users => permission: MODULE_USERS = 10
-        if (in_array(10, $user->permissions)) : ?>
+    if (in_array(10, $user->permissions)) : ?>
 
         <li class="aside__item <? echo $action == "users" || $action == "user" ? 'aside__item--active' : ''; ?>">
             <a href="<?=URL::site('users'); ?>" class="aside__link <? echo $action == "users" || $action == "user" ? 'aside__link--active' : ''; ?>">
@@ -87,14 +87,14 @@
 
 
     <?  // Module Clients => permission: MODULE_CLIENTS = 6
-        if (in_array(6, $user->permissions)) : ?>
+    if (in_array(6, $user->permissions)) : ?>
 
         <li class="aside__item <? echo $action == "clients" || $action == "client" ? 'aside__item--active' : ''; ?>">
             <a href="<?=URL::site('clients'); ?>" class="aside__link <? echo $action == "clients" || $action == "client" ? 'aside__link--active' : ''; ?>">
                 <i class="fa fa-id-card-o aside__icon" aria-hidden="true"></i>
 
                 <?  // Module Clients => permission: CLIENTS_REQUESTS = 8
-                    if (in_array(8, $user->permissions)) : ?>
+                if (in_array(8, $user->permissions)) : ?>
 
                     <div class="label label--danger m-t-10 m-r-10"><?= count(Model_Client::getClientsByStatus(1)); ?></div>
 
@@ -108,7 +108,7 @@
 
 
     <? // Module Organizations => permission: WATCH_ALL_ORGS_PAGES = 14 || WATCH_CREATED_ORGS_PAGES = 15
-        if (in_array(14, $user->permissions) || in_array(15, $user->permissions)) : ?>
+    if (in_array(14, $user->permissions) || in_array(15, $user->permissions)) : ?>
 
         <li class="aside__item <? echo $action == 'org_all' || $action == 'org_created' || $action == "org_organization" ? 'aside__item--active' : ''; ?>">
 
@@ -150,8 +150,8 @@
 
 
     <? // Module Organizations => WATCH_CERTAIN_ORGS_PAGES = 16
-        if (in_array(16, $user->permissions)) : ?>
-            
+    if (in_array(16, $user->permissions)) : ?>
+
         <li class="aside__item <? echo $action == "org_my" || $action == "org_organization" ? 'aside__item--active' : ''; ?>">
             <a href="<?=URL::site('organizations/my'); ?>" class="aside__link <? echo $action == "org_my" ? 'aside__link--active' : ''; ?>">
                 <i class="fa fa-briefcase aside__icon" aria-hidden="true"></i>

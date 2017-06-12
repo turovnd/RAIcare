@@ -29,42 +29,42 @@ class Controller_Pensions_Ajax extends Ajax
         }
 
         if (empty($name)) {
-            $response = new Model_Response_Pensions('ORGANIZATION_EMPTY_NAME_ERROR', 'error');
+            $response = new Model_Response_Pensions('PENSION_EMPTY_NAME_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
             return;
         }
 
         if (empty($uri)) {
-            $response = new Model_Response_Pensions('ORGANIZATION_EMPTY_URI_ERROR', 'error');
+            $response = new Model_Response_Pensions('PENSION_EMPTY_URI_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
             return;
         }
 
         if (Model_Organization::check_uri($uri)) {
-            $response = new Model_Response_Pensions('ORGANIZATION_EXISTED_URI_ERROR', 'error');
+            $response = new Model_Response_Pensions('PENSION_EXISTED_URI_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
             return;
         }
 
-        $organization = new Model_Organization();
+        $pension = new Model_Organization();
 
-        $organization->name         = $name;
-        $organization->uri          = $uri;
-        $organization->is_removed   = 0;
-        $organization->owner        = $cl_user;
-        $organization->creator      = $this->user->id;
+        $pension->name         = $name;
+        $pension->uri          = $uri;
+        $pension->is_removed   = 0;
+        $pension->owner        = $cl_user;
+        $pension->creator      = $this->user->id;
 
-        $organization = $organization->save();
+        $pension = $pension->save();
 
-        Model_UserOrganization::add($cl_user, $organization->id);
+        Model_UserOrganization::add($cl_user, $pension->id);
 
-        $organization->creator   = new Model_User($organization->creator);
+        $pension->creator   = new Model_User($pension->creator);
 
         $data = array(
-            'organization' => View::factory('organizations/blocks/card', array('organization'=>$organization))->render()
+            'pension' => View::factory('pensions/blocks/card', array('pension'=>$pension))->render()
         );
 
-        $response = new Model_Response_Pensions('ORGANIZATION_CREATE_SUCCESS', 'success', $data);
+        $response = new Model_Response_Pensions('PENSION_CREATE_SUCCESS', 'success', $data);
         $this->response->body(@json_encode($response->get_response()));
     }
 
