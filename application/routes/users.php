@@ -12,7 +12,7 @@ Route::set('PROFILE', 'profile(/<id>)', array(
     ))
     ->defaults(array(
         'controller'  => 'Users_Index',
-        'action'      => 'user'
+        'action'      => 'profile'
     ));
 
 

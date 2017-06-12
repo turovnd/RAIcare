@@ -148,10 +148,11 @@
 
     <? endif; ?>
 
+
     <? // Module Organizations => WATCH_CERTAIN_ORGS_PAGES = 16
         if (in_array(16, $user->permissions)) : ?>
 
-        <li class="aside__item <? echo $action == "my" || $action == "organization" ? 'aside__item--active' : ''; ?>">
+        <li class="aside__item <? echo $action == "my" || $action == "organization" || $action == "settings" || $action == "statistic"? 'aside__item--active' : ''; ?>">
             <a href="<?=URL::site('organizations/my'); ?>" class="aside__link <? echo $action == "my" ? 'aside__link--active' : ''; ?>">
                 <i class="fa fa-cubes aside__icon" aria-hidden="true"></i>
                 <span class="aside__text">Мои организации</span>

@@ -22,7 +22,7 @@ module.exports = (function (tabs) {
 
         raisoft.cookies.set({
             name: 'clients',
-            value: this.dataset.block,
+            value: '~'+this.dataset.block,
             expires: 3600,
             path: '/'
         });
