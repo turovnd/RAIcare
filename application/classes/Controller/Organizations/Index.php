@@ -12,7 +12,9 @@ class Controller_Organizations_Index extends Dispatch
 {
     CONST WATCH_ALL_ORGS_PAGES     = 14;
     CONST WATCH_CREATED_ORGS_PAGES = 15;
-    CONST WATCH_CERTAIN_ORGS_PAGES = 16;
+    CONST WATCH_MY_ORGS_PAGES = 16;
+    CONST EDIT_ORGANIZATION        = 17;
+    CONST STATISTIC_ORGANIZATION   = 20;
 
     public $template = 'main';
 
@@ -63,7 +65,7 @@ class Controller_Organizations_Index extends Dispatch
 
     public function action_my()
     {
-        self::hasAccess(self::WATCH_CERTAIN_ORGS_PAGES);
+        self::hasAccess(self::WATCH_MY_ORGS_PAGES);
 
         $organizationsID = Model_UserOrganization::getOrganizations($this->user->id);
 
@@ -94,16 +96,61 @@ class Controller_Organizations_Index extends Dispatch
 
         $users = Model_UserOrganization::getUsers($organization->id);
 
-        if (in_array($this->user->id, $users) || $organization->creator == $this->user->id || $this->user->role == 1) {
-
-            $this->template->title = $organization->name;
-            $this->template->section = View::factory('organizations/page')
-                ->set('organization', $organization);
-
-        } else {
+        if (!(in_array($this->user->id, $users) || $organization->creator == $this->user->id || $this->user->role == 1)) {
             throw new HTTP_Exception_403();
         }
+
+        $this->template->title = $organization->name;
+        $this->template->section = View::factory('organizations/pages/main')
+            ->set('organization', $organization);
     }
+
+
+    public function action_settings()
+    {
+        $id = $this->request->param('id');
+        $organization = new Model_Organization($id);
+
+        if (!$organization->id)
+            throw new HTTP_Exception_404();
+
+        self::hasAccess(self::EDIT_ORGANIZATION);
+
+        $users = Model_UserOrganization::getUsers($organization->id);
+
+        if (!(in_array($this->user->id, $users) || $organization->creator == $this->user->id || $this->user->role == 1)) {
+            throw new HTTP_Exception_403();
+        }
+
+        $this->template->title = $organization->name;
+        $this->template->section = View::factory('organizations/pages/settings')
+            ->set('organization', $organization);
+
+    }
+
+
+    public function action_statistic()
+    {
+        $id = $this->request->param('id');
+        $organization = new Model_Organization($id);
+
+        if (!$organization->id)
+            throw new HTTP_Exception_404();
+
+        self::hasAccess(self::STATISTIC_ORGANIZATION);
+
+        $users = Model_UserOrganization::getUsers($organization->id);
+
+        if (!(in_array($this->user->id, $users) || $organization->creator == $this->user->id || $this->user->role == 1)) {
+            throw new HTTP_Exception_403();
+        }
+
+        $this->template->title = $organization->name;
+        $this->template->section = View::factory('organizations/pages/statistic')
+            ->set('organization', $organization);
+    }
+
+
 
 
     /**

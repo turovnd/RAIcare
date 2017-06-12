@@ -4,7 +4,7 @@ var cookies = function () {
 
         var match = document.cookie.match(RegExp(name+'=([^;]*)'));
 
-        return match ? decodeURIComponent(match[1]) : undefined;
+        return match ? decodeURIComponent(match[1]).split('~')[1] : undefined;
 
     };
 

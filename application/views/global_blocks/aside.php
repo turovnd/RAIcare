@@ -151,7 +151,7 @@
 
     <? // Module Organizations => WATCH_CERTAIN_ORGS_PAGES = 16
         if (in_array(16, $user->permissions)) : ?>
-
+            
         <li class="aside__item <? echo $action == "org_my" || $action == "org_organization" ? 'aside__item--active' : ''; ?>">
             <a href="<?=URL::site('organizations/my'); ?>" class="aside__link <? echo $action == "org_my" ? 'aside__link--active' : ''; ?>">
                 <i class="fa fa-briefcase aside__icon" aria-hidden="true"></i>

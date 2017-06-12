@@ -49,7 +49,7 @@ class Controller_Users_Ajax extends Ajax
         $user->name         = $client->name;
         $user->email        = $client->email;
         $user->username     = $username;
-        $user->password     = $this->makeHash('md5', Methods_Translit::getUsernameByName($client->name) . $_SERVER['SALT']);;
+        $user->password     = $this->makeHash('md5', $username . $_SERVER['SALT']);;
         $user->role         = 10;
         $user->newsletter   = 1;
         $user->is_confirmed = 0;

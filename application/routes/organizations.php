@@ -8,7 +8,7 @@ Route::set('ORGANIZATIONS', 'organizations/<action>', array(
         'controller'  => 'Organizations_Index',
     ));
 
-Route::set('ORGANIZATION', 'organization/<id>', array(
+Route::set('ORGANIZATION', 'organization/<id>(/<action>)', array(
         'id' => $DIGIT
     ))
     ->defaults(array(
