@@ -6,6 +6,7 @@ Class Model_Pension {
     public $id;
     public $name;
     public $uri;
+    public $organization;
     public $owner;
     public $creator;
     public $cover = "default-cover.png";

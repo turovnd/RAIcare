@@ -67,7 +67,8 @@ class Controller_Clients_Index extends Dispatch
         $this->template->section = View::factory('clients/card')
                 ->set('client', $client)
                 ->set('cl_user', $cl_user)
-                ->set('organizations', $this->get_organizations($cl_user->id));
+                ->set('organizations', $this->get_organizations($cl_user->id))
+                ->set('pensions', $this->get_pensions($cl_user->id));
 
     }
 
@@ -92,6 +93,29 @@ class Controller_Clients_Index extends Dispatch
         }
 
         return $organizations;
+    }
+
+
+    /**
+     * @param $u_id - user ID for client
+     * @return array
+     */
+    private function get_pensions($u_id)
+    {
+        $pensions = array();
+
+        $pensionsIDs = Model_UserPension::getPensions($u_id);
+
+        if (!empty($pensionsIDs)) {
+            foreach ($pensionsIDs as $id) {
+                $pension = new Model_Pension($id);
+                $pension->creator = new Model_User($pension->creator);
+                $pension->owner = new Model_User($pension->owner);
+                $pensions[] = $pension;
+            }
+        }
+
+        return $pensions;
     }
 
 }

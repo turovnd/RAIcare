@@ -12,6 +12,7 @@ class Controller_Organizations_Ajax extends Ajax
 {
     CONST MODULE_CLIENTS      = 6;
     CONST CREATE_ORGANIZATION = 13;
+    CONST EDIT_ORGANIZATION   = 17;
 
     public function action_new()
     {
@@ -28,14 +29,8 @@ class Controller_Organizations_Ajax extends Ajax
             return;
         }
 
-        if (empty($name)) {
-            $response = new Model_Response_Organizations('ORGANIZATION_EMPTY_NAME_ERROR', 'error');
-            $this->response->body(@json_encode($response->get_response()));
-            return;
-        }
-
-        if (empty($uri)) {
-            $response = new Model_Response_Organizations('ORGANIZATION_EMPTY_URI_ERROR', 'error');
+        if (empty($name) || empty($uri)) {
+            $response = new Model_Response_Form('EMPTY_FIELDS_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
             return;
         }
@@ -58,10 +53,13 @@ class Controller_Organizations_Ajax extends Ajax
 
         Model_UserOrganization::add($cl_user, $organization->id);
 
-        $organization->creator   = new Model_User($organization->creator);
+        $organization->creator = new Model_User($organization->creator);
+        $organization->owner   = new Model_User($organization->owner);
 
         $data = array(
-            'organization' => View::factory('organizations/blocks/card', array('organization'=>$organization))->render()
+            'organization' => View::factory('organizations/blocks/card', array('organization'=>$organization))->render(),
+            'id'           => $organization->id,
+            'name'         => $organization->name
         );
 
         $response = new Model_Response_Organizations('ORGANIZATION_CREATE_SUCCESS', 'success', $data);

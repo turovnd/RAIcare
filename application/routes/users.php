@@ -7,7 +7,7 @@ Route::set('USERS', 'users')
         'action'      => 'users'
     ));
 
-Route::set('PROFILE', 'profile(/<id>)', array(
+Route::set('USER', 'user/<id>', array(
         'id' => $DIGIT
     ))
     ->defaults(array(
@@ -15,9 +15,21 @@ Route::set('PROFILE', 'profile(/<id>)', array(
         'action'      => 'profile'
     ));
 
+Route::set('USER_AJAX', 'user/<action>', array(
+    'action' => 'add'
+))
+    ->defaults(array(
+        'controller'  => 'Users_Ajax'
+    ));
+
+Route::set('PROFILE', 'profile')
+    ->defaults(array(
+        'controller'  => 'Users_Index',
+        'action'      => 'profile'
+    ));
 
 Route::set('PROFILE_AJAX', 'profile/<action>', array(
-        'action' => $STRING
+        'action' => 'update'
     ))
     ->defaults(array(
         'controller'  => 'Users_Ajax'

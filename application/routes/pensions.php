@@ -8,7 +8,7 @@ Route::set('PENSIONS', 'pensions/<action>', array(
         'controller'  => 'Pensions_Index',
     ));
 
-Route::set('PENSION', 'pension/<id>', array(
+Route::set('PENSION', 'pension/<id>(/<action>)', array(
         'id' => $DIGIT
     ))
     ->defaults(array(

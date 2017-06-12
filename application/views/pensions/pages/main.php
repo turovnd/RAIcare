@@ -32,26 +32,6 @@
         <div class="block">
             <div class="block__heading">
                 <h4 class="m-0">
-                    <a href="" class="fl_r">
-                        <i class="fa fa-plus-circle" aria-hidden="true"></i>
-                    </a>
-                    Пансионаты
-                </h4>
-            </div>
-            <div id="pensions" class="block__body p-0">
-                <fieldset id="pension_1" class="p-0 m-0">
-                    <a href="/" class="p-15 display-block text-brand">Панисонат 1</a>
-                </fieldset>
-                <fieldset id="pension_2" class="p-0 m-0">
-                    <a href="/" class="p-15 display-block text-brand">Панисонат 2</a>
-                </fieldset>
-            </div>
-        </div>
-
-
-        <div class="block">
-            <div class="block__heading">
-                <h4 class="m-0">
                     <? // Module Pensions => INVITE_CO_WORKER = 28
                         if (in_array(28, $user->permissions)) : ?>
                             <a role="button" class="fl_r">

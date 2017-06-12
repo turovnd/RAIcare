@@ -1,12 +1,12 @@
-<div id="organization_<?=$organization->id?>" class="block">
+<div id="pension_<?=$pension->id?>" class="block">
 
-    <a href="<?=URL::site('organization/'.$organization->id);?>" class="block__heading"><?= $organization->name; ?></a>
+    <a href="<?=URL::site('pension/'.$pension->id);?>" class="block__heading"><?= $pension->name; ?></a>
 
     <div class="block__body">
 
-        <p> Создатель: <?= $organization->creator->name; ?> </p>
+        <p> Создатель: <?= $pension->creator->name; ?> </p>
 
-        <p> Создана: <?= $organization->dt_create; ?> </p>
+        <p> Создана: <?= $pension->dt_create; ?> </p>
 
     </div>
 
