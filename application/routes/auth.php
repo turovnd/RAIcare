@@ -13,16 +13,6 @@ Route::set('AUTH_PAGES', '<action>',
         'default'     => 'login',
     ));
 
-//
-///**
-// * Join - new Application Page
-// */
-//Route::set('JOIN_PAGE', 'join')
-//    ->defaults(array(
-//        'controller'  => 'Auth_Index',
-//        'action'     => 'join',
-//    ));
-
 
 /**
  * Authorization ajax action

@@ -1,18 +1,18 @@
 <?php defined('SYSPATH') or die('No direct pattern access.');
 
 /**
- * Class Controller_Organizations_Index
+ * Class Controller_Pensions_Index
  *
  * @copyright raisoft
  * @author Nikolai Turov
  * @version 0.0.0
  */
 
-class Controller_Organizations_Index extends Dispatch
+class Controller_Pensions_Index extends Dispatch
 {
-    CONST WATCH_ALL_ORGS_PAGES     = 14;
-    CONST WATCH_CREATED_ORGS_PAGES = 15;
-    CONST WATCH_CERTAIN_ORGS_PAGES = 16;
+    CONST WATCH_ALL_PENSIONS_PAGES     = 24;
+    CONST WATCH_CREATED_PENSIONS_PAGES = 25;
+    CONST WATCH_CERTAIN_PENSIONS_PAGES = 26;
 
     public $template = 'main';
 
@@ -25,7 +25,7 @@ class Controller_Organizations_Index extends Dispatch
         }
 
         $data = array(
-            'action'    => 'org_' . $this->request->action(),
+            'action'    => 'pen_' . $this->request->action(),
         );
 
         $this->template->aside = View::factory('global_blocks/aside', $data);
@@ -35,13 +35,13 @@ class Controller_Organizations_Index extends Dispatch
 
     public function action_all()
     {
-        self::hasAccess(self::WATCH_ALL_ORGS_PAGES);
+        self::hasAccess(self::WATCH_ALL_PENSIONS_PAGES);
 
         $orgs = Model_Organization::getAll();
-        $organizations = $this->getOrganizations($orgs);
+        $organizations = $this->getPensions($orgs);
 
-        $this->template->title = "Все организации";
-        $this->template->section = View::factory('organizations/content')
+        $this->template->title = "Все пансионаты";
+        $this->template->section = View::factory('pensions/content')
             ->set('title', $this->template->title)
             ->set('organizations', $organizations);
     }
@@ -49,13 +49,13 @@ class Controller_Organizations_Index extends Dispatch
 
     public function action_created()
     {
-        self::hasAccess(self::WATCH_CREATED_ORGS_PAGES);
+        self::hasAccess(self::WATCH_CREATED_PENSIONS_PAGES);
 
         $orgs = Model_Organization::getCreatedByUser($this->user->id);
-        $organizations = $this->getOrganizations($orgs);
+        $organizations = $this->getPensions($orgs);
 
-        $this->template->title = "Созданные организации";
-        $this->template->section = View::factory('organizations/content')
+        $this->template->title = "Созданные пансионаты";
+        $this->template->section = View::factory('pensions/content')
             ->set('title', $this->template->title)
             ->set('organizations', $organizations );
     }
@@ -63,9 +63,9 @@ class Controller_Organizations_Index extends Dispatch
 
     public function action_my()
     {
-        self::hasAccess(self::WATCH_CERTAIN_ORGS_PAGES);
+        self::hasAccess(self::WATCH_CERTAIN_PENSIONS_PAGES);
 
-        $organizationsID = Model_UserOrganization::getOrganizations($this->user->id);
+        $organizationsID = Model_UserOrganization::getPensions($this->user->id);
 
         $organizations = array();
 
@@ -75,10 +75,10 @@ class Controller_Organizations_Index extends Dispatch
             }
         }
 
-        $organizations = $this->getOrganizations($organizations);
+        $organizations = $this->getPensions($organizations);
 
-        $this->template->title = "Мои организации";
-        $this->template->section = View::factory('organizations/content')
+        $this->template->title = "Мои пансионаты";
+        $this->template->section = View::factory('pensions/content')
             ->set('title', $this->template->title)
             ->set('organizations', $organizations);
     }
@@ -97,7 +97,7 @@ class Controller_Organizations_Index extends Dispatch
         if (in_array($this->user->id, $users) || $organization->creator == $this->user->id || $this->user->role == 1) {
 
             $this->template->title = $organization->name;
-            $this->template->section = View::factory('organizations/page')
+            $this->template->section = View::factory('pensions/pages/main')
                 ->set('organization', $organization);
 
         } else {
@@ -107,10 +107,10 @@ class Controller_Organizations_Index extends Dispatch
 
 
     /**
-     * @param $array - Array of Models Organizations
-     * @return array - Array of Models Organizations + Models Users in `creator` and `owner`
+     * @param $array - Array of Models Pensions
+     * @return array - Array of Models Pensions + Models Users in `creator` and `owner`
      */
-    private function getOrganizations($array)
+    private function getPensions($array)
     {
         $organizations = array();
 
