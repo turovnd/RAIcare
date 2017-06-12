@@ -102,6 +102,10 @@
     background: #FFFFFF;
     border: 1px solid #cfcfcf;
 }
+.aside--collapsed .aside__link--active:hover + .aside__collapse,
+.aside--collapsed .aside__link--active + .aside__collapse:hover{
+    left: 62px;
+}
 
 .aside--collapsed .aside__collapse-link{
     padding-left: 15px;
