@@ -1,10 +1,11 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
 
-Route::set('CLIENTS', 'clients')
+Route::set('CLIENTS', 'clients/<action>',array(
+        'action' => $STRING
+    ))
     ->defaults(array(
-        'controller'  => 'Clients_Index',
-        'action'      => 'clients'
+        'controller'  => 'Clients_Index'
     ));
 
 Route::set('CLIENT', 'client/<id>', array(

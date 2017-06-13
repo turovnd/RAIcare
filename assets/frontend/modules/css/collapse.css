@@ -5,3 +5,10 @@
     overflow: hidden;
     transition: height ease .35s;
 }
+
+.collapse-btn[data-opened="true"]:before {
+    content: attr(data-textopened);
+}
+.collapse-btn[data-opened="false"]:before {
+    content: attr(data-textclosed);
+}
