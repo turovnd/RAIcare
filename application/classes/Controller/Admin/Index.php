@@ -106,8 +106,11 @@ class Controller_Admin_Index extends Dispatch
     {
         self::hasAccess(self::CREATE_USERS);
 
+        $roles = Model_Role::getAll();
+
         $this->template->title = "Содание пользователей";
-        $this->template->section = View::factory('admin/users');
+        $this->template->section = View::factory('admin/users')
+            ->set('roles', $roles);
     }
 
 }

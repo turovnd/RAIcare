@@ -38,7 +38,7 @@
 
                     <li class="aside__collapse-item">
                         <a href="<?=URL::site('admin/orgs'); ?>"  class="aside__collapse-link <?= $action == 'orgs' ? 'aside__collapse-link--active' : ''; ?>">
-                            Организации
+                            Organization owner
                         </a>
                     </li>
 
@@ -49,7 +49,7 @@
 
                     <li class="aside__collapse-item">
                         <a href="<?=URL::site('admin/pensions'); ?>" class="aside__collapse-link <?= $action == 'pensions' ? 'aside__collapse-link--active' : ''; ?>">
-                            Пансионаты
+                            Pension owner
                         </a>
                     </li>
 
@@ -60,7 +60,7 @@
 
                     <li class="aside__collapse-item">
                         <a href="<?=URL::site('admin/newuser'); ?>" class="aside__collapse-link <?= $action == 'newuser' ? 'aside__collapse-link--active' : ''; ?>">
-                            Пользователи
+                            New user
                         </a>
                     </li>
 

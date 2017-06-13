@@ -16,7 +16,7 @@ Route::set('USER', 'user/<id>', array(
     ));
 
 Route::set('USER_AJAX', 'user/<action>', array(
-    'action' => 'add'
+    'action' => 'add|new'
 ))
     ->defaults(array(
         'controller'  => 'Users_Ajax'
