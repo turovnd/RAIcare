@@ -1,14 +1,14 @@
 <?php defined('SYSPATH') or die('No direct pattern access.');
 
 /**
- * Class Controller_Users_Index
+ * Class Controller_Profiles_Index
  *
  * @copyright raisoft
  * @author Nikolai Turov
  * @version 0.0.0
  */
 
-class Controller_Users_Index extends Dispatch
+class Controller_Profiles_Index extends Dispatch
 {
     CONST MODULE_USERS       = 10;
     CONST WATCH_CERTAIN_USER = 11;
@@ -35,11 +35,18 @@ class Controller_Users_Index extends Dispatch
     {
         self::hasAccess(self::MODULE_USERS);
 
-        $users = array();
+        $profiles = Model_User::getAll();
+
+        if (!empty($profiles)) {
+            foreach ($profiles as $profile) {
+                $profile->role = new Model_Role($profile->role);
+                $profile->creator = new Model_User($profile->creator);
+            }
+        }
 
         $this->template->title = "Пользователи";
-        $this->template->section = View::factory('users/content')
-                ->set('users', $users);
+        $this->template->section = View::factory('profiles/pages/profiles')
+                ->set('profiles', $profiles);
 
     }
 
@@ -60,7 +67,7 @@ class Controller_Users_Index extends Dispatch
         }
 
         $this->template->title = "Профиль " . $user->name;
-        $this->template->section = View::factory('users/profile')
+        $this->template->section = View::factory('profiles/pages/profile')
             ->set('user', $user);
 
     }

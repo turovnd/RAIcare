@@ -1,12 +1,22 @@
-<div id="pension_<?=$pension->id?>" class="block">
+<div class="col-xs-12 col-sm-6 col-md-4">
 
-    <a href="<?=URL::site('pension/'.$pension->id);?>" class="block__heading"><?= $pension->name; ?></a>
+    <div class="card">
 
-    <div class="block__body">
+        <a href="<?=URL::site('pension/' . $pension->id); ?>" class="card__img" style="background-image: url(<?=URL::site('uploads/pensions/cover/' . $pension->cover); ?>)"></a>
 
-        <p> Создатель: <?= $pension->creator->name; ?> </p>
+        <div class="card__content">
 
-        <p> Создана: <?= $pension->dt_create; ?> </p>
+            <div class="card__content-heading">
+                <?= $pension->name; ?>
+            </div>
+
+            <div class="card__content-body">
+
+                <p class="card__content-text">Дата создания: <?= $pension->dt_create; ?></p>
+
+            </div>
+
+        </div>
 
     </div>
 

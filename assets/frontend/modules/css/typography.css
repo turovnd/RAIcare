@@ -12,6 +12,13 @@ a:focus{
     text-decoration: none;
     outline: none;
 }
+.link{
+    color: #008da7;
+}
+.link:hover,
+.link:focus{
+    color: #1F6E7D;
+}
 
 
 button, input, textarea {
@@ -193,15 +200,18 @@ a.bg-gray-dark:focus {
 }
 
 .label{
-    position: absolute;
-    top: 0;
-    right: 0;
-    padding: 2px 5px;
+    position: relative;
+    padding: 2px 5px 3px;
     font-size: .7em;
     font-weight: bold;
     line-height: normal;
     text-align: center;
     border-radius: 5px;
+}
+.label--absolute{
+    position: absolute;
+    top: 0;
+    right: 0;
 }
 
 .label--brand{
@@ -211,6 +221,10 @@ a.bg-gray-dark:focus {
 .label--danger{
     color: #FCFCFC;
     background-color: #ff0000;
+}
+.label--warning{
+    color: #8a6d3b;
+    background-color: #fce864;
 }
 .label--success{
     color: #FCFCFC;

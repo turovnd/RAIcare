@@ -43,7 +43,7 @@ class Controller_Pensions_Index extends Dispatch
         $pensions = $this->getPensions($pens);
 
         $this->template->title = "Все пансионаты";
-        $this->template->section = View::factory('pensions/content')
+        $this->template->section = View::factory('pensions/pages/pensions')
             ->set('title', $this->template->title)
             ->set('pensions', $pensions);
     }
@@ -57,7 +57,7 @@ class Controller_Pensions_Index extends Dispatch
         $pensions = $this->getPensions($pens);
 
         $this->template->title = "Созданные пансионаты";
-        $this->template->section = View::factory('pensions/content')
+        $this->template->section = View::factory('pensions/pages/pensions')
             ->set('title', $this->template->title)
             ->set('pensions', $pensions);
     }
@@ -80,8 +80,7 @@ class Controller_Pensions_Index extends Dispatch
         $pensions = $this->getPensions($pensions);
 
         $this->template->title = "Мои пансионаты";
-        $this->template->section = View::factory('pensions/content')
-            ->set('title', $this->template->title)
+        $this->template->section = View::factory('pensions/pages/my-pensions')
             ->set('pensions', $pensions);
     }
 
@@ -165,6 +164,7 @@ class Controller_Pensions_Index extends Dispatch
         foreach ($array as $pension) {
             $pension->creator = new Model_User($pension->creator);
             $pension->owner = new Model_User($pension->owner);
+            $pension->organization = new Model_Organization($pension->organization);
             $pensions[] = $pension;
         }
 

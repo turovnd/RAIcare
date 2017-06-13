@@ -57,7 +57,7 @@ class Controller_Organizations_Ajax extends Ajax
         $organization->owner   = new Model_User($organization->owner);
 
         $data = array(
-            'organization' => View::factory('organizations/blocks/card', array('organization'=>$organization))->render(),
+            'organization' => View::factory('organizations/blocks/list-item', array('organization'=>$organization))->render(),
             'id'           => $organization->id,
             'name'         => $organization->name
         );

@@ -1,12 +1,22 @@
-<div id="organization_<?=$organization->id?>" class="block">
+<div class="col-xs-12 col-sm-6 col-md-4">
 
-    <a href="<?=URL::site('organization/'.$organization->id);?>" class="block__heading"><?= $organization->name; ?></a>
+    <div class="card">
 
-    <div class="block__body">
+        <a href="<?=URL::site('organization/' . $organization->id); ?>" class="card__img" style="background-image: url(<?=URL::site('uploads/organizations/cover/' . $organization->cover); ?>)"></a>
 
-        <p> Создатель: <?= $organization->creator->name; ?> </p>
+        <div class="card__content">
 
-        <p> Создана: <?= $organization->dt_create; ?> </p>
+            <div class="card__content-heading">
+                <?= $organization->name; ?>
+            </div>
+
+            <div class="card__content-body">
+
+                <p class="card__content-text">Дата создания: <?= $organization->dt_create; ?></p>
+
+            </div>
+
+        </div>
 
     </div>
 

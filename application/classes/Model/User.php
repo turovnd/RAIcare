@@ -12,6 +12,7 @@ Class Model_User {
     public $phone;
     public $newsletter;
     public $is_confirmed;
+    public $creator;
     public $dt_create;
 
     
@@ -64,7 +65,6 @@ Class Model_User {
 
     public function save()
     {
-
        $this->dt_create = Date::formatted_time('now');
 
        $insert = Dao_Users::insert();
@@ -80,7 +80,6 @@ Class Model_User {
 
     public function update()
     {
-
        $insert = Dao_Users::update();
 
         foreach ($this as $fieldname => $value) {
@@ -92,6 +91,26 @@ Class Model_User {
         $insert->execute();
 
         return $this->get_($this->id);
+    }
+
+
+
+    public static function getAll()
+    {
+        $select = Dao_Users::select()
+            ->order_by('id', 'DESC')
+            ->execute();
+
+        $users = array();
+
+        if ( empty($select) ) return $users;
+
+        foreach ($select as $item) {
+            $user = new Model_User();
+            $users[] = $user->fill_by_row($item);
+        }
+
+        return $users;
     }
 
 
@@ -130,25 +149,5 @@ Class Model_User {
         return $insert;
     }
 
-
-    /**
-     * Checks for existence by searching field
-     *
-     * @param $field
-     * @param $value
-     * @return bool
-     */
-    public static function isUserExist($value, $field = 'email') {
-        $select = Dao_Users::select('id')
-                ->where($field, '=', $value)
-                ->limit(1)
-                ->execute();
-
-        if (!empty($select['id'])) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 
 }

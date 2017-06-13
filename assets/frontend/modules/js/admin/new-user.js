@@ -11,7 +11,7 @@ module.exports = (function (newuser) {
         formData.append('csrf', document.getElementById('csrf').value);
 
         var ajaxData = {
-            url: '/user/new',
+            url: '/profile/new',
             type: 'POST',
             data: formData,
             beforeSend: function () {
@@ -32,7 +32,7 @@ module.exports = (function (newuser) {
 
                 if ( parseInt(response.code) === 50) {
 
-                    window.location.assign('/user/' + response.id);
+                    window.location.assign('/profile/' + response.id);
 
                 }
 

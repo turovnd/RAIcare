@@ -1,14 +1,14 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
 /**
- * Class Controller_Users_Ajax
+ * Class Controller_Profiles_Ajax
  *
  * @copyright raisoft
  * @author Nikolai Turov
  * @version 0.0.0
  */
 
-class Controller_Users_Ajax extends Ajax
+class Controller_Profiles_Ajax extends Ajax
 {
     CONST MODULE_ADMIN              = 1;
     CONST MODULE_CLIENTS            = 6;
@@ -56,6 +56,7 @@ class Controller_Users_Ajax extends Ajax
         $user->password     = $this->makeHash('md5', $password . $_SERVER['SALT']);;
         $user->role         = 10;
         $user->newsletter   = 1;
+        $user->creator      = $this->user->id;
         $user->is_confirmed = 0;
         $user = $user->save();
 
@@ -112,6 +113,7 @@ class Controller_Users_Ajax extends Ajax
         $user->password     = $this->makeHash('md5', $password . $_SERVER['SALT']);;
         $user->role         = $role;
         $user->newsletter   = 1;
+        $user->creator      = $this->user->id;
         $user->is_confirmed = 0;
         $user = $user->save();
 
