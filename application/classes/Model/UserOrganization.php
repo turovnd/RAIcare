@@ -3,22 +3,22 @@
 
 Class Model_UserOrganization {
 
-    public $organization;
-    public $user;
+    public $o_id;
+    public $u_id;
 
     public static function add($user, $organization)
     {
         Dao_UsersOrganizations::insert()
-            ->set('user', $user)
-            ->set('organization', $organization)
+            ->set('u_id', $user)
+            ->set('o_id', $organization)
             ->execute();
     }
 
     public static function delete($user, $organization)
     {
         Dao_UsersOrganizations::delete()
-            ->where('user', '=', $user)
-            ->where('organization', '=', $organization)
+            ->where('u_id', '=', $user)
+            ->where('o_id', '=', $organization)
             ->limit(1)
             ->clearcache($user . '_' . $organization)
             ->execute();
@@ -27,26 +27,26 @@ Class Model_UserOrganization {
     public static function getOrganizations($user)
     {
         $select = Dao_UsersOrganizations::select()
-            ->where('user', '=', $user)
-            ->order_by('organization', 'DESC')
+            ->where('u_id', '=', $user)
+            ->order_by('o_id', 'DESC')
             ->execute();
 
         if (empty($select)) return array();
 
-        $organization = array();
+        $organizations = array();
 
         foreach ($select as $item) {
-            $organization[] = $item['organization'];
+            $organizations[] = $item['o_id'];
         }
 
-        return $organization;
+        return $organizations;
     }
 
     public static function getUsers($organization)
     {
         $select = Dao_UsersOrganizations::select()
-            ->where('organization', '=', $organization)
-            ->order_by('user', 'DESC')
+            ->where('o_id', '=', $organization)
+            ->order_by('u_id', 'DESC')
             ->execute();
 
         if (empty($select)) return array();
@@ -54,7 +54,7 @@ Class Model_UserOrganization {
         $users = array();
 
         foreach ($select as $item) {
-            $users[] = $item['user'];
+            $users[] = $item['u_id'];
         }
 
         return $users;

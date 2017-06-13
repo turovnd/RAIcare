@@ -11,6 +11,7 @@ require_once ('routes/clients.php');
 require_once ('routes/users.php');
 require_once ('routes/dashboard.php');
 require_once ('routes/organizations.php');
+require_once ('routes/pensions.php');
 
 
 

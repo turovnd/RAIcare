@@ -43,7 +43,7 @@ class Controller_Users_Index extends Dispatch
 
     }
 
-    public function action_user()
+    public function action_profile()
     {
         $id = $this->request->param('id');
 

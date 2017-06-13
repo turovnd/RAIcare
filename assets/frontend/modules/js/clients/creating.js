@@ -131,7 +131,7 @@ module.exports = (function (create) {
 
         if (!form) {
 
-            raisoft.core.log('Не удается найти форму создания организайии. Перезагрузте страницу', 'error', corePrefix);
+            raisoft.core.log('Не удается найти форму создания организации. Перезагрузте страницу', 'error', corePrefix);
             return;
 
         }
@@ -161,19 +161,26 @@ module.exports = (function (create) {
                     message: response.message
                 });
 
-                if (parseInt(response.code) === 133 ) {
+                if (parseInt(response.code) === 131 ) {
 
-                    var block = raisoft.draw.node('LI', '');
+                    var block                   = raisoft.draw.node('LI', ''),
+                        optionForCreatePension  = raisoft.draw.node('OPTION', '', {'value': response.id}),
+                        organizations           = document.getElementById('organizations'),
+                        selectForCreatePension  = document.getElementById('createPensionOrganization');
 
                     block.innerHTML = response.organization;
+                    optionForCreatePension.textContent = response.name;
 
-                    if (document.getElementById('organizations').childElementCount === 0) {
+                    if (organizations.childElementCount === 1) {
 
-                        document.getElementById('organizations').appendChild(block);
+                        organizations.innerHTML = '';
+                        organizations.appendChild(block);
+                        selectForCreatePension.appendChild(optionForCreatePension);
 
                     } else {
 
-                        document.getElementById('organizations').insertBefore(block, document.getElementById('organizations').childNodes[0]);
+                        organizations.insertBefore(block, organizations.childNodes[0]);
+                        selectForCreatePension.insertBefore(optionForCreatePension, selectForCreatePension.childNodes[0]);
 
                     }
 
@@ -196,6 +203,74 @@ module.exports = (function (create) {
     };
 
     create.pension = function (id) {
+
+        var form = document.getElementById(id);
+
+        if (!form) {
+
+            raisoft.core.log('Не удается найти форму создания пансионата. Перезагрузте страницу', 'error', corePrefix);
+            return;
+
+        }
+
+        var formData = new FormData(form);
+
+        formData.append('csrf', document.getElementById('csrf').value);
+        formData.append('userId', document.getElementById('userId').value);
+
+        var ajaxData = {
+            url: '/pension/new',
+            type: 'POST',
+            data: formData,
+            beforeSend: function () {
+
+                form.getElementsByClassName('modal__content')[0].classList.add('loading');
+
+            },
+            success: function (response) {
+
+                response = JSON.parse(response);
+                raisoft.core.log(response.message, response.status, corePrefix);
+                form.getElementsByClassName('modal__content')[0].classList.remove('loading');
+
+                raisoft.notification.notify({
+                    type: response.status,
+                    message: response.message
+                });
+
+                if (parseInt(response.code) === 141 ) {
+
+                    var block    = raisoft.draw.node('LI', ''),
+                        pensions = document.getElementById('pensions');
+
+                    block.innerHTML = response.organization;
+
+                    if (pensions.childElementCount === 1) {
+
+                        pensions.innerHTML = '';
+                        pensions.appendChild(block);
+
+                    } else {
+
+                        pensions.insertBefore(block, pensions.childNodes[0]);
+
+                    }
+
+                    form.reset();
+                    raisoft.modal.hide(form);
+
+                }
+
+            },
+            error: function (callbacks) {
+
+                raisoft.core.log('ajax error occur on submitting new client form', 'error', corePrefix, callbacks);
+                form.getElementsByClassName('modal__content')[0].classList.remove('loading');
+
+            }
+        };
+
+        raisoft.ajax.send(ajaxData);
 
     };
 

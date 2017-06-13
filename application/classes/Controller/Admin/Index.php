@@ -44,7 +44,7 @@ class Controller_Admin_Index extends Dispatch
 
         $roles          = Model_Role::getAll();
         $permissions    = Model_Permission::getAll();
-        $rolepermis     = Model_Rolepermis::getAll() ?: [];
+        $rolepermis     = Model_RolePermission::getAll() ?: [];
 
         $rolepermisArr = array();
         $permisArr = array();
@@ -54,7 +54,7 @@ class Controller_Admin_Index extends Dispatch
         foreach ($rolepermis as $key => $item) {
 
             $nextItem = $key < count($rolepermis) -1 ? $rolepermis[$key + 1] : null;
-            $permission = new Model_Permission($item['permission']);
+            $permission = new Model_Permission($item['p_id']);
 
             $permisArr[] = array(
                 'id' => $permission->id,
@@ -62,8 +62,8 @@ class Controller_Admin_Index extends Dispatch
             );
             $permisIDArr[] = $permission->id;
 
-            if ($item['role'] != $nextItem['role']) {
-                $role = new Model_Role($item['role']);
+            if ($item['r_id'] != $nextItem['r_id']) {
+                $role = new Model_Role($item['r_id']);
                 $rolepermisArr[] = array(
                     'roleName' => $role->name,
                     'roleId' => $role->id,

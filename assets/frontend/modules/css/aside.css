@@ -89,6 +89,7 @@
 }
 
 .aside--collapsed .aside__link + .aside__collapse{
+    height: 0 !important;
     visibility: hidden;
 }
 
