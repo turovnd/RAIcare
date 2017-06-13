@@ -14,5 +14,7 @@
 @import url("wrapper.css");
 @import url("footer.css");
 @import url("timeline.css");
+@import url("search.css");
+@import url("card.css");
 
 @import url("global.css");

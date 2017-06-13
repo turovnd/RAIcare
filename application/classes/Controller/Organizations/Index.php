@@ -43,7 +43,7 @@ class Controller_Organizations_Index extends Dispatch
         $organizations = $this->getOrganizations($orgs);
 
         $this->template->title = "Все организации";
-        $this->template->section = View::factory('organizations/content')
+        $this->template->section = View::factory('organizations/pages/organizations')
             ->set('title', $this->template->title)
             ->set('organizations', $organizations);
     }
@@ -57,7 +57,7 @@ class Controller_Organizations_Index extends Dispatch
         $organizations = $this->getOrganizations($orgs);
 
         $this->template->title = "Созданные организации";
-        $this->template->section = View::factory('organizations/content')
+        $this->template->section = View::factory('organizations/pages/organizations')
             ->set('title', $this->template->title)
             ->set('organizations', $organizations );
     }
@@ -80,8 +80,7 @@ class Controller_Organizations_Index extends Dispatch
         $organizations = $this->getOrganizations($organizations);
 
         $this->template->title = "Мои организации";
-        $this->template->section = View::factory('organizations/content')
-            ->set('title', $this->template->title)
+        $this->template->section = View::factory('organizations/pages/my-organizations')
             ->set('organizations', $organizations);
     }
 

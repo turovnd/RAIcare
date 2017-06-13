@@ -10,7 +10,7 @@
 
 
     <? // Module Admin => permission: MODULE_ADMIN = 1
-        if (in_array(1, $user->permissions)) : ?>
+    if (in_array(1, $user->permissions)) : ?>
 
         <li class="aside__item <? echo $action == 'rules' || $action == 'orgs' || $action == 'pensions' || $action == 'newuser'? 'aside__item--active' : ''; ?>">
 
@@ -33,34 +33,12 @@
 
                 <? endif; ?>
 
-                <? // Module Admin => permission: CHANGE_ORGANIZATION_OWNER = 3
-                    if (in_array(3, $user->permissions)) : ?>
-
-                    <li class="aside__collapse-item">
-                        <a href="<?=URL::site('admin/orgs'); ?>"  class="aside__collapse-link <?= $action == 'orgs' ? 'aside__collapse-link--active' : ''; ?>">
-                            Организации
-                        </a>
-                    </li>
-
-                <? endif; ?>
-
-                <? // Module Admin => permission: CHANGE_PENSION_OWNER = 4
-                    if (in_array(4, $user->permissions)) : ?>
-
-                    <li class="aside__collapse-item">
-                        <a href="<?=URL::site('admin/pensions'); ?>" class="aside__collapse-link <?= $action == 'pensions' ? 'aside__collapse-link--active' : ''; ?>">
-                            Пансионаты
-                        </a>
-                    </li>
-
-                <? endif; ?>
-
                 <? // Module Admin => permission: CREATE_USERS = 5
                 if (in_array(5, $user->permissions)) : ?>
 
                     <li class="aside__collapse-item">
                         <a href="<?=URL::site('admin/newuser'); ?>" class="aside__collapse-link <?= $action == 'newuser' ? 'aside__collapse-link--active' : ''; ?>">
-                            Пользователи
+                            New user
                         </a>
                     </li>
 
@@ -96,7 +74,7 @@
                 <?  // Module Clients => permission: CLIENTS_REQUESTS = 8
                 if (in_array(8, $user->permissions)) : ?>
 
-                    <div class="label label--danger m-t-10 m-r-10"><?= count(Model_Client::getClientsByStatus(1)); ?></div>
+                    <div class="label label--absolute label--danger m-t-10 m-r-10"><?= count(Model_Client::getClientsByStatus(1)); ?></div>
 
                 <? endif; ?>
 

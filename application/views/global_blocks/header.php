@@ -21,7 +21,7 @@
         <li class="header__item">
             <a role="button" class="header__link p-l-15 p-r-15 m-l-0">
                 <i class="fa fa-bell-o" aria-hidden="true"></i>
-                <div class="label label--danger m-t-5">12</div>
+                <div class="label label--absolute label--danger m-t-5">12</div>
             </a>
         </li>
 

@@ -111,6 +111,7 @@ class Controller_Clients_Index extends Dispatch
                 $pension = new Model_Pension($id);
                 $pension->creator = new Model_User($pension->creator);
                 $pension->owner = new Model_User($pension->owner);
+                $pension->organization = new Model_Organization($pension->organization);
                 $pensions[] = $pension;
             }
         }

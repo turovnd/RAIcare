@@ -12,10 +12,7 @@ class Controller_Admin_Index extends Dispatch
 {
     CONST MODULE_ADMIN              = 1;
     CONST ROLES_AND_PERMISSIONS     = 2;
-    CONST CHANGE_ORGANIZATION_OWNER = 3;
-    CONST CHANGE_PENSION_OWNER      = 4;
     CONST CREATE_USERS              = 5;
-
 
     public $template = 'main';
 
@@ -86,28 +83,16 @@ class Controller_Admin_Index extends Dispatch
         $this->template->section = View::factory('admin/rules', $data);
     }
 
-    public function action_orgs()
-    {
-        self::hasAccess(self::CHANGE_ORGANIZATION_OWNER);
-
-        $this->template->title = "Сменить основателя организации";
-        $this->template->section = View::factory('admin/organizations');
-    }
-
-    public function action_pensions()
-    {
-        self::hasAccess(self::CHANGE_PENSION_OWNER);
-
-        $this->template->title = "Сменить основателя пансионата";
-        $this->template->section = View::factory('admin/pension');
-    }
 
     public function action_newuser()
     {
         self::hasAccess(self::CREATE_USERS);
 
+        $roles = Model_Role::getAll();
+
         $this->template->title = "Содание пользователей";
-        $this->template->section = View::factory('admin/users');
+        $this->template->section = View::factory('admin/users')
+            ->set('roles', $roles);
     }
 
 }

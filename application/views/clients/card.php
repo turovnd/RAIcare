@@ -155,7 +155,7 @@
         <div class="row">
             <div class="col-xs-12">
 
-                <ul id="organizations" class="list-style--none">
+                <ul id="organizations" class="list-style--none block-wrapper">
 
                     <? if (empty($organizations)) : ?>
 
@@ -165,11 +165,7 @@
 
                         <? foreach ($organizations as $organization) : ?>
 
-                            <li>
-
-                                <?= View::factory('organizations/blocks/card',array('organization' => $organization)); ?>
-
-                            </li>
+                            <?= View::factory('organizations/blocks/list-item',array('organization' => $organization)); ?>
 
                         <? endforeach; ?>
 
@@ -193,7 +189,7 @@
         <div class="row">
             <div class="col-xs-12">
 
-                <ul id="pensions" class="list-style--none">
+                <ul id="pensions" class="list-style--none block-wrapper">
 
                     <? if (empty($pensions)) : ?>
 
@@ -203,11 +199,7 @@
 
                         <? foreach ($pensions as $pension) : ?>
 
-                            <li>
-
-                                <?= View::factory('pensions/blocks/card',array('pension' => $pension)); ?>
-
-                            </li>
+                            <?= View::factory('pensions/blocks/list-item',array('pension' => $pension)); ?>
 
                         <? endforeach; ?>
 

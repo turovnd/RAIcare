@@ -28,7 +28,8 @@
 
                                 <? endforeach; ?>
                             </ul>
-
+                        </div>
+                        <div class="block__footer">
                             <button id="js-add-role" role="button" class="btn btn--default m-0 fl_r">добавить</button>
                         </div>
                     </div>
@@ -51,7 +52,8 @@
 
                                 <? endforeach; ?>
                             </ul>
-
+                        </div>
+                        <div class="block__footer">
                             <button id="js-add-permission" role="button" class="btn btn--default fl_r m-0">добавить</button>
                         </div>
                     </div>
@@ -74,6 +76,8 @@
                                     </li>
                                 <? endforeach; ?>
                             </ol>
+                        </div>
+                        <div class="block__footer">
                             <button id="js-add-role-permis" role="button" class="btn btn--default fl_r m-0">добавить</button>
                         </div>
                     </div>

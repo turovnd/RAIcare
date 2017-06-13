@@ -54,12 +54,13 @@ class Controller_Pensions_Ajax extends Ajax
         $pension = $pension->save();
 
         Model_UserPension::add($cl_user, $pension->id);
+        $pension->organization = new Model_Organization($organization);
 
         $pension->creator   = new Model_User($pension->creator);
         $pension->owner     = new Model_User($pension->owner);
 
         $data = array(
-            'pension' => View::factory('pensions/blocks/card', array('pension'=>$pension))->render()
+            'pension' => View::factory('pensions/blocks/list-item', array('pension'=>$pension))->render()
         );
 
         $response = new Model_Response_Pensions('PENSION_CREATE_SUCCESS', 'success', $data);
