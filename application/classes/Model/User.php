@@ -122,13 +122,12 @@ Class Model_User {
      */
     public function checkPassword ($pass) {
 
-        $selection = Dao_Users::select(array('password'))
+        $select = Dao_Users::select(array('password'))
                       ->where('id', '=', $this->id)
                       ->limit(1)
                       ->execute();
 
-        $password = $selection['password'];
-
+        $password = $select['password'];
         return $password == $pass;
     }
 
@@ -136,13 +135,13 @@ Class Model_User {
     /**
      * Change password
      *
-     * @param $newpass
+     * @param $password
      * @return object
      */
-    public function changePassword ($newpass) {
+    public function changePassword ($password) {
 
         $insert = Dao_Users::update()
-                   ->set('password', $newpass)
+                   ->set('password', $password)
                    ->where('id', '=', $this->id)
                    ->clearcache($this->id)
                    ->execute();

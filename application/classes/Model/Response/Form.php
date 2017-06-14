@@ -9,4 +9,10 @@ class Model_Response_Form extends Model_Response_Abstract
         'message' => 'Заполнены не все поля'
     );
 
+    protected $_EMPTY_FIELD_ERROR = array(
+        'type' => 'form',
+        'code' => '31',
+        'message' => 'Поле не может быть пустым'
+    );
+
 }

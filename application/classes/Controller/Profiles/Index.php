@@ -45,7 +45,7 @@ class Controller_Profiles_Index extends Dispatch
         }
 
         $this->template->title = "Пользователи";
-        $this->template->section = View::factory('profiles/pages/profiles')
+        $this->template->section = View::factory('profiles/pages/all-profiles')
                 ->set('profiles', $profiles);
 
     }
@@ -54,22 +54,41 @@ class Controller_Profiles_Index extends Dispatch
     {
         $id = $this->request->param('id');
 
-        if (!$id) {
-            $id = $this->user->id;
-        } else {
+        if ($id) {
+
             self::hasAccess(self::WATCH_CERTAIN_USER);
+            $profile = new Model_User($id);
+
+            if (!$profile->id) {
+                throw new HTTP_Exception_404;
+            }
+
+            $role_permissions = Model_RolePermission::getPermissionsByRole($profile->role);
+            $permissions = array();
+            if (!empty($role_permissions)) {
+                foreach ($role_permissions as $permission) {
+                    $permissions[] = new Model_Permission($permission);
+                }
+            }
+
+            $profile->can_edit = false;
+            $profile->additional_info = true;
+            $profile->client = Model_Client::getByUserId($profile->id);
+            $profile->permissions = $permissions;
+
+        } else {
+
+            $profile = new Model_User($this->user->id);
+            $profile->can_edit = true;
+            $profile->additional_info = false;
+
         }
 
-        $user = new Model_User($id);
+        $profile->role = new Model_Role($profile->role);
 
-        if (!$user->id) {
-            throw new HTTP_Exception_404;
-        }
-
-        $this->template->title = "Профиль " . $user->name;
+        $this->template->title = "Профиль " . $profile->name;
         $this->template->section = View::factory('profiles/pages/profile')
-            ->set('user', $user);
-
+            ->set('profile', $profile);
     }
 
 }

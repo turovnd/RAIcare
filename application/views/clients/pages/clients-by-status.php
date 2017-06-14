@@ -90,9 +90,9 @@ if (in_array(7, $user->permissions) && $add_client) : ?>
             
                         </div>
                     <div class="modal__footer">
-                            <button type="button" class="btn btn--default" data-close="modal">Отмена</button>
-                            <button onclick="clients.create.client()" type="button" class="btn btn--brand">Создать</button>
-                        </div>
+                        <button type="button" class="btn btn--default" data-close="modal">Отмена</button>
+                        <button onclick="clients.create.client()" type="button" class="btn btn--brand">Создать</button>
+                    </div>
                 </div>
         </form>
 

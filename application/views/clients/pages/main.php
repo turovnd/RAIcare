@@ -15,12 +15,3 @@
 </div>
 
 <script type="text/javascript" src="<?=$assets; ?>frontend/bundles/clients.min.js?v=<?= filemtime("assets/frontend/bundles/clients.min.js") ?>"></script>
-
-<? if ($client->status == 2) : ?>
-    <script type="text/javascript">
-        function ready() {
-            clients.edit.init();
-        }
-        document.addEventListener("DOMContentLoaded", ready);
-    </script>
-<? endif; ?>
