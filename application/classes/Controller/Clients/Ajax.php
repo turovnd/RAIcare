@@ -114,6 +114,8 @@ class Controller_Clients_Ajax extends Ajax
         switch ($status) {
             case 'accept': $this->acceptApplication($client); break;
             case 'reject': $this->rejectApplication($client); break;
+            case 'reestablish': $this->reestablishApplication($client); break;
+            case 'delete': $this->deleteApplication($client); break;
         }
 
     }
@@ -121,18 +123,48 @@ class Controller_Clients_Ajax extends Ajax
     private function acceptApplication($client)
     {
         $client->status = 2;
-        $client->update();
+        $client = $client->update();
+        $client->profile = new Model_User($client->id);
 
-        $response = new Model_Response_Clients('CLIENT_STATUS_ACCEPT_SUCCESS', 'success');
+        $view = View::factory('clients/pages/main', array('client' => $client))->render();
+
+        $response = new Model_Response_Clients('CLIENT_STATUS_ACCEPT_SUCCESS', 'success', array('view' => $view));
         $this->response->body(@json_encode($response->get_response()));
     }
 
     private function rejectApplication($client)
     {
         $client->status = 0;
-        $client->update();
+        $client = $client->update();
+        $client->profile = new Model_User($client->id);
 
-        $response = new Model_Response_Clients('CLIENT_STATUS_REJECT_SUCCESS', 'success');
+        $view = View::factory('clients/pages/main', array('client' => $client))->render();
+
+        $response = new Model_Response_Clients('CLIENT_STATUS_REJECT_SUCCESS', 'success', array('view' => $view));
+        $this->response->body(@json_encode($response->get_response()));
+    }
+
+    private function reestablishApplication($client)
+    {
+        $client->status = 2;
+        $client = $client->update();
+        $client->profile = new Model_User($client->id);
+
+        $view = View::factory('clients/pages/main', array('client' => $client))->render();
+
+        $response = new Model_Response_Clients('CLIENT_STATUS_REESTABLISH_SUCCESS', 'success', array('view' => $view));
+        $this->response->body(@json_encode($response->get_response()));
+    }
+
+    private function deleteApplication($client)
+    {
+        $client->status = 0;
+        $client = $client->update();
+        $client->profile = new Model_User($client->id);
+
+        $view = View::factory('clients/pages/main', array('client' => $client))->render();
+
+        $response = new Model_Response_Clients('CLIENT_STATUS_DELETE_SUCCESS', 'success', array('view' => $view));
         $this->response->body(@json_encode($response->get_response()));
     }
 
@@ -171,6 +203,8 @@ class Controller_Clients_Ajax extends Ajax
         $this->response->body(@json_encode($response->get_response()));
     }
 
+
+
     /**
      * Send information to email about success creating new application
      * @param $client
@@ -184,4 +218,5 @@ class Controller_Clients_Ajax extends Ajax
         $email->send($client->email, $_SERVER['INFO_EMAIL'], 'Заявка принята - ' . $GLOBALS['SITE_NAME'], $template, true);
 
     }
+
 }

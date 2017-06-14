@@ -27,7 +27,7 @@ class Controller_Clients_Index extends Dispatch
         self::hasAccess(self::MODULE_CLIENTS);
 
         $data = array(
-            'action'    => $this->request->action(),
+            'action'    => 'clients_' .$this->request->action(),
         );
 
         $this->template->aside = View::factory('global_blocks/aside', $data);
@@ -35,18 +35,75 @@ class Controller_Clients_Index extends Dispatch
     }
 
 
-    public function action_clients()
+    public function action_new()
     {
-        $clients = array(
-            'new' => Model_Client::getClientsByStatus(1) ?: [],
-            'withoutAccess' => Model_Client::getClientsByStatus(2) ?: [],
-            'hasAccess' => Model_Client::getClientsByStatus(3) ?: []
+        self::hasAccess(self::CLIENTS_REQUESTS);
+
+        $clients = Model_Client::getClientsByStatus(1) ?: [];
+
+        $data = array(
+            'add_client'    => true,
+            'reject_client' => true,
+            'title'         => 'Новые клиенты',
+            'empty_text'    => 'Нет новых заявок',
+            'clients'       => $clients
         );
 
-        $this->template->title = "Клиенты";
-        $this->template->section = View::factory('clients/content')
-                ->set('clients', $clients);
+        $this->template->title = "Новые клиенты";
+        $this->template->section = View::factory('clients/pages/clients-by-status', $data);
     }
+
+    public function action_out()
+    {
+        $clients = Model_Client::getClientsByStatus(2) ?: [];
+
+        $data = array(
+            'add_client'    => true,
+            'reject_client' => false,
+            'title'         => 'Клиенты без доступа к системе',
+            'empty_text'    => 'Все клиенты имеют доступ',
+            'clients'       => $clients
+        );
+
+        $this->template->title = "Клиенты без доступа к системе";
+        $this->template->section = View::factory('clients/pages/clients-by-status', $data);
+    }
+
+    public function action_in()
+    {
+        $clients = Model_Client::getClientsByStatus(3) ?: [];
+
+        $data = array(
+            'add_client'    => true,
+            'reject_client' => false,
+            'title'         => 'Клиенты имеющие доступ к системе',
+            'empty_text'    => 'В системе нет клиентов',
+            'clients'       => $clients
+        );
+
+        $this->template->title = "Клиенты имеющие доступ к системе";
+        $this->template->section = View::factory('clients/pages/clients-by-status', $data);
+    }
+
+    public function action_reject()
+    {
+        self::hasAccess(self::CLIENTS_REQUESTS);
+
+        $clients = Model_Client::getClientsByStatus(0) ?: [];
+
+        $data = array(
+            'add_client'    => false,
+            'reject_client' => false,
+            'title'         => 'Отклоненные заявки клиентов',
+            'empty_text'    => 'Нет отклоненных заявок',
+            'clients'       => $clients
+        );
+
+        $this->template->title = "Отклоненные заявки клиентов";
+        $this->template->section = View::factory('clients/pages/clients-by-status', $data);
+
+    }
+
 
     public function action_client()
     {
@@ -57,18 +114,17 @@ class Controller_Clients_Index extends Dispatch
             throw new HTTP_Exception_404;
         }
 
-        if ($client->status == 1) {
+        if ($client->status == 1 || $client->status == 0) {
             self::hasAccess(self::CLIENTS_REQUESTS);
         }
 
-        $cl_user = new Model_User($client->user_id);
+        $client->profile = new Model_User($client->user_id);
 
-        $this->template->title = "Клиент " . $id;
-        $this->template->section = View::factory('clients/card')
+        $this->template->title = "Клиент #" . $id;
+        $this->template->section = View::factory('clients/pages/main')
                 ->set('client', $client)
-                ->set('cl_user', $cl_user)
-                ->set('organizations', $this->get_organizations($cl_user->id))
-                ->set('pensions', $this->get_pensions($cl_user->id));
+                ->set('organizations', $this->get_organizations($client->profile->id))
+                ->set('pensions', $this->get_pensions($client->profile->id));
 
     }
 

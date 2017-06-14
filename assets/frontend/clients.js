@@ -5,8 +5,7 @@
 
 module.exports = ( function (clients) {
 
-    clients.tabs        = require('./modules/js/clients/content-tabs');
-    clients.request     = require('./modules/js/clients/request');
+    clients.status     = require('./modules/js/clients/status');
     clients.edit        = require('./modules/js/clients/edit-info');
     clients.create      = require('./modules/js/clients/creating');
 
