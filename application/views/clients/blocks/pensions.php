@@ -24,7 +24,11 @@
 
                 <? foreach ($pensions as $pension) : ?>
 
-                    <?= View::factory('pensions/blocks/list-item',array('pension' => $pension)); ?>
+                    <li class="col-xs-12 col-md-6">
+
+                        <?= View::factory('pensions/blocks/list-item',array('pension' => $pension)); ?>
+
+                    </li>
 
                 <? endforeach; ?>
 
@@ -82,7 +86,7 @@ if (in_array(23, $user->permissions)) : ?>
             </div>
             <div class="modal__footer">
                 <button type="button" class="btn btn--default" data-close="modal">Отмена</button>
-                <button onclick="clients.create.pension('createPensionModal')" type="button" class="btn btn--brand">Создать</button>
+                <button onclick="clients.create.pension()" type="button" class="btn btn--brand">Создать</button>
             </div>
         </div>
     </form>

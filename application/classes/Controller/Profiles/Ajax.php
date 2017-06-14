@@ -144,21 +144,4 @@ class Controller_Profiles_Ajax extends Ajax
         return $username;
     }
 
-
-
-
-
-    /**
-     * Send information to email about success creating new application
-     * @param $client
-     */
-    private function send_application_request($client) {
-
-        $template = View::factory('email_templates/application_request', array('name' => $client->name, 'email' => $client->email));
-
-        $email = new Email();
-
-        $email->send($client->email, $_SERVER['INFO_EMAIL'], 'Заявка принята - ' . $GLOBALS['SITE_NAME'], $template, true);
-
-    }
 }

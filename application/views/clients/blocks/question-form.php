@@ -1,15 +1,24 @@
 <h3 class="section__heading">
-    Анкета клиента #<?=$client->id; ?>
 
     <? if ($client->status == 1 || $client->status == 0) : ?>
 
-        <a role="button" class="btn btn--default btn--sm m-b-0 m-r-0 fl_r js-request-reject <? echo $client->status == 1 ? '' : 'hide'; ?>">отклонить</a>
-        <a role="button" class="btn btn--brand btn--sm m-b-0 fl_r js-request-accept <? echo $client->status == 1 ? '' : 'hide'; ?>">принять</a>
-        <a role="button" class="btn btn--brand btn--sm m-b-0 fl_r js-request- <? echo $client->status == 0 ? '' : 'hide'; ?>">восстановить</a>
+        <? if ($client->status == 1) : ?>
+
+            <a onclick="clients.status.reject()" role="button" class="btn btn--default btn--sm m-b-0 m-r-0 fl_r">отклонить</a>
+            <a onclick="clients.status.accept()" role="button" class="btn btn--brand btn--sm m-b-0 fl_r">принять</a>
+
+        <? endif; ?>
+
+        <? if ( $client->status == 0) : ?>
+
+            <a onclick="clients.status.reestablish()" role="button" class="btn btn--brand btn--sm m-b-0 fl_r">восстановить</a>
+
+        <? endif; ?>
 
     <? // Module Clients => permission: CREATE_USER_BASED_ON_FORM = 9
     elseif ($client->status == 2 && in_array(9, $user->permissions)): ?>
 
+        <a onclick="clients.status.delete()" role="button" class="btn btn--default btn--sm m-b-0 m-r-0 fl_r"><i class="fa fa-trash text-danger" aria-hidden="true"></i></a>
         <a onclick="clients.create.user();" role="button" class="btn btn--brand btn--sm m-b-0 fl_r">Создать пользователя</a>
 
     <? else: ?>
@@ -17,6 +26,19 @@
         <a role="button" data-toggle="collapse" data-area="questionForm" data-opened="false" data-textclosed="развернуть" data-textopened="свернуть" class="btn btn--default btn--sm m-b-0 m-r-0 fl_r collapse-btn"></a>
 
     <? endif; ?>
+
+    Анкета клиента #<?=$client->id; ?>
+
+    <?
+        $label = "";
+        switch ($client->status) {
+            case 0:  $label = "<span class=\"label label--brand\">удалена</span>"; break;
+            case 1:  $label = "<span class=\"label label--brand\">новая анкета</span>"; break;
+            case 2:  $label = "<span class=\"label label--brand\">на рассмотрение</span>"; break;
+        }
+    ?>
+
+    <small> <?= $label; ?> </small>
 
 </h3>
 
@@ -129,7 +151,7 @@
                         </div>
                     </fieldset>
 
-                    <fieldset class="js-field-name">
+                    <fieldset class="js-field-name m-b-0 p-b-10">
                         <label for="clientComment" class="col-sm-3 col-md-2 form-group__label">Комментарий</label>
                         <div class="col-xs-12 col-sm-9 col-md-10">
                             <p class="form-group__control-static">

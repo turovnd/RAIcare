@@ -31,39 +31,9 @@ module.exports = (function (create) {
 
                 if (parseInt(response.code) === 22 ) {
 
-                    var client = raisoft.draw.node('DIV', 'item clear-fix', {id: 'client_' + response.id});
-
-                    client.innerHTML = '<a href="/client/' + response.id + '" class="col-xs-3 col-sm-2 col-lg-1 text-center">' +
-                        '<i class="fa fa-id-card-o fa-4x" aria-hidden="true"></i></a>'+
-                        '<ul class="col-xs-9 col-sm-10 col-lg-11 list-style--none">'+
-                        '<li class="item__text col-xs-12">'+
-                        '<div class="col-xs-12 col-sm-3 col-md-2 text-bold">Имя</div>'+
-                        '<div class="col-xs-12 col-sm-9 col-md-10 item__search-text">' + document.getElementById('addClientName').value + '</div>'+
-                        '</li>'+
-                        '<li class="item__text col-xs-12">'+
-                        '<div class="col-xs-12 col-sm-3 col-md-2 text-bold">Эл. почта</div>'+
-                        '<div class="col-xs-12 col-sm-9 col-md-10">' + document.getElementById('addClientEmail').value + '</div>'+
-                        '</li>'+
-                        '<li class="item__text col-xs-12">'+
-                        '<div class="col-xs-12 col-sm-3 col-md-2 text-bold">Телефон</div>'+
-                        '<div class="col-xs-12 col-sm-9 col-md-10">' + document.getElementById('addClientPhone').value + '</div>'+
-                        '</li>' +
-                        '</ul>';
-
-                    if (document.getElementById('withoutAccessClients').childElementCount === 0) {
-
-                        document.getElementById('withoutAccessClients').appendChild(client);
-
-                    } else {
-
-                        document.getElementById('withoutAccessClients').insertBefore(client, document.getElementById('withoutAccessClients').childNodes[0]);
-
-                    }
-
-                    document.getElementById('withoutAccessClientsCounter').textContent = parseInt(document.getElementById('withoutAccessClientsCounter').textContent) + 1;
-
                     form.reset();
                     raisoft.modal.hide(form);
+                    window.location.assign('/client/' + response.id);
 
                 }
 
@@ -98,18 +68,16 @@ module.exports = (function (create) {
                 raisoft.core.log(response.message, response.status, corePrefix);
 
 
-                raisoft.notification.notify({
-                    type: response.status,
-                    message: response.message
-                });
+                if (parseInt(response.code) !== 50 ) {
 
-                if (parseInt(response.code) === 29 ) {
+                    raisoft.notification.notify({
+                        type: response.status,
+                        message: response.message
+                    });
 
-                    window.setTimeout(function () {
+                } else {
 
-                        window.location.reload();
-
-                    }, 100);
+                    window.location.reload();
 
                 }
 
@@ -125,13 +93,13 @@ module.exports = (function (create) {
 
     };
 
-    create.organization = function (id) {
+    create.organization = function () {
 
-        var form = document.getElementById(id);
+        var form = document.getElementById('createOrganizationModal');
 
         if (!form) {
 
-            raisoft.core.log('Не удается найти форму создания организации. Перезагрузте страницу', 'error', corePrefix);
+            raisoft.core.log('Не удается найти форму создания организации. Перезагрузите страницу', 'error', corePrefix);
             return;
 
         }
@@ -163,7 +131,7 @@ module.exports = (function (create) {
 
                 if (parseInt(response.code) === 131 ) {
 
-                    var block                   = raisoft.draw.node('LI', ''),
+                    var block                   = raisoft.draw.node('LI', 'col-xs-12 col-md-6'),
                         optionForCreatePension  = raisoft.draw.node('OPTION', '', {'value': response.id}),
                         organizations           = document.getElementById('organizations'),
                         selectForCreatePension  = document.getElementById('createPensionOrganization');
@@ -202,13 +170,13 @@ module.exports = (function (create) {
 
     };
 
-    create.pension = function (id) {
+    create.pension = function () {
 
-        var form = document.getElementById(id);
+        var form = document.getElementById('createPensionModal');
 
         if (!form) {
 
-            raisoft.core.log('Не удается найти форму создания пансионата. Перезагрузте страницу', 'error', corePrefix);
+            raisoft.core.log('Не удается найти форму создания пансионата. Перезагрузите страницу', 'error', corePrefix);
             return;
 
         }
@@ -240,10 +208,10 @@ module.exports = (function (create) {
 
                 if (parseInt(response.code) === 141 ) {
 
-                    var block    = raisoft.draw.node('LI', ''),
+                    var block    = raisoft.draw.node('LI', 'col-xs-12 col-md-6'),
                         pensions = document.getElementById('pensions');
 
-                    block.innerHTML = response.organization;
+                    block.innerHTML = response.pension;
 
                     if (pensions.childElementCount === 1) {
 

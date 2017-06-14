@@ -10,7 +10,10 @@
 
             <? if (empty($pensions)) : ?>
 
-                <div class="h4 text-brand m-t-10 m-b-10">Пансионаты не созданы, обратитесь к сотрудникам <?=$GLOBALS["SITE_NAME"]; ?> для создания.</div>
+                <div class="m-t-10 m-b-10">
+                    <h4 class="h4 text-brand m-b-15">Пансионаты не созданы, обратитесь к сотрудникам <?=$GLOBALS["SITE_NAME"]; ?> для создания.</h4>
+                    <p>Вы можете посотреть часть функционала в <a class="link" href="">демо версии</a></p>
+                </div>
 
             <? else: ?>
 

@@ -24,7 +24,11 @@
 
                 <? foreach ($organizations as $organization) : ?>
 
-                    <?= View::factory('organizations/blocks/list-item',array('organization' => $organization)); ?>
+                    <li class="col-xs-12 col-md-6">
+
+                        <?= View::factory('organizations/blocks/list-item',array('organization' => $organization)); ?>
+
+                    </li>
 
                 <? endforeach; ?>
 
@@ -67,7 +71,7 @@ if (in_array(13, $user->permissions)) : ?>
             </div>
             <div class="modal__footer">
                 <button type="button" class="btn btn--default" data-close="modal">Отмена</button>
-                <button onclick="clients.create.organization('createOrganizationModal')" type="button" class="btn btn--brand">Создать</button>
+                <button onclick="clients.create.organization()" type="button" class="btn btn--brand">Создать</button>
             </div>
         </div>
     </form>

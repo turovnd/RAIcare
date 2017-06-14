@@ -29,37 +29,37 @@ class Model_Response_Clients extends Model_Response_Abstract
     protected $_CLIENT_STATUS_ACCEPT_SUCCESS = array (
         'type' => 'client',
         'code' => '24',
-        'message' => 'Заявка успешно принята'
+        'message' => 'Анкета клиента успешно принята'
     );
 
     protected $_CLIENT_STATUS_REJECT_SUCCESS = array (
         'type' => 'client',
-        'code' => '25',
-        'message' => 'Заявка успешно отклонена'
+        'code' => '24',
+        'message' => 'Анкета клиента успешно отклонена'
     );
 
     protected $_CLIENT_STATUS_REESTABLISH_SUCCESS = array (
         'type' => 'client',
-        'code' => '26',
-        'message' => 'Заявка успешно восстановлена'
+        'code' => '24',
+        'message' => 'Анкета клиента успешно восстановлена'
+    );
+
+    protected $_CLIENT_STATUS_DELETE_SUCCESS = array (
+        'type' => 'client',
+        'code' => '24',
+        'message' => 'Анкета клиента удалена'
     );
 
     protected $_CLIENT_UPDATE_SUCCESS = array (
         'type' => 'client',
-        'code' => '27',
+        'code' => '25',
         'message' => 'Информация успешно изменена'
     );
 
     protected $_CLIENT_USER_DOES_NOT_EXISTED_ERROR = array (
         'type' => 'client',
-        'code' => '28',
+        'code' => '26',
         'message' => 'Для клиента ещё не создан пользователь, пожалуйста, создайте его'
-    );
-
-    protected $_CLIENT_USER_CREATE_SUCCESS = array (
-        'type' => 'client',
-        'code' => '29',
-        'message' => 'Пользователь успешно создан'
     );
 
 }

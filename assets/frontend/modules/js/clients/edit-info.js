@@ -72,7 +72,7 @@ module.exports = (function (edit) {
                 });
 
 
-                if (parseInt(response.code) === 27 ) {
+                if (parseInt(response.code) === 25 ) {
 
                     field.getElementsByClassName('js-client-info')[0].textContent = input;
                     field.getElementsByClassName('form-group__control-static')[0].classList.toggle('hide');
