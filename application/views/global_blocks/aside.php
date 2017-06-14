@@ -65,6 +65,7 @@
 
 
     <?  // Module Clients => permission: MODULE_CLIENTS = 6
+    $new_clients = count(Model_Client::getClientsByStatus(1));
     if (in_array(6, $user->permissions)) : ?>
 
         <li class="aside__item <? echo $action == "clients_new" || $action == "clients_in" || $action == "clients_out" || $action == "clients_reject" || $action == "clients_client" ? 'aside__item--active' : ''; ?>">
@@ -75,9 +76,9 @@
                 <i class="fa fa-angle-down aside__icon--right" aria-hidden="true"></i>
 
                 <?  // Module Clients => permission: CLIENTS_REQUESTS = 8
-                if (in_array(8, $user->permissions)) : ?>
+                if (in_array(8, $user->permissions) && $new_clients > 0) : ?>
 
-                    <div class="label label--absolute label--brand m-t-10 m-r-30"><?= count(Model_Client::getClientsByStatus(1)); ?></div>
+                    <div class="label label--absolute label--brand m-t-10 m-r-30"><?= $new_clients; ?></div>
 
                 <? endif; ?>
             </a>
@@ -90,7 +91,13 @@
                     <li class="aside__collapse-item">
                         <a href="<?=URL::site('clients/new'); ?>"  class="aside__collapse-link <?= $action == 'clients_new' ? 'aside__collapse-link--active' : ''; ?>">
                             Новые
-                            <div class="label label--absolute label--brand m-t-10 m-r-30"><?= count(Model_Client::getClientsByStatus(1)); ?></div>
+
+                            <? if ($new_clients > 0) : ?>
+
+                                <div class="label label--absolute label--brand m-t-10 m-r-30"><?= $new_clients; ?></div>
+
+                            <? endif; ?>
+
                         </a>
                     </li>
 

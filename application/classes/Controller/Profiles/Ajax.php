@@ -37,7 +37,7 @@ class Controller_Profiles_Ajax extends Ajax
 
         $user = Model_User::getByFieldName('email', $client->email);
 
-        if (!$user->id) {
+        if ($user->id) {
             $response = new Model_Response_Users('USER_EXISTED_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
             return;
