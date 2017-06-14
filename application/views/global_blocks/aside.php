@@ -54,7 +54,7 @@
     <?  // Module Users => permission: MODULE_USERS = 10
     if (in_array(10, $user->permissions)) : ?>
 
-        <li class="aside__item <? echo $action == "users" || $action == "user" ? 'aside__item--active' : ''; ?>">
+        <li class="aside__item <? echo $action == "users" || $action == "profile" ? 'aside__item--active' : ''; ?>">
             <a href="<?=URL::site('users'); ?>" class="aside__link <? echo $action == "users" || $action == "user" ? 'aside__link--active' : ''; ?>">
                 <i class="fa fa-users aside__icon" aria-hidden="true"></i>
                 <span class="aside__text">Пользователи</span>

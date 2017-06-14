@@ -16,6 +16,7 @@ Route::set('PROFILE', 'profile(/<id>)',array(
         'action'      => 'profile'
     ));
 
+
 Route::set('PROFILE_AJAX', 'profile/<action>', array(
         'action' => $STRING
     ))

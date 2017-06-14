@@ -46,135 +46,135 @@
 
     <div class="col-xs-12">
 
-            <div id="application" class="form">
+        <form id="application" class="form">
 
-                <div class="form__body">
+            <div class="form__body">
 
-                    <fieldset class="js-field-name">
-                        <label for="clientName" class="col-sm-3 col-md-2 form-group__label">Имя</label>
-                        <div class="col-xs-12 col-sm-9 col-md-10">
-                            <p class="form-group__control-static">
-                                <span class="js-client-info"><?= $client->profile->name ?: $client->name; ?></span>
-                                <? if ($client->status == 2) : ?>
-                                    <a role="button" class="m-l-5 js-edit-info"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                                <? endif; ?>
-                            </p>
+                <fieldset class="js-field-name">
+                    <label for="clientName" class="col-sm-3 col-md-2 form-group__label">Имя</label>
+                    <div class="col-xs-12 col-sm-9 col-md-10">
+                        <p class="form-group__control-static">
+                            <span class="js-client-info"><?= $client->profile->name ?: $client->name; ?></span>
                             <? if ($client->status == 2) : ?>
-                                <div class="form-group__control-group hide">
-                                    <input id="clientName" name="name" type="text" class="form-group__control form-group__control-group-input" value="<?= $client->name; ?>" maxlength="256">
-                                    <label class="cursor-pointer form-group__control-group-addon js-save-info"><i class="fa fa-check" aria-hidden="true"></i></label>
-                                </div>
+                                <a onclick="clients.edit.open(this)" role="button" class="m-l-5"><i class="fa fa-pencil" aria-hidden="true"></i></a>
                             <? endif; ?>
-                        </div>
-                    </fieldset>
-
-                    <? if ($client->status == 3) : ?>
-                        <fieldset class="js-field-name">
-                            <label for="clientName" class="col-sm-3 col-md-2 form-group__label">Логин</label>
-                            <div class="col-xs-12 col-sm-9 col-md-10">
-                                <p class="form-group__control-static">
-                                    <span><?= $client->profile->username ?></span>
-                                </p>
+                        </p>
+                        <? if ($client->status == 2) : ?>
+                            <div class="form-group__control-group hide">
+                                <input id="clientName" name="name" type="text" class="form-group__control form-group__control-group-input" value="<?= $client->name; ?>" maxlength="256">
+                                <label onclick="clients.edit.save(this)" class="cursor-pointer form-group__control-group-addon"><i class="fa fa-check" aria-hidden="true"></i></label>
                             </div>
-                        </fieldset>
-                    <? endif; ?>
+                        <? endif; ?>
+                    </div>
+                </fieldset>
 
+                <? if ($client->status == 3) : ?>
                     <fieldset class="js-field-name">
-                        <label for="clientEmail" class="col-sm-3 col-md-2 form-group__label">Эл. почта</label>
+                        <label class="col-sm-3 col-md-2 form-group__label">Логин</label>
                         <div class="col-xs-12 col-sm-9 col-md-10">
                             <p class="form-group__control-static">
-                                <span class="js-client-info"><?= $client->profile->email ?: $client->email; ?></span>
-                                <? if ($client->status == 2) : ?>
-                                    <a role="button" class="m-l-5 js-edit-info"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                                <? endif; ?>
+                                <span><?= $client->profile->username ?></span>
                             </p>
-                            <? if ($client->status == 2) : ?>
-                                <div class="form-group__control-group hide">
-                                    <input id="clientEmail" name="email" type="email" class="form-group__control form-group__control-group-input" value="<?= $client->email; ?>" maxlength="64">
-                                    <label class="cursor-pointer form-group__control-group-addon js-save-info"><i class="fa fa-check" aria-hidden="true"></i></label>
-                                </div>
-                            <? endif; ?>
                         </div>
                     </fieldset>
+                <? endif; ?>
 
-                    <fieldset class="js-field-name">
-                        <label for="clientOrganization" class="col-sm-3 col-md-2 form-group__label">Организация</label>
-                        <div class="col-xs-12 col-sm-9 col-md-10">
-                            <p class="form-group__control-static">
-                                <span class="js-client-info"><?= $client->organization; ?></span>
-                                <? if ($client->status == 2) : ?>
-                                    <a role="button" class="m-l-5 js-edit-info"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                                <? endif; ?>
-                            </p>
+                <fieldset class="js-field-name">
+                    <label for="clientEmail" class="col-sm-3 col-md-2 form-group__label">Эл. почта</label>
+                    <div class="col-xs-12 col-sm-9 col-md-10">
+                        <p class="form-group__control-static">
+                            <span class="js-client-info"><?= $client->profile->email ?: $client->email; ?></span>
                             <? if ($client->status == 2) : ?>
-                                <div class="form-group__control-group hide">
-                                    <input id="clientOrganization" name="organization" type="text" class="form-group__control form-group__control-group-input" value="<?= $client->organization; ?>">
-                                    <label class="cursor-pointer form-group__control-group-addon js-save-info"><i class="fa fa-check" aria-hidden="true"></i></label>
-                                </div>
+                                <a onclick="clients.edit.open(this)" role="button" class="m-l-5"><i class="fa fa-pencil" aria-hidden="true"></i></a>
                             <? endif; ?>
-                        </div>
-                    </fieldset>
+                        </p>
+                        <? if ($client->status == 2) : ?>
+                            <div class="form-group__control-group hide">
+                                <input id="clientEmail" name="email" type="email" class="form-group__control form-group__control-group-input" value="<?= $client->email; ?>" maxlength="64">
+                                <label onclick="clients.edit.save(this)" class="cursor-pointer form-group__control-group-addon"><i class="fa fa-check" aria-hidden="true"></i></label>
+                            </div>
+                        <? endif; ?>
+                    </div>
+                </fieldset>
 
-                    <fieldset class="js-field-name">
-                        <label for="clientCity" class="col-sm-3 col-md-2 form-group__label">Город</label>
-                        <div class="col-xs-12 col-sm-9 col-md-10">
-                            <p class="form-group__control-static">
-                                <span class="js-client-info"><?= $client->profile->city ?: $client->city; ?></span>
-                                <? if ($client->status == 2) : ?>
-                                    <a role="button" class="m-l-5 js-edit-info"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                                <? endif; ?>
-                            </p>
+                <fieldset class="js-field-name">
+                    <label for="clientOrganization" class="col-sm-3 col-md-2 form-group__label">Организация</label>
+                    <div class="col-xs-12 col-sm-9 col-md-10">
+                        <p class="form-group__control-static">
+                            <span class="js-client-info"><?= $client->organization; ?></span>
                             <? if ($client->status == 2) : ?>
-                                <div class="form-group__control-group hide">
-                                    <input id="clientCity" name="city" type="text" class="form-group__control form-group__control-group-input" value="<?= $client->city; ?>">
-                                    <label class="cursor-pointer form-group__control-group-addon js-save-info"><i class="fa fa-check" aria-hidden="true"></i></label>
-                                </div>
+                                <a onclick="clients.edit.open(this)" role="button" class="m-l-5"><i class="fa fa-pencil" aria-hidden="true"></i></a>
                             <? endif; ?>
-                        </div>
-                    </fieldset>
+                        </p>
+                        <? if ($client->status == 2) : ?>
+                            <div class="form-group__control-group hide">
+                                <input id="clientOrganization" name="organization" type="text" class="form-group__control form-group__control-group-input" value="<?= $client->organization; ?>">
+                                <label onclick="clients.edit.save(this)" class="cursor-pointer form-group__control-group-addon"><i class="fa fa-check" aria-hidden="true"></i></label>
+                            </div>
+                        <? endif; ?>
+                    </div>
+                </fieldset>
 
-                    <fieldset class="js-field-name">
-                        <label for="clientPhone" class="col-sm-3 col-md-2 form-group__label">Телефон</label>
-                        <div class="col-xs-12 col-sm-9 col-md-10">
-                            <p class="form-group__control-static">
-                                <span class="js-client-info"><?= $client->profile->phone ?: $client->phone; ?></span>
-                                <? if ($client->status == 2) : ?>
-                                    <a role="button" class="m-l-5 js-edit-info"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                                <? endif; ?>
-                            </p>
+                <fieldset class="js-field-name">
+                    <label for="clientCity" class="col-sm-3 col-md-2 form-group__label">Город</label>
+                    <div class="col-xs-12 col-sm-9 col-md-10">
+                        <p class="form-group__control-static">
+                            <span class="js-client-info"><?= $client->profile->city ?: $client->city; ?></span>
                             <? if ($client->status == 2) : ?>
-                                <div class="form-group__control-group hide">
-                                    <input id="clientPhone" name="phone" type="text" class="form-group__control form-group__control-group-input" value="<?= $client->phone; ?>" maxlength="20">
-                                    <label class="cursor-pointer form-group__control-group-addon js-save-info"><i class="fa fa-check" aria-hidden="true"></i></label>
-                                </div>
+                                <a onclick="clients.edit.open(this)" role="button" class="m-l-5"><i class="fa fa-pencil" aria-hidden="true"></i></a>
                             <? endif; ?>
-                        </div>
-                    </fieldset>
+                        </p>
+                        <? if ($client->status == 2) : ?>
+                            <div class="form-group__control-group hide">
+                                <input id="clientCity" name="city" type="text" class="form-group__control form-group__control-group-input" value="<?= $client->city; ?>">
+                                <label onclick="clients.edit.save(this)" class="cursor-pointer form-group__control-group-addon"><i class="fa fa-check" aria-hidden="true"></i></label>
+                            </div>
+                        <? endif; ?>
+                    </div>
+                </fieldset>
 
-                    <fieldset class="js-field-name m-b-0 p-b-10">
-                        <label for="clientComment" class="col-sm-3 col-md-2 form-group__label">Комментарий</label>
-                        <div class="col-xs-12 col-sm-9 col-md-10">
-                            <p class="form-group__control-static">
-                                <span class="js-client-info"><?= $client->comment; ?></span>
-                                <? if ($client->status == 2) : ?>
-                                    <a role="button" class="m-l-5 js-edit-info"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                                <? endif; ?>
-                            </p>
+                <fieldset class="js-field-name">
+                    <label for="clientPhone" class="col-sm-3 col-md-2 form-group__label">Телефон</label>
+                    <div class="col-xs-12 col-sm-9 col-md-10">
+                        <p class="form-group__control-static">
+                            <span class="js-client-info"><?= $client->profile->phone ?: $client->phone; ?></span>
                             <? if ($client->status == 2) : ?>
-                                <div class="form-group__control-group hide">
-                                    <textarea name="comment" id="clientComment" rows="5" class="form-group__control form-group__control-group-input"><?= $client->comment; ?></textarea>
-                                    <label class="cursor-pointer form-group__control-group-addon js-save-info"><i class="fa fa-check" aria-hidden="true"></i></label>
-                                </div>
+                                <a onclick="clients.edit.open(this)" role="button" class="m-l-5"><i class="fa fa-pencil" aria-hidden="true"></i></a>
                             <? endif; ?>
-                        </div>
-                    </fieldset>
+                        </p>
+                        <? if ($client->status == 2) : ?>
+                            <div class="form-group__control-group hide">
+                                <input id="clientPhone" name="phone" type="text" class="form-group__control form-group__control-group-input" value="<?= $client->phone; ?>" maxlength="20">
+                                <label onclick="clients.edit.save(this)" class="cursor-pointer form-group__control-group-addon"><i class="fa fa-check" aria-hidden="true"></i></label>
+                            </div>
+                        <? endif; ?>
+                    </div>
+                </fieldset>
 
-                </div>
-
-                <input id="clientId" type="hidden" value="<?= $client->id; ?>">
+                <fieldset class="js-field-name m-b-0 p-b-10">
+                    <label for="clientComment" class="col-sm-3 col-md-2 form-group__label">Комментарий</label>
+                    <div class="col-xs-12 col-sm-9 col-md-10">
+                        <p class="form-group__control-static">
+                            <span class="js-client-info"><?= $client->comment; ?></span>
+                            <? if ($client->status == 2) : ?>
+                                <a onclick="clients.edit.open(this)" role="button" class="m-l-5"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                            <? endif; ?>
+                        </p>
+                        <? if ($client->status == 2) : ?>
+                            <div class="form-group__control-group hide">
+                                <textarea name="comment" id="clientComment" rows="5" class="form-group__control form-group__control-group-input"><?= $client->comment; ?></textarea>
+                                <label onclick="clients.edit.save(this)" class="cursor-pointer form-group__control-group-addon"><i class="fa fa-check" aria-hidden="true"></i></label>
+                            </div>
+                        <? endif; ?>
+                    </div>
+                </fieldset>
 
             </div>
 
-        </div>
+            <input id="clientId" type="hidden" value="<?= $client->id; ?>">
+
+        </form>
+
+    </div>
 
 </div>

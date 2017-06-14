@@ -137,6 +137,7 @@ module.exports = (function (modal) {
 
         }
 
+        block.reset();
         block.classList.add('modal--closing');
 
         window.setTimeout(function () {

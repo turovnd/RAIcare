@@ -100,4 +100,19 @@ Class Model_Client {
 
         return $clients;
     }
+
+
+    public static function getByUserId($id)
+    {
+        $select = Dao_Clients::select()
+            ->where('user_id', '=', $id)
+            ->limit(1)
+            ->execute();
+
+        $client = new Model_Client();
+        $client = $client->fill_by_row($select);
+
+        return $client;
+    }
+
 }

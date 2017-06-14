@@ -1,52 +1,26 @@
 module.exports = (function (edit) {
 
-    var corePrefix  = 'Clients: edit info', i,
-        form        = null,
-        clientId    = null,
-        csrf        = null;
+    var corePrefix  = 'Clients: edit info';
 
-    function prepare_() {
+    edit.open = function (element) {
 
-        var editBtns = document.getElementsByClassName('js-edit-info'),
-            saveBtns = document.getElementsByClassName('js-save-info');
-
-        for (i = 0; i < editBtns.length; i++) {
-
-            editBtns[i].addEventListener('click', openEditForm_);
-
-        }
-
-        for (i = 0; i < saveBtns.length; i++) {
-
-            saveBtns[i].addEventListener('click', saveEditForm_);
-
-        }
-
-        clientId = document.getElementById('clientId').value;
-        csrf     = document.getElementById('csrf').value;
-        form     = document.getElementById('application');
-
-    }
-
-    function openEditForm_() {
-
-        var field = this.closest('.js-field-name');
+        var field = element.closest('.js-field-name');
 
         field.getElementsByClassName('form-group__control-static')[0].classList.toggle('hide');
         field.getElementsByClassName('form-group__control-group')[0].classList.toggle('hide');
 
-    }
+    };
 
-    function saveEditForm_() {
+    edit.save = function (element) {
 
-        var field    = this.closest('.js-field-name'),
+        var form     = document.getElementById('application'),
+            field    = element.closest('.js-field-name'),
             input    = field.getElementsByClassName('form-group__control')[0].value,
             name     = field.getElementsByClassName('form-group__control')[0].name,
             formData = new FormData();
 
-
-        formData.append('id', clientId);
-        formData.append('csrf', csrf);
+        formData.append('id', document.getElementById('clientId').value);
+        formData.append('csrf', document.getElementById('csrf').value);
         formData.append('name', name);
         formData.append('value', input);
 
@@ -90,13 +64,6 @@ module.exports = (function (edit) {
         };
 
         raisoft.ajax.send(ajaxData);
-
-    }
-
-
-    edit.init = function () {
-
-        prepare_();
 
     };
 
