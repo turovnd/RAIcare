@@ -11,7 +11,7 @@ class Model_Response_Email extends Model_Response_Abstract
     protected $_EMAIL_SEND_ERROR = array (
         'type' => 'email',
         'code' => '61',
-        'message' => 'ПРоизошла ошибка во время отправки письма, повторите попытку'
+        'message' => 'Произошла ошибка во время отправки письма, повторите попытку'
     );
 
     protected $_EMAIL_SEND_SUCCESS = array (
