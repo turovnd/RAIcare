@@ -77,16 +77,16 @@ class Controller_Pensions_Ajax extends Ajax
         $field  = Arr::get($_POST, 'name');
         $value  = Arr::get($_POST, 'value');
 
-        /*$organization = new Model_Organization($id);
+        $pension = new Model_Pension($id);
 
-        if (!$organization->id) {
-            $response = new Model_Response_Organizations('ORGANIZATION_EXISTED_ERROR', 'error');
+        if (!$pension->id) {
+            $response = new Model_Response_Pensions('PENSION_EXISTED_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
             return;
         }
 
-        if ($organization->$field == $value) {
-            $response = new Model_Response_Organizations('ORGANIZATION_UPDATE_WARNING', 'warning');
+        if ($pension->$field == $value) {
+            $response = new Model_Response_Pensions('PENSION_UPDATE_WARNING', 'warning');
             $this->response->body(@json_encode($response->get_response()));
             return;
         }
@@ -102,17 +102,17 @@ class Controller_Pensions_Ajax extends Ajax
             $check_org = Model_Organization::getByFieldName("uri", $value);
 
             if ($check_org->id) {
-                $response = new Model_Response_Organizations('ORGANIZATION_EXISTED_URI_ERROR', 'error');
+                $response = new Model_Response_Pensions('PENSION_EXISTED_URI_ERROR', 'error');
                 $this->response->body(@json_encode($response->get_response()));
                 return;
             }
 
         }
 
-        $organization->$field = $value;
-        $organization->update();
-*/
-        $response = new Model_Response_Organizations('ORGANIZATION_UPDATE_SUCCESS', 'success');
+        $pension->$field = $value;
+        $pension->update();
+
+        $response = new Model_Response_Pensions('PENSION_UPDATE_SUCCESS', 'success');
         $this->response->body(@json_encode($response->get_response()));
     }
 

@@ -1,6 +1,6 @@
 module.exports = (function (edit) {
 
-    var corePrefix  = 'Organiz: edit info';
+    var corePrefix  = 'Pension: edit info';
 
     edit.toggle = function (element) {
 
@@ -13,20 +13,20 @@ module.exports = (function (edit) {
 
     edit.save = function (element) {
 
-        var form     = document.getElementById('organization'),
+        var form     = document.getElementById('pension'),
             field    = element.closest('.js-field-name'),
             input    = field.getElementsByClassName('form-group__control')[0].value,
             name     = field.getElementsByClassName('form-group__control')[0].name,
             formData = new FormData();
 
-        formData.append('id', document.getElementById('organizationID').value);
+        formData.append('id', document.getElementById('pensionID').value);
         formData.append('csrf', document.getElementById('csrf').value);
         formData.append('name', name);
         formData.append('value', input);
 
 
         var ajaxData = {
-            url: '/organization/update',
+            url: '/pension/update',
             type: 'POST',
             data: formData,
             beforeSend: function () {
@@ -46,9 +46,9 @@ module.exports = (function (edit) {
                 });
 
 
-                if (parseInt(response.code) === 134 ) {
+                if (parseInt(response.code) === 144 ) {
 
-                    field.getElementsByClassName('js-organization-info')[0].textContent = input;
+                    field.getElementsByClassName('js-pension-info')[0].textContent = input;
                     field.getElementsByClassName('form-group__control-static')[0].classList.toggle('hide');
                     field.getElementsByClassName('form-group__control-group')[0].classList.toggle('hide');
 
@@ -57,7 +57,7 @@ module.exports = (function (edit) {
             },
             error: function (callbacks) {
 
-                raisoft.core.log('ajax error occur on updating client info', 'error', corePrefix, callbacks);
+                raisoft.core.log('ajax error occur on updating pension info', 'error', corePrefix, callbacks);
                 form.classList.remove('loading');
 
             }
@@ -69,10 +69,10 @@ module.exports = (function (edit) {
 
     edit.cover = function (element) {
 
-        var holder = document.getElementById('organizationCover');
+        var holder = document.getElementById('pensionCover');
 
         raisoft.transport.init({
-            url : '/transport/1',
+            url : '/transport/2',
             params : {
                 id : element.dataset.pk
             },
@@ -96,22 +96,24 @@ module.exports = (function (edit) {
 
                 response = JSON.parse(response);
 
-                raisoft.notification.notify({
-                    type: response.status,
-                    message: response.message
-                });
-
                 if (parseInt(response.code) === 88) {
 
                     holder.src = response.url;
                     holder.classList.remove('image--loading');
+
+                } else {
+
+                    raisoft.notification.notify({
+                        type: response.status,
+                        message: response.message
+                    });
 
                 }
 
             },
             error : function (callbacks) {
 
-                raisoft.core.log('ajax error occur on updating organization cover', 'error', corePrefix, callbacks);
+                raisoft.core.log('ajax error occur on updating pension cover', 'error', corePrefix, callbacks);
                 return false;
 
             }

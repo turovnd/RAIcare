@@ -57,7 +57,7 @@ module.exports = (function (edit) {
             },
             error: function (callbacks) {
 
-                raisoft.core.log('ajax error occur on updating client info', 'error', corePrefix, callbacks);
+                raisoft.core.log('ajax error occur on updating organization info', 'error', corePrefix, callbacks);
                 form.classList.remove('loading');
 
             }
@@ -96,15 +96,17 @@ module.exports = (function (edit) {
 
                 response = JSON.parse(response);
 
-                raisoft.notification.notify({
-                    type: response.status,
-                    message: response.message
-                });
-
                 if (parseInt(response.code) === 88) {
 
                     holder.src = response.url;
                     holder.classList.remove('image--loading');
+
+                } else {
+
+                    raisoft.notification.notify({
+                        type: response.status,
+                        message: response.message
+                    });
 
                 }
 
