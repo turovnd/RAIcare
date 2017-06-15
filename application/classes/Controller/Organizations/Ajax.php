@@ -10,9 +10,11 @@
 
 class Controller_Organizations_Ajax extends Ajax
 {
-    CONST MODULE_CLIENTS      = 6;
-    CONST CREATE_ORGANIZATION = 13;
-    CONST EDIT_ORGANIZATION   = 17;
+    CONST MODULE_CLIENTS           = 6;
+    CONST CREATE_ORGANIZATION      = 13;
+    CONST WATCH_ALL_ORGS_PAGES     = 14;
+    CONST WATCH_CREATED_ORGS_PAGES = 15;
+    CONST EDIT_ORGANIZATION        = 17;
 
     public function action_new()
     {
@@ -110,6 +112,32 @@ class Controller_Organizations_Ajax extends Ajax
         $organization->update();
 
         $response = new Model_Response_Organizations('ORGANIZATION_UPDATE_SUCCESS', 'success');
+        $this->response->body(@json_encode($response->get_response()));
+    }
+
+    public function action_get()
+    {
+        $type   = Arr::get($_POST, 'type');
+        $offset = Arr::get($_POST, 'offset');
+
+        switch ($type) {
+            case 'all_organizations':
+                self::hasAccess(self::WATCH_ALL_ORGS_PAGES);
+                $organizations = Model_Organization::getAll($offset,2);
+                break;
+            case 'created_organizations':
+                self::hasAccess(self::WATCH_CREATED_ORGS_PAGES);
+                $organizations = Model_Organization::getAll($offset,10);
+                break;
+
+        }
+
+        $html = "";
+        foreach ($organizations as $organization) {
+            $html .= View::factory('organizations/blocks/search-block', array('organization' => $organization))->render();
+        }
+
+        $response = new Model_Response_Organizations('ORGANIZATION_GET_SUCCESS', 'success', array('html'=>$html));
         $this->response->body(@json_encode($response->get_response()));
     }
 

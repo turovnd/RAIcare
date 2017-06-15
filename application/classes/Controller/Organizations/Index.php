@@ -40,13 +40,13 @@ class Controller_Organizations_Index extends Dispatch
     {
         self::hasAccess(self::WATCH_ALL_ORGS_PAGES);
 
-        $orgs = Model_Organization::getAll();
-        $organizations = $this->getOrganizations($orgs);
+        $organizations = Model_Organization::getAll(0,2);
 
         $this->template->title = "Все организации";
         $this->template->section = View::factory('organizations/pages/organizations')
             ->set('title', $this->template->title)
-            ->set('organizations', $organizations);
+            ->set('organizations', $organizations)
+            ->set('type', 'all_organizations');
     }
 
 
@@ -54,13 +54,13 @@ class Controller_Organizations_Index extends Dispatch
     {
         self::hasAccess(self::WATCH_CREATED_ORGS_PAGES);
 
-        $orgs = Model_Organization::getCreatedByUser($this->user->id);
-        $organizations = $this->getOrganizations($orgs);
+        $organizations = Model_Organization::getByCreator($this->user->id, 0, 2);
 
         $this->template->title = "Созданные организации";
         $this->template->section = View::factory('organizations/pages/organizations')
             ->set('title', $this->template->title)
-            ->set('organizations', $organizations );
+            ->set('organizations', $organizations )
+            ->set('type', 'created_organizations');
     }
 
 

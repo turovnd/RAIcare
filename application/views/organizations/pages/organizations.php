@@ -35,6 +35,13 @@
 
                         </div>
 
+                        <div class="text-center m-t-20 m-b-10" id="getMore">
+                            <button onclick="organization.get.blocks(this)" data-type="<?=$type; ?>" data-offset="<?= count($organizations); ?>" data-search="false" class="btn btn--lg btn--default btn--round p-r-50 p-l-50">
+                                <span>Загрузить ещё</span>
+                            </button>
+
+                        </div>
+
                     </div>
                 </div>
 
@@ -46,3 +53,4 @@
 
 </div>
 
+<script type="text/javascript" src="<?=$assets; ?>frontend/bundles/organization.min.js?v=<?= filemtime("assets/frontend/bundles/organization.min.js") ?>"></script>
