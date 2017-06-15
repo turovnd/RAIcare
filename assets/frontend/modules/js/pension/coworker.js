@@ -1,6 +1,6 @@
 module.exports = (function (coworker) {
 
-    var corePrefix   = 'Organiz: coworker',
+    var corePrefix   = 'Pension: coworker',
         excludeUser  = null,
         excludeBlock = null,
         excludeForm  = null,
@@ -11,11 +11,11 @@ module.exports = (function (coworker) {
         var form     = document.getElementById('inviteCoWorkerModal'),
             formData = new FormData(form);
 
-        formData.append('organization', document.getElementById('organizationID').value);
+        formData.append('pension', document.getElementById('pensionID').value);
         formData.append('csrf', document.getElementById('csrf').value);
 
         var ajaxData = {
-            url: '/profile/inviteuser',
+            url: '/pension/inviteuser',
             type: 'POST',
             data: formData,
             beforeSend: function () {
@@ -66,7 +66,7 @@ module.exports = (function (coworker) {
             message: '<div id="excludeForm">' +
             '<h2>Исключить сотрудника</h2>'+
             '<p>Вы уверены, то хотите исключить ' + name + '?</p>'+
-            '<p>Исключив сотрудника, у него больше не будет доступа к системе.</p>'+
+            '<p>Исключив сотрудника, у него больше не будет доступа к пансионту.</p>'+
             '</div>',
             confirmText: 'Исключить',
             showCancelButton: true,
@@ -87,11 +87,11 @@ module.exports = (function (coworker) {
             formData = new FormData();
 
         formData.append('user', excludeUser);
-        formData.append('organization', document.getElementById('organizationID').value);
+        formData.append('pension', document.getElementById('pensionID').value);
         formData.append('csrf', document.getElementById('csrf').value);
 
         var ajaxData = {
-            url: '/profile/excludeuser',
+            url: '/pension/excludeuser',
             type: 'POST',
             data: formData,
             beforeSend: function () {
@@ -111,7 +111,7 @@ module.exports = (function (coworker) {
                 });
 
 
-                if (parseInt(response.code) === 133 ) {
+                if (parseInt(response.code) === 143 ) {
 
                     excludeBlock.remove();
                     excludeForm.close();
@@ -122,7 +122,7 @@ module.exports = (function (coworker) {
             },
             error: function (callbacks) {
 
-                raisoft.core.log('ajax error occur on inviting coworker', 'error', corePrefix, callbacks);
+                raisoft.core.log('ajax error occur on excluding coworker', 'error', corePrefix, callbacks);
                 form.classList.remove('loading');
 
             }
@@ -150,7 +150,7 @@ module.exports = (function (coworker) {
 
             footer:
                 '<button type="button" class="btn btn--default" data-close="modal">Отмена</button>'+
-                '<button onclick="organization.coworker.updaterole()" type="button" class="btn btn--brand">Изменить</button>'
+                '<button onclick="pension.coworker.updaterole()" type="button" class="btn btn--brand">Изменить</button>'
         });
 
 
@@ -161,8 +161,9 @@ module.exports = (function (coworker) {
         var form     = document.getElementById('updateCoWorkerModal'),
             formData = new FormData(form);
 
-        formData.append('organization', document.getElementById('organizationID').value);
+        formData.append('pension', document.getElementById('pensionID').value);
         formData.append('role', document.getElementById('updateCoWorkerRole').value);
+        formData.append('type', 'pension');
         formData.append('user', document.getElementById('updateCoWorkerRole').dataset.pk);
         formData.append('csrf', document.getElementById('csrf').value);
 

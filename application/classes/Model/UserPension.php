@@ -46,7 +46,7 @@ Class Model_UserPension {
     {
         $select = Dao_UsersPensions::select()
             ->where('p_id', '=', $pension)
-            ->order_by('u_id', 'DESC')
+            ->order_by('u_id', 'ASC')
             ->execute();
 
         if (empty($select)) return array();

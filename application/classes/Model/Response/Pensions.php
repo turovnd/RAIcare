@@ -16,7 +16,7 @@ class Model_Response_Pensions extends Model_Response_Abstract
         'message' => 'Пансионат успешно создана'
     );
 
-    protected $_PENSION_EXISTED_ERROR = array (
+    protected $_PENSION_DOES_NOT_EXISTED_ERROR = array (
         'type' => 'pension',
         'code' => '142',
         'message' => 'Пансионат не существет'

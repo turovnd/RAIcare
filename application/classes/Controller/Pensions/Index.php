@@ -15,7 +15,7 @@ class Controller_Pensions_Index extends Dispatch
     CONST WATCH_CERTAIN_PENSIONS_PAGES = 26;
     CONST EDIT_PENSION                 = 27;
     CONST STATISTIC_PENSION            = 30;
-    CONST AVAILABLE_ROLES              = array(10,11,20,21);
+    CONST AVAILABLE_ROLES_PEN          = array(11,12);
 
     public $template = 'main';
 
@@ -110,7 +110,7 @@ class Controller_Pensions_Index extends Dispatch
         }
 
         $roles = array();
-        foreach (self::AVAILABLE_ROLES as $role) {
+        foreach (self::AVAILABLE_ROLES_PEN as $role) {
             $roles[] = new Model_Role($role);
         }
 
@@ -148,7 +148,7 @@ class Controller_Pensions_Index extends Dispatch
         }
 
         $roles = array();
-        foreach (self::AVAILABLE_ROLES as $role) {
+        foreach (self::AVAILABLE_ROLES_PEN as $role) {
             $roles[] = new Model_Role($role);
         }
 

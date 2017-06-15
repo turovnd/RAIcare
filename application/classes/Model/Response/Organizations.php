@@ -14,7 +14,7 @@ class Model_Response_Organizations extends Model_Response_Abstract
         'message' => 'Организация успешно создана'
     );
 
-    protected $_ORGANIZATION_EXISTED_ERROR = array (
+    protected $_ORGANIZATION_DOES_NOT_EXISTED_ERROR = array (
         'type' => 'organization',
         'code' => '132',
         'message' => 'Организация не существет'

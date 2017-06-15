@@ -15,10 +15,11 @@ class Controller_Profiles_Ajax extends Ajax
     CONST MODULE_USERS              = 10;
     CONST CREATE_USER               = 5;
     CONST CREATE_USER_BASED_ON_FORM = 9;
-    CONST INVITE_CO_WORKER_TO_ORG   = 18;
     CONST CHANGE_CO_WORKER_ROLE_ORG = 22;
     CONST CHANGE_CO_WORKER_ROLE_PEN = 32;
     CONST CHANGE_USER_ROLE          = 33;
+    CONST AVAILABLE_ROLES_ORG       = array(11,12);
+    CONST AVAILABLE_ROLES_PEN       = array(11,12);
 
 
     /**
@@ -248,91 +249,6 @@ class Controller_Profiles_Ajax extends Ajax
     }
 
 
-    public function action_inviteuser()
-    {
-        $name          = Arr::get($_POST, 'name');
-        $email         = Arr::get($_POST, 'email');
-        $organization  = Arr::get($_POST, 'organization');
-
-        if (empty($name)) {
-            $response = new Model_Response_Form('EMPTY_FIELD_ERROR', 'error');
-            $this->response->body(@json_encode($response->get_response()));
-            return;
-        }
-
-        if (!Valid::email($email))
-        {
-            $response = new Model_Response_Email('EMAIL_FORMAT_ERROR', 'error');
-            $this->response->body(@json_encode($response->get_response()));
-            return;
-        }
-
-        $organization = new Model_Organization($organization);
-
-        if (!$organization->id)
-        {
-            $response = new Model_Response_Organizations('ORGANIZATION_EXISTED_ERROR', 'error');
-            $this->response->body(@json_encode($response->get_response()));
-            return;
-        }
-
-        $users = Model_UserOrganization::getUsers($organization->id);
-
-        if (!in_array($this->user->id, $users) || !in_array(self::INVITE_CO_WORKER_TO_ORG, $this->user->permissions)) {
-            throw new HTTP_Exception_403();
-        }
-
-
-        /**
-         * TODO send email to ORG CO-WORKER
-         */
-//        $template = View::factory('email_templates/application_request', array('name' => $name, 'email' => $email));
-//        $emailForm = new Email();
-//        $emailForm->send($email, $_SERVER['INFO_EMAIL'], 'Заявка принята - ' . $GLOBALS['SITE_NAME'], $template, true);
-
-        $response = new Model_Response_Email('EMAIL_SEND_SUCCESS', 'success');
-        $this->response->body(@json_encode($response->get_response()));
-
-    }
-
-
-    public function action_excludeuser()
-    {
-        $userID       = Arr::get($_POST, 'user');
-        $organization = Arr::get($_POST, 'organization');
-
-        $user = new Model_User($userID);
-
-        if (!$user->id) {
-            $response = new Model_Response_Users('USER_DOES_NOT_EXISTED_ERROR', 'error');
-            $this->response->body(@json_encode($response->get_response()));
-            return;
-        }
-
-        $organization = new Model_Organization($organization);
-
-        if (!$organization->id)
-        {
-            $response = new Model_Response_Organizations('ORGANIZATION_EXISTED_ERROR', 'error');
-            $this->response->body(@json_encode($response->get_response()));
-            return;
-        }
-
-        Model_UserOrganization::delete($user->id, $organization->id);
-
-        /**
-         * TODO send email to $user that his was deleted from organization
-         */
-//        $template = View::factory('email_templates/application_request', array('name' => $name, 'email' => $email));
-//        $emailForm = new Email();
-//        $emailForm->send($email, $_SERVER['INFO_EMAIL'], 'Заявка принята - ' . $GLOBALS['SITE_NAME'], $template, true);
-
-        $response = new Model_Response_Organizations('ORGANIZATION_USER_DELETE_SUCCESS', 'success');
-        $this->response->body(@json_encode($response->get_response()));
-
-    }
-
-
     public function action_changerole()
     {
         $type         = Arr::get($_POST, 'type');
@@ -347,11 +263,21 @@ class Controller_Profiles_Ajax extends Ajax
                 if (!in_array($this->user->id, $users) || !in_array(self::CHANGE_CO_WORKER_ROLE_ORG, $this->user->permissions)) {
                     throw new HTTP_Exception_403();
                 }
+                if (!in_array($role, self::AVAILABLE_ROLES_ORG)) {
+                    $response = new Model_Response_Roles('ROLE_NOT_ALLOWED_ERROR', 'error');
+                    $this->response->body(@json_encode($response->get_response()));
+                    return;
+                }
                 break;
             case 'pension' :
                 $users = Model_UserPension::getUsers($pension);
                 if (!in_array($this->user->id, $users) || !in_array(self::CHANGE_CO_WORKER_ROLE_PEN, $this->user->permissions)) {
                     throw new HTTP_Exception_403();
+                }
+                if (!in_array($role, self::AVAILABLE_ROLES_PEN)) {
+                    $response = new Model_Response_Roles('ROLE_NOT_ALLOWED_ERROR', 'error');
+                    $this->response->body(@json_encode($response->get_response()));
+                    return;
                 }
                 break;
             case 'admin' :

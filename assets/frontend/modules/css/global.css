@@ -19,7 +19,7 @@ body{
      opacity: .75;
  }
 .image--loading{
-    filter: blur(2px);
+    filter: blur(10px);
 }
 
 /**
@@ -285,7 +285,7 @@ fieldset {
     margin: 0 0 20px;
 }
 
-fieldset.last-child, fieldset:last-child {
+fieldset:last-child {
     border-bottom: 0;
 }
 
