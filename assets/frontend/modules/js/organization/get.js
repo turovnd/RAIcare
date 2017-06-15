@@ -33,7 +33,7 @@ module.exports = (function (get) {
         if (!ajaxPOST) {
 
             getBlocks_();
-            document.addEventListener('scroll', checkForOffset_);
+            document.addEventListener('scroll', checkOffset_);
 
         }
 
@@ -93,7 +93,7 @@ module.exports = (function (get) {
                     } else {
 
                         button.innerHTML = 'Всего ' + parseInt(parseInt(offset) + parseInt(response.number));
-                        document.removeEventListener('scroll', checkForOffset_);
+                        document.removeEventListener('scroll', checkOffset_);
 
                     }
 
@@ -124,7 +124,7 @@ module.exports = (function (get) {
 
 
 
-    function checkForOffset_() {
+    function checkOffset_() {
 
         var bottom = holder.getBoundingClientRect().bottom;
 

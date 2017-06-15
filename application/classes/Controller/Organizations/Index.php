@@ -74,11 +74,12 @@ class Controller_Organizations_Index extends Dispatch
 
         if (!empty($organizationsID)) {
             foreach ($organizationsID as $id) {
-                $organizations[] = new Model_Organization($id);
+                $organization = new Model_Organization($id);
+                $organization->creator = new Model_User($organization->creator);
+                $organization->owner = new Model_User($organization->owner);
+                $organizations[] = $organization;
             }
         }
-
-        $organizations = $this->getOrganizations($organizations);
 
         $this->template->title = "Мои организации";
         $this->template->section = View::factory('organizations/pages/my-organizations')
@@ -182,29 +183,6 @@ class Controller_Organizations_Index extends Dispatch
         $this->template->section = View::factory('organizations/pages/statistic')
             ->set('organization', $organization);
     }
-
-
-
-
-    /**
-     * @param $array - Array of Models Organizations
-     * @return array - Array of Models Organizations + Models Users in `creator` and `owner`
-     */
-    private function getOrganizations($array)
-    {
-        $organizations = array();
-
-        if (empty($array)) return $organizations;
-
-        foreach ($array as $organization) {
-            $organization->creator = new Model_User($organization->creator);
-            $organization->owner = new Model_User($organization->owner);
-            $organizations[] = $organization;
-        }
-
-        return $organizations;
-    }
-
 
 
 }
