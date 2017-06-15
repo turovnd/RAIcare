@@ -2,7 +2,7 @@
 
     <div class="card">
 
-        <a href="<?=URL::site('organization/' . $organization->id); ?>" class="card__img" style="background-image: url(<?=URL::site('uploads/organizations/cover/' . $organization->cover); ?>)"></a>
+        <a href="<?=URL::site('organization/' . $organization->id); ?>" class="card__img" style="background-image: url(<?=URL::site('uploads/organizations/cover/o_' . $organization->cover); ?>)"></a>
 
         <div class="card__content">
 

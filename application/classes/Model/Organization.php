@@ -8,7 +8,7 @@ Class Model_Organization {
     public $uri;
     public $owner;
     public $creator;
-    public $cover = "default-cover.png";
+    public $cover = "no-image.png";
     public $is_removed;
     public $dt_create;
 
@@ -43,6 +43,18 @@ Class Model_Organization {
             ->execute();
 
         return $this->fill_by_row($select);
+
+    }
+
+    public static function getByFieldName($field, $value) {
+
+        $select = Dao_Organizations::select()
+            ->where($field, '=', $value)
+            ->limit(1)
+            ->execute();
+
+        $organization = new Model_Organization($select['id']);
+        return $organization->fill_by_row($select);
 
     }
 
@@ -88,11 +100,24 @@ Class Model_Organization {
 
     }
 
-    public static function getAll()
+    public static function getAll($offset, $limit = 10, $name = "")
     {
-        $select = Dao_Organizations::select()
-            ->order_by('dt_create', 'DESC')
-            ->execute();
+        if ($name == "") {
+            $select = Dao_Organizations::select()
+                ->order_by('dt_create', 'DESC')
+                ->offset($offset)
+                ->limit($limit)
+                ->execute();
+
+        } else {
+            $select = Dao_Organizations::select()
+                ->where('name','LIKE', '%' . $name . '%')
+                ->order_by('dt_create', 'DESC')
+                ->offset($offset)
+                ->limit($limit)
+                ->execute();
+        }
+
 
         $organizations = array();
 
@@ -100,19 +125,35 @@ Class Model_Organization {
 
         foreach ($select as $item) {
             $organization = new Model_Organization();
-            $organizations[] = $organization->fill_by_row($item);
+            $organization = $organization->fill_by_row($item);
+            $organization->creator = new Model_User($organization->creator);
+            $organization->owner = new Model_User($organization->owner);
+            $organizations[] = $organization;
         }
 
         return $organizations;
     }
 
 
-    public static function getCreatedByUser($id)
+    public static function getByCreator($id, $offset, $limit = 10, $name = "")
     {
-        $select = Dao_Organizations::select()
-            ->where('creator','=', $id)
-            ->order_by('dt_create', 'DESC')
-            ->execute();
+        if ($name == "") {
+            $select = Dao_Organizations::select()
+                ->where('creator','=', $id)
+                ->order_by('dt_create', 'DESC')
+                ->offset($offset)
+                ->limit($limit)
+                ->execute();
+
+        } else {
+            $select = Dao_Organizations::select()
+                ->where('creator','=', $id)
+                ->where('name','LIKE', '%' . $name . '%')
+                ->order_by('dt_create', 'DESC')
+                ->offset($offset)
+                ->limit($limit)
+                ->execute();
+        }
 
         $organizations = array();
 
@@ -120,7 +161,10 @@ Class Model_Organization {
 
         foreach ($select as $item) {
             $organization = new Model_Organization();
-            $organizations[] = $organization->fill_by_row($item);
+            $organization = $organization->fill_by_row($item);
+            $organization->creator = new Model_User($organization->creator);
+            $organization->owner = new Model_User($organization->owner);
+            $organizations[] = $organization;
         }
 
         return $organizations;

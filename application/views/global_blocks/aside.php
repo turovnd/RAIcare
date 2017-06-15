@@ -125,7 +125,11 @@
     <? // Module Organizations => permission: WATCH_ALL_ORGS_PAGES = 14 || WATCH_CREATED_ORGS_PAGES = 15
     if (in_array(14, $user->permissions) || in_array(15, $user->permissions)) : ?>
 
-        <li class="aside__item <? echo $action == 'org_all' || $action == 'org_created' || $action == "org_organization" ? 'aside__item--active' : ''; ?>">
+        <li class="aside__item <? echo $action == 'org_all'
+                                    || $action == 'org_created'
+                                    || $action == "org_organization"
+                                    || $action == "org_settings"
+                                    || $action == "org_statistic" ? 'aside__item--active' : ''; ?>">
 
             <a role="button" data-toggle="collapse" data-area="moduleOrganizations" data-opened="false" class="aside__link <? echo $action == 'org_all' || $action == 'org_created' ? 'aside__link--active' : ''; ?>">
                 <i class="fa fa-briefcase aside__icon" aria-hidden="true"></i>
@@ -167,7 +171,10 @@
     <? // Module Organizations => WATCH_CERTAIN_ORGS_PAGES = 16
     if (in_array(16, $user->permissions)) : ?>
 
-        <li class="aside__item <? echo $action == "org_my" || $action == "org_organization" ? 'aside__item--active' : ''; ?>">
+        <li class="aside__item <? echo $action == 'org_my'
+                                        || $action == "org_organization"
+                                        || $action == "org_settings"
+                                        || $action == "org_statistic" ? 'aside__item--active' : ''; ?>">
             <a href="<?=URL::site('organizations/my'); ?>" class="aside__link <? echo $action == "org_my" ? 'aside__link--active' : ''; ?>">
                 <i class="fa fa-briefcase aside__icon" aria-hidden="true"></i>
                 <span class="aside__text">Мои организации</span>

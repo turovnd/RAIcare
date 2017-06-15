@@ -14,8 +14,8 @@ class Controller_Transport extends Dispatch {
     private $params = null;
 
     private $typesAvailable = array(
-        Model_Uploader::SLIDE_BACKGROUND,
-        Model_Uploader::SLIDE_ANSWER_IMAGE
+        Model_Uploader::ORGANIZATION_COVER,
+        Model_Uploader::PENSION_COVER
     );
 
     /** File transport module */
@@ -42,7 +42,6 @@ class Controller_Transport extends Dispatch {
         if ( $uploadedFile ) {
             $data = array(
                 'url'       => $uploadedFile['filepath'],
-                'icon_url'  => $uploadedFile['icon_filepath'],
                 'name'      => $uploadedFile['filename'],
             );
             $response = new Model_Response_Uploader('UPLOADER_FILE_SUCCESS', 'success', $data);

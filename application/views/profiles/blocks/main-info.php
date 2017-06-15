@@ -8,12 +8,13 @@
                 <p class="form-group__control-static">
                     <span class="js-profile-info"><?= $profile->name; ?></span>
                     <? if ($profile->can_edit) : ?>
-                    <a onclick="profile.edit.open(this)" role="button" class="m-l-5"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                    <a onclick="profile.edit.toggle(this)" role="button" class="m-l-5"><i class="fa fa-pencil" aria-hidden="true"></i></a>
                     <? endif; ?>
                 </p>
                 <? if ($profile->can_edit) : ?>
                 <div class="form-group__control-group hide">
                     <input id="profileName" name="name" type="text" class="form-group__control form-group__control-group-input" value="<?= $profile->name; ?>" maxlength="256">
+                    <label onclick="profile.edit.toggle(this)" class="b-l-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
                     <label onclick="profile.edit.save(this)" class="cursor-pointer form-group__control-group-addon"><i class="fa fa-check" aria-hidden="true"></i></label>
                 </div>
                 <? endif; ?>
@@ -26,7 +27,7 @@
                 <p class="form-group__control-static">
                     <span class="js-profile-info"><?= $profile->email; ?></span>
                     <? if ($profile->can_edit) : ?>
-                        <a onclick="profile.edit.open(this)" role="button" class="m-l-5"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                        <a onclick="profile.edit.toggle(this)" role="button" class="m-l-5"><i class="fa fa-pencil" aria-hidden="true"></i></a>
                         <? if (!$profile->is_confirmed) : ?>
                             <label class="label label--warning m-l-15 m-b-10">не подтверждена</label>
                         <? else: ?>
@@ -37,6 +38,7 @@
                 <? if ($profile->can_edit) : ?>
                     <div class="form-group__control-group hide">
                         <input id="profileEmail" name="email" type="email" class="form-group__control form-group__control-group-input" value="<?= $profile->email; ?>" maxlength="64">
+                        <label onclick="profile.edit.toggle(this)" class="b-l-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
                         <label onclick="profile.edit.save(this)" class="cursor-pointer form-group__control-group-addon"><i class="fa fa-check" aria-hidden="true"></i></label>
                     </div>
                 <? endif; ?>
@@ -49,12 +51,13 @@
                 <p class="form-group__control-static">
                     <span class="js-profile-info"><?= $profile->username; ?></span>
                     <? if ($profile->can_edit) : ?>
-                        <a onclick="profile.edit.open(this)" role="button" class="m-l-5"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                        <a onclick="profile.edit.toggle(this)" role="button" class="m-l-5"><i class="fa fa-pencil" aria-hidden="true"></i></a>
                     <? endif; ?>
                 </p>
                 <? if ($profile->can_edit) : ?>
                     <div class="form-group__control-group hide">
                         <input id="profileUserName" name="username" type="text" class="form-group__control form-group__control-group-input" value="<?= $profile->username; ?>" maxlength="30">
+                        <label onclick="profile.edit.toggle(this)" class="b-l-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
                         <label onclick="profile.edit.save(this)" class="cursor-pointer form-group__control-group-addon"><i class="fa fa-check" aria-hidden="true"></i></label>
                     </div>
                 <? endif; ?>
@@ -88,12 +91,13 @@
                 <p class="form-group__control-static">
                     <span class="js-profile-info"><?= $profile->city; ?></span>
                     <? if ($profile->can_edit) : ?>
-                        <a onclick="profile.edit.open(this)" role="button" class="m-l-5"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                        <a onclick="profile.edit.toggle(this)" role="button" class="m-l-5"><i class="fa fa-pencil" aria-hidden="true"></i></a>
                     <? endif; ?>
                 </p>
                 <? if ($profile->can_edit) : ?>
                     <div class="form-group__control-group hide">
                         <input id="profileCity" name="city" type="text" class="form-group__control form-group__control-group-input" value="<?= $profile->city; ?>">
+                        <label onclick="profile.edit.toggle(this)" class="b-l-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
                         <label onclick="profile.edit.save(this)" class="cursor-pointer form-group__control-group-addon"><i class="fa fa-check" aria-hidden="true"></i></label>
                     </div>
                 <? endif; ?>
@@ -106,12 +110,13 @@
                 <p class="form-group__control-static">
                     <span class="js-profile-info"><?= $profile->phone; ?></span>
                     <? if ($profile->can_edit) : ?>
-                        <a onclick="profile.edit.open(this)" role="button" class="m-l-5"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                        <a onclick="profile.edit.toggle(this)" role="button" class="m-l-5"><i class="fa fa-pencil" aria-hidden="true"></i></a>
                     <? endif; ?>
                 </p>
                 <? if ($profile->can_edit) : ?>
                     <div class="form-group__control-group hide">
                         <input id="profilePhone" name="phone" type="text" class="form-group__control form-group__control-group-input" value="<?= $profile->phone; ?>">
+                        <label onclick="profile.edit.toggle(this)" class="b-l-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
                         <label onclick="profile.edit.save(this)" class="cursor-pointer form-group__control-group-addon"><i class="fa fa-check" aria-hidden="true"></i></label>
                     </div>
                 <? endif; ?>

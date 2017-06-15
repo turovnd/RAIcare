@@ -23,10 +23,11 @@ const bundlePath    = path.resolve(__dirname, "../bundles/");
 module.exports = {
 
     entry: {
-        "raisoft"   : path.resolve(__dirname, "../raisoft.js"),
-        "admin"     : path.resolve(__dirname, "../admin.js"),
-        "clients"   : path.resolve(__dirname, "../clients.js"),
-        "profile"   : path.resolve(__dirname, "../profile.js")
+        "raisoft"       : path.resolve(__dirname, "../raisoft.js"),
+        "admin"         : path.resolve(__dirname, "../admin.js"),
+        "clients"       : path.resolve(__dirname, "../clients.js"),
+        "profile"       : path.resolve(__dirname, "../profile.js"),
+        "organization"  : path.resolve(__dirname, "../organization.js")
     },
 
     output: {

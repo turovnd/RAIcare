@@ -1,7 +1,7 @@
 .time-line{
     display: table;
     list-style: none;
-    padding: 0 0 20px;
+    padding: 0 15px 20px;
     margin-bottom: 30px;
     position: relative;
     width: 100%;
@@ -15,7 +15,7 @@
     content: " ";
     width: 1px;
     background-color: #cfcfcf;
-    left: 18px;
+    left: 40px;
 }
 
 .time-line__end{
@@ -145,7 +145,7 @@
 
 .time-line__badge {
     position: absolute;
-    left: 0;
+    left: 22px;
     width: 36px;
     height: 36px;
     border-radius: 500px;

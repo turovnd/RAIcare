@@ -15,6 +15,7 @@ class Controller_Organizations_Index extends Dispatch
     CONST WATCH_MY_ORGS_PAGES      = 16;
     CONST EDIT_ORGANIZATION        = 17;
     CONST STATISTIC_ORGANIZATION   = 20;
+    CONST AVAILABLE_ROLES          = array(11,12);
 
     public $template = 'main';
 
@@ -39,13 +40,13 @@ class Controller_Organizations_Index extends Dispatch
     {
         self::hasAccess(self::WATCH_ALL_ORGS_PAGES);
 
-        $orgs = Model_Organization::getAll();
-        $organizations = $this->getOrganizations($orgs);
+        $organizations = Model_Organization::getAll(0,10);
 
         $this->template->title = "Все организации";
         $this->template->section = View::factory('organizations/pages/organizations')
             ->set('title', $this->template->title)
-            ->set('organizations', $organizations);
+            ->set('organizations', $organizations)
+            ->set('type', 'all_organizations');
     }
 
 
@@ -53,13 +54,13 @@ class Controller_Organizations_Index extends Dispatch
     {
         self::hasAccess(self::WATCH_CREATED_ORGS_PAGES);
 
-        $orgs = Model_Organization::getCreatedByUser($this->user->id);
-        $organizations = $this->getOrganizations($orgs);
+        $organizations = Model_Organization::getByCreator($this->user->id, 0, 10);
 
         $this->template->title = "Созданные организации";
         $this->template->section = View::factory('organizations/pages/organizations')
             ->set('title', $this->template->title)
-            ->set('organizations', $organizations );
+            ->set('organizations', $organizations )
+            ->set('type', 'created_organizations');
     }
 
 
@@ -73,11 +74,12 @@ class Controller_Organizations_Index extends Dispatch
 
         if (!empty($organizationsID)) {
             foreach ($organizationsID as $id) {
-                $organizations[] = new Model_Organization($id);
+                $organization = new Model_Organization($id);
+                $organization->creator = new Model_User($organization->creator);
+                $organization->owner = new Model_User($organization->owner);
+                $organizations[] = $organization;
             }
         }
-
-        $organizations = $this->getOrganizations($organizations);
 
         $this->template->title = "Мои организации";
         $this->template->section = View::factory('organizations/pages/my-organizations')
@@ -93,11 +95,29 @@ class Controller_Organizations_Index extends Dispatch
         if (!$organization->id)
             throw new HTTP_Exception_404();
 
-        $users = Model_UserOrganization::getUsers($organization->id);
+        $usersIDs = Model_UserOrganization::getUsers($organization->id);
 
-        if (!(in_array($this->user->id, $users) || $organization->creator == $this->user->id || $this->user->role == 1)) {
+        if (!(in_array($this->user->id, $usersIDs) || $organization->creator == $this->user->id || $this->user->role == 1)) {
             throw new HTTP_Exception_403();
         }
+
+        $users = array();
+        foreach ($usersIDs as $userID) {
+            $user = new Model_User($userID);
+            $user->role = new Model_Role($user->role);
+            $users[] = $user;
+        }
+
+        $pensions = Model_Pension::getByOrganizationID($organization->id) ?: [];
+
+        $roles = array();
+        foreach (self::AVAILABLE_ROLES as $role) {
+            $roles[] = new Model_Role($role);
+        }
+
+        $organization->pensions = $pensions;
+        $organization->users = $users;
+        $organization->roles = $roles;
 
         $this->template->title = $organization->name;
         $this->template->section = View::factory('organizations/pages/main')
@@ -115,11 +135,26 @@ class Controller_Organizations_Index extends Dispatch
 
         self::hasAccess(self::EDIT_ORGANIZATION);
 
-        $users = Model_UserOrganization::getUsers($organization->id);
+        $usersIDs = Model_UserOrganization::getUsers($organization->id);
 
-        if (!(in_array($this->user->id, $users) || $organization->creator == $this->user->id || $this->user->role == 1)) {
+        if (!(in_array($this->user->id, $usersIDs) || $organization->creator == $this->user->id || $this->user->role == 1)) {
             throw new HTTP_Exception_403();
         }
+
+        $users = array();
+        foreach ($usersIDs as $userID) {
+            $user = new Model_User($userID);
+            $user->role = new Model_Role($user->role);
+            $users[] = $user;
+        }
+
+        $roles = array();
+        foreach (self::AVAILABLE_ROLES as $role) {
+            $roles[] = new Model_Role($role);
+        }
+
+        $organization->users = $users;
+        $organization->roles = $roles;
 
         $this->template->title = $organization->name;
         $this->template->section = View::factory('organizations/pages/settings')
@@ -148,29 +183,6 @@ class Controller_Organizations_Index extends Dispatch
         $this->template->section = View::factory('organizations/pages/statistic')
             ->set('organization', $organization);
     }
-
-
-
-
-    /**
-     * @param $array - Array of Models Organizations
-     * @return array - Array of Models Organizations + Models Users in `creator` and `owner`
-     */
-    private function getOrganizations($array)
-    {
-        $organizations = array();
-
-        if (empty($array)) return $organizations;
-
-        foreach ($array as $organization) {
-            $organization->creator = new Model_User($organization->creator);
-            $organization->owner = new Model_User($organization->owner);
-            $organizations[] = $organization;
-        }
-
-        return $organizations;
-    }
-
 
 
 }

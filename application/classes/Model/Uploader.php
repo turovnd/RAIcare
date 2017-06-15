@@ -3,12 +3,12 @@
 
 class Model_Uploader extends Model
 {
-    const SLIDE_BACKGROUND   = 1;
-    const SLIDE_ANSWER_IMAGE = 2;
+    const ORGANIZATION_COVER = 1;
+    const PENSION_COVER      = 2;
 
     private $images = array(
-        self::SLIDE_BACKGROUND,
-        self::SLIDE_ANSWER_IMAGE
+        self::ORGANIZATION_COVER,
+        self::PENSION_COVER
     );
 
     /** @var upload module configuration */
@@ -19,7 +19,6 @@ class Model_Uploader extends Model
     public $filename;
     public $file_hash_hex;
     public $filepath;
-    public $small_filepath;
     public $mime;
 
     public function __construct($id = null, $file_hash_hex = null, $row = array())
@@ -45,7 +44,7 @@ class Model_Uploader extends Model
      * @param $file - (array) file object
      * @param $user_id - (int) author
      * @param $params - (Object) $params
-     * @return array - (String) uploaded file name
+     * @return array
      */
     public function upload($type, $file, $user_id, $params)
     {
@@ -68,23 +67,24 @@ class Model_Uploader extends Model
         }
 
         switch ($type) {
-            case self::SLIDE_BACKGROUND:
+            case self::ORGANIZATION_COVER:
                 $this->filename = $savedFilename;
+                $organization = new Model_Organization($params->id);
+                $organization->cover = $savedFilename;
+                $organization->update();
                 break;
 
-            case self::SLIDE_ANSWER_IMAGE:
+            case self::PENSION_COVER:
                 $this->filename = $savedFilename;
 
         }
 
-        $this->small_filepath  = DIRECTORY_SEPARATOR . $path . 's_' . $this->filename;
         $this->filepath  = DIRECTORY_SEPARATOR . $path . 'o_' . $this->filename;
         $this->author    = $user_id;
 
         return array(
             'filename'       => $this->filename,
             'filepath'       => $this->filepath,
-            'icon_filepath' => $this->small_filepath,
         );
     }
 

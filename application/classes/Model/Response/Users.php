@@ -50,4 +50,10 @@ class Model_Response_Users extends Model_Response_Abstract
         'message' => 'Пароль успешно изменен'
     );
 
+    protected $_USER_DOES_NOT_EXISTED_ERROR = array (
+        'type' => 'user',
+        'code' => '58',
+        'message' => 'Пользователь не существует'
+    );
+
 }

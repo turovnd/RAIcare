@@ -22,16 +22,19 @@ module.exports = (function (modal) {
      * Modal Create Function via JS
      *
      *  settings = {
-     *      id          - unique ID of modal block
-     *      size        - width of modal block (small || large)
-     *      header      - STRING
-     *      body        - body HTML
-     *      footer      - footer HTML ( for close include data attribute: `data-close="modal"`)
+     *      node     - DIV || FORM
+     *      id       - unique ID of modal block
+     *      size     - width of modal block (small || large)
+     *      header   - STRING
+     *      body     - body HTML
+     *      footer   - footer HTML ( for close include data attribute: `data-close="modal"`)
      *  }
      */
     modal.create = function (settings) {
 
-        var modalWrapper = raisoft.draw.node('DIV', 'modal', {id: settings.id, 'tabindex': '-1'}),
+        settings.node = settings.node || 'DIV';
+
+        var modalWrapper = raisoft.draw.node(settings.node, 'modal', {id: settings.id, 'tabindex': '-1'}),
             content      = raisoft.draw.node('DIV', 'modal__content'),
             header       = raisoft.draw.node('DIV', 'modal__header'),
             headerTitle  = raisoft.draw.node('H4', 'modal__title'),
@@ -137,7 +140,9 @@ module.exports = (function (modal) {
 
         }
 
-        block.reset();
+        if (block.tagName === 'FORM')
+            block.reset();
+
         block.classList.add('modal--closing');
 
         window.setTimeout(function () {

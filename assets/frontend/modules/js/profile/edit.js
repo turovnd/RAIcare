@@ -2,7 +2,7 @@ module.exports = (function (edit) {
 
     var corePrefix  = 'Profile: edit info';
 
-    edit.open = function (element) {
+    edit.toggle = function (element) {
 
         var field = element.closest('.js-field-name');
 
