@@ -100,13 +100,23 @@ Class Model_Organization {
 
     }
 
-    public static function getAll($offset, $limit = 10)
+    public static function getAll($offset, $limit = 10, $name = "")
     {
-        $select = Dao_Organizations::select()
-            ->order_by('dt_create', 'DESC')
-            ->offset($offset)
-            ->limit($limit)
-            ->execute();
+        if ($name == "") {
+            $select = Dao_Organizations::select()
+                ->order_by('dt_create', 'DESC')
+                ->offset($offset)
+                ->limit($limit)
+                ->execute();
+
+        } else {
+            $select = Dao_Organizations::select()
+                ->where('name','LIKE', '%' . $name . '%')
+                ->order_by('dt_create', 'DESC')
+                ->offset($offset)
+                ->limit($limit)
+                ->execute();
+        }
 
 
         $organizations = array();
@@ -125,14 +135,25 @@ Class Model_Organization {
     }
 
 
-    public static function getByCreator($id, $offset, $limit = 10)
+    public static function getByCreator($id, $offset, $limit = 10, $name = "")
     {
-        $select = Dao_Organizations::select()
-            ->where('creator','=', $id)
-            ->order_by('dt_create', 'DESC')
-            ->offset($offset)
-            ->limit($limit)
-            ->execute();
+        if ($name == "") {
+            $select = Dao_Organizations::select()
+                ->where('creator','=', $id)
+                ->order_by('dt_create', 'DESC')
+                ->offset($offset)
+                ->limit($limit)
+                ->execute();
+
+        } else {
+            $select = Dao_Organizations::select()
+                ->where('creator','=', $id)
+                ->where('name','LIKE', '%' . $name . '%')
+                ->order_by('dt_create', 'DESC')
+                ->offset($offset)
+                ->limit($limit)
+                ->execute();
+        }
 
         $organizations = array();
 

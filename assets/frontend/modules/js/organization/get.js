@@ -4,20 +4,31 @@ module.exports = (function (get) {
         formData    = null,
         type        = null,
         offset      = null,
-        search      = null,
-        holder      = null,
-        button      = null,
-        ajaxPOST    = null;
+        searchName  = '',
+        holder      = document.getElementById('organizations'),
+        button      = document.getElementById('getMoreBtn'),
+        ajaxPOST    = false;
+
+
+    get.search = function (element) {
+
+        searchName = element.value;
+
+        if (!ajaxPOST) {
+
+            button.dataset.offset = 0;
+            holder.innerHTML = '';
+            getBlocks_();
+
+        }
+
+    };
+
+
 
     get.blocks = function (element) {
 
-        type    = element.dataset.type;
-        offset  = element.dataset.offset;
-        search  = element.dataset.search;
         button  = element;
-
-        holder = document.getElementById('organizations');
-        ajaxPOST = false;
 
         if (!ajaxPOST) {
 
@@ -34,7 +45,11 @@ module.exports = (function (get) {
         formData = new FormData();
 
         offset = button.dataset.offset;
+        type   = button.dataset.type;
 
+        var sendSearchName = searchName;
+
+        formData.append('name', searchName);
         formData.append('type', type);
         formData.append('offset', offset);
         formData.append('csrf', document.getElementById('csrf').value);
@@ -47,7 +62,6 @@ module.exports = (function (get) {
             beforeSend: function () {
 
                 ajaxPOST = true;
-                button.classList.remove('hide');
                 button.innerHTML = 'Загрузка ...';
 
             },
@@ -60,15 +74,25 @@ module.exports = (function (get) {
                 if (parseInt(response.code) === 135 ) {
 
                     formData = null;
-                    button.classList.add('hide');
+                    button.innerHTML = 'Загрузить ещё';
 
                     if (response.html !== '') {
 
-                        button.dataset.offset = parseInt(offset) + 2;
-                        holder.innerHTML += response.html;
+                        button.dataset.offset = parseInt(offset) + parseInt(response.number);
+
+                        if (searchName === sendSearchName) {
+
+                            holder.innerHTML += response.html;
+
+                        } else {
+
+                            holder.innerHTML = response.html;
+
+                        }
 
                     } else {
 
+                        button.innerHTML = 'Всего ' + parseInt(parseInt(offset) + parseInt(response.number));
                         document.removeEventListener('scroll', checkForOffset_);
 
                     }
