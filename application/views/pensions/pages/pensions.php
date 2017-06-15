@@ -19,7 +19,7 @@
                     <div class="col-xs-12">
 
                         <form class="search" data-search="pensions">
-                            <input id="search" type="search" placeholder="Начните вводить название пансионата" class="search__input">
+                            <input id="search" type="search" placeholder="Начните вводить название пансионата" class="search__input" oninput="pension.get.search(this)" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
                             <label for="search" class="search__submit">
                                 <i class="fa fa-search search__submit-icon" aria-hidden="true"></i>
                             </label>
@@ -35,6 +35,12 @@
 
                         </div>
 
+                        <div class="text-center m-t-20 m-b-10">
+                            <button id="getMoreBtn" onclick="pension.get.blocks(this)" data-type="<?=$type; ?>" data-offset="<?= count($pensions); ?>" class="btn btn--lg btn--default btn--round p-r-50 p-l-50">
+                                Загрузить ещё
+                            </button>
+                        </div>
+
                     </div>
                 </div>
 
@@ -46,3 +52,4 @@
 
 </div>
 
+<script type="text/javascript" src="<?=$assets; ?>frontend/bundles/pension.min.js?v=<?= filemtime("assets/frontend/bundles/pension.min.js") ?>"></script>

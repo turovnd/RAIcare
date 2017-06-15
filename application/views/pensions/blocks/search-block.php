@@ -1,8 +1,8 @@
 <div class="col-xs-12 col-sm-6">
     <div class="block">
-        <div class="block__heading js-searching-name">
+        <a href="<?=URL::site('pension/' . $pension->id); ?>" class="block__heading js-searching-name">
             <?= $pension->name; ?>
-        </div>
+        </a>
 
         <div class="block__body">
             <div class="row">
@@ -17,7 +17,18 @@
                     </label>
                     <div class="col-xs-12 col-md-7 col-lg-8">
                         <p class="form-group__control-static">
-                            <a class="link" href="<?=URL::site('pension/' . $pension->id); ?>"><?= 'https://' . $pension->uri . '.' .$_SERVER["HTTP_HOST"]; ?></a>
+                            <a class="link" href="<?=URL::site('pension/' . $pension->id); ?>"><?= 'https://' . $pension->organization->uri . '.' .$_SERVER["HTTP_HOST"] . '/' . $pension->uri; ?></a>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-xs-12 col-md-5 col-lg-4 form-group__label">
+                        Организация
+                    </label>
+                    <div class="col-xs-12 col-md-7 col-lg-8">
+                        <p class="form-group__control-static">
+                            <a class="link" href="<?=URL::site('organization/' . $pension->organization->id); ?>"><?= $pension->organization->name; ?></a>
                         </p>
                     </div>
                 </div>

@@ -9,7 +9,7 @@ Class Model_Pension {
     public $organization;
     public $owner;
     public $creator;
-    public $cover = "default-cover.png";
+    public $cover = "no-image.png";
     public $is_removed;
     public $dt_create;
 
@@ -89,11 +89,23 @@ Class Model_Pension {
 
     }
 
-    public static function getAll()
+    public static function getAll($offset, $limit = 10, $name = "")
     {
-        $select = Dao_Pensions::select()
-            ->order_by('dt_create', 'DESC')
-            ->execute();
+        if ($name == "") {
+            $select = Dao_Pensions::select()
+                ->order_by('dt_create', 'DESC')
+                ->offset($offset)
+                ->limit($limit)
+                ->execute();
+
+        } else {
+            $select = Dao_Pensions::select()
+                ->where('name','LIKE', '%' . $name . '%')
+                ->order_by('dt_create', 'DESC')
+                ->offset($offset)
+                ->limit($limit)
+                ->execute();
+        }
 
         $pensions = array();
 
@@ -101,19 +113,36 @@ Class Model_Pension {
 
         foreach ($select as $item) {
             $pension = new Model_Pension();
-            $pensions[] = $pension->fill_by_row($item);
+            $pension = $pension->fill_by_row($item);
+            $pension->creator = new Model_User($pension->creator);
+            $pension->owner = new Model_User($pension->owner);
+            $pension->organization = new Model_Organization($pension->organization);
+            $pensions[] = $pension;
         }
 
         return $pensions;
     }
 
 
-    public static function getCreatedByUser($id)
+    public static function getByCreator($id, $offset, $limit = 10, $name = "")
     {
-        $select = Dao_Pensions::select()
-            ->where('creator','=', $id)
-            ->order_by('dt_create', 'DESC')
-            ->execute();
+        if ($name == "") {
+            $select = Dao_Pensions::select()
+                ->where('creator','=', $id)
+                ->order_by('dt_create', 'DESC')
+                ->offset($offset)
+                ->limit($limit)
+                ->execute();
+
+        } else {
+            $select = Dao_Pensions::select()
+                ->where('creator','=', $id)
+                ->where('name','LIKE', '%' . $name . '%')
+                ->order_by('dt_create', 'DESC')
+                ->offset($offset)
+                ->limit($limit)
+                ->execute();
+        }
 
         $pensions = array();
 
@@ -121,7 +150,11 @@ Class Model_Pension {
 
         foreach ($select as $item) {
             $pension = new Model_Pension();
-            $pensions[] = $pension->fill_by_row($item);
+            $pension = $pension->fill_by_row($item);
+            $pension->creator = new Model_User($pension->creator);
+            $pension->owner = new Model_User($pension->owner);
+            $pension->organization = new Model_Organization($pension->organization);
+            $pensions[] = $pension;
         }
 
         return $pensions;

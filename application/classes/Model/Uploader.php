@@ -76,6 +76,10 @@ class Model_Uploader extends Model
 
             case self::PENSION_COVER:
                 $this->filename = $savedFilename;
+                $pension = new Model_Pension($params->id);
+                $pension->cover = $savedFilename;
+                $pension->update();
+                break;
 
         }
 

@@ -1,8 +1,8 @@
 <div class="col-xs-12 col-sm-6">
     <div class="block">
-        <div class="block__heading js-searching-name">
+        <a href="<?=URL::site('organization/' . $organization->id); ?>" class="block__heading js-searching-name">
             <?= $organization->name; ?>
-        </div>
+        </a>
 
         <div class="block__body">
             <div class="row">

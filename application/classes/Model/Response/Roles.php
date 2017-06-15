@@ -38,4 +38,10 @@ class Model_Response_Roles extends Model_Response_Abstract
         'message' => 'Роль с данным id уже существет'
     );
 
+    protected $_ROLE_NOT_ALLOWED_ERROR = array (
+        'type' => 'role',
+        'code' => '105',
+        'message' => 'Нельзя выбрать эту роль, перезагрузите страницу'
+    );
+
 }

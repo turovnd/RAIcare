@@ -2,7 +2,7 @@
 
     <div class="card">
 
-        <a href="<?=URL::site('pension/' . $pension->id); ?>" class="card__img" style="background-image: url(<?=URL::site('uploads/pensions/cover/' . $pension->cover); ?>)"></a>
+        <a href="<?=URL::site('pension/' . $pension->id); ?>" class="card__img" style="background-image: url(<?=URL::site('uploads/pensions/cover/o_' . $pension->cover); ?>)"></a>
 
         <div class="card__content">
 

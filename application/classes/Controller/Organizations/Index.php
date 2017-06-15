@@ -15,7 +15,7 @@ class Controller_Organizations_Index extends Dispatch
     CONST WATCH_MY_ORGS_PAGES      = 16;
     CONST EDIT_ORGANIZATION        = 17;
     CONST STATISTIC_ORGANIZATION   = 20;
-    CONST AVAILABLE_ROLES          = array(11,12);
+    CONST AVAILABLE_ROLES_ORG      = array(11,12);
 
     public $template = 'main';
 
@@ -111,7 +111,7 @@ class Controller_Organizations_Index extends Dispatch
         $pensions = Model_Pension::getByOrganizationID($organization->id) ?: [];
 
         $roles = array();
-        foreach (self::AVAILABLE_ROLES as $role) {
+        foreach (self::AVAILABLE_ROLES_ORG as $role) {
             $roles[] = new Model_Role($role);
         }
 
@@ -149,7 +149,7 @@ class Controller_Organizations_Index extends Dispatch
         }
 
         $roles = array();
-        foreach (self::AVAILABLE_ROLES as $role) {
+        foreach (self::AVAILABLE_ROLES_ORG as $role) {
             $roles[] = new Model_Role($role);
         }
 
@@ -173,9 +173,9 @@ class Controller_Organizations_Index extends Dispatch
 
         self::hasAccess(self::STATISTIC_ORGANIZATION);
 
-        $users = Model_UserOrganization::getUsers($organization->id);
+        $usersIDs = Model_UserOrganization::getUsers($organization->id);
 
-        if (!(in_array($this->user->id, $users) || $organization->creator == $this->user->id || $this->user->role == 1)) {
+        if (!(in_array($this->user->id, $usersIDs) || $organization->creator == $this->user->id || $this->user->role == 1)) {
             throw new HTTP_Exception_403();
         }
 

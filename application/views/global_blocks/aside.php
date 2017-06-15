@@ -130,7 +130,6 @@
                                     || $action == "org_organization"
                                     || $action == "org_settings"
                                     || $action == "org_statistic" ? 'aside__item--active' : ''; ?>">
-
             <a role="button" data-toggle="collapse" data-area="moduleOrganizations" data-opened="false" class="aside__link <? echo $action == 'org_all' || $action == 'org_created' ? 'aside__link--active' : ''; ?>">
                 <i class="fa fa-briefcase aside__icon" aria-hidden="true"></i>
                 <span class="aside__text">Организации</span>
@@ -187,8 +186,11 @@
     <? // Module Pensions => permission: WATCH_ALL_PENSIONS_PAGES = 24 || WATCH_CREATED_PENSIONS_PAGES = 25
     if (in_array(24, $user->permissions) || in_array(25, $user->permissions)) : ?>
 
-        <li class="aside__item <? echo $action == 'pen_all' || $action == 'pen_created' || $action == "pen_pension" ? 'aside__item--active' : ''; ?>">
-
+        <li class="aside__item <? echo $action == 'pen_all'
+                                    || $action == 'pen_created'
+                                    || $action == "pen_pension"
+                                    || $action == "pen_settings"
+                                    || $action == "pen_statistic"? 'aside__item--active' : ''; ?>">
             <a role="button" data-toggle="collapse" data-area="modulePensions" data-opened="false" class="aside__link <? echo $action == 'pen_all' || $action == 'pen_created' ? 'aside__link--active' : ''; ?>">
                 <i class="fa fa-user-md aside__icon" aria-hidden="true"></i>
                 <span class="aside__text">Пансионаты</span>
@@ -229,7 +231,10 @@
     <? // Module Pensions => WATCH_CERTAIN_PENSIONS_PAGES = 26
     if (in_array(26, $user->permissions)) : ?>
 
-        <li class="aside__item <? echo $action == "pen_my" || $action == "pen_pension" ? 'aside__item--active' : ''; ?>">
+        <li class="aside__item <? echo $action == "pen_my"
+                                    || $action == "pen_pension"
+                                    || $action == "pen_settings"
+                                    || $action == "pen_statistic"? 'aside__item--active' : ''; ?>">
             <a href="<?=URL::site('pensions/my'); ?>" class="aside__link <? echo $action == "pen_my" ? 'aside__link--active' : ''; ?>">
                 <i class="fa fa-user-md aside__icon" aria-hidden="true"></i>
                 <span class="aside__text">Мои пансионаты</span>

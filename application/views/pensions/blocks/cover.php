@@ -1,12 +1,12 @@
 <div class="section__cover valign">
     <div class="parallax" data-toggle="parallax">
-        <img src="<?=URL::site('uploads/pensions/cover/'. $pension->cover); ?>" alt="Pension cover" class="parallax__img">
+        <img id="pensionCover" src="<?=URL::site('uploads/pensions/cover/o_'. $pension->cover); ?>" alt="Pension cover" class="parallax__img">
     </div>
     <? // Module Organizations => EDIT_PENSION = 27
     if (in_array(27, $user->permissions)) : ?>
 
         <div class="section__cover-update-wrapper">
-            <a role="button" class="section__cover-update-btn">
+            <a onclick="pension.edit.cover(this)" role="button" class="section__cover-update-btn" data-pk="<?=$pension->id; ?>">
                 <i class="fa fa-camera section__cover-update-icon" aria-hidden="true"></i>
                 <span class="section__cover-update-text">Обновить фото обложки</span>
             </a>

@@ -14,7 +14,7 @@ class Model_Response_Organizations extends Model_Response_Abstract
         'message' => 'Организация успешно создана'
     );
 
-    protected $_ORGANIZATION_EXISTED_ERROR = array (
+    protected $_ORGANIZATION_DOES_NOT_EXISTED_ERROR = array (
         'type' => 'organization',
         'code' => '132',
         'message' => 'Организация не существет'
@@ -32,17 +32,15 @@ class Model_Response_Organizations extends Model_Response_Abstract
         'message' => 'Информация успешно изменена'
     );
 
-    protected $_ORGANIZATION_GET_SUCCESS = array (
-        'type' => 'organization',
-        'code' => '135',
-        'message' => 'Организации получены'
-    );
-
     protected $_ORGANIZATION_UPDATE_WARNING = array (
         'type' => 'organization',
         'code' => '135',
         'message' => 'Вы ничего не изменили'
     );
 
-
+    protected $_ORGANIZATION_GET_SUCCESS = array (
+        'type' => 'organization',
+        'code' => '136',
+        'message' => 'Организации получены'
+    );
 }

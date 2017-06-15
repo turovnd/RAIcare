@@ -10,9 +10,13 @@
 
 class Controller_Pensions_Ajax extends Ajax
 {
-    CONST MODULE_CLIENTS = 6;
-    CONST CREATE_PENSION = 23;
-    CONST EDIT_PENSION   = 27;
+    CONST MODULE_CLIENTS               = 6;
+    CONST CREATE_PENSION               = 23;
+    CONST WATCH_ALL_PENSIONS_PAGES     = 24;
+    CONST WATCH_CREATED_PENSIONS_PAGES = 25;
+    CONST EDIT_PENSION                 = 27;
+    CONST INVITE_CO_WORKER_TO_PEN      = 28;
+    CONST EXCLUDE_CO_WORKER_FROM_PEN   = 29;
 
     public function action_new()
     {
@@ -65,6 +69,175 @@ class Controller_Pensions_Ajax extends Ajax
 
         $response = new Model_Response_Pensions('PENSION_CREATE_SUCCESS', 'success', $data);
         $this->response->body(@json_encode($response->get_response()));
+    }
+
+    public function action_update()
+    {
+        self::hasAccess(self::EDIT_PENSION);
+
+        $id     = Arr::get($_POST, 'id');
+        $field  = Arr::get($_POST, 'name');
+        $value  = Arr::get($_POST, 'value');
+
+        $pension = new Model_Pension($id);
+
+        if (!$pension->id) {
+            $response = new Model_Response_Pensions('PENSION_DOES_NOT_EXISTED_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        if ($pension->$field == $value) {
+            $response = new Model_Response_Pensions('PENSION_UPDATE_WARNING', 'warning');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        if (empty($value)) {
+            $response = new Model_Response_Form('EMPTY_FIELD_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        if ($field == "uri") {
+
+            $check_org = Model_Organization::getByFieldName("uri", $value);
+
+            if ($check_org->id) {
+                $response = new Model_Response_Pensions('PENSION_EXISTED_URI_ERROR', 'error');
+                $this->response->body(@json_encode($response->get_response()));
+                return;
+            }
+
+        }
+
+        $pension->$field = $value;
+        $pension->update();
+
+        $response = new Model_Response_Pensions('PENSION_UPDATE_SUCCESS', 'success');
+        $this->response->body(@json_encode($response->get_response()));
+    }
+
+    public function action_get()
+    {
+        $name   = Arr::get($_POST, 'name');
+        $type   = Arr::get($_POST, 'type');
+        $offset = Arr::get($_POST, 'offset');
+
+        switch ($type) {
+            case 'all_pensions':
+                self::hasAccess(self::WATCH_ALL_PENSIONS_PAGES);
+                if ($name != "") {
+                    $pensions = Model_Pension::getAll($offset,10, $name);
+                } else {
+                    $pensions = Model_Pension::getAll($offset,10);
+                }
+                break;
+            case 'created_pensions':
+                self::hasAccess(self::WATCH_CREATED_PENSIONS_PAGES);
+                if ($name != "") {
+                    $pensions = Model_Pension::getByCreator($this->user->id, $offset,10, $name);
+                } else {
+                    $pensions = Model_Pension::getByCreator($this->user->id,$offset,10);
+                }
+                break;
+        }
+
+        $html = "";
+        foreach ($pensions as $pension) {
+            $html .= View::factory('pensions/blocks/search-block', array('pension' => $pension))->render();
+        }
+
+        $response = new Model_Response_Pensions('PENSION_GET_SUCCESS', 'success', array('html'=>$html, 'number'=>count($pensions)));
+        $this->response->body(@json_encode($response->get_response()));
+    }
+
+    public function action_inviteuser()
+    {
+        $name    = Arr::get($_POST, 'name');
+        $email   = Arr::get($_POST, 'email');
+        $pension = Arr::get($_POST, 'pension');
+
+        if (empty($name)) {
+            $response = new Model_Response_Form('EMPTY_FIELD_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        if (!Valid::email($email))
+        {
+            $response = new Model_Response_Email('EMAIL_FORMAT_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        $pension = new Model_Pension($pension);
+
+        if (!$pension->id)
+        {
+            $response = new Model_Response_Pensions('PENSION_DOES_NOT_EXISTED_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        $users = Model_UserPension::getUsers($pension->id);
+
+        if (!in_array($this->user->id, $users) || !in_array(self::INVITE_CO_WORKER_TO_PEN, $this->user->permissions)) {
+            throw new HTTP_Exception_403();
+        }
+
+        /**
+         * TODO send inviting email to CO-WORKER + generate link
+         */
+//        $template = View::factory('email_templates/application_request', array('name' => $name, 'email' => $email));
+//        $emailForm = new Email();
+//        $emailForm->send($email, $_SERVER['INFO_EMAIL'], 'Заявка принята - ' . $GLOBALS['SITE_NAME'], $template, true);
+
+        $response = new Model_Response_Email('EMAIL_SEND_SUCCESS', 'success');
+        $this->response->body(@json_encode($response->get_response()));
+
+    }
+
+    public function action_excludeuser()
+    {
+        $userID  = Arr::get($_POST, 'user');
+        $pension = Arr::get($_POST, 'pension');
+
+        $user = new Model_User($userID);
+
+        if (!$user->id) {
+            $response = new Model_Response_Users('USER_DOES_NOT_EXISTED_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        $pension = new Model_Pension($pension);
+
+        if (!$pension->id)
+        {
+            $response = new Model_Response_Pensions('PENSION_DOES_NOT_EXISTED_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        $users = Model_UserPension::getUsers($pension->id);
+
+        if (!in_array($this->user->id, $users) || !in_array(self::EXCLUDE_CO_WORKER_FROM_PEN, $this->user->permissions)) {
+            throw new HTTP_Exception_403();
+        }
+
+        Model_UserPension::delete($user->id, $pension->id);
+
+        /**
+         * TODO send email to $user that his was deleted from pension
+         */
+//        $template = View::factory('email_templates/application_request', array('name' => $name, 'email' => $email));
+//        $emailForm = new Email();
+//        $emailForm->send($email, $_SERVER['INFO_EMAIL'], 'Заявка принята - ' . $GLOBALS['SITE_NAME'], $template, true);
+
+        $response = new Model_Response_Pensions('PENSION_USER_DELETE_SUCCESS', 'success');
+        $this->response->body(@json_encode($response->get_response()));
+
     }
 
 }

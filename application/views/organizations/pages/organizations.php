@@ -39,7 +39,6 @@
                             <button id="getMoreBtn" onclick="organization.get.blocks(this)" data-type="<?=$type; ?>" data-offset="<?= count($organizations); ?>" class="btn btn--lg btn--default btn--round p-r-50 p-l-50">
                                 Загрузить ещё
                             </button>
-
                         </div>
 
                     </div>

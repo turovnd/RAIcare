@@ -1,18 +1,18 @@
 
 <div id="co_workers" class="block__body p-0">
 
-    <? foreach ($organization->users as $coworker) : ?>
+    <? foreach ($pension->users as $coworker) : ?>
 
         <fieldset class="p-15 m-b-0">
-            <? // Module Organizations => EXCLUDE_CO_WORKER_FROM_ORG = 19
-            if (in_array(19, $user->permissions) && $organization->owner != $coworker->id) : ?>
-                <a onclick="organization.coworker.exclude(this)" role="button" class="fl_r m-l-10" data-pk="<?=$coworker->id; ?>" data-name="<?=$coworker->name; ?>">
+            <? // Module Pensions => EXCLUDE_CO_WORKER_FROM_PEN = 29
+            if (in_array(29, $user->permissions) && $pension->owner != $coworker->id) : ?>
+                <a onclick="pension.coworker.exclude(this)" role="button" class="fl_r m-l-10" data-pk="<?=$coworker->id; ?>" data-name="<?=$coworker->name; ?>">
                     <i class="fa fa-user-times" aria-hidden="true"></i>
                 </a>
             <? endif; ?>
-            <? // Module Organizations => CHANGE_CO_WORKER_ROLE_ORG = 22
-            if (in_array(22, $user->permissions) && $organization->owner != $coworker->id) : ?>
-                <a onclick="organization.coworker.openupdaterole(this)" role="button" class="fl_r m-l-10" data-pk="<?=$coworker->id; ?>">
+            <? // Module Pensions => CHANGE_CO_WORKER_ROLE_PEN = 32
+            if (in_array(32, $user->permissions) && $pension->owner != $coworker->id) : ?>
+                <a onclick="pension.coworker.openupdaterole(this)" role="button" class="fl_r m-l-10" data-pk="<?=$coworker->id; ?>">
                     <i class="fa fa-pencil" aria-hidden="true"></i>
                 </a>
             <? endif; ?>
@@ -26,13 +26,13 @@
 
 </div>
 
-<? // Module Organizations => CHANGE_CO_WORKER_ROLE_ORG = 22
-if (in_array(22, $user->permissions)) : ?>
-    <input type="hidden" id="availableRoles" value='<?= json_encode($organization->roles); ?>'>
+<? // Module Pensions => CHANGE_CO_WORKER_ROLE_PEN = 32
+if (in_array(32, $user->permissions)) : ?>
+    <input type="hidden" id="availableRoles" value='<?= json_encode($pension->roles); ?>'>
 <? endif; ?>
 
-<? // Module Organizations => INVITE_CO_WORKER_TO_ORG = 18
-if (in_array(18, $user->permissions)) : ?>
+<? // Module Pensions => INVITE_CO_WORKER_TO_PEN = 28
+if (in_array(28, $user->permissions)) : ?>
 
     <form class="modal" id="inviteCoWorkerModal" tabindex="-1">
         <div class="modal__content">
@@ -61,7 +61,7 @@ if (in_array(18, $user->permissions)) : ?>
             </div>
             <div class="modal__footer">
                 <button type="button" class="btn btn--default" data-close="modal">Отмена</button>
-                <button onclick="organization.coworker.invite()" type="button" class="btn btn--brand">Создать</button>
+                <button onclick="pension.coworker.invite()" type="button" class="btn btn--brand">Создать</button>
             </div>
         </div>
     </form>

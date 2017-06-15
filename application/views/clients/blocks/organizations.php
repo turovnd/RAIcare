@@ -18,7 +18,7 @@
 
             <? if (empty($organizations)) : ?>
 
-                <li class="h3 text-center text-brand m-t-10 m-b-10">Организации не созданы</li>
+                <div class="h3 text-center text-brand m-t-10 m-b-10">Организации не созданы</div>
 
             <? else: ?>
 
