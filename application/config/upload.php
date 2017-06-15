@@ -2,8 +2,8 @@
 
 return array(
 
-    Model_Uploader::NAME => array(
-        'path' => 'uploads/',
+    Model_Uploader::ORGANIZATION_COVER => array(
+        'path' => 'uploads/organizations/cover/',
         /**
          * Image sizes config
          * key - filename prefix_
@@ -13,9 +13,6 @@ return array(
          */
         'sizes' => array(
             'o'  => array(false, 1500, 1500),
-            'b'  => array(true , 200, 200),
-            'm'  => array(true , 100, 100),
-            's'  => array(true , 50),
         ),
 
     ),

@@ -18,6 +18,9 @@ body{
     background: #000;
      opacity: .75;
  }
+.image--loading{
+    filter: blur(2px);
+}
 
 /**
  * Hidden xs | sm | md | lg

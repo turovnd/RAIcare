@@ -5,55 +5,55 @@ class Model_Response_Uploader extends Model_Response_Abstract
     protected $_UPLOADER_NO_USER_ERROR = array (
         'type' => 'upload',
         'code' => '80',
-        'message' => 'Access denied'
+        'message' => 'Доступ запещен'
     );
 
     protected $_UPLOADER_NO_TYPE_ERROR = array (
         'type' => 'upload',
         'code' => '81',
-        'message' => 'Transport type missed'
+        'message' => 'Утерян формат файла'
     );
 
     protected $_UPLOADER_WRONG_TYPE_ERROR = array (
         'type' => 'upload',
         'code' => '82',
-        'message' => 'Wrong type passed'
+        'message' => 'Формат файла не поддерживается'
     );
 
     protected $_UPLOADER_FILE_SIZE_ERROR = array (
         'type' => 'upload',
         'code' => '83',
-        'message' => 'File size exceeded limit'
+        'message' => 'Загружаемый файл слишком большой. Размер не должен быть более 2 Мб'
     );
 
     protected $_UPLOADER_FILE_NOT_TRANSFERRED_ERROR = array (
         'type' => 'upload',
         'code' => '84',
-        'message' => 'File was not transferred'
+        'message' => 'Файл не был загружен'
     );
 
     protected $_UPLOADER_FILE_EMPTY_ERROR = array (
         'type' => 'upload',
         'code' => '85',
-        'message' => 'File is empty'
+        'message' => 'Загружаемый файл пустой'
     );
 
     protected $_UPLOADER_FILE_DAMAGED_ERROR = array (
         'type' => 'upload',
         'code' => '86',
-        'message' => 'Uploaded file is damaged'
+        'message' => 'Загружаемый файл поврежден'
     );
 
     protected $_UPLOADER_FILE_ERROR = array (
         'type' => 'upload',
         'code' => '87',
-        'message' => 'Error while uploading'
+        'message' => 'Произошла ошибка во время загрзки'
     );
 
     protected $_UPLOADER_FILE_SUCCESS = array (
         'type' => 'upload',
         'code' => '88',
-        'message' => 'File has been uploaded'
+        'message' => 'Файл успешно загружен'
     );
 
 

@@ -1,9 +1,11 @@
-<div class="section__content section__content--unwrap">
+<div class="section__content">
 
-    <?= View::factory('organizations/blocks/cover', array('organization' => $organization)); ?>
+    <h3 class="section__heading">
+        Статистика
+    </h3>
+
+    <div class="row">
+
+    </div>
 
 </div>
-
-<script type="text/javascript">
-    raisoft.parallax.init();
-</script>

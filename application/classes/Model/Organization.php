@@ -8,7 +8,7 @@ Class Model_Organization {
     public $uri;
     public $owner;
     public $creator;
-    public $cover = "default-cover.png";
+    public $cover = "no-image.png";
     public $is_removed;
     public $dt_create;
 
@@ -43,6 +43,18 @@ Class Model_Organization {
             ->execute();
 
         return $this->fill_by_row($select);
+
+    }
+
+    public static function getByFieldName($field, $value) {
+
+        $select = Dao_Organizations::select()
+            ->where($field, '=', $value)
+            ->limit(1)
+            ->execute();
+
+        $organization = new Model_Organization($select['id']);
+        return $organization->fill_by_row($select);
 
     }
 

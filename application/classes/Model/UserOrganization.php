@@ -46,7 +46,7 @@ Class Model_UserOrganization {
     {
         $select = Dao_UsersOrganizations::select()
             ->where('o_id', '=', $organization)
-            ->order_by('u_id', 'DESC')
+            ->order_by('u_id', 'ASC')
             ->execute();
 
         if (empty($select)) return array();

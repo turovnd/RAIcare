@@ -127,4 +127,25 @@ Class Model_Pension {
         return $pensions;
     }
 
+
+    public static function getByOrganizationID($id) {
+
+        $select = Dao_Pensions::select()
+            ->where('organization','=', $id)
+            ->order_by('dt_create', 'DESC')
+            ->execute();
+
+        $pensions = array();
+
+        if ( empty($select) ) return $pensions;
+
+        foreach ($select as $item) {
+            $pension = new Model_Pension();
+            $pensions[] = $pension->fill_by_row($item);
+        }
+
+        return $pensions;
+
+    }
+
 }
