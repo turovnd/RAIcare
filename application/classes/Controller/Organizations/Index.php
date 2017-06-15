@@ -173,9 +173,9 @@ class Controller_Organizations_Index extends Dispatch
 
         self::hasAccess(self::STATISTIC_ORGANIZATION);
 
-        $users = Model_UserOrganization::getUsers($organization->id);
+        $usersIDs = Model_UserOrganization::getUsers($organization->id);
 
-        if (!(in_array($this->user->id, $users) || $organization->creator == $this->user->id || $this->user->role == 1)) {
+        if (!(in_array($this->user->id, $usersIDs) || $organization->creator == $this->user->id || $this->user->role == 1)) {
             throw new HTTP_Exception_403();
         }
 

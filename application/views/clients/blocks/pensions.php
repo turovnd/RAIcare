@@ -18,7 +18,7 @@
 
             <? if (empty($pensions)) : ?>
 
-                <li class="h3 text-center text-brand m-t-10 m-b-10">Пансионаты не созданы</li>
+                <div class="h3 text-center text-brand m-t-10 m-b-10">Пансионаты не созданы</div>
 
             <? else: ?>
 

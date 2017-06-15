@@ -139,7 +139,7 @@ module.exports = (function (create) {
                     block.innerHTML = response.organization;
                     optionForCreatePension.textContent = response.name;
 
-                    if (organizations.childElementCount === 1) {
+                    if (organizations.getElementsByTagName('li').length === 0) {
 
                         organizations.innerHTML = '';
                         organizations.appendChild(block);
@@ -213,7 +213,7 @@ module.exports = (function (create) {
 
                     block.innerHTML = response.pension;
 
-                    if (pensions.childElementCount === 1) {
+                    if (pensions.getElementsByTagName('li').length === 0) {
 
                         pensions.innerHTML = '';
                         pensions.appendChild(block);

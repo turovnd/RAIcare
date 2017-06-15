@@ -1,11 +1,11 @@
 module.exports = (function (get) {
 
-    var corePrefix  = 'Organiz: get AJAX',
+    var corePrefix  = 'Pension: get AJAX',
         formData    = null,
         type        = null,
         offset      = null,
         searchName  = '',
-        holder      = document.getElementById('organizations'),
+        holder      = document.getElementById('pensions'),
         button      = document.getElementById('getMoreBtn'),
         ajaxPOST    = false;
 
@@ -56,7 +56,7 @@ module.exports = (function (get) {
 
 
         var ajaxData = {
-            url: '/organization/get',
+            url: '/pension/get',
             type: 'POST',
             data: formData,
             beforeSend: function () {
@@ -71,7 +71,7 @@ module.exports = (function (get) {
                 raisoft.core.log(response.message, response.status, corePrefix);
                 ajaxPOST = false;
 
-                if (parseInt(response.code) === 136 ) {
+                if (parseInt(response.code) === 146 ) {
 
                     formData = null;
                     button.innerHTML = 'Загрузить ещё';
