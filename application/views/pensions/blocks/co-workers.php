@@ -29,6 +29,7 @@
 <? // Module Pensions => CHANGE_CO_WORKER_ROLE_PEN = 32
 if (in_array(32, $user->permissions)) : ?>
     <input type="hidden" id="availableRoles" value='<?= json_encode($pension->roles); ?>'>
+    <input type="hidden" id="availablePermissions" value='<?= json_encode($pension->permissions); ?>'>
 <? endif; ?>
 
 <? // Module Pensions => INVITE_CO_WORKER_TO_PEN = 28
@@ -47,15 +48,52 @@ if (in_array(28, $user->permissions)) : ?>
                 <fieldset>
                     <div class="form-group">
                         <label for="inviteCoWorkerName" class="form-group__label">Имя <span class="text-danger">*</span></label>
-                        <input type="text" id="inviteCoWorkerName" name="name" class="form-group__control" maxlength="256">
+                        <input type="text" id="inviteCoWorkerName" class="form-group__control" maxlength="256">
                     </div>
                 </fieldset>
 
                 <fieldset class="m-0">
                     <div class="form-group">
                         <label for="inviteCoWorkerEmail" class="form-group__label">Эл.почта <span class="text-danger">*</span></label>
-                        <input type="email" id="inviteCoWorkerEmail" name="email" class="form-group__control" maxlength="64">
+                        <input type="email" id="inviteCoWorkerEmail" class="form-group__control" maxlength="64">
                     </div>
+                </fieldset>
+
+                <fieldset>
+                    <div class="form-group">
+                        <label for="inviteCoWorkerRole" class="form-group__label">Роль</label>
+                        <select id="inviteCoWorkerRole" class="form-group__control" onchange="pension.coworker.changerole(this)" data-permissions="inviteCoWorkerPermissions" data-rolename="inviteCoWorkerRoleName">
+                            <option value="new">Новая</option>
+
+                            <? foreach ($pension->roles as $role) : ?>
+
+                                <option value="<?=$role->id; ?>"><?=$role->name; ?></option>
+
+                            <? endforeach; ?>
+
+                        </select>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <div class="form-group">
+                        <label for="inviteCoWorkerRoleName" class="form-group__label">Название новой роли</label>
+                        <input type="text" id="inviteCoWorkerRoleName" class="form-group__control" maxlength="64">
+                    </div>
+                </fieldset>
+
+                <fieldset id="inviteCoWorkerPermissions" class="m-b-0">
+                    <label class="form-group__label">Права доступа</label>
+
+                    <? foreach ($pension->permissions as $permission) : ?>
+
+                        <p>
+                            <input type="checkbox" id="permission_<?=$permission->id; ?>" class="checkbox">
+                            <label for="permission_<?=$permission->id; ?>" class="checkbox-label"><?=$permission->name; ?></label>
+                        </p>
+
+                    <? endforeach; ?>
+
                 </fieldset>
 
             </div>

@@ -55,8 +55,9 @@
             </div>
 
         </div>
-
     </div>
+
+    <input type="hidden" id="pensionID" value="<?=$pension->id; ?>">
 
 </div>
 
