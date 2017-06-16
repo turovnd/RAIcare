@@ -60,7 +60,7 @@ class Controller_Profiles_Ajax extends Ajax
         $user->email        = $client->email;
         $user->username     = $this->getUserName($client->name);
         $user->password     = $this->makeHash('md5', $password . $_SERVER['SALT']);
-        $user->role         = 10;
+        $user->role         = 2;
         $user->newsletter   = 1;
         $user->creator      = $this->user->id;
         $user->is_confirmed = 0;
@@ -88,12 +88,26 @@ class Controller_Profiles_Ajax extends Ajax
         self::hasAccess(self::MODULE_ADMIN);
         self::hasAccess(self::CREATE_USER);
 
-        $name     = Arr::get($_POST, 'name');
-        $email    = Arr::get($_POST, 'email');
-        $role     = Arr::get($_POST, 'role');
+        $name        = Arr::get($_POST, 'name');
+        $email       = Arr::get($_POST, 'email');
+        $role        = Arr::get($_POST, 'role');
+        $roleName    = Arr::get($_POST, 'roleName');
+        $permissions = Arr::get($_POST, 'permissions');
 
-        if (empty($name) || empty($email) || empty($role)) {
+        if ($role == "new" && count($permissions) == 0) {
+            $response = new Model_Response_Permissions('PERMISSION_EMPTY_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        if (empty($name) || empty($email) || ($role == "new" && empty($roleName))) {
             $response = new Model_Response_Form('EMPTY_FIELDS_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        if (!Valid::email($email)) {
+            $response = new Model_Response_Email('EMAIL_FORMAT_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
             return;
         }
@@ -105,6 +119,16 @@ class Controller_Profiles_Ajax extends Ajax
             $this->response->body(@json_encode($response->get_response()));
             return;
         }
+
+        if ($role == "new") {
+            $role = new Model_Role();
+            $role->name = $roleName;
+            $role->type = 'admin';
+            $role->permissions = $permissions;
+            $role->type_id = 1;
+            $role = $role->save()->id;
+        }
+
 
         $user = new Model_User();
 

@@ -2,13 +2,43 @@ module.exports = (function (newuser) {
 
     var corePrefix      = 'RAIsoft admin';
 
+    newuser.changerole = function (element) {
+
+        if (element.value === 'new') {
+
+            document.getElementById('newUserPermissions').classList.remove('hide');
+            document.getElementById('newUserRoleName').parentNode.classList.remove('hide');
+
+        } else {
+
+            document.getElementById('newUserPermissions').classList.add('hide');
+            document.getElementById('newUserRoleName').parentNode.classList.add('hide');
+
+        }
+
+    };
+
 
     newuser.create = function () {
 
-        var form     = document.getElementById('newUserForm'),
-            formData = new FormData(form);
+        var form             = document.getElementById('newUserForm'),
+            formData         = new FormData(),
+            permissionsBlock = document.getElementById('newUserPermissions').querySelectorAll('.checkbox:checked'),
+            permissions      = [];
+
+        for (var i = 0; i < permissionsBlock.length; i++) {
+
+            permissions.push(permissionsBlock[i].id.split('_')[1]);
+
+        }
+
 
         formData.append('csrf', document.getElementById('csrf').value);
+        formData.append('name', document.getElementById('newUser').value);
+        formData.append('email', document.getElementById('newUserEmail').value);
+        formData.append('role', document.getElementById('newUserRole').value);
+        formData.append('roleName', document.getElementById('newUserRoleName').value);
+        formData.append('permissions', JSON.stringify(permissions));
 
         var ajaxData = {
             url: '/profile/new',

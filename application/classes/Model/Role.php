@@ -5,6 +5,9 @@ Class Model_Role {
 
     public $id;
     public $name;
+    public $permissions; // array
+    public $type;        // admin || organization || pension
+    public $type_id;     // user->id || organization->id || pension->id
 
     public function __construct($id = null) {
 
@@ -48,7 +51,6 @@ Class Model_Role {
             if (property_exists($this, $fieldname)) $insert->set($fieldname, $value);
         }
 
-        $insert->clearcache($this->id);
         $result = $insert->execute();
 
         return $this->get_($result);
@@ -80,10 +82,23 @@ Class Model_Role {
              ->execute();
      }
 
-     public static function getAll()
+     public static function getByType($type, $typeID)
      {
-         $select = Dao_Roles::select()->execute();
+         $select = Dao_Roles::select()
+             ->where('type', '=', $type)
+             ->where('type_id', '=', $typeID)
+             ->execute();
 
-         return $select;
+         $roles = array();
+
+         if (empty($select)) return $roles;
+
+         foreach ($select as $item)
+         {
+             $role = new Model_Role();
+             $roles[] =  $role->fill_by_row($item);
+         }
+
+         return $roles;
      }
 }

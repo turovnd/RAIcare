@@ -38,4 +38,10 @@ class Model_Response_Permissions extends Model_Response_Abstract
         'message' => 'Право доступа с данным id уже существет'
     );
 
+    protected $_PERMISSION_EMPTY_ERROR = array (
+        'type' => 'permission',
+        'code' => '116',
+        'message' => 'Вы не выбрали права доступа'
+    );
+
 }

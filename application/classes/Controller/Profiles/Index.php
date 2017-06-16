@@ -62,29 +62,24 @@ class Controller_Profiles_Index extends Dispatch
             if (!$profile->id) {
                 throw new HTTP_Exception_404;
             }
-
-            $role_permissions = Model_RolePermission::getPermissionsByRole($profile->role);
+            $profile->role = new Model_Role($profile->role);
             $permissions = array();
-            if (!empty($role_permissions)) {
-                foreach ($role_permissions as $permission) {
-                    $permissions[] = new Model_Permission($permission);
-                }
+            foreach (json_decode($profile->role->permissions) as $permission) {
+                $permissions[] = new Model_Permission($permission);
             }
-
+            $profile->role->permissions = $permissions;
             $profile->can_edit = false;
             $profile->additional_info = true;
             $profile->client = Model_Client::getByUserId($profile->id);
-            $profile->permissions = $permissions;
 
         } else {
 
             $profile = new Model_User($this->user->id);
+            $profile->role = new Model_Role($profile->role);
             $profile->can_edit = true;
             $profile->additional_info = false;
 
         }
-
-        $profile->role = new Model_Role($profile->role);
 
         $this->template->title = "Профиль " . $profile->name;
         $this->template->section = View::factory('profiles/pages/profile')
