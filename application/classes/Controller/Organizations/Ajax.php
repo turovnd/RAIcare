@@ -156,15 +156,23 @@ class Controller_Organizations_Ajax extends Ajax
         $name          = Arr::get($_POST, 'name');
         $email         = Arr::get($_POST, 'email');
         $organization  = Arr::get($_POST, 'organization');
+        $role          = Arr::get($_POST, 'role');
+        $roleName      = Arr::get($_POST, 'roleName');
+        $permissions   = json_decode(Arr::get($_POST, 'permissions'));
 
-        if (empty($name)) {
+        if ($role == "new" && count($permissions) == 0) {
+            $response = new Model_Response_Permissions('PERMISSION_EMPTY_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        if (empty($name) || ($role == "new" && empty($roleName))) {
             $response = new Model_Response_Form('EMPTY_FIELD_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
             return;
         }
 
-        if (!Valid::email($email))
-        {
+        if (!Valid::email($email)) {
             $response = new Model_Response_Email('EMAIL_FORMAT_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
             return;
@@ -185,8 +193,17 @@ class Controller_Organizations_Ajax extends Ajax
             throw new HTTP_Exception_403();
         }
 
+        if ($role == "new") {
+            $role = new Model_Role();
+            $role->name = $roleName;
+            $role->type = 'organization';
+            $role->permissions = json_encode($permissions);
+            $role->type_id = $organization->id;
+            $role = $role->save()->id;
+        }
+
         /**
-         * TODO send inviting email to CO-WORKER + generate link
+         * TODO send inviting email to CO-WORKER + generate link + save user DATA + role to Redis until it confirm
          */
 //        $template = View::factory('email_templates/application_request', array('name' => $name, 'email' => $email));
 //        $emailForm = new Email();

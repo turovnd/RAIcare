@@ -44,4 +44,11 @@ class Model_Response_Permissions extends Model_Response_Abstract
         'message' => 'Вы не выбрали права доступа'
     );
 
+    protected $_PERMISSION_NOT_ALLOWED_ERROR = array (
+        'type' => 'permission',
+        'code' => '117',
+        'message' => 'Ошибка при выборе прав доступа, перезагрузите страницу'
+    );
+
+
 }

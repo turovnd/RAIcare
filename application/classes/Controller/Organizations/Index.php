@@ -10,12 +10,12 @@
 
 class Controller_Organizations_Index extends Dispatch
 {
-    CONST WATCH_ALL_ORGS_PAGES     = 14;
-    CONST WATCH_CREATED_ORGS_PAGES = 15;
-    CONST WATCH_MY_ORGS_PAGES      = 16;
-    CONST EDIT_ORGANIZATION        = 17;
-    CONST STATISTIC_ORGANIZATION   = 20;
-    CONST AVAILABLE_ROLES_ORG      = array(11,12);
+    CONST WATCH_ALL_ORGS_PAGES      = 14;
+    CONST WATCH_CREATED_ORGS_PAGES  = 15;
+    CONST WATCH_MY_ORGS_PAGES       = 16;
+    CONST EDIT_ORGANIZATION         = 17;
+    CONST STATISTIC_ORGANIZATION    = 20;
+    CONST AVAILABLE_PERMISSIONS_ORG = array(17,18,19,20,21,22);
 
     public $template = 'main';
 
@@ -110,14 +110,22 @@ class Controller_Organizations_Index extends Dispatch
 
         $pensions = Model_Pension::getByOrganizationID($organization->id) ?: [];
 
-        $roles = array();
-        foreach (self::AVAILABLE_ROLES_ORG as $role) {
-            $roles[] = new Model_Role($role);
+        $permissions = array();
+        foreach (self::AVAILABLE_PERMISSIONS_ORG as $permission) {
+            $permissions[] = new Model_Permission($permission);
         }
 
-        $organization->pensions = $pensions;
-        $organization->users = $users;
-        $organization->roles = $roles;
+        $roles = array();
+        $availableRoles = Model_Role::getByType('organization', $organization->id);
+        foreach ($availableRoles as $role) {
+            $roles[] = new Model_Role($role->id);
+        }
+
+        $organization->pensions    = $pensions;
+        $organization->users       = $users;
+        $organization->permissions = $permissions;
+        $organization->roles       = $roles;
+
 
         $this->template->title = $organization->name;
         $this->template->section = View::factory('organizations/pages/main')
@@ -148,13 +156,20 @@ class Controller_Organizations_Index extends Dispatch
             $users[] = $user;
         }
 
+        $permissions = array();
+        foreach (self::AVAILABLE_PERMISSIONS_ORG as $permission) {
+            $permissions[] = new Model_Permission($permission);
+        }
+
         $roles = array();
-        foreach (self::AVAILABLE_ROLES_ORG as $role) {
+        $availableRoles = Model_Role::getByType('organization', $organization->id);
+        foreach ($availableRoles  as $role) {
             $roles[] = new Model_Role($role);
         }
 
-        $organization->users = $users;
-        $organization->roles = $roles;
+        $organization->users       = $users;
+        $organization->permissions = $permissions;
+        $organization->roles       = $roles;
 
         $this->template->title = $organization->name;
         $this->template->section = View::factory('organizations/pages/settings')
