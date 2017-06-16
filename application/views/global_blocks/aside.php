@@ -27,7 +27,7 @@
 
                     <li class="aside__collapse-item">
                         <a href="<?=URL::site('admin/rules'); ?>"  class="aside__collapse-link <?= $action == 'rules' ? 'aside__collapse-link--active' : ''; ?>">
-                            Roles&Permissions
+                            Права доступа
                         </a>
                     </li>
 

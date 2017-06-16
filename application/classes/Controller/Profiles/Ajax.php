@@ -18,8 +18,8 @@ class Controller_Profiles_Ajax extends Ajax
     CONST CHANGE_CO_WORKER_ROLE_ORG = 22;
     CONST CHANGE_CO_WORKER_ROLE_PEN = 32;
     CONST CHANGE_USER_ROLE          = 33;
-    CONST AVAILABLE_ROLES_ORG       = array(11,12);
-    CONST AVAILABLE_ROLES_PEN       = array(11,12);
+    CONST AVAILABLE_PERMISSIONS_ORG = array(17,18,19,20,21,22);
+    CONST AVAILABLE_PERMISSIONS_PEN = array();
 
 
     /**
@@ -60,7 +60,7 @@ class Controller_Profiles_Ajax extends Ajax
         $user->email        = $client->email;
         $user->username     = $this->getUserName($client->name);
         $user->password     = $this->makeHash('md5', $password . $_SERVER['SALT']);
-        $user->role         = 10;
+        $user->role         = 2;
         $user->newsletter   = 1;
         $user->creator      = $this->user->id;
         $user->is_confirmed = 0;
@@ -88,12 +88,26 @@ class Controller_Profiles_Ajax extends Ajax
         self::hasAccess(self::MODULE_ADMIN);
         self::hasAccess(self::CREATE_USER);
 
-        $name     = Arr::get($_POST, 'name');
-        $email    = Arr::get($_POST, 'email');
-        $role     = Arr::get($_POST, 'role');
+        $name        = Arr::get($_POST, 'name');
+        $email       = Arr::get($_POST, 'email');
+        $role        = Arr::get($_POST, 'role');
+        $roleName    = Arr::get($_POST, 'roleName');
+        $permissions = json_decode(Arr::get($_POST, 'permissions'));
 
-        if (empty($name) || empty($email) || empty($role)) {
+        if ($role == "new" && count($permissions) == 0) {
+            $response = new Model_Response_Permissions('PERMISSION_EMPTY_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        if (empty($name) || empty($email) || ($role == "new" && empty($roleName))) {
             $response = new Model_Response_Form('EMPTY_FIELDS_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        if (!Valid::email($email)) {
+            $response = new Model_Response_Email('EMAIL_FORMAT_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
             return;
         }
@@ -105,6 +119,16 @@ class Controller_Profiles_Ajax extends Ajax
             $this->response->body(@json_encode($response->get_response()));
             return;
         }
+
+        if ($role == "new") {
+            $role = new Model_Role();
+            $role->name = $roleName;
+            $role->type = 'admin';
+            $role->permissions = json_encode($permissions);
+            $role->type_id = 1;
+            $role = $role->save()->id;
+        }
+
 
         $user = new Model_User();
 
@@ -254,8 +278,16 @@ class Controller_Profiles_Ajax extends Ajax
         $type         = Arr::get($_POST, 'type');
         $user         = Arr::get($_POST, 'user');
         $role         = Arr::get($_POST, 'role');
+        $roleName     = Arr::get($_POST, 'roleName');
+        $permissions  = json_decode(Arr::get($_POST, 'permissions'));
         $organization = Arr::get($_POST, 'organization');
         $pension      = Arr::get($_POST, 'pension');
+
+        if ($role == "new" && count($permissions) == 0) {
+            $response = new Model_Response_Permissions('PERMISSION_EMPTY_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
 
         switch ($type) {
             case 'organization' :
@@ -263,8 +295,8 @@ class Controller_Profiles_Ajax extends Ajax
                 if (!in_array($this->user->id, $users) || !in_array(self::CHANGE_CO_WORKER_ROLE_ORG, $this->user->permissions)) {
                     throw new HTTP_Exception_403();
                 }
-                if (!in_array($role, self::AVAILABLE_ROLES_ORG)) {
-                    $response = new Model_Response_Roles('ROLE_NOT_ALLOWED_ERROR', 'error');
+                if ($role == "new" && count($permissions) == 0 && !in_array($permissions, self::AVAILABLE_PERMISSIONS_ORG)) {
+                    $response = new Model_Response_Permissions('PERMISSION_NOT_ALLOWED_ERROR', 'error');
                     $this->response->body(@json_encode($response->get_response()));
                     return;
                 }
@@ -274,8 +306,8 @@ class Controller_Profiles_Ajax extends Ajax
                 if (!in_array($this->user->id, $users) || !in_array(self::CHANGE_CO_WORKER_ROLE_PEN, $this->user->permissions)) {
                     throw new HTTP_Exception_403();
                 }
-                if (!in_array($role, self::AVAILABLE_ROLES_PEN)) {
-                    $response = new Model_Response_Roles('ROLE_NOT_ALLOWED_ERROR', 'error');
+                if ($role == "new" && count($permissions) == 0 && !in_array($permissions, self::AVAILABLE_PERMISSIONS_PEN)) {
+                    $response = new Model_Response_Permissions('PERMISSION_NOT_ALLOWED_ERROR', 'error');
                     $this->response->body(@json_encode($response->get_response()));
                     return;
                 }
@@ -294,6 +326,27 @@ class Controller_Profiles_Ajax extends Ajax
             $response = new Model_Response_Users('USER_DOES_NOT_EXISTED_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
             return;
+        }
+
+        if ($role == "new") {
+            $role = new Model_Role();
+            $role->name = $roleName;
+            $role->permissions = json_encode($permissions);
+            switch ($type) {
+                case 'organization' :
+                    $role->type = 'organization';
+                    $role->type_id = $organization;
+                    break;
+                case 'pension' :
+                    $role->type = 'pension';
+                    $role->type_id = $pension;
+                    break;
+                case 'admin' :
+                    $role->type = 'admin';
+                    $role->type_id = 1;
+                    break;
+            }
+            $role = $role->save()->id;
         }
 
         $user->role = $role;

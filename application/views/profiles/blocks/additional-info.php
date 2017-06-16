@@ -12,13 +12,18 @@
         </fieldset>
 
         <fieldset class="js-field-name m-b-0 p-b-10">
-            <label class="col-sm-3 col-md-2 form-group__label">Права доступа</label>
+            <label class="col-sm-3 col-md-2 form-group__label">Роль и права</label>
             <div class="col-xs-12 col-sm-9 col-md-10">
-                <ul class="m-l-15 form-group__control-static">
-                    <? foreach ($profile->permissions as $permission) : ?>
+                <div class="form-group__control-static">
+
+                <p class="text-bold"><?= $profile->role->name; ?></p>
+                <ul>
+                    <? foreach ($profile->role->permissions as $permission) : ?>
                         <li><?=$permission->name; ?></li>
                     <? endforeach; ?>
                 </ul>
+
+                </div>
             </div>
         </fieldset>
 

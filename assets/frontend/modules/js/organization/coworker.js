@@ -8,10 +8,23 @@ module.exports = (function (coworker) {
 
     coworker.invite = function () {
 
-        var form     = document.getElementById('inviteCoWorkerModal'),
-            formData = new FormData(form);
+        var form             = document.getElementById('inviteCoWorkerModal'),
+            formData         = new FormData(),
+            permissionsBlock = document.getElementById('inviteCoWorkerPermissions').querySelectorAll('.checkbox:checked'),
+            permissions      = [];
 
+        for (var i = 0; i < permissionsBlock.length; i++) {
+
+            permissions.push(permissionsBlock[i].id.split('_')[1]);
+
+        }
+
+        formData.append('name', document.getElementById('inviteCoWorkerName').value);
+        formData.append('email', document.getElementById('inviteCoWorkerEmail').value);
         formData.append('organization', document.getElementById('organizationID').value);
+        formData.append('role', document.getElementById('inviteCoWorkerRole').value);
+        formData.append('roleName', document.getElementById('inviteCoWorkerRoleName').value);
+        formData.append('permissions', JSON.stringify(permissions));
         formData.append('csrf', document.getElementById('csrf').value);
 
         var ajaxData = {
@@ -140,13 +153,25 @@ module.exports = (function (coworker) {
             id: 'updateCoWorkerModal',
             header: 'Изменить роль сотрудника',
             body:
-
+                '<fieldset>'+
                 '<div class="form-group">'+
                 '<label for="updateCoWorkerRole" class="form-group__label">Роль</label>'+
-                '<select name="role" id="updateCoWorkerRole" data-pk="' + element.dataset.pk +'" class="form-group__control">'+
+                '<select name="role" id="updateCoWorkerRole" data-pk="' + element.dataset.pk +'" class="form-group__control" onchange="organization.coworker.changerole(this)" data-permissions="updateCoWorkerPermissions" data-rolename="updateCoWorkerRoleName">'+
                     getRolesOptions_() +
                 '</select>'+
-                '</div>',
+                '</div>'+
+                '</fieldset>'+
+                '<fieldset>'+
+                '<div class="form-group">'+
+                '<label for="updateCoWorkerRoleName" class="form-group__label">Название новой роли</label>'+
+                '<input type="text" id="updateCoWorkerRoleName" class="form-group__control" maxlength="64">'+
+                '</div>'+
+                '</fieldset>'+
+                '<fieldset id="updateCoWorkerPermissions" class="m-b-0">'+
+                '<div class="form-group">'+
+                        getAvailablePermissions_() +
+                '</div>'+
+                '</fieldset>',
 
             footer:
                 '<button type="button" class="btn btn--default" data-close="modal">Отмена</button>'+
@@ -158,12 +183,22 @@ module.exports = (function (coworker) {
 
     coworker.updaterole = function () {
 
-        var form     = document.getElementById('updateCoWorkerModal'),
-            formData = new FormData(form);
+        var form             = document.getElementById('updateCoWorkerModal'),
+            formData         = new FormData(),
+            permissionsBlock = document.getElementById('updateCoWorkerPermissions').querySelectorAll('.checkbox:checked'),
+            permissions      = [];
+
+        for (var i = 0; i < permissionsBlock.length; i++) {
+
+            permissions.push(permissionsBlock[i].id.split('_')[1]);
+
+        }
 
         formData.append('organization', document.getElementById('organizationID').value);
         formData.append('role', document.getElementById('updateCoWorkerRole').value);
         formData.append('type', 'organization');
+        formData.append('roleName', document.getElementById('updateCoWorkerRoleName').value);
+        formData.append('permissions', JSON.stringify(permissions));
         formData.append('user', document.getElementById('updateCoWorkerRole').dataset.pk);
         formData.append('csrf', document.getElementById('csrf').value);
 
@@ -213,7 +248,7 @@ module.exports = (function (coworker) {
     function getRolesOptions_() {
 
         var options = JSON.parse(document.getElementById('availableRoles').value),
-            str     = '';
+            str     = '<option value="new">Новая</option>';
 
         for (var i = 0; i < options.length; i++) {
 
@@ -224,6 +259,41 @@ module.exports = (function (coworker) {
         return str;
 
     }
+
+    function getAvailablePermissions_() {
+
+        var permissions = JSON.parse(document.getElementById('availablePermissions').value),
+            str         = '';
+
+        for (var i = 0; i < permissions.length; i++) {
+
+            str +=
+                '<p>'+
+                '<input type="checkbox" id="modalpermission_' + permissions[i]['id'] +'" class="checkbox">'+
+                '<label for="modalpermission_' + permissions[i]['id'] +'" class="checkbox-label">' + permissions[i]['name'] +'</label>'+
+                '</p>';
+
+        }
+
+        return str;
+
+    }
+
+    coworker.changerole = function (element) {
+
+        if (element.value === 'new') {
+
+            document.getElementById(element.dataset.permissions).classList.remove('hide');
+            document.getElementById(element.dataset.rolename).parentNode.parentNode.classList.remove('hide');
+
+        } else {
+
+            document.getElementById(element.dataset.permissions).classList.add('hide');
+            document.getElementById(element.dataset.rolename).parentNode.parentNode.classList.add('hide');
+
+        }
+
+    };
 
 
     return coworker;

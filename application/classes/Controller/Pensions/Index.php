@@ -15,7 +15,7 @@ class Controller_Pensions_Index extends Dispatch
     CONST WATCH_CERTAIN_PENSIONS_PAGES = 26;
     CONST EDIT_PENSION                 = 27;
     CONST STATISTIC_PENSION            = 30;
-    CONST AVAILABLE_ROLES_PEN          = array(11,12);
+    CONST AVAILABLE_PERMISSIONS_PEN    = array(27,28,29,30,31,32);
 
     public $template = 'main';
 
@@ -109,13 +109,20 @@ class Controller_Pensions_Index extends Dispatch
             $users[] = $user;
         }
 
-        $roles = array();
-        foreach (self::AVAILABLE_ROLES_PEN as $role) {
-            $roles[] = new Model_Role($role);
+        $permissions = array();
+        foreach (self::AVAILABLE_PERMISSIONS_PEN as $permission) {
+            $permissions[] = new Model_Permission($permission);
         }
 
-        $pension->users = $users;
-        $pension->roles = $roles;
+        $roles = array();
+        $availableRoles = Model_Role::getByType('organization', $pension->id);
+        foreach ($availableRoles as $role) {
+            $roles[] = new Model_Role($role->id);
+        }
+
+        $pension->users       = $users;
+        $pension->permissions = $permissions;
+        $pension->roles       = $roles;
 
         $this->template->title = $pension->name;
         $this->template->section = View::factory('pensions/pages/main')
@@ -147,13 +154,20 @@ class Controller_Pensions_Index extends Dispatch
             $users[] = $user;
         }
 
-        $roles = array();
-        foreach (self::AVAILABLE_ROLES_PEN as $role) {
-            $roles[] = new Model_Role($role);
+        $permissions = array();
+        foreach (self::AVAILABLE_PERMISSIONS_PEN as $permission) {
+            $permissions[] = new Model_Permission($permission);
         }
 
-        $pension->users = $users;
-        $pension->roles = $roles;
+        $roles = array();
+        $availableRoles = Model_Role::getByType('organization', $pension->id);
+        foreach ($availableRoles as $role) {
+            $roles[] = new Model_Role($role->id);
+        }
+
+        $pension->users       = $users;
+        $pension->permissions = $permissions;
+        $pension->roles       = $roles;
 
         $this->template->title = $pension->name;
         $this->template->section = View::factory('pensions/pages/settings')

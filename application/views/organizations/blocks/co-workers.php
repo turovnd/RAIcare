@@ -29,6 +29,7 @@
 <? // Module Organizations => CHANGE_CO_WORKER_ROLE_ORG = 22
 if (in_array(22, $user->permissions)) : ?>
     <input type="hidden" id="availableRoles" value='<?= json_encode($organization->roles); ?>'>
+    <input type="hidden" id="availablePermissions" value='<?= json_encode($organization->permissions); ?>'>
 <? endif; ?>
 
 <? // Module Organizations => INVITE_CO_WORKER_TO_ORG = 18
@@ -51,11 +52,48 @@ if (in_array(18, $user->permissions)) : ?>
                     </div>
                 </fieldset>
 
-                <fieldset class="m-0">
+                <fieldset>
                     <div class="form-group">
                         <label for="inviteCoWorkerEmail" class="form-group__label">Эл.почта <span class="text-danger">*</span></label>
                         <input type="email" id="inviteCoWorkerEmail" name="email" class="form-group__control" maxlength="64">
                     </div>
+                </fieldset>
+
+                <fieldset>
+                    <div class="form-group">
+                        <label for="inviteCoWorkerRole" class="form-group__label">Роль</label>
+                        <select name="role" id="inviteCoWorkerRole" class="form-group__control" onchange="organization.coworker.changerole(this)" data-permissions="inviteCoWorkerPermissions" data-rolename="inviteCoWorkerRoleName">
+                            <option value="new">Новая</option>
+
+                            <? foreach ($organization->roles as $role) : ?>
+
+                                <option value="<?=$role->id; ?>"><?=$role->name; ?></option>
+
+                            <? endforeach; ?>
+
+                        </select>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <div class="form-group">
+                        <label for="inviteCoWorkerRoleName" class="form-group__label">Название новой роли</label>
+                        <input type="text" id="inviteCoWorkerRoleName" class="form-group__control" maxlength="64">
+                    </div>
+                </fieldset>
+
+                <fieldset id="inviteCoWorkerPermissions" class="m-b-0">
+                    <label class="form-group__label">Права доступа</label>
+
+                    <? foreach ($organization->permissions as $permission) : ?>
+
+                        <p>
+                            <input type="checkbox" id="permission_<?=$permission->id; ?>" class="checkbox">
+                            <label for="permission_<?=$permission->id; ?>" class="checkbox-label"><?=$permission->name; ?></label>
+                        </p>
+
+                    <? endforeach; ?>
+
                 </fieldset>
 
             </div>

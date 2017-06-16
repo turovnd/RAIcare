@@ -2,7 +2,7 @@
 
 
     <h3 class="section__heading">
-        Создание пользователей
+        Создание пользователя
     </h3>
 
     <div class="row">
@@ -14,7 +14,7 @@
 
                     <fieldset>
                         <label for="newUser" class="form-group__label">Имя</label>
-                        <input id="newUser" type="text" name="name" class="form-group__control">
+                        <input id="newUser" type="text" class="form-group__control">
                     </fieldset>
 
                     <fieldset>
@@ -24,16 +24,35 @@
 
                     <fieldset>
                         <label for="newUserRole" class="form-group__label">Роль</label>
-                        <select name="role" id="newUserRole" class="form-group__control">
-                                <option value=""></option>
+                        <select name="role" id="newUserRole" class="form-group__control" onchange="admin.newuser.changerole(this)">
+                                <option value="new">Новая</option>
 
                             <? foreach ($roles as $role) : ?>
 
-                                <option value="<?=$role['id']; ?>"><?=$role['name']; ?></option>
+                                <option value="<?=$role->id; ?>"><?=$role->name; ?></option>
 
                             <? endforeach; ?>
 
                         </select>
+
+                    </fieldset>
+
+                    <fieldset>
+                        <label for="newUserRoleName" class="form-group__label">Наименование новой роли</label>
+                        <input id="newUserRoleName" type="text" class="form-group__control" maxlength="128">
+                    </fieldset>
+
+                    <fieldset id="newUserPermissions">
+                        <label class="form-group__label">Права доступа</label>
+
+                        <? foreach ($permissions as $permission) : ?>
+
+                            <p>
+                                <input type="checkbox" id="permission_<?=$permission->id; ?>" class="checkbox">
+                                <label for="permission_<?=$permission->id; ?>" class="checkbox-label"><?=$permission->name; ?></label>
+                            </p>
+
+                        <? endforeach; ?>
 
                     </fieldset>
 
