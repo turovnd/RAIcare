@@ -5,13 +5,16 @@ Class Model_Patient {
 
     public $id;
     public $name;
-    public $uri;
-    public $organization;
-    public $owner;
+    public $sex;                    // 1 - male, 2 - female
+    public $birthday;
+    public $relation;               // семейное положение
+    public $snils;                  // номер СНИЛС
+    public $oms;                    // номер полиса ОМС или документа, его заменяющего
+    public $disability_certificate; // номер справки об инвалидности
+    public $pension;
+    public $sources;                // текущие источники оплаты пребывания в пансионате
+    public $dt_create;              // дата первичной оценки в пансионате
     public $creator;
-    public $cover = "no-image.png";
-    public $is_removed;
-    public $dt_create;
 
     
     public function __construct($id = null) {
@@ -82,7 +85,6 @@ Class Model_Patient {
 
     public static function getAll($offset, $limit = 10, $name = "")
     {
-        return false;
         if ($name == "") {
             $select = Dao_Patients::select()
                 ->order_by('dt_create', 'DESC')
@@ -99,29 +101,42 @@ Class Model_Patient {
                 ->execute();
         }
 
-        $pensions = array();
+        $patients = array();
 
-        if ( empty($select) ) return $pensions;
+        if ( empty($select) ) return $patients;
 
         foreach ($select as $item) {
-            $pension = new Model_Patient();
-            $pension = $pension->fill_by_row($item);
-            $pension->creator = new Model_User($pension->creator);
-            $pension->owner = new Model_User($pension->owner);
-            $pension->organization = new Model_Organization($pension->organization);
-            $pensions[] = $pension;
+            $patient = new Model_Patient();
+            $patient = $patient->fill_by_row($item);
+            $patients[] = $patient;
         }
 
-        return $pensions;
+        return $patients;
     }
 
 
-    public static function getByPension($id)
+    public static function getByPension($id, $offset, $limit = 10, $name = "")
     {
-        $select = Dao_Patients::select()
-            ->where('pension','=', $id)
-            ->order_by('dt_create', 'DESC')
-            ->execute();
+
+        if ($name == "") {
+            $select = Dao_Patients::select()
+                ->where('pension','=', $id)
+                ->order_by('dt_create', 'DESC')
+                ->offset($offset)
+                ->limit($limit)
+                ->execute();
+
+        } else {
+            $select = Dao_Patients::select()
+                ->where('pension','=', $id)
+                ->or_having('name', '%' . $name . '%')
+                ->or_having('snils', '%' . $name . '%')
+                ->order_by('dt_create', 'DESC')
+                ->offset($offset)
+                ->limit($limit)
+                ->execute();
+        }
+
 
         $patients = array();
 
@@ -129,7 +144,10 @@ Class Model_Patient {
 
         foreach ($select as $item) {
             $patient = new Model_Patient();
-            $patients[] = $patient->fill_by_row($item);
+            $patient = $patient->fill_by_row($item);
+            $patient->pension = new Model_Pension($patient->pension);
+            $patient->creator = new Model_User($patient->creator);
+            $patients[] = $patient;
         }
 
         return $patients;

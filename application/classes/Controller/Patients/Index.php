@@ -12,7 +12,6 @@ class Controller_Patients_Index extends Dispatch
 {
     CONST WATCH_ALL_PATIENTS_PROFILES    = 34;
     CONST WATCH_PATIENTS_PROFILES_IN_PEN = 35;
-    CONST CAN_CREATE_EVALUATION_FORMS    = 36;
 
     public $template = 'main';
 
@@ -60,55 +59,6 @@ class Controller_Patients_Index extends Dispatch
             ->set('patient', $patient);
     }
 
-
-    public function action_pension_patients()
-    {
-        self::hasAccess(self::WATCH_PATIENTS_PROFILES_IN_PEN);
-
-        $id = $this->request->param('id');
-        $pension = new Model_Pension($id);
-
-        if (!$pension->id)
-            throw new HTTP_Exception_404();
-
-        $patients = Model_Patient::getByPension($pension->id);
-
-        $this->template->title = "База данных пациентов пансионата " . $pension->name;
-        $this->template->section = View::factory('patients/pages/pension-patients')
-            ->set('pension', $pension)
-            ->set('patients', $patients);
-    }
-
-
-    public function action_pension_patient()
-    {
-        $pension_id = $this->request->param('pension_id');
-        $patient_id = $this->request->param('patient_id');
-
-        if (in_array(self::WATCH_ALL_PATIENTS_PROFILES, $this->user->permissions)) {
-            HTTP::redirect('patient/' . $patient_id);
-        }
-
-        self::hasAccess(self::WATCH_PATIENTS_PROFILES_IN_PEN);
-
-        $pension = new Model_Pension($pension_id);
-        $patient = new Model_Patient($patient_id);
-
-        if (!$pension->id || !$patient ->id)
-            throw new HTTP_Exception_404();
-
-
-        $usersIDs = Model_UserPension::getUsers($pension->id);
-
-        if (!(in_array($this->user->id, $usersIDs)))
-            throw new HTTP_Exception_403();
-
-
-        $this->template->title = "Профиль " . $patient->name;
-        $this->template->section = View::factory('patient/pages/profile')
-            ->set('patient', $patient)
-            ->set('pension', $pension);
-    }
 
 
 }

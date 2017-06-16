@@ -11,7 +11,7 @@
                 </a>
             <? endif; ?>
             <? // Module Organizations => CHANGE_CO_WORKER_ROLE_ORG = 22
-            if (in_array(22, $user->permissions) && $organization->owner != $coworker->id) : ?>
+            if (in_array(22, $user->permissions) && $organization->owner != $coworker->id && $user->id != $coworker->id) : ?>
                 <a onclick="organization.coworker.openupdaterole(this)" role="button" class="fl_r m-l-10" data-pk="<?=$coworker->id; ?>">
                     <i class="fa fa-pencil" aria-hidden="true"></i>
                 </a>

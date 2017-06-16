@@ -26,6 +26,7 @@ class Dao_MySQL_Base {
     protected $tagcached = null;
     protected $where     = array();
     protected $where_in  = array();
+    protected $or_having  = array();
     protected $order_by  = null;
     protected $fields    = array();
     protected $join      = array();
@@ -76,6 +77,13 @@ class Dao_MySQL_Base {
         }
         return $this;
     }
+
+    public function or_having($field, $value)
+    {
+        $this->or_having[$field] = $value;
+        return $this;
+    }
+
 
     public function where_in($field, $value)
     {
@@ -225,6 +233,7 @@ class Dao_MySQL_Base {
 
         foreach($this->where as $key => $value) $select->where($key, key($value), current($value));
         foreach($this->where_in as $key => $value) $select->where($key, 'IN', $value);
+        foreach($this->or_having as $key => $value) $select->or_having($key, 'LIKE', $value);
 
         if ($this->limit) $select->limit($this->limit);
         if ($this->offset) $select->offset($this->offset);

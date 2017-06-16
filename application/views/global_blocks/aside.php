@@ -190,7 +190,9 @@
                                     || $action == 'pen_created'
                                     || $action == "pen_pension"
                                     || $action == "pen_settings"
-                                    || $action == "pen_statistic"? 'aside__item--active' : ''; ?>">
+                                    || $action == "pen_statistic"
+                                    || $action == "pen_survey"
+                                    || $action == "pen_patients"? 'aside__item--active' : ''; ?>">
             <a role="button" data-toggle="collapse" data-area="modulePensions" data-opened="false" class="aside__link <? echo $action == 'pen_all' || $action == 'pen_created' ? 'aside__link--active' : ''; ?>">
                 <i class="fa fa-user-md aside__icon" aria-hidden="true"></i>
                 <span class="aside__text">Пансионаты</span>
@@ -234,7 +236,8 @@
         <li class="aside__item <? echo $action == "pen_my"
                                     || $action == "pen_pension"
                                     || $action == "pen_settings"
-                                    || $action == "pen_statistic"? 'aside__item--active' : ''; ?>">
+                                    || $action == "pen_statistic"
+                                    || $action == "pen_patients"? 'aside__item--active' : ''; ?>">
             <a href="<?=URL::site('pensions/my'); ?>" class="aside__link <? echo $action == "pen_my" ? 'aside__link--active' : ''; ?>">
                 <i class="fa fa-user-md aside__icon" aria-hidden="true"></i>
                 <span class="aside__text">Мои пансионаты</span>
@@ -242,5 +245,145 @@
         </li>
 
     <? endif; ?>
+
+
+    <? // Module Pensions Survey => CAN_CONDUCT_A_SURVEY = 36 || $action == "pen_survey"
+    if (in_array(36, $user->permissions) && $action == "pen_survey") : ?>
+
+        <div class="divider"></div>
+
+        <li class="aside__item">
+            <div class="text-bold p-5 p-l-10 text-brand aside__text">Анкетирование</div>
+        </li>
+
+        <li class="aside__item">
+            <a href="#progress" class="aside__link display-flex hide" onclick="survey.get.unit('progress')">
+                <i class="fa fa-bookmark aside__icon" aria-hidden="true"></i>
+                <span class="white-space--normal aside__text">Прогресс</span>
+            </a>
+        </li>
+
+
+        <li class="aside__item">
+            <a href="#unitA" class="aside__link display-flex hide" onclick="survey.get.unit('unitA')">
+                <i class="fa fa-address-card-o aside__icon" aria-hidden="true"></i>
+                <span class="white-space--normal aside__text">Персональная информация</span>
+            </a>
+        </li>
+
+        <li class="aside__item">
+            <a href="#unitB" class="aside__link display-flex hide" onclick="survey.get.unit('unitB')">
+                <i class="fa fa-history aside__icon" aria-hidden="true"></i>
+                <span class="white-space--normal aside__text">Первоначальная история</span>
+            </a>
+        </li>
+
+        <li class="aside__item">
+            <a href="#unitС" class="aside__link display-flex hide" onclick="survey.get.unit('unitC')">
+                <i class="fa fa-bullseye aside__icon" aria-hidden="true"></i>
+                <span class="white-space--normal aside__text">Когнитивные способности</span>
+            </a>
+        </li>
+
+        <li class="aside__item">
+            <a href="#unitD" class="aside__link display-flex hide" onclick="survey.get.unit('unitD')">
+                <i class="fa fa-eye aside__icon" aria-hidden="true"></i>
+                <span class="white-space--normal aside__text">Коммуникация и зрение</span>
+            </a>
+        </li>
+
+        <li class="aside__item">
+            <a href="#unitE" class="aside__link display-flex hide" onclick="survey.get.unit('unitE')">
+                <i class="fa fa-smile-o aside__icon" aria-hidden="true"></i>
+                <span class="white-space--normal aside__text">Настроение и поведение</span>
+            </a>
+        </li>
+
+        <li class="aside__item">
+            <a href="#unitF" class="aside__link display-flex hide" onclick="survey.get.unit('unitF')">
+                <i class="fa fa-group aside__icon" aria-hidden="true"></i>
+                <span class="white-space--normal aside__text">Психосоциальное благополучие</span>
+            </a>
+        </li>
+
+        <li class="aside__item">
+            <a href="#unitG" class="aside__link display-flex hide" onclick="survey.get.unit('unitG')">
+                <i class="fa fa-child aside__icon" aria-hidden="true"></i>
+                <span class="white-space--normal aside__text">Функциональное состояние</span>
+            </a>
+        </li>
+
+        <li class="aside__item">
+            <a href="#unitH" class="aside__link display-flex hide" onclick="survey.get.unit('unitH')">
+                <i class="fa fa-frown-o aside__icon" aria-hidden="true"></i>
+                <span class="white-space--normal aside__text">Недержание</span>
+            </a>
+        </li>
+
+        <li class="aside__item">
+            <a href="#unitI" class="aside__link display-flex hide" onclick="survey.get.unit('unitI')">
+                <i class="fa fa-folder-o aside__icon" aria-hidden="true"></i>
+                <span class="white-space--normal aside__text">Диагнозы</span>
+            </a>
+        </li>
+
+        <li class="aside__item">
+            <a href="#unitJ" class="aside__link display-flex hide" onclick="survey.get.unit('unitJ')">
+                <i class="fa fa-blind aside__icon" aria-hidden="true"></i>
+                <span class="white-space--normal aside__text">Нарушения состояния здоровья</span>
+            </a>
+        </li>
+
+        <li class="aside__item">
+            <a href="#unitK" class="aside__link display-flex hide" onclick="survey.get.unit('unitK')">
+                <i class="fa fa-cutlery aside__icon" aria-hidden="true"></i>
+                <span class="white-space--normal aside__text">Вопросы питания и состояние ротовой области</span>
+            </a>
+        </li>
+
+        <li class="aside__item">
+            <a href="#unitL" class="aside__link display-flex hide" onclick="survey.get.unit('unitL')">
+                <i class="fa fa-info-circle aside__icon" aria-hidden="true"></i>
+                <span class="white-space--normal aside__text">Состояние кожи</span>
+            </a>
+        </li>
+
+        <li class="aside__item">
+            <a href="#unitM" class="aside__link display-flex hide" onclick="survey.get.unit('unitM')">
+                <i class="fa fa-music aside__icon" aria-hidden="true"></i>
+                <span class="white-space--normal aside__text">Досуг</span>
+            </a>
+        </li>
+
+        <li class="aside__item">
+            <a href="#unitN" class="aside__link display-flex hide" onclick="survey.get.unit('unitN')">
+                <i class="fa fa-braille aside__icon" aria-hidden="true"></i>
+                <span class="white-space--normal aside__text">Лекарственные средства</span>
+            </a>
+        </li>
+
+        <li class="aside__item">
+            <a href="#unitO" class="aside__link display-flex hide" onclick="survey.get.unit('unitO')">
+                <i class="fa fa-bath aside__icon" aria-hidden="true"></i>
+                <span class="white-space--normal aside__text">Лечебные мероприятия и процедуры</span>
+            </a>
+        </li>
+
+        <li class="aside__item">
+            <a href="#unitP" class="aside__link display-flex hide" onclick="survey.get.unit('unitP')">
+                <i class="fa fa-gavel aside__icon" aria-hidden="true"></i>
+                <span class="white-space--normal aside__text">Правовая ответственность и распоряжения</span>
+            </a>
+        </li>
+
+        <li class="aside__item">
+            <a href="#unitQ" class="aside__link display-flex hide" onclick="survey.get.unit('unitQ')">
+                <i class="fa fa-home aside__icon" aria-hidden="true"></i>
+                <span class="white-space--normal aside__text">Перспективы выписки и выписка</span>
+            </a>
+        </li>
+
+    <? endif; ?>
+
 
 </ul>

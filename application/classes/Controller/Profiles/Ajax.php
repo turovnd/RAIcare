@@ -16,6 +16,8 @@ class Controller_Profiles_Ajax extends Ajax
     CONST CREATE_USER               = 5;
     CONST CREATE_USER_BASED_ON_FORM = 9;
     CONST CHANGE_CO_WORKER_ROLE_ORG = 22;
+    CONST WATCH_MY_ORGS_PAGE        = 16;
+    CONST WATCH_MY_PEN_PAGE         = 26;
     CONST CHANGE_CO_WORKER_ROLE_PEN = 32;
     CONST CHANGE_USER_ROLE          = 33;
     CONST AVAILABLE_PERMISSIONS_ORG = array(17,18,19,20,21,22);
@@ -300,6 +302,7 @@ class Controller_Profiles_Ajax extends Ajax
                     $this->response->body(@json_encode($response->get_response()));
                     return;
                 }
+                $permissions[] = strval(self::WATCH_MY_ORGS_PAGE);
                 break;
             case 'pension' :
                 $users = Model_UserPension::getUsers($pension);
@@ -311,6 +314,7 @@ class Controller_Profiles_Ajax extends Ajax
                     $this->response->body(@json_encode($response->get_response()));
                     return;
                 }
+                $permissions[] = strval(self::WATCH_MY_PEN_PAGE);
                 break;
             case 'admin' :
                 if (!in_array(self::CHANGE_USER_ROLE, $this->user->permissions)) {

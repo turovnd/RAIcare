@@ -14,6 +14,7 @@ class Controller_Organizations_Ajax extends Ajax
     CONST CREATE_ORGANIZATION        = 13;
     CONST WATCH_ALL_ORGS_PAGES       = 14;
     CONST WATCH_CREATED_ORGS_PAGES   = 15;
+    CONST WATCH_MY_ORGS_PAGE        = 16;
     CONST EDIT_ORGANIZATION          = 17;
     CONST INVITE_CO_WORKER_TO_ORG    = 18;
     CONST EXCLUDE_CO_WORKER_FROM_ORG = 19;
@@ -193,6 +194,7 @@ class Controller_Organizations_Ajax extends Ajax
             throw new HTTP_Exception_403();
         }
 
+        $permissions[] = strval(self::WATCH_MY_ORGS_PAGE);
         if ($role == "new") {
             $role = new Model_Role();
             $role->name = $roleName;

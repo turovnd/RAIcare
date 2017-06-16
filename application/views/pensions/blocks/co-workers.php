@@ -11,7 +11,7 @@
                 </a>
             <? endif; ?>
             <? // Module Pensions => CHANGE_CO_WORKER_ROLE_PEN = 32
-            if (in_array(32, $user->permissions) && $pension->owner != $coworker->id) : ?>
+            if (in_array(32, $user->permissions) && $pension->owner != $coworker->id && $user->id != $coworker->id) : ?>
                 <a onclick="pension.coworker.openupdaterole(this)" role="button" class="fl_r m-l-10" data-pk="<?=$coworker->id; ?>">
                     <i class="fa fa-pencil" aria-hidden="true"></i>
                 </a>

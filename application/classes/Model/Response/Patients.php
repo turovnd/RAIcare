@@ -2,9 +2,15 @@
 
 class Model_Response_Patients extends Model_Response_Abstract
 {
-    protected $_PATIENTS_CREATE_SUCCESS = array (
+    protected $_PATIENTS_GET_SUCCESS = array (
         'type' => 'patient',
         'code' => '150',
+        'message' => 'Пациенты получены'
+    );
+
+    protected $_PATIENTS_CREATE_SUCCESS = array (
+        'type' => 'patient',
+        'code' => '155',
         'message' => 'Пациент успешно добавлен'
     );
 
@@ -26,10 +32,6 @@ class Model_Response_Patients extends Model_Response_Abstract
         'message' => 'Вы ничего не изменили'
     );
 
-    protected $_PATIENTS_GET_SUCCESS = array (
-        'type' => 'patient',
-        'code' => '154',
-        'message' => 'Пациенты получены'
-    );
+
 
 }

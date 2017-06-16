@@ -10,13 +10,8 @@
 
 class Controller_Patients_Ajax extends Ajax
 {
-    CONST MODULE_CLIENTS               = 6;
-    CONST CREATE_PENSION               = 23;
-    CONST WATCH_ALL_PENSIONS_PAGES     = 24;
-    CONST WATCH_CREATED_PENSIONS_PAGES = 25;
-    CONST EDIT_PENSION                 = 27;
-    CONST INVITE_CO_WORKER_TO_PEN      = 28;
-    CONST EXCLUDE_CO_WORKER_FROM_PEN   = 29;
+    CONST WATCH_PATIENTS_PROFILES_IN_PEN = 35;
+    CONST CAN_CONDUCT_A_SURVEY           = 36;
 
     public function action_new()
     {
@@ -120,141 +115,29 @@ class Controller_Patients_Ajax extends Ajax
 
     public function action_get()
     {
-        $name   = Arr::get($_POST, 'name');
-        $type   = Arr::get($_POST, 'type');
-        $offset = Arr::get($_POST, 'offset');
+        $name    = Arr::get($_POST, 'name');
+        $pension = Arr::get($_POST, 'pension');
+        $offset  = Arr::get($_POST, 'offset');
 
-        switch ($type) {
-            case 'all_pensions':
-                self::hasAccess(self::WATCH_ALL_PENSIONS_PAGES);
-                if ($name != "") {
-                    $pensions = Model_Pension::getAll($offset,10, $name);
-                } else {
-                    $pensions = Model_Pension::getAll($offset,10);
-                }
-                break;
-            case 'created_pensions':
-                self::hasAccess(self::WATCH_CREATED_PENSIONS_PAGES);
-                if ($name != "") {
-                    $pensions = Model_Pension::getByCreator($this->user->id, $offset,10, $name);
-                } else {
-                    $pensions = Model_Pension::getByCreator($this->user->id,$offset,10);
-                }
-                break;
+        $pension = new Model_Pension($pension);
+
+        if (!$pension->id) {
+            $response = new Model_Response_Pensions('PENSION_DOES_NOT_EXISTED_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+        }
+
+        if ($name != "") {
+            $patients = Model_Patient::getByPension($pension->id, $offset, 10, $name);
+        } else {
+            $patients = Model_Patient::getByPension($pension->id, $offset,10);
         }
 
         $html = "";
-        foreach ($pensions as $pension) {
-            $html .= View::factory('pensions/blocks/search-block', array('pension' => $pension))->render();
+        foreach ($patients as $patient) {
+            $html .= View::factory('patients/blocks/search-block', array('patient' => $patient, 'pension_id' => $pension->id))->render();
         }
 
-        $response = new Model_Response_Pensions('PENSION_GET_SUCCESS', 'success', array('html'=>$html, 'number'=>count($pensions)));
+        $response = new Model_Response_Patients('PATIENTS_GET_SUCCESS', 'success', array('html'=>$html, 'number'=>count($patients)));
         $this->response->body(@json_encode($response->get_response()));
     }
-
-    public function action_inviteuser()
-    {
-        $name        = Arr::get($_POST, 'name');
-        $email       = Arr::get($_POST, 'email');
-        $pension     = Arr::get($_POST, 'pension');
-        $role        = Arr::get($_POST, 'role');
-        $roleName    = Arr::get($_POST, 'roleName');
-        $permissions = json_decode(Arr::get($_POST, 'permissions'));
-
-        if ($role == "new" && count($permissions) == 0) {
-            $response = new Model_Response_Permissions('PERMISSION_EMPTY_ERROR', 'error');
-            $this->response->body(@json_encode($response->get_response()));
-            return;
-        }
-
-        if (empty($name) || ($role == "new" && empty($roleName))) {
-            $response = new Model_Response_Form('EMPTY_FIELD_ERROR', 'error');
-            $this->response->body(@json_encode($response->get_response()));
-            return;
-        }
-
-        if (!Valid::email($email)) {
-            $response = new Model_Response_Email('EMAIL_FORMAT_ERROR', 'error');
-            $this->response->body(@json_encode($response->get_response()));
-            return;
-        }
-
-        $pension = new Model_Pension($pension);
-
-        if (!$pension->id)
-        {
-            $response = new Model_Response_Pensions('PENSION_DOES_NOT_EXISTED_ERROR', 'error');
-            $this->response->body(@json_encode($response->get_response()));
-            return;
-        }
-
-        $users = Model_UserPension::getUsers($pension->id);
-
-        if (!in_array($this->user->id, $users) || !in_array(self::INVITE_CO_WORKER_TO_PEN, $this->user->permissions)) {
-            throw new HTTP_Exception_403();
-        }
-
-        if ($role == "new") {
-            $role = new Model_Role();
-            $role->name = $roleName;
-            $role->type = 'organization';
-            $role->permissions = json_encode($permissions);
-            $role->type_id = $pension->id;
-            $role = $role->save()->id;
-        }
-
-        /**
-         * TODO send inviting email to CO-WORKER + generate link + save user DATA + role to Redis until it confirm
-         */
-//        $template = View::factory('email_templates/application_request', array('name' => $name, 'email' => $email));
-//        $emailForm = new Email();
-//        $emailForm->send($email, $_SERVER['INFO_EMAIL'], 'Заявка принята - ' . $GLOBALS['SITE_NAME'], $template, true);
-
-        $response = new Model_Response_Email('EMAIL_SEND_SUCCESS', 'success');
-        $this->response->body(@json_encode($response->get_response()));
-
-    }
-
-    public function action_excludeuser()
-    {
-        $userID  = Arr::get($_POST, 'user');
-        $pension = Arr::get($_POST, 'pension');
-
-        $user = new Model_User($userID);
-
-        if (!$user->id) {
-            $response = new Model_Response_Users('USER_DOES_NOT_EXISTED_ERROR', 'error');
-            $this->response->body(@json_encode($response->get_response()));
-            return;
-        }
-
-        $pension = new Model_Pension($pension);
-
-        if (!$pension->id)
-        {
-            $response = new Model_Response_Pensions('PENSION_DOES_NOT_EXISTED_ERROR', 'error');
-            $this->response->body(@json_encode($response->get_response()));
-            return;
-        }
-
-        $users = Model_UserPension::getUsers($pension->id);
-
-        if (!in_array($this->user->id, $users) || !in_array(self::EXCLUDE_CO_WORKER_FROM_PEN, $this->user->permissions)) {
-            throw new HTTP_Exception_403();
-        }
-
-        Model_UserPension::delete($user->id, $pension->id);
-
-        /**
-         * TODO send email to $user that his was deleted from pension
-         */
-//        $template = View::factory('email_templates/application_request', array('name' => $name, 'email' => $email));
-//        $emailForm = new Email();
-//        $emailForm->send($email, $_SERVER['INFO_EMAIL'], 'Заявка принята - ' . $GLOBALS['SITE_NAME'], $template, true);
-
-        $response = new Model_Response_Pensions('PENSION_USER_DELETE_SUCCESS', 'success');
-        $this->response->body(@json_encode($response->get_response()));
-
-    }
-
 }
