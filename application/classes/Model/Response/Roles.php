@@ -35,7 +35,7 @@ class Model_Response_Roles extends Model_Response_Abstract
     protected $_ROLE_EXISTED_ERROR = array (
         'type' => 'role',
         'code' => '105',
-        'message' => 'Роль с данным id уже существет'
+        'message' => 'Роль не существет'
     );
 
     protected $_ROLE_NOT_ALLOWED_ERROR = array (

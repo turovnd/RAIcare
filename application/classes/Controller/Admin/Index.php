@@ -39,10 +39,21 @@ class Controller_Admin_Index extends Dispatch
     {
         self::hasAccess(self::PERMISSIONS);
 
+        $roles = Model_Role::getByType('admin', 1);
+
+        foreach ($roles as $role) {
+            $permissions = json_decode($role->permissions);
+            $role->permissions = array();
+            foreach ($permissions as $permission) {
+                $role->permissions[] = new Model_Permission($permission);
+            }
+        }
+
         $permissions = Model_Permission::getAll();
 
-        $this->template->title = "Права доступа";
+        $this->template->title = "Роли и права доступа";
         $this->template->section = View::factory('admin/rules')
+            ->set('roles', $roles)
             ->set('permissions', $permissions);
     }
 

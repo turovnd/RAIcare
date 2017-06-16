@@ -1,7 +1,7 @@
 <div class="section__content ">
 
     <h3 class="section__heading">
-        Права доступа
+        Роли и права доступа
     </h3>
 
     <div class="row">
@@ -36,6 +36,36 @@
                     <button id="js-add-permission" role="button" class="btn btn--default fl_r m-0">добавить</button>
 
                 </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-xs-12">
+
+            <div class="block">
+
+                <div class="block__heading">Роли</div>
+
+                <div class="block__body">
+                    <ol id="roles" class="col-xs-12">
+
+                        <? foreach ($roles as $role) : ?>
+                            <li class="col-xs-12 col-sm-4 m-b-10">
+                                <span class="role-name"><?= $role->name; ?></span>
+                                <button onclick="admin.roles.openmodal(this)" role="button" class="m-l-5" data-pk="<?= $role->id; ?>" data-rolename="<?= $role->name; ?>" data-permissions='<?= json_encode($role->permissions); ?>'><i class="fa fa-edit text-brand" aria-hidden="true"></i></button>
+                                <ul>
+                                    <? foreach ($role->permissions as $permission) : ?>
+                                        <li data-permission="<?= $permission->id; ?>"><?= $permission->name; ?></li>
+                                    <? endforeach; ?>
+                                </ul>
+                            </li>
+                        <? endforeach; ?>
+
+                    </ol>
+                </div>
+
+            </div>
 
             </div>
 
