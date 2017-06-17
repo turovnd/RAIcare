@@ -10,6 +10,7 @@
 
 class Controller_Patients_Ajax extends Ajax
 {
+    CONST WATCH_ALL_PATIENTS_PROFILES    = 34;
     CONST WATCH_PATIENTS_PROFILES_IN_PEN = 35;
     CONST CAN_CONDUCT_A_SURVEY           = 36;
 
@@ -77,8 +78,6 @@ class Controller_Patients_Ajax extends Ajax
             return;
         }
 
-
-
         $patient = new Model_Patient();
 
         $patient->name                   = $name;
@@ -100,11 +99,12 @@ class Controller_Patients_Ajax extends Ajax
         $this->redis->set(self::REDIS_PACKAGE . ':pensions:' . $pension->id . ':longtermforms', $count_forms);
 
         $form = new Model_LongTermForm();
-        $form->id      = $count_forms;
-        $form->patient = $patient->id;
-        $form->pension = $pension->id;
-        $form->type    = 1;
-        $form->creator = $this->user->id;
+        $form->id           = $count_forms;
+        $form->patient      = $patient->id;
+        $form->pension      = $pension->id;
+        $form->organization = $pension->organization;
+        $form->type         = 1;
+        $form->creator      = $this->user->id;
         $form->save();
 
         $response = new Model_Response_Patients('PATIENTS_CREATE_SUCCESS', 'success', array('id' => $count_forms));
@@ -169,17 +169,34 @@ class Controller_Patients_Ajax extends Ajax
         if (!$pension->id) {
             $response = new Model_Response_Pensions('PENSION_DOES_NOT_EXISTED_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
+            return;
         }
 
-        if ($name != "") {
-            $patients = Model_Patient::getByPension($pension->id, $offset, 10, $name);
-        } else {
-            $patients = Model_Patient::getByPension($pension->id, $offset,10);
+        $patients = Model_Patient::getByPension($pension->id, $offset, 10, $name);
+        
+        $html = "";
+        foreach ($patients as $patient) {
+            $patient->form = Model_LongTermForm::getByPatientAndPension($patient->id, $pension->id);
+            $html .= View::factory('patients/blocks/search-block', array('patient' => $patient))->render();
         }
+
+        $response = new Model_Response_Patients('PATIENTS_GET_SUCCESS', 'success', array('html'=>$html, 'number'=>count($patients)));
+        $this->response->body(@json_encode($response->get_response()));
+    }
+
+    public function action_getAll()
+    {
+        self::hasAccess(self::WATCH_ALL_PATIENTS_PROFILES);
+
+        $name    = Arr::get($_POST, 'name');
+        $offset  = Arr::get($_POST, 'offset');
+
+        $patients = Model_Patient::getAll($offset, 10, $name);
+
 
         $html = "";
         foreach ($patients as $patient) {
-            $html .= View::factory('patients/blocks/search-block', array('patient' => $patient, 'pension_id' => $pension->id))->render();
+            $html .= View::factory('patients/blocks/search-block', array('patient' => $patient))->render();
         }
 
         $response = new Model_Response_Patients('PATIENTS_GET_SUCCESS', 'success', array('html'=>$html, 'number'=>count($patients)));

@@ -3,7 +3,10 @@ module.exports = (function (send) {
 
     var corePrefix  = 'Survey: send AJAX',
         holder      = document.getElementsByClassName('section__content')[0],
-        pensionID   = document.getElementById('pensionID').value;
+        pensionID   = document.getElementById('pensionID');
+
+    if(pensionID) pensionID = pensionID.value;
+
 
     send.unit = function (unit) {
 
@@ -40,7 +43,7 @@ module.exports = (function (send) {
                 if (parseInt(response.code) === 151 ) {
 
                     raisoft.modal.hide(form);
-                    window.location.assign('?id=' + response.id);
+                    window.location.assign('survey?id=' + response.id);
 
                 }
 
@@ -102,7 +105,7 @@ module.exports = (function (send) {
 
                 if (parseInt(response.code) === 161 ) {
 
-                    window.location.assign('?id=' + response.id);
+                    window.location.assign('survey?id=' + response.id);
 
                 }
 

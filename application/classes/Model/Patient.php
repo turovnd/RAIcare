@@ -122,6 +122,8 @@ Class Model_Patient {
         foreach ($select as $item) {
             $patient = new Model_Patient();
             $patient = $patient->fill_by_row($item);
+            $patient->pension = new Model_Pension($patient->pension);
+            $patient->creator = new Model_User($patient->creator);
             $patients[] = $patient;
         }
 

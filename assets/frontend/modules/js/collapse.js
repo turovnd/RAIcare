@@ -24,10 +24,16 @@ module.exports = (function (collapse) {
      * Toggle collapse - OPEN || CLOSE
      * @private
      */
-    function toggleCollapse_() {
+    collapse.toggle = function (element) {
 
-        var btn  = this,
-            list = document.getElementById(btn.dataset.area);
+        var btn;
+
+        if (element.nodeType === 1)
+            btn = element;
+        else
+            btn  = this;
+
+        var list = document.getElementById(btn.dataset.area);
 
         if (btn.dataset.opened === 'false') {
 
@@ -39,7 +45,7 @@ module.exports = (function (collapse) {
 
         }
 
-    }
+    };
 
 
     /**
@@ -78,7 +84,7 @@ module.exports = (function (collapse) {
      */
     collapse.create = function (el) {
 
-        el.addEventListener('click', toggleCollapse_);
+        el.addEventListener('click', collapse.toggle);
 
     };
 
@@ -89,7 +95,7 @@ module.exports = (function (collapse) {
      */
     collapse.destroy = function (el) {
 
-        el.removeEventListener('click', toggleCollapse_);
+        el.removeEventListener('click', collapse.toggle);
 
     };
 

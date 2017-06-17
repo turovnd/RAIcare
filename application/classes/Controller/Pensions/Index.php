@@ -115,10 +115,6 @@ class Controller_Pensions_Index extends Dispatch
 
     public function action_pension()
     {
-        if ($this->user->role != 1)
-            self::hasAccess(self::WATCH_MY_PEN_PAGE);
-
-
         $users = array();
         foreach ($this->usersIDs as $userID) {
             $user = new Model_User($userID);
@@ -192,18 +188,15 @@ class Controller_Pensions_Index extends Dispatch
         $form_id = $this->request->query('id');
         $unit    = $this->request->query('unit') ?: "progress";
 
-        $form = null;
+        if (!$form_id)
+            $this->redirect('pension/' . $this->pension->id . '/patients');
 
-        if ($form_id) {
-            $form = new Model_LongTermForm($form_id);
-            $this->isFormValid($form);
-            $form->pension = $this->pension;
-            $form->patient = new Model_Patient($form->patient);
-            $this->isUnitValid($form, $unit);
-        } else {
-            $unit = "start";
-        }
+        $form = new Model_LongTermForm($form_id);
 
+        $this->isFormValid($form);
+        $form->pension = $this->pension;
+        $form->patient = new Model_Patient($form->patient);
+        $this->isUnitValid($form, $unit);
 
         $this->template->title = "Форма оценки долговременного ухода";
         $this->template->section = View::factory('pensions/pages/survey')
@@ -215,7 +208,18 @@ class Controller_Pensions_Index extends Dispatch
 
     public function action_patients()
     {
+        if (!in_array(self::WATCH_ALL_PATIENTS_PROFILES, $this->user->permissions)) {
+            if (!in_array(self::WATCH_PATIENTS_PROFILES_IN_PEN, $this->user->permissions)) {
+                throw new HTTP_Exception_403;
+            }
+        }
+        //self::hasAccess(self::WATCH_PATIENTS_PROFILES_IN_PEN);
+
         $patients = Model_Patient::getByPension($this->pension->id, 0, 10);
+
+        foreach ($patients as $key => $patient) {
+            $patients[$key]->form = Model_LongTermForm::getByPatientAndPension($patient->id, $this->pension->id);
+        }
 
         $this->template->title = "База данных пациентов пансионата " . $this->pension->name;
         $this->template->section = View::factory('patients/pages/pension-patients')

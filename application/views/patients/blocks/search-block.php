@@ -1,6 +1,6 @@
 <div class="col-xs-12 col-sm-6">
     <div class="block">
-        <a href="<?=URL::site('pension/' . $pension_id . '/patient/' . $patient->id); ?>" class="block__heading js-searching-name">
+        <a href="<?=URL::site('pension/' . $patient->pension->id . '/patient/' . $patient->id); ?>" class="block__heading js-searching-name">
             <?= $patient->name; ?>
         </a>
 
@@ -30,15 +30,15 @@
                     </div>
                 </div>
 
-                <? // Module Pensions Survey => WATCH_PATIENTS_PROFILES_IN_PEN = 35
-                if (in_array(35, $user->permissions)) : ?>
+                <? // Module Patients => WATCH_PATIENTS_PROFILES_IN_PEN = 35 || WATCH_ALL_PATIENTS_PROFILES = 37
+                if (in_array(35, $user->permissions) || in_array(34, $user->permissions)) : ?>
 
                     <div class="form-group">
                         <label class="col-xs-12 col-md-5 col-lg-4 form-group__label">
                             Пансионат
                         </label>
                         <div class="col-xs-12 col-md-7 col-lg-8">
-                            <a href="<?=URL::site('pension/' . $patient->pension->id); ?>" class="form-group__control-static"">
+                            <a href="<?=URL::site('pension/' . $patient->pension->id); ?>" class="form-group__control-static link"">
                                 <?= $patient->pension->name; ?>
                             </a>
                         </div>
@@ -49,15 +49,20 @@
                             Создатель
                         </label>
                         <div class="col-xs-12 col-md-7 col-lg-8">
-                            <a href="<?=URL::site('profile/' . $patient->creator->id); ?>" class="form-group__control-static"">
-                                <?= $patient->creator->name; ?>
-                            </a>
+                            <? // Module Profile => CONST WATCH_CERTAIN_USER = 11
+                            if (in_array(11, $user->permissions)) : ?>
+                                <a href="<?=URL::site('profile/' . $patient->creator->id); ?>" class="form-group__control-static link">
+                                    <?= $patient->creator->name; ?>
+                                </a>
+                            <? else: ?>
+                            <p class="form-group__control-static""> <?= $patient->creator->name; ?> </p>
+                            <? endif; ?>
                         </div>
                     </div>
 
                 <? endif; ?>
 
-                <? // Module Pensions Survey => CAN_CONDUCT_A_SURVEY = 36
+                <? // Module Patients && Pensions => CAN_CONDUCT_A_SURVEY = 36
                 if (in_array(36, $user->permissions)) : ?>
 
                     <div class="form-group collapse" id="formType<?=$patient->id; ?>">
@@ -84,12 +89,17 @@
         </div>
 
 
-        <? // Module Pensions Survey => CAN_CONDUCT_A_SURVEY = 36
+        <? // Module Patients && Pensions => CAN_CONDUCT_A_SURVEY = 36
         if (in_array(36, $user->permissions)) : ?>
 
-            <a data-toggle="collapse" data-area="formType<?=$patient->id; ?>" data-opened="false" class="block__footer clear-fix text-center text-brand text-bold user-select--none" onclick="this.classList.add('hide'); document.getElementById('openForm<?=$patient->id; ?>').classList.remove('hide')">
-                Выбрать
+            <a href="<?= URL::site('pension/' . $patient->pension->id . '/survey?id=' . $patient->form->id); ?>" class="block__footer clear-fix text-center text-brand text-bold user-select--none <?= $patient->form->id ? '' : 'hide'; ?>">
+                Продолжить оценивание
             </a>
+
+            <a data-area="formType<?=$patient->id; ?>" data-opened="false" class="block__footer clear-fix text-center text-brand text-bold user-select--none <?= $patient->form->id ? 'hide' : ''; ?>" onclick="this.classList.add('hide'); document.getElementById('openForm<?=$patient->id; ?>').classList.remove('hide'); raisoft.collapse.toggle(this)">
+                Новая оценка
+            </a>
+
             <a id="openForm<?=$patient->id; ?>" class="block__footer clear-fix text-center text-brand text-bold user-select--none hide" data-pk="<?=$patient->id; ?>" data-area="formType<?=$patient->id; ?>" onclick="survey.send.newpatientformwithtype(this)">
                 Продолжить
             </a>

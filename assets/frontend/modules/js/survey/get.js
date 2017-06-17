@@ -3,14 +3,17 @@ module.exports = (function (get) {
     var corePrefix  = 'Survey: get AJAX',
         holder      = document.getElementsByClassName('section__content')[0],
         form        = null,
-        pensionID   = document.getElementById('pensionID').value;
+        mode        = null,
+        pensionID   = document.getElementById('pensionID');
+
+    if(pensionID) pensionID = pensionID.value;
 
     get.unit = function (unit) {
 
         if (!form)
             form = document.getElementById('formID').value;
 
-        window.location.assign('survey?id=' + form + '&&unit=' + unit);
+        window.location.assign('survey?id=' + form + '&unit=' + unit);
 
     };
 
@@ -27,8 +30,9 @@ module.exports = (function (get) {
         ajaxPOSTing          = false;
 
 
-    get.search = function (element) {
+    get.search = function (element, mod) {
 
+        if (!mode) mode = mod;
         searchingPatientName = element.value;
 
         if (!ajaxPOSTing) {
@@ -41,8 +45,9 @@ module.exports = (function (get) {
 
     };
 
-    get.patients = function (element) {
+    get.patients = function (element, mod) {
 
+        if (!mode) mode = mod;
         getMorePatientsBtn  = element;
 
         if (!ajaxPOSTing) {
@@ -83,7 +88,7 @@ module.exports = (function (get) {
         formData.append('csrf', document.getElementById('csrf').value);
 
         var ajaxData = {
-            url: '/patient/get',
+            url: '/patient/' + mode,
             type: 'POST',
             data: formData,
             beforeSend: function () {

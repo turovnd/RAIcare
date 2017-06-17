@@ -63,11 +63,12 @@ class Controller_Forms_Ajax extends Ajax
         $this->redis->set(self::REDIS_PACKAGE . ':pensions:' . $this->pension->id . ':longtermforms', $count_forms);
 
         $form = new Model_LongTermForm();
-        $form->id      = $count_forms;
-        $form->patient = $patient->id;
-        $form->pension = $this->pension->id;
-        $form->type    = $type;
-        $form->creator = $this->user->id;
+        $form->id           = $count_forms;
+        $form->patient      = $patient->id;
+        $form->pension      = $this->pension->id;
+        $form->organization = $this->pension->organization;
+        $form->type         = $type;
+        $form->creator      = $this->user->id;
         $form->save();
 
         $response = new Model_Response_Longtermform('FORM_CREATED_SUCCESS', 'success', array('id' => $count_forms));

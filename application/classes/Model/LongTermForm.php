@@ -8,6 +8,7 @@ Class Model_LongTermForm {
     public $status; //	1 - filling, 2 - finished, 3 - deleted
     public $patient;
     public $pension;
+    public $organization;
     public $dt_create;
     public $dt_finish;
     public $creator;
@@ -94,86 +95,89 @@ Class Model_LongTermForm {
         return $this->get_($this->id);
     }
 
+//    public static function getAll($offset, $limit = 10, $name = "")
+//    {
+//        if ($name == "") {
+//            $select = Dao_LongTermForms::select()
+//                ->order_by('dt_create', 'DESC')
+//                ->offset($offset)
+//                ->limit($limit)
+//                ->execute();
+//
+//        } else {
+//            $select = Dao_LongTermForms::select()
+//                ->where('name', 'LIKE', '%' . $name . '%')
+//                ->order_by('dt_create', 'DESC')
+//                ->offset($offset)
+//                ->limit($limit)
+//                ->execute();
+//        }
+//
+//        $patients = array();
+//
+//        if (empty($select)) return $patients;
+//
+//        foreach ($select as $item) {
+//            $patient = new Model_LongTermForm();
+//            $patient = $patient->fill_by_row($item);
+//            $patients[] = $patient;
+//        }
+//
+//        return $patients;
+//    }
+//
+//    public static function getByPension($id, $offset, $limit = 10, $name = "")
+//    {
+//
+//        if ($name == "") {
+//            $select = Dao_LongTermForms::select()
+//                ->where('pension','=', $id)
+//                ->order_by('dt_create', 'DESC')
+//                ->offset($offset)
+//                ->limit($limit)
+//                ->execute();
+//
+//        } else {
+//            $select = Dao_LongTermForms::select()
+//                ->where('pension','=', $id)
+//                ->or_having('name', '%' . $name . '%')
+//                ->or_having('snils', '%' . $name . '%')
+//                ->order_by('dt_create', 'DESC')
+//                ->offset($offset)
+//                ->limit($limit)
+//                ->execute();
+//        }
+//
+//
+//        $patients = array();
+//
+//        if ( empty($select) ) return $patients;
+//
+//        foreach ($select as $item) {
+//            $patient = new Model_LongTermForm();
+//            $patient = $patient->fill_by_row($item);
+//            $patient->pension = new Model_Pension($patient->pension);
+//            $patient->creator = new Model_User($patient->creator);
+//            $patients[] = $patient;
+//        }
+//
+//        return $patients;
+//    }
 
 
-    public static function getAll($offset, $limit = 10, $name = "")
+    public static function getByPatientAndPension($patient, $pension)
     {
-        if ($name == "") {
-            $select = Dao_LongTermForms::select()
-                ->order_by('dt_create', 'DESC')
-                ->offset($offset)
-                ->limit($limit)
-                ->execute();
-
-        } else {
-            $select = Dao_LongTermForms::select()
-                ->where('name','LIKE', '%' . $name . '%')
-                ->order_by('dt_create', 'DESC')
-                ->offset($offset)
-                ->limit($limit)
-                ->execute();
-        }
-
-        $patients = array();
-
-        if ( empty($select) ) return $patients;
-
-        foreach ($select as $item) {
-            $patient = new Model_LongTermForm();
-            $patient = $patient->fill_by_row($item);
-            $patients[] = $patient;
-        }
-
-        return $patients;
-    }
-
-
-    public static function getByPension($id, $offset, $limit = 10, $name = "")
-    {
-
-        if ($name == "") {
-            $select = Dao_LongTermForms::select()
-                ->where('pension','=', $id)
-                ->order_by('dt_create', 'DESC')
-                ->offset($offset)
-                ->limit($limit)
-                ->execute();
-
-        } else {
-            $select = Dao_LongTermForms::select()
-                ->where('pension','=', $id)
-                ->or_having('name', '%' . $name . '%')
-                ->or_having('snils', '%' . $name . '%')
-                ->order_by('dt_create', 'DESC')
-                ->offset($offset)
-                ->limit($limit)
-                ->execute();
-        }
-
-
-        $patients = array();
-
-        if ( empty($select) ) return $patients;
-
-        foreach ($select as $item) {
-            $patient = new Model_LongTermForm();
-            $patient = $patient->fill_by_row($item);
-            $patient->pension = new Model_Pension($patient->pension);
-            $patient->creator = new Model_User($patient->creator);
-            $patients[] = $patient;
-        }
-
-        return $patients;
-    }
-
-
-    public static function checkBySnilsAndPension($snils, $pension)
-    {
-        return (bool) Dao_LongTermForms::select()
+        $select = Dao_LongTermForms::select()
             ->where('pension','=', $pension)
-            ->where('snils','=', $snils)
+            ->where('patient','=', $patient)
+            ->where('status','=', 1)
             ->limit(1)
             ->execute();
+
+        $form = new Model_LongTermForm();
+
+        return $form->fill_by_row($select);
+
     }
 
 }

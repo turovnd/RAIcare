@@ -248,6 +248,19 @@
     <? endif; ?>
 
 
+    <? // Module Patients => WATCH_ALL_PATIENTS_PROFILES = 34
+    if (in_array(34, $user->permissions)) : ?>
+
+        <li class="aside__item <? echo $action == "all_patients"? 'aside__item--active' : ''; ?>">
+            <a href="<?=URL::site('patients'); ?>" class="aside__link <? echo $action == "all_patients" ? 'aside__link--active' : ''; ?>">
+                <i class="fa fa-database aside__icon" aria-hidden="true"></i>
+                <span class="aside__text">БД всех пациентов</span>
+            </a>
+        </li>
+
+    <? endif; ?>
+
+
     <? // Module Pensions Survey => CAN_CONDUCT_A_SURVEY = 36
     if (in_array(36, $user->permissions) && $action == "pen_survey") : ?>
 
