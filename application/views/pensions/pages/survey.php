@@ -1,7 +1,7 @@
 <div class="section__content">
 
     <?
-    switch ($section) {
+    switch ($unit) {
         case 'start' :
             echo View::factory('long-term-form/start', array('pension' => $pension));
             break;
@@ -16,7 +16,7 @@
 </div>
 
 <input type="hidden" id="pensionID" value="<?=$pension->id; ?>">
-<input type="hidden" id="patientID" value="">
+<input type="hidden" id="formID" value="<?= $form ? $form->id : ''; ?>">
 
 
 <script type="text/javascript" src="<?=$assets; ?>frontend/bundles/survey.min.js?v=<?= filemtime("assets/frontend/bundles/survey.min.js") ?>"></script>

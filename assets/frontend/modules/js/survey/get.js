@@ -2,9 +2,15 @@ module.exports = (function (get) {
 
     var corePrefix  = 'Survey: get AJAX',
         holder      = document.getElementsByClassName('section__content')[0],
+        form        = null,
         pensionID   = document.getElementById('pensionID').value;
 
     get.unit = function (unit) {
+
+        if (!form)
+            form = document.getElementById('formID').value;
+
+        window.location.assign('survey?id=' + form + '&&unit=' + unit);
 
     };
 

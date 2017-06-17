@@ -34,6 +34,8 @@ class Controller_Pensions_Index extends Dispatch
 
         $data = array(
             'action'    => 'pen_' . $this->request->action(),
+            'form'      => (bool) $this->request->query('id'),
+            'unit'      => 'unit' . $this->request->query('unit')
         );
 
         $this->template->aside = View::factory('global_blocks/aside', $data);
@@ -187,25 +189,26 @@ class Controller_Pensions_Index extends Dispatch
 
     public function action_survey()
     {
-        $from_id = $this->request->query('id');
-        $section = "start";
+        $form_id = $this->request->query('id');
+        $unit    = $this->request->query('unit') ?: "progress";
 
-        $from = null;
+        $form = null;
 
-        if ($from_id) {
-            $from = new Model_LongTermForm($from_id);
-            if ($from->pension != $this->pension->id) {
-                throw new HTTP_Exception_404();
-            }
-            $section = "progress";
-            $from->pension = $this->pension;
-            $from->patient = new Model_Patient($from->patient);
+        if ($form_id) {
+            $form = new Model_LongTermForm($form_id);
+            $this->isFormValid($form);
+            $form->pension = $this->pension;
+            $form->patient = new Model_Patient($form->patient);
+            $this->isUnitValid($form, $unit);
+        } else {
+            $unit = "start";
         }
+
 
         $this->template->title = "Форма оценки долговременного ухода";
         $this->template->section = View::factory('pensions/pages/survey')
-            ->set('section', $section)
-            ->set('form', $from)
+            ->set('unit', $unit)
+            ->set('form', $form)
             ->set('pension', $this->pension);
     }
 
@@ -241,6 +244,35 @@ class Controller_Pensions_Index extends Dispatch
         $this->template->section = View::factory('patient/pages/profile')
             ->set('patient', $patient)
             ->set('pension', $this->pension);
+    }
+
+
+
+    private function isFormValid($form)
+    {
+        if (!$form->dt_finish && strtotime(Date::formatted_time('now')) - strtotime($form->dt_create) > Date::DAY * 3)
+        {
+            $form->is_removed= 1;
+            $form->update();
+        }
+
+        if ($form->pension != $this->pension->id || $form->is_removed == 1) {
+            throw new HTTP_Exception_404();
+        }
+    }
+
+    function isUnitValid($form, $unit)
+    {
+        $availableUnits = array("progress","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q");
+
+        if (!in_array($unit, $availableUnits)) {
+            $this->redirect('pension/' . $this->pension->id . '/survey?id=' . $form->id . '&&unit=progress');
+        }
+    }
+
+    function getAvailableUnits()
+    {
+        
     }
 
 }
