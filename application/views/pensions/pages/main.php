@@ -13,7 +13,7 @@
             <? // Module Pensions => CAN_CONDUCT_A_SURVEY = 36
             if (in_array(36, $user->permissions)) : ?>
                 <div class="col-xs-12 col-sm-6 col-md-12">
-                    <a href="<?=URL::site('pension/' . $pension->id . '/survey'); ?>" class="btn btn--lg btn--default col-xs-12 m-b-15 m-r-0">Анкетирование</a>
+                    <a href="<?=URL::site('pension/' . $pension->id . '/survey'); ?>" class="btn btn--lg btn--default col-xs-12 m-b-15 m-r-0">Новое анкетирование</a>
                 </div>
             <? endif; ?>
 

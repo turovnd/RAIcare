@@ -1,6 +1,17 @@
 <div class="section__content">
 
-    <?= View::factory('form-of-long-term-care/start', array('pension' => $pension)); ?>
+    <?
+    switch ($section) {
+        case 'start' :
+            echo View::factory('long-term-form/start', array('pension' => $pension));
+            break;
+        case 'progress' :
+            echo View::factory('long-term-form/progress', array('form' => $form));
+            break;
+    }
+    ?>
+
+
 
 </div>
 

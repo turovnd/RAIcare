@@ -26,7 +26,7 @@ Route::set('PENSIONS_AJAX', 'pension/<action>', array(
     ));
 
 
-Route::set('PENSION_PATIENT', 'pension/<pension_id>/patient/<patient_id>(/<action>)',
+Route::set('PENSION_PATIENT', 'pension/<id>/patient/<patient_id>(/<action>)',
     array(
         'pension_id' => $DIGIT,
         'patient_id' => $DIGIT,

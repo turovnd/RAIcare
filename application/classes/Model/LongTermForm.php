@@ -1,19 +1,13 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
 
-Class Model_Patient {
+Class Model_LongTermForm {
 
     public $id;
-    public $name;
-    public $sex;                    // 1 - male, 2 - female
-    public $birthday;
-    public $relation;               // семейное положение
-    public $snils;                  // номер СНИЛС
-    public $oms;                    // номер полиса ОМС или документа, его заменяющего
-    public $disability_certificate; // номер справки об инвалидности
+    public $type;
+    public $patient;
     public $pension;
-    public $sources;                // текущие источники оплаты пребывания в пансионате
-    public $dt_create;              // дата первичной оценки в пансионате
+    public $dt_create;
     public $creator;
 
     
@@ -40,7 +34,7 @@ Class Model_Patient {
     
     private function get_($id) {
 
-        $select = Dao_Patients::select()
+        $select = Dao_LongTermForms::select()
             ->where('id', '=', $id)
             ->limit(1)
             ->cached(Date::MINUTE * 5, $id)
@@ -53,12 +47,12 @@ Class Model_Patient {
 
     public static function getByFieldName($field, $value) {
 
-        $select = Dao_Patients::select()
+        $select = Dao_LongTermForms::select()
             ->where($field, '=', $value)
             ->limit(1)
             ->execute();
 
-        $patient = new Model_Patient($select['id']);
+        $patient = new Model_LongTermForm($select['id']);
         return $patient->fill_by_row($select);
 
     }
@@ -68,7 +62,7 @@ Class Model_Patient {
     {
         $this->dt_create = Date::formatted_time('now');
 
-        $insert = Dao_Patients::insert();
+        $insert = Dao_LongTermForms::insert();
 
         foreach ($this as $fieldname => $value) {
             if (property_exists($this, $fieldname)) $insert->set($fieldname, $value);
@@ -81,7 +75,7 @@ Class Model_Patient {
 
     public function update()
     {
-        $insert = Dao_Patients::update();
+        $insert = Dao_LongTermForms::update();
 
         foreach ($this as $fieldname => $value) {
             if (property_exists($this, $fieldname)) $insert->set($fieldname, $value);
@@ -100,14 +94,14 @@ Class Model_Patient {
     public static function getAll($offset, $limit = 10, $name = "")
     {
         if ($name == "") {
-            $select = Dao_Patients::select()
+            $select = Dao_LongTermForms::select()
                 ->order_by('dt_create', 'DESC')
                 ->offset($offset)
                 ->limit($limit)
                 ->execute();
 
         } else {
-            $select = Dao_Patients::select()
+            $select = Dao_LongTermForms::select()
                 ->where('name','LIKE', '%' . $name . '%')
                 ->order_by('dt_create', 'DESC')
                 ->offset($offset)
@@ -120,7 +114,7 @@ Class Model_Patient {
         if ( empty($select) ) return $patients;
 
         foreach ($select as $item) {
-            $patient = new Model_Patient();
+            $patient = new Model_LongTermForm();
             $patient = $patient->fill_by_row($item);
             $patients[] = $patient;
         }
@@ -133,7 +127,7 @@ Class Model_Patient {
     {
 
         if ($name == "") {
-            $select = Dao_Patients::select()
+            $select = Dao_LongTermForms::select()
                 ->where('pension','=', $id)
                 ->order_by('dt_create', 'DESC')
                 ->offset($offset)
@@ -141,7 +135,7 @@ Class Model_Patient {
                 ->execute();
 
         } else {
-            $select = Dao_Patients::select()
+            $select = Dao_LongTermForms::select()
                 ->where('pension','=', $id)
                 ->or_having('name', '%' . $name . '%')
                 ->or_having('snils', '%' . $name . '%')
@@ -157,7 +151,7 @@ Class Model_Patient {
         if ( empty($select) ) return $patients;
 
         foreach ($select as $item) {
-            $patient = new Model_Patient();
+            $patient = new Model_LongTermForm();
             $patient = $patient->fill_by_row($item);
             $patient->pension = new Model_Pension($patient->pension);
             $patient->creator = new Model_User($patient->creator);
@@ -170,7 +164,7 @@ Class Model_Patient {
 
     public static function checkBySnilsAndPension($snils, $pension)
     {
-        return (bool) Dao_Patients::select()
+        return (bool) Dao_LongTermForms::select()
             ->where('pension','=', $pension)
             ->where('snils','=', $snils)
             ->limit(1)

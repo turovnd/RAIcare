@@ -154,6 +154,10 @@ body{
 .word-break--normal{
     word-break: normal;
 }
+.letter-spacing--5{
+    letter-spacing: 5px;
+}
+
 .loading:before {
     z-index: 8;
     content: "";

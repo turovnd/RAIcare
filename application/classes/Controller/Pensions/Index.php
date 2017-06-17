@@ -21,6 +21,8 @@ class Controller_Pensions_Index extends Dispatch
     CONST AVAILABLE_PERMISSIONS_PEN      = array(27,28,29,30,31,32,36);
 
     public $template = 'main';
+    public $pension  = null;
+    public $usersIDs = null;
 
     public function before()
     {
@@ -35,6 +37,24 @@ class Controller_Pensions_Index extends Dispatch
         );
 
         $this->template->aside = View::factory('global_blocks/aside', $data);
+
+        if ($this->request->action() == "all" ||
+            $this->request->action() == 'created' ||
+            $this->request->action() == 'my') {
+            return;
+        }
+
+        $id = $this->request->param('id');
+        $this->pension = new Model_Pension($id);
+
+        if (!$this->pension->id)
+            throw new HTTP_Exception_404();
+
+        $this->usersIDs = Model_UserPension::getUsers($this->pension->id);
+
+        if (!(in_array($this->user->id, $this->usersIDs) || $this->pension->creator == $this->user->id || $this->user->role == 1)) {
+            throw new HTTP_Exception_403();
+        }
 
     }
 
@@ -93,20 +113,12 @@ class Controller_Pensions_Index extends Dispatch
 
     public function action_pension()
     {
-        $id = $this->request->param('id');
-        $pension = new Model_Pension($id);
+        if ($this->user->role != 1)
+            self::hasAccess(self::WATCH_MY_PEN_PAGE);
 
-        if (!$pension->id)
-            throw new HTTP_Exception_404();
-
-        $usersIDs = Model_UserPension::getUsers($pension->id);
-
-        if (!(in_array($this->user->id, $usersIDs) || $pension->creator == $this->user->id || $this->user->role == 1)) {
-            throw new HTTP_Exception_403();
-        }
 
         $users = array();
-        foreach ($usersIDs as $userID) {
+        foreach ($this->usersIDs as $userID) {
             $user = new Model_User($userID);
             $user->role = new Model_Role($user->role);
             $users[] = $user;
@@ -118,40 +130,26 @@ class Controller_Pensions_Index extends Dispatch
         }
 
         $roles = array();
-        $availableRoles = Model_Role::getByType('organization', $pension->id);
+        $availableRoles = Model_Role::getByType('organization', $this->pension->id);
         foreach ($availableRoles as $role) {
             $roles[] = new Model_Role($role->id);
         }
 
-        $pension->users       = $users;
-        $pension->permissions = $permissions;
-        $pension->roles       = $roles;
+        $this->pension->users       = $users;
+        $this->pension->permissions = $permissions;
+        $this->pension->roles       = $roles;
 
-        $this->template->title = $pension->name;
+        $this->template->title = $this->pension->name;
         $this->template->section = View::factory('pensions/pages/main')
-            ->set('pension', $pension);
+            ->set('pension', $this->pension);
 
     }
 
 
     public function action_settings()
     {
-        $id = $this->request->param('id');
-        $pension = new Model_Pension($id);
-
-        if (!$pension->id)
-            throw new HTTP_Exception_404();
-
-        self::hasAccess(self::EDIT_PENSION);
-
-        $usersIDs = Model_UserPension::getUsers($pension->id);
-
-        if (!(in_array($this->user->id, $usersIDs) || $pension->creator == $this->user->id || $this->user->role == 1)) {
-            throw new HTTP_Exception_403();
-        }
-
         $users = array();
-        foreach ($usersIDs as $userID) {
+        foreach ($this->usersIDs as $userID) {
             $user = new Model_User($userID);
             $user->role = new Model_Role($user->role);
             $users[] = $user;
@@ -163,86 +161,68 @@ class Controller_Pensions_Index extends Dispatch
         }
 
         $roles = array();
-        $availableRoles = Model_Role::getByType('organization', $pension->id);
+        $availableRoles = Model_Role::getByType('organization', $this->pension->id);
         foreach ($availableRoles as $role) {
             $roles[] = new Model_Role($role->id);
         }
 
-        $pension->users       = $users;
-        $pension->permissions = $permissions;
-        $pension->roles       = $roles;
+        $this->pension->users       = $users;
+        $this->pension->permissions = $permissions;
+        $this->pension->roles       = $roles;
 
-        $this->template->title = $pension->name;
+        $this->template->title = $this->pension->name;
         $this->template->section = View::factory('pensions/pages/settings')
-            ->set('pension', $pension);
+            ->set('pension', $this->pension);
 
     }
 
 
     public function action_statistic()
     {
-        $id = $this->request->param('id');
-        $pension = new Model_Pension($id);
-
-        if (!$pension->id)
-            throw new HTTP_Exception_404();
-
-        self::hasAccess(self::STATISTIC_PENSION);
-
-        $usersIDs = Model_UserPension::getUsers($pension->id);
-
-        if (!(in_array($this->user->id, $usersIDs) || $pension->creator == $this->user->id || $this->user->role == 1)) {
-            throw new HTTP_Exception_403();
-        }
-
-        $this->template->title = $pension->name;
+        $this->template->title = $this->pension->name;
         $this->template->section = View::factory('pensions/pages/statistic')
-            ->set('pension', $pension);
+            ->set('pension', $this->pension);
     }
 
 
     public function action_survey()
     {
-        $id = $this->request->param('id');
-        $pension = new Model_Pension($id);
+        $from_id = $this->request->query('id');
+        $section = "start";
 
-        if (!$pension->id)
-            throw new HTTP_Exception_404();
+        $from = null;
 
-        self::hasAccess(self::CAN_CONDUCT_A_SURVEY);
-
-        $usersIDs = Model_UserPension::getUsers($pension->id);
-
-        if (!(in_array($this->user->id, $usersIDs)))
-            throw new HTTP_Exception_403();
-
+        if ($from_id) {
+            $from = new Model_LongTermForm($from_id);
+            if ($from->pension != $this->pension->id) {
+                throw new HTTP_Exception_404();
+            }
+            $section = "progress";
+            $from->pension = $this->pension;
+            $from->patient = new Model_Patient($from->patient);
+        }
 
         $this->template->title = "Анкетирование";
         $this->template->section = View::factory('pensions/pages/survey')
-            ->set('pension', $pension);
+            ->set('section', $section)
+            ->set('form', $from)
+            ->set('pension', $this->pension);
     }
 
 
     public function action_patients()
     {
-        $id = $this->request->param('id');
-        $pension = new Model_Pension($id);
+        $patients = Model_Patient::getByPension($this->pension->id, 0, 10);
 
-        if (!$pension->id)
-            throw new HTTP_Exception_404();
-
-        //$patients = Model_Patient::getByPension($pension->id);
-
-        $this->template->title = "База данных пациентов пансионата " . $pension->name;
+        $this->template->title = "База данных пациентов пансионата " . $this->pension->name;
         $this->template->section = View::factory('patients/pages/pension-patients')
-            ->set('pension', $pension);
-            //->set('patients', $patients);
+            ->set('pension', $this->pension)
+            ->set('patients', $patients);
     }
 
 
     public function action_patient()
     {
-        $pension_id = $this->request->param('pension_id');
         $patient_id = $this->request->param('patient_id');
 
         if (in_array(self::WATCH_ALL_PATIENTS_PROFILES, $this->user->permissions)) {
@@ -251,23 +231,16 @@ class Controller_Pensions_Index extends Dispatch
 
         self::hasAccess(self::WATCH_PATIENTS_PROFILES_IN_PEN);
 
-        $pension = new Model_Pension($pension_id);
         $patient = new Model_Patient($patient_id);
 
-        if (!$pension->id || !$patient ->id)
+        if (!$patient ->id)
             throw new HTTP_Exception_404();
-
-
-        $usersIDs = Model_UserPension::getUsers($pension->id);
-
-        if (!(in_array($this->user->id, $usersIDs)))
-            throw new HTTP_Exception_403();
 
 
         $this->template->title = "Профиль " . $patient->name;
         $this->template->section = View::factory('patient/pages/profile')
             ->set('patient', $patient)
-            ->set('pension', $pension);
+            ->set('pension', $this->pension);
     }
 
 }
