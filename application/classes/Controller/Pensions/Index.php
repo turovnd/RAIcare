@@ -202,7 +202,7 @@ class Controller_Pensions_Index extends Dispatch
             $from->patient = new Model_Patient($from->patient);
         }
 
-        $this->template->title = "Анкетирование";
+        $this->template->title = "Форма оценки долговременного ухода";
         $this->template->section = View::factory('pensions/pages/survey')
             ->set('section', $section)
             ->set('form', $from)

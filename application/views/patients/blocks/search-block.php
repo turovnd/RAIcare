@@ -57,6 +57,29 @@
 
                 <? endif; ?>
 
+                <? // Module Pensions Survey => CAN_CONDUCT_A_SURVEY = 36
+                if (in_array(36, $user->permissions)) : ?>
+
+                    <div class="form-group collapse" id="formType<?=$patient->id; ?>">
+                        <label class="col-xs-12 col-md-5 col-lg-4 form-group__label">
+                            Причина прохождения оценки
+                        </label>
+                        <div class="col-xs-12 col-md-7 col-lg-8 p-b-10">
+                            <select class="form-group__control js-form-type">
+                                <option value=""></option>
+                                <option value="2">Плановая переоценка</option>
+                                <option value="3">Оценка при возвращении</option>
+                                <option value="4">Переоценка в связи с существенным изменением состояния</option>
+                                <option value="5">Оценка при выписке, покрывает 3 последних дня медицинского обслуживания</option>
+                                <option value="6">Отслеживание только в связи с выпиской</option>
+                                <option value="6">Другая—напр., проведение исследования</option>
+                            </select>
+                        </div>
+                    </div>
+
+                <? endif; ?>
+
+
             </div>
         </div>
 
@@ -64,8 +87,11 @@
         <? // Module Pensions Survey => CAN_CONDUCT_A_SURVEY = 36
         if (in_array(36, $user->permissions)) : ?>
 
-            <a class="block__footer clear-fix text-center text-brand text-bold user-select--none">
+            <a data-toggle="collapse" data-area="formType<?=$patient->id; ?>" data-opened="false" class="block__footer clear-fix text-center text-brand text-bold user-select--none" onclick="this.classList.add('hide'); document.getElementById('openForm<?=$patient->id; ?>').classList.remove('hide')">
                 Выбрать
+            </a>
+            <a id="openForm<?=$patient->id; ?>" class="block__footer clear-fix text-center text-brand text-bold user-select--none hide" data-pk="<?=$patient->id; ?>" data-area="formType<?=$patient->id; ?>" onclick="survey.send.newpatientformwithtype(this)">
+                Продолжить
             </a>
 
         <? endif; ?>

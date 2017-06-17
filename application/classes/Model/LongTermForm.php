@@ -8,6 +8,8 @@ Class Model_LongTermForm {
     public $patient;
     public $pension;
     public $dt_create;
+    public $dt_finish;
+    public $is_removed = 0;
     public $creator;
 
     
@@ -61,6 +63,7 @@ Class Model_LongTermForm {
     public function save()
     {
         $this->dt_create = Date::formatted_time('now');
+        $this->is_removed = 0;
 
         $insert = Dao_LongTermForms::insert();
 

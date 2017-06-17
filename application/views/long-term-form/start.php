@@ -1,6 +1,6 @@
 <h3 class="section__heading">
     <a role="button" data-toggle="modal" data-area="newPatientModalForm" class="btn btn--brand btn--sm m-0 fl_r">Новый пациент</a>
-    Новое анкетирование - выберите пациента
+    Новая форма оценки - выберите пациента
     <small>Для продолжение заполнения имеющейся анкеты перейдите в раздел <a href="<?=URL::site('pension/' . $pension->id . '/patients'); ?>" class="text-brand">пациенты</a></small>
 </h3>
 

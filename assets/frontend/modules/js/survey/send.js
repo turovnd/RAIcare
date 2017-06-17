@@ -57,6 +57,69 @@ module.exports = (function (send) {
 
     };
 
+    send.newpatientformwithtype = function (element) {
+
+        var formData = new FormData(),
+            patient  = element.dataset.pk,
+            typeArea = element.dataset.area,
+            type     = document.getElementById(typeArea).getElementsByClassName('js-form-type')[0].value,
+            form     = element.parentNode;
+
+        if (type === '') {
+
+            raisoft.notification.notify({
+                type: 'error',
+                message: 'Пожалуйста выберите причина прохождения оценки пациентом'
+            });
+            return;
+
+        }
+
+        formData.append('pension', pensionID);
+        formData.append('patient', patient);
+        formData.append('type', type);
+        formData.append('csrf', document.getElementById('csrf').value);
+
+        var ajaxData = {
+            url: '/forms/longterm/create',
+            type: 'POST',
+            data: formData,
+            beforeSend: function () {
+
+                form.classList.add('loading');
+
+            },
+            success: function (response) {
+
+                response = JSON.parse(response);
+                raisoft.core.log(response.message, response.status, corePrefix);
+                form.classList.remove('loading');
+
+                raisoft.notification.notify({
+                    type: response.status,
+                    message: response.message
+                });
+
+                if (parseInt(response.code) === 161 ) {
+
+                    window.location.assign('?id=' + response.id);
+
+                }
+
+            },
+            error: function (callbacks) {
+
+                raisoft.core.log('ajax error occur on sending new patient form', 'error', corePrefix, callbacks);
+                form.classList.remove('loading');
+
+            }
+        };
+
+        raisoft.ajax.send(ajaxData);
+
+    };
+
+
     return send;
 
 })({});

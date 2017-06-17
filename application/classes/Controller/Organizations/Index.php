@@ -12,7 +12,7 @@ class Controller_Organizations_Index extends Dispatch
 {
     CONST WATCH_ALL_ORGS_PAGES      = 14;
     CONST WATCH_CREATED_ORGS_PAGES  = 15;
-    CONST WATCH_MY_ORGS_PAGE       = 16;
+    CONST WATCH_MY_ORGS_PAGE        = 16;
     CONST EDIT_ORGANIZATION         = 17;
     CONST STATISTIC_ORGANIZATION    = 20;
     CONST AVAILABLE_PERMISSIONS_ORG = array(17,18,19,20,21,22);
