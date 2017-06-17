@@ -5,11 +5,11 @@ Class Model_LongTermForm {
 
     public $id;
     public $type;
+    public $status; //	1 - filling, 2 - finished, 3 - deleted
     public $patient;
     public $pension;
     public $dt_create;
     public $dt_finish;
-    public $is_removed = 0;
     public $creator;
 
     
@@ -63,7 +63,7 @@ Class Model_LongTermForm {
     public function save()
     {
         $this->dt_create = Date::formatted_time('now');
-        $this->is_removed = 0;
+        $this->status = 1;
 
         $insert = Dao_LongTermForms::insert();
 
@@ -71,7 +71,9 @@ Class Model_LongTermForm {
             if (property_exists($this, $fieldname)) $insert->set($fieldname, $value);
         }
 
-        $result = $insert->execute();
+        $result = $insert
+            ->clearcache($this->id)
+            ->execute();
 
         return $this->get_($result);
     }

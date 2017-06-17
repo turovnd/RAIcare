@@ -250,13 +250,13 @@ class Controller_Pensions_Index extends Dispatch
 
     private function isFormValid($form)
     {
-        if (!$form->dt_finish && strtotime(Date::formatted_time('now')) - strtotime($form->dt_create) > Date::DAY * 3)
+        if ($form->status != 2 && strtotime(Date::formatted_time('now')) - strtotime($form->dt_create) > Date::DAY * 3)
         {
-            $form->is_removed= 1;
+            $form->status= 3;
             $form->update();
         }
 
-        if ($form->pension != $this->pension->id || $form->is_removed == 1) {
+        if ($form->pension != $this->pension->id || $form->status == 3) {
             throw new HTTP_Exception_404();
         }
     }
@@ -272,7 +272,7 @@ class Controller_Pensions_Index extends Dispatch
 
     function getAvailableUnits()
     {
-        
+
     }
 
 }
