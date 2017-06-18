@@ -22,7 +22,11 @@ Route::set('PATIENT', 'patient/<id>(/<action>)', array(
             $params['action'] = 'patient';
 
         return $params;
-    });
+    })
+    ->defaults(array(
+        'action'  => ''
+    ));
+
 
 
 Route::set('PATIENTS_AJAX', 'patient/<action>', array(

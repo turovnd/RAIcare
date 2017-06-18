@@ -28,7 +28,7 @@ Route::set('PENSIONS_AJAX', 'pension/<action>', array(
 
 Route::set('PENSION_PATIENT', 'pension/<id>/patient/<patient_id>(/<action>)',
     array(
-        'pension_id' => $DIGIT,
+        'id' => $DIGIT,
         'patient_id' => $DIGIT,
         'action'  => ''
     ))
@@ -42,4 +42,7 @@ Route::set('PENSION_PATIENT', 'pension/<id>/patient/<patient_id>(/<action>)',
             $params['action'] = 'patient';
 
         return $params;
-    });
+    })
+    ->defaults(array(
+        'action'  => ''
+    ));

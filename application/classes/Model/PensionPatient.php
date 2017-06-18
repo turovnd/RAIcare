@@ -11,6 +11,8 @@ Class Model_PensionPatient {
         Dao_PensionsPatients::insert()
             ->set('pen_id', $pension)
             ->set('pat_id', $patient)
+            ->clearcache('patient_' . $patient)
+            ->clearcache('pension_' . $pension)
             ->execute();
     }
 
@@ -19,6 +21,8 @@ Class Model_PensionPatient {
         Dao_PensionsPatients::delete()
             ->where('pen_id', '=', $pension)
             ->where('pat_id', '=', $patient)
+            ->clearcache('patient_' . $patient)
+            ->clearcache('pension_' . $pension)
             ->limit(1)
             ->execute();
     }
@@ -27,6 +31,7 @@ Class Model_PensionPatient {
     {
         $select = Dao_PensionsPatients::select()
             ->where('pat_id', '=', $patient)
+            ->cached(Date::MINUTE * 5, 'patient_' . $patient)
             ->order_by('pen_id', 'DESC')
             ->execute();
 
@@ -45,6 +50,7 @@ Class Model_PensionPatient {
     {
         $select = Dao_PensionsPatients::select()
             ->where('pen_id', '=', $pension)
+            ->cached(Date::MINUTE * 5, 'pension_' . $pension)
             ->order_by('pat_id', 'ASC')
             ->execute();
 

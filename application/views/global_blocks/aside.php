@@ -238,7 +238,8 @@
                                     || $action == "pen_settings"
                                     || $action == "pen_statistic"
                                     || ($action == "pen_survey" && !$form)
-                                    || $action == "pen_patients"? 'aside__item--active' : ''; ?>">
+                                    || $action == "pen_patients"
+                                    || $action == "pen_patient" ? 'aside__item--active' : ''; ?>">
             <a href="<?=URL::site('pensions/my'); ?>" class="aside__link <? echo $action == "pen_my" ? 'aside__link--active' : ''; ?>">
                 <i class="fa fa-user-md aside__icon" aria-hidden="true"></i>
                 <span class="aside__text">Мои пансионаты</span>
@@ -251,7 +252,8 @@
     <? // Module Patients => WATCH_ALL_PATIENTS_PROFILES = 34
     if (in_array(34, $user->permissions)) : ?>
 
-        <li class="aside__item <? echo $action == "all_patients"? 'aside__item--active' : ''; ?>">
+        <li class="aside__item <? echo $action == "all_patients"
+                                    || $action == "patient" ? 'aside__item--active' : ''; ?>">
             <a href="<?=URL::site('patients'); ?>" class="aside__link <? echo $action == "all_patients" ? 'aside__link--active' : ''; ?>">
                 <i class="fa fa-database aside__icon" aria-hidden="true"></i>
                 <span class="aside__text">БД всех пациентов</span>

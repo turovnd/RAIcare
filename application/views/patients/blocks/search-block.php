@@ -1,8 +1,20 @@
 <div class="col-xs-12 col-sm-6">
     <div class="block">
-        <a href="<?=URL::site('pension/' . $patient->pension->id . '/patient/' . $patient->id); ?>" class="block__heading js-searching-name">
+
+        <? // Module Patients => WATCH_ALL_PATIENTS_PROFILES = 34
+        if (in_array(34, $user->permissions)) : ?>
+        <a href="<?=URL::site('/patient/' . $patient->pk); ?>" class="block__heading js-searching-name">
             <?= $patient->name; ?>
         </a>
+        <? endif; ?>
+
+        <? // Module Patients => WATCH_PATIENTS_PROFILES_IN_PEN
+        if (in_array(35, $user->permissions)) : ?>
+            <a href="<?=URL::site('pension/' . $patient->pension->id . '/patient/' . $patient->id); ?>" class="block__heading js-searching-name">
+                <?= $patient->name; ?>
+            </a>
+        <? endif; ?>
+
 
         <div class="block__body">
             <div class="row">
@@ -30,19 +42,24 @@
                     </div>
                 </div>
 
-                <? // Module Patients => WATCH_PATIENTS_PROFILES_IN_PEN = 35 || WATCH_ALL_PATIENTS_PROFILES = 37
-                if (in_array(35, $user->permissions) || in_array(34, $user->permissions)) : ?>
+                <? // Module Patients => WATCH_ALL_PATIENTS_PROFILES = 34
+                if (in_array(34, $user->permissions)) : ?>
 
                     <div class="form-group">
                         <label class="col-xs-12 col-md-5 col-lg-4 form-group__label">
                             Пансионат
                         </label>
                         <div class="col-xs-12 col-md-7 col-lg-8">
-                            <a href="<?=URL::site('pension/' . $patient->pension->id); ?>" class="form-group__control-static link"">
+                            <a href="<?=URL::site('pension/' . $patient->pension->id); ?>" class="form-group__control-static link">
                                 <?= $patient->pension->name; ?>
                             </a>
                         </div>
                     </div>
+
+                <? endif; ?>
+
+                <? // Module Patients => WATCH_PATIENTS_PROFILES_IN_PEN = 35 || WATCH_ALL_PATIENTS_PROFILES = 34
+                if (in_array(35, $user->permissions) || in_array(34, $user->permissions)) : ?>
 
                     <div class="form-group">
                         <label class="col-xs-12 col-md-5 col-lg-4 form-group__label">
@@ -55,7 +72,7 @@
                                     <?= $patient->creator->name; ?>
                                 </a>
                             <? else: ?>
-                            <p class="form-group__control-static""> <?= $patient->creator->name; ?> </p>
+                            <p class="form-group__control-static"> <?= $patient->creator->name; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>

@@ -183,29 +183,6 @@ class Controller_Pensions_Index extends Dispatch
     }
 
 
-    public function action_survey()
-    {
-        $form_id = $this->request->query('id');
-        $unit    = $this->request->query('unit') ?: "progress";
-
-        if (!$form_id)
-            $this->redirect('pension/' . $this->pension->id . '/patients');
-
-        $form = new Model_LongTermForm($form_id);
-
-        $this->isFormValid($form);
-        $form->pension = $this->pension;
-        $form->patient = new Model_Patient($form->patient);
-        $this->isUnitValid($form, $unit);
-
-        $this->template->title = "Форма оценки долговременного ухода";
-        $this->template->section = View::factory('pensions/pages/survey')
-            ->set('unit', $unit)
-            ->set('form', $form)
-            ->set('pension', $this->pension);
-    }
-
-
     public function action_patients()
     {
         if (!in_array(self::WATCH_ALL_PATIENTS_PROFILES, $this->user->permissions)) {
@@ -229,26 +206,41 @@ class Controller_Pensions_Index extends Dispatch
 
     public function action_patient()
     {
-        $patient_id = $this->request->param('patient_id');
-
-        if (in_array(self::WATCH_ALL_PATIENTS_PROFILES, $this->user->permissions)) {
-            HTTP::redirect('patient/' . $patient_id);
-        }
-
         self::hasAccess(self::WATCH_PATIENTS_PROFILES_IN_PEN);
 
-        $patient = new Model_Patient($patient_id);
+        $patient_id = $this->request->param('patient_id');
+        $patient = Model_Patient::getByPensionAndID($this->pension->id, $patient_id);
 
-        if (!$patient ->id)
+        if (!$patient->pk)
             throw new HTTP_Exception_404();
 
-
-        $this->template->title = "Профиль " . $patient->name;
-        $this->template->section = View::factory('patient/pages/profile')
-            ->set('patient', $patient)
-            ->set('pension', $this->pension);
+        $this->template->title = "Профиль пациента " . $patient->name;
+        $this->template->section = View::factory('patients/pages/profile')
+            ->set('patient', $patient);
     }
 
+
+    public function action_survey()
+    {
+        $form_id = $this->request->query('id');
+        $unit    = $this->request->query('unit') ?: "progress";
+
+        if (!$form_id)
+            $this->redirect('pension/' . $this->pension->id . '/patients');
+
+        $form = new Model_LongTermForm($form_id);
+
+        $this->isFormValid($form);
+        $form->pension = $this->pension;
+        $form->patient = new Model_Patient($form->patient);
+        $this->isUnitValid($form, $unit);
+
+        $this->template->title = "Форма оценки долговременного ухода";
+        $this->template->section = View::factory('pensions/pages/survey')
+            ->set('unit', $unit)
+            ->set('form', $form)
+            ->set('pension', $this->pension);
+    }
 
 
     private function isFormValid($form)
@@ -264,6 +256,7 @@ class Controller_Pensions_Index extends Dispatch
         }
     }
 
+
     function isUnitValid($form, $unit)
     {
         $availableUnits = array("progress","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q");
@@ -272,6 +265,7 @@ class Controller_Pensions_Index extends Dispatch
             $this->redirect('pension/' . $this->pension->id . '/survey?id=' . $form->id . '&&unit=progress');
         }
     }
+
 
     function getAvailableUnits()
     {

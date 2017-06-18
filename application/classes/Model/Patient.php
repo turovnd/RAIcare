@@ -190,4 +190,19 @@ Class Model_Patient {
             ->execute();
     }
 
+    public static function getByPensionAndID($pension, $patient)
+    {
+        $select = Dao_Patients::select()
+            ->where('id','=', $patient)
+            ->join('Pensions_Patients')
+            ->on('pk','=','pat_id')
+            ->where('pen_id','=', $pension)
+            ->limit(1)
+            ->execute();
+
+        $patient = new Model_Patient();
+
+        return $patient->fill_by_row($select);
+    }
+
 }

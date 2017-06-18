@@ -49,10 +49,21 @@ class Controller_Patients_Index extends Dispatch
         self::hasAccess(self::WATCH_ALL_PATIENTS_PROFILES);
 
         $id = $this->request->param('id');
-        $patient = new Model_Pension($id);
+        $patient = new Model_Patient($id);
 
         if (!$patient->pk)
             throw new HTTP_Exception_404();
+
+        $pensions = Model_PensionPatient::getPensions($patient->pk);
+
+        foreach ($pensions as $key => $pension) {
+            $pensions[$key] = new Model_Pension($pension);
+        }
+
+        $forms = Model_LongTermForm::getByPatient($patient->pk);
+
+        $patient->pensions = $pensions;
+        $patient->forms = $forms;
 
         $this->template->title = "Профиль пациента " . $patient->name;
         $this->template->section = View::factory('patients/pages/profile-full')

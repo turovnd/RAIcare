@@ -111,4 +111,23 @@ Class Model_LongTermForm {
 
     }
 
+    public static function getByPatient($patient)
+    {
+        $select = Dao_LongTermForms::select()
+            ->where('patient','=', $patient)
+            ->execute();
+
+        $forms = array();
+
+        if (empty($select)) return $forms;
+
+        foreach ($select as $item) {
+            $form = new Model_LongTermForm();
+            $form->fill_by_row($item);
+            $forms[] = $form;
+        }
+
+        return $forms;
+    }
+
 }
