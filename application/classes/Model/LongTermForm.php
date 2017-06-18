@@ -3,11 +3,12 @@
 
 Class Model_LongTermForm {
 
-    public $id;
-    public $type;
-    public $status; //	1 - filling, 2 - finished, 3 - deleted
+    public $pk;         // primary key - autoincrement (unique in global)
+    public $id;         // not unique in  global + getting via redis
+    public $type ;
+    public $status;     //	1 - filling, 2 - finished, 3 - deleted
     public $patient;
-    public $pension;
+    public $pension;    // pension + id - unique index for form in pension
     public $organization;
     public $dt_create;
     public $dt_finish;
@@ -48,8 +49,8 @@ Class Model_LongTermForm {
     }
 
 
-    public static function getByFieldName($field, $value) {
-
+    public static function getByFieldName($field, $value)
+    {
         $select = Dao_LongTermForms::select()
             ->where($field, '=', $value)
             ->limit(1)
@@ -94,76 +95,6 @@ Class Model_LongTermForm {
 
         return $this->get_($this->id);
     }
-
-//    public static function getAll($offset, $limit = 10, $name = "")
-//    {
-//        if ($name == "") {
-//            $select = Dao_LongTermForms::select()
-//                ->order_by('dt_create', 'DESC')
-//                ->offset($offset)
-//                ->limit($limit)
-//                ->execute();
-//
-//        } else {
-//            $select = Dao_LongTermForms::select()
-//                ->where('name', 'LIKE', '%' . $name . '%')
-//                ->order_by('dt_create', 'DESC')
-//                ->offset($offset)
-//                ->limit($limit)
-//                ->execute();
-//        }
-//
-//        $patients = array();
-//
-//        if (empty($select)) return $patients;
-//
-//        foreach ($select as $item) {
-//            $patient = new Model_LongTermForm();
-//            $patient = $patient->fill_by_row($item);
-//            $patients[] = $patient;
-//        }
-//
-//        return $patients;
-//    }
-//
-//    public static function getByPension($id, $offset, $limit = 10, $name = "")
-//    {
-//
-//        if ($name == "") {
-//            $select = Dao_LongTermForms::select()
-//                ->where('pension','=', $id)
-//                ->order_by('dt_create', 'DESC')
-//                ->offset($offset)
-//                ->limit($limit)
-//                ->execute();
-//
-//        } else {
-//            $select = Dao_LongTermForms::select()
-//                ->where('pension','=', $id)
-//                ->or_having('name', '%' . $name . '%')
-//                ->or_having('snils', '%' . $name . '%')
-//                ->order_by('dt_create', 'DESC')
-//                ->offset($offset)
-//                ->limit($limit)
-//                ->execute();
-//        }
-//
-//
-//        $patients = array();
-//
-//        if ( empty($select) ) return $patients;
-//
-//        foreach ($select as $item) {
-//            $patient = new Model_LongTermForm();
-//            $patient = $patient->fill_by_row($item);
-//            $patient->pension = new Model_Pension($patient->pension);
-//            $patient->creator = new Model_User($patient->creator);
-//            $patients[] = $patient;
-//        }
-//
-//        return $patients;
-//    }
-
 
     public static function getByPatientAndPension($patient, $pension)
     {

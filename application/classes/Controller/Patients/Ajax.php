@@ -78,8 +78,13 @@ class Controller_Patients_Ajax extends Ajax
             return;
         }
 
+        $count_patients = $this->redis->get(self::REDIS_PACKAGE . ':pensions:' . $pension->id . ':patients');
+        $count_patients = $count_patients == false ? 1 : $count_patients + 1;
+        $this->redis->set(self::REDIS_PACKAGE . ':pensions:' . $pension->id . ':patients', $count_patients);
+
         $patient = new Model_Patient();
 
+        $patient->id                     = $count_patients;
         $patient->name                   = $name;
         $patient->sex                    = $sex;
         $patient->birthday               = $birthday;
@@ -87,20 +92,20 @@ class Controller_Patients_Ajax extends Ajax
         $patient->snils                  = $snils;
         $patient->oms                    = $oms;
         $patient->disability_certificate = $disability_certificate;
-        $patient->pension                = $pension->id;
         $patient->sources                = json_encode($sources);
         $patient->creator                = $this->user->id;
 
         $patient = $patient->save();
 
-        $count_forms = $this->redis->get(self::REDIS_PACKAGE . ':pensions:' . $pension->id . ':longtermforms');
+        Model_PensionPatient::add($pension->id, $patient->pk);
 
+        $count_forms = $this->redis->get(self::REDIS_PACKAGE . ':pensions:' . $pension->id . ':longtermforms');
         $count_forms = $count_forms == false ? 1 : $count_forms + 1;
         $this->redis->set(self::REDIS_PACKAGE . ':pensions:' . $pension->id . ':longtermforms', $count_forms);
 
         $form = new Model_LongTermForm();
         $form->id           = $count_forms;
-        $form->patient      = $patient->id;
+        $form->patient      = $patient->pk;
         $form->pension      = $pension->id;
         $form->organization = $pension->organization;
         $form->type         = 1;
@@ -173,10 +178,10 @@ class Controller_Patients_Ajax extends Ajax
         }
 
         $patients = Model_Patient::getByPension($pension->id, $offset, 10, $name);
-        
+
         $html = "";
         foreach ($patients as $patient) {
-            $patient->form = Model_LongTermForm::getByPatientAndPension($patient->id, $pension->id);
+            $patient->form = Model_LongTermForm::getByPatientAndPension($patient->pk, $pension->id);
             $html .= View::factory('patients/blocks/search-block', array('patient' => $patient))->render();
         }
 

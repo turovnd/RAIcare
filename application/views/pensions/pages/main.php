@@ -6,7 +6,7 @@
 
         <div class="col-xs-12 col-md-3 fl_r">
 
-            <? // Module Pensions => WATCH_ALL_PATIENTS_PROFILES = 34 || WATCH_PATIENTS_PROFILES_IN_PEN = 35;
+            <? // Module Pensions => WATCH_ALL_PATIENTS_PROFILES = 34 || WATCH_PATIENTS_PROFILES_IN_PEN = 35 || CAN_CONDUCT_A_SURVEY = 36
             if (in_array(34, $user->permissions) || in_array(35, $user->permissions)) : ?>
             <div class="col-xs-12 col-sm-6 col-md-12">
                 <a href="<?=URL::site('pension/' . $pension->id . '/patients'); ?>" class="btn btn--lg btn--default col-xs-12 m-b-15 m-r-0">Пациенты</a>

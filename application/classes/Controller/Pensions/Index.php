@@ -213,12 +213,11 @@ class Controller_Pensions_Index extends Dispatch
                 throw new HTTP_Exception_403;
             }
         }
-        //self::hasAccess(self::WATCH_PATIENTS_PROFILES_IN_PEN);
 
         $patients = Model_Patient::getByPension($this->pension->id, 0, 10);
 
         foreach ($patients as $key => $patient) {
-            $patients[$key]->form = Model_LongTermForm::getByPatientAndPension($patient->id, $this->pension->id);
+            $patients[$key]->form = Model_LongTermForm::getByPatientAndPension($patient->pk, $this->pension->id);
         }
 
         $this->template->title = "База данных пациентов пансионата " . $this->pension->name;

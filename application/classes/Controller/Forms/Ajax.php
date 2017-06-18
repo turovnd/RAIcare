@@ -13,6 +13,7 @@ class Controller_Forms_Ajax extends Ajax
     CONST CAN_CONDUCT_A_SURVEY = 36;
     public $pension  = null;
     public $usersIDs = null;
+    public $patient  = null;
 
     public function before()
     {
@@ -21,6 +22,8 @@ class Controller_Forms_Ajax extends Ajax
         self::hasAccess(self::CAN_CONDUCT_A_SURVEY);
 
         $pension = Arr::get($_POST,'pension');
+        $patient = Arr::get($_POST,'patient');
+
         $this->pension = new Model_Pension($pension);
 
         if (!$this->pension->id) {
@@ -34,6 +37,14 @@ class Controller_Forms_Ajax extends Ajax
         if (!(in_array($this->user->id, $this->usersIDs))) {
             throw new HTTP_Exception_403();
         }
+
+        $this->patient = new Model_Patient($patient);
+
+        if (!$this->patient->pk) {
+            $response = new Model_Response_Patients('PATIENTS_DOES_NOT_EXISTED_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
     }
 
     /**
@@ -42,18 +53,9 @@ class Controller_Forms_Ajax extends Ajax
     public function action_longterm_create()
     {
         $type    = Arr::get($_POST,'type');
-        $patient = Arr::get($_POST,'patient');
 
         if (empty($type)) {
             $response = new Model_Response_Longtermform('FORM_TYPE_EMPTY_ERROR', 'error');
-            $this->response->body(@json_encode($response->get_response()));
-            return;
-        }
-
-        $patient = new Model_Patient($patient);
-
-        if (!$patient->id) {
-            $response = new Model_Response_Patients('PATIENTS_DOES_NOT_EXISTED_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
             return;
         }
@@ -62,9 +64,9 @@ class Controller_Forms_Ajax extends Ajax
         $count_forms = $count_forms == false ? 1 : $count_forms + 1;
         $this->redis->set(self::REDIS_PACKAGE . ':pensions:' . $this->pension->id . ':longtermforms', $count_forms);
 
-        $form = new Model_LongTermForm();
+        $form               = new Model_LongTermForm();
         $form->id           = $count_forms;
-        $form->patient      = $patient->id;
+        $form->patient      = $this->patient->pk;
         $form->pension      = $this->pension->id;
         $form->organization = $this->pension->organization;
         $form->type         = $type;

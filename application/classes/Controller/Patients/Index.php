@@ -51,7 +51,7 @@ class Controller_Patients_Index extends Dispatch
         $id = $this->request->param('id');
         $patient = new Model_Pension($id);
 
-        if (!$patient->id)
+        if (!$patient->pk)
             throw new HTTP_Exception_404();
 
         $this->template->title = "Профиль пациента " . $patient->name;

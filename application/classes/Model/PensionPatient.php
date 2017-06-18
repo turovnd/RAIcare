@@ -6,7 +6,7 @@ Class Model_PensionPatient {
     public $pen_id;
     public $pat_id;
 
-    public static function add($patient, $pension)
+    public static function add($pension, $patient)
     {
         Dao_PensionsPatients::insert()
             ->set('pen_id', $pension)
@@ -14,7 +14,7 @@ Class Model_PensionPatient {
             ->execute();
     }
 
-    public static function delete($patient, $pension)
+    public static function delete($pension, $patient)
     {
         Dao_PensionsPatients::delete()
             ->where('pen_id', '=', $pension)
@@ -58,6 +58,5 @@ Class Model_PensionPatient {
 
         return $patients;
     }
-
 
 }

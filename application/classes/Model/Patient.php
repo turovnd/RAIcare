@@ -3,7 +3,8 @@
 
 Class Model_Patient {
 
-    public $id;
+    public $pk;                     // primary key - autoincrement (unique in global)
+    public $id;                     // not unique in  global + getting via redis
     public $name;
     public $sex;                    // 1 - male, 2 - female
     public $birthday;
@@ -11,23 +12,22 @@ Class Model_Patient {
     public $snils;                  // номер СНИЛС
     public $oms;                    // номер полиса ОМС или документа, его заменяющего
     public $disability_certificate; // номер справки об инвалидности
-    public $pension;
     public $sources;                // текущие источники оплаты пребывания в пансионате
     public $dt_create;              // дата первичной оценки в пансионате
     public $creator;
 
     
-    public function __construct($id = null) {
+    public function __construct($pk = null) {
 
-        if ( !empty($id) ) {
-            $this->get_($id);
+        if ( !empty($pk) ) {
+            $this->get_($pk);
         }
 
     }
 
     private function fill_by_row($db_selection) {
 
-        if (empty($db_selection['id'])) return $this;
+        if (empty($db_selection['pk'])) return $this;
 
         foreach ($db_selection as $fieldname => $value) {
             if (property_exists($this, $fieldname)) $this->$fieldname = $value;
@@ -38,12 +38,12 @@ Class Model_Patient {
     }
 
     
-    private function get_($id) {
+    private function get_($pk) {
 
         $select = Dao_Patients::select()
-            ->where('id', '=', $id)
+            ->where('pk', '=', $pk)
             ->limit(1)
-            ->cached(Date::MINUTE * 5, $id)
+            ->cached(Date::MINUTE * 5, $pk)
             ->execute();
 
         return $this->fill_by_row($select);
@@ -58,7 +58,7 @@ Class Model_Patient {
             ->limit(1)
             ->execute();
 
-        $patient = new Model_Patient($select['id']);
+        $patient = new Model_Patient($select['pk']);
         return $patient->fill_by_row($select);
 
     }
@@ -87,12 +87,12 @@ Class Model_Patient {
             if (property_exists($this, $fieldname)) $insert->set($fieldname, $value);
         }
 
-        $insert->clearcache($this->id);
-        $insert->where('id', '=', $this->id);
+        $insert->clearcache($this->pk);
+        $insert->where('pk', '=', $this->pk);
 
         $insert->execute();
 
-        return $this->get_($this->id);
+        return $this->get_($this->pk);
     }
 
 
@@ -101,6 +101,8 @@ Class Model_Patient {
     {
         if ($name == "") {
             $select = Dao_Patients::select()
+                ->join('Pensions_Patients')
+                ->on('pk','=','pat_id')
                 ->order_by('dt_create', 'DESC')
                 ->offset($offset)
                 ->limit($limit)
@@ -108,7 +110,10 @@ Class Model_Patient {
 
         } else {
             $select = Dao_Patients::select()
-                ->where('name','LIKE', '%' . $name . '%')
+                ->or_having('name', '%' . $name . '%')
+                ->or_having('snils', '%' . $name . '%')
+                ->join('Pensions_Patients')
+                ->on('pk','=','pat_id')
                 ->order_by('dt_create', 'DESC')
                 ->offset($offset)
                 ->limit($limit)
@@ -122,8 +127,8 @@ Class Model_Patient {
         foreach ($select as $item) {
             $patient = new Model_Patient();
             $patient = $patient->fill_by_row($item);
-            $patient->pension = new Model_Pension($patient->pension);
             $patient->creator = new Model_User($patient->creator);
+            $patient->pension = new Model_Pension($item['pen_id']);
             $patients[] = $patient;
         }
 
@@ -136,7 +141,9 @@ Class Model_Patient {
 
         if ($name == "") {
             $select = Dao_Patients::select()
-                ->where('pension','=', $id)
+                ->join('Pensions_Patients')
+                ->on('pk','=','pat_id')
+                ->where('pen_id','=', $id)
                 ->order_by('dt_create', 'DESC')
                 ->offset($offset)
                 ->limit($limit)
@@ -144,9 +151,11 @@ Class Model_Patient {
 
         } else {
             $select = Dao_Patients::select()
-                ->where('pension','=', $id)
                 ->or_having('name', '%' . $name . '%')
                 ->or_having('snils', '%' . $name . '%')
+                ->join('Pensions_Patients')
+                ->on('pk','=','pat_id')
+                ->where('pen_id','=', $id)
                 ->order_by('dt_create', 'DESC')
                 ->offset($offset)
                 ->limit($limit)
@@ -161,8 +170,8 @@ Class Model_Patient {
         foreach ($select as $item) {
             $patient = new Model_Patient();
             $patient = $patient->fill_by_row($item);
-            $patient->pension = new Model_Pension($patient->pension);
             $patient->creator = new Model_User($patient->creator);
+            $patient->pension = new Model_Pension($item['pen_id']);
             $patients[] = $patient;
         }
 
@@ -173,8 +182,10 @@ Class Model_Patient {
     public static function checkBySnilsAndPension($snils, $pension)
     {
         return (bool) Dao_Patients::select()
-            ->where('pension','=', $pension)
             ->where('snils','=', $snils)
+            ->join('Pensions_Patients')
+            ->on('pk','=','pat_id')
+            ->where('pen_id','=', $pension)
             ->limit(1)
             ->execute();
     }
