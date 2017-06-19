@@ -3,7 +3,7 @@
 
 Route::set('FORMS_AJAX', 'forms/<type>/<action>', array(
         'type' => 'longterm',
-        'action'  => 'create|update'
+        'action'  => 'create|update|get'
     ))
     ->filter(function ($route, $params, $request) {
         $params['controller'] = 'Forms_Ajax';

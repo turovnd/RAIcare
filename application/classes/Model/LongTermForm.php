@@ -74,6 +74,7 @@ Class Model_LongTermForm {
         }
 
         $result = $insert
+            ->clearcache($this->patient)
             ->clearcache($this->id)
             ->execute();
 
@@ -88,7 +89,9 @@ Class Model_LongTermForm {
             if (property_exists($this, $fieldname)) $insert->set($fieldname, $value);
         }
 
-        $insert->clearcache($this->id);
+        $insert->clearcache($this->id)
+               ->clearcache($this->patient);
+
         $insert->where('id', '=', $this->id);
 
         $insert->execute();
@@ -111,11 +114,23 @@ Class Model_LongTermForm {
 
     }
 
-    public static function getByPatient($patient)
+    public static function getAllFormsByPatients($patients, $offset, $limit)
     {
-        $select = Dao_LongTermForms::select()
-            ->where('patient','=', $patient)
-            ->execute();
+        $sql = "";
+        $key = 0;
+
+        foreach ($patients as $patient) {
+            $key++;
+            if ($key == count($patients)) {
+                $sql .= '`patient` = ' . $patient;
+            } else {
+                $sql .= '`patient` = ' . $patient . ' OR ';
+            }
+        }
+
+        $select = DB::query(Database::SELECT,'SELECT * from Forms_Long_Term WHERE `status` = 2 AND (' . $sql . ') ORDER BY `dt_finish` DESC LIMIT ' .  $offset . ', ' . $limit)
+            ->execute()
+            ->as_array();
 
         $forms = array();
 
@@ -124,6 +139,10 @@ Class Model_LongTermForm {
         foreach ($select as $item) {
             $form = new Model_LongTermForm();
             $form->fill_by_row($item);
+            $form->organization = new Model_Organization($form->organization);
+            $form->pension = new Model_Pension($form->pension);
+            $form->creator = new Model_User($form->creator);
+            $form->creator->role = new Model_Role($form->creator->role);
             $forms[] = $form;
         }
 

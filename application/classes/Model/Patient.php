@@ -205,4 +205,18 @@ Class Model_Patient {
         return $patient->fill_by_row($select);
     }
 
+    public static function getSamePatients($patient)
+    {
+        return Dao_Patients::select(array('pen_id' , 'pat_id'))
+            ->where('snils','=', $patient->snils)
+            ->where('name','=', $patient->name)
+            ->where('birthday','=', $patient->birthday)
+            ->join('Pensions_Patients')
+            ->on('pk','=','pat_id')
+            ->order_by('dt_create', 'DESC')
+            ->execute();
+
+    }
+
+
 }

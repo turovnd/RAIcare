@@ -249,6 +249,7 @@ class Controller_Pensions_Index extends Dispatch
         {
             $form->status= 3;
             $form->update();
+            $this->redirect('pension/' . $this->pension->id . '/patients');
         }
 
         if ($form->pension != $this->pension->id || $form->status == 3) {

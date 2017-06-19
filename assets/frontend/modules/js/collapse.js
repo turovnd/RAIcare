@@ -55,12 +55,20 @@ module.exports = (function (collapse) {
      */
     collapse.open = function (btn, list) {
 
+        if (list.classList.contains('collapsing') || list.classList.contains('collapse--opened') ) return;
+
         btn.dataset.opened = 'true';
+        list.classList.add('collapsing');
+        list.classList.remove('collapse');
+        list.style.height = calculateHeight_(list) + 'px';
 
-        if (!list.dataset.height)
-            list.dataset.height = calculateHeight_(list);
+        window.setTimeout(function () {
 
-        list.style.height = list.dataset.height + 'px';
+            list.classList.remove('collapsing');
+            list.classList.add('collapse--opened');
+            list.removeAttribute('style');
+
+        }, 350);
 
     };
 
@@ -72,8 +80,25 @@ module.exports = (function (collapse) {
      */
     collapse.close = function (btn, list) {
 
+        if (list.classList.contains('collapsing') || list.classList.contains('collapse') ) return;
+
         btn.dataset.opened = 'false';
-        list.style.height = '0';
+        list.style.height = list.getBoundingClientRect().height + 'px';
+        list.classList.add('collapsing');
+        list.classList.remove('collapse--opened');
+
+        window.setTimeout(function () {
+
+            list.style.height = '0px';
+
+        });
+
+        window.setTimeout(function () {
+
+            list.classList.remove('collapsing');
+            list.classList.add('collapse');
+
+        }, 350);
 
     };
 

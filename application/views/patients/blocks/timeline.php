@@ -1,45 +1,37 @@
-<ul class="time-line">
+<?
+if (empty($forms)) {
+    echo '<h4 class="h4 text-brand m-b-15 col-xs-12">Анкетирования не найдены.</h4>';
+    return;
+}
+?>
 
-    <li data-datetime="Today" class="time-line__separator"></li>
+<ul id="timeline" class="time-line" data-pk='<?=json_encode($sameSnils);?>'>
 
-    <li class="time-line__item">
+<?
 
-        <div class="time-line__badge bg-brand">
-            <i class="fa fa-comment" aria-hidden="true"></i>
-        </div>
+$date = Date('M Y', strtotime($forms[0]->dt_finish));
 
-        <div class="time-line__content">
+foreach ($forms as $key => $form) {
 
-            <div class="time-line__popover time-line__popover--left">
-                <div class="time-line__popover-arrow"></div>
-                <div class="time-line__popover-content">
-                    content
-                </div>
-            </div>
-        </div>
+    if ($key == 0) {
+        echo '<li data-datetime="' . Date('M Y', strtotime($form->dt_finish)) . '" class="time-line__separator"></li>';
+    }
 
-    </li>
+    if ($date != Date('M Y', strtotime($form->dt_finish))) {
+        $date = Date('M Y', strtotime($form->dt_finish));
+        echo '<li data-datetime="' . Date('M Y', strtotime($form->dt_finish)) . '" class="time-line__separator"></li>';
+    }
 
+    echo
+        '<li class="time-line__item' . ($key % 2 == 0 ? '' : ' time-line__item--inverted') . '">' .
+            View::factory('patients/blocks/timeline-item', array('key' => $key, 'form' => $form)) .
+        '</li>';
 
-    <li class="time-line__item time-line__inverted">
+} ?>
 
-        <div class="time-line__badge bg-danger">
-            <i class="fa fa-comment" aria-hidden="true"></i>
-        </div>
-
-        <div class="time-line__content">
-
-            <div class="time-line__popover time-line__popover--right">
-                <div class="time-line__popover-arrow"></div>
-                <div class="time-line__popover-content">
-                    content
-                </div>
-            </div>
-        </div>
-    </li>
 
     <li class="time-line__end">
-        <a href="#" class="time-line__badge bg-gray-dark">
+        <a id="getMoreFormsBtn" data-offset="<?= count($forms); ?>" data-type="json" role="button" class="time-line__badge bg-gray-dark" onclick="survey.get.forms();">
             <i class="fa fa-plus" aria-hidden="true"></i>
         </a>
     </li>

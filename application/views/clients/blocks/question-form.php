@@ -23,7 +23,7 @@
 
     <? else: ?>
 
-        <a role="button" data-toggle="collapse" data-area="questionForm" data-opened="false" data-textclosed="развернуть" data-textopened="свернуть" class="btn btn--default btn--sm m-b-0 m-r-0 fl_r collapse-btn"></a>
+        <a role="button" data-toggle="collapse" data-area="questionForm" data-opened="false" data-textclosed="показать" data-textopened="скрыть" class="btn btn--default btn--sm m-b-0 m-r-0 fl_r collapse-btn"></a>
 
     <? endif; ?>
 

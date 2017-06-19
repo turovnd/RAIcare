@@ -54,16 +54,30 @@ class Controller_Patients_Index extends Dispatch
         if (!$patient->pk)
             throw new HTTP_Exception_404();
 
-        $pensions = Model_PensionPatient::getPensions($patient->pk);
+        $forms      = array();
+        $pensions   = array();
+        $sameSnils  = array();
 
-        foreach ($pensions as $key => $pension) {
-            $pensions[$key] = new Model_Pension($pension);
+        $same_patients = Model_Patient::getSamePatients($patient);
+
+        if (count($same_patients) == 1) goto finish;
+
+        foreach ($same_patients as $same_patient) {
+            $sameSnils[] = $same_patient['pat_id'];
+            $pension = new Model_Pension($same_patient['pen_id']);
+            $pension->organization = new Model_Organization($pension->organization );
+            $pension->owner = new Model_User($pension->owner);
+            $pension->creator = new Model_User($pension->creator);
+            $pensions[] = $pension;
         }
 
-        $forms = Model_LongTermForm::getByPatient($patient->pk);
+        $forms = Model_LongTermForm::getAllFormsByPatients($sameSnils, 0, 10);
 
-        $patient->pensions = $pensions;
-        $patient->forms = $forms;
+        finish:
+        $patient->creator   = new Model_User($patient->creator);
+        $patient->pensions  = $pensions;
+        $patient->sameSnils = $sameSnils;
+        $patient->forms     = $forms;
 
         $this->template->title = "Профиль пациента " . $patient->name;
         $this->template->section = View::factory('patients/pages/profile-full')

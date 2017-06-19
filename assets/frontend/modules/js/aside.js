@@ -22,6 +22,12 @@ module.exports = (function (aside) {
 
         asideBtn.addEventListener('click', toggleAsideMenu_);
 
+        if (asideWrapper.getBoundingClientRect().height < asideWrapper.getElementsByClassName('aside__menu ')[0].getBoundingClientRect().height) {
+
+            asideWrapper.classList.add('overflowY--auto');
+
+        }
+
     }
 
 
