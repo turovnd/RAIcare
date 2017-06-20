@@ -15,7 +15,6 @@ require_once ('routes/pensions.php');
 require_once ('routes/patients.php');
 require_once ('routes/forms.php');
 
-
 /**
  * Route for file (image) uploading
  * Only for XMLHTTP requests

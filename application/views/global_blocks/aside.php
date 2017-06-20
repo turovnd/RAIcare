@@ -253,7 +253,7 @@
     if (in_array(34, $user->permissions)) : ?>
 
         <li class="aside__item <? echo $action == "all_patients"
-                                    || $action == "patient" ? 'aside__item--active' : ''; ?>">
+                                    || $action == "all_patient" ? 'aside__item--active' : ''; ?>">
             <a href="<?=URL::site('patients'); ?>" class="aside__link <? echo $action == "all_patients" ? 'aside__link--active' : ''; ?>">
                 <i class="fa fa-database aside__icon" aria-hidden="true"></i>
                 <span class="aside__text">БД всех пациентов</span>

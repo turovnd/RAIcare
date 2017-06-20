@@ -183,49 +183,6 @@ class Controller_Pensions_Index extends Dispatch
     }
 
 
-    public function action_patients()
-    {
-        if (!in_array(self::WATCH_ALL_PATIENTS_PROFILES, $this->user->permissions)) {
-            if (!in_array(self::WATCH_PATIENTS_PROFILES_IN_PEN, $this->user->permissions)) {
-                throw new HTTP_Exception_403;
-            }
-        }
-
-        $patients = Model_Patient::getByPension($this->pension->id, 0, 10);
-
-        foreach ($patients as $key => $patient) {
-            $patients[$key]->form = Model_LongTermForm::getFillingFormByPatientAndPension($patient->pk, $this->pension->id);
-        }
-
-        $this->template->title = "База данных пациентов пансионата " . $this->pension->name;
-        $this->template->section = View::factory('patients/pages/pension-patients')
-            ->set('pension', $this->pension)
-            ->set('patients', $patients);
-    }
-
-
-    public function action_patient()
-    {
-        self::hasAccess(self::WATCH_PATIENTS_PROFILES_IN_PEN);
-
-        $pat_id = $this->request->param('pat_id');
-        $patient = Model_Patient::getByFieldName('id', $pat_id);
-
-        if (!$patient->pk)
-            throw new HTTP_Exception_404();
-
-        $forms = Model_LongTermForm::getAllFormsByPatientAndPension($patient->pk, $this->pension->id, 0, 10);
-
-        $patient->creator = new Model_User($patient->creator);
-        $patient->pension = $this->pension;
-        $patient->forms   = $forms;
-
-        $this->template->title = "Профиль пациента " . $patient->name;
-        $this->template->section = View::factory('patients/pages/profile')
-            ->set('patient', $patient);
-    }
-
-
     public function action_survey()
     {
         $form_id = $this->request->query('id');

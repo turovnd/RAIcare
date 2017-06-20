@@ -118,7 +118,11 @@ class Controller_Patients_Ajax extends Ajax
 
     public function action_get()
     {
-        self::hasAccess(self::WATCH_PATIENTS_PROFILES_IN_PEN);
+        if (!in_array(self::WATCH_ALL_PATIENTS_PROFILES, $this->user->permissions)) {
+            if (!in_array(self::WATCH_PATIENTS_PROFILES_IN_PEN, $this->user->permissions)) {
+                throw new HTTP_Exception_403;
+            }
+        }
 
         $name    = Arr::get($_POST, 'name');
         $pension = Arr::get($_POST, 'pension');
@@ -153,7 +157,6 @@ class Controller_Patients_Ajax extends Ajax
 
         $patients = Model_Patient::getAll($offset, 10, $name);
 
-
         $html = "";
         foreach ($patients as $patient) {
             $html .= View::factory('patients/blocks/search-block', array('patient' => $patient))->render();
@@ -162,4 +165,5 @@ class Controller_Patients_Ajax extends Ajax
         $response = new Model_Response_Patients('PATIENTS_GET_SUCCESS', 'success', array('html'=>$html, 'number'=>count($patients)));
         $this->response->body(@json_encode($response->get_response()));
     }
+
 }
