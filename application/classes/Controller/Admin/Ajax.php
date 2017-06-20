@@ -21,98 +21,6 @@ class Controller_Admin_Ajax extends Ajax
         self::hasAccess(self::MODULE_ADMIN);
     }
 
-    /**
-     * ROLE - creating new role
-     */
-    public function action_role_add()
-    {
-        self::hasAccess(self::ROLES_AND_PERMISSIONS);
-        $id = Arr::get($_POST, 'id');
-        $name = Arr::get($_POST, 'name');
-
-        if (empty($id)) {
-            $response = new Model_Response_Roles('ROLE_EMPTY_ID_ERROR', 'error');
-            $this->response->body(@json_encode($response->get_response()));
-            return;
-        }
-
-        if (empty($name)) {
-            $response = new Model_Response_Roles('ROLE_EMPTY_NAME_ERROR', 'error');
-            $this->response->body(@json_encode($response->get_response()));
-            return;
-        }
-
-        $role = new Model_Role($id);
-
-        if (!empty($role->id)) {
-            $response = new Model_Response_Roles('ROLE_EXISTED_ERROR', 'error');
-            $this->response->body(@json_encode($response->get_response()));
-            return;
-        }
-
-        $role = new Model_Role();
-        $role->id = $id;
-        $role->name = $name;
-        $role->save();
-
-        $response = new Model_Response_Roles('ROLE_CREATE_SUCCESS', 'success');
-        $this->response->body(@json_encode($response->get_response()));
-    }
-
-    /**
-     * ROLE - updating role
-     */
-    public function action_role_update()
-    {
-        self::hasAccess(self::ROLES_AND_PERMISSIONS);
-        $id     = Arr::get($_POST, 'id');
-        $name   = Arr::get($_POST, 'name');
-
-        if (empty($name)) {
-            $response = new Model_Response_Roles('ROLE_EMPTY_NAME_ERROR', 'error');
-            $this->response->body(@json_encode($response->get_response()));
-            return;
-        }
-
-        $role = new Model_Role($id);
-
-        if (empty($role->id)) {
-            $response = new Model_Response_Roles('ROLE_EXISTED_ERROR', 'error');
-            $this->response->body(@json_encode($response->get_response()));
-            return;
-        }
-
-        $role->name = $name;
-        $role->update();
-
-        $response = new Model_Response_Roles('ROLE_UPDATE_SUCCESS', 'success');
-        $this->response->body(@json_encode($response->get_response()));
-
-
-    }
-
-    /**
-     * ROLE - deleting role
-     */
-    public function action_role_delete()
-    {
-        self::hasAccess(self::ROLES_AND_PERMISSIONS);
-        $id = Arr::get($_POST, 'id');
-
-        if (empty($id)) {
-            $response = new Model_Response_Roles('ROLE_EMPTY_ID_ERROR', 'error');
-            $this->response->body(@json_encode($response->get_response()));
-            return;
-        }
-
-        Model_Role::delete($id);
-        Model_RolePermission::deleteAll($id);
-
-        $response = new Model_Response_Roles('ROLE_DELETE_SUCCESS', 'success');
-        $this->response->body(@json_encode($response->get_response()));
-
-    }
-
 
     /**
      * PERMISSION - creating new permission
@@ -200,131 +108,46 @@ class Controller_Admin_Ajax extends Ajax
         }
 
         Model_Permission::delete($id);
-        Model_RolePermission::deletePermission($id);
 
         $response = new Model_Response_Permissions('PERMISSION_DELETE_SUCCESS', 'success');
         $this->response->body(@json_encode($response->get_response()));
 
     }
 
-
     /**
-     * ROLE_PERMISSION - creating new relation between role and permission
+     * ROLE - updating role
      */
-    public function action_rolepermis_add()
+    public function action_role_update()
     {
-        self::hasAccess(self::ROLES_AND_PERMISSIONS);
-        $role = Arr::get($_POST, 'role');
-        $permissions = json_decode(Arr::get($_POST, 'permissions'));
+        $name         = Arr::get($_POST, 'name');
+        $role         = Arr::get($_POST, 'role');
+        $permissions  = json_decode(Arr::get($_POST, 'permissions'));
 
-        if (empty($role)) {
-            $response = new Model_Response_Rolepermis('ROLE_PERMISSION_EMPTY_ROLE_ERROR', 'error');
+        if (empty($name)) {
+            $response = new Model_Response_Form('EMPTY_FIELD_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
             return;
         }
 
-        if (empty($permissions)) {
-            $response = new Model_Response_Rolepermis('ROLE_PERMISSION_EMPTY_PERMISSION_ERROR', 'error');
+        if (count($permissions) == 0) {
+            $response = new Model_Response_Permissions('PERMISSION_EMPTY_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
             return;
         }
-
-        $rolepermis = new Model_RolePermission($role);
-
-        if (!empty($rolepermis->r_id)) {
-            $response = new Model_Response_Rolepermis('ROLE_PERMISSION_ROLE_EXISTED_ERROR', 'error');
-            $this->response->body(@json_encode($response->get_response()));
-            return;
-        }
-
-        $permissionsStr = self::getPermissionsAsString($role, $permissions);
 
         $role = new Model_Role($role);
 
-        $data = array(
-            'roleName' => $role->name,
-            'permissionsStr' => $permissionsStr
-        );
-
-        $response = new Model_Response_Rolepermis('ROLE_PERMISSION_CREATE_SUCCESS', 'success', $data);
-        $this->response->body(@json_encode($response->get_response()));
-    }
-
-    /**
-     * ROLE_PERMISSION - updating relation between role and permission
-     */
-    public function action_rolepermis_update()
-    {
-        self::hasAccess(self::ROLES_AND_PERMISSIONS);
-        $role = Arr::get($_POST, 'role');
-        $permissions = json_decode(Arr::get($_POST, 'permissions'));
-
-        if (empty($role)) {
-            $response = new Model_Response_Rolepermis('ROLE_PERMISSION_EMPTY_ROLE_ERROR', 'error');
+        if (!$role->id) {
+            $response = new Model_Response_Roles('ROLE_EXISTED_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
             return;
         }
+        $role->name = $name;
+        $role->permissions = json_encode($permissions);
+        $role->update();
 
-        if (empty($permissions)) {
-            $response = new Model_Response_Rolepermis('ROLE_PERMISSION_EMPTY_PERMISSION_ERROR', 'error');
-            $this->response->body(@json_encode($response->get_response()));
-            return;
-        }
-
-        Model_RolePermission::deleteAll($role);
-
-        $permissionsStr = self::getPermissionsAsString($role, $permissions);
-
-        $role = new Model_Role($role);
-
-        $data = array(
-            'roleName' => $role->name,
-            'permissionsStr' => $permissionsStr
-        );
-
-        $response = new Model_Response_Rolepermis('ROLE_PERMISSION_UPDATE_SUCCESS', 'success', $data);
+        $response = new Model_Response_Roles('ROLE_UPDATE_SUCCESS', 'success');
         $this->response->body(@json_encode($response->get_response()));
-
-    }
-
-    /**
-     * ROLE_PERMISSION - deleting relation between role and permission
-     */
-    public function action_rolepermis_delete()
-    {
-        self::hasAccess(self::ROLES_AND_PERMISSIONS);
-        $role = Arr::get($_POST, 'role');
-
-        if (empty($role)) {
-            $response = new Model_Response_Rolepermis('ROLE_PERMISSION_EMPTY_ROLE_ERROR', 'error');
-            $this->response->body(@json_encode($response->get_response()));
-            return;
-        }
-
-        Model_RolePermission::deleteAll($role);
-
-        $response = new Model_Response_Rolepermis('ROLE_PERMISSION_DELETE_SUCCESS', 'success');
-        $this->response->body(@json_encode($response->get_response()));
-
-    }
-
-
-
-    private static function getPermissionsAsString($role, $permissions)
-    {
-        $permissionsStr = '';
-
-        foreach ($permissions as $permission) {
-            $rolepermis = new Model_RolePermission();
-            $rolepermis->r_id = $role;
-            $rolepermis->p_id = $permission;
-            $rolepermis->save();
-
-            $permission = new Model_Permission($permission);
-            $permissionsStr .= '<li data-permission="' . $permission->id . '">' . $permission->name . '</li>';
-        }
-
-        return $permissionsStr;
     }
 
 }

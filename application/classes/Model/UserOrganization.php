@@ -11,6 +11,8 @@ Class Model_UserOrganization {
         Dao_UsersOrganizations::insert()
             ->set('u_id', $user)
             ->set('o_id', $organization)
+            ->clearcache('user_' . $user)
+            ->clearcache('organization_' . $organization)
             ->execute();
     }
 
@@ -19,8 +21,9 @@ Class Model_UserOrganization {
         Dao_UsersOrganizations::delete()
             ->where('u_id', '=', $user)
             ->where('o_id', '=', $organization)
+            ->clearcache('user_' . $user)
+            ->clearcache('organization_' . $organization)
             ->limit(1)
-            ->clearcache($user . '_' . $organization)
             ->execute();
     }
 
@@ -28,6 +31,7 @@ Class Model_UserOrganization {
     {
         $select = Dao_UsersOrganizations::select()
             ->where('u_id', '=', $user)
+            ->cached(Date::MINUTE * 5, 'user_' . $user)
             ->order_by('o_id', 'DESC')
             ->execute();
 
@@ -46,6 +50,7 @@ Class Model_UserOrganization {
     {
         $select = Dao_UsersOrganizations::select()
             ->where('o_id', '=', $organization)
+            ->cached(Date::MINUTE * 5, 'organization_' . $organization)
             ->order_by('u_id', 'ASC')
             ->execute();
 

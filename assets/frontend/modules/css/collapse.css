@@ -1,9 +1,16 @@
 
-.collapse{
-    height:0;
+.collapse {
+    display: none;
+}
+.collapse--opened{
     display: block;
+}
+.collapsing {
+    height:0;
     overflow: hidden;
-    transition: height ease .35s;
+    transition-timing-function: ease;
+    transition-duration: .35s;
+    transition-property: height,visibility;
 }
 
 .collapse-btn[data-opened="true"]:before {

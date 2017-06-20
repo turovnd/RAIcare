@@ -175,7 +175,8 @@ module.exports = (function (coworker) {
 
             footer:
                 '<button type="button" class="btn btn--default" data-close="modal">Отмена</button>'+
-                '<button onclick="pension.coworker.updaterole()" type="button" class="btn btn--brand">Изменить</button>'
+                '<button onclick="pension.coworker.updaterole()" type="button" class="btn btn--brand">Изменить</button>',
+            onclose: 'destroy'
         });
 
 
@@ -225,10 +226,9 @@ module.exports = (function (coworker) {
 
                 if (parseInt(response.code) === 53 ) {
 
-                    raisoft.modal.hide(form);
+                    raisoft.modal.destroy(form);
                     roleLabel.textContent = response.role['name'];
                     roleLabel = null;
-                    form.remove();
 
                 }
 

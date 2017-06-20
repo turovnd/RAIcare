@@ -11,6 +11,8 @@ Class Model_UserPension {
         Dao_UsersPensions::insert()
             ->set('u_id', $user)
             ->set('p_id', $pension)
+            ->clearcache('user_' . $user)
+            ->clearcache('pension_' . $pension)
             ->execute();
     }
 
@@ -20,13 +22,15 @@ Class Model_UserPension {
             ->where('u_id', '=', $user)
             ->where('p_id', '=', $pension)
             ->limit(1)
-            ->clearcache($user . '_' . $pension)
+            ->clearcache('user_' . $user)
+            ->clearcache('pension_' . $pension)
             ->execute();
     }
 
     public static function getPensions($user)
     {
         $select = Dao_UsersPensions::select()
+            ->cached(Date::MINUTE * 5, 'user_' . $user)
             ->where('u_id', '=', $user)
             ->order_by('p_id', 'DESC')
             ->execute();
@@ -45,6 +49,7 @@ Class Model_UserPension {
     public static function getUsers($pension)
     {
         $select = Dao_UsersPensions::select()
+            ->cached(Date::MINUTE * 5,'pension_' . $pension)
             ->where('p_id', '=', $pension)
             ->order_by('u_id', 'ASC')
             ->execute();

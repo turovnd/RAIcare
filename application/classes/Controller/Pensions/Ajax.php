@@ -10,13 +10,14 @@
 
 class Controller_Pensions_Ajax extends Ajax
 {
-    CONST MODULE_CLIENTS               = 6;
-    CONST CREATE_PENSION               = 23;
-    CONST WATCH_ALL_PENSIONS_PAGES     = 24;
-    CONST WATCH_CREATED_PENSIONS_PAGES = 25;
-    CONST EDIT_PENSION                 = 27;
-    CONST INVITE_CO_WORKER_TO_PEN      = 28;
-    CONST EXCLUDE_CO_WORKER_FROM_PEN   = 29;
+    CONST MODULE_CLIENTS              = 6;
+    CONST CREATE_PENSION              = 23;
+    CONST WATCH_ALL_PENSIONS_PAGE     = 24;
+    CONST WATCH_CREATED_PENSIONS_PAGE = 25;
+    CONST WATCH_MY_PEN_PAGE           = 26;
+    CONST EDIT_PENSION                = 27;
+    CONST INVITE_CO_WORKER_TO_PEN     = 28;
+    CONST EXCLUDE_CO_WORKER_FROM_PEN  = 29;
 
     public function action_new()
     {
@@ -126,7 +127,7 @@ class Controller_Pensions_Ajax extends Ajax
 
         switch ($type) {
             case 'all_pensions':
-                self::hasAccess(self::WATCH_ALL_PENSIONS_PAGES);
+                self::hasAccess(self::WATCH_ALL_PENSIONS_PAGE);
                 if ($name != "") {
                     $pensions = Model_Pension::getAll($offset,10, $name);
                 } else {
@@ -134,7 +135,7 @@ class Controller_Pensions_Ajax extends Ajax
                 }
                 break;
             case 'created_pensions':
-                self::hasAccess(self::WATCH_CREATED_PENSIONS_PAGES);
+                self::hasAccess(self::WATCH_CREATED_PENSIONS_PAGE);
                 if ($name != "") {
                     $pensions = Model_Pension::getByCreator($this->user->id, $offset,10, $name);
                 } else {
@@ -193,6 +194,8 @@ class Controller_Pensions_Ajax extends Ajax
         if (!in_array($this->user->id, $users) || !in_array(self::INVITE_CO_WORKER_TO_PEN, $this->user->permissions)) {
             throw new HTTP_Exception_403();
         }
+
+        $permissions[] = strval(self::WATCH_MY_PEN_PAGE);  //each member of pension can WATCH_MY_PEN_PAGE
 
         if ($role == "new") {
             $role = new Model_Role();

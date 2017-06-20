@@ -7,7 +7,6 @@
     background: #FFF;
     visibility: visible;
     border-right: 1px solid #cfcfcf;
-    overflow-x: hidden;
     z-index: 9;
     transition: all .1s;
 }
@@ -20,6 +19,7 @@
 .aside__menu{
     position: relative;
     padding-top: 10px;
+    padding-bottom: 30px;
     margin-top: 57px;
 }
 .aside__item{
@@ -29,7 +29,7 @@
 .aside__link,
 .aside__collapse-link{
     display: block;
-    padding: 10px 15px;
+    padding: 10px 20px 10px 15px;
     white-space: nowrap;
 }
 .aside__link:hover,
@@ -69,8 +69,8 @@
 
 .aside--collapsed{
     width: 65px;
-    overflow: visible;
 }
+
 .aside--collapsed .aside__menu{
     padding-top: 0;
 }
@@ -91,6 +91,7 @@
 .aside--collapsed .aside__link + .aside__collapse{
     height: 0 !important;
     visibility: hidden;
+    display: block;
 }
 
 .aside--collapsed .aside__link:hover + .aside__collapse,

@@ -28,7 +28,8 @@ module.exports = {
         "clients"       : path.resolve(__dirname, "../clients.js"),
         "profile"       : path.resolve(__dirname, "../profile.js"),
         "organization"  : path.resolve(__dirname, "../organization.js"),
-        "pension"       : path.resolve(__dirname, "../pension.js")
+        "pension"       : path.resolve(__dirname, "../pension.js"),
+        "survey"        : path.resolve(__dirname, "../survey.js")
     },
 
     output: {

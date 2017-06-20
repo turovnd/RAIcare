@@ -13,9 +13,10 @@
     overflow-y: auto;
     display: block;
 }
-
-.modal__content {
+.modal__wrapper{
     position: relative;
+}
+.modal__content {
     background: #fff;
     border-radius: 3px;
     box-shadow: 1px 1px 15px rgba(0,0,0,.5);

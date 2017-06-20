@@ -12,8 +12,8 @@ require_once ('routes/profiles.php');
 require_once ('routes/dashboard.php');
 require_once ('routes/organizations.php');
 require_once ('routes/pensions.php');
-
-
+require_once ('routes/patients.php');
+require_once ('routes/forms.php');
 
 
 /**

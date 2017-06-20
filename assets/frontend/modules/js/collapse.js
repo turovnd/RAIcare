@@ -24,10 +24,16 @@ module.exports = (function (collapse) {
      * Toggle collapse - OPEN || CLOSE
      * @private
      */
-    function toggleCollapse_() {
+    collapse.toggle = function (element) {
 
-        var btn  = this,
-            list = document.getElementById(btn.dataset.area);
+        var btn;
+
+        if (element.nodeType === 1)
+            btn = element;
+        else
+            btn  = this;
+
+        var list = document.getElementById(btn.dataset.area);
 
         if (btn.dataset.opened === 'false') {
 
@@ -39,7 +45,7 @@ module.exports = (function (collapse) {
 
         }
 
-    }
+    };
 
 
     /**
@@ -49,12 +55,20 @@ module.exports = (function (collapse) {
      */
     collapse.open = function (btn, list) {
 
+        if (list.classList.contains('collapsing') || list.classList.contains('collapse--opened') ) return;
+
         btn.dataset.opened = 'true';
+        list.classList.add('collapsing');
+        list.classList.remove('collapse');
+        list.style.height = calculateHeight_(list) + 'px';
 
-        if (!list.dataset.height)
-            list.dataset.height = calculateHeight_(list);
+        window.setTimeout(function () {
 
-        list.style.height = list.dataset.height + 'px';
+            list.classList.remove('collapsing');
+            list.classList.add('collapse--opened');
+            list.removeAttribute('style');
+
+        }, 350);
 
     };
 
@@ -66,8 +80,25 @@ module.exports = (function (collapse) {
      */
     collapse.close = function (btn, list) {
 
+        if (list.classList.contains('collapsing') || list.classList.contains('collapse') ) return;
+
         btn.dataset.opened = 'false';
-        list.style.height = '0';
+        list.style.height = list.getBoundingClientRect().height + 'px';
+        list.classList.add('collapsing');
+        list.classList.remove('collapse--opened');
+
+        window.setTimeout(function () {
+
+            list.style.height = '0px';
+
+        });
+
+        window.setTimeout(function () {
+
+            list.classList.remove('collapsing');
+            list.classList.add('collapse');
+
+        }, 350);
 
     };
 
@@ -78,7 +109,7 @@ module.exports = (function (collapse) {
      */
     collapse.create = function (el) {
 
-        el.addEventListener('click', toggleCollapse_);
+        el.addEventListener('click', collapse.toggle);
 
     };
 
@@ -89,7 +120,7 @@ module.exports = (function (collapse) {
      */
     collapse.destroy = function (el) {
 
-        el.removeEventListener('click', toggleCollapse_);
+        el.removeEventListener('click', collapse.toggle);
 
     };
 
