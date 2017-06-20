@@ -132,9 +132,7 @@ class Controller_Patients_Index extends Dispatch
         $this->pension = new Model_Pension($pension);
 
         if (!$this->pension->id) {
-            $response = new Model_Response_Pensions('PENSION_DOES_NOT_EXISTED_ERROR', 'error');
-            $this->response->body(@json_encode($response->get_response()));
-            return;
+            throw new HTTP_Exception_404();
         }
 
         $usersIDs = Model_UserPension::getUsers($this->pension->id);
@@ -158,10 +156,9 @@ class Controller_Patients_Index extends Dispatch
         }
 
         if (!$this->patient->pk) {
-            $response = new Model_Response_Patients('PATIENTS_DOES_NOT_EXISTED_ERROR', 'error');
-            $this->response->body(@json_encode($response->get_response()));
-            return;
+            throw new HTTP_Exception_404();
         }
+
     }
 
 

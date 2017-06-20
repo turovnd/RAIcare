@@ -106,7 +106,7 @@
         <? // Module Patients && Pensions => CAN_CONDUCT_A_SURVEY = 36
         if (in_array(36, $user->permissions)) : ?>
 
-            <a href="<?= URL::site('pension/' . $patient->pension->id . '/survey?id=' . $patient->form->id); ?>" class="block__footer clear-fix text-center text-brand text-bold user-select--none <?= $patient->form->id ? '' : 'hide'; ?>">
+            <a href="<?= URL::site('pension/' . $patient->pension->id . '/survey/' . $patient->form->id); ?>" class="block__footer clear-fix text-center text-brand text-bold user-select--none <?= $patient->form->id ? '' : 'hide'; ?>">
                 Продолжить оценивание
             </a>
 

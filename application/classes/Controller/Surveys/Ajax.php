@@ -1,14 +1,14 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
 /**
- * Class Controller_Forms_Ajax
+ * Class Controller_Surveys_Ajax
  *
  * @copyright raisoft
  * @author Nikolai Turov
  * @version 0.0.0
  */
 
-class Controller_Forms_Ajax extends Ajax
+class Controller_Surveys_Ajax extends Ajax
 {
     CONST WATCH_ALL_PATIENTS_PROFILES    = 34;
     CONST WATCH_PATIENTS_PROFILES_IN_PEN = 35;
@@ -66,7 +66,7 @@ class Controller_Forms_Ajax extends Ajax
                 $formsModel = Model_LongTermForm::getAllFormsByPatients($patients, $offset, 10);
                 foreach ($formsModel as $key => $form) {
                     $forms[] = array(
-                        'date' => date('M Y', strtotime($form->dt_finish)),
+                        'date' => Date('M Y', strtotime($form->dt_finish)),
                         'html' => View::factory('patients/blocks/timeline-item', array('form' => $form))->render()
                     );
                 }
@@ -77,7 +77,7 @@ class Controller_Forms_Ajax extends Ajax
                 $formsModel = Model_LongTermForm::getAllFormsByPatientAndPension($this->patient->pk, $this->pension->id, $offset, 10);
                 foreach ($formsModel as $key => $form) {
                     $forms[] = array(
-                        'date' => date('M Y', strtotime($form->dt_finish)),
+                        'date' => Date('M Y', strtotime($form->dt_finish)),
                         'html' => View::factory('patients/blocks/timeline-item', array('form' => $form))->render()
                     );
                 }

@@ -25,7 +25,7 @@ Class Model_LongTermForm {
 
     private function fill_by_row($db_selection) {
 
-        if (empty($db_selection['id'])) return $this;
+        if (empty($db_selection['pk'])) return $this;
 
         foreach ($db_selection as $fieldname => $value) {
             if (property_exists($this, $fieldname)) $this->$fieldname = $value;
@@ -39,7 +39,7 @@ Class Model_LongTermForm {
     private function get_($id) {
 
         $select = Dao_LongTermForms::select()
-            ->where('id', '=', $id)
+            ->where('pk', '=', $id)
             ->limit(1)
             ->cached(Date::MINUTE * 5, $id)
             ->execute();
@@ -56,7 +56,7 @@ Class Model_LongTermForm {
             ->limit(1)
             ->execute();
 
-        $patient = new Model_LongTermForm($select['id']);
+        $patient = new Model_LongTermForm($select['pk']);
         return $patient->fill_by_row($select);
 
     }
@@ -112,6 +112,30 @@ Class Model_LongTermForm {
 
         return $form->fill_by_row($select);
 
+    }
+
+    public static function getAll($offset, $limit)
+    {
+        $select = Dao_LongTermForms::select()
+            ->offset($offset)
+            ->limit($limit)
+            ->execute();
+
+        $forms = array();
+
+        if (empty($select)) return $forms;
+
+        foreach ($select as $item) {
+            $form = new Model_LongTermForm();
+            $form->fill_by_row($item);
+            $form->organization = new Model_Organization($form->organization);
+            $form->pension = new Model_Pension($form->pension);
+            $form->patient = new Model_Patient($form->patient);
+            $form->creator = new Model_User($form->creator);
+            $forms[] = $form;
+        }
+
+        return $forms;
     }
 
 

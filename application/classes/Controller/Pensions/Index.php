@@ -212,7 +212,9 @@ class Controller_Pensions_Index extends Dispatch
         {
             $form->status= 3;
             $form->update();
-            $this->redirect('pension/' . $this->pension->id . '/patients');
+            echo '<h2 class="h2">Форма была удалена.</h2><h3 class="h3">С момента создания прошло более 3 дней</h3><h4>Дата создания: '. .'</h4>';
+            return;
+            //$this->redirect('pension/' . $this->pension->id . '/patients');
         }
 
         if ($form->pension != $this->pension->id || $form->status == 3) {
