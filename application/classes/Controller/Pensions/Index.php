@@ -194,7 +194,7 @@ class Controller_Pensions_Index extends Dispatch
         $patients = Model_Patient::getByPension($this->pension->id, 0, 10);
 
         foreach ($patients as $key => $patient) {
-            $patients[$key]->form = Model_LongTermForm::getByPatientAndPension($patient->pk, $this->pension->id);
+            $patients[$key]->form = Model_LongTermForm::getFillingFormByPatientAndPension($patient->pk, $this->pension->id);
         }
 
         $this->template->title = "База данных пациентов пансионата " . $this->pension->name;
@@ -208,11 +208,17 @@ class Controller_Pensions_Index extends Dispatch
     {
         self::hasAccess(self::WATCH_PATIENTS_PROFILES_IN_PEN);
 
-        $patient_id = $this->request->param('patient_id');
-        $patient = Model_Patient::getByPensionAndID($this->pension->id, $patient_id);
+        $pat_id = $this->request->param('pat_id');
+        $patient = Model_Patient::getByFieldName('id', $pat_id);
 
         if (!$patient->pk)
             throw new HTTP_Exception_404();
+
+        $forms = Model_LongTermForm::getAllFormsByPatientAndPension($patient->pk, $this->pension->id, 0, 10);
+
+        $patient->creator = new Model_User($patient->creator);
+        $patient->pension = $this->pension;
+        $patient->forms   = $forms;
 
         $this->template->title = "Профиль пациента " . $patient->name;
         $this->template->section = View::factory('patients/pages/profile')

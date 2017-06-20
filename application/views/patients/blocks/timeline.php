@@ -31,7 +31,7 @@ foreach ($forms as $key => $form) {
 
 
     <li class="time-line__end">
-        <a id="getMoreFormsBtn" data-offset="<?= count($forms); ?>" data-type="json" role="button" class="time-line__badge bg-gray-dark" onclick="survey.get.forms();">
+        <a id="getMoreFormsBtn" data-offset="<?= count($forms); ?>" data-type="<?= $type; ?>" role="button" class="time-line__badge bg-gray-dark" onclick="survey.get.forms();">
             <i class="fa fa-plus" aria-hidden="true"></i>
         </a>
     </li>

@@ -181,7 +181,7 @@ class Controller_Patients_Ajax extends Ajax
 
         $html = "";
         foreach ($patients as $patient) {
-            $patient->form = Model_LongTermForm::getByPatientAndPension($patient->pk, $pension->id);
+            $patient->form = Model_LongTermForm::getFillingFormByPatientAndPension($patient->pk, $pension->id);
             $html .= View::factory('patients/blocks/search-block', array('patient' => $patient))->render();
         }
 

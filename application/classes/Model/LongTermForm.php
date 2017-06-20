@@ -99,7 +99,7 @@ Class Model_LongTermForm {
         return $this->get_($this->id);
     }
 
-    public static function getByPatientAndPension($patient, $pension)
+    public static function getFillingFormByPatientAndPension($patient, $pension)
     {
         $select = Dao_LongTermForms::select()
             ->where('pension','=', $pension)
@@ -113,6 +113,35 @@ Class Model_LongTermForm {
         return $form->fill_by_row($select);
 
     }
+
+
+    public static function getAllFormsByPatientAndPension($patient, $pension, $offset, $limit)
+    {
+        $select = Dao_LongTermForms::select()
+            ->where('pension','=', $pension)
+            ->where('patient','=', $patient)
+            ->where('status','=', 2)
+            ->offset($offset)
+            ->limit($limit)
+            ->execute();
+
+        $forms = array();
+
+        if (empty($select)) return $forms;
+
+        foreach ($select as $item) {
+            $form = new Model_LongTermForm();
+            $form->fill_by_row($item);
+            $form->organization = new Model_Organization($form->organization);
+            $form->pension = new Model_Pension($form->pension);
+            $form->creator = new Model_User($form->creator);
+            $form->creator->role = new Model_Role($form->creator->role);
+            $forms[] = $form;
+        }
+
+        return $forms;
+    }
+
 
     public static function getAllFormsByPatients($patients, $offset, $limit)
     {

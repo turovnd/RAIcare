@@ -209,7 +209,6 @@ Class Model_Patient {
     {
         return Dao_Patients::select(array('pen_id' , 'pat_id'))
             ->where('snils','=', $patient->snils)
-            ->where('name','=', $patient->name)
             ->where('birthday','=', $patient->birthday)
             ->join('Pensions_Patients')
             ->on('pk','=','pat_id')

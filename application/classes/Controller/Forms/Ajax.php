@@ -23,7 +23,7 @@ class Controller_Forms_Ajax extends Ajax
     public function action_longterm_create()
     {
         self::hasAccess(self::CAN_CONDUCT_A_SURVEY);
-        $this->getPatintAndPensionData();
+        $this->getPatientAndPensionData();
         $type    = Arr::get($_POST,'type');
 
         if (empty($type)) {
@@ -67,13 +67,20 @@ class Controller_Forms_Ajax extends Ajax
                 foreach ($formsModel as $key => $form) {
                     $forms[] = array(
                         'date' => date('M Y', strtotime($form->dt_finish)),
-                        'html' => View::factory('patients/blocks/timeline-item', array('key' => $key + $offset, 'form' => $form))->render()
+                        'html' => View::factory('patients/blocks/timeline-item', array('form' => $form))->render()
                     );
                 }
                 break;
             case 'id':
                 self::hasAccess(self::WATCH_PATIENTS_PROFILES_IN_PEN);
-                $this->getPatintAndPensionData();
+                $this->getPatientAndPensionData();
+                $formsModel = Model_LongTermForm::getAllFormsByPatientAndPension($this->patient->pk, $this->pension->id, $offset, 10);
+                foreach ($formsModel as $key => $form) {
+                    $forms[] = array(
+                        'date' => date('M Y', strtotime($form->dt_finish)),
+                        'html' => View::factory('patients/blocks/timeline-item', array('form' => $form))->render()
+                    );
+                }
                 break;
         }
 
@@ -83,7 +90,7 @@ class Controller_Forms_Ajax extends Ajax
 
 
 
-    private function getPatintAndPensionData()
+    private function getPatientAndPensionData()
     {
         $pension = Arr::get($_POST,'pension');
         $patient = Arr::get($_POST,'patient');

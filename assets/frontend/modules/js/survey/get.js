@@ -165,6 +165,7 @@ module.exports = (function (get) {
 
     get.forms = function () {
 
+
         if (!timeline || !getMoreFormsBtn) {
 
             getMoreFormsBtn = document.getElementById('getMoreFormsBtn');
@@ -185,12 +186,18 @@ module.exports = (function (get) {
     function getForms_() {
 
         var formData       = new FormData(),
-            offset         = parseInt(getMoreFormsBtn.dataset.offset);
+            offset         = parseInt(getMoreFormsBtn.dataset.offset),
+            patient        = document.getElementById('patientID'),
+            pension        = document.getElementById('pensionID');
 
         formData.append('type', type);
         formData.append('patients', patients);
         formData.append('offset', offset);
         formData.append('csrf', document.getElementById('csrf').value);
+        formData.append('patient', patient ? patient.value : '');
+        formData.append('pension', pension ? pension.value : '');
+
+
 
         var ajaxData = {
             url: '/forms/longterm/get',

@@ -5,7 +5,7 @@
         Персональные данные пациента #<?=$patient->pk; ?>
 
         <? if (!empty($patient->sameSnils)) {
-            echo '<small>Похожие профиля пациента по данным ФИО, СНИЛС и даты рождения: ';
+            echo '<small>Похожие профиля пациента по данным СНИЛСа и даты рождения: ';
             foreach ($patient->sameSnils as $id) {
                 echo '<a class="link m-r-5" href="' . URL::site('patient/' . $id ) . '">#' . $id . '</a>';
             }
@@ -127,7 +127,7 @@
 
 
 
-        <?= View::factory('patients/blocks/timeline', array('forms' => $patient->forms, 'sameSnils' => $patient->sameSnils));?>
+        <?= View::factory('patients/blocks/timeline', array('forms' => $patient->forms, 'sameSnils' => $patient->sameSnils, 'type' => 'json'));?>
 
     </div>
 

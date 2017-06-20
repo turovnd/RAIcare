@@ -4,7 +4,7 @@
 
 <div class="time-line__content">
 
-    <div class="time-line__popover<?= ($key % 2 == 0 ? '' : ' '); ?>">
+    <div class="time-line__popover">
         <div class="time-line__popover-arrow"></div>
         <div class="time-line__popover-content">
             <h4 class="time-line__popover-heading">
