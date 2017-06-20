@@ -195,7 +195,7 @@ class Controller_Pensions_Ajax extends Ajax
             throw new HTTP_Exception_403();
         }
 
-        $permissions[] = strval(self::WATCH_MY_PEN_PAGE);
+        $permissions[] = strval(self::WATCH_MY_PEN_PAGE);  //each member of pension can WATCH_MY_PEN_PAGE
 
         if ($role == "new") {
             $role = new Model_Role();

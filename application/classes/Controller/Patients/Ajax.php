@@ -116,55 +116,10 @@ class Controller_Patients_Ajax extends Ajax
         $this->response->body(@json_encode($response->get_response()));
     }
 
-    public function action_update()
-    {
-        self::hasAccess(self::EDIT_PENSION);
-
-        $id     = Arr::get($_POST, 'id');
-        $field  = Arr::get($_POST, 'name');
-        $value  = Arr::get($_POST, 'value');
-
-        $pension = new Model_Pension($id);
-
-        if (!$pension->id) {
-            $response = new Model_Response_Pensions('PENSION_DOES_NOT_EXISTED_ERROR', 'error');
-            $this->response->body(@json_encode($response->get_response()));
-            return;
-        }
-
-        if ($pension->$field == $value) {
-            $response = new Model_Response_Pensions('PENSION_UPDATE_WARNING', 'warning');
-            $this->response->body(@json_encode($response->get_response()));
-            return;
-        }
-
-        if (empty($value)) {
-            $response = new Model_Response_Form('EMPTY_FIELD_ERROR', 'error');
-            $this->response->body(@json_encode($response->get_response()));
-            return;
-        }
-
-        if ($field == "uri") {
-
-            $check_org = Model_Organization::getByFieldName("uri", $value);
-
-            if ($check_org->id) {
-                $response = new Model_Response_Pensions('PENSION_EXISTED_URI_ERROR', 'error');
-                $this->response->body(@json_encode($response->get_response()));
-                return;
-            }
-
-        }
-
-        $pension->$field = $value;
-        $pension->update();
-
-        $response = new Model_Response_Pensions('PENSION_UPDATE_SUCCESS', 'success');
-        $this->response->body(@json_encode($response->get_response()));
-    }
-
     public function action_get()
     {
+        self::hasAccess(self::WATCH_PATIENTS_PROFILES_IN_PEN);
+
         $name    = Arr::get($_POST, 'name');
         $pension = Arr::get($_POST, 'pension');
         $offset  = Arr::get($_POST, 'offset');

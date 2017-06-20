@@ -161,11 +161,7 @@ class Controller_Organizations_Index extends Dispatch
             $permissions[] = new Model_Permission($permission);
         }
 
-        $roles = array();
-        $availableRoles = Model_Role::getByType('organization', $organization->id);
-        foreach ($availableRoles  as $role) {
-            $roles[] = new Model_Role($role);
-        }
+        $roles = Model_Role::getByType('organization', $organization->id);
 
         $organization->users       = $users;
         $organization->permissions = $permissions;

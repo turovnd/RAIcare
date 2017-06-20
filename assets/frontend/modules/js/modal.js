@@ -28,6 +28,7 @@ module.exports = (function (modal) {
      *      header   - STRING
      *      body     - body HTML
      *      footer   - footer HTML ( for close include data attribute: `data-close="modal"`)
+     *      onclose: - destroy || hide
      *  }
      */
     modal.create = function (settings) {
@@ -40,7 +41,8 @@ module.exports = (function (modal) {
             headerTitle  = raisoft.draw.node('H4', 'modal__title'),
             closeHeadBtn = raisoft.draw.node('BUTTON', 'modal__title-close', {'data-close':'modal'}),
             body         = raisoft.draw.node('DIV', 'modal__body'),
-            footer       = raisoft.draw.node('DIV', 'modal__footer');
+            footer       = raisoft.draw.node('DIV', 'modal__footer'),
+            onclose      = settings.onclose || 'hide';
 
         closeHeadBtn.innerHTML = '<i class="fa fa-close" aria-hidden="true"></i>';
         headerTitle.textContent = settings.header;
@@ -62,7 +64,10 @@ module.exports = (function (modal) {
 
             for(var i = 0; i < closeBtns.length; i++) {
 
-                closeBtns[i].addEventListener('click', modal.hide);
+                if (onclose === 'destroy')
+                    closeBtns[i].addEventListener('click', modal.destroy);
+                else
+                    closeBtns[i].addEventListener('click', modal.hide);
 
             }
 
@@ -150,6 +155,33 @@ module.exports = (function (modal) {
             block.classList.remove('modal--opened', 'modal--closing');
             document.body.classList.remove('overflow--hidden');
             document.getElementsByClassName('modal-backdrop')[0].remove();
+
+        }, 200);
+
+    };
+
+    modal.destroy = function (element) {
+
+        var block = null;
+
+        if (element.nodeType === 1) {
+
+            block = element;
+
+        } else {
+
+            block = document.getElementsByClassName('modal--opened')[0];
+
+        }
+
+        block.classList.add('modal--closing');
+
+        window.setTimeout(function () {
+
+            block.classList.remove('modal--opened', 'modal--closing');
+            document.body.classList.remove('overflow--hidden');
+            // document.getElementsByClassName('modal-backdrop')[0].remove();
+            block.remove();
 
         }, 200);
 

@@ -194,7 +194,7 @@ class Controller_Organizations_Ajax extends Ajax
             throw new HTTP_Exception_403();
         }
 
-        $permissions[] = strval(self::WATCH_MY_ORGS_PAGE);
+        $permissions[] = strval(self::WATCH_MY_ORGS_PAGE); //each member of organization can WATCH_MY_ORGS_PAGE
         if ($role == "new") {
             $role = new Model_Role();
             $role->name = $roleName;
