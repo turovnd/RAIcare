@@ -127,7 +127,7 @@
 
 
 
-        <?= View::factory('patients/blocks/timeline', array('forms' => $patient->forms, 'sameSnils' => $patient->sameSnils, 'type' => 'json'));?>
+        <?= View::factory('patients/blocks/timeline', array('surveys' => $patient->surveys, 'sameSnils' => $patient->sameSnils, 'type' => 'json'));?>
 
     </div>
 

@@ -39,7 +39,7 @@ class Controller_Surveys_Index extends Dispatch
     {
         self::hasAccess(self::WATCH_ALL_SURVEYS);
 
-        $surveys = Model_LongTermForm::getAll(0,10);
+        $surveys = Model_Survey::getAll(0,10);
 
         $this->template->title = "База данных всех форм оценки";
         $this->template->section = View::factory('surveys/pages/all-surveys')
@@ -74,7 +74,7 @@ class Controller_Surveys_Index extends Dispatch
             $section = 'survey';
         }
 
-        $this->template->title = "Профиль пациента " . $this->survey->id;
+        $this->template->title = "Форма оценки долговременного ухода";
         $this->template->section = View::factory('surveys/pages/' . $section)
             ->set('survey', $this->survey);
     }
@@ -103,11 +103,11 @@ class Controller_Surveys_Index extends Dispatch
     private function getSurvey()
     {
         $survey = $this->request->param('s_pk');
-        $this->survey = new Model_LongTermForm($survey);
+        $this->survey = new Model_Survey($survey);
 
         if (!$survey) {
             $survey = $this->request->param('s_id');
-            $this->survey = Model_LongTermForm::getByFieldName('id', $survey);
+            $this->survey = Model_Survey::getByFieldName('id', $survey);
 
             if ($this->survey->status == 1 && strtotime(Date::formatted_time('now')) - strtotime($this->survey->dt_create) > Date::DAY * 3) {
                 $this->survey->status= 3;

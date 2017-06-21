@@ -2,15 +2,15 @@
 module.exports = (function (send) {
 
     var corePrefix  = 'Survey: send AJAX',
-        holder      = document.getElementsByClassName('section__content')[0],
+        // holder      = document.getElementsByClassName('section__content')[0],
         pensionID   = document.getElementById('pensionID');
 
     if(pensionID) pensionID = pensionID.value;
 
 
-    send.unit = function (unit) {
-
-    };
+    // send.unit = function (unit) {
+    //
+    // };
 
     send.newpatientform = function () {
 
@@ -43,7 +43,7 @@ module.exports = (function (send) {
                 if (parseInt(response.code) === 151 ) {
 
                     raisoft.modal.hide(form);
-                    window.location.assign('survey?id=' + response.id);
+                    window.location.assign('survey/' + response.id);
 
                 }
 
@@ -84,7 +84,7 @@ module.exports = (function (send) {
         formData.append('csrf', document.getElementById('csrf').value);
 
         var ajaxData = {
-            url: '/forms/longterm/create',
+            url: '/survey/new',
             type: 'POST',
             data: formData,
             beforeSend: function () {
@@ -105,7 +105,7 @@ module.exports = (function (send) {
 
                 if (parseInt(response.code) === 161 ) {
 
-                    window.location.assign('survey?id=' + response.id);
+                    window.location.assign('survey/' + response.id);
 
                 }
 

@@ -53,7 +53,7 @@ class Controller_Patients_Index extends Dispatch
 
         $this->getPatient();
 
-        $forms      = array();
+        $surveys      = array();
         $pensions   = array();
         $sameSnils  = array();
 
@@ -70,13 +70,13 @@ class Controller_Patients_Index extends Dispatch
             $pensions[] = $pension;
         }
 
-        $forms = Model_LongTermForm::getAllFormsByPatients($sameSnils, 0, 10);
+        $surveys = Model_Survey::getAllFormsByPatients($sameSnils, 0, 10);
 
         finish:
         $this->patient->creator   = new Model_User($this->patient->creator);
         $this->patient->pensions  = $pensions;
         $this->patient->sameSnils = $sameSnils;
-        $this->patient->forms     = $forms;
+        $this->patient->surveys     = $surveys;
 
         $this->template->title = "Профиль пациента " . $this->patient->name;
         $this->template->section = View::factory('patients/pages/profile-full')
@@ -96,7 +96,7 @@ class Controller_Patients_Index extends Dispatch
         $patients = Model_Patient::getByPension($this->pension->id, 0, 10);
 
         foreach ($patients as $key => $patient) {
-            $patients[$key]->form = Model_LongTermForm::getFillingFormByPatientAndPension($patient->pk, $this->pension->id);
+            $patients[$key]->survey = Model_Survey::getFillingFormByPatientAndPension($patient->pk, $this->pension->id);
         }
 
         $this->template->title = "База данных пациентов пансионата " . $this->pension->name;
@@ -113,11 +113,11 @@ class Controller_Patients_Index extends Dispatch
         $this->getPatient();
         $this->getPension();
 
-        $forms = Model_LongTermForm::getAllFormsByPatientAndPension($this->patient->pk, $this->pension->id, 0, 10);
+        $surveys = Model_Survey::getAllFormsByPatientAndPension($this->patient->pk, $this->pension->id, 0, 10);
 
         $this->patient->creator = new Model_User($this->patient->creator);
         $this->patient->pension = $this->pension;
-        $this->patient->forms   = $forms;
+        $this->patient->surveys   = $surveys;
 
         $this->template->title = "Профиль пациента " . $this->patient->name;
         $this->template->section = View::factory('patients/pages/profile')

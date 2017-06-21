@@ -13,30 +13,31 @@ class Controller_Surveys_Ajax extends Ajax
     CONST WATCH_ALL_PATIENTS_PROFILES    = 34;
     CONST WATCH_PATIENTS_PROFILES_IN_PEN = 35;
     CONST CAN_CONDUCT_A_SURVEY           = 36;
+    CONST WATCH_ALL_SURVEYS              = 37;
+    CONST WATCH_SURVEY_IN_PEN            = 38;
+
     public $pension  = null;
-    public $usersIDs = null;
     public $patient  = null;
 
-    /**
-     * Creating new Long-Term-Form
-     */
-    public function action_longterm_create()
+
+    public function action_new()
     {
         self::hasAccess(self::CAN_CONDUCT_A_SURVEY);
+
         $this->getPatientAndPensionData();
         $type    = Arr::get($_POST,'type');
 
         if (empty($type)) {
-            $response = new Model_Response_Longtermform('FORM_TYPE_EMPTY_ERROR', 'error');
+            $response = new Model_Response_Survey('SURVEY_TYPE_EMPTY_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
             return;
         }
 
-        $count_forms = $this->redis->get(self::REDIS_PACKAGE . ':pensions:' . $this->pension->id . ':longtermforms');
+        $count_forms = $this->redis->get(self::REDIS_PACKAGE . ':pensions:' . $this->pension->id . ':Surveys');
         $count_forms = $count_forms == false ? 1 : $count_forms + 1;
-        $this->redis->set(self::REDIS_PACKAGE . ':pensions:' . $this->pension->id . ':longtermforms', $count_forms);
+        $this->redis->set(self::REDIS_PACKAGE . ':pensions:' . $this->pension->id . ':Surveys', $count_forms);
 
-        $form               = new Model_LongTermForm();
+        $form               = new Model_Survey();
         $form->id           = $count_forms;
         $form->patient      = $this->patient->pk;
         $form->pension      = $this->pension->id;
@@ -45,16 +46,12 @@ class Controller_Surveys_Ajax extends Ajax
         $form->creator      = $this->user->id;
         $form->save();
 
-        $response = new Model_Response_Longtermform('FORM_CREATED_SUCCESS', 'success', array('id' => $count_forms));
+        $response = new Model_Response_Survey('SURVEY_CREATED_SUCCESS', 'success', array('id' => $count_forms));
         $this->response->body(@json_encode($response->get_response()));
     }
 
-    public function action_update()
-    {
 
-    }
-
-    public function action_longterm_get()
+    public function action_get()
     {
         $patients = json_decode(Arr::get($_POST,'patients'));
         $type     = Arr::get($_POST,'type');
@@ -63,7 +60,8 @@ class Controller_Surveys_Ajax extends Ajax
         switch ($type) {
             case 'json':
                 self::hasAccess(self::WATCH_ALL_PATIENTS_PROFILES);
-                $formsModel = Model_LongTermForm::getAllFormsByPatients($patients, $offset, 10);
+                self::hasAccess(self::WATCH_ALL_SURVEYS);
+                $formsModel = Model_Survey::getAllFormsByPatients($patients, $offset, 10);
                 foreach ($formsModel as $key => $form) {
                     $forms[] = array(
                         'date' => Date('M Y', strtotime($form->dt_finish)),
@@ -73,8 +71,9 @@ class Controller_Surveys_Ajax extends Ajax
                 break;
             case 'id':
                 self::hasAccess(self::WATCH_PATIENTS_PROFILES_IN_PEN);
+                self::hasAccess(self::WATCH_SURVEY_IN_PEN);
                 $this->getPatientAndPensionData();
-                $formsModel = Model_LongTermForm::getAllFormsByPatientAndPension($this->patient->pk, $this->pension->id, $offset, 10);
+                $formsModel = Model_Survey::getAllFormsByPatientAndPension($this->patient->pk, $this->pension->id, $offset, 10);
                 foreach ($formsModel as $key => $form) {
                     $forms[] = array(
                         'date' => Date('M Y', strtotime($form->dt_finish)),
@@ -84,10 +83,27 @@ class Controller_Surveys_Ajax extends Ajax
                 break;
         }
 
-        $response = new Model_Response_Longtermform('FORM_GET_SUCCESS', 'success', array('forms' => $forms, 'number' => count($forms)));
+        $response = new Model_Response_Survey('SURVEY_GET_SUCCESS', 'success', array('forms' => $forms, 'number' => count($forms)));
         $this->response->body(@json_encode($response->get_response()));
     }
 
+
+    public function action_search()
+    {
+        self::hasAccess(self::WATCH_ALL_SURVEYS);
+        $name   = Arr::get($_POST,'name');
+        $offset = Arr::get($_POST,'offset');
+
+        $surveys = Model_Survey::searchForms($offset, 10, $name);
+
+        $html = "";
+        foreach ($surveys as $survey) {
+            $html .= View::factory('surveys/blocks/search-block', array('survey' => $survey))->render();
+        }
+
+        $response = new Model_Response_Survey('SURVEY_GET_SUCCESS', 'success', array('html' => $html, 'number' => count($surveys)));
+        $this->response->body(@json_encode($response->get_response()));
+    }
 
 
     private function getPatientAndPensionData()
@@ -103,9 +119,9 @@ class Controller_Surveys_Ajax extends Ajax
             return;
         }
 
-        $this->usersIDs = Model_UserPension::getUsers($this->pension->id);
+        $usersIDs = Model_UserPension::getUsers($this->pension->id);
 
-        if (!(in_array($this->user->id, $this->usersIDs))) {
+        if (!(in_array($this->user->id, $usersIDs))) {
             throw new HTTP_Exception_403();
         }
 

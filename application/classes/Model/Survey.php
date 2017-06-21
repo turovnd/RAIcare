@@ -1,7 +1,7 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
 
-Class Model_LongTermForm {
+Class Model_Survey {
 
     public $pk;         // primary key - autoincrement (unique in global)
     public $id;         // not unique in  global + getting via redis
@@ -38,7 +38,7 @@ Class Model_LongTermForm {
     
     private function get_($id) {
 
-        $select = Dao_LongTermForms::select()
+        $select = Dao_Surveys::select()
             ->where('pk', '=', $id)
             ->limit(1)
             ->cached(Date::MINUTE * 5, $id)
@@ -51,12 +51,12 @@ Class Model_LongTermForm {
 
     public static function getByFieldName($field, $value)
     {
-        $select = Dao_LongTermForms::select()
+        $select = Dao_Surveys::select()
             ->where($field, '=', $value)
             ->limit(1)
             ->execute();
 
-        $patient = new Model_LongTermForm($select['pk']);
+        $patient = new Model_Survey($select['pk']);
         return $patient->fill_by_row($select);
 
     }
@@ -67,7 +67,7 @@ Class Model_LongTermForm {
         $this->dt_create = Date::formatted_time('now');
         $this->status = 1;
 
-        $insert = Dao_LongTermForms::insert();
+        $insert = Dao_Surveys::insert();
 
         foreach ($this as $fieldname => $value) {
             if (property_exists($this, $fieldname)) $insert->set($fieldname, $value);
@@ -83,7 +83,7 @@ Class Model_LongTermForm {
 
     public function update()
     {
-        $insert = Dao_LongTermForms::update();
+        $insert = Dao_Surveys::update();
 
         foreach ($this as $fieldname => $value) {
             if (property_exists($this, $fieldname)) $insert->set($fieldname, $value);
@@ -101,14 +101,14 @@ Class Model_LongTermForm {
 
     public static function getFillingFormByPatientAndPension($patient, $pension)
     {
-        $select = Dao_LongTermForms::select()
+        $select = Dao_Surveys::select()
             ->where('pension','=', $pension)
             ->where('patient','=', $patient)
             ->where('status','=', 1)
             ->limit(1)
             ->execute();
 
-        $form = new Model_LongTermForm();
+        $form = new Model_Survey();
 
         return $form->fill_by_row($select);
 
@@ -116,7 +116,7 @@ Class Model_LongTermForm {
 
     public static function getAll($offset, $limit)
     {
-        $select = Dao_LongTermForms::select()
+        $select = Dao_Surveys::select()
             ->offset($offset)
             ->limit($limit)
             ->execute();
@@ -126,7 +126,7 @@ Class Model_LongTermForm {
         if (empty($select)) return $forms;
 
         foreach ($select as $item) {
-            $form = new Model_LongTermForm();
+            $form = new Model_Survey();
             $form->fill_by_row($item);
             $form->organization = new Model_Organization($form->organization);
             $form->pension = new Model_Pension($form->pension);
@@ -139,9 +139,10 @@ Class Model_LongTermForm {
     }
 
 
+
     public static function getAllFormsByPatientAndPension($patient, $pension, $offset, $limit)
     {
-        $select = Dao_LongTermForms::select()
+        $select = Dao_Surveys::select()
             ->where('pension','=', $pension)
             ->where('patient','=', $patient)
             ->where('status','=', 2)
@@ -154,7 +155,7 @@ Class Model_LongTermForm {
         if (empty($select)) return $forms;
 
         foreach ($select as $item) {
-            $form = new Model_LongTermForm();
+            $form = new Model_Survey();
             $form->fill_by_row($item);
             $form->organization = new Model_Organization($form->organization);
             $form->pension = new Model_Pension($form->pension);
@@ -165,6 +166,49 @@ Class Model_LongTermForm {
 
         return $forms;
     }
+
+
+
+    public static function searchForms($offset, $limit, $name)
+    {
+        if ($name == "") {
+            $select = Dao_Surveys::select('pk')
+                ->offset($offset)
+                ->limit($limit)
+                ->execute();
+        } else {
+            echo Debug::vars();
+
+            $select = DB::query(Database::SELECT,
+                'SELECT `Surveys`.`pk` AS `pk` '.
+                    'FROM `Surveys` '.
+                        'JOIN `Patients` ON (`Surveys`.`patient` = `Patients`.`pk`)'.
+                        'JOIN `Pensions` ON (`Surveys`.`pension` = `Pensions`.`id`)'.
+                    'WHERE `Patients`.`name` LIKE \'%'. $name .'%\' '.
+                        'OR `Pensions`.`name` LIKE \'%'. $name .'%\' '.
+                    ' LIMIT '. $limit .
+                    ' OFFSET '. $offset)
+                ->execute()
+                ->as_array();
+        }
+
+        $forms = array();
+
+        if (empty($select)) return $forms;
+
+        foreach ($select as $item) {
+            $form = new Model_Survey($item['pk']);
+            $form->organization = new Model_Organization($form->organization);
+            $form->patient = new Model_Patient($form->patient);
+            $form->pension = new Model_Pension($form->pension);
+            $form->creator = new Model_User($form->creator);
+            $forms[] = $form;
+        }
+
+        return $forms;
+    }
+
+
 
 
     public static function getAllFormsByPatients($patients, $offset, $limit)
@@ -181,7 +225,7 @@ Class Model_LongTermForm {
             }
         }
 
-        $select = DB::query(Database::SELECT,'SELECT * from Forms_Long_Term WHERE `status` = 2 AND (' . $sql . ') ORDER BY `dt_finish` DESC LIMIT ' .  $offset . ', ' . $limit)
+        $select = DB::query(Database::SELECT,'SELECT * from Surveys WHERE `status` = 2 AND (' . $sql . ') ORDER BY `dt_finish` DESC LIMIT ' .  $offset . ', ' . $limit)
             ->execute()
             ->as_array();
 
@@ -190,7 +234,7 @@ Class Model_LongTermForm {
         if (empty($select)) return $forms;
 
         foreach ($select as $item) {
-            $form = new Model_LongTermForm();
+            $form = new Model_Survey();
             $form->fill_by_row($item);
             $form->organization = new Model_Organization($form->organization);
             $form->pension = new Model_Pension($form->pension);

@@ -99,7 +99,7 @@
 
     <div class="row">
 
-        <?= View::factory('patients/blocks/timeline', array('forms' => $patient->forms, 'sameSnils' => '', 'type' => 'id'));?>
+        <?= View::factory('patients/blocks/timeline', array('surveys' => $patient->surveys, 'sameSnils' => '', 'type' => 'id'));?>
 
     </div>
 

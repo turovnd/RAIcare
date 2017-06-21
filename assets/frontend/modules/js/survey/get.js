@@ -1,160 +1,22 @@
 module.exports = (function (get) {
 
     var corePrefix  = 'Survey: get AJAX',
-        holder      = document.getElementsByClassName('section__content')[0],
-        form        = null,
-        mode        = null,
-        pensionID   = document.getElementById('pensionID');
+        pensionID   = document.getElementById('pensionID'),
+        patientID   = document.getElementById('patientID');
 
     if(pensionID) pensionID = pensionID.value;
-
-    get.unit = function (unit) {
-
-        if (!form)
-            form = document.getElementById('formID').value;
-
-        window.location.assign('survey?id=' + form + '&unit=' + unit);
-
-    };
+    if(patientID) patientID = patientID.value;
 
 
-    /** *
-     *
-     * Searching functions
-     *
-     */
-    var searchingPatientName = '',
-        holderPatients       = document.getElementById('patients'),
-        getMorePatientsBtn   = document.getElementById('getMorePatientsBtn'),
-        ajaxPOSTing          = false;
+    // get.unit = function (unit) {
+    //
+    // };
 
 
-    get.search = function (element, mod) {
-
-        if (!mode) mode = mod;
-        searchingPatientName = element.value;
-
-        if (!ajaxPOSTing) {
-
-            getMorePatientsBtn.dataset.offset = 0;
-            holderPatients.innerHTML = '';
-            getPatients_();
-
-        }
-
-    };
-
-    get.patients = function (element, mod) {
-
-        if (!mode) mode = mod;
-        getMorePatientsBtn  = element;
-
-        if (!ajaxPOSTing) {
-
-            getPatients_();
-            document.addEventListener('scroll', checkPageOffset_);
-
-        }
-
-    };
 
     /**
-     * Function checking offset of bottom of page for sending new AJAX request (getting patients)
-     * @private
-     */
-    function checkPageOffset_() {
-
-        var bottom = holder.getBoundingClientRect().bottom;
-
-        if (window.innerHeight - bottom > 0 && ajaxPOSTing === false) {
-
-            getPatients_();
-
-        }
-
-    }
-
-    function getPatients_() {
-
-        var formData       = new FormData(),
-            offset         = getMorePatientsBtn.dataset.offset,
-            sendSearchName = searchingPatientName;
-
-        formData.append('name', sendSearchName);
-        formData.append('pension', pensionID);
-        formData.append('offset', offset);
-        formData.append('csrf', document.getElementById('csrf').value);
-
-        var ajaxData = {
-            url: '/patient/' + mode,
-            type: 'POST',
-            data: formData,
-            beforeSend: function () {
-
-                ajaxPOSTing = true;
-                getMorePatientsBtn.innerHTML = 'Загрузка ...';
-
-            },
-            success: function (response) {
-
-                response = JSON.parse(response);
-                raisoft.core.log(response.message, response.status, corePrefix);
-                ajaxPOSTing = false;
-
-                if (parseInt(response.code) === 150 ) {
-
-                    getMorePatientsBtn.innerHTML = 'Загрузить ещё';
-
-                    if (response.html !== '') {
-
-                        getMorePatientsBtn.dataset.offset = parseInt(offset) + parseInt(response.number);
-
-                        if (searchingPatientName === sendSearchName) {
-
-                            holderPatients.innerHTML += response.html;
-
-                        } else {
-
-                            holderPatients.innerHTML = response.html;
-
-                        }
-
-                    } else {
-
-                        getMorePatientsBtn.innerHTML = 'Всего ' + parseInt(parseInt(offset) + parseInt(response.number));
-                        document.removeEventListener('scroll', checkPageOffset_);
-
-                    }
-
-                } else {
-
-                    getMorePatientsBtn.innerHTML = "Ошибка при загрузке. <span class='link'>Повторить</span>";
-
-                    raisoft.notification.notify({
-                        type: response.status,
-                        message: response.message
-                    });
-
-                }
-
-            },
-            error: function (callbacks) {
-
-                raisoft.core.log('ajax error occur on getting patients', 'error', corePrefix, callbacks);
-                getMorePatientsBtn.innerHTML = "Ошибка при загрузке. <span class='link'>Повторить</span>";
-                ajaxPOSTing = false;
-
-            }
-        };
-
-        raisoft.ajax.send(ajaxData);
-
-    }
-
-
-    /** *
      *
-     * Function for working with FORMS
+     * Function for working with time - line (getting surveys)
      *
      */
     var timeline        = null,
@@ -186,21 +48,19 @@ module.exports = (function (get) {
     function getForms_() {
 
         var formData       = new FormData(),
-            offset         = parseInt(getMoreFormsBtn.dataset.offset),
-            patient        = document.getElementById('patientID'),
-            pension        = document.getElementById('pensionID');
+            offset         = parseInt(getMoreFormsBtn.dataset.offset);
 
         formData.append('type', type);
         formData.append('patients', patients);
         formData.append('offset', offset);
+        formData.append('patient', patientID);
+        formData.append('pension', pensionID);
         formData.append('csrf', document.getElementById('csrf').value);
-        formData.append('patient', patient ? patient.value : '');
-        formData.append('pension', pension ? pension.value : '');
 
 
 
         var ajaxData = {
-            url: '/forms/longterm/get',
+            url: '/survey/get',
             type: 'POST',
             data: formData,
             beforeSend: function () {
@@ -280,6 +140,139 @@ module.exports = (function (get) {
 
             }
 
+        };
+
+        raisoft.ajax.send(ajaxData);
+
+    }
+
+
+    /**
+     *
+     * Function for searching forms by Patient Name or Pension Name
+     *
+     */
+    var holderSearch  = document.getElementById('surveys'),
+        searchingName = '',
+        getMoreBtn    = document.getElementById('getMoreBtn');
+
+    get.search = function (element) {
+
+        searchingName = element.value;
+
+        if (!ajaxSend) {
+
+            getMoreBtn.dataset.offset = 0;
+            holderSearch.innerHTML = '';
+            getSurveys_();
+
+        }
+
+    };
+
+
+    get.surveys = function (element) {
+
+        getMoreBtn  = element;
+
+        if (!ajaxSend) {
+
+            getSurveys_();
+            document.addEventListener('scroll', checkPageOffset_);
+
+        }
+
+    };
+
+
+    /**
+     * Function checking offset of bottom of page for sending new AJAX request (getting patients)
+     * @private
+     */
+    function checkPageOffset_() {
+
+        var bottom = holderSearch.getBoundingClientRect().bottom;
+
+        if (window.innerHeight - bottom > 0 && ajaxSend === false) {
+
+            getSurveys_();
+
+        }
+
+    }
+
+    function getSurveys_() {
+
+        var formData       = new FormData(),
+            offset         = getMoreBtn.dataset.offset,
+            sendSearchName = searchingName;
+
+        formData.append('name', sendSearchName);
+        formData.append('offset', offset);
+        formData.append('csrf', document.getElementById('csrf').value);
+
+        var ajaxData = {
+            url: '/survey/search',
+            type: 'POST',
+            data: formData,
+            beforeSend: function () {
+
+                ajaxSend = true;
+                getMoreBtn.innerHTML = 'Загрузка ...';
+
+            },
+            success: function (response) {
+
+                response = JSON.parse(response);
+                raisoft.core.log(response.message, response.status, corePrefix);
+                ajaxSend = false;
+
+                if (parseInt(response.code) === 162 ) {
+
+                    getMoreBtn.innerHTML = 'Загрузить ещё';
+
+                    if (response.html !== '') {
+
+                        getMoreBtn.dataset.offset = parseInt(offset) + parseInt(response.number);
+
+                        if (searchingName === sendSearchName) {
+
+                            holderSearch.innerHTML += response.html;
+
+                        } else {
+
+                            holderSearch.innerHTML = response.html;
+
+                        }
+
+                    } else {
+
+                        getMoreBtn.innerHTML = 'Всего ' + parseInt(parseInt(offset) + parseInt(response.number));
+                        document.removeEventListener('scroll', checkPageOffset_);
+
+                    }
+
+                } else {
+
+                    getMoreBtn.innerHTML = "Ошибка при загрузке. <span class='link'>Повторить</span>";
+                    document.removeEventListener('scroll', checkPageOffset_);
+
+                    raisoft.notification.notify({
+                        type: response.status,
+                        message: response.message
+                    });
+
+                }
+
+            },
+            error: function (callbacks) {
+
+                raisoft.core.log('ajax error occur on searching surveys', 'error', corePrefix, callbacks);
+                getMoreBtn.innerHTML = "Ошибка при загрузке. <span class='link'>Повторить</span>";
+                document.removeEventListener('scroll', checkPageOffset_);
+                ajaxSend = false;
+
+            }
         };
 
         raisoft.ajax.send(ajaxData);
