@@ -9,3 +9,5 @@
     </div>
 
 </div>
+
+<script type="text/javascript" src="<?=$assets; ?>frontend/bundles/survey.min.js?v=<?= filemtime("assets/frontend/bundles/survey.min.js") ?>"></script>

@@ -16,8 +16,9 @@ class Controller_Surveys_Ajax extends Ajax
     CONST WATCH_ALL_SURVEYS              = 37;
     CONST WATCH_SURVEY_IN_PEN            = 38;
 
-    public $pension  = null;
-    public $patient  = null;
+    protected $pension  = null;
+    protected $patient  = null;
+    protected $survey   = null;
 
 
     public function action_new()
@@ -106,6 +107,22 @@ class Controller_Surveys_Ajax extends Ajax
     }
 
 
+    public function action_getunit()
+    {
+        self::hasAccess(self::CAN_CONDUCT_A_SURVEY);
+
+        $unit = Arr::get($_POST,'unit');
+
+        $this->getSurvey();
+        //$this->checkUnit($unit);
+
+        $html = View::factory('surveys/units/' . $unit, array('survey' => $this->survey))->render();
+
+        $response = new Model_Response_Survey('SURVEY_UNIT_GET_SUCCESS', 'success', array('html' => $html));
+        $this->response->body(@json_encode($response->get_response()));
+    }
+
+
     private function getPatientAndPensionData()
     {
         $pension = Arr::get($_POST,'pension');
@@ -132,5 +149,28 @@ class Controller_Surveys_Ajax extends Ajax
             $this->response->body(@json_encode($response->get_response()));
             return;
         }
+    }
+
+    private function getSurvey()
+    {
+        $survey  = Arr::get($_POST,'survey');
+        $pension = Arr::get($_POST,'pension');
+        $this->survey = new Model_Survey($survey);
+
+        if (!$this->survey->id || $this->survey->pension != $pension || $this->survey->status == 3) {
+            $response = new Model_Response_Survey('SURVEY_DOES_NOT_EXISTED_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        if ($this->survey->status == 1 && strtotime(Date::formatted_time('now')) - strtotime($this->survey->dt_create) > Date::DAY * 3) {
+            $this->survey->status= 3;
+            $this->survey->update();
+            $response = new Model_Response_Survey('SURVEY_HAS_BEEN_DELETED_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        $this->survey->patient = new Model_Patient($this->survey->patient);
     }
 }

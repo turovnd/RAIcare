@@ -119,6 +119,9 @@ class Controller_Surveys_Index extends Dispatch
             if ($this->survey->pension != $this->pension->id || $this->survey->status == 3) {
                 throw new HTTP_Exception_404();
             }
+
+            $this->survey->patient = new Model_Patient($this->survey->patient);
+            $this->survey->pension = new Model_Pension($this->survey->pension);
         }
 
         if (!$this->survey->pk) {

@@ -1,17 +1,105 @@
 module.exports = (function (get) {
 
     var corePrefix  = 'Survey: get AJAX',
+        unitHolder  = document.getElementsByClassName('section__content')[0],
         pensionID   = document.getElementById('pensionID'),
-        patientID   = document.getElementById('patientID');
+        patientID   = document.getElementById('patientID'),
+        surveyID    = document.getElementById('surveyID'),
+        ajaxSend    = false;
+
 
     if(pensionID) pensionID = pensionID.value;
     if(patientID) patientID = patientID.value;
+    if(surveyID) surveyID = surveyID.value;
+
+    get.unitstart = function () {
+
+        window.addEventListener('hashchange', getUnitOnHashChange_);
+        getUnitOnHashChange_();
+
+    };
 
 
-    // get.unit = function (unit) {
-    //
-    // };
+    function getUnitOnHashChange_() {
 
+        var unit           = window.location.hash.replace('#', ''),
+            element        = null,
+            availableUnits = [];
+
+
+        if (unit === '') unit = 'progress';
+
+        element = unit === 'progress' ? '' : unit;
+        element = document.querySelector('[href="#' + element + '"]');
+
+        get.unit(element, unit);
+
+    }
+
+
+    get.unit = function (element, unit) {
+
+        // TODO check is unit available
+
+        document.getElementsByClassName('aside__item--active')[0].classList.remove('aside__item--active');
+        document.getElementsByClassName('aside__link--active')[0].classList.remove('aside__link--active');
+
+        element.parentNode.classList.add('aside__item--active');
+        element.classList.add('aside__link--active');
+
+        getUnit_(unit);
+
+    };
+
+
+    function getUnit_(unit) {
+
+        var formData = new FormData();
+
+        formData.append('unit', unit);
+        formData.append('survey', surveyID);
+        formData.append('csrf', document.getElementById('csrf').value);
+
+        var ajaxData = {
+            url: '/survey/getunit',
+            type: 'POST',
+            data: formData,
+            beforeSend: function () {
+
+                document.body.classList.add('loading');
+
+            },
+            success: function (response) {
+
+                response = JSON.parse(response);
+                raisoft.core.log(response.message, response.status, corePrefix);
+                document.body.classList.remove('loading');
+
+                if (parseInt(response.code) === 165 ) {
+
+                    unitHolder.innerHTML = response.html;
+
+                } else {
+
+                    raisoft.notification.notify({
+                        type: response.status,
+                        message: response.message
+                    });
+
+                }
+
+            },
+            error: function (callbacks) {
+
+                raisoft.core.log('ajax error occur on getting unit of survey', 'error', corePrefix, callbacks);
+                document.body.classList.remove('loading');
+
+            }
+        };
+
+        raisoft.ajax.send(ajaxData);
+
+    }
 
 
     /**
@@ -22,8 +110,8 @@ module.exports = (function (get) {
     var timeline        = null,
         getMoreFormsBtn = null,
         type            = null,
-        patients        = null, // json string array
-        ajaxSend        = false;
+        patients        = null; // json string array
+
 
     get.forms = function () {
 
