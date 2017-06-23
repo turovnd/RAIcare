@@ -13,8 +13,8 @@ Class Model_Survey {
     public $dt_create;
     public $dt_finish;
     public $creator;
-    public $unitA_10;
-    public $unitA_11;
+    public $A10;
+    public $A11;
 
     
     public function __construct($id = null) {

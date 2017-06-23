@@ -183,6 +183,7 @@ class Controller_Surveys_Ajax extends Ajax
         $this->survey->unitB = new Model_SurveyUnitB($this->survey->pk);
         $this->survey->pension = new Model_Pension($this->survey->pension);
         $this->survey->patient = new Model_Patient($this->survey->patient);
+        $this->survey->patient->can_edit = true;
         $this->survey->patient->creator = new Model_User($this->survey->patient->creator);
     }
 
@@ -201,10 +202,33 @@ class Controller_Surveys_Ajax extends Ajax
         //$this->checkUnit($unit);
 
         switch ($unit) {
-            case 'unitB': $this->update_unitB();
+            case 'unitA': $this->update_unitA(); break;
+            case 'unitB': $this->update_unitB(); break;
         }
     }
 
+
+    private function update_unitA()
+    {
+        $A10 = Arr::get($_POST,'A10');
+        $A11 = Arr::get($_POST,'A11');
+
+        $survey = new Model_Survey($this->survey->pk);
+
+        $survey->A10 = $A10;
+        $survey->A11 = $A11;
+        $survey->update();
+
+        if (empty($survey->A10) || empty($survey->A11))
+        {
+            $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_WARMING', 'warning');
+        } else {
+            $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_SUCCESS', 'success');
+        }
+
+        $this->response->body(@json_encode($response->get_response()));
+        return;
+    }
 
     private function update_unitB()
     {

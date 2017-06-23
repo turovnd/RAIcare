@@ -1,5 +1,5 @@
 <?
-    $unitA_11 = array(
+    $A11 = array(
         '0' => 'Не был(а) госпитализирован(а) за последние 90 дней',
         '1' => 'Госпитализация 31-90 дней назад',
         '2' => 'Госпитализация 15-30 дней назад',
@@ -17,7 +17,7 @@
     Персональная информация
 </h3>
 
-<div class="row" id="unitA">
+<div class="row">
 
     <div class="col-xs-12">
 
@@ -25,7 +25,7 @@
 
     </div>
 
-    <div class="col-xs-12">
+    <form class="col-xs-12" id="unitA">
 
         <div class="block">
 
@@ -41,32 +41,32 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="unitA_10" class="form-group__label col-xs-12">
+                    <label for="A10" class="form-group__label col-xs-12">
                         Цели получения медицинской помощи, выраженные пациентом
                     </label>
                     <div class="col-xs-12">
                         <? if ($can_conduct) : ?>
-                            <textarea name="unitA_10" id="unitA_10" rows="5" class="form-group__control"><?= $survey->unitA_10; ?></textarea>
+                            <textarea name="A10" id="A10" rows="5" class="form-group__control" maxlength="512"><?= $survey->A10; ?></textarea>
                         <? else : ?>
-                            <p class="form-group__control-static p-l-0 p-r-0"> <?= $survey->unitA_10; ?> </p>
+                            <p class="form-group__control-static p-l-0"> <?= !empty($survey->A10) ? $survey->A10 : 'не указано'; ?> </p>
                         <? endif; ?>
                     </div>
                 </div>
 
                 <div class="form-group m-b-15">
-                    <label for="unitA_11" class="form-group__label col-xs-12">
+                    <label for="A11" class="form-group__label col-xs-12">
                         Время с момента последнего пребываения в стационаре за последние 90 дней
                     </label>
                     <div class="col-xs-12">
                         <? if ($can_conduct) : ?>
-                            <select name="unitA_11" id="unitA_11" class="form-group__control">
+                            <select name="A11" id="A11" class="form-group__control">
                                 <option value=""></option>
-                                <? foreach ($unitA_11 as $key => $option) :?>
-                                    <option value="<?= $key; ?>" <?= $survey->unitA_11 != NULL  && $key == $unitA_11[$survey->unitA_11] ? 'selected' : '' ?>><?= $option; ?></option>
+                                <? foreach ($A11 as $key => $option) :?>
+                                    <option value="<?= $key; ?>" <?= $key == $survey->A11 ? 'selected' : '' ?>><?= $option; ?></option>
                                 <? endforeach; ?>
                             </select>
                         <? else : ?>
-                            <p class="form-group__control-static p-l-0 p-r-0"> <?= $survey->unitA_11 != NULL ? $unitA_11[$survey->unitA_11] : 'NULL'; ?> </p>
+                            <p class="form-group__control-static p-l-0"> <?= !empty($survey->A11) ? $A11[$survey->A11] : 'не указано'; ?> </p>
                         <? endif; ?>
                     </div>
                 </div>
@@ -74,13 +74,13 @@
             </div>
 
             <? if ($can_conduct) : ?>
-                <a role="button" class="block__footer text-center text-brand text-bold">
+                <a role="button" class="block__footer text-center text-brand text-bold" onclick="survey.send.updateunit('unitA');">
                     Сохранить
                 </a>
             <? endif; ?>
 
         </div>
 
-    </div>
+    </form>
 
 </div>

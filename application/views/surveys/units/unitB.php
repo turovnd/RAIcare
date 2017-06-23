@@ -256,8 +256,6 @@ $B8_get = json_decode($survey->unitB->B8);
             </div>
 
             <? if ($can_conduct) : ?>
-
-                <input type="hidden">
                 
                 <a role="button" class="block__footer text-center text-brand text-bold" onclick="survey.send.updateunit('unitB');">
                     Сохранить

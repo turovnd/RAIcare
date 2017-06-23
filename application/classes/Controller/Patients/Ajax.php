@@ -166,4 +166,74 @@ class Controller_Patients_Ajax extends Ajax
         }
     }
 
+
+    public function action_update()
+    {
+        $pk      = Arr::get($_POST, 'id');
+        $name    = Arr::get($_POST, 'name');
+        $value   = Arr::get($_POST, 'value');
+        $pension = Arr::get($_POST, 'pension');
+
+        if (empty($value)) {
+            $response = new Model_Response_Form('EMPTY_FIELDS_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        if ($name == 'birthday' && !Valid::date($value)) {
+            $response = new Model_Response_Patients('PATIENTS_BIRTHDAY_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        if ($name == 'name' && substr_count($value, ' ') != 2) {
+            $response = new Model_Response_Patients('PATIENTS_NAME_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        if ($name == 'snils' && (!Valid::exact_length($value, 11) || !Valid::digit($value))) {
+            $response = new Model_Response_Patients('PATIENTS_SNILS_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        if ($name == 'oms' && (!Valid::exact_length($value, 16) || !Valid::digit($value))) {
+            $response = new Model_Response_Patients('PATIENTS_OMS_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        if ($name == 'disability_certificate' && (!Valid::exact_length($value, 18) || !Valid::digit($value))) {
+            $response = new Model_Response_Patients('PATIENTS_DISABILITY_CERTIFICATE_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        $patient = new Model_Patient($pk);
+
+        if (!$patient->pk) {
+            $response = new Model_Response_Patients('PATIENTS_DOES_NOT_EXISTED_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        if ($patient->$name == $value) {
+            $response = new Model_Response_Patients('PATIENTS_UPDATE_WARNING', 'warning');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        if ($name == 'snils' && Model_Patient::checkBySnilsAndPension($value, $pension)) {
+            $response = new Model_Response_Patients('PATIENTS_SNILS_EXISTED_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        $patient->$name = $value;
+        $patient->update();
+
+        $response = new Model_Response_Patients('PATIENTS_UPDATE_SUCCESS', 'success');
+        $this->response->body(@json_encode($response->get_response()));
+    }
 }

@@ -45,12 +45,9 @@
                         <label for="newPatientRelation" class="form-group__label">Семейное положение</label>
                         <select id="newPatientRelation" name="relation" class="form-group__control">
                             <option value=""></option>
-                            <option value="1">Никогда не состоял(а) в браке</option>
-                            <option value="2">Состоит в браке</option>
-                            <option value="3">Есть партнер / близкий</option>
-                            <option value="4">Вдовец / вдова</option>
-                            <option value="5">Проживает отдельно от жены / мужа</option>
-                            <option value="6">Разведен(а)</option>
+                            <? foreach (Kohana::$config->load('form_relations') as $key => $value) : ?>
+                                <option value="<?= $key; ?>"><?= $value; ?></option>
+                            <? endforeach; ?>
                         </select>
                     </div>
                 </fieldset>
@@ -79,34 +76,12 @@
                 <fieldset class="m-b-0">
                     <div class="form-group" id="sources">
                         <label class="form-group__label">Текущие источники оплаты пребывания в пансионате</label>
-                        <p class="m-b-5">
-                            <input id="sources1" type="checkbox" name="sources[]" class="checkbox" value="1">
-                            <label for="sources1" class="checkbox-label">Бюджет</label>
-                        </p>
-                        <div class="m-b-5">
-                            <input id="sources2" type="checkbox" name="sources[]" class="checkbox" value="2">
-                            <label for="sources2" class="checkbox-label">Софинансирование государства</label>
-                        </div>
-                        <div class="m-b-5">
-                            <input id="sources3" type="checkbox" name="sources[]" class="checkbox" value="3">
-                            <label for="sources3" class="checkbox-label">Полную стоимость каждого дня пребывания в стационаре оплачивает сам пациент или его семья</label>
-                        </div>
-                        <div class="m-b-5">
-                            <input id="sources4" type="checkbox" name="sources[]" class="checkbox" value="4">
-                            <label for="sources4" class="checkbox-label">Благотворительная организация</label>
-                        </div>
-                        <div class="m-b-5">
-                            <input id="sources5" type="checkbox" name="sources[]" class="checkbox" value="5">
-                            <label for="sources5" class="checkbox-label">Страховка (добровольное страхование жизни)</label>
-                        </div>
-                        <div class="m-b-5">
-                            <input id="sources6" type="checkbox" name="sources[]" class="checkbox" value="6">
-                            <label for="sources6" class="checkbox-label">Организация, в которой ранее работал человек</label>
-                        </div>
-                        <div class="m-b-5">
-                            <input id="sources7" type="checkbox" name="sources[]" class="checkbox" value="7">
-                            <label for="sources7" class="checkbox-label">Иной источник покрытия расходов по пребыванию в стационаре</label>
-                        </div>
+                        <? foreach (Kohana::$config->load('form_sources') as $key => $value) : ?>
+                            <div class="m-b-5">
+                                <input id="sources<?=$key;?>" type="checkbox" name="sources[]" class="checkbox" value="<?=$key;?>">
+                                <label for="sources<?=$key;?>" class="checkbox-label"><?=$value;?></label>
+                            </div>
+                        <? endforeach; ?>
                     </div>
                 </fieldset>
             </div>

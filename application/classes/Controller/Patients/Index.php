@@ -113,6 +113,8 @@ class Controller_Patients_Index extends Dispatch
         $this->getPatient();
         $this->getPension();
 
+        $this->patient->can_edit = true;
+
         $surveys = Model_Survey::getAllFormsByPatientAndPension($this->patient->pk, $this->pension->id, 0, 10);
 
         $this->patient->creator = new Model_User($this->patient->creator);
@@ -154,6 +156,8 @@ class Controller_Patients_Index extends Dispatch
             $patient = $this->request->param('pat_id');
             $this->patient = Model_Patient::getByFieldName('id', $patient);
         }
+
+        $this->patient->can_edit = false;
 
         if (!$this->patient->pk) {
             throw new HTTP_Exception_404();
