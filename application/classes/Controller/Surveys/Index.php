@@ -76,7 +76,8 @@ class Controller_Surveys_Index extends Dispatch
 
         $this->template->title = "Форма оценки долговременного ухода";
         $this->template->section = View::factory('surveys/pages/' . $section)
-            ->set('survey', $this->survey);
+            ->set('survey', $this->survey)
+            ->set('can_conduct', true);
     }
 
 
@@ -119,15 +120,19 @@ class Controller_Surveys_Index extends Dispatch
             if ($this->survey->pension != $this->pension->id || $this->survey->status == 3) {
                 throw new HTTP_Exception_404();
             }
-
-            $this->survey->patient = new Model_Patient($this->survey->patient);
-            $this->survey->pension = new Model_Pension($this->survey->pension);
         }
 
         if (!$this->survey->pk) {
             throw new HTTP_Exception_404();
         }
-    }
 
+        $first_survey = Model_Survey::getFirstSurvey($this->survey->pension, $this->survey->patient);
+        $this->survey->dt_first_survey = $first_survey->dt_create;
+        $this->survey->unitB = new Model_SurveyUnitB($this->survey->pk);
+        $this->survey->pension = new Model_Pension($this->survey->pension);
+        $this->survey->patient = new Model_Patient($this->survey->patient);
+        $this->survey->patient->creator = new Model_User($this->survey->patient->creator);
+
+    }
 
 }

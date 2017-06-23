@@ -9,6 +9,12 @@ class Model_Response_Survey extends Model_Response_Abstract
         'message' => 'Не выбрана причина прохождения оценки'
     );
 
+    protected $_SURVEY_WITH_TYPE_1_ERROR = array(
+        'type' => 'survey',
+        'code' => '160',
+        'message' => 'Первоначальная форма оценки уже проводиась'
+    );
+
     protected $_SURVEY_CREATED_SUCCESS = array(
         'type' => 'survey',
         'code' => '161',
@@ -37,5 +43,23 @@ class Model_Response_Survey extends Model_Response_Abstract
         'type' => 'survey',
         'code' => '165',
         'message' => 'Раздел формы оценки успешно получен'
+    );
+
+    protected $_SURVEY_UNIT_UPDATE_SUCCESS = array(
+        'type' => 'survey',
+        'code' => '166',
+        'message' => 'Информация сохранена'
+    );
+
+    protected $_SURVEY_UNIT_UPDATE_WARMING = array(
+        'type' => 'survey',
+        'code' => '167',
+        'message' => 'Заполнены не все поля, не забудьте вернуться и заполнить их'
+    );
+
+    protected $_SURVEY_UNIT_POST_CODE_ERROR = array(
+        'type' => 'survey',
+        'code' => '168',
+        'message' => 'Не правильно введен почтовый индекс постоянного места проживания'
     );
 }

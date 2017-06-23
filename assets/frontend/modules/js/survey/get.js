@@ -30,7 +30,7 @@ module.exports = (function (get) {
         if (unit === '') unit = 'progress';
 
         element = unit === 'progress' ? '' : unit;
-        element = document.querySelector('[href="#' + element + '"]');
+        element = document.querySelector('.aside__link[href="#' + element + '"]');
 
         get.unit(element, unit);
 
@@ -41,8 +41,11 @@ module.exports = (function (get) {
 
         // TODO check is unit available
 
-        document.getElementsByClassName('aside__item--active')[0].classList.remove('aside__item--active');
-        document.getElementsByClassName('aside__link--active')[0].classList.remove('aside__link--active');
+        if (document.getElementsByClassName('aside__item--active')[0])
+            document.getElementsByClassName('aside__item--active')[0].classList.remove('aside__item--active');
+
+        if(document.getElementsByClassName('aside__link--active')[0])
+            document.getElementsByClassName('aside__link--active')[0].classList.remove('aside__link--active');
 
         element.parentNode.classList.add('aside__item--active');
         element.classList.add('aside__link--active');
@@ -58,6 +61,7 @@ module.exports = (function (get) {
 
         formData.append('unit', unit);
         formData.append('survey', surveyID);
+        formData.append('pension', pensionID);
         formData.append('csrf', document.getElementById('csrf').value);
 
         var ajaxData = {

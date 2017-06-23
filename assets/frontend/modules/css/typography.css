@@ -122,6 +122,9 @@ p {
 .text-bold{
     font-weight: bold;
 }
+.text-normal{
+    font-weight: normal;
+}
 .text-brand {
     color: #008DA7;
 }

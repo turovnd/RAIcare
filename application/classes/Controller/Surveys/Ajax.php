@@ -34,6 +34,14 @@ class Controller_Surveys_Ajax extends Ajax
             return;
         }
 
+        $survey = Model_Survey::getFirstSurvey($this->pension->id, $this->patient->pk);
+        if ($survey->id && $survey->type == $type) {
+            $response = new Model_Response_Survey('SURVEY_WITH_TYPE_1_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+
         $count_forms = $this->redis->get(self::REDIS_PACKAGE . ':pensions:' . $this->pension->id . ':Surveys');
         $count_forms = $count_forms == false ? 1 : $count_forms + 1;
         $this->redis->set(self::REDIS_PACKAGE . ':pensions:' . $this->pension->id . ':Surveys', $count_forms);
@@ -116,12 +124,11 @@ class Controller_Surveys_Ajax extends Ajax
         $this->getSurvey();
         //$this->checkUnit($unit);
 
-        $html = View::factory('surveys/units/' . $unit, array('survey' => $this->survey))->render();
+        $html = View::factory('surveys/units/' . $unit, array('survey' => $this->survey, 'can_conduct' => true))->render();
 
         $response = new Model_Response_Survey('SURVEY_UNIT_GET_SUCCESS', 'success', array('html' => $html));
         $this->response->body(@json_encode($response->get_response()));
     }
-
 
     private function getPatientAndPensionData()
     {
@@ -171,6 +178,87 @@ class Controller_Surveys_Ajax extends Ajax
             return;
         }
 
+        $first_survey = Model_Survey::getFirstSurvey($this->survey->pension, $this->survey->patient);
+        $this->survey->dt_first_survey = $first_survey->dt_create;
+        $this->survey->unitB = new Model_SurveyUnitB($this->survey->pk);
+        $this->survey->pension = new Model_Pension($this->survey->pension);
         $this->survey->patient = new Model_Patient($this->survey->patient);
+        $this->survey->patient->creator = new Model_User($this->survey->patient->creator);
     }
+
+
+
+    /**
+     * Update
+     */
+    public function action_updateunit()
+    {
+        self::hasAccess(self::CAN_CONDUCT_A_SURVEY);
+
+        $unit = Arr::get($_POST,'unit');
+
+        $this->getSurvey();
+        //$this->checkUnit($unit);
+
+        switch ($unit) {
+            case 'unitB': $this->update_unitB();
+        }
+    }
+
+
+    private function update_unitB()
+    {
+        $B1 = Arr::get($_POST,'B1');
+        $B2 = Arr::get($_POST,'B2');
+        $B3 = json_encode(Arr::get($_POST,'B3'));
+        $B4 = Arr::get($_POST,'B4');
+        $B5a = Arr::get($_POST,'B5b');
+        $B5b = Arr::get($_POST,'B5a');
+        $B6 = Arr::get($_POST,'B6');
+        $B7 = Arr::get($_POST,'B7');
+        $B8 = json_encode(Arr::get($_POST,'B8'));
+        $B9 = Arr::get($_POST,'B9');
+
+        if (!empty($B6) && !Valid::exact_length($B6, 9) || !Valid::digit($B6)) {
+            $response = new Model_Response_Survey('SURVEY_UNIT_POST_CODE_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        $unitB = new Model_SurveyUnitB($this->survey->pk);
+
+        if (!$unitB->pk) {
+            $unitB = new Model_SurveyUnitB();
+        }
+
+        $unitB->B1 = $B1;
+        $unitB->B2 = $B2;
+        $unitB->B3 = $B3;
+        $unitB->B4 = $B4;
+        $unitB->B5a = $B5a;
+        $unitB->B5b = $B5b;
+        $unitB->B6 = $B6;
+        $unitB->B7 = $B7;
+        $unitB->B8 = $B8;
+        $unitB->B9 = $B9;
+
+        if (!$unitB->pk) {
+            $unitB->pk = $this->survey->pk;
+            $unitB->save();
+        } else {
+            $unitB->update();
+        }
+
+        if (empty($unitB->B1) || empty($unitB->B2) || empty($unitB->B3) || $unitB->B3 == "null" || empty($unitB->B4) || empty($unitB->B5a)
+            || empty($unitB->B5b) || empty($unitB->B6) || empty($unitB->B7) || empty($unitB->B8) || $unitB->B8 == "null"  || $unitB->B9 == NULL)
+        {
+            $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_WARMING', 'warning');
+        } else {
+            $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_SUCCESS', 'success');
+        }
+
+        $this->response->body(@json_encode($response->get_response()));
+        return;
+    }
+
 }

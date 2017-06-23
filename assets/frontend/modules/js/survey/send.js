@@ -3,14 +3,58 @@ module.exports = (function (send) {
 
     var corePrefix  = 'Survey: send AJAX',
         // holder      = document.getElementsByClassName('section__content')[0],
+        surveyID    = document.getElementById('surveyID'),
         pensionID   = document.getElementById('pensionID');
 
+    if(surveyID) surveyID= surveyID.value;
     if(pensionID) pensionID = pensionID.value;
 
 
-    // send.unit = function (unit) {
-    //
-    // };
+    send.updateunit = function (unit) {
+
+        var form = document.getElementById(unit);
+
+        if (!form) return;
+
+        var formData = new FormData(form);
+
+        formData.append('unit', unit);
+        formData.append('survey', surveyID);
+        formData.append('pension', pensionID);
+        formData.append('csrf', document.getElementById('csrf').value);
+
+        var ajaxData = {
+            url: '/survey/updateunit',
+            type: 'POST',
+            data: formData,
+            beforeSend: function () {
+
+                form.getElementsByClassName('block')[0].classList.add('loading');
+
+            },
+            success: function (response) {
+
+                response = JSON.parse(response);
+                raisoft.core.log(response.message, response.status, corePrefix);
+                form.getElementsByClassName('block')[0].classList.remove('loading');
+
+                raisoft.notification.notify({
+                    type: response.status,
+                    message: response.message
+                });
+
+            },
+            error: function (callbacks) {
+
+                raisoft.core.log('ajax error occur on updating unit data', 'error', corePrefix, callbacks);
+                form.getElementsByClassName('block')[0].classList.remove('loading');
+
+            }
+        };
+
+        raisoft.ajax.send(ajaxData);
+
+    };
 
     send.newpatientform = function () {
 

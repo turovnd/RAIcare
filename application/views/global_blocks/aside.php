@@ -287,7 +287,7 @@
             </li>
 
             <li class="aside__item aside__item--active">
-                <a href="#" onclick="survey.get.unit(this, 'progress')" class="aside__link display-flex aside__link--active">
+                <a href="#" class="aside__link display-flex aside__link--active">
                     <i class="fa fa-bookmark aside__icon" aria-hidden="true"></i>
                     <span class="white-space--normal aside__text">Прогресс</span>
                 </a>
@@ -295,119 +295,119 @@
 
 
             <li class="aside__item">
-                <a href="#unitA" onclick="survey.get.unit(this, 'unitA')" class="aside__link display-flex">
+                <a href="#unitA" class="aside__link display-flex">
                     <i class="fa fa-address-card-o aside__icon" aria-hidden="true"></i>
                     <span class="white-space--normal aside__text">Персональная информация</span>
                 </a>
             </li>
 
             <li class="aside__item">
-                <a href="#unitB" onclick="survey.get.unit(this, 'unitB')" class="aside__link display-flex">
+                <a href="#unitB" class="aside__link display-flex">
                     <i class="fa fa-history aside__icon" aria-hidden="true"></i>
                     <span class="white-space--normal aside__text">Первоначальная история</span>
                 </a>
             </li>
 
             <li class="aside__item">
-                <a href="#unitC" onclick="survey.get.unit(this, 'unitC')" class="aside__link display-flex">
+                <a href="#unitC" class="aside__link display-flex">
                     <i class="fa fa-bullseye aside__icon" aria-hidden="true"></i>
                     <span class="white-space--normal aside__text">Когнитивные способности</span>
                 </a>
             </li>
 
             <li class="aside__item">
-                <a href="#unitD" onclick="survey.get.unit(this, 'unitD')" class="aside__link display-flex">
+                <a href="#unitD" class="aside__link display-flex">
                     <i class="fa fa-eye aside__icon" aria-hidden="true"></i>
                     <span class="white-space--normal aside__text">Коммуникация и зрение</span>
                 </a>
             </li>
 
             <li class="aside__item">
-                <a href="#unitE" onclick="survey.get.unit(this, 'unitE')" class="aside__link display-flex">
+                <a href="#unitE" class="aside__link display-flex">
                     <i class="fa fa-smile-o aside__icon" aria-hidden="true"></i>
                     <span class="white-space--normal aside__text">Настроение и поведение</span>
                 </a>
             </li>
 
             <li class="aside__item">
-                <a href="#unitF" onclick="survey.get.unit(this, 'unitF')" class="aside__link display-flex">
+                <a href="#unitF" class="aside__link display-flex">
                     <i class="fa fa-group aside__icon" aria-hidden="true"></i>
                     <span class="white-space--normal aside__text">Психосоциальное благополучие</span>
                 </a>
             </li>
 
             <li class="aside__item">
-                <a href="#unitG" onclick="survey.get.unit(this, 'unitG')" class="aside__link display-flex">
+                <a href="#unitG" class="aside__link display-flex">
                     <i class="fa fa-child aside__icon" aria-hidden="true"></i>
                     <span class="white-space--normal aside__text">Функциональное состояние</span>
                 </a>
             </li>
 
             <li class="aside__item">
-                <a href="#unitH" onclick="survey.get.unit(this, 'unitH')" class="aside__link display-flex">
+                <a href="#unitH" class="aside__link display-flex">
                     <i class="fa fa-frown-o aside__icon" aria-hidden="true"></i>
                     <span class="white-space--normal aside__text">Недержание</span>
                 </a>
             </li>
 
             <li class="aside__item">
-                <a href="#unitI" onclick="survey.get.unit(this, 'unitI')" class="aside__link display-flex">
+                <a href="#unitI" class="aside__link display-flex">
                     <i class="fa fa-folder-o aside__icon" aria-hidden="true"></i>
                     <span class="white-space--normal aside__text">Диагнозы</span>
                 </a>
             </li>
 
             <li class="aside__item">
-                <a href="#unitJ" onclick="survey.get.unit(this, 'unitJ')" class="aside__link display-flex">
+                <a href="#unitJ" class="aside__link display-flex">
                     <i class="fa fa-blind aside__icon" aria-hidden="true"></i>
                     <span class="white-space--normal aside__text">Нарушения состояния здоровья</span>
                 </a>
             </li>
 
             <li class="aside__item">
-                <a href="#unitK" onclick="survey.get.unit(this, 'unitK')" class="aside__link display-flex">
+                <a href="#unitK" class="aside__link display-flex">
                     <i class="fa fa-cutlery aside__icon" aria-hidden="true"></i>
                     <span class="white-space--normal aside__text">Вопросы питания и состояние ротовой области</span>
                 </a>
             </li>
 
             <li class="aside__item">
-                <a href="#unitL" onclick="survey.get.unit(this, 'unitL')" class="aside__link display-flex">
+                <a href="#unitL" class="aside__link display-flex">
                     <i class="fa fa-info-circle aside__icon" aria-hidden="true"></i>
                     <span class="white-space--normal aside__text">Состояние кожи</span>
                 </a>
             </li>
 
             <li class="aside__item">
-                <a href="#unitM" onclick="survey.get.unit(this, 'unitM')" class="aside__link display-flex">
+                <a href="#unitM" class="aside__link display-flex">
                     <i class="fa fa-music aside__icon" aria-hidden="true"></i>
                     <span class="white-space--normal aside__text">Досуг</span>
                 </a>
             </li>
 
             <li class="aside__item">
-                <a href="#unitN" onclick="survey.get.unit(this, 'unitN')" class="aside__link display-flex">
+                <a href="#unitN" class="aside__link display-flex">
                     <i class="fa fa-braille aside__icon" aria-hidden="true"></i>
                     <span class="white-space--normal aside__text">Лекарственные средства</span>
                 </a>
             </li>
 
             <li class="aside__item">
-                <a href="#unitO" onclick="survey.get.unit(this, 'unitO')" class="aside__link display-flex">
+                <a href="#unitO" class="aside__link display-flex">
                     <i class="fa fa-bath aside__icon" aria-hidden="true"></i>
                     <span class="white-space--normal aside__text">Лечебные мероприятия и процедуры</span>
                 </a>
             </li>
 
             <li class="aside__item">
-                <a href="#unitP" onclick="survey.get.unit(this, 'unitP')" class="aside__link display-flex">
+                <a href="#unitP" class="aside__link display-flex">
                     <i class="fa fa-gavel aside__icon" aria-hidden="true"></i>
                     <span class="white-space--normal aside__text">Правовая ответственность и распоряжения</span>
                 </a>
             </li>
 
             <li class="aside__item">
-                <a href="#unitQ" onclick="survey.get.unit(this, 'unitQ')" class="aside__link display-flex">
+                <a href="#unitQ" class="aside__link display-flex">
                     <i class="fa fa-home aside__icon" aria-hidden="true"></i>
                     <span class="white-space--normal aside__text">Перспективы выписки и выписка</span>
                 </a>

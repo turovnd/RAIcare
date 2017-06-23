@@ -13,6 +13,8 @@ Class Model_Survey {
     public $dt_create;
     public $dt_finish;
     public $creator;
+    public $unitA_10;
+    public $unitA_11;
 
     
     public function __construct($id = null) {
@@ -244,6 +246,22 @@ Class Model_Survey {
         }
 
         return $forms;
+    }
+
+
+    public static function getFirstSurvey($pension, $patient)
+    {
+        $select = Dao_Surveys::select()
+            ->where('pension', '=', $pension)
+            ->where('patient', '=', $patient)
+            ->where('status', '=', 2)
+            ->where('type', '=', 1)
+            ->limit(1)
+            ->execute();
+
+        $survey = new Model_Survey();
+        return $survey->fill_by_row($select);
+
     }
 
 }
