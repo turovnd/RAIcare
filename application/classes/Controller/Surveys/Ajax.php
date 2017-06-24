@@ -183,6 +183,7 @@ class Controller_Surveys_Ajax extends Ajax
         $this->survey->unitB = new Model_SurveyUnitB($this->survey->pk);
         $this->survey->unitC = new Model_SurveyUnitC($this->survey->pk);
         $this->survey->unitD = new Model_SurveyUnitD($this->survey->pk);
+        $this->survey->unitE = new Model_SurveyUnitE($this->survey->pk);
         $this->survey->pension = new Model_Pension($this->survey->pension);
         $this->survey->patient = new Model_Patient($this->survey->patient);
         $this->survey->patient->can_edit = true;
@@ -208,6 +209,7 @@ class Controller_Surveys_Ajax extends Ajax
             case 'unitB': $this->update_unitB(); break;
             case 'unitC': $this->update_unitC(); break;
             case 'unitD': $this->update_unitD(); break;
+            case 'unitE': $this->update_unitE(); break;
         }
     }
 
@@ -373,6 +375,44 @@ class Controller_Surveys_Ajax extends Ajax
         if (empty($unitD->D1) || empty($unitD->D2) || empty($unitD->D3a)
             || empty($unitD->D3b) || empty($unitD->D4a) || empty($unitD->D4b))
         {
+            $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_WARMING', 'warning');
+        } else {
+            $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_SUCCESS', 'success');
+        }
+
+        $this->response->body(@json_encode($response->get_response()));
+        return;
+    }
+
+    private function update_unitE()
+    {
+        $E1 = Arr::get($_POST,'E1');
+        $E2 = Arr::get($_POST,'E2');
+        $E3 = Arr::get($_POST,'E3');
+
+        $unitE = new Model_SurveyUnitE($this->survey->pk);
+
+        if (!$unitE->pk) {
+            $unitE = new Model_SurveyUnitE();
+        }
+
+        $unitE->E1 = json_encode($E1);
+        $unitE->E2 = json_encode($E2);
+        $unitE->E3 = json_encode($E3);
+
+        if (!$unitE->pk) {
+            $unitE->pk = $this->survey->pk;
+            $unitE->save();
+        } else {
+            $unitE->update();
+        }
+
+        $empty = false;
+        if (!$empty) { foreach ($E1 as $e1) { if ($e1 == -1) { $empty = true; break; } } }
+        if (!$empty) { foreach ($E2 as $e2) { if ($e2 == -1) { $empty = true; break; } } }
+        if (!$empty) { foreach ($E3 as $e3) { if ($e3 == -1) { $empty = true; break; } } }
+
+        if ($empty) {
             $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_WARMING', 'warning');
         } else {
             $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_SUCCESS', 'success');

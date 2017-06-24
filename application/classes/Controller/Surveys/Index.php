@@ -131,6 +131,7 @@ class Controller_Surveys_Index extends Dispatch
         $this->survey->unitB = new Model_SurveyUnitB($this->survey->pk);
         $this->survey->unitC = new Model_SurveyUnitC($this->survey->pk);
         $this->survey->unitD = new Model_SurveyUnitD($this->survey->pk);
+        $this->survey->unitE = new Model_SurveyUnitE($this->survey->pk);
         $this->survey->pension = new Model_Pension($this->survey->pension);
         $this->survey->patient = new Model_Patient($this->survey->patient);
         $this->survey->patient->can_edit = false;
