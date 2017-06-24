@@ -17,7 +17,7 @@ $C2_get = json_decode($survey->unitC->C2);
 $C3 = array(
     '0' => 'Характерные поведенческие проявления отсутствуют',
     '1' => 'Характерные поведенческие проявления присутствуют и соответствуют обычным параметрам когнитивной деятельности пациента',
-    '2' => 'Характерные поведенческие проявления присутствуют и не соответствуют обычным параметрам когнитивной деятельности пациента (напр., новое проявление заболевания или ухудшение состояния по сравнению с состоянием несколькими неделями раньше)',
+    '2' => 'Характерные поведенческие проявления присутствуют и не соответствуют обычным параметрам когнитивной деятельности пациента (например: новое проявление заболевания или ухудшение состояния по сравнению с состоянием несколькими неделями раньше)',
 );
 $C5 = array(
     '0' => 'Улучшилась',
@@ -50,12 +50,12 @@ $C5 = array(
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
-                                <select name="C1" id="C1" class="form-group__control">
-                                    <option value="-1"></option>
-                                    <? foreach ($C1 as $key => $option) :?>
-                                        <option value="<?= $key; ?>" <?= !empty($survey->unitC->C1) && $key == $survey->unitC->C1 ? 'selected' : '' ?>><?= $option; ?></option>
-                                    <? endforeach; ?>
-                                </select>
+                                <? foreach ($C1 as $key => $value) :?>
+                                    <p>
+                                        <input id="C1<?= $key; ?>" name="C1" type="radio" class="checkbox" value="<?= $key; ?>" <?= !empty($survey->unitC->C1) && $key == $survey->unitC->C1 ? 'checked' : '' ?> >
+                                        <label for="C1<?= $key; ?>" class="checkbox-label"><?= $value; ?></label>
+                                    </p>
+                                <? endforeach; ?>
                             <? else : ?>
                                 <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitC->C1) ? $C1[$survey->unitC->C1] : 'не указано'; ?> </p>
                             <? endif; ?>
@@ -87,7 +87,7 @@ $C5 = array(
                     </div>
                 </fieldset>
                 <fieldset>
-                    <label for="C3" class="form-group__label col-xs-12">
+                    <label for="C3" class="form-group__label col-xs-12 m-b-20">
                         Периоды беспорядочности мышления или спутанности сознания
                         <small class="text-normal">[Примечание: Для точной оценки необходимо побеседовать с персоналом, семьей и другими лицами, владеющими информацией о поведении пациента в течение соответствующего времени]</small>
                     </label>
@@ -99,12 +99,12 @@ $C5 = array(
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
-                                <select name="C3a" id="C3a" class="form-group__control">
-                                    <option value="-1"></option>
-                                    <? foreach ($C3 as $key => $option) :?>
-                                        <option value="<?= $key; ?>" <?= !empty($survey->unitC->C3a) && $key == $survey->unitC->C3a ? 'selected' : '' ?>><?= $option; ?></option>
-                                    <? endforeach; ?>
-                                </select>
+                                <? foreach ($C3 as $key => $value) :?>
+                                    <p>
+                                        <input id="C3a<?= $key; ?>" name="C3a" type="radio" class="checkbox" value="<?= $key; ?>" <?= !empty($survey->unitC->C3a) && $key == $survey->unitC->C3a ? 'checked' : '' ?> >
+                                        <label for="C3a<?= $key; ?>" class="checkbox-label"><?= $value; ?></label>
+                                    </p>
+                                <? endforeach; ?>
                             <? else : ?>
                                 <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitC->C3a) ? $C3[$survey->unitC->C3a] : 'не указано'; ?> </p>
                             <? endif; ?>
@@ -118,12 +118,12 @@ $C5 = array(
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
-                                <select name="C3b" id="C3b" class="form-group__control">
-                                    <option value="-1"></option>
-                                    <? foreach ($C3 as $key => $option) :?>
-                                        <option value="<?= $key; ?>" <?= !empty($survey->unitC->C3b) && $key == $survey->unitC->C3b ? 'selected' : '' ?>><?= $option; ?></option>
-                                    <? endforeach; ?>
-                                </select>
+                                <? foreach ($C3 as $key => $value) :?>
+                                    <p>
+                                        <input id="C3b<?= $key; ?>" name="C3b" type="radio" class="checkbox" value="<?= $key; ?>" <?= !empty($survey->unitC->C3b) && $key == $survey->unitC->C3b ? 'checked' : '' ?> >
+                                        <label for="C3b<?= $key; ?>" class="checkbox-label"><?= $value; ?></label>
+                                    </p>
+                                <? endforeach; ?>
                             <? else : ?>
                                 <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitC->C3b) ? $C3[$survey->unitC->C3b] : 'не указано'; ?> </p>
                             <? endif; ?>
@@ -137,12 +137,12 @@ $C5 = array(
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
-                                <select name="C3c" id="C3c" class="form-group__control">
-                                    <option value="-1"></option>
-                                    <? foreach ($C3 as $key => $option) :?>
-                                        <option value="<?= $key; ?>" <?= !empty($survey->unitC->C3c) && $key == $survey->unitC->C3c ? 'selected' : '' ?>><?= $option; ?></option>
-                                    <? endforeach; ?>
-                                </select>
+                                <? foreach ($C3 as $key => $value) :?>
+                                    <p>
+                                        <input id="C3c<?= $key; ?>" name="C3c" type="radio" class="checkbox" value="<?= $key; ?>" <?= !empty($survey->unitC->C3c) && $key == $survey->unitC->C3c ? 'checked' : '' ?> >
+                                        <label for="C3c<?= $key; ?>" class="checkbox-label"><?= $value; ?></label>
+                                    </p>
+                                <? endforeach; ?>
                             <? else : ?>
                                 <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitC->C3c) ? $C3[$survey->unitC->C3c] : 'не указано'; ?> </p>
                             <? endif; ?>
