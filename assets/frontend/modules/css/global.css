@@ -300,6 +300,7 @@ fieldset {
 
 fieldset:last-child {
     border-bottom: 0;
+    margin-bottom: 0;
 }
 
 fieldset .form-group {

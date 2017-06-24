@@ -1,6 +1,6 @@
 module.exports = (function (edit) {
 
-    var corePrefix  = 'Patient: edit info';
+    var corePrefix  = 'Patient: edit info', i;
 
     edit.toggle = function (element) {
 
@@ -24,7 +24,7 @@ module.exports = (function (edit) {
             input = [];
             var checked = field.querySelectorAll('.checkbox:checked');
 
-            for (var i = 0; i < checked.length; i++) {
+            for (i = 0; i < checked.length; i++) {
 
                 input.push(checked[i].value);
 
@@ -83,7 +83,7 @@ module.exports = (function (edit) {
                             selected   = JSON.parse(input),
                             outstr     = '';
 
-                        for (var i = 0; i < selected.length; i++) {
+                        for (i = 0; i < selected.length; i++) {
 
                             outstr += '<li>' + checkboxes[selected[i]-1].textContent + '</li>';
 

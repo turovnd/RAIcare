@@ -43,6 +43,12 @@ module.exports = (function (send) {
                     message: response.message
                 });
 
+                if (parseInt(response.code) === 169) {
+
+                    window.location.reload();
+
+                }
+
             },
             error: function (callbacks) {
 

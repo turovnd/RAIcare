@@ -30,46 +30,49 @@
         <div class="block">
 
             <div class="block__body">
-
-                <div class="form-group">
-                    <label class="form-group__label col-xs-12">
-                        Дата первичной оценки в учреждение
-                    </label>
-                    <div class="col-xs-12">
-                        <p class="form-group__control-static p-l-0 p-r-0"> <?= date('d M Y', strtotime($survey->dt_first_survey)); ?> </p>
+                <fieldset>
+                    <div class="form-group">
+                        <label class="form-group__label col-xs-12">
+                            Дата первичной оценки в учреждение
+                        </label>
+                        <div class="col-xs-12">
+                            <p class="form-group__control-static p-l-0 p-r-0"> <?= date('d M Y', strtotime($survey->dt_first_survey)); ?> </p>
+                        </div>
                     </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="A10" class="form-group__label col-xs-12">
-                        Цели получения медицинской помощи, выраженные пациентом
-                    </label>
-                    <div class="col-xs-12">
-                        <? if ($can_conduct) : ?>
-                            <textarea name="A10" id="A10" rows="5" class="form-group__control" maxlength="512"><?= $survey->A10; ?></textarea>
-                        <? else : ?>
-                            <p class="form-group__control-static p-l-0"> <?= !empty($survey->A10) ? $survey->A10 : 'не указано'; ?> </p>
-                        <? endif; ?>
+                </fieldset>
+                <fieldset>
+                    <div class="form-group">
+                        <label for="A10" class="form-group__label col-xs-12">
+                            Цели получения медицинской помощи, выраженные пациентом
+                        </label>
+                        <div class="col-xs-12">
+                            <? if ($can_conduct) : ?>
+                                <textarea name="A10" id="A10" rows="5" class="form-group__control" maxlength="512"><?= $survey->A10; ?></textarea>
+                            <? else : ?>
+                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->A10) ? $survey->A10 : 'не указано'; ?> </p>
+                            <? endif; ?>
+                        </div>
                     </div>
-                </div>
-
-                <div class="form-group m-b-15">
-                    <label for="A11" class="form-group__label col-xs-12">
-                        Время с момента последнего пребываения в стационаре за последние 90 дней
-                    </label>
-                    <div class="col-xs-12">
-                        <? if ($can_conduct) : ?>
-                            <select name="A11" id="A11" class="form-group__control">
-                                <option value=""></option>
-                                <? foreach ($A11 as $key => $option) :?>
-                                    <option value="<?= $key; ?>" <?= $key == $survey->A11 ? 'selected' : '' ?>><?= $option; ?></option>
-                                <? endforeach; ?>
-                            </select>
-                        <? else : ?>
-                            <p class="form-group__control-static p-l-0"> <?= !empty($survey->A11) ? $A11[$survey->A11] : 'не указано'; ?> </p>
-                        <? endif; ?>
+                </fieldset>
+                <fieldset>
+                    <div class="form-group">
+                        <label for="A11" class="form-group__label col-xs-12">
+                            Время с момента последнего пребываения в стационаре за последние 90 дней
+                        </label>
+                        <div class="col-xs-12">
+                            <? if ($can_conduct) : ?>
+                                <select name="A11" id="A11" class="form-group__control">
+                                    <option value=""></option>
+                                    <? foreach ($A11 as $key => $option) :?>
+                                        <option value="<?= $key; ?>" <?= !empty($survey->A11) && $key == $survey->A11 ? 'selected' : '' ?>><?= $option; ?></option>
+                                    <? endforeach; ?>
+                                </select>
+                            <? else : ?>
+                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->A11) ? $A11[$survey->A11] : 'не указано'; ?> </p>
+                            <? endif; ?>
+                        </div>
                     </div>
-                </div>
+                </fieldset>
 
             </div>
 

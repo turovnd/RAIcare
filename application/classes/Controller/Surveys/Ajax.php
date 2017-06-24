@@ -181,6 +181,7 @@ class Controller_Surveys_Ajax extends Ajax
         $first_survey = Model_Survey::getFirstSurvey($this->survey->pension, $this->survey->patient);
         $this->survey->dt_first_survey = $first_survey->dt_create;
         $this->survey->unitB = new Model_SurveyUnitB($this->survey->pk);
+        $this->survey->unitC = new Model_SurveyUnitC($this->survey->pk);
         $this->survey->pension = new Model_Pension($this->survey->pension);
         $this->survey->patient = new Model_Patient($this->survey->patient);
         $this->survey->patient->can_edit = true;
@@ -204,6 +205,7 @@ class Controller_Surveys_Ajax extends Ajax
         switch ($unit) {
             case 'unitA': $this->update_unitA(); break;
             case 'unitB': $this->update_unitB(); break;
+            case 'unitC': $this->update_unitC(); break;
         }
     }
 
@@ -232,6 +234,7 @@ class Controller_Surveys_Ajax extends Ajax
 
     private function update_unitB()
     {
+
         $B1 = Arr::get($_POST,'B1');
         $B2 = Arr::get($_POST,'B2');
         $B3 = json_encode(Arr::get($_POST,'B3'));
@@ -243,7 +246,7 @@ class Controller_Surveys_Ajax extends Ajax
         $B8 = json_encode(Arr::get($_POST,'B8'));
         $B9 = Arr::get($_POST,'B9');
 
-        if (!empty($B6) && !Valid::exact_length($B6, 9) || !Valid::digit($B6)) {
+        if (!empty($B6) && (!Valid::exact_length($B6, 9) || !Valid::digit($B6))) {
             $response = new Model_Response_Survey('SURVEY_UNIT_POST_CODE_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
             return;
@@ -275,6 +278,57 @@ class Controller_Surveys_Ajax extends Ajax
 
         if (empty($unitB->B1) || empty($unitB->B2) || empty($unitB->B3) || $unitB->B3 == "null" || empty($unitB->B4) || empty($unitB->B5a)
             || empty($unitB->B5b) || empty($unitB->B6) || empty($unitB->B7) || empty($unitB->B8) || $unitB->B8 == "null"  || $unitB->B9 == NULL)
+        {
+            $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_WARMING', 'warning');
+        } else {
+            $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_SUCCESS', 'success');
+        }
+
+        $this->response->body(@json_encode($response->get_response()));
+        return;
+    }
+
+    private function update_unitC()
+    {
+        $C1  = Arr::get($_POST,'C1');
+        $C2  = json_encode(Arr::get($_POST,'C2'));
+        $C3a = Arr::get($_POST,'C3a');
+        $C3b = Arr::get($_POST,'C3b');
+        $C3c = Arr::get($_POST,'C3c');
+        $C4  = Arr::get($_POST,'C4');
+        $C5  = Arr::get($_POST,'C5');
+
+        $unitC = new Model_SurveyUnitC($this->survey->pk);
+
+        $need_update = false;
+        if ($unitC->C1 == 5 && $C1 != 5 || $unitC->C1 != 5 && $C1 ==5) $need_update = true;
+
+        if (!$unitC->pk) {
+            $unitC = new Model_SurveyUnitC();
+        }
+
+        $unitC->C1 = $C1;
+        if ($C1 == 5) goto finish;
+
+        $unitC->C2 = $C2;
+        $unitC->C3a = $C3a;
+        $unitC->C3b = $C3b;
+        $unitC->C3c = $C3c;
+        $unitC->C4 = $C4;
+        $unitC->C5 = $C5;
+
+        finish:
+        if (!$unitC->pk) {
+            $unitC->pk = $this->survey->pk;
+            $unitC->save();
+        } else {
+            $unitC->update();
+        }
+
+        if ($need_update) {
+            $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_WITH_REFRESH_SUCCESS', 'success');
+        } else if (empty($unitC->C1) || empty($unitC->C2) || $unitC->C2 == "null" || empty($unitC->C3a)
+            || empty($unitC->C3b) || empty($unitC->C3c) || empty($unitC->C4) || empty($unitC->C5) )
         {
             $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_WARMING', 'warning');
         } else {

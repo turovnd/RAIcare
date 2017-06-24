@@ -62,4 +62,10 @@ class Model_Response_Survey extends Model_Response_Abstract
         'code' => '168',
         'message' => 'Не правильно введен почтовый индекс постоянного места проживания'
     );
+
+    protected $_SURVEY_UNIT_UPDATE_WITH_REFRESH_SUCCESS = array(
+        'type' => 'survey',
+        'code' => '169',
+        'message' => 'Информация сохранена'
+    );
 }

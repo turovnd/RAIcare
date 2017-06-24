@@ -129,6 +129,7 @@ class Controller_Surveys_Index extends Dispatch
         $first_survey = Model_Survey::getFirstSurvey($this->survey->pension, $this->survey->patient);
         $this->survey->dt_first_survey = $first_survey->dt_create;
         $this->survey->unitB = new Model_SurveyUnitB($this->survey->pk);
+        $this->survey->unitC = new Model_SurveyUnitC($this->survey->pk);
         $this->survey->pension = new Model_Pension($this->survey->pension);
         $this->survey->patient = new Model_Patient($this->survey->patient);
         $this->survey->patient->can_edit = false;
