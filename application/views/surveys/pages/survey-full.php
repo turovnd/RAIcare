@@ -12,5 +12,6 @@
     <?= View::factory('surveys/units/unitA', array('survey' => $survey, 'can_conduct' => false)); ?>
     <?= View::factory('surveys/units/unitB', array('survey' => $survey, 'can_conduct' => false)); ?>
     <?= View::factory('surveys/units/unitC', array('survey' => $survey, 'can_conduct' => false)); ?>
+    <?= View::factory('surveys/units/unitD', array('survey' => $survey, 'can_conduct' => false)); ?>
 
 </div>

@@ -182,6 +182,7 @@ class Controller_Surveys_Ajax extends Ajax
         $this->survey->dt_first_survey = $first_survey->dt_create;
         $this->survey->unitB = new Model_SurveyUnitB($this->survey->pk);
         $this->survey->unitC = new Model_SurveyUnitC($this->survey->pk);
+        $this->survey->unitD = new Model_SurveyUnitD($this->survey->pk);
         $this->survey->pension = new Model_Pension($this->survey->pension);
         $this->survey->patient = new Model_Patient($this->survey->patient);
         $this->survey->patient->can_edit = true;
@@ -206,6 +207,7 @@ class Controller_Surveys_Ajax extends Ajax
             case 'unitA': $this->update_unitA(); break;
             case 'unitB': $this->update_unitB(); break;
             case 'unitC': $this->update_unitC(); break;
+            case 'unitD': $this->update_unitD(); break;
         }
     }
 
@@ -329,6 +331,47 @@ class Controller_Surveys_Ajax extends Ajax
             $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_WITH_REFRESH_SUCCESS', 'success');
         } else if (empty($unitC->C1) || empty($unitC->C2) || $unitC->C2 == "null" || empty($unitC->C3a)
             || empty($unitC->C3b) || empty($unitC->C3c) || empty($unitC->C4) || empty($unitC->C5) )
+        {
+            $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_WARMING', 'warning');
+        } else {
+            $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_SUCCESS', 'success');
+        }
+
+        $this->response->body(@json_encode($response->get_response()));
+        return;
+    }
+
+    private function update_unitD()
+    {
+        $D1  = Arr::get($_POST,'D1');
+        $D2  = Arr::get($_POST,'D2');
+        $D3a = Arr::get($_POST,'D4a');
+        $D3b = Arr::get($_POST,'D4b');
+        $D4a = Arr::get($_POST,'D4a');
+        $D4b = Arr::get($_POST,'D4b');
+
+        $unitD = new Model_SurveyUnitD($this->survey->pk);
+
+        if (!$unitD->pk) {
+            $unitD = new Model_SurveyUnitD();
+        }
+
+        $unitD->D1 = $D1;
+        $unitD->D2 = $D2;
+        $unitD->D3a = $D3a;
+        $unitD->D3b = $D3b;
+        $unitD->D4a = $D4a;
+        $unitD->D4b = $D4b;
+
+        if (!$unitD->pk) {
+            $unitD->pk = $this->survey->pk;
+            $unitD->save();
+        } else {
+            $unitD->update();
+        }
+
+        if (empty($unitD->D1) || empty($unitD->D2) || empty($unitD->D3a)
+            || empty($unitD->D3b) || empty($unitD->D4a) || empty($unitD->D4b))
         {
             $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_WARMING', 'warning');
         } else {
