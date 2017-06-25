@@ -186,6 +186,7 @@ class Controller_Surveys_Ajax extends Ajax
         $this->survey->unitE = new Model_SurveyUnitE($this->survey->pk);
         $this->survey->unitF = new Model_SurveyUnitF($this->survey->pk);
         $this->survey->unitG = new Model_SurveyUnitG($this->survey->pk);
+        $this->survey->unitH = new Model_SurveyUnitH($this->survey->pk);
         $this->survey->pension = new Model_Pension($this->survey->pension);
         $this->survey->patient = new Model_Patient($this->survey->patient);
         $this->survey->patient->can_edit = true;
@@ -214,6 +215,7 @@ class Controller_Surveys_Ajax extends Ajax
             case 'unitE': $this->update_unitE(); break;
             case 'unitF': $this->update_unitF(); break;
             case 'unitG': $this->update_unitG(); break;
+            case 'unitH': $this->update_unitH(); break;
         }
     }
 
@@ -510,6 +512,41 @@ class Controller_Surveys_Ajax extends Ajax
         if (!$empty) { if ($G5 == -1) { $empty = true; } }
 
         if ($empty) {
+            $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_WARMING', 'warning');
+        } else {
+            $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_SUCCESS', 'success');
+        }
+
+        $this->response->body(@json_encode($response->get_response()));
+        return;
+    }
+
+    private function update_unitH()
+    {
+        $H1 = Arr::get($_POST,'H1');
+        $H2 = Arr::get($_POST,'H2');
+        $H3 = Arr::get($_POST,'H3');
+        $H4 = Arr::get($_POST,'H4');
+
+        $unitH = new Model_SurveyUnitH($this->survey->pk);
+
+        if (!$unitH->pk) {
+            $unitH = new Model_SurveyUnitH();
+        }
+
+        $unitH->H1 = $H1;
+        $unitH->H2 = $H2;
+        $unitH->H3 = $H3;
+        $unitH->H4 = $H4;
+
+        if (!$unitH->pk) {
+            $unitH->pk = $this->survey->pk;
+            $unitH->save();
+        } else {
+            $unitH->update();
+        }
+
+        if ($H1 == NULL || $H2 == NULL || $H3 == NULL || $H4 == NULL) {
             $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_WARMING', 'warning');
         } else {
             $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_SUCCESS', 'success');
