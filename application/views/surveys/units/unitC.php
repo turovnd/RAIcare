@@ -34,7 +34,7 @@ $C5 = array(
     Когнитивные способности
 </h3>
 
-<form class="row" id="unitC">
+<form class="row" id="unitC" onsubmit="event.preventDefault()">
 
     <div class="col-xs-12">
 
@@ -186,7 +186,7 @@ $C5 = array(
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitC->C5) ? $C5[$survey->unitC->C5] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitC->C5 != -1 ? $C5[$survey->unitC->C5] : 'не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>

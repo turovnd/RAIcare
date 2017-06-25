@@ -30,7 +30,7 @@ $survey->unitE->E3 = json_decode($survey->unitE->E3);
     Настроение и поведение
 </h3>
 
-<form class="row" id="unitE">
+<form class="row" id="unitE" onsubmit="event.preventDefault()">
 
     <div class="col-xs-12">
 
@@ -58,7 +58,7 @@ $survey->unitE->E3 = json_decode($survey->unitE->E3);
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitE->E1) ? $E1[$survey->unitE->E1[0]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitE->E1[0] != -1 ? $E1[$survey->unitE->E1[0]] : 'не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -76,7 +76,7 @@ $survey->unitE->E3 = json_decode($survey->unitE->E3);
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitE->E1) ? $E1[$survey->unitE->E1[1]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitE->E1[1] != -1 ? $E1[$survey->unitE->E1[1]] : 'не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -94,7 +94,7 @@ $survey->unitE->E3 = json_decode($survey->unitE->E3);
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitE->E1) ? $E1[$survey->unitE->E1[2]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitE->E1[2] != -1 ? $E1[$survey->unitE->E1[2]] : 'не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -112,7 +112,7 @@ $survey->unitE->E3 = json_decode($survey->unitE->E3);
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitE->E1) ? $E1[$survey->unitE->E1[3]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitE->E1[3] != -1 ? $E1[$survey->unitE->E1[3]] : 'не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -130,7 +130,7 @@ $survey->unitE->E3 = json_decode($survey->unitE->E3);
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitE->E1) ? $E1[$survey->unitE->E1[4]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitE->E1[4] != -1 ? $E1[$survey->unitE->E1[4]] : 'не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -148,7 +148,7 @@ $survey->unitE->E3 = json_decode($survey->unitE->E3);
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitE->E1) ? $E1[$survey->unitE->E1[5]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitE->E1[5] != -1 ? $E1[$survey->unitE->E1[5]] : 'не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -165,7 +165,7 @@ $survey->unitE->E3 = json_decode($survey->unitE->E3);
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitE->E1) ? $E1[$survey->unitE->E1[6]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitE->E1[6] != -1 ? $E1[$survey->unitE->E1[6]] : 'не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -183,7 +183,7 @@ $survey->unitE->E3 = json_decode($survey->unitE->E3);
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitE->E1) ? $E1[$survey->unitE->E1[7]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitE->E1[7] != -1 ? $E1[$survey->unitE->E1[7]] : 'не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -201,7 +201,7 @@ $survey->unitE->E3 = json_decode($survey->unitE->E3);
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitE->E1) ? $E1[$survey->unitE->E1[8]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitE->E1[8] != -1 ? $E1[$survey->unitE->E1[8]] : 'не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -218,7 +218,7 @@ $survey->unitE->E3 = json_decode($survey->unitE->E3);
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitE->E1) ? $E1[$survey->unitE->E1[9]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitE->E1[9] != -1 ? $E1[$survey->unitE->E1[9]] : 'не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -236,7 +236,7 @@ $survey->unitE->E3 = json_decode($survey->unitE->E3);
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitE->E1) ? $E1[$survey->unitE->E1[10]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitE->E1[10] != -1 ? $E1[$survey->unitE->E1[10]] : 'не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -260,7 +260,7 @@ $survey->unitE->E3 = json_decode($survey->unitE->E3);
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitE->E2) ? $E2[$survey->unitE->E2[0]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitE->E2[0] != -1 ? $E2[$survey->unitE->E2[0]] : 'не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -277,7 +277,7 @@ $survey->unitE->E3 = json_decode($survey->unitE->E3);
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitE->E2) ? $E2[$survey->unitE->E2[1]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitE->E2[1] != -1 ? $E2[$survey->unitE->E2[1]] : 'не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -294,7 +294,7 @@ $survey->unitE->E3 = json_decode($survey->unitE->E3);
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitE->E2) ? $E2[$survey->unitE->E2[2]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitE->E2[2] != -1 ? $E2[$survey->unitE->E2[2]] : 'не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -320,7 +320,7 @@ $survey->unitE->E3 = json_decode($survey->unitE->E3);
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitE->E3) ? $E3[$survey->unitE->E3[0]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitE->E3[0] != -1 ? $E3[$survey->unitE->E3[0]] : 'не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -338,7 +338,7 @@ $survey->unitE->E3 = json_decode($survey->unitE->E3);
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitE->E3) ? $E3[$survey->unitE->E3[1]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitE->E3[1] != -1 ? $E3[$survey->unitE->E3[1]] : 'не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -356,7 +356,7 @@ $survey->unitE->E3 = json_decode($survey->unitE->E3);
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitE->E3) ? $E3[$survey->unitE->E3[2]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitE->E3[2] != -1 ? $E3[$survey->unitE->E3[2]] : 'не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -374,7 +374,7 @@ $survey->unitE->E3 = json_decode($survey->unitE->E3);
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitE->E3) ? $E3[$survey->unitE->E3[3]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitE->E3[3] != -1 ? $E3[$survey->unitE->E3[3]] : 'не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -391,7 +391,7 @@ $survey->unitE->E3 = json_decode($survey->unitE->E3);
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitE->E3) ? $E3[$survey->unitE->E3[4]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitE->E3[4] != -1 ? $E3[$survey->unitE->E3[4]] : 'не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -409,7 +409,7 @@ $survey->unitE->E3 = json_decode($survey->unitE->E3);
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitE->E3) ? $E3[$survey->unitE->E3[5]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitE->E3[5] != -1 ? $E3[$survey->unitE->E3[5]] : 'не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>

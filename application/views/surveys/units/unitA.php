@@ -25,7 +25,7 @@
 
     </div>
 
-    <form class="col-xs-12" id="unitA">
+    <form class="col-xs-12" id="unitA" onsubmit="event.preventDefault()">
 
         <div class="block">
 

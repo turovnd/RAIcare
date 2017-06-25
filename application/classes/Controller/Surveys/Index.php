@@ -52,6 +52,12 @@ class Controller_Surveys_Index extends Dispatch
         self::hasAccess(self::WATCH_ALL_SURVEYS);
 
         $this->getSurvey();
+        $this->survey->unitB = new Model_SurveyUnitB($this->survey->pk);
+        $this->survey->unitC = new Model_SurveyUnitC($this->survey->pk);
+        $this->survey->unitD = new Model_SurveyUnitD($this->survey->pk);
+        $this->survey->unitE = new Model_SurveyUnitE($this->survey->pk);
+        $this->survey->unitF = new Model_SurveyUnitF($this->survey->pk);
+        $this->survey->unitG = new Model_SurveyUnitG($this->survey->pk);
 
         $this->template->title = "Форма оценки #" . $this->survey->pk;
         $this->template->section = View::factory('surveys/pages/survey-full')
@@ -128,10 +134,6 @@ class Controller_Surveys_Index extends Dispatch
 
         $first_survey = Model_Survey::getFirstSurvey($this->survey->pension, $this->survey->patient);
         $this->survey->dt_first_survey = $first_survey->dt_create;
-        $this->survey->unitB = new Model_SurveyUnitB($this->survey->pk);
-        $this->survey->unitC = new Model_SurveyUnitC($this->survey->pk);
-        $this->survey->unitD = new Model_SurveyUnitD($this->survey->pk);
-        $this->survey->unitE = new Model_SurveyUnitE($this->survey->pk);
         $this->survey->pension = new Model_Pension($this->survey->pension);
         $this->survey->patient = new Model_Patient($this->survey->patient);
         $this->survey->patient->can_edit = false;

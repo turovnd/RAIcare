@@ -36,7 +36,7 @@ $D4a = array(
     Коммуникация и зрение
 </h3>
 
-<form class="row" id="unitD">
+<form class="row" id="unitD" onsubmit="event.preventDefault()">
 
     <div class="col-xs-12">
 

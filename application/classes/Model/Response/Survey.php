@@ -57,7 +57,13 @@ class Model_Response_Survey extends Model_Response_Abstract
         'message' => 'Заполнены не все поля, не забудьте вернуться и заполнить их'
     );
 
-    protected $_SURVEY_UNIT_POST_CODE_ERROR = array(
+    protected $_SURVEY_UNIT_G2B_ERROR = array(
+        'type' => 'survey',
+        'code' => '168',
+        'message' => 'Не правильно указана скорость преодоления 4-метрового расстояния пешком   '
+    );
+
+    protected $_SURVEY_UNIT__ERROR = array(
         'type' => 'survey',
         'code' => '168',
         'message' => 'Не правильно введен почтовый индекс постоянного места проживания'
