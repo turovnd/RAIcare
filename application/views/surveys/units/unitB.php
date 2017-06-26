@@ -83,7 +83,7 @@ $B8_get = json_decode($survey->unitB->B8);
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= $survey->unitB->B1 != -1 ? $B1[$survey->unitB->B1] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitB->B1) && $survey->unitB->B1 != -1 ? $B1[$survey->unitB->B1] : 'не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -139,7 +139,7 @@ $B8_get = json_decode($survey->unitB->B8);
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= $survey->unitB->B4 != -1 ? $B4[$survey->unitB->B4] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitB->B4) && $survey->unitB->B4 != -1 ? $B4[$survey->unitB->B4] : 'не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -158,7 +158,7 @@ $B8_get = json_decode($survey->unitB->B8);
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= $survey->unitB->B5a != -1 ? $B5[$survey->unitB->B5a] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitB->B5a) && $survey->unitB->B5a != -1 ? $B5[$survey->unitB->B5a] : 'не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -175,7 +175,7 @@ $B8_get = json_decode($survey->unitB->B8);
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= $survey->unitB->B5b != -1 ? $B5[$survey->unitB->B5b] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitB->B5b) && $survey->unitB->B5b != -1 ? $B5[$survey->unitB->B5b] : 'не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -210,7 +210,7 @@ $B8_get = json_decode($survey->unitB->B8);
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= $survey->unitB->B7 != -1 ? $B7[$survey->unitB->B7] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitB->B7) && $survey->unitB->B7 != -1 ? $B7[$survey->unitB->B7] : 'не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>

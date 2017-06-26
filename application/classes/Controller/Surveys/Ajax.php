@@ -187,6 +187,7 @@ class Controller_Surveys_Ajax extends Ajax
         $this->survey->unitF = new Model_SurveyUnitF($this->survey->pk);
         $this->survey->unitG = new Model_SurveyUnitG($this->survey->pk);
         $this->survey->unitH = new Model_SurveyUnitH($this->survey->pk);
+        $this->survey->unitJ = new Model_SurveyUnitJ($this->survey->pk);
         $this->survey->pension = new Model_Pension($this->survey->pension);
         $this->survey->patient = new Model_Patient($this->survey->patient);
         $this->survey->patient->can_edit = true;
@@ -216,6 +217,7 @@ class Controller_Surveys_Ajax extends Ajax
             case 'unitF': $this->update_unitF(); break;
             case 'unitG': $this->update_unitG(); break;
             case 'unitH': $this->update_unitH(); break;
+            case 'unitJ': $this->update_unitJ(); break;
         }
     }
 
@@ -547,6 +549,57 @@ class Controller_Surveys_Ajax extends Ajax
         }
 
         if ($H1 == NULL || $H2 == NULL || $H3 == NULL || $H4 == NULL) {
+            $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_WARMING', 'warning');
+        } else {
+            $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_SUCCESS', 'success');
+        }
+
+        $this->response->body(@json_encode($response->get_response()));
+        return;
+    }
+
+    private function update_unitJ()
+    {
+        $J1 = Arr::get($_POST,'J1');
+        $J2 = Arr::get($_POST,'J2');
+        $J3 = Arr::get($_POST,'J3');
+        $J4 = Arr::get($_POST,'J4');
+        $J5 = Arr::get($_POST,'J5');
+        $J6 = Arr::get($_POST,'J6');
+        $J7 = Arr::get($_POST,'J7');
+        $J8 = Arr::get($_POST,'J8');
+        $J9 = Arr::get($_POST,'J9');
+
+        $unitJ = new Model_SurveyUnitJ($this->survey->pk);
+
+        if (!$unitJ->pk) {
+            $unitJ = new Model_SurveyUnitJ();
+        }
+
+        $unitJ->J1 = $J1;
+        $unitJ->J2 = $J2;
+        $unitJ->J3 = json_encode($J3);
+        $unitJ->J4 = $J4;
+        $unitJ->J5 = $J5;
+        $unitJ->J6 = json_encode($J6);
+        $unitJ->J7 = json_encode($J7);
+        $unitJ->J8 = $J8;
+        $unitJ->J9 = json_encode($J9);
+
+        if (!$unitJ->pk) {
+            $unitJ->pk = $this->survey->pk;
+            $unitJ->save();
+        } else {
+            $unitJ->update();
+        }
+
+        $empty = false;
+        if (!$empty) { foreach ($J3 as $j3) { if ($j3 == -1) { $empty = true; } } }
+        if (!$empty) { foreach ($J6 as $j6) { if ($j6 == -1) { $empty = true; } } }
+        if (!$empty) { foreach ($J7 as $j7) { if ($j7 == -1) { $empty = true; } } }
+        if (!$empty) { foreach ($J9 as $j9) { if ($j9 == -1) { $empty = true; } } }
+
+        if ($J1 == NULL || $J4 == NULL || $J5 == NULL || $J8 == NULL || $empty) {
             $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_WARMING', 'warning');
         } else {
             $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_SUCCESS', 'success');

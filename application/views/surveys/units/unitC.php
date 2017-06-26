@@ -186,7 +186,7 @@ $C5 = array(
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= $survey->unitC->C5 != -1 ? $C5[$survey->unitC->C5] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitC->C5) && $survey->unitC->C5 != -1 ? $C5[$survey->unitC->C5] : 'не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>

@@ -70,14 +70,14 @@ module.exports = (function (get) {
             data: formData,
             beforeSend: function () {
 
-                document.body.classList.add('loading');
+                document.getElementsByClassName('wrapper')[0].classList.add('loading');
 
             },
             success: function (response) {
 
                 response = JSON.parse(response);
                 raisoft.core.log(response.message, response.status, corePrefix);
-                document.body.classList.remove('loading');
+                document.getElementsByClassName('wrapper')[0].classList.remove('loading');
 
                 if (parseInt(response.code) === 165 ) {
 
@@ -96,7 +96,7 @@ module.exports = (function (get) {
             error: function (callbacks) {
 
                 raisoft.core.log('ajax error occur on getting unit of survey', 'error', corePrefix, callbacks);
-                document.body.classList.remove('loading');
+                document.getElementsByClassName('wrapper')[0].classList.remove('loading');
 
             }
         };

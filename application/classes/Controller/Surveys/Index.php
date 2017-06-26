@@ -58,6 +58,10 @@ class Controller_Surveys_Index extends Dispatch
         $this->survey->unitE = new Model_SurveyUnitE($this->survey->pk);
         $this->survey->unitF = new Model_SurveyUnitF($this->survey->pk);
         $this->survey->unitG = new Model_SurveyUnitG($this->survey->pk);
+        $this->survey->unitH = new Model_SurveyUnitH($this->survey->pk);
+        //$this->survey->unitI = new Model_SurveyUnitI($this->survey->pk);
+        $this->survey->unitJ = new Model_SurveyUnitJ($this->survey->pk);
+        //$this->survey->unitK = new Model_SurveyUnitK($this->survey->pk);
 
         $this->template->title = "Форма оценки #" . $this->survey->pk;
         $this->template->section = View::factory('surveys/pages/survey-full')
