@@ -1,11 +1,13 @@
 module.exports = (function (get) {
 
-    var corePrefix  = 'Survey: get AJAX',
-        unitHolder  = document.getElementsByClassName('section__content')[0],
-        pensionID   = document.getElementById('pensionID'),
-        patientID   = document.getElementById('patientID'),
-        surveyID    = document.getElementById('surveyID'),
-        ajaxSend    = false;
+    var corePrefix       = 'Survey: get AJAX',
+        unitHolder       = document.getElementsByClassName('section__content')[0],
+        pensionID        = document.getElementById('pensionID'),
+        patientID        = document.getElementById('patientID'),
+        units            = ['progress', 'unitA', 'unitB', 'unitC', 'unitD', 'unitE', 'unitF', 'unitG', 'unitH', 'unitI',
+            'unitJ', 'unitK', 'unitL', 'unitM', 'unitN', 'unitO', 'unitP', 'unitQ', 'unitR'],
+        surveyID         = document.getElementById('surveyID'),
+        ajaxSend         = false;
 
 
     if(pensionID) pensionID = pensionID.value;
@@ -13,6 +15,27 @@ module.exports = (function (get) {
     if(surveyID) surveyID = surveyID.value;
 
     get.unitstart = function () {
+
+        var unavailableUnits = document.getElementById('unavailableUnits');
+
+        if(unavailableUnits) {
+
+            unavailableUnits = JSON.parse(unavailableUnits.value);
+
+            for (var i = 0; i < unavailableUnits.length; i++) {
+
+                units.splice(units.indexOf(unavailableUnits[i]), 1);
+                var unit = document.querySelector(".aside__link[href='#" + unavailableUnits[i] + "']");
+
+                if (unit) unit.parentNode.remove();
+
+            }
+
+        } else {
+
+            return;
+
+        }
 
         window.addEventListener('hashchange', getUnitOnHashChange_);
         getUnitOnHashChange_();
@@ -39,7 +62,7 @@ module.exports = (function (get) {
 
     get.unit = function (element, unit) {
 
-        // TODO check is unit available
+        if (!isAvailableUnit(unit)) return;
 
         if (document.getElementsByClassName('aside__item--active')[0])
             document.getElementsByClassName('aside__item--active')[0].classList.remove('aside__item--active');
@@ -53,6 +76,23 @@ module.exports = (function (get) {
         getUnit_(unit);
 
     };
+
+    function isAvailableUnit(unit) {
+
+        if (units.indexOf(unit) === -1) {
+
+            raisoft.notification.notify({
+                type: 'error',
+                message: 'Не правильно указан адрес'
+            });
+
+            return false;
+
+        }
+
+        return true;
+
+    }
 
 
     function getUnit_(unit) {
@@ -148,8 +188,6 @@ module.exports = (function (get) {
         formData.append('patient', patientID);
         formData.append('pension', pensionID);
         formData.append('csrf', document.getElementById('csrf').value);
-
-
 
         var ajaxData = {
             url: '/survey/get',

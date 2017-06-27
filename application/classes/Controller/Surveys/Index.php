@@ -52,16 +52,12 @@ class Controller_Surveys_Index extends Dispatch
         self::hasAccess(self::WATCH_ALL_SURVEYS);
 
         $this->getSurvey();
-        $this->survey->unitB = new Model_SurveyUnitB($this->survey->pk);
-        $this->survey->unitC = new Model_SurveyUnitC($this->survey->pk);
-        $this->survey->unitD = new Model_SurveyUnitD($this->survey->pk);
-        $this->survey->unitE = new Model_SurveyUnitE($this->survey->pk);
-        $this->survey->unitF = new Model_SurveyUnitF($this->survey->pk);
-        $this->survey->unitG = new Model_SurveyUnitG($this->survey->pk);
-        $this->survey->unitH = new Model_SurveyUnitH($this->survey->pk);
-        //$this->survey->unitI = new Model_SurveyUnitI($this->survey->pk);
-        $this->survey->unitJ = new Model_SurveyUnitJ($this->survey->pk);
-        //$this->survey->unitK = new Model_SurveyUnitK($this->survey->pk);
+        $this->getSurveyUnits();
+
+        $this->survey->pension = new Model_Pension($this->survey->pension);
+        $this->survey->patient = new Model_Patient($this->survey->patient);
+        $this->survey->patient->can_edit = false;
+        $this->survey->patient->creator = new Model_User($this->survey->patient->creator);
 
         $this->template->title = "Форма оценки #" . $this->survey->pk;
         $this->template->section = View::factory('surveys/pages/survey-full')
@@ -76,11 +72,13 @@ class Controller_Surveys_Index extends Dispatch
 
         if ($this->survey->status == 1) {
             self::hasAccess(self::CAN_CONDUCT_A_SURVEY);
+            $this->survey->unavailable_units = json_encode($this->getUnavailableUnits());
             $section = 'survey-filling';
         }
 
         if ($this->survey->status == 2) {
             self::hasAccess(self::WATCH_SURVEY_IN_PEN);
+            $this->getSurveyUnits();
             $section = 'survey';
         }
 
@@ -88,6 +86,15 @@ class Controller_Surveys_Index extends Dispatch
         $this->template->section = View::factory('surveys/pages/' . $section)
             ->set('survey', $this->survey)
             ->set('can_conduct', true);
+    }
+
+    private function getUnavailableUnits()
+    {
+        $units = array();
+        if ($this->survey->type != 1) array_push($units, 'unitB');
+        if ($this->survey->type != 6) array_push($units, 'unitR');
+
+        return $units;
     }
 
 
@@ -136,13 +143,23 @@ class Controller_Surveys_Index extends Dispatch
             throw new HTTP_Exception_404();
         }
 
-        $first_survey = Model_Survey::getFirstSurvey($this->survey->pension, $this->survey->patient);
-        $this->survey->dt_first_survey = $first_survey->dt_create;
-        $this->survey->pension = new Model_Pension($this->survey->pension);
-        $this->survey->patient = new Model_Patient($this->survey->patient);
-        $this->survey->patient->can_edit = false;
-        $this->survey->patient->creator = new Model_User($this->survey->patient->creator);
+    }
 
+    private function getSurveyUnits()
+    {
+        $first_survey = Model_Survey::getFirstSurvey($this->survey->pension, $this->survey->patient);
+        $this->survey->dt_first_survey = !empty($first_survey->pk) ? $first_survey->dt_create : $this->survey->dt_create;
+
+        $this->survey->unitA = new Model_SurveyUnitA($this->survey->unitA);
+        $this->survey->unitB = new Model_SurveyUnitB($this->survey->unitB);
+        $this->survey->unitC = new Model_SurveyUnitC($this->survey->unitC);
+        $this->survey->unitD = new Model_SurveyUnitD($this->survey->unitD);
+        $this->survey->unitE = new Model_SurveyUnitE($this->survey->unitE);
+        $this->survey->unitF = new Model_SurveyUnitF($this->survey->unitF);
+        $this->survey->unitG = new Model_SurveyUnitG($this->survey->unitG);
+        $this->survey->unitH = new Model_SurveyUnitH($this->survey->unitH);
+        //$this->survey->unitI = new Model_SurveyUnitI($this->survey->unitI);
+        $this->survey->unitJ = new Model_SurveyUnitJ($this->survey->unitJ);
     }
 
 }

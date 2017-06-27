@@ -26,7 +26,7 @@ class Controller_Surveys_Ajax extends Ajax
         self::hasAccess(self::CAN_CONDUCT_A_SURVEY);
 
         $this->getPatientAndPensionData();
-        $type    = Arr::get($_POST,'type');
+        $type = Arr::get($_POST,'type');
 
         if (empty($type)) {
             $response = new Model_Response_Survey('SURVEY_TYPE_EMPTY_ERROR', 'error');
@@ -46,14 +46,17 @@ class Controller_Surveys_Ajax extends Ajax
         $count_forms = $count_forms == false ? 1 : $count_forms + 1;
         $this->redis->set(self::REDIS_PACKAGE . ':pensions:' . $this->pension->id . ':Surveys', $count_forms);
 
-        $form               = new Model_Survey();
-        $form->id           = $count_forms;
-        $form->patient      = $this->patient->pk;
-        $form->pension      = $this->pension->id;
-        $form->organization = $this->pension->organization;
-        $form->type         = $type;
-        $form->creator      = $this->user->id;
-        $form->save();
+        $first_survey = Model_Survey::getFirstSurvey($this->pension->id, $this->patient->id);
+//echo Debug::vars($first_survey );
+        $survey               = new Model_Survey();
+        $survey->id           = $count_forms;
+        $survey->patient      = $this->patient->pk;
+        $survey->pension      = $this->pension->id;
+        $survey->organization = $this->pension->organization;
+        $survey->type         = $type;
+        $survey->creator      = $this->user->id;
+        $survey->unitB        = $first_survey->unitB;
+        $survey->save();
 
         $response = new Model_Response_Survey('SURVEY_CREATED_SUCCESS', 'success', array('id' => $count_forms));
         $this->response->body(@json_encode($response->get_response()));
@@ -122,7 +125,13 @@ class Controller_Surveys_Ajax extends Ajax
         $unit = Arr::get($_POST,'unit');
 
         $this->getSurvey();
-        //$this->checkUnit($unit);
+        $this->getSurveyUnits();
+
+        $this->survey->pension = new Model_Pension($this->survey->pension);
+        $this->survey->patient = new Model_Patient($this->survey->patient);
+        $this->survey->patient->can_edit = true;
+        $this->survey->patient->creator = new Model_User($this->survey->patient->creator);
+
 
         $html = View::factory('surveys/units/' . $unit, array('survey' => $this->survey, 'can_conduct' => true))->render();
 
@@ -164,7 +173,7 @@ class Controller_Surveys_Ajax extends Ajax
         $pension = Arr::get($_POST,'pension');
         $this->survey = new Model_Survey($survey);
 
-        if (!$this->survey->id || $this->survey->pension != $pension || $this->survey->status == 3) {
+        if (!$this->survey->pk || $this->survey->pension != $pension || $this->survey->status == 3) {
             $response = new Model_Response_Survey('SURVEY_DOES_NOT_EXISTED_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
             return;
@@ -177,23 +186,27 @@ class Controller_Surveys_Ajax extends Ajax
             $this->response->body(@json_encode($response->get_response()));
             return;
         }
-
-        $first_survey = Model_Survey::getFirstSurvey($this->survey->pension, $this->survey->patient);
-        $this->survey->dt_first_survey = $first_survey->dt_create;
-        $this->survey->unitB = new Model_SurveyUnitB($this->survey->pk);
-        $this->survey->unitC = new Model_SurveyUnitC($this->survey->pk);
-        $this->survey->unitD = new Model_SurveyUnitD($this->survey->pk);
-        $this->survey->unitE = new Model_SurveyUnitE($this->survey->pk);
-        $this->survey->unitF = new Model_SurveyUnitF($this->survey->pk);
-        $this->survey->unitG = new Model_SurveyUnitG($this->survey->pk);
-        $this->survey->unitH = new Model_SurveyUnitH($this->survey->pk);
-        $this->survey->unitJ = new Model_SurveyUnitJ($this->survey->pk);
-        $this->survey->pension = new Model_Pension($this->survey->pension);
-        $this->survey->patient = new Model_Patient($this->survey->patient);
-        $this->survey->patient->can_edit = true;
-        $this->survey->patient->creator = new Model_User($this->survey->patient->creator);
     }
 
+    private function getSurveyUnits()
+    {
+        $first_survey = Model_Survey::getFirstSurvey($this->survey->pension, $this->survey->patient);
+        $this->survey->dt_first_survey = !empty($first_survey->pk) ? $first_survey->dt_create : $this->survey->dt_create;
+
+        $this->survey->unitA = new Model_SurveyUnitA($this->survey->unitA);
+
+        if ($this->survey->type == 1)
+            $this->survey->unitB = new Model_SurveyUnitB($this->survey->unitB);
+
+        $this->survey->unitC = new Model_SurveyUnitC($this->survey->unitC);
+        $this->survey->unitD = new Model_SurveyUnitD($this->survey->unitD);
+        $this->survey->unitE = new Model_SurveyUnitE($this->survey->unitE);
+        $this->survey->unitF = new Model_SurveyUnitF($this->survey->unitF);
+        $this->survey->unitG = new Model_SurveyUnitG($this->survey->unitG);
+        $this->survey->unitH = new Model_SurveyUnitH($this->survey->unitH);
+        //$this->survey->unitI = new Model_SurveyUnitI($this->survey->unitI);
+        $this->survey->unitJ = new Model_SurveyUnitJ($this->survey->unitJ);
+    }
 
 
     /**
@@ -217,24 +230,30 @@ class Controller_Surveys_Ajax extends Ajax
             case 'unitF': $this->update_unitF(); break;
             case 'unitG': $this->update_unitG(); break;
             case 'unitH': $this->update_unitH(); break;
+            //case 'unitI': $this->update_unitI(); break;
             case 'unitJ': $this->update_unitJ(); break;
         }
     }
-
 
     private function update_unitA()
     {
         $A10 = Arr::get($_POST,'A10');
         $A11 = Arr::get($_POST,'A11');
 
-        $survey = new Model_Survey($this->survey->pk);
+        $unitA = new Model_SurveyUnitA($this->survey->unitA);
 
-        $survey->A10 = $A10;
-        $survey->A11 = $A11;
-        $survey->update();
+        $unitA->A10 = $A10;
+        $unitA->A11 = $A11;
 
-        if (empty($survey->A10) || empty($survey->A11))
-        {
+        if (!$unitA->pk) {
+            $unitA = $unitA->save();
+            $this->survey->unitA = $unitA->pk;
+            $this->survey->update();
+        } else {
+            $unitA->update();
+        }
+
+        if (empty($unitA->A10) || $unitA->A11 == -1) {
             $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_WARMING', 'warning');
         } else {
             $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_SUCCESS', 'success');
@@ -264,11 +283,7 @@ class Controller_Surveys_Ajax extends Ajax
             return;
         }
 
-        $unitB = new Model_SurveyUnitB($this->survey->pk);
-
-        if (!$unitB->pk) {
-            $unitB = new Model_SurveyUnitB();
-        }
+        $unitB = new Model_SurveyUnitB($this->survey->unitB);
 
         $unitB->B1 = $B1;
         $unitB->B2 = $B2;
@@ -282,14 +297,15 @@ class Controller_Surveys_Ajax extends Ajax
         $unitB->B9 = $B9;
 
         if (!$unitB->pk) {
-            $unitB->pk = $this->survey->pk;
-            $unitB->save();
+            $unitB = $unitB->save();
+            $this->survey->unitB = $unitB ->pk;
+            $this->survey->update();
         } else {
             $unitB->update();
         }
 
-        if (empty($unitB->B1) || empty($unitB->B2) || empty($unitB->B3) || $unitB->B3 == "null" || empty($unitB->B4) || empty($unitB->B5a)
-            || empty($unitB->B5b) || empty($unitB->B6) || empty($unitB->B7) || empty($unitB->B8) || $unitB->B8 == "null"  || $unitB->B9 == NULL)
+        if ($unitB->B1 != NULL || empty($unitB->B2) && $unitB->B2 == "0000-00-00" || empty($unitB->B3) || $unitB->B3 == "null" || $unitB->B4 != NULL  || $unitB->B5a != NULL
+            || $unitB->B5b != NULL || empty($unitB->B6) || $unitB->B7 != NULL || empty($unitB->B8) || $unitB->B8 == "null" || $unitB->B9 == NULL)
         {
             $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_WARMING', 'warning');
         } else {

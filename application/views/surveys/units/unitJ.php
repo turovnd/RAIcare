@@ -99,8 +99,8 @@ $survey->unitJ->J3 = json_decode($survey->unitJ->J3);
                             <? if ($can_conduct) : ?>
                                 <? foreach ($J1 as $key => $value) : ?>
                                     <p>
-                                        <input id="J1<?= $key; ?>" name="J1" type="radio" class="checkbox" value="<?= $key; ?>" <?= !empty($survey->unitJ->J1) && $key == $survey->unitJ->J1 ? 'checked' : ''; ?> >
-                                        <label for="J1<?= $key; ?>" class="checkbox-label"><?= $value; ?></label>
+                                        <input id="J1<?= $key; ?>" name="J1" type="radio" class="radio" value="<?= $key; ?>" <?= !empty($survey->unitJ->J1) && $key == $survey->unitJ->J1 ? 'checked' : ''; ?> >
+                                        <label for="J1<?= $key; ?>" class="radio-label"><?= $value; ?></label>
                                     </p>
                                 <? endforeach; ?>
                             <? else : ?>

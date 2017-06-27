@@ -27,9 +27,9 @@
 
     <form class="col-xs-12" id="unitA" onsubmit="event.preventDefault()">
 
-        <div class="block">
+        <div class="form">
 
-            <div class="block__body">
+            <div class="form__body">
                 <fieldset>
                     <div class="form-group">
                         <label class="form-group__label col-xs-12">
@@ -47,9 +47,9 @@
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
-                                <textarea name="A10" id="A10" rows="5" class="form-group__control" maxlength="512"><?= $survey->A10; ?></textarea>
+                                <textarea name="A10" id="A10" rows="5" class="form-group__control" maxlength="512"><?= $survey->unitA->A10; ?></textarea>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->A10) ? $survey->A10 : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitA->A10) ? $survey->unitA->A10 : 'не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -62,13 +62,13 @@
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
                                 <select name="A11" id="A11" class="form-group__control">
-                                    <option value=""></option>
+                                    <option value="-1"></option>
                                     <? foreach ($A11 as $key => $option) :?>
-                                        <option value="<?= $key; ?>" <?= !empty($survey->A11) && $key == $survey->A11 ? 'selected' : '' ?>><?= $option; ?></option>
+                                        <option value="<?= $key; ?>" <?= !empty($survey->unitA->A11) && $key == $survey->unitA->A11 ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->A11) ? $A11[$survey->A11] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitA->A11 != NULL && $survey->unitA->A11 != -1 ? $A11[$survey->unitA->A11] : 'не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -77,7 +77,7 @@
             </div>
 
             <? if ($can_conduct) : ?>
-                <a role="button" class="block__footer text-center text-brand text-bold" onclick="survey.send.updateunit('unitA');">
+                <a role="button" class="form__submit text-center text-brand text-bold" onclick="survey.send.updateunit('unitA');">
                     Сохранить
                 </a>
             <? endif; ?>

@@ -29,14 +29,14 @@ module.exports = (function (send) {
             data: formData,
             beforeSend: function () {
 
-                form.getElementsByClassName('block')[0].classList.add('loading');
+                form.getElementsByClassName('form')[0].classList.add('loading');
 
             },
             success: function (response) {
 
                 response = JSON.parse(response);
                 raisoft.core.log(response.message, response.status, corePrefix);
-                form.getElementsByClassName('block')[0].classList.remove('loading');
+                form.getElementsByClassName('form')[0].classList.remove('loading');
 
                 raisoft.notification.notify({
                     type: response.status,
@@ -53,7 +53,7 @@ module.exports = (function (send) {
             error: function (callbacks) {
 
                 raisoft.core.log('ajax error occur on updating unit data', 'error', corePrefix, callbacks);
-                form.getElementsByClassName('block')[0].classList.remove('loading');
+                form.getElementsByClassName('form')[0].classList.remove('loading');
 
             }
         };

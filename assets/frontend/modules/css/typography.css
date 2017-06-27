@@ -125,6 +125,9 @@ p {
 .text-normal{
     font-weight: normal;
 }
+.text-italic{
+    font-style: italic;
+}
 .text-brand {
     color: #008DA7;
 }

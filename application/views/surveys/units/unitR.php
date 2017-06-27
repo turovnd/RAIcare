@@ -1,5 +1,5 @@
 <h3 class="section__heading">
-    Перспективы выписки
+    Выписка
 </h3>
 
 <div class="row">

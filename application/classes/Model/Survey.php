@@ -5,7 +5,7 @@ Class Model_Survey {
 
     public $pk;         // primary key - autoincrement (unique in global)
     public $id;         // not unique in  global + getting via redis
-    public $type ;
+    public $type;
     public $status;     //	1 - filling, 2 - finished, 3 - deleted
     public $patient;
     public $pension;    // pension + id - unique index for form in pension
@@ -13,8 +13,24 @@ Class Model_Survey {
     public $dt_create;
     public $dt_finish;
     public $creator;
-    public $A10;
-    public $A11;
+    public $unitA;
+    public $unitB;
+    public $unitC;
+    public $unitD;
+    public $unitE;
+    public $unitF;
+    public $unitG;
+    public $unitH;
+    public $unitI;
+    public $unitJ;
+    public $unitK;
+    public $unitL;
+    public $unitM;
+    public $unitN;
+    public $unitO;
+    public $unitP;
+    public $unitQ;
+    public $unitR;
 
     
     public function __construct($id = null) {
@@ -38,12 +54,12 @@ Class Model_Survey {
     }
 
     
-    private function get_($id) {
+    private function get_($pk) {
 
         $select = Dao_Surveys::select()
-            ->where('pk', '=', $id)
+            ->where('pk', '=', $pk)
             ->limit(1)
-            ->cached(Date::MINUTE * 5, $id)
+            ->cached(Date::MINUTE * 5, $pk)
             ->execute();
 
         return $this->fill_by_row($select);
@@ -77,7 +93,7 @@ Class Model_Survey {
 
         $result = $insert
             ->clearcache($this->patient)
-            ->clearcache($this->id)
+            ->clearcache($this->pk)
             ->execute();
 
         return $this->get_($result);
@@ -91,14 +107,14 @@ Class Model_Survey {
             if (property_exists($this, $fieldname)) $insert->set($fieldname, $value);
         }
 
-        $insert->clearcache($this->id)
+        $insert->clearcache($this->pk)
                ->clearcache($this->patient);
 
-        $insert->where('id', '=', $this->id);
+        $insert->where('pk', '=', $this->pk);
 
         $insert->execute();
 
-        return $this->get_($this->id);
+        return $this->get_($this->pk);
     }
 
     public static function getFillingFormByPatientAndPension($patient, $pension)

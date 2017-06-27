@@ -409,7 +409,14 @@
             <li class="aside__item">
                 <a href="#unitQ" class="aside__link display-flex">
                     <i class="fa fa-home aside__icon" aria-hidden="true"></i>
-                    <span class="white-space--normal aside__text">Перспективы выписки и выписка</span>
+                    <span class="white-space--normal aside__text">Перспективы выписки</span>
+                </a>
+            </li>
+
+            <li class="aside__item">
+                <a href="#unitR" class="aside__link display-flex">
+                    <i class="fa fa-home aside__icon" aria-hidden="true"></i>
+                    <span class="white-space--normal aside__text">Выписка</span>
                 </a>
             </li>
 

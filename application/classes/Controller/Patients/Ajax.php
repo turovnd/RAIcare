@@ -106,14 +106,14 @@ class Controller_Patients_Ajax extends Ajax
         $count_forms = $count_forms == false ? 1 : $count_forms + 1;
         $this->redis->set(self::REDIS_PACKAGE . ':pensions:' . $pension->id . ':Surveys', $count_forms);
 
-        $form = new Model_Survey();
-        $form->id           = $count_forms;
-        $form->patient      = $patient->pk;
-        $form->pension      = $pension->id;
-        $form->organization = $pension->organization;
-        $form->type         = 1;
-        $form->creator      = $this->user->id;
-        $form->save();
+        $survey = new Model_Survey();
+        $survey->id           = $count_forms;
+        $survey->patient      = $patient->pk;
+        $survey->pension      = $pension->id;
+        $survey->organization = $pension->organization;
+        $survey->type         = 1;
+        $survey->creator      = $this->user->id;
+        $survey->save();
 
         $response = new Model_Response_Patients('PATIENTS_CREATE_SUCCESS', 'success', array('id' => $count_forms));
         $this->response->body(@json_encode($response->get_response()));
