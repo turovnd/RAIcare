@@ -561,41 +561,44 @@ class Controller_Surveys_Ajax extends Ajax
         $J3 = Arr::get($_POST,'J3');
         $J4 = Arr::get($_POST,'J4');
         $J5 = Arr::get($_POST,'J5');
-        $J6 = Arr::get($_POST,'J6');
-        $J7 = Arr::get($_POST,'J7');
+        $J6a = Arr::get($_POST,'J6a', '-1');
+        $J6b = Arr::get($_POST,'J6b', '-1');
+        $J6c = Arr::get($_POST,'J6c', '-1');
+        $J6d = Arr::get($_POST,'J6d', '-1');
+        $J6e = Arr::get($_POST,'J6e', '-1');
+        $J7a = Arr::get($_POST,'J7a', '-1');
+        $J7b = Arr::get($_POST,'J7b', '-1');
+        $J7c = Arr::get($_POST,'J7c', '-1');
         $J8 = Arr::get($_POST,'J8');
         $J9 = Arr::get($_POST,'J9');
 
-        $unitJ = new Model_SurveyUnitJ($this->survey->pk);
-
-        if (!$unitJ->pk) {
-            $unitJ = new Model_SurveyUnitJ();
-        }
+        $unitJ = new Model_SurveyUnitJ($this->survey->unitJ);
 
         $unitJ->J1 = $J1;
         $unitJ->J2 = $J2;
         $unitJ->J3 = json_encode($J3);
         $unitJ->J4 = $J4;
         $unitJ->J5 = $J5;
-        $unitJ->J6 = json_encode($J6);
-        $unitJ->J7 = json_encode($J7);
+        $unitJ->J6 = json_encode(array($J6a, $J6b, $J6c, $J6d, $J6e));
+        $unitJ->J7 = json_encode(array($J7a, $J7b, $J7c));
         $unitJ->J8 = $J8;
         $unitJ->J9 = json_encode($J9);
 
         if (!$unitJ->pk) {
-            $unitJ->pk = $this->survey->pk;
-            $unitJ->save();
+            $unitJ = $unitJ->save();
+            $this->survey->unitJ = $unitJ->pk;
+            $this->survey->update();
         } else {
             $unitJ->update();
         }
 
         $empty = false;
         if (!$empty) { foreach ($J3 as $j3) { if ($j3 == -1) { $empty = true; } } }
-        if (!$empty) { foreach ($J6 as $j6) { if ($j6 == -1) { $empty = true; } } }
-        if (!$empty) { foreach ($J7 as $j7) { if ($j7 == -1) { $empty = true; } } }
         if (!$empty) { foreach ($J9 as $j9) { if ($j9 == -1) { $empty = true; } } }
 
-        if ($J1 == NULL || $J4 == NULL || $J5 == NULL || $J8 == NULL || $empty) {
+        if ($J1 == NULL || $J4 == NULL || $J5 == NULL || $J8 == NULL || $empty ||
+            $J6a == NULL || $J6b == NULL || $J6c == NULL || $J6d == NULL ||$J6e == NULL ||
+            $J7a == NULL || $J7b == NULL || $J7c == NULL) {
             $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_WARMING', 'warning');
         } else {
             $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_SUCCESS', 'success');

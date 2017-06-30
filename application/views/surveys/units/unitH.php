@@ -123,7 +123,7 @@ $H3 = array(
                                     <label for="H4_2" class="radio-label">Нет</label>
                                 </span>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= $survey->unitH->H4 != NULL ? $survey->unitH->H4 == 0 ? 'Нет' : $survey->unitH->H4 == 1 ? 'Да' : 'Не указано' : 'Не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <? if ($survey->unitH->H4 != NULL) { if ($survey->unitH->H4 == 1) { echo 'Да'; } elseif ($survey->unitH->H4 == 0) { echo 'Нет'; } else { echo 'Не указано'; } } else { echo 'Не указано'; } ?> </p>
                             <? endif; ?>
                         </div>
                     </div>

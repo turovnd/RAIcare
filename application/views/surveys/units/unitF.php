@@ -354,7 +354,7 @@ $survey->unitF->F5 = json_decode($survey->unitF->F5);
                                     <option value="0" <?= $survey->unitF->F4 != NULL && $survey->unitF->F4 == 0 ? 'selected' : '' ?>>Нет</option>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= $survey->unitF->F4 != NULL ? $survey->unitF->F4 == 0 ? 'Нет' : $survey->unitF->F4 == 1 ? 'Да' : 'Не указано' : 'Не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <? if ($survey->unitF->F4 != NULL) { if ($survey->unitF->F4 == 1) { echo 'Да'; } elseif ($survey->unitF->F4 == 0) { echo 'Нет'; } else { echo 'Не указано'; } } else { echo 'Не указано'; } ?> </p>
                             <? endif; ?>
                         </div>
                     </div>

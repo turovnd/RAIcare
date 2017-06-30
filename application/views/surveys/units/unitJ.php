@@ -71,6 +71,9 @@ $J9b = array(
     '3' => '5 или более'
 );
 $survey->unitJ->J3 = json_decode($survey->unitJ->J3);
+$survey->unitJ->J6 = json_decode($survey->unitJ->J6);
+$survey->unitJ->J7 = json_decode($survey->unitJ->J7);
+$survey->unitJ->J9 = json_decode($survey->unitJ->J9);
 
 ?>
 
@@ -85,9 +88,9 @@ $survey->unitJ->J3 = json_decode($survey->unitJ->J3);
 
     <div class="col-xs-12">
 
-        <div class="block">
+        <div class="form">
 
-            <div class="block__body">
+            <div class="form__body">
 
                 <fieldset>
 
@@ -99,12 +102,12 @@ $survey->unitJ->J3 = json_decode($survey->unitJ->J3);
                             <? if ($can_conduct) : ?>
                                 <? foreach ($J1 as $key => $value) : ?>
                                     <p>
-                                        <input id="J1<?= $key; ?>" name="J1" type="radio" class="radio" value="<?= $key; ?>" <?= !empty($survey->unitJ->J1) && $key == $survey->unitJ->J1 ? 'checked' : ''; ?> >
+                                        <input id="J1<?= $key; ?>" name="J1" type="radio" class="radio" value="<?= $key; ?>" <?= $survey->unitJ->J1 != NULL && $key == $survey->unitJ->J1 ? 'checked' : ''; ?> >
                                         <label for="J1<?= $key; ?>" class="radio-label"><?= $value; ?></label>
                                     </p>
                                 <? endforeach; ?>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitJ->J1) ? $J1[$survey->unitJ->J1] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitJ->J1 != NULL ? $J1[$survey->unitJ->J1] : 'Не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -122,15 +125,15 @@ $survey->unitJ->J3 = json_decode($survey->unitJ->J3);
                             <div class="col-xs-12">
                                 <? if ($can_conduct) : ?>
                                     <span>
-                                        <input id="J2_1" name="J2" type="radio" class="checkbox" value="0" <?= !empty($survey->unitJ->J2) && $survey->unitJ->J2 == 0 ? 'checked' : '' ?> >
-                                        <label for="J2_1" class="checkbox-label">Нет</label>
+                                        <input id="J2_1" name="J2" type="radio" class="radio" value="1" <?= $survey->unitJ->J2 != NULL && $survey->unitJ->J2 == 1 ? 'checked' : '' ?> >
+                                        <label for="J2_1" class="radio-label">Да</label>
                                     </span>
                                     <span class="m-l-20">
-                                        <input id="J2_2" name="J2" type="radio" class="checkbox" value="1" <?= !empty($survey->unitJ->J2) && $survey->unitJ->J2 == 1 ? 'checked' : '' ?> >
-                                        <label for="J2_2" class="checkbox-label">Да</label>
+                                        <input id="J2_2" name="J2" type="radio" class="radio" value="0" <?= $survey->unitJ->J2 != NULL && $survey->unitJ->J2 == 0 ? 'checked' : '' ?> >
+                                        <label for="J2_2" class="radio-label">Нет</label>
                                     </span>
                                 <? else : ?>
-                                    <p class="form-group__control-static p-l-0"> <?= $survey->unitJ->J2 == 0 ? 'Нет' : $survey->unitJ->J2 == 1 ? 'Да' : 'не указано'; ?> </p>
+                                    <p class="form-group__control-static p-l-0"> <? if ($survey->unitJ->J2 != NULL) { if ($survey->unitJ->J2 == 1) { echo 'Да'; } elseif ($survey->unitJ->J2 == 0) { echo 'Нет'; } else { echo 'Не указано'; } } else { echo 'Не указано'; } ?> </p>
                                 <? endif; ?>
                             </div>
                         </div>
@@ -144,8 +147,8 @@ $survey->unitJ->J3 = json_decode($survey->unitJ->J3);
                     <p class="col-xs-12 text-bold">
                         Частота возникновения проблем
                     </p>
-                    <p class="col-xs-12 text-bold">
-                        <i>Равновесие</i>
+                    <p class="col-xs-12 text-bold text-italic">
+                        1. Равновесие
                     </p>
                     <div class="form-group">
                         <label for="J3a" class="form-group__label col-xs-12">
@@ -156,11 +159,11 @@ $survey->unitJ->J3 = json_decode($survey->unitJ->J3);
                                 <select name="J3[]" id="J3a" class="form-group__control">
                                     <option value="-1"></option>
                                     <? foreach ($J3 as $key => $option) : ?>
-                                        <option value="<?= $key; ?>" <?= !empty($survey->unitJ->J3) && $key == $survey->unitJ->J3[0] ? 'selected' : '' ?> > <?= $option; ?> </option>
+                                        <option value="<?= $key; ?>" <?= $survey->unitJ->J3 != NULL && $key == $survey->unitJ->J3[0] ? 'selected' : '' ?> > <?= $option; ?> </option>
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitJ->J3) && $survey->unitJ->J3[0] != -1 ? $J3[$survey->unitJ->J3[0]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitJ->J3 != NULL && $survey->unitJ->J3[0] != -1 ? $J3[$survey->unitJ->J3[0]] : 'Не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -173,11 +176,11 @@ $survey->unitJ->J3 = json_decode($survey->unitJ->J3);
                                 <select name="J3[]" id="J3b" class="form-group__control">
                                     <option value="-1"></option>
                                     <? foreach ($J3 as $key => $option) :?>
-                                        <option value="<?= $key; ?>" <?= !empty($survey->unitJ->J3) && $key == $survey->unitJ->J3[1] ? 'selected' : '' ?>><?= $option; ?></option>
+                                        <option value="<?= $key; ?>" <?= $survey->unitJ->J3 != NULL && $key == $survey->unitJ->J3[1] ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitJ->J3) && $survey->unitJ->J3[1] != -1 ? $J3[$survey->unitJ->J3[1]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitJ->J3 != NULL && $survey->unitJ->J3[1] != -1 ? $J3[$survey->unitJ->J3[1]] : 'Не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -190,11 +193,11 @@ $survey->unitJ->J3 = json_decode($survey->unitJ->J3);
                                 <select name="J3[]" id="J3c" class="form-group__control">
                                     <option value="-1"></option>
                                     <? foreach ($J3 as $key => $option) :?>
-                                        <option value="<?= $key; ?>" <?= !empty($survey->unitJ->J3) && $key == $survey->unitJ->J3[2] ? 'selected' : '' ?>><?= $option; ?></option>
+                                        <option value="<?= $key; ?>" <?= $survey->unitJ->J3 != NULL && $key == $survey->unitJ->J3[2] ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitJ->J3) && $survey->unitJ->J3[2] != -1 ? $J3[$survey->unitJ->J3[2]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitJ->J3 != NULL && $survey->unitJ->J3[2] != -1 ? $J3[$survey->unitJ->J3[2]] : 'Не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -207,17 +210,17 @@ $survey->unitJ->J3 = json_decode($survey->unitJ->J3);
                                 <select name="J3[]" id="J3d" class="form-group__control">
                                     <option value="-1"></option>
                                     <? foreach ($J3 as $key => $option) :?>
-                                        <option value="<?= $key; ?>" <?= !empty($survey->unitJ->J3) && $key == $survey->unitJ->J3[3] ? 'selected' : '' ?>><?= $option; ?></option>
+                                        <option value="<?= $key; ?>" <?= $survey->unitJ->J3 != NULL && $key == $survey->unitJ->J3[3] ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitJ->J3) && $survey->unitJ->J3[3] != -1 ? $J3[$survey->unitJ->J3[3]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitJ->J3 != NULL && $survey->unitJ->J3[3] != -1 ? $J3[$survey->unitJ->J3[3]] : 'Не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
 
-                    <p class="col-xs-12 text-bold">
-                        <i>Сердечные или легочные нарушения</i>
+                    <p class="col-xs-12 text-bold text-italic">
+                        2. Сердечные или легочные нарушения
                     </p>
                     <div class="form-group">
                         <label for="J3d" class="form-group__label col-xs-12">
@@ -228,11 +231,11 @@ $survey->unitJ->J3 = json_decode($survey->unitJ->J3);
                                 <select name="J3[]" id="J3d" class="form-group__control">
                                     <option value="-1"></option>
                                     <? foreach ($J3 as $key => $option) :?>
-                                        <option value="<?= $key; ?>" <?= !empty($survey->unitJ->J3) && $key == $survey->unitJ->J3[4] ? 'selected' : '' ?>><?= $option; ?></option>
+                                        <option value="<?= $key; ?>" <?= $survey->unitJ->J3 != NULL && $key == $survey->unitJ->J3[4] ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitJ->J3) && $survey->unitJ->J3[4] != -1 ? $J3[$survey->unitJ->J3[4]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitJ->J3 != NULL && $survey->unitJ->J3[4] != -1 ? $J3[$survey->unitJ->J3[4]] : 'Не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -245,35 +248,36 @@ $survey->unitJ->J3 = json_decode($survey->unitJ->J3);
                                 <select name="J3[]" id="J3e" class="form-group__control">
                                     <option value="-1"></option>
                                     <? foreach ($J3 as $key => $option) :?>
-                                        <option value="<?= $key; ?>" <?= !empty($survey->unitJ->J3) && $key == $survey->unitJ->J3[5] ? 'selected' : '' ?>><?= $option; ?></option>
+                                        <option value="<?= $key; ?>" <?= $survey->unitJ->J3 != NULL && $key == $survey->unitJ->J3[5] ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitJ->J3) && $survey->unitJ->J3[5] != -1 ? $J3[$survey->unitJ->J3[5]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitJ->J3 != NULL && $survey->unitJ->J3[5] != -1 ? $J3[$survey->unitJ->J3[5]] : 'Не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
 
-                    <p class="col-xs-12 text-bold">
-                        <i>Психиатрические нарушения</i>
+                    <p class="col-xs-12 text-bold text-italic">
+                        3. Психиатрические нарушения
                     </p>
                     <div class="form-group">
                         <label for="J3g" class="form-group__label col-xs-12">
-                            Аномальный процесс мышления - например: беспорядочный поток ассоциаций,
-                            блокирование мыслей, вихрь идей, тангенциальность мышления, излишняя
-                            детализация, ассоциация слов по звуковому сходству, бессвязная речь, неологизмы,
-                            каламбуры
+                            Аномальный процесс мышления
+                            <small class="text-italic text-normal">Например: беспорядочный поток ассоциаций,
+                                блокирование мыслей, вихрь идей, тангенциальность мышления, излишняя
+                                детализация, ассоциация слов по звуковому сходству, бессвязная речь, неологизмы,
+                                каламбуры</small>
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
                                 <select name="J3[]" id="J3g" class="form-group__control">
                                     <option value="-1"></option>
                                     <? foreach ($J3 as $key => $option) :?>
-                                        <option value="<?= $key; ?>" <?= !empty($survey->unitJ->J3) && $key == $survey->unitJ->J3[6] ? 'selected' : '' ?>><?= $option; ?></option>
+                                        <option value="<?= $key; ?>" <?= $survey->unitJ->J3 != NULL && $key == $survey->unitJ->J3[6] ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitJ->J3) && $survey->unitJ->J3[6] != -1 ? $J3[$survey->unitJ->J3[6]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitJ->J3 != NULL && $survey->unitJ->J3[6] != -1 ? $J3[$survey->unitJ->J3[6]] : 'Не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -286,11 +290,11 @@ $survey->unitJ->J3 = json_decode($survey->unitJ->J3);
                                 <select name="J3[]" id="J3h" class="form-group__control">
                                     <option value="-1"></option>
                                     <? foreach ($J3 as $key => $option) :?>
-                                        <option value="<?= $key; ?>" <?= !empty($survey->unitJ->J3) && $key == $survey->unitJ->J3[7] ? 'selected' : '' ?>><?= $option; ?></option>
+                                        <option value="<?= $key; ?>" <?= $survey->unitJ->J3 != NULL && $key == $survey->unitJ->J3[7] ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitJ->J3) && $survey->unitJ->J3[7] != -1 ? $J3[$survey->unitJ->J3[7]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitJ->J3 != NULL && $survey->unitJ->J3[7] != -1 ? $J3[$survey->unitJ->J3[7]] : 'Не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -303,17 +307,17 @@ $survey->unitJ->J3 = json_decode($survey->unitJ->J3);
                                 <select name="J3[]" id="J3i" class="form-group__control">
                                     <option value="-1"></option>
                                     <? foreach ($J3 as $key => $option) :?>
-                                        <option value="<?= $key; ?>" <?= !empty($survey->unitJ->J3) && $key == $survey->unitJ->J3[8] ? 'selected' : '' ?>><?= $option; ?></option>
+                                        <option value="<?= $key; ?>" <?= $survey->unitJ->J3 != NULL && $key == $survey->unitJ->J3[8] ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitJ->J3) && $survey->unitJ->J3[8] != -1 ? $J3[$survey->unitJ->J3[8]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitJ->J3 != NULL && $survey->unitJ->J3[8] != -1 ? $J3[$survey->unitJ->J3[8]] : 'Не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
 
-                    <p class="col-xs-12 text-bold">
-                        <i>Неврологические нарушения</i>
+                    <p class="col-xs-12 text-bold text-italic">
+                        4. Неврологические нарушения
                     </p>
                     <div class="form-group">
                         <label for="J3j" class="form-group__label col-xs-12">
@@ -324,17 +328,17 @@ $survey->unitJ->J3 = json_decode($survey->unitJ->J3);
                                 <select name="J3[]" id="J3j" class="form-group__control">
                                     <option value="-1"></option>
                                     <? foreach ($J3 as $key => $option) :?>
-                                        <option value="<?= $key; ?>" <?= !empty($survey->unitJ->J3) && $key == $survey->unitJ->J3[9] ? 'selected' : '' ?>><?= $option; ?></option>
+                                        <option value="<?= $key; ?>" <?= $survey->unitJ->J3 != NULL && $key == $survey->unitJ->J3[9] ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitJ->J3) && $survey->unitJ->J3[9] != -1 ? $J3[$survey->unitJ->J3[9]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitJ->J3 != NULL && $survey->unitJ->J3[9] != -1 ? $J3[$survey->unitJ->J3[9]] : 'Не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
 
-                    <p class="col-xs-12 text-bold">
-                        <i>Состояние желудочно-кишечного тракта</i>
+                    <p class="col-xs-12 text-bold text-italic">
+                        5. Состояние желудочно-кишечного тракта
                     </p>
                     <div class="form-group">
                         <label for="J3k" class="form-group__label col-xs-12">
@@ -345,28 +349,29 @@ $survey->unitJ->J3 = json_decode($survey->unitJ->J3);
                                 <select name="J3[]" id="J3k" class="form-group__control">
                                     <option value="-1"></option>
                                     <? foreach ($J3 as $key => $option) :?>
-                                        <option value="<?= $key; ?>" <?= !empty($survey->unitJ->J3) && $key == $survey->unitJ->J3[10] ? 'selected' : '' ?>><?= $option; ?></option>
+                                        <option value="<?= $key; ?>" <?= $survey->unitJ->J3 != NULL && $key == $survey->unitJ->J3[10] ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitJ->J3) && $survey->unitJ->J3[10] != -1 ? $J3[$survey->unitJ->J3[10]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitJ->J3 != NULL && $survey->unitJ->J3[10] != -1 ? $J3[$survey->unitJ->J3[10]] : 'Не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="J3l" class="form-group__label col-xs-12">
-                            Запор - отсутствие дефекации на протяжении 3 дней или тяжелая проходимость твердого стула
+                            Запор
+                            <small class="text-italic text-normal">Отсутствие дефекации на протяжении 3 дней или тяжелая проходимость твердого стула.</small>
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
                                 <select name="J3[]" id="J3l" class="form-group__control">
                                     <option value="-1"></option>
                                     <? foreach ($J3 as $key => $option) :?>
-                                        <option value="<?= $key; ?>" <?= !empty($survey->unitJ->J3) && $key == $survey->unitJ->J3[11] ? 'selected' : '' ?>><?= $option; ?></option>
+                                        <option value="<?= $key; ?>" <?= $survey->unitJ->J3 != NULL && $key == $survey->unitJ->J3[11] ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitJ->J3) && $survey->unitJ->J3[11] != -1 ? $J3[$survey->unitJ->J3[11]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitJ->J3 != NULL && $survey->unitJ->J3[11] != -1 ? $J3[$survey->unitJ->J3[11]] : 'Не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -379,11 +384,11 @@ $survey->unitJ->J3 = json_decode($survey->unitJ->J3);
                                 <select name="J3[]" id="J3m" class="form-group__control">
                                     <option value="-1"></option>
                                     <? foreach ($J3 as $key => $option) :?>
-                                        <option value="<?= $key; ?>" <?= !empty($survey->unitJ->J3) && $key == $survey->unitJ->J3[12] ? 'selected' : '' ?>><?= $option; ?></option>
+                                        <option value="<?= $key; ?>" <?= $survey->unitJ->J3 != NULL && $key == $survey->unitJ->J3[12] ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitJ->J3) && $survey->unitJ->J3[12] != -1 ? $J3[$survey->unitJ->J3[12]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitJ->J3 != NULL && $survey->unitJ->J3[12] != -1 ? $J3[$survey->unitJ->J3[12]] : 'Не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -396,55 +401,57 @@ $survey->unitJ->J3 = json_decode($survey->unitJ->J3);
                                 <select name="J3[]" id="J3n" class="form-group__control">
                                     <option value="-1"></option>
                                     <? foreach ($J3 as $key => $option) :?>
-                                        <option value="<?= $key; ?>" <?= !empty($survey->unitJ->J3) && $key == $survey->unitJ->J3[13] ? 'selected' : '' ?>><?= $option; ?></option>
+                                        <option value="<?= $key; ?>" <?= $survey->unitJ->J3 != NULL && $key == $survey->unitJ->J3[13] ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitJ->J3) && $survey->unitJ->J3[13] != -1 ? $J3[$survey->unitJ->J3[13]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitJ->J3 != NULL && $survey->unitJ->J3[13] != -1 ? $J3[$survey->unitJ->J3[13]] : 'Не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
 
-                    <p class="col-xs-12 text-bold">
-                        <i>Проблемы со сном</i>
+                    <p class="col-xs-12 text-bold text-italic">
+                        6. Проблемы со сном
                     </p>
                     <div class="form-group">
                         <label for="J3o" class="form-group__label col-xs-12">
-                            Трудности с засыпанием или сном; слишком раннее пробуждение; возбужденное состояние; беспокойный сон
+                            Трудности с засыпанием или сном
+                            <small class="text-italic text-normal">Слишком раннее пробуждение / возбужденное состояние / беспокойный сон.</small>
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
                                 <select name="J3[]" id="J3o" class="form-group__control">
                                     <option value="-1"></option>
                                     <? foreach ($J3 as $key => $option) :?>
-                                        <option value="<?= $key; ?>" <?= !empty($survey->unitJ->J3) && $key == $survey->unitJ->J3[14] ? 'selected' : '' ?>><?= $option; ?></option>
+                                        <option value="<?= $key; ?>" <?= $survey->unitJ->J3 != NULL && $key == $survey->unitJ->J3[14] ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitJ->J3) && $survey->unitJ->J3[14] != -1 ? $J3[$survey->unitJ->J3[14]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitJ->J3 != NULL && $survey->unitJ->J3[14] != -1 ? $J3[$survey->unitJ->J3[14]] : 'Не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="J3p" class="form-group__label col-xs-12">
-                            Слишком долгий сон - избыточная длительность сна, которая влияет на нормальное функционирование пациента
+                            Слишком долгий сон
+                            <small class="text-italic text-normal">Избыточная длительность сна, которая влияет на нормальное функционирование пациента.</small>
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
                                 <select name="J3[]" id="J3p" class="form-group__control">
                                     <option value="-1"></option>
                                     <? foreach ($J3 as $key => $option) :?>
-                                        <option value="<?= $key; ?>" <?= !empty($survey->unitJ->J3) && $key == $survey->unitJ->J3[15] ? 'selected' : '' ?>><?= $option; ?></option>
+                                        <option value="<?= $key; ?>" <?= $survey->unitJ->J3 != NULL && $key == $survey->unitJ->J3[15] ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitJ->J3) && $survey->unitJ->J3[15] != -1 ? $J3[$survey->unitJ->J3[15]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitJ->J3 != NULL && $survey->unitJ->J3[15] != -1 ? $J3[$survey->unitJ->J3[15]] : 'Не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
 
-                    <p class="col-xs-12 text-bold">
-                        <i>Другое</i>
+                    <p class="col-xs-12 text-bold text-italic">
+                        7. Другое
                     </p>
                     <div class="form-group">
                         <label for="J3q" class="form-group__label col-xs-12">
@@ -455,11 +462,11 @@ $survey->unitJ->J3 = json_decode($survey->unitJ->J3);
                                 <select name="J3[]" id="J3q" class="form-group__control">
                                     <option value="-1"></option>
                                     <? foreach ($J3 as $key => $option) :?>
-                                        <option value="<?= $key; ?>" <?= !empty($survey->unitJ->J3) && $key == $survey->unitJ->J3[16] ? 'selected' : '' ?>><?= $option; ?></option>
+                                        <option value="<?= $key; ?>" <?= $survey->unitJ->J3 != NULL && $key == $survey->unitJ->J3[16] ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitJ->J3) && $survey->unitJ->J3[16] != -1 ? $J3[$survey->unitJ->J3[16]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitJ->J3 != NULL && $survey->unitJ->J3[16] != -1 ? $J3[$survey->unitJ->J3[16]] : 'Не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -472,11 +479,11 @@ $survey->unitJ->J3 = json_decode($survey->unitJ->J3);
                                 <select name="J3[]" id="J3r" class="form-group__control">
                                     <option value="-1"></option>
                                     <? foreach ($J3 as $key => $option) :?>
-                                        <option value="<?= $key; ?>" <?= !empty($survey->unitJ->J3) && $key == $survey->unitJ->J3[17] ? 'selected' : '' ?>><?= $option; ?></option>
+                                        <option value="<?= $key; ?>" <?= $survey->unitJ->J3 != NULL && $key == $survey->unitJ->J3[17] ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitJ->J3) && $survey->unitJ->J3[17] != -1 ? $J3[$survey->unitJ->J3[17]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitJ->J3 != NULL && $survey->unitJ->J3[17] != -1 ? $J3[$survey->unitJ->J3[17]] : 'Не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -489,11 +496,11 @@ $survey->unitJ->J3 = json_decode($survey->unitJ->J3);
                                 <select name="J3[]" id="J3s" class="form-group__control">
                                     <option value="-1"></option>
                                     <? foreach ($J3 as $key => $option) :?>
-                                        <option value="<?= $key; ?>" <?= !empty($survey->unitJ->J3) && $key == $survey->unitJ->J3[18] ? 'selected' : '' ?>><?= $option; ?></option>
+                                        <option value="<?= $key; ?>" <?= $survey->unitJ->J3 != NULL && $key == $survey->unitJ->J3[18] ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitJ->J3) && $survey->unitJ->J3[18] != -1 ? $J3[$survey->unitJ->J3[18]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitJ->J3 != NULL && $survey->unitJ->J3[18] != -1 ? $J3[$survey->unitJ->J3[18]] : 'Не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -506,11 +513,11 @@ $survey->unitJ->J3 = json_decode($survey->unitJ->J3);
                                 <select name="J3[]" id="J3t" class="form-group__control">
                                     <option value="-1"></option>
                                     <? foreach ($J3 as $key => $option) :?>
-                                        <option value="<?= $key; ?>" <?= !empty($survey->unitJ->J3) && $key == $survey->unitJ->J3[19] ? 'selected' : '' ?>><?= $option; ?></option>
+                                        <option value="<?= $key; ?>" <?= $survey->unitJ->J3 != NULL && $key == $survey->unitJ->J3[19] ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitJ->J3) && $survey->unitJ->J3[19] != -1 ? $J3[$survey->unitJ->J3[19]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitJ->J3 != NULL && $survey->unitJ->J3[19] != -1 ? $J3[$survey->unitJ->J3[19]] : 'Не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -523,11 +530,11 @@ $survey->unitJ->J3 = json_decode($survey->unitJ->J3);
                                 <select name="J3[]" id="J3u" class="form-group__control">
                                     <option value="-1"></option>
                                     <? foreach ($J3 as $key => $option) :?>
-                                        <option value="<?= $key; ?>" <?= !empty($survey->unitJ->J3) && $key == $survey->unitJ->J3[20] ? 'selected' : '' ?>><?= $option; ?></option>
+                                        <option value="<?= $key; ?>" <?= $survey->unitJ->J3 != NULL && $key == $survey->unitJ->J3[20] ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitJ->J3) && $survey->unitJ->J3[20] != -1 ? $J3[$survey->unitJ->J3[20]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitJ->J3 != NULL && $survey->unitJ->J3[20] != -1 ? $J3[$survey->unitJ->J3[20]] : 'Не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -542,14 +549,14 @@ $survey->unitJ->J3 = json_decode($survey->unitJ->J3);
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
-                                <select name="J4" id="J4" class="form-group__control">
-                                    <option value="-1"></option>
-                                    <? foreach ($J4 as $key => $option) :?>
-                                        <option value="<?= $key; ?>" <?= !empty($survey->unitJ->J4) && $key == $survey->unitJ->J4 ? 'selected' : '' ?>><?= $option; ?></option>
-                                    <? endforeach; ?>
-                                </select>
+                                <? foreach ($J4 as $key => $value) :?>
+                                    <p>
+                                        <input id="J4<?= $key; ?>" name="J4" type="radio" class="radio" value="<?= $key; ?>" <?= $survey->unitJ->J4 != NULL && $key == $survey->unitJ->J4 ? 'checked' : ''; ?> >
+                                        <label for="J4<?= $key; ?>" class="radio-label"><?= $value; ?></label>
+                                    </p>
+                                <? endforeach; ?>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitJ->J4) && $survey->unitJ->J4 != -1 ? $J4[$survey->unitJ->J4] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitJ->J4 != NULL ? $J4[$survey->unitJ->J4] : 'Не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -561,18 +568,18 @@ $survey->unitJ->J3 = json_decode($survey->unitJ->J3);
                     <div class="form-group">
                         <label for="J5" class="form-group__label col-xs-12">
                             Утомляемость
-                            <small class="text-normal">Неспособность выполнять обычные задачи - например: в рамках повседневной деятельности</small>
+                            <small class="text-italic text-normal">Неспособность выполнять обычные задачи - например: в рамках повседневной деятельности</small>
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
                                 <? foreach ($J5 as $key => $value) : ?>
                                     <p>
-                                        <input id="J5<?= $key; ?>" name="J5" type="radio" class="checkbox" value="<?= $key; ?>" <?= !empty($survey->unitJ->J5) && $key == $survey->unitJ->J5 ? 'checked' : ''; ?> >
-                                        <label for="J5<?= $key; ?>" class="checkbox-label"><?= $value; ?></label>
+                                        <input id="J5<?= $key; ?>" name="J5" type="radio" class="radio" value="<?= $key; ?>" <?= $survey->unitJ->J5 != NULL && $key == $survey->unitJ->J5 ? 'checked' : ''; ?> >
+                                        <label for="J5<?= $key; ?>" class="radio-label"><?= $value; ?></label>
                                     </p>
                                 <? endforeach; ?>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitJ->J5) ? $J5[$survey->unitJ->J5] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitJ->J5 != NULL ? $J5[$survey->unitJ->J5] : 'Не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -583,26 +590,26 @@ $survey->unitJ->J3 = json_decode($survey->unitJ->J3);
 
                     <p class="col-xs-12 text-bold">
                         Болевые симптомы
-                        <small class="text-normal">[Примечание: Всегда спрашивайте пациента о частоте и интенсивности
+                        <small class="text-italic text-normal">Примечание: Всегда спрашивайте пациента о частоте и интенсивности
                             боли, а также об обезболивании. Наблюдайте за пациентом и задавайте
-                            вопросы лицам, контактирующим с пациентом.]</small>
+                            вопросы лицам, контактирующим с пациентом.</small>
                     </p>
 
                     <div class="form-group">
                         <label class="form-group__label col-xs-12">
                             Частота, с которой пациент жалуется на боль или демонстрирует ее
-                            <small class="text-normal">В т.ч. гримасами, сжатием зубов, стоном, отшатыванием при касании или иными невербальными знаками, говорящими о боли, а также сторонится прикосновений</small>
+                            <small class="text-italic text-normal">В т.ч. гримасами, сжатием зубов, стоном, отшатыванием при касании или иными невербальными знаками, говорящими о боли, а также сторонится прикосновений</small>
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
                                 <? foreach ($J6a as $key => $value) : ?>
                                     <p>
-                                        <input id="J6a<?= $key; ?>" name="J6[]" type="radio" class="checkbox" value="<?= $key; ?>" <?= !empty($survey->unitJ->J6) && $key == $survey->unitJ->J6[0] ? 'checked' : ''; ?> >
-                                        <label for="J6a<?= $key; ?>" class="checkbox-label"><?= $value; ?></label>
+                                        <input id="J6a<?= $key; ?>" name="J6a" type="radio" class="radio" value="<?= $key; ?>" <?= $survey->unitJ->J6 != NULL && $key == $survey->unitJ->J6[0] ? 'checked' : ''; ?> >
+                                        <label for="J6a<?= $key; ?>" class="radio-label"><?= $value; ?></label>
                                     </p>
                                 <? endforeach; ?>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitJ->J6) && $survey->unitJ->J6[0] != -1 ? $J6a[$survey->unitJ->J6[0]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitJ->J6 != NULL && $survey->unitJ->J6[0] != -1 ? $J6a[$survey->unitJ->J6[0]] : 'Не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -614,12 +621,12 @@ $survey->unitJ->J3 = json_decode($survey->unitJ->J3);
                             <? if ($can_conduct) : ?>
                                 <? foreach ($J6b as $key => $value) : ?>
                                     <p>
-                                        <input id="J6b<?= $key; ?>" name="J6[]" type="radio" class="checkbox" value="<?= $key; ?>" <?= !empty($survey->unitJ->J6) && $key == $survey->unitJ->J6[1] ? 'checked' : ''; ?> >
-                                        <label for="J6b<?= $key; ?>" class="checkbox-label"><?= $value; ?></label>
+                                        <input id="J6b<?= $key; ?>" name="J6b" type="radio" class="radio" value="<?= $key; ?>" <?= $survey->unitJ->J6 != NULL && $key == $survey->unitJ->J6[1] ? 'checked' : ''; ?> >
+                                        <label for="J6b<?= $key; ?>" class="radio-label"><?= $value; ?></label>
                                     </p>
                                 <? endforeach; ?>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitJ->J6) && $survey->unitJ->J6[1] != -1 ? $J6a[$survey->unitJ->J6[1]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitJ->J6 != NULL && $survey->unitJ->J6[1] != -1 ? $J6b[$survey->unitJ->J6[1]] : 'Не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -631,50 +638,50 @@ $survey->unitJ->J3 = json_decode($survey->unitJ->J3);
                             <? if ($can_conduct) : ?>
                                 <? foreach ($J6c as $key => $value) : ?>
                                     <p>
-                                        <input id="J6с<?= $key; ?>" name="J6[]" type="radio" class="checkbox" value="<?= $key; ?>" <?= !empty($survey->unitJ->J6) && $key == $survey->unitJ->J6[2] ? 'checked' : ''; ?> >
-                                        <label for="J6с<?= $key; ?>" class="checkbox-label"><?= $value; ?></label>
+                                        <input id="J6с<?= $key; ?>" name="J6c" type="radio" class="radio" value="<?= $key; ?>" <?= $survey->unitJ->J6 != NULL && $key == $survey->unitJ->J6[2] ? 'checked' : ''; ?> >
+                                        <label for="J6с<?= $key; ?>" class="radio-label"><?= $value; ?></label>
                                     </p>
                                 <? endforeach; ?>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitJ->J6) && $survey->unitJ->J6[2] != -1 ? $J6a[$survey->unitJ->J6[2]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitJ->J6 != NULL && $survey->unitJ->J6[2] != -1 ? $J6c[$survey->unitJ->J6[2]] : 'Не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="form-group__label col-xs-12">
                             Прорыв боли
-                            <small class="text-normal">В течение ПОСЛЕДНИХ 3 ДНЕЙ пациент испытал один или несколько внезапных резких приступов боли</small>
+                            <small class="text-italic text-normal">В течение ПОСЛЕДНИХ 3 ДНЕЙ пациент испытал один или несколько внезапных резких приступов боли</small>
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
                                 <span>
-                                    <input id="J6d_1" name="J6[]" type="radio" class="checkbox" value="0" <?= !empty($survey->unitJ->J6) && $survey->unitJ->J6[3] == 0 ? 'checked' : ''; ?> >
-                                    <label for="J6d_1" class="checkbox-label">Нет</label>
+                                    <input id="J6d_1" name="J6d" type="radio" class="radio" value="1" <?= $survey->unitJ->J6 != NULL && $survey->unitJ->J6[3] == 1 ? 'checked' : ''; ?> >
+                                    <label for="J6d_1" class="radio-label">Да</label>
                                 </span>
-                                <span class="m-l-30">
-                                    <input id="J6d_2" name="J6[]" type="radio" class="checkbox" value="1" <?= !empty($survey->unitJ->J6) && $survey->unitJ->J6[3] == 1 ? 'checked' : ''; ?> >
-                                    <label for="J6d_2" class="checkbox-label">Да</label>
+                                <span class="m-l-20">
+                                    <input id="J6d_2" name="J6d" type="radio" class="radio" value="0" <?= $survey->unitJ->J6 != NULL && $survey->unitJ->J6[3] == 0 ? 'checked' : ''; ?> >
+                                    <label for="J6d_2" class="radio-label">Нет</label>
                                 </span>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitJ->J6) ? $survey->unitJ->J6[3] == 0 ? "Нет" : $survey->unitJ->J6[3] == 1 ? "Да" : 'не указано' : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitJ->J6 != NULL ? $survey->unitJ->J6[3] == 0 ? "Нет" : $survey->unitJ->J6[3] == 1 ? "Да" : 'Не указано' : 'Не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="form-group__label col-xs-12">
                             Управление болью (болеутоление)
-                            <small class="text-normal">Адекватность текущего лечебного режима в области болеутоления (с точки зрения пациента)</small>
+                            <small class="text-italic text-normal">Адекватность текущего лечебного режима в области болеутоления (с точки зрения пациента)</small>
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
                                 <? foreach ($J6e as $key => $value) : ?>
                                     <p>
-                                        <input id="J6e<?= $key; ?>" name="J6[]" type="radio" class="checkbox" value="<?= $key; ?>" <?= !empty($survey->unitJ->J6[4]) && $key == $survey->unitJ->J6[4] ? 'checked' : ''; ?> >
-                                        <label for="J6e<?= $key; ?>" class="checkbox-label"><?= $value; ?></label>
+                                        <input id="J6e<?= $key; ?>" name="J6e" type="radio" class="radio" value="<?= $key; ?>" <?= $survey->unitJ->J6 != NULL && $key == $survey->unitJ->J6[4] ? 'checked' : ''; ?> >
+                                        <label for="J6e<?= $key; ?>" class="radio-label"><?= $value; ?></label>
                                     </p>
                                 <? endforeach; ?>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitJ->J6) && $survey->unitJ->J6[4] != -1 ? $J6a[$survey->unitJ->J6[4]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitJ->J6 != NULL && $survey->unitJ->J6[4] != -1 ? $J6e[$survey->unitJ->J6[4]] : 'Не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -697,15 +704,15 @@ $survey->unitJ->J3 = json_decode($survey->unitJ->J3);
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
                                 <span>
-                                    <input id="J7a_1" name="J7[]" type="radio" class="checkbox" value="0" <?= !empty($survey->unitJ->J7) && $survey->unitJ->J7[0] == 0 ? 'checked' : ''; ?> >
-                                    <label for="J7a_1" class="checkbox-label">Нет</label>
+                                    <input id="J7a_1" name="J7a" type="radio" class="radio" value="1" <?= $survey->unitJ->J7 != NULL && $survey->unitJ->J7[0] == 1 ? 'checked' : ''; ?> >
+                                    <label for="J7a_1" class="radio-label">Да</label>
                                 </span>
-                                <span class="m-l-30">
-                                    <input id="J7a_2" name="J7[]" type="radio" class="checkbox" value="1" <?= !empty($survey->unitJ->J7) && $survey->unitJ->J7[0] == 1 ? 'checked' : ''; ?> >
-                                    <label for="J7a_2" class="checkbox-label">Да</label>
+                                <span class="m-l-20">
+                                    <input id="J7a_2" name="J7a" type="radio" class="radio" value="0" <?= $survey->unitJ->J7 != NULL && $survey->unitJ->J7[0] == 0 ? 'checked' : ''; ?> >
+                                    <label for="J7a_2" class="radio-label">Нет</label>
                                 </span>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitJ->J7) ? $survey->unitJ->J7[0] == 0 ? "Нет" : $survey->unitJ->J7[0] == 1 ? "Да" : 'не указано' : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <? if ($survey->unitJ->J7 != NULL) { if ($survey->unitJ->J7[0] == 1) { echo 'Да'; } elseif ($survey->unitJ->J7[0] == 0) { echo 'Нет'; } else { echo 'Не указано'; } } else { echo 'Не указано'; } ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -716,15 +723,15 @@ $survey->unitJ->J3 = json_decode($survey->unitJ->J3);
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
                                 <span>
-                                    <input id="J7b_1" name="J7[]" type="radio" class="checkbox" value="0" <?= !empty($survey->unitJ->J7) && $survey->unitJ->J7[1] == 0 ? 'checked' : ''; ?> >
-                                    <label for="J7b_1" class="checkbox-label">Нет</label>
+                                    <input id="J7b_1" name="J7b" type="radio" class="radio" value="1" <?= $survey->unitJ->J7 != NULL && $survey->unitJ->J7[1] == 1 ? 'checked' : ''; ?> >
+                                    <label for="J7b_1" class="radio-label">Да</label>
                                 </span>
-                                <span class="m-l-30">
-                                    <input id="J7b_2" name="J7[]" type="radio" class="checkbox" value="1" <?= !empty($survey->unitJ->J7) && $survey->unitJ->J7[1] == 1 ? 'checked' : ''; ?> >
-                                    <label for="J7b_2" class="checkbox-label">Да</label>
+                                <span class="m-l-20">
+                                    <input id="J7b_2" name="J7b" type="radio" class="radio" value="0" <?= $survey->unitJ->J7 != NULL && $survey->unitJ->J7[1] == 0 ? 'checked' : ''; ?> >
+                                    <label for="J7b_2" class="radio-label">Нет</label>
                                 </span>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitJ->J7) ? $survey->unitJ->J7[1] == 0 ? "Нет" : $survey->unitJ->J7[1] == 1 ? "Да" : 'не указано' : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <? if ($survey->unitJ->J7 != NULL) { if ($survey->unitJ->J7[1] == 1) { echo 'Да'; } elseif ($survey->unitJ->J7[1] == 0) { echo 'Нет'; } else { echo 'Не указано'; } } else { echo 'Не указано'; } ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -735,15 +742,15 @@ $survey->unitJ->J3 = json_decode($survey->unitJ->J3);
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
                                 <span>
-                                    <input id="J7c_1" name="J7[]" type="radio" class="checkbox" value="0" <?= !empty($survey->unitJ->J7) && $survey->unitJ->J7[2] == 0 ? 'checked' : ''; ?> >
-                                    <label for="J7c_1" class="checkbox-label">Нет</label>
+                                    <input id="J7c_1" name="J7c" type="radio" class="radio" value="1" <?= $survey->unitJ->J7 != NULL && $survey->unitJ->J7[2] == 1 ? 'checked' : ''; ?> >
+                                    <label for="J7c_1" class="radio-label">Да</label>
                                 </span>
-                                <span class="m-l-30">
-                                    <input id="J7c_2" name="J7[]" type="radio" class="checkbox" value="1" <?= !empty($survey->unitJ->J7) && $survey->unitJ->J7[2] == 1 ? 'checked' : ''; ?> >
-                                    <label for="J7c_2" class="checkbox-label">Да</label>
+                                <span class="m-l-20">
+                                    <input id="J7c_2" name="J7c" type="radio" class="radio" value="0" <?= $survey->unitJ->J7 != NULL && $survey->unitJ->J7[2] == 0 ? 'checked' : ''; ?> >
+                                    <label for="J7c_2" class="radio-label">Нет</label>
                                 </span>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitJ->J7) ? $survey->unitJ->J7[2] == 0 ? "Нет" : $survey->unitJ->J7[2] == 1 ? "Да" : 'не указано' : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <? if ($survey->unitJ->J7 != NULL) { if ($survey->unitJ->J7[2] == 1) { echo 'Да'; } elseif ($survey->unitJ->J7[2] == 0) { echo 'Нет'; } else { echo 'Не указано'; } } else { echo 'Не указано'; } ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -755,18 +762,18 @@ $survey->unitJ->J3 = json_decode($survey->unitJ->J3);
                     <div class="form-group">
                         <label for="J8" class="form-group__label col-xs-12">
                             Оценка пациентом своего состояния здоровья
-                            <small class="text-normal">Задайте пациенту общий вопрос: "Как бы вы оценили свое состояние здоровья в целом?"</small>
+                            <small class="text-italic text-normal">Задайте пациенту общий вопрос: "Как бы вы оценили свое состояние здоровья в целом?"</small>
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
                                 <select name="J8" id="J8" class="form-group__control">
                                     <option value="-1"></option>
                                     <? foreach ($J8 as $key => $option) :?>
-                                        <option value="<?= $key; ?>" <?= !empty($survey->unitJ->J8) && $key == $survey->unitJ->J8 ? 'selected' : '' ?>><?= $option; ?></option>
+                                        <option value="<?= $key; ?>" <?= $survey->unitJ->J8 != NULL && $key == $survey->unitJ->J8 ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitJ->J8) ? $J8[$survey->unitJ->J8] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitJ->J8 != NULL && $survey->unitJ->J8 != -1 ? $J8[$survey->unitJ->J8] : 'Не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -788,28 +795,29 @@ $survey->unitJ->J3 = json_decode($survey->unitJ->J3);
                                 <select name="J9[]" id="J9a" class="form-group__control">
                                     <option value="-1"></option>
                                     <? foreach ($J9a as $key => $option) :?>
-                                        <option value="<?= $key; ?>" <?= !empty($survey->unitJ->J9) && $key == $survey->unitJ->J9[0] ? 'selected' : '' ?>><?= $option; ?></option>
+                                        <option value="<?= $key; ?>" <?= $survey->unitJ->J9 != NULL && $key == $survey->unitJ->J9[0] ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitJ->J9) && $survey->unitJ->J9[0] != -1 ? $J9a[$survey->unitJ->J9[0]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitJ->J9 != NULL && $survey->unitJ->J9[0] != -1 ? $J9a[$survey->unitJ->J9[0]] : 'Не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="J9b" class="form-group__label col-xs-12">
-                            Алкоголь— Наибольшее число доз (дринков), выпитых за один раз за ПОСЛЕДНИЕ 14 ДНЕЙ
+                            Алкоголь
+                            <small class="text-italic text-normal">Наибольшее число доз (дринков), выпитых за один раз за ПОСЛЕДНИЕ 14 ДНЕЙ</small>
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
                                 <select name="J9[]" id="J9b" class="form-group__control">
                                     <option value="-1"></option>
                                     <? foreach ($J9b as $key => $option) :?>
-                                        <option value="<?= $key; ?>" <?= !empty($survey->unitJ->J9) && $key == $survey->unitJ->J9[1] ? 'selected' : '' ?>><?= $option; ?></option>
+                                        <option value="<?= $key; ?>" <?= $survey->unitJ->J9 != NULL && $key == $survey->unitJ->J9[1] ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitJ->J9) && $survey->unitJ->J9[1] != -1 ? $J9b[$survey->unitJ->J9[1]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitJ->J9 != NULL && $survey->unitJ->J9[1] != -1 ? $J9b[$survey->unitJ->J9[1]] : 'Не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -820,7 +828,7 @@ $survey->unitJ->J3 = json_decode($survey->unitJ->J3);
             </div>
 
             <? if ($can_conduct) : ?>
-                <a type="button" role="button" class="block__footer text-center text-brand text-bold" onclick="survey.send.updateunit('unitJ');">
+                <a type="button" role="button" class="form__submit text-center text-brand text-bold" onclick="survey.send.updateunit('unitJ');">
                     Сохранить
                 </a>
             <? endif; ?>

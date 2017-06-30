@@ -274,7 +274,7 @@ $survey->unitB->B8 = json_decode($survey->unitB->B8);
                                     <label for="B9_2" class="radio-label">Нет</label>
                                 </span>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= $survey->unitB->B9 != NULL ? $survey->unitB->B9 == 0 ? 'Нет' : $survey->unitB->B9 == 1 ? 'Да' : 'Не указано' : 'Не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <? if ($survey->unitB->B9 != NULL) { if ($survey->unitB->B9 == 1) { echo 'Да'; } elseif ($survey->unitB->B9 == 0) { echo 'Нет'; } else { echo 'Не указано'; } } else { echo 'Не указано'; } ?> </p>
                             <? endif; ?>
                         </div>
                     </div>

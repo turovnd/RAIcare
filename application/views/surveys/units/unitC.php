@@ -174,7 +174,7 @@ $survey->unitC->C3 = json_decode($survey->unitC->C3);
                                         <label for="C4_2" class="radio-label">Нет</label>
                                     </span>
                                 <? else : ?>
-                                    <p class="form-group__control-static p-l-0"> <?= $survey->unitC->C4 != NULL ? $survey->unitC->C4 == 0 ? 'Нет' : $survey->unitC->C4 == 1 ? 'Да' : 'Не указано' : 'Не указано'; ?> </p>
+                                    <p class="form-group__control-static p-l-0"> <? if ($survey->unitC->C4 != NULL) { if ($survey->unitC->C4 == 1) { echo 'Да'; } elseif ($survey->unitC->C4 == 0) { echo 'Нет'; } else { echo 'Не указано'; } } else { echo 'Не указано'; } ?> </p>
                                 <? endif; ?>
                             </div>
                         </div>

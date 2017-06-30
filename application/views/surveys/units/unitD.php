@@ -123,7 +123,7 @@ $survey->unitD->D4 = json_decode($survey->unitD->D4);
                                     <label for="D3b_2" class="radio-label">Нет</label>
                                 </span>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= $survey->unitD->D3 != NULL ? $survey->unitD->D3[1] == 0 ? 'Нет' : $survey->unitD->D3[1] == 1 ? 'Да' : 'Не указано' : 'Не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <? if ($survey->unitD->D3 != NULL) { if ($survey->unitD->D3[1] == 1) { echo 'Да'; } elseif ($survey->unitD->D3[1] == 0) { echo 'Нет'; } else { echo 'Не указано'; } } else { echo 'Не указано'; } ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -165,7 +165,7 @@ $survey->unitD->D4 = json_decode($survey->unitD->D4);
                                     <label for="D4b_2" class="radio-label">Нет</label>
                                 </span>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= $survey->unitD->D4 != NULL ? $survey->unitD->D4[1] == 0 ? 'Нет' : $survey->unitD->D4[1] == 1 ? 'Да' : 'Не указано' : 'Не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <? if ($survey->unitD->D4 != NULL) { if ($survey->unitD->D4[1] == 1) { echo 'Да'; } elseif ($survey->unitD->D4[1] == 0) { echo 'Нет'; } else { echo 'Не указано'; } } else { echo 'Не указано'; } ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
