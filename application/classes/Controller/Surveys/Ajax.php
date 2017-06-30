@@ -302,8 +302,8 @@ class Controller_Surveys_Ajax extends Ajax
             $unitB->update();
         }
 
-        if ($unitB->B1 != NULL || empty($unitB->B2) && $unitB->B2 == "0000-00-00" || empty($unitB->B3) || $unitB->B3 == "null" || $unitB->B4 != NULL  || $unitB->B5a != NULL
-            || $unitB->B5b != NULL || empty($unitB->B6) || $unitB->B7 != NULL || empty($unitB->B8) || $unitB->B8 == "null" || $unitB->B9 == NULL)
+        if ($B1 == NULL || $B2 == NULL || $B2 == "0000-00-00" || $B3 == NULL || $B3 == "null" || $B4 == NULL  ||
+            $B5 == NULL || $B6 == NULL || $B7 == NULL || $B8 == NULL || $B8 == "null" || $B9 == NULL)
         {
             $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_WARMING', 'warning');
         } else {
@@ -353,8 +353,8 @@ class Controller_Surveys_Ajax extends Ajax
 
         if ($need_update) {
             $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_WITH_REFRESH_SUCCESS', 'success');
-        } else if (empty($unitC->C1) || empty($unitC->C2) || $unitC->C2 == "null" || empty($unitC->C3a)
-            || empty($unitC->C3b) || empty($unitC->C3c) || empty($unitC->C4) || empty($unitC->C5) )
+        } else if ($C1 == NULL || $C2 == NULL || $C2 == "null" || $C3a == -1 || $C3b == -1 ||
+                    $C3c == -1 || $C4 == NULL || $C5 == NULL )
         {
             $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_WARMING', 'warning');
         } else {
@@ -369,12 +369,12 @@ class Controller_Surveys_Ajax extends Ajax
     {
         $D1  = Arr::get($_POST,'D1');
         $D2  = Arr::get($_POST,'D2');
-        $D3a = Arr::get($_POST,'D4a');
-        $D3b = Arr::get($_POST,'D4b');
-        $D4a = Arr::get($_POST,'D4a');
-        $D4b = Arr::get($_POST,'D4b');
+        $D3a = Arr::get($_POST,'D3a', '-1');
+        $D3b = Arr::get($_POST,'D3b', '-1');
+        $D4a = Arr::get($_POST,'D4a', '-1');
+        $D4b = Arr::get($_POST,'D4b', '-1');
 
-        $unitD = new Model_SurveyUnitD($this->survey->pk);
+        $unitD = new Model_SurveyUnitD($this->survey->unitD);
 
         if (!$unitD->pk) {
             $unitD = new Model_SurveyUnitD();
@@ -382,20 +382,18 @@ class Controller_Surveys_Ajax extends Ajax
 
         $unitD->D1 = $D1;
         $unitD->D2 = $D2;
-        $unitD->D3a = $D3a;
-        $unitD->D3b = $D3b;
-        $unitD->D4a = $D4a;
-        $unitD->D4b = $D4b;
+        $unitD->D3 = json_encode(array($D3a, $D3b));
+        $unitD->D4 = json_encode(array($D4a, $D4b));
 
         if (!$unitD->pk) {
-            $unitD->pk = $this->survey->pk;
-            $unitD->save();
+            $unitD = $unitD->save();
+            $this->survey->unitD = $unitD->pk;
+            $this->survey->update();
         } else {
             $unitD->update();
         }
 
-        if (empty($unitD->D1) || empty($unitD->D2) || empty($unitD->D3a)
-            || empty($unitD->D3b) || empty($unitD->D4a) || empty($unitD->D4b))
+        if ( $D1 == NULL || $D2 == NULL || $D3a == -1 || $D3b == -1 || $D4a == -1 || $D4b == -1)
         {
             $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_WARMING', 'warning');
         } else {

@@ -6,10 +6,8 @@ Class Model_SurveyUnitD
     public $pk;
     public $D1;
     public $D2;
-    public $D3a;
-    public $D3b;
-    public $D4a;
-    public $D4b;
+    public $D3;
+    public $D4;
     
     public function __construct($pk = null)
     {
