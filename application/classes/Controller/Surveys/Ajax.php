@@ -443,21 +443,18 @@ class Controller_Surveys_Ajax extends Ajax
         $F4 = Arr::get($_POST,'F4');
         $F5 = Arr::get($_POST,'F5');
 
-        $unitF = new Model_SurveyUnitF($this->survey->pk);
-
-        if (!$unitF->pk) {
-            $unitF = new Model_SurveyUnitF();
-        }
+        $unitF = new Model_SurveyUnitF($this->survey->unitF);
 
         $unitF->F1 = json_encode($F1);
         $unitF->F2 = json_encode($F2);
         $unitF->F3 = json_encode($F3);
-        $unitF->F4 = json_encode($F4);
+        $unitF->F4 = $F4;
         $unitF->F5 = json_encode($F5);
 
         if (!$unitF->pk) {
-            $unitF->pk = $this->survey->pk;
-            $unitF->save();
+            $unitF = $unitF->save();
+            $this->survey->unitF = $unitF->pk;
+            $this->survey->update();
         } else {
             $unitF->update();
         }
@@ -468,7 +465,7 @@ class Controller_Surveys_Ajax extends Ajax
         if (!$empty) { foreach ($F3 as $f3) { if ($f3 == -1) { $empty = true; break; } } }
         if (!$empty) { foreach ($F5 as $f5) { if ($f5 == -1) { $empty = true; break; } } }
 
-        if ($empty) {
+        if ($empty || $F4 == NULL) {
             $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_WARMING', 'warning');
         } else {
             $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_SUCCESS', 'success');
