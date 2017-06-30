@@ -376,10 +376,6 @@ class Controller_Surveys_Ajax extends Ajax
 
         $unitD = new Model_SurveyUnitD($this->survey->unitD);
 
-        if (!$unitD->pk) {
-            $unitD = new Model_SurveyUnitD();
-        }
-
         $unitD->D1 = $D1;
         $unitD->D2 = $D2;
         $unitD->D3 = json_encode(array($D3a, $D3b));
@@ -393,7 +389,7 @@ class Controller_Surveys_Ajax extends Ajax
             $unitD->update();
         }
 
-        if ( $D1 == NULL || $D2 == NULL || $D3a == -1 || $D3b == -1 || $D4a == -1 || $D4b == -1)
+        if ($D1 == NULL || $D2 == NULL || $D3a == -1 || $D3b == -1 || $D4a == -1 || $D4b == -1)
         {
             $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_WARMING', 'warning');
         } else {
@@ -410,19 +406,16 @@ class Controller_Surveys_Ajax extends Ajax
         $E2 = Arr::get($_POST,'E2');
         $E3 = Arr::get($_POST,'E3');
 
-        $unitE = new Model_SurveyUnitE($this->survey->pk);
-
-        if (!$unitE->pk) {
-            $unitE = new Model_SurveyUnitE();
-        }
+        $unitE = new Model_SurveyUnitE($this->survey->unitE);
 
         $unitE->E1 = json_encode($E1);
         $unitE->E2 = json_encode($E2);
         $unitE->E3 = json_encode($E3);
 
         if (!$unitE->pk) {
-            $unitE->pk = $this->survey->pk;
-            $unitE->save();
+            $unitE = $unitE->save();
+            $this->survey->unitE = $unitE->pk;
+            $this->survey->update();
         } else {
             $unitE->update();
         }
