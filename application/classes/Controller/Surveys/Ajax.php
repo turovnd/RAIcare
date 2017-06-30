@@ -483,11 +483,7 @@ class Controller_Surveys_Ajax extends Ajax
         $G4 = Arr::get($_POST,'G4');
         $G5 = Arr::get($_POST,'G5');
 
-        $unitG = new Model_SurveyUnitG($this->survey->pk);
-
-        if (!$unitG->pk) {
-            $unitG = new Model_SurveyUnitG();
-        }
+        $unitG = new Model_SurveyUnitG($this->survey->unitG);
 
         $unitG->G1 = json_encode($G1);
         $unitG->G2 = json_encode($G2);
@@ -502,8 +498,9 @@ class Controller_Surveys_Ajax extends Ajax
         }
 
         if (!$unitG->pk) {
-            $unitG->pk = $this->survey->pk;
-            $unitG->save();
+            $unitG = $unitG->save();
+            $this->survey->unitG = $unitG->pk;
+            $this->survey->update();
         } else {
             $unitG->update();
         }
@@ -532,11 +529,7 @@ class Controller_Surveys_Ajax extends Ajax
         $H3 = Arr::get($_POST,'H3');
         $H4 = Arr::get($_POST,'H4');
 
-        $unitH = new Model_SurveyUnitH($this->survey->pk);
-
-        if (!$unitH->pk) {
-            $unitH = new Model_SurveyUnitH();
-        }
+        $unitH = new Model_SurveyUnitH($this->survey->unitH);
 
         $unitH->H1 = $H1;
         $unitH->H2 = $H2;
@@ -544,8 +537,9 @@ class Controller_Surveys_Ajax extends Ajax
         $unitH->H4 = $H4;
 
         if (!$unitH->pk) {
-            $unitH->pk = $this->survey->pk;
-            $unitH->save();
+            $unitH = $unitH->save();
+            $this->survey->unitH = $unitH->pk;
+            $this->survey->update();
         } else {
             $unitH->update();
         }

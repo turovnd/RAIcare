@@ -72,46 +72,40 @@ $survey->unitG->G4 = json_decode($survey->unitG->G4);
 
     <div class="col-xs-12">
 
-        <div class="block">
+        <div class="form">
 
-            <div class="block__body">
+            <div class="form__body">
 
                 <fieldset>
 
-                    <p class="col-xs-12">
+                    <div class="col-xs-12">
                         <span class="text-bold">Эффективность действий пациента в области повседневной деятельности</span>
                         <small>
-                            <i>
+                            <p class="text-italic">
                                 Изучите все эпизоды за 3-дневный период. Если действия во всех эпизодах выполняются на одном и том же уровне,
                                 выберите код эффективности действий пациента, соответствующий этому уровню. Если какие-то эпизоды характеризуются
                                 уровнем зависимости 6, а другие меньшим уровнем зависимости, то выберите код эффективности действий пациента 5.
                                 В противном случае отталкивайтесь от трех эпизодов с наивысшим уровнем зависимости [или от всех эпизодов, если их было
                                 менее 3]. Если эпизод с наивысшим уровнем зависимости - это уровень 1, то выберите код эффективности действий пациента 1.
                                 Если нет, выберите код, соответствующий наименьшему уровню зависимости из всех имеющихся эпизодов (уровни 2-5).
-                            </i>
-                            <br><br>
-                            <b>0 - независим</b> - ни в одном из эпизодов не требовалось никакой физической помощи, помощи в подаче предметов или присмотра.
-                            <br>
-                            <b>1 - независим, помощь только при подаче предметов</b> - пациенту передают или кладут в пределах его досягаемости нужный предмет или устройство; ни в одном из эпизодов не требуется никакой физической помощи или присмотра.
-                            <br>
-                            <b>2 - присмотр</b> - наблюдение / подсказки
-                            <br>
-                            <b>3 - ограниченная помощь</b> - управление движениями рук, ног; помогающий руководит движениями, но не принимает на себя весовую нагрузку.
-                            <br>
-                            <b>4 - обширная помощь</b> - один помогающий принимает на себя весовую нагрузку (включая поднятие конечностей), причем пациент по-прежнему выполняет не менее 50% подзадач.
-                            <br>
-                            <b>5 - максимальная помощь</b> - два или больше помогающих принимают на себя весовую нагрузку (включая поднятие конечностей) - ИЛИ-поддержка с принятием весовой нагрузки требуется в 50% подзадач или более.
-                            <br>
-                            <b>6 - полная зависимость</b> - во всех эпизодах требуется полная поддержка со стороны окружающих.
-                            <br>
-                            <b>8 - деятельность не осуществлялась на протяжении всего периода</b>
+                            </p>
+                            <p>
+                                <b>0 - независим</b> - ни в одном из эпизодов не требовалось никакой физической помощи, помощи в подаче предметов или присмотра.
+                                <br> <b>1 - независим, помощь только при подаче предметов</b> - пациенту передают или кладут в пределах его досягаемости нужный предмет или устройство; ни в одном из эпизодов не требуется никакой физической помощи или присмотра.
+                                <br> <b>2 - присмотр</b> - наблюдение / подсказки
+                                <br> <b>3 - ограниченная помощь</b> - управление движениями рук, ног; помогающий руководит движениями, но не принимает на себя весовую нагрузку.
+                                <br> <b>4 - обширная помощь</b> - один помогающий принимает на себя весовую нагрузку (включая поднятие конечностей), причем пациент по-прежнему выполняет не менее 50% подзадач.
+                                <br> <b>5 - максимальная помощь</b> - два или больше помогающих принимают на себя весовую нагрузку (включая поднятие конечностей) - ИЛИ-поддержка с принятием весовой нагрузки требуется в 50% подзадач или более.
+                                <br> <b>6 - полная зависимость</b> - во всех эпизодах требуется полная поддержка со стороны окружающих.
+                                <br> <b>8 - деятельность не осуществлялась на протяжении всего периода</b>
+                            </p>
                         </small>
-                    </p>
+                    </div>
 
                     <div class="form-group">
                         <label for="G1a" class="form-group__label col-xs-12">
                             Ванные процедуры
-                            <small class="text-normal">Как пациент принимает ванну или душ целиком. Сюда входят
+                            <small class="text-italic text-normal">Как пациент принимает ванну или душ целиком. Сюда входят
                             вопросы о том, как пациент залезает и вылезает из душевой кабины или ванны и как он
                             моет каждую часть тела: руки, икры, бедра, грудь, живот, паховую область - СЮДА НЕ
                             ВХОДИТ ВОПРОС О МЫТЬЕ СПИНЫ И ВОЛОС</small>
@@ -121,11 +115,11 @@ $survey->unitG->G4 = json_decode($survey->unitG->G4);
                                 <select name="G1[]" id="G1a" class="form-group__control">
                                     <option value="-1"></option>
                                     <? foreach ($G1 as $key => $option) :?>
-                                        <option value="<?= $key; ?>" <?= !empty($survey->unitG->G1) && $key == $survey->unitG->G1[0] ? 'selected' : '' ?>><?= $option; ?></option>
+                                        <option value="<?= $key; ?>" <?= $survey->unitG->G1 != NULL && $key == $survey->unitG->G1[0] ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitG->G1) && $survey->unitG->G1[0] != -1 ? $G1[$survey->unitG->G1[0]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitG->G1 != NULL && $survey->unitG->G1[0] != -1 ? $G1[$survey->unitG->G1[0]] : 'Не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -133,7 +127,7 @@ $survey->unitG->G4 = json_decode($survey->unitG->G4);
                     <div class="form-group">
                         <label for="G1b" class="form-group__label col-xs-12">
                             Личная гигиена
-                            <small class="text-normal">Как пациент осуществляет личную гигиену, в т. ч. причесывается, чистит
+                            <small class="text-italic text-normal">Как пациент осуществляет личную гигиену, в т. ч. причесывается, чистит
                             зубы, бреется, применяет косметические средства, умывается и сушит лицо и руки - СЮДА
                             НЕ ВХОДИТ ВОПРОС О ПРИНЯТИИ ВАННЫ ИЛИ ДУША.</small>
                         </label>
@@ -142,11 +136,11 @@ $survey->unitG->G4 = json_decode($survey->unitG->G4);
                                 <select name="G1[]" id="G1b" class="form-group__control">
                                     <option value="-1"></option>
                                     <? foreach ($G1 as $key => $option) :?>
-                                        <option value="<?= $key; ?>" <?= !empty($survey->unitG->G1) && $key == $survey->unitG->G1[1] ? 'selected' : '' ?>><?= $option; ?></option>
+                                        <option value="<?= $key; ?>" <?= $survey->unitG->G1 != NULL && $key == $survey->unitG->G1[1] ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitG->G1) && $survey->unitG->G1[1] != -1 ? $G1[$survey->unitG->G1[1]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitG->G1 != NULL && $survey->unitG->G1[1] != -1 ? $G1[$survey->unitG->G1[1]] : 'Не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -154,7 +148,7 @@ $survey->unitG->G4 = json_decode($survey->unitG->G4);
                     <div class="form-group">
                         <label for="G1c" class="form-group__label col-xs-12">
                             Одевание верхней части тела
-                            <small class="text-normal">Как пациент надевает и снимает уличную одежду, нижнее
+                            <small class="text-italic text-normal">Как пациент надевает и снимает уличную одежду, нижнее
                             белье и иные предметы, относящееся к верхней части тела, в том числе протезы,
                             ортопедические элементы, застежки, пуловеры и т.д.</small>
                         </label>
@@ -163,11 +157,11 @@ $survey->unitG->G4 = json_decode($survey->unitG->G4);
                                 <select name="G1[]" id="G1c" class="form-group__control">
                                     <option value="-1"></option>
                                     <? foreach ($G1 as $key => $option) :?>
-                                        <option value="<?= $key; ?>" <?= !empty($survey->unitG->G1) && $key == $survey->unitG->G1[2] ? 'selected' : '' ?>><?= $option; ?></option>
+                                        <option value="<?= $key; ?>" <?= $survey->unitG->G1 != NULL && $key == $survey->unitG->G1[2] ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitG->G1) && $survey->unitG->G1[2] != -1 ? $G1[$survey->unitG->G1[2]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitG->G1 != NULL && $survey->unitG->G1[2] != -1 ? $G1[$survey->unitG->G1[2]] : 'Не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -175,7 +169,7 @@ $survey->unitG->G4 = json_decode($survey->unitG->G4);
                     <div class="form-group">
                         <label for="G1d" class="form-group__label col-xs-12">
                             Одевание нижней части тела
-                            <small class="text-normal">Как пациент надевает и снимает уличную одежду,
+                            <small class="text-italic text-normal">Как пациент надевает и снимает уличную одежду,
                                 нижнее белье и иные предметы, относящееся к части тела от пояса и ниже, в том
                                 числе протезы, ортопедические элементы (например, противоэмболические чулки),
                                 пояса, трусы, юбки, ботинки, застежки и т.д.</small>
@@ -185,11 +179,11 @@ $survey->unitG->G4 = json_decode($survey->unitG->G4);
                                 <select name="G1[]" id="G1d" class="form-group__control">
                                     <option value="-1"></option>
                                     <? foreach ($G1 as $key => $option) :?>
-                                        <option value="<?= $key; ?>" <?= !empty($survey->unitG->G1) && $key == $survey->unitG->G1[3] ? 'selected' : '' ?>><?= $option; ?></option>
+                                        <option value="<?= $key; ?>" <?= $survey->unitG->G1 != NULL && $key == $survey->unitG->G1[3] ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitG->G1) && $survey->unitG->G1[3] != -1 ? $G1[$survey->unitG->G1[3]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitG->G1 != NULL && $survey->unitG->G1[3] != -1 ? $G1[$survey->unitG->G1[3]] : 'Не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -197,18 +191,18 @@ $survey->unitG->G4 = json_decode($survey->unitG->G4);
                     <div class="form-group">
                         <label for="G1e" class="form-group__label col-xs-12">
                             Ходьба
-                            <small class="text-normal">Как пациент переходит из одного места в другое в пределах одного этажа здания</small>
+                            <small class="text-italic text-normal">Как пациент переходит из одного места в другое в пределах одного этажа здания</small>
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
                                 <select name="G1[]" id="G1e" class="form-group__control">
                                     <option value="-1"></option>
                                     <? foreach ($G1 as $key => $option) :?>
-                                        <option value="<?= $key; ?>" <?= !empty($survey->unitG->G1) && $key == $survey->unitG->G1[4] ? 'selected' : '' ?>><?= $option; ?></option>
+                                        <option value="<?= $key; ?>" <?= $survey->unitG->G1 != NULL && $key == $survey->unitG->G1[4] ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitG->G1) && $survey->unitG->G1[4] != -1 ? $G1[$survey->unitG->G1[4]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitG->G1 != NULL && $survey->unitG->G1[4] != -1 ? $G1[$survey->unitG->G1[4]] : 'Не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -216,7 +210,7 @@ $survey->unitG->G4 = json_decode($survey->unitG->G4);
                     <div class="form-group">
                         <label for="G1f" class="form-group__label col-xs-12">
                             Передвижение
-                            <small class="text-normal">Как пациент передвигается из одного места в другое в пределах
+                            <small class="text-italic text-normal">Как пациент передвигается из одного места в другое в пределах
                                 одного этажа (пешком или на инвалидной коляске). Если пациент пользуется
                                 инвалидной коляской, то следует учитывать именно этот период.</small>
                         </label>
@@ -225,11 +219,11 @@ $survey->unitG->G4 = json_decode($survey->unitG->G4);
                                 <select name="G1[]" id="G1f" class="form-group__control">
                                     <option value="-1"></option>
                                     <? foreach ($G1 as $key => $option) :?>
-                                        <option value="<?= $key; ?>" <?= !empty($survey->unitG->G1) && $key == $survey->unitG->G1[5] ? 'selected' : '' ?>><?= $option; ?></option>
+                                        <option value="<?= $key; ?>" <?= $survey->unitG->G1 != NULL && $key == $survey->unitG->G1[5] ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitG->G1) && $survey->unitG->G1[5] != -1 ? $G1[$survey->unitG->G1[5]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitG->G1 != NULL && $survey->unitG->G1[5] != -1 ? $G1[$survey->unitG->G1[5]] : 'Не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -237,18 +231,18 @@ $survey->unitG->G4 = json_decode($survey->unitG->G4);
                     <div class="form-group">
                         <label for="G1g" class="form-group__label col-xs-12">
                             Доступ к туалету
-                            <small class="text-normal">Как пациент садится и поднимается с унитаза или переносного стула-туалета для инвалидов.</small>
+                            <small class="text-italic text-normal">Как пациент садится и поднимается с унитаза или переносного стула-туалета для инвалидов.</small>
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
                                 <select name="G1[]" id="G1g" class="form-group__control">
                                     <option value="-1"></option>
                                     <? foreach ($G1 as $key => $option) :?>
-                                        <option value="<?= $key; ?>" <?= !empty($survey->unitG->G1) && $key == $survey->unitG->G1[6] ? 'selected' : '' ?>><?= $option; ?></option>
+                                        <option value="<?= $key; ?>" <?= $survey->unitG->G1 != NULL && $key == $survey->unitG->G1[6] ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitG->G1) && $survey->unitG->G1[6] != -1 ? $G1[$survey->unitG->G1[6]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitG->G1 != NULL && $survey->unitG->G1[6] != -1 ? $G1[$survey->unitG->G1[6]] : 'Не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -256,7 +250,7 @@ $survey->unitG->G4 = json_decode($survey->unitG->G4);
                     <div class="form-group">
                         <label for="G1h" class="form-group__label col-xs-12">
                             Пользование туалетом
-                            <small class="text-normal">Как пациент пользуется туалетной комнатой (или
+                            <small class="text-italic text-normal">Как пациент пользуется туалетной комнатой (или
                                 переносным стулом-туалетом для инвалидов, судном или мочеприемником), очищает
                                 себя после пользования туалетом или случаев недержания, меняет наматрасник,
                                 управляется со стомой или катетером и приводит в порядок одежду. В ЭТОТ ПУНКТ
@@ -267,11 +261,11 @@ $survey->unitG->G4 = json_decode($survey->unitG->G4);
                                 <select name="G1[]" id="G1h" class="form-group__control">
                                     <option value="-1"></option>
                                     <? foreach ($G1 as $key => $option) :?>
-                                        <option value="<?= $key; ?>" <?= !empty($survey->unitG->G1) && $key == $survey->unitG->G1[7] ? 'selected' : '' ?>><?= $option; ?></option>
+                                        <option value="<?= $key; ?>" <?= $survey->unitG->G1 != NULL && $key == $survey->unitG->G1[7] ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitG->G1) && $survey->unitG->G1[7] != -1 ? $G1[$survey->unitG->G1[7]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitG->G1 != NULL && $survey->unitG->G1[7] != -1 ? $G1[$survey->unitG->G1[7]] : 'Не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -279,7 +273,7 @@ $survey->unitG->G4 = json_decode($survey->unitG->G4);
                     <div class="form-group">
                         <label for="G1i" class="form-group__label col-xs-12">
                             Перемещения в кровати
-                            <small class="text-normal">Как пациент принимает лежачее положение и меняет его,
+                            <small class="text-italic text-normal">Как пациент принимает лежачее положение и меняет его,
                                 переворачивается с боку на бок и принимает то или иное положение, находясь в
                                 кровати</small>
                         </label>
@@ -288,11 +282,11 @@ $survey->unitG->G4 = json_decode($survey->unitG->G4);
                                 <select name="G1[]" id="G1i" class="form-group__control">
                                     <option value="-1"></option>
                                     <? foreach ($G1 as $key => $option) :?>
-                                        <option value="<?= $key; ?>" <?= !empty($survey->unitG->G1) && $key == $survey->unitG->G1[8] ? 'selected' : '' ?>><?= $option; ?></option>
+                                        <option value="<?= $key; ?>" <?= $survey->unitG->G1 != NULL && $key == $survey->unitG->G1[8] ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitG->G1) && $survey->unitG->G1[8] != -1 ? $G1[$survey->unitG->G1[8]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitG->G1 != NULL && $survey->unitG->G1[8] != -1 ? $G1[$survey->unitG->G1[8]] : 'Не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -300,7 +294,7 @@ $survey->unitG->G4 = json_decode($survey->unitG->G4);
                     <div class="form-group">
                         <label for="G1j" class="form-group__label col-xs-12">
                             Прием пищи
-                            <small class="text-normal">Как пациент ест и пьет (вне зависимости от навыков). Этот пункт
+                            <small class="text-italic text-normal">Как пациент ест и пьет (вне зависимости от навыков). Этот пункт
                                 включает в себя получение питания и другими способами (например, зондовое
                                 кормление или полностью парентеральное питание).</small>
                         </label>
@@ -309,11 +303,11 @@ $survey->unitG->G4 = json_decode($survey->unitG->G4);
                                 <select name="G1[]" id="G1j" class="form-group__control">
                                     <option value="-1"></option>
                                     <? foreach ($G1 as $key => $option) :?>
-                                        <option value="<?= $key; ?>" <?= !empty($survey->unitG->G1) && $key == $survey->unitG->G1[9] ? 'selected' : '' ?>><?= $option; ?></option>
+                                        <option value="<?= $key; ?>" <?= $survey->unitG->G1 != NULL && $key == $survey->unitG->G1[9] ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitG->G1) && $survey->unitG->G1[9] != -1 ? $G1[$survey->unitG->G1[9]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitG->G1 != NULL && $survey->unitG->G1[9] != -1 ? $G1[$survey->unitG->G1[9]] : 'Не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -329,18 +323,18 @@ $survey->unitG->G4 = json_decode($survey->unitG->G4);
                     <div class="form-group">
                         <label for="G2a" class="form-group__label col-xs-12">
                             Основной способ передвижения
-                            <small class="text-normal">Вспомогательных приспособленя: трость, ходунки, костыли или толкание инвалидной коляски перед собой</small>
+                            <small class="text-italic text-normal">Вспомогательных приспособленя: трость, ходунки, костыли или толкание инвалидной коляски перед собой</small>
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
                                 <select name="G2[]" id="G2a" class="form-group__control">
                                     <option value="-1"></option>
                                     <? foreach ($G2a as $key => $option) :?>
-                                        <option value="<?= $key; ?>" <?= !empty($survey->unitG->G2) && $key == $survey->unitG->G2[0] ? 'selected' : '' ?>><?= $option; ?></option>
+                                        <option value="<?= $key; ?>" <?= $survey->unitG->G2 != NULL && $key == $survey->unitG->G2[0] ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitG->G2) && $survey->unitG->G2[0] != -1 ? $G2a[$survey->unitG->G2[0]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitG->G2 != NULL && $survey->unitG->G2[0] != -1 ? $G2a[$survey->unitG->G2[0]] : 'Не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -348,31 +342,36 @@ $survey->unitG->G4 = json_decode($survey->unitG->G4);
                     <div class="form-group">
                         <label for="G2b" class="form-group__label col-xs-12">
                             Скорость преодоления 4-метрового расстояния пешком
-                            <small class="text-normal"><i>Проложите прямую траекторию, не загроможденную какими-либо
-                                предметами. Пусть пациент встанет спокойно, касаясь обеими ногами
-                                линии старта. Затем скажите: "Пожалуйста, когда я попрошу Вас,
-                                начните идти своим нормальным шагом (с тростью или ходунками,
-                                если используете их). Это не тест на предельную скорость, с
-                                которой Вы можете ходить. Остановитесь, когда я Вам скажу. Вы
-                                меня поняли?" Лицо, проводящее оценку, может показать, как нужно
-                                проходить этот тест. Затем скажите: "Теперь начинайте идти".
-                                Запустите секундомер (в качестве альтернативы вы можете начать
-                                громко отсчитывать секунды: "одна секунда", "две секунды" и т.д.,), когда
-                                нога пациента коснется земли при первом шаге. Прекратите отсчет,
-                                когда нога пациента опустится за отметку в 4 метра. Затем скажите:
-                                "Теперь Вы можете остановиться".</i>
-                                <br><br>
-                                <b>Введите время в секундах</b>, если оно составило <b>менее 30 секунд</b>
-                                <br> <b>30 - чтобы пройти 4 метра потребовалось 30 секунд или более</b>
-                                <br> <b>77 - пациент остановился, не завершив тест</b>
-                                <br> <b>88 - пациент отказался проходить тест</b>
-                                <br> <b>99 - тестировение не проводилось</b> - например: потому что пациент не ходит самостоятельно</small>
+                            <small class="text-italic text-normal">
+                                <p>
+                                    Проложите прямую траекторию, не загроможденную какими-либо
+                                    предметами. Пусть пациент встанет спокойно, касаясь обеими ногами
+                                    линии старта. Затем скажите: "Пожалуйста, когда я попрошу Вас,
+                                    начните идти своим нормальным шагом (с тростью или ходунками,
+                                    если используете их). Это не тест на предельную скорость, с
+                                    которой Вы можете ходить. Остановитесь, когда я Вам скажу. Вы
+                                    меня поняли?" Лицо, проводящее оценку, может показать, как нужно
+                                    проходить этот тест. Затем скажите: "Теперь начинайте идти".
+                                    Запустите секундомер (в качестве альтернативы вы можете начать
+                                    громко отсчитывать секунды: "одна секунда", "две секунды" и т.д.,), когда
+                                    нога пациента коснется земли при первом шаге. Прекратите отсчет,
+                                    когда нога пациента опустится за отметку в 4 метра. Затем скажите:
+                                    "Теперь Вы можете остановиться".
+                                </p>
+                                <p>
+                                    <b>Введите время в секундах</b>, если оно составило <b>менее 30 секунд</b>
+                                    <br> <b>30 - чтобы пройти 4 метра потребовалось 30 секунд или более</b>
+                                    <br> <b>77 - пациент остановился, не завершив тест</b>
+                                    <br> <b>88 - пациент отказался проходить тест</b>
+                                    <br> <b>99 - тестировение не проводилось</b> - например: потому что пациент не ходит самостоятельно
+                                </p>
+                            </small>
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
-                                <input id="G2b" name="G2[]" type="number" class="form-group__control" value="<?= $survey->unitG->G2[1] ?: '-1'; ?>" min="1" max="99">
+                                <input id="G2b" name="G2[]" type="number" class="form-group__control" value="<?= $survey->unitG->G2[1]; ?>" min="1" max="99">
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitG->G2) && $survey->unitG->G2[1] != -1 ? $survey->unitG->G2[1] . ' сек.' : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitG->G2 != NULL && $survey->unitG->G2[1] != "" ? $survey->unitG->G2[1] . ' сек.' : 'Не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -380,18 +379,18 @@ $survey->unitG->G4 = json_decode($survey->unitG->G4);
                     <div class="form-group">
                         <label for="G2c" class="form-group__label col-xs-12">
                             Пройденное расстояние
-                            <small class="text-normal">Наибольшее расстояние, пройденное пациентом за один раз, не садясь, за ПОСЛЕДНИЕ 3 ДНЯ (при необходимости - с посторонней помощью)</small>
+                            <small class="text-italic text-normal">Наибольшее расстояние, пройденное пациентом за один раз, не садясь, за ПОСЛЕДНИЕ 3 ДНЯ (при необходимости - с посторонней помощью)</small>
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
                                 <select name="G2[]" id="G2c" class="form-group__control">
                                     <option value="-1"></option>
                                     <? foreach ($G2c as $key => $option) :?>
-                                        <option value="<?= $key; ?>" <?= !empty($survey->unitG->G2) && $key == $survey->unitG->G2[2] ? 'selected' : '' ?>><?= $option; ?></option>
+                                        <option value="<?= $key; ?>" <?= $survey->unitG->G2 != NULL && $key == $survey->unitG->G2[2] ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitG->G2) && $survey->unitG->G2[2] != -1 ? $G2c[$survey->unitG->G2[2]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitG->G2 != NULL && $survey->unitG->G2[2] != -1 ? $G2c[$survey->unitG->G2[2]] : 'Не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -399,18 +398,18 @@ $survey->unitG->G4 = json_decode($survey->unitG->G4);
                     <div class="form-group">
                         <label for="G2d" class="form-group__label col-xs-12">
                             Расстояние, которое пациент самостоятельно проезжал на инвалидной коляске
-                            <small class="text-normal">Расстояние, которое пациент самостоятельно проезжал на инвалидной коляске за ПОСЛЕДНИЕ 3 ДНЯ.</small>
+                            <small class="text-italic text-normal">Расстояние, которое пациент самостоятельно проезжал на инвалидной коляске за ПОСЛЕДНИЕ 3 ДНЯ.</small>
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
                                 <select name="G2[]" id="G2d" class="form-group__control">
                                     <option value="-1"></option>
                                     <? foreach ($G2d as $key => $option) :?>
-                                        <option value="<?= $key; ?>" <?= !empty($survey->unitG->G2) && $key == $survey->unitG->G2[3] ? 'selected' : '' ?>><?= $option; ?></option>
+                                        <option value="<?= $key; ?>" <?= $survey->unitG->G2 != NULL && $key == $survey->unitG->G2[3] ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitG->G2) && $survey->unitG->G2[3] != -1 ? $G2d[$survey->unitG->G2[3]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitG->G2 != NULL && $survey->unitG->G2[3] != -1 ? $G2d[$survey->unitG->G2[3]] : 'Не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -426,18 +425,18 @@ $survey->unitG->G4 = json_decode($survey->unitG->G4);
                     <div class="form-group">
                         <label for="G3a" class="form-group__label col-xs-12">
                             Общее число часов упражнений или физической активности за ПОСЛЕДНИЕ 3 ДНЯ
-                            <small class="text-normal">Например: ходьбы</small>
+                            <small class="text-italic text-normal">Например: ходьбы</small>
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
                                 <select name="G3[]" id="G3a" class="form-group__control">
                                     <option value="-1"></option>
                                     <? foreach ($G3a as $key => $option) :?>
-                                        <option value="<?= $key; ?>" <?= !empty($survey->unitG->G3) && $key == $survey->unitG->G3[0] ? 'selected' : '' ?>><?= $option; ?></option>
+                                        <option value="<?= $key; ?>" <?= $survey->unitG->G3 != NULL && $key == $survey->unitG->G3[0] ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitG->G3) && $survey->unitG->G3[0] != -1 ? $G3a[$survey->unitG->G3[0]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitG->G3 != NULL && $survey->unitG->G3[0] != -1 ? $G3a[$survey->unitG->G3[0]] : 'Не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -445,18 +444,18 @@ $survey->unitG->G4 = json_decode($survey->unitG->G4);
                     <div class="form-group">
                         <label for="G3b" class="form-group__label col-xs-12">
                             Число дней ЗА ПОСЛЕДНИЕ 3 ДНЯ, когда пациент выходил из дома/здания, в котором он проживает
-                            <small class="text-normal">Длительность прогулки не имеет значения</small>
+                            <small class="text-italic text-normal">Длительность прогулки не имеет значения</small>
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
                                 <select name="G3[]" id="G3b" class="form-group__control">
                                     <option value="-1"></option>
                                     <? foreach ($G3b as $key => $option) :?>
-                                        <option value="<?= $key; ?>" <?= !empty($survey->unitG->G3) && $key == $survey->unitG->G3[1] ? 'selected' : '' ?>><?= $option; ?></option>
+                                        <option value="<?= $key; ?>" <?= $survey->unitG->G3 != NULL && $key == $survey->unitG->G3[1] ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitG->G3) && $survey->unitG->G3[1] != -1 ? $G3b[$survey->unitG->G3[1]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitG->G3 != NULL && $survey->unitG->G3[1] != -1 ? $G3b[$survey->unitG->G3[1]] : 'Не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -478,11 +477,11 @@ $survey->unitG->G4 = json_decode($survey->unitG->G4);
                                 <select name="G4[]" id="G4a" class="form-group__control">
                                     <option value="-1"></option>
                                     <? foreach ($G4 as $key => $option) :?>
-                                        <option value="<?= $key; ?>" <?= !empty($survey->unitG->G4) && $key == $survey->unitG->G4[0] ? 'selected' : '' ?>><?= $option; ?></option>
+                                        <option value="<?= $key; ?>" <?= $survey->unitG->G4 != NULL && $key == $survey->unitG->G4[0] ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitG->G4) && $survey->unitG->G4[0] != -1 ? $G3a[$survey->unitG->G4[0]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitG->G4 != NULL && $survey->unitG->G4[0] != -1 ? $G4[$survey->unitG->G4[0]] : 'Не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -496,11 +495,11 @@ $survey->unitG->G4 = json_decode($survey->unitG->G4);
                                 <select name="G4[]" id="G4b" class="form-group__control">
                                     <option value="-1"></option>
                                     <? foreach ($G4 as $key => $option) :?>
-                                        <option value="<?= $key; ?>" <?= !empty($survey->unitG->G4) && $key == $survey->unitG->G4[1] ? 'selected' : '' ?>><?= $option; ?></option>
+                                        <option value="<?= $key; ?>" <?= $survey->unitG->G4 != NULL && $key == $survey->unitG->G4[1] ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitG->G4) && $survey->unitG->G4[1] != -1 ? $G3b[$survey->unitG->G4[1]] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitG->G4 != NULL && $survey->unitG->G4[1] != -1 ? $G4[$survey->unitG->G4[1]] : 'Не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -518,11 +517,11 @@ $survey->unitG->G4 = json_decode($survey->unitG->G4);
                                 <select name="G5" id="G5" class="form-group__control">
                                     <option value="-1"></option>
                                     <? foreach ($G5 as $key => $option) :?>
-                                        <option value="<?= $key; ?>" <?= !empty($survey->unitG->G5) && $key == $survey->unitG->G5 ? 'selected' : '' ?>><?= $option; ?></option>
+                                        <option value="<?= $key; ?>" <?= $survey->unitG->G5 != NULL && $key == $survey->unitG->G5 ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitG->G5) && $survey->unitG->G5 != -1 ? $G3a[$survey->unitG->G5] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitG->G5 != NULL && $survey->unitG->G5 != -1 ? $G5[$survey->unitG->G5] : 'Не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -532,7 +531,7 @@ $survey->unitG->G4 = json_decode($survey->unitG->G4);
             </div>
 
             <? if ($can_conduct) : ?>
-                <a type="button" role="button" class="block__footer text-center text-brand text-bold" onclick="survey.send.updateunit('unitG');">
+                <a type="button" role="button" class="form__submit text-center text-brand text-bold" onclick="survey.send.updateunit('unitG');">
                     Сохранить
                 </a>
             <? endif; ?>

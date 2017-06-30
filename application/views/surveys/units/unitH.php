@@ -23,10 +23,6 @@ $H3 = array(
     '5' => 'Постоянное недержание - отсутствует контроль за содержимым кишечника',
     '8' => 'Не было дефекации - в течение последних 3 дней не было кишечной перистальтики'
 );
-$survey->unitH->H1 = json_decode($survey->unitH->H1);
-$survey->unitH->H2 = json_decode($survey->unitH->H2);
-$survey->unitH->H3 = json_decode($survey->unitH->H3);
-
 ?>
 
 <h3 class="section__heading">
@@ -40,9 +36,9 @@ $survey->unitH->H3 = json_decode($survey->unitH->H3);
 
     <div class="col-xs-12">
 
-        <div class="block">
+        <div class="form">
 
-            <div class="block__body">
+            <div class="form__body">
 
                 <fieldset>
 
@@ -54,12 +50,12 @@ $survey->unitH->H3 = json_decode($survey->unitH->H3);
                             <? if ($can_conduct) : ?>
                                 <? foreach ($H1 as $key => $value) :?>
                                     <p>
-                                        <input id="H1<?= $key; ?>" name="H1" type="radio" class="checkbox" value="<?= $key; ?>" <?= !empty($survey->unitH->H1) && $key == $survey->unitH->H1 ? 'checked' : '' ?> >
-                                        <label for="H1<?= $key; ?>" class="checkbox-label"><?= $value; ?></label>
+                                        <input id="H1<?= $key; ?>" name="H1" type="radio" class="radio" value="<?= $key; ?>" <?= $survey->unitH->H1 != NULL && $key == $survey->unitH->H1 ? 'checked' : '' ?> >
+                                        <label for="H1<?= $key; ?>" class="radio-label"><?= $value; ?></label>
                                     </p>
                                 <? endforeach; ?>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitH->H1) ? $H1[$survey->unitH->H1] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitH->H1 != NULL ? $H1[$survey->unitH->H1] : 'Не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -76,12 +72,12 @@ $survey->unitH->H3 = json_decode($survey->unitH->H3);
                             <? if ($can_conduct) : ?>
                                 <? foreach ($H2 as $key => $value) :?>
                                     <p>
-                                        <input id="H2<?= $key; ?>" name="H2" type="radio" class="checkbox" value="<?= $key; ?>" <?= !empty($survey->unitH->H2) && $key == $survey->unitH->H2 ? 'checked' : '' ?> >
-                                        <label for="H2<?= $key; ?>" class="checkbox-label"><?= $value; ?></label>
+                                        <input id="H2<?= $key; ?>" name="H2" type="radio" class="radio" value="<?= $key; ?>" <?= $survey->unitH->H2 != NULL && $key == $survey->unitH->H2 ? 'checked' : '' ?> >
+                                        <label for="H2<?= $key; ?>" class="radio-label"><?= $value; ?></label>
                                     </p>
                                 <? endforeach; ?>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitH->H2) ? $H2[$survey->unitH->H2] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitH->H2 != NULL ? $H2[$survey->unitH->H2] : 'Не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -98,12 +94,12 @@ $survey->unitH->H3 = json_decode($survey->unitH->H3);
                             <? if ($can_conduct) : ?>
                                 <? foreach ($H3 as $key => $value) :?>
                                     <p>
-                                        <input id="H3<?= $key; ?>" name="H3" type="radio" class="checkbox" value="<?= $key; ?>" <?= !empty($survey->unitH->H3) && $key == $survey->unitH->H3 ? 'checked' : '' ?> >
-                                        <label for="H3<?= $key; ?>" class="checkbox-label"><?= $value; ?></label>
+                                        <input id="H3<?= $key; ?>" name="H3" type="radio" class="radio" value="<?= $key; ?>" <?= $survey->unitH->H3 != NULL && $key == $survey->unitH->H3 ? 'checked' : '' ?> >
+                                        <label for="H3<?= $key; ?>" class="radio-label"><?= $value; ?></label>
                                     </p>
                                 <? endforeach; ?>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitH->H3) ? $H3[$survey->unitH->H3] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitH->H3 != NULL ? $H3[$survey->unitH->H3] : 'Не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -119,15 +115,15 @@ $survey->unitH->H3 = json_decode($survey->unitH->H3);
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
                                 <span>
-                                    <input id="H4_1" name="H4" type="radio" class="checkbox" value="0" <?= !empty($survey->unitH->H4) && $survey->unitH->H4 == 0 ? 'checked' : '' ?> >
-                                    <label for="H4_1" class="checkbox-label">Нет</label>
+                                    <input id="H4_1" name="H4" type="radio" class="radio" value="1" <?= $survey->unitH->H4 != NULL && $survey->unitH->H4 == 1 ? 'checked' : '' ?> >
+                                    <label for="H4_1" class="radio-label">Да</label>
                                 </span>
                                 <span class="m-l-20">
-                                    <input id="H4_2" name="H4" type="radio" class="checkbox" value="1" <?= !empty($survey->unitH->H4) && $survey->unitH->H4 == 1 ? 'checked' : '' ?> >
-                                    <label for="H4_2" class="checkbox-label">Да</label>
+                                    <input id="H4_2" name="H4" type="radio" class="radio" value="0" <?= $survey->unitH->H4 != NULL && $survey->unitH->H4 == 0 ? 'checked' : '' ?> >
+                                    <label for="H4_2" class="radio-label">Нет</label>
                                 </span>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= $survey->unitH->H4 == 0 ? 'Нет' : $survey->unitH->H4 == 1 ? 'Да' : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitH->H4 != NULL ? $survey->unitH->H4 == 0 ? 'Нет' : $survey->unitH->H4 == 1 ? 'Да' : 'Не указано' : 'Не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -137,7 +133,7 @@ $survey->unitH->H3 = json_decode($survey->unitH->H3);
             </div>
 
             <? if ($can_conduct) : ?>
-                <a type="button" role="button" class="block__footer text-center text-brand text-bold" onclick="survey.send.updateunit('unitH');">
+                <a type="button" role="button" class="form__submit text-center text-brand text-bold" onclick="survey.send.updateunit('unitH');">
                     Сохранить
                 </a>
             <? endif; ?>
