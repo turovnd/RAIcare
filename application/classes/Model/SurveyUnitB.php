@@ -9,8 +9,7 @@ Class Model_SurveyUnitB
     public $B2;
     public $B3;
     public $B4;
-    public $B5a;
-    public $B5b;
+    public $B5;
     public $B6;
     public $B7;
     public $B8;

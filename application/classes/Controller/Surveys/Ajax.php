@@ -268,13 +268,12 @@ class Controller_Surveys_Ajax extends Ajax
 
         $B1 = Arr::get($_POST,'B1');
         $B2 = Arr::get($_POST,'B2');
-        $B3 = json_encode(Arr::get($_POST,'B3'));
+        $B3 = Arr::get($_POST,'B3');
         $B4 = Arr::get($_POST,'B4');
-        $B5a = Arr::get($_POST,'B5b');
-        $B5b = Arr::get($_POST,'B5a');
+        $B5 = Arr::get($_POST,'B5');
         $B6 = Arr::get($_POST,'B6');
         $B7 = Arr::get($_POST,'B7');
-        $B8 = json_encode(Arr::get($_POST,'B8'));
+        $B8 = Arr::get($_POST,'B8');
         $B9 = Arr::get($_POST,'B9');
 
         if (!empty($B6) && (!Valid::exact_length($B6, 9) || !Valid::digit($B6))) {
@@ -287,13 +286,12 @@ class Controller_Surveys_Ajax extends Ajax
 
         $unitB->B1 = $B1;
         $unitB->B2 = $B2;
-        $unitB->B3 = $B3;
+        $unitB->B3 = json_encode($B3);
         $unitB->B4 = $B4;
-        $unitB->B5a = $B5a;
-        $unitB->B5b = $B5b;
+        $unitB->B5 = json_encode($B5);
         $unitB->B6 = $B6;
         $unitB->B7 = $B7;
-        $unitB->B8 = $B8;
+        $unitB->B8 = json_encode($B8);
         $unitB->B9 = $B9;
 
         if (!$unitB->pk) {

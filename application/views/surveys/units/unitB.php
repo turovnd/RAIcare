@@ -52,6 +52,7 @@ $B8 = array(
     'c' => 'Психоневрологичесикй интернат',
     'd' => 'Психиатрическая больница или отделение'
 );
+$survey->unitB->B5 = json_decode($survey->unitB->B5);
 $B8_get = json_decode($survey->unitB->B8);
 ?>
 
@@ -158,14 +159,14 @@ $B8_get = json_decode($survey->unitB->B8);
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
-                                <select name="B5a" id="B5a" class="form-group__control">
+                                <select name="B5[]" id="B5a" class="form-group__control">
                                     <option value="-1"></option>
                                     <? foreach ($B5 as $key => $option) :?>
-                                        <option value="<?= $key; ?>" <?= $survey->unitB->B5a != NULL && $key == $survey->unitB->B5a ? 'selected' : '' ?>><?= $option; ?></option>
+                                        <option value="<?= $key; ?>" <?= $survey->unitB->B5 != NULL && $key == $survey->unitB->B5[0] ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= $survey->unitB->B5a != NULL && $survey->unitB->B5a != -1 ? $B5[$survey->unitB->B5a] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitB->B5 != NULL && $survey->unitB->B5[0] != -1 ? $B5[$survey->unitB->B5[0]] : 'не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -175,14 +176,14 @@ $B8_get = json_decode($survey->unitB->B8);
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
-                                <select name="B5b" id="B5b" class="form-group__control">
+                                <select name="B5[]" id="B5b" class="form-group__control">
                                     <option value="-1"></option>
                                     <? foreach ($B5 as $key => $option) :?>
-                                        <option value="<?= $key; ?>" <?= $survey->unitB->B5b != NULL && $key == $survey->unitB->B5b ? 'selected' : '' ?>><?= $option; ?></option>
+                                        <option value="<?= $key; ?>" <?= $survey->unitB->B5 != NULL && $key == $survey->unitB->B5[1] ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= $survey->unitB->B5b != NULL && $survey->unitB->B5b != -1 ? $B5[$survey->unitB->B5b] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitB->B5 != NULL && $survey->unitB->B5[1] != -1 ? $B5[$survey->unitB->B5[1]] : 'не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
