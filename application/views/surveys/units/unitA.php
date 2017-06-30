@@ -49,7 +49,7 @@
                             <? if ($can_conduct) : ?>
                                 <textarea name="A10" id="A10" rows="5" class="form-group__control" maxlength="512"><?= $survey->unitA->A10; ?></textarea>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitA->A10) ? $survey->unitA->A10 : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= !empty($survey->unitA->A10) ? $survey->unitA->A10 : 'Не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -68,7 +68,7 @@
                                     <? endforeach; ?>
                                 </select>
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= $survey->unitA->A11 != NULL && $survey->unitA->A11 != -1 ? $A11[$survey->unitA->A11] : 'не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitA->A11 != NULL && $survey->unitA->A11 != -1 ? $A11[$survey->unitA->A11] : 'Не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>

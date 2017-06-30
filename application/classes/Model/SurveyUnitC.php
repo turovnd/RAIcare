@@ -6,9 +6,7 @@ Class Model_SurveyUnitC
     public $pk;
     public $C1;
     public $C2;
-    public $C3a;
-    public $C3b;
-    public $C3c;
+    public $C3;
     public $C4;
     public $C5;
     

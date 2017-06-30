@@ -90,9 +90,15 @@ class Controller_Surveys_Index extends Dispatch
 
     private function getUnavailableUnits()
     {
+        $unitC = new Model_SurveyUnitC($this->survey->unitC);
         $units = array();
         if ($this->survey->type != 1) array_push($units, 'unitB');
         if ($this->survey->type != 6) array_push($units, 'unitR');
+        if ($unitC->C1 == 5) {
+            array_push($units, 'unitD');
+            array_push($units, 'unitE');
+            array_push($units, 'unitF');
+        }
 
         return $units;
     }

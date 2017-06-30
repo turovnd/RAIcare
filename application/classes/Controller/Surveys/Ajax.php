@@ -296,7 +296,7 @@ class Controller_Surveys_Ajax extends Ajax
 
         if (!$unitB->pk) {
             $unitB = $unitB->save();
-            $this->survey->unitB = $unitB ->pk;
+            $this->survey->unitB = $unitB->pk;
             $this->survey->update();
         } else {
             $unitB->update();
@@ -317,36 +317,36 @@ class Controller_Surveys_Ajax extends Ajax
     private function update_unitC()
     {
         $C1  = Arr::get($_POST,'C1');
-        $C2  = json_encode(Arr::get($_POST,'C2'));
-        $C3a = Arr::get($_POST,'C3a');
-        $C3b = Arr::get($_POST,'C3b');
-        $C3c = Arr::get($_POST,'C3c');
+        $C2  = Arr::get($_POST,'C2');
+        $C3a = Arr::get($_POST,'C3a','-1');
+        $C3b = Arr::get($_POST,'C3b', '-1');
+        $C3c = Arr::get($_POST,'C3c', '-1');
         $C4  = Arr::get($_POST,'C4');
         $C5  = Arr::get($_POST,'C5');
 
-        $unitC = new Model_SurveyUnitC($this->survey->pk);
+        $unitC = new Model_SurveyUnitC($this->survey->unitC);
 
         $need_update = false;
         if ($unitC->C1 == 5 && $C1 != 5 || $unitC->C1 != 5 && $C1 ==5) $need_update = true;
 
-        if (!$unitC->pk) {
-            $unitC = new Model_SurveyUnitC();
+        $unitC->C1 = $C1;
+
+        if ($C1 == 5) {
+            $unitC->C2 = NULL;
+            $unitC->C3 = json_encode(array('-1', '-1', '-1'));
+            $unitC->C4 = NULL;
+            $unitC->C5 = -1;
+        } else {
+            $unitC->C2 = json_encode($C2);
+            $unitC->C3 = json_encode(array($C3a, $C3b, $C3c));
+            $unitC->C4 = $C4;
+            $unitC->C5 = $C5;
         }
 
-        $unitC->C1 = $C1;
-        if ($C1 == 5) goto finish;
-
-        $unitC->C2 = $C2;
-        $unitC->C3a = $C3a;
-        $unitC->C3b = $C3b;
-        $unitC->C3c = $C3c;
-        $unitC->C4 = $C4;
-        $unitC->C5 = $C5;
-
-        finish:
         if (!$unitC->pk) {
-            $unitC->pk = $this->survey->pk;
-            $unitC->save();
+            $unitC = $unitC->save();
+            $this->survey->unitC = $unitC->pk;
+            $this->survey->update();
         } else {
             $unitC->update();
         }
