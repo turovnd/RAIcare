@@ -204,7 +204,7 @@ class Controller_Surveys_Ajax extends Ajax
         $this->survey->unitF = new Model_SurveyUnitF($this->survey->unitF);
         $this->survey->unitG = new Model_SurveyUnitG($this->survey->unitG);
         $this->survey->unitH = new Model_SurveyUnitH($this->survey->unitH);
-        //$this->survey->unitI = new Model_SurveyUnitI($this->survey->unitI);
+        $this->survey->unitI = new Model_SurveyUnitI($this->survey->unitI);
         $this->survey->unitJ = new Model_SurveyUnitJ($this->survey->unitJ);
     }
 
@@ -230,7 +230,7 @@ class Controller_Surveys_Ajax extends Ajax
             case 'unitF': $this->update_unitF(); break;
             case 'unitG': $this->update_unitG(); break;
             case 'unitH': $this->update_unitH(); break;
-            //case 'unitI': $this->update_unitI(); break;
+            case 'unitI': $this->update_unitI(); break;
             case 'unitJ': $this->update_unitJ(); break;
         }
     }
@@ -545,6 +545,37 @@ class Controller_Surveys_Ajax extends Ajax
         }
 
         if ($H1 == NULL || $H2 == NULL || $H3 == NULL || $H4 == NULL) {
+            $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_WARMING', 'warning');
+        } else {
+            $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_SUCCESS', 'success');
+        }
+
+        $this->response->body(@json_encode($response->get_response()));
+        return;
+    }
+
+    private function update_unitI()
+    {
+        $I1 = Arr::get($_POST,'I1');
+        $I2 = Arr::get($_POST,'I2', '[]');
+
+        $unitI = new Model_SurveyUnitI($this->survey->unitI);
+
+        $unitI->I1 = json_encode($I1);
+        $unitI->I2 = json_encode($I2);
+
+        if (!$unitI->pk) {
+            $unitI = $unitI->save();
+            $this->survey->unitI = $unitI->pk;
+            $this->survey->update();
+        } else {
+            $unitI->update();
+        }
+
+        $empty = false;
+        if (!$empty) { foreach ($I1 as $i1) { if ($i1 == -1) { $empty = true; } } }
+
+        if ($empty || $I2 == '[]') {
             $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_WARMING', 'warning');
         } else {
             $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_SUCCESS', 'success');

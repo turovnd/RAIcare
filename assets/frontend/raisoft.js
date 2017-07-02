@@ -20,6 +20,7 @@ module.exports = ( function (raisoft) {
     raisoft.modal        = require('./modules/js/modal');
     raisoft.form         = require('./modules/js/form');
     raisoft.notification = require('./modules/js/notification');
+    raisoft.choices      = require('choices.js');
 
     return raisoft;
 

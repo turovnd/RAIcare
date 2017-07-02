@@ -36,7 +36,6 @@
 .block__body{
     display: block;
     position: relative;
-    overflow: hidden;
 }
 
 .form__body{
@@ -118,6 +117,7 @@
 .form-group__control[disabled]{
     background-color: #F5F5F5;
     cursor: not-allowed;
+    user-select: none;
 }
 
 .form-group--has-success .form-group__control{

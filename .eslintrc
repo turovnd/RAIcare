@@ -66,6 +66,7 @@
         "window": true,
         "console" : true,
         "raisoft": true,
+        "fetch": true,
         "VERSION" : true,
         "Promise" : true,
         "MutationObserver": true,

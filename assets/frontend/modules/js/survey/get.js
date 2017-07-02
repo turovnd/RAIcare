@@ -122,6 +122,7 @@ module.exports = (function (get) {
                 if (parseInt(response.code) === 165 ) {
 
                     unitHolder.innerHTML = response.html;
+                    initSelects_();
 
                 } else {
 
@@ -409,7 +410,86 @@ module.exports = (function (get) {
 
     }
 
+    function initSelects_() {
 
+        if (document.getElementsByClassName('js-single-select').length > 0) {
+
+            new raisoft.choices('.js-single-select', {
+                shouldSort: false,
+                searchEnabled: false,
+                itemSelectText: 'выбрать'
+            });
+
+        }
+
+        if (document.getElementsByClassName('js-single-select--with-search').length > 0) {
+
+            new raisoft.choices('.js-single-select--with-search', {
+                searchEnabled: true,
+                loadingText: 'Загрузка...',
+                noResultsText: 'Ничего не найдено',
+                noChoicesText: 'Нет элементов для выбора',
+                itemSelectText: 'выбрать'
+            });
+
+        }
+
+        if (document.getElementsByClassName('js-multiple-select').length > 0) {
+
+            new raisoft.choices('.js-multiple-select', {
+                removeItemButton: true,
+                placeholderValue: 'Введите для поиска',
+                noResultsText: 'Ничего не найдено',
+                noChoicesText: 'Нет элементов для выбора',
+                itemSelectText: 'выбрать'
+            });
+
+        }
+
+        if (document.getElementById('I2')) {
+
+            var I2 = new raisoft.choices(document.getElementById('I2'), {
+                removeItemButton: true,
+                placeholderValue: 'Введите названия диагноза или код МКБ-10',
+                loadingText: 'Загрузка...',
+                noResultsText: 'Ничего не найдено',
+                noChoicesText: 'Нет элементов для выбора',
+                itemSelectText: 'выбрать',
+                searchEnabled: true,
+                searchChoices: true,
+                searchFloor: 1,
+                searchResultLimit: 10,
+                searchFields: ['label', 'value'],
+            });
+
+            I2.passedElement.addEventListener('search', function (event) {
+
+
+                I2.ajax(function (callback) {
+
+                    fetch('/mkb10/get?name=' + event.detail.value)
+                        .then(function (response) {
+
+                            response.json().then(function (data) {
+
+                                callback(data, 'value', 'label');
+
+                            });
+
+                        })
+                        .catch(function (error) {
+
+                            console.log(error);
+
+                        });
+
+                });
+
+            }, false);
+
+        }
+
+    }
 
     return get;
 

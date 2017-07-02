@@ -14,6 +14,7 @@ require_once ('routes/organizations.php');
 require_once ('routes/pensions.php');
 require_once ('routes/patients.php');
 require_once ('routes/survey.php');
+require_once ('routes/staticFromDB.php');
 
 /**
  * Route for file (image) uploading
