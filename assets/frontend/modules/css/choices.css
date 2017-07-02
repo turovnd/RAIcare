@@ -128,6 +128,9 @@
     min-height: 32px;
     overflow: hidden;
 }
+.choices:focus .choices__inner{
+    border-color: #35bad3;
+}
 
 .is-focused .choices__inner, .is-open .choices__inner {
     border-color: #d7d8db;
