@@ -187,12 +187,12 @@ $survey->unitC->C3 = json_decode($survey->unitC->C3);
                             </label>
                             <div class="col-xs-12">
                                 <? if ($can_conduct) : ?>
-                                    <select name="C5" id="C5" class="form-group__control">
-                                        <option value="-1"></option>
-                                        <? foreach ($C5 as $key => $option) :?>
-                                            <option value="<?= $key; ?>" <?= $survey->unitC->C5 != NULL && $key == $survey->unitC->C5 ? 'selected' : '' ?>><?= $option; ?></option>
-                                        <? endforeach; ?>
-                                    </select>
+                                    <? foreach ($C5 as $key => $value) :?>
+                                        <p>
+                                            <input id="C5b<?= $key; ?>" name="C5" type="radio" class="radio" value="<?= $key; ?>" <?= $survey->unitC->C5 != NULL && $key == $survey->unitC->C5 ? 'checked' : '' ?> >
+                                            <label for="C5b<?= $key; ?>" class="radio-label"><?= $value; ?></label>
+                                        </p>
+                                    <? endforeach; ?>
                                 <? else : ?>
                                     <p class="form-group__control-static p-l-0"> <?= $survey->unitC->C5 != NULL && $survey->unitC->C5 != -1 ? $C5[$survey->unitC->C5] : 'Не указано'; ?> </p>
                                 <? endif; ?>

@@ -1,6 +1,6 @@
 <div class="block" id="patientInfo">
 
-    <div class="block__body">
+    <div class="block__body clear-fix">
 
         <div class="form-group m-b-5 js-field-name">
             <label for="patientName" class="form-group__label col-xs-12 col-sm-4 col-md-3">ФИО</label>

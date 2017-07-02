@@ -61,8 +61,8 @@
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
-                                <select name="A11" id="A11" class="form-group__control">
-                                    <option value="-1"></option>
+                                <select name="A11" id="A11" class="form-group__control js-single-select">
+                                    <option selected disabled value="-1">Не выбрано</option>
                                     <? foreach ($A11 as $key => $option) :?>
                                         <option value="<?= $key; ?>" <?= !empty($survey->unitA->A11) && $key == $survey->unitA->A11 ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>

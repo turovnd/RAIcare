@@ -51,8 +51,8 @@ $survey->unitE->E3 = json_decode($survey->unitE->E3);
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
-                                <select name="E1[]" id="E1a" class="form-group__control">
-                                    <option value="-1"></option>
+                                <select name="E1[]" id="E1a" class="form-group__control js-single-select">
+                                    <option selected disabled value="-1">Не выбрано</option>
                                     <? foreach ($E1 as $key => $option) :?>
                                         <option value="<?= $key; ?>" <?= !empty($survey->unitE->E1) && $key == $survey->unitE->E1[0] ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
@@ -69,8 +69,8 @@ $survey->unitE->E3 = json_decode($survey->unitE->E3);
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
-                                <select name="E1[]" id="E1b" class="form-group__control">
-                                    <option value="-1"></option>
+                                <select name="E1[]" id="E1b" class="form-group__control js-single-select">
+                                    <option selected disabled value="-1">Не выбрано</option>
                                     <? foreach ($E1 as $key => $option) :?>
                                         <option value="<?= $key; ?>" <?= !empty($survey->unitE->E1) && $key == $survey->unitE->E1[1] ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
@@ -87,8 +87,8 @@ $survey->unitE->E3 = json_decode($survey->unitE->E3);
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
-                                <select name="E1[]" id="E1c" class="form-group__control">
-                                    <option value="-1"></option>
+                                <select name="E1[]" id="E1c" class="form-group__control js-single-select">
+                                    <option selected disabled value="-1">Не выбрано</option>
                                     <? foreach ($E1 as $key => $option) :?>
                                         <option value="<?= $key; ?>" <?= !empty($survey->unitE->E1) && $key == $survey->unitE->E1[2] ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
@@ -105,8 +105,8 @@ $survey->unitE->E3 = json_decode($survey->unitE->E3);
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
-                                <select name="E1[]" id="E1d" class="form-group__control">
-                                    <option value="-1"></option>
+                                <select name="E1[]" id="E1d" class="form-group__control js-single-select">
+                                    <option selected disabled value="-1">Не выбрано</option>
                                     <? foreach ($E1 as $key => $option) :?>
                                         <option value="<?= $key; ?>" <?= !empty($survey->unitE->E1) && $key == $survey->unitE->E1[3] ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
@@ -123,8 +123,8 @@ $survey->unitE->E3 = json_decode($survey->unitE->E3);
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
-                                <select name="E1[]" id="E1e" class="form-group__control">
-                                    <option value="-1"></option>
+                                <select name="E1[]" id="E1e" class="form-group__control js-single-select">
+                                    <option selected disabled value="-1">Не выбрано</option>
                                     <? foreach ($E1 as $key => $option) :?>
                                         <option value="<?= $key; ?>" <?= !empty($survey->unitE->E1) && $key == $survey->unitE->E1[4] ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
@@ -141,8 +141,8 @@ $survey->unitE->E3 = json_decode($survey->unitE->E3);
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
-                                <select name="E1[]" id="E1f" class="form-group__control">
-                                    <option value="-1"></option>
+                                <select name="E1[]" id="E1f" class="form-group__control js-single-select">
+                                    <option selected disabled value="-1">Не выбрано</option>
                                     <? foreach ($E1 as $key => $option) :?>
                                         <option value="<?= $key; ?>" <?= !empty($survey->unitE->E1) && $key == $survey->unitE->E1[5] ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
@@ -158,8 +158,8 @@ $survey->unitE->E3 = json_decode($survey->unitE->E3);
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
-                                <select name="E1[]" id="E1g" class="form-group__control">
-                                    <option value="-1"></option>
+                                <select name="E1[]" id="E1g" class="form-group__control js-single-select">
+                                    <option selected disabled value="-1">Не выбрано</option>
                                     <? foreach ($E1 as $key => $option) :?>
                                         <option value="<?= $key; ?>" <?= !empty($survey->unitE->E1) && $key == $survey->unitE->E1[6] ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
@@ -176,8 +176,8 @@ $survey->unitE->E3 = json_decode($survey->unitE->E3);
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
-                                <select name="E1[]" id="E1h" class="form-group__control">
-                                    <option value="-1"></option>
+                                <select name="E1[]" id="E1h" class="form-group__control js-single-select">
+                                    <option selected disabled value="-1">Не выбрано</option>
                                     <? foreach ($E1 as $key => $option) :?>
                                         <option value="<?= $key; ?>" <?= !empty($survey->unitE->E1) && $key == $survey->unitE->E1[7] ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
@@ -194,8 +194,8 @@ $survey->unitE->E3 = json_decode($survey->unitE->E3);
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
-                                <select name="E1[]" id="E1i" class="form-group__control">
-                                    <option value="-1"></option>
+                                <select name="E1[]" id="E1i" class="form-group__control js-single-select">
+                                    <option selected disabled value="-1">Не выбрано</option>
                                     <? foreach ($E1 as $key => $option) :?>
                                         <option value="<?= $key; ?>" <?= !empty($survey->unitE->E1) && $key == $survey->unitE->E1[8] ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
@@ -211,8 +211,8 @@ $survey->unitE->E3 = json_decode($survey->unitE->E3);
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
-                                <select name="E1[]" id="E1j" class="form-group__control">
-                                    <option value="-1"></option>
+                                <select name="E1[]" id="E1j" class="form-group__control js-single-select">
+                                    <option selected disabled value="-1">Не выбрано</option>
                                     <? foreach ($E1 as $key => $option) :?>
                                         <option value="<?= $key; ?>" <?= !empty($survey->unitE->E1) && $key == $survey->unitE->E1[9] ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
@@ -229,8 +229,8 @@ $survey->unitE->E3 = json_decode($survey->unitE->E3);
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
-                                <select name="E1[]" id="E1k" class="form-group__control">
-                                    <option value="-1"></option>
+                                <select name="E1[]" id="E1k" class="form-group__control js-single-select">
+                                    <option selected disabled value="-1">Не выбрано</option>
                                     <? foreach ($E1 as $key => $option) :?>
                                         <option value="<?= $key; ?>" <?= !empty($survey->unitE->E1) && $key == $survey->unitE->E1[10] ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
@@ -253,8 +253,8 @@ $survey->unitE->E3 = json_decode($survey->unitE->E3);
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
-                                <select name="E2[]" id="E2a" class="form-group__control">
-                                    <option value="-1"></option>
+                                <select name="E2[]" id="E2a" class="form-group__control js-single-select">
+                                    <option selected disabled value="-1">Не выбрано</option>
                                     <? foreach ($E2 as $key => $option) :?>
                                         <option value="<?= $key; ?>" <?= !empty($survey->unitE->E2) && $key == $survey->unitE->E2[0] ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
@@ -270,8 +270,8 @@ $survey->unitE->E3 = json_decode($survey->unitE->E3);
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
-                                <select name="E2[]" id="E2b" class="form-group__control">
-                                    <option value="-1"></option>
+                                <select name="E2[]" id="E2b" class="form-group__control js-single-select">
+                                    <option selected disabled value="-1">Не выбрано</option>
                                     <? foreach ($E2 as $key => $option) :?>
                                         <option value="<?= $key; ?>" <?= !empty($survey->unitE->E2) && $key == $survey->unitE->E2[1] ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
@@ -287,8 +287,8 @@ $survey->unitE->E3 = json_decode($survey->unitE->E3);
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
-                                <select name="E2[]" id="E2c" class="form-group__control">
-                                    <option value="-1"></option>
+                                <select name="E2[]" id="E2c" class="form-group__control js-single-select">
+                                    <option selected disabled value="-1">Не выбрано</option>
                                     <? foreach ($E2 as $key => $option) :?>
                                         <option value="<?= $key; ?>" <?= !empty($survey->unitE->E2) && $key == $survey->unitE->E2[2] ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
@@ -313,8 +313,8 @@ $survey->unitE->E3 = json_decode($survey->unitE->E3);
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
-                                <select name="E3[]" id="E3a" class="form-group__control">
-                                    <option value="-1"></option>
+                                <select name="E3[]" id="E3a" class="form-group__control js-single-select">
+                                    <option selected disabled value="-1">Не выбрано</option>
                                     <? foreach ($E3 as $key => $option) :?>
                                         <option value="<?= $key; ?>" <?= !empty($survey->unitE->E3) && $key == $survey->unitE->E3[0] ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
@@ -331,8 +331,8 @@ $survey->unitE->E3 = json_decode($survey->unitE->E3);
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
-                                <select name="E3[]" id="E3b" class="form-group__control">
-                                    <option value="-1"></option>
+                                <select name="E3[]" id="E3b" class="form-group__control js-single-select">
+                                    <option selected disabled value="-1">Не выбрано</option>
                                     <? foreach ($E3 as $key => $option) :?>
                                         <option value="<?= $key; ?>" <?= !empty($survey->unitE->E3) && $key == $survey->unitE->E3[1] ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
@@ -349,8 +349,8 @@ $survey->unitE->E3 = json_decode($survey->unitE->E3);
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
-                                <select name="E3[]" id="E3c" class="form-group__control">
-                                    <option value="-1"></option>
+                                <select name="E3[]" id="E3c" class="form-group__control js-single-select">
+                                    <option selected disabled value="-1">Не выбрано</option>
                                     <? foreach ($E3 as $key => $option) :?>
                                         <option value="<?= $key; ?>" <?= !empty($survey->unitE->E3) && $key == $survey->unitE->E3[2] ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
@@ -367,8 +367,8 @@ $survey->unitE->E3 = json_decode($survey->unitE->E3);
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
-                                <select name="E3[]" id="E3d" class="form-group__control">
-                                    <option value="-1"></option>
+                                <select name="E3[]" id="E3d" class="form-group__control js-single-select">
+                                    <option selected disabled value="-1">Не выбрано</option>
                                     <? foreach ($E3 as $key => $option) :?>
                                         <option value="<?= $key; ?>" <?= !empty($survey->unitE->E3) && $key == $survey->unitE->E3[3] ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
@@ -384,8 +384,8 @@ $survey->unitE->E3 = json_decode($survey->unitE->E3);
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
-                                <select name="E3[]" id="E3e" class="form-group__control">
-                                    <option value="-1"></option>
+                                <select name="E3[]" id="E3e" class="form-group__control js-single-select">
+                                    <option selected disabled value="-1">Не выбрано</option>
                                     <? foreach ($E3 as $key => $option) :?>
                                         <option value="<?= $key; ?>" <?= !empty($survey->unitE->E3) && $key == $survey->unitE->E3[4] ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
@@ -402,8 +402,8 @@ $survey->unitE->E3 = json_decode($survey->unitE->E3);
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
-                                <select name="E3[]" id="E3f" class="form-group__control">
-                                    <option value="-1"></option>
+                                <select name="E3[]" id="E3f" class="form-group__control js-single-select">
+                                    <option selected disabled value="-1">Не выбрано</option>
                                     <? foreach ($E3 as $key => $option) :?>
                                         <option value="<?= $key; ?>" <?= !empty($survey->unitE->E3) && $key == $survey->unitE->E3[5] ? 'selected' : '' ?>><?= $option; ?></option>
                                     <? endforeach; ?>
