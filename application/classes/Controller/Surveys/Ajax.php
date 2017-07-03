@@ -211,6 +211,7 @@ class Controller_Surveys_Ajax extends Ajax
         $this->survey->unitM = new Model_SurveyUnitM($this->survey->unitM);
 //        $this->survey->unitN = new Model_SurveyUnitN($this->survey->unitN);
 //        $this->survey->unitO = new Model_SurveyUnitO($this->survey->unitO);
+        $this->survey->unitP = new Model_SurveyUnitP($this->survey->unitP);
 //        $this->survey->unitQ = new Model_SurveyUnitQ($this->survey->unitQ);
 //        $this->survey->unitR = new Model_SurveyUnitR($this->survey->unitR);
     }
@@ -244,7 +245,7 @@ class Controller_Surveys_Ajax extends Ajax
             case 'unitM': $this->update_unitM(); break;
 //            case 'unitN': $this->update_unitN(); break;
 //            case 'unitO': $this->update_unitO(); break;
-//            case 'unitP': $this->update_unitP(); break;
+            case 'unitP': $this->update_unitP(); break;
 //            case 'unitQ': $this->update_unitQ(); break;
 //            case 'unitR': $this->update_unitR(); break;
         }
@@ -774,6 +775,136 @@ class Controller_Surveys_Ajax extends Ajax
 
         if ($M1 == -1 || $M2a == -1 || $M2b == -1 || $M2c == -1 || $M2d == -1 || $M2e == -1 || $M2f == -1 || $M2g == -1 || $M2h == -1
             || $M2i == -1 || $M2j == -1 || $M2k == -1 || $M2l == -1 || $M2m == -1 || $M2n == -1 || $M2o == -1 || $M2p == -1 || $M3 == -1 ) {
+            $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_WARMING', 'warning');
+        } else {
+            $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_SUCCESS', 'success');
+        }
+
+        $this->response->body(@json_encode($response->get_response()));
+        return;
+    }
+
+    private function update_unitN()
+    {
+        $M1 = Arr::get($_POST,'M1');
+        $M2a = Arr::get($_POST,'M2a', '-1');
+        $M2b = Arr::get($_POST,'M2b', '-1');
+        $M2c = Arr::get($_POST,'M2c', '-1');
+        $M2d = Arr::get($_POST,'M2d', '-1');
+        $M2e = Arr::get($_POST,'M2e', '-1');
+        $M2f = Arr::get($_POST,'M2f', '-1');
+        $M2g = Arr::get($_POST,'M2g', '-1');
+        $M2h = Arr::get($_POST,'M2h', '-1');
+        $M2i = Arr::get($_POST,'M2i', '-1');
+        $M2j = Arr::get($_POST,'M2j', '-1');
+        $M2k = Arr::get($_POST,'M2k', '-1');
+        $M2l = Arr::get($_POST,'M2l', '-1');
+        $M2m = Arr::get($_POST,'M2m', '-1');
+        $M2n = Arr::get($_POST,'M2n', '-1');
+        $M2o = Arr::get($_POST,'M2o', '-1');
+        $M2p = Arr::get($_POST,'M2p', '-1');
+        $M3 = Arr::get($_POST,'M3');
+
+        $unitM = new Model_SurveyUnitM($this->survey->unitM);
+
+        $unitM->M1 = $M1;
+        $unitM->M2 = json_encode(array($M2a,$M2b,$M2c,$M2d,$M2e,$M2f,$M2g,$M2h,$M2i,$M2j,$M2k,$M2l,$M2m,$M2n,$M2o,$M2p));
+        $unitM->M3 = $M3;
+
+        if (!$unitM->pk) {
+            $unitM = $unitM->save();
+            $this->survey->unitM = $unitM->pk;
+            $this->survey->update();
+        } else {
+            $unitM->update();
+        }
+
+        if ($M1 == -1 || $M2a == -1 || $M2b == -1 || $M2c == -1 || $M2d == -1 || $M2e == -1 || $M2f == -1 || $M2g == -1 || $M2h == -1
+            || $M2i == -1 || $M2j == -1 || $M2k == -1 || $M2l == -1 || $M2m == -1 || $M2n == -1 || $M2o == -1 || $M2p == -1 || $M3 == -1 ) {
+            $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_WARMING', 'warning');
+        } else {
+            $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_SUCCESS', 'success');
+        }
+
+        $this->response->body(@json_encode($response->get_response()));
+        return;
+    }
+
+    private function update_unitO()
+    {
+        $M1 = Arr::get($_POST,'M1');
+        $M2a = Arr::get($_POST,'M2a', '-1');
+        $M2b = Arr::get($_POST,'M2b', '-1');
+        $M2c = Arr::get($_POST,'M2c', '-1');
+        $M2d = Arr::get($_POST,'M2d', '-1');
+        $M2e = Arr::get($_POST,'M2e', '-1');
+        $M2f = Arr::get($_POST,'M2f', '-1');
+        $M2g = Arr::get($_POST,'M2g', '-1');
+        $M2h = Arr::get($_POST,'M2h', '-1');
+        $M2i = Arr::get($_POST,'M2i', '-1');
+        $M2j = Arr::get($_POST,'M2j', '-1');
+        $M2k = Arr::get($_POST,'M2k', '-1');
+        $M2l = Arr::get($_POST,'M2l', '-1');
+        $M2m = Arr::get($_POST,'M2m', '-1');
+        $M2n = Arr::get($_POST,'M2n', '-1');
+        $M2o = Arr::get($_POST,'M2o', '-1');
+        $M2p = Arr::get($_POST,'M2p', '-1');
+        $M3 = Arr::get($_POST,'M3');
+
+        $unitM = new Model_SurveyUnitM($this->survey->unitM);
+
+        $unitM->M1 = $M1;
+        $unitM->M2 = json_encode(array($M2a,$M2b,$M2c,$M2d,$M2e,$M2f,$M2g,$M2h,$M2i,$M2j,$M2k,$M2l,$M2m,$M2n,$M2o,$M2p));
+        $unitM->M3 = $M3;
+
+        if (!$unitM->pk) {
+            $unitM = $unitM->save();
+            $this->survey->unitM = $unitM->pk;
+            $this->survey->update();
+        } else {
+            $unitM->update();
+        }
+
+        if ($M1 == -1 || $M2a == -1 || $M2b == -1 || $M2c == -1 || $M2d == -1 || $M2e == -1 || $M2f == -1 || $M2g == -1 || $M2h == -1
+            || $M2i == -1 || $M2j == -1 || $M2k == -1 || $M2l == -1 || $M2m == -1 || $M2n == -1 || $M2o == -1 || $M2p == -1 || $M3 == -1 ) {
+            $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_WARMING', 'warning');
+        } else {
+            $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_SUCCESS', 'success');
+        }
+
+        $this->response->body(@json_encode($response->get_response()));
+        return;
+    }
+
+    private function update_unitP()
+    {
+        $P1a = Arr::get($_POST,'P1a', '-1');
+        $P1b = Arr::get($_POST,'P1b', '-1');
+        $P1c = Arr::get($_POST,'P1c', '-1');
+        $P1d = Arr::get($_POST,'P1d', '-1');
+        $P1e = Arr::get($_POST,'P1e', '-1');
+        $P2a = Arr::get($_POST,'P2a', '-1');
+        $P2b = Arr::get($_POST,'P2b', '-1');
+        $P2c = Arr::get($_POST,'P2c', '-1');
+        $P2d = Arr::get($_POST,'P2d', '-1');
+        $P2e = Arr::get($_POST,'P2e', '-1');
+
+
+        $unitP = new Model_SurveyUnitP($this->survey->unitP);
+
+        $unitP->P1 = json_encode(array($P1a,$P1b,$P1c,$P1d,$P1e));
+        $unitP->P2 = json_encode(array($P2a,$P2b,$P2c,$P2d,$P2e));
+
+        if (!$unitP->pk) {
+            $unitP = $unitP->save();
+            $this->survey->unitP = $unitP->pk;
+            $this->survey->update();
+        } else {
+            $unitP->update();
+        }
+
+        if ($P1a == -1 || $P1b == -1 || $P1c == -1 || $P1d == -1 || $P1e == -1 ||
+            $P2a == -1 || $P2b == -1 || $P2c == -1 || $P2d == -1 || $P2e == -1) {
             $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_WARMING', 'warning');
         } else {
             $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_SUCCESS', 'success');
