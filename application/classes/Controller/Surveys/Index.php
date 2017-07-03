@@ -168,7 +168,7 @@ class Controller_Surveys_Index extends Dispatch
         $this->survey->unitJ = new Model_SurveyUnitJ($this->survey->unitJ);
         $this->survey->unitK = new Model_SurveyUnitK($this->survey->unitK);
         $this->survey->unitL = new Model_SurveyUnitL($this->survey->unitL);
-//        $this->survey->unitM = new Model_SurveyUnitM($this->survey->unitM);
+        $this->survey->unitM = new Model_SurveyUnitM($this->survey->unitM);
 //        $this->survey->unitN = new Model_SurveyUnitN($this->survey->unitN);
 //        $this->survey->unitO = new Model_SurveyUnitO($this->survey->unitO);
 //        $this->survey->unitQ = new Model_SurveyUnitQ($this->survey->unitQ);
