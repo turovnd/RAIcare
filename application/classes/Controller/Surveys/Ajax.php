@@ -207,6 +207,12 @@ class Controller_Surveys_Ajax extends Ajax
         $this->survey->unitI = new Model_SurveyUnitI($this->survey->unitI);
         $this->survey->unitJ = new Model_SurveyUnitJ($this->survey->unitJ);
         $this->survey->unitK = new Model_SurveyUnitK($this->survey->unitK);
+        $this->survey->unitL = new Model_SurveyUnitL($this->survey->unitL);
+//        $this->survey->unitM = new Model_SurveyUnitM($this->survey->unitM);
+//        $this->survey->unitN = new Model_SurveyUnitN($this->survey->unitN);
+//        $this->survey->unitO = new Model_SurveyUnitO($this->survey->unitO);
+//        $this->survey->unitQ = new Model_SurveyUnitQ($this->survey->unitQ);
+//        $this->survey->unitR = new Model_SurveyUnitR($this->survey->unitR);
     }
 
 
@@ -234,6 +240,13 @@ class Controller_Surveys_Ajax extends Ajax
             case 'unitI': $this->update_unitI(); break;
             case 'unitJ': $this->update_unitJ(); break;
             case 'unitK': $this->update_unitK(); break;
+            case 'unitL': $this->update_unitL(); break;
+//            case 'unitM': $this->update_unitM(); break;
+//            case 'unitN': $this->update_unitN(); break;
+//            case 'unitO': $this->update_unitO(); break;
+//            case 'unitP': $this->update_unitP(); break;
+//            case 'unitQ': $this->update_unitQ(); break;
+//            case 'unitR': $this->update_unitR(); break;
         }
     }
 
@@ -677,6 +690,44 @@ class Controller_Surveys_Ajax extends Ajax
 
         if ($K1a == 0 || $K1b == 0 || $K2a == -1 || $K2b == -1 || $K2c == -1 || $K2d == -1 || $K3 == NULL ||
             $K4 == NULL || $K5a == -1 || $K5b == -1 || $K5c == -1 || $K5d == -1 || $K5e == -1 || $K5f == -1) {
+            $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_WARMING', 'warning');
+        } else {
+            $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_SUCCESS', 'success');
+        }
+
+        $this->response->body(@json_encode($response->get_response()));
+        return;
+    }
+
+    private function update_unitL()
+    {
+        $L1 = Arr::get($_POST,'L1');
+        $L2 = Arr::get($_POST,'L2');
+        $L3 = Arr::get($_POST,'L3');
+        $L4 = Arr::get($_POST,'L4');
+        $L5 = Arr::get($_POST,'L5');
+        $L6 = Arr::get($_POST,'L6');
+        $L7 = Arr::get($_POST,'L7');
+
+        $unitL = new Model_SurveyUnitL($this->survey->unitL);
+
+        $unitL->L1 = $L1;
+        $unitL->L2 = $L2;
+        $unitL->L3 = $L3;
+        $unitL->L4 = $L4;
+        $unitL->L5 = $L5;
+        $unitL->L6 = $L6;
+        $unitL->L7 = $L7;
+
+        if (!$unitL->pk) {
+            $unitL = $unitL->save();
+            $this->survey->unitL = $unitL->pk;
+            $this->survey->update();
+        } else {
+            $unitL->update();
+        }
+
+        if ($L1 == -1 || $L2 == NULL || $L3 == NULL || $L4 == NULL || $L5 == NULL || $L6 == NULL || $L7 == -1) {
             $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_WARMING', 'warning');
         } else {
             $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_SUCCESS', 'success');

@@ -1,11 +1,223 @@
+<?
+$L1 = array(
+    '0' => 'Пролежни отсутствуют',
+    '1' => 'Наличие области (области) с устойчивой гиперемией кожи',
+    '2' => 'Частичная потеря кожных покровов',
+    '3' => 'Глубокие кратеры в коже',
+    '4' => 'Кожные разрывы, обнажающие мышцы или кость',
+    '5' => 'Код присвоить невозможно'
+);
+$L7 = array(
+    '0' => 'Нет проблем со ступнями',
+    '1' => 'Есть проблемы со ступнями, нет затруднений при ходьбе',
+    '2' => 'Проблемы со ступнями затрудняют ходьбу',
+    '3' => 'Проблемы со ступнями не позволяют ходить',
+    '4' => 'Есть проблемы со ступнями, ходьба невозможна по другим причинам'
+);
+?>
+
 <h3 class="section__heading">
+    <? if (!$can_conduct) : ?>
+        <a role="button" onclick="raisoft.collapse.toggle(this)" data-area="unitL" data-opened="true" data-textclosed="показать" data-textopened="скрыть" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn"></a>
+    <? endif; ?>
     Состояние кожи
 </h3>
 
-<div class="row">
+<form class="row" id="unitL" onsubmit="event.preventDefault()">
 
     <div class="col-xs-12">
 
+        <div class="form">
+
+            <div class="form__body">
+
+                <fieldset>
+
+                    <div class="form-group">
+                        <label for="L1" class="form-group__label col-xs-12">
+                            Самые тяжелые пролежни
+                        </label>
+
+                        <div class="col-xs-12">
+                            <? if ($can_conduct) : ?>
+                                <select name="L1" id="L1" class="form-group__control js-single-select">
+                                    <option selected disabled value="-1">Не выбрано</option>
+                                    <? foreach ($L1 as $key => $option) :?>
+                                        <option value="<?= $key; ?>" <?= $survey->unitL->L1 != NULL && $key == $survey->unitL->L1? 'selected' : '' ?>><?= $option; ?></option>
+                                    <? endforeach; ?>
+                                </select>
+                            <? else : ?>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitL->L1 != NULL && $survey->unitL->L1 != -1 ? $L1[$survey->unitL->L1] : 'Не указано'; ?> </p>
+                            <? endif; ?>
+                        </div>
+                    </div>
+
+                </fieldset>
+
+                <fieldset>
+
+                    <div class="form-group">
+                        <label class="form-group__label col-xs-12">
+                            Наличие пролежней в прошлом
+                        </label>
+                        <div class="col-xs-12">
+                            <? if ($can_conduct) : ?>
+                                <span>
+                                    <input id="L2_1" name="L2" type="radio" class="radio" value="1" <?= $survey->unitL->L2 != NULL && $survey->unitL->L2 == 1 ? 'checked' : '' ?> >
+                                    <label for="L2_1" class="radio-label">Да</label>
+                                </span>
+                                <span class="m-l-20">
+                                    <input id="L2_2" name="L2" type="radio" class="radio" value="0" <?= $survey->unitL->L2 != NULL && $survey->unitL->L2 == 0 ? 'checked' : '' ?> >
+                                    <label for="L2_2" class="radio-label">Нет</label>
+                                </span>
+                            <? else: ?>
+                                <p class="form-group__control-static p-l-0"> <? if ($survey->unitL->L2 != NULL) { if ($survey->unitL->L2 == 1) { echo 'Да'; } elseif ($survey->unitL->L2 == 0) { echo 'Нет'; } else { echo 'Не указано'; } } else { echo 'Не указано'; } ?> </p>
+                            <? endif; ?>
+                        </div>
+                    </div>
+
+                </fieldset>
+
+                <fieldset>
+
+                    <div class="form-group">
+                        <label class="form-group__label col-xs-12">
+                            Наличие иных кожных язв, помимо пролежней
+                            <small class="text-italic text-normal">Например: венозных язв,
+                            артериальных язв, смешанных венозно-артериальных язв или язвы диабетической
+                            стопы.</small>
+                        </label>
+                        <div class="col-xs-12">
+                            <? if ($can_conduct) : ?>
+                                <span>
+                                    <input id="L3_1" name="L3" type="radio" class="radio" value="1" <?= $survey->unitL->L3 != NULL && $survey->unitL->L3 == 1 ? 'checked' : '' ?> >
+                                    <label for="L3_1" class="radio-label">Да</label>
+                                </span>
+                                <span class="m-l-20">
+                                    <input id="L3_2" name="L3" type="radio" class="radio" value="0" <?= $survey->unitL->L3 != NULL && $survey->unitL->L3 == 0 ? 'checked' : '' ?> >
+                                    <label for="L3_2" class="radio-label">Нет</label>
+                                </span>
+                            <? else: ?>
+                                <p class="form-group__control-static p-l-0"> <? if ($survey->unitL->L3 != NULL) { if ($survey->unitL->L3 == 1) { echo 'Да'; } elseif ($survey->unitL->L3 == 0) { echo 'Нет'; } else { echo 'Не указано'; } } else { echo 'Не указано'; } ?> </p>
+                            <? endif; ?>
+                        </div>
+                    </div>
+
+                </fieldset>
+
+                <fieldset>
+
+                    <div class="form-group">
+                        <label class="form-group__label col-xs-12">
+                            Значительные проблемы с кожей
+                            <small class="text-italic text-normal">Например: поражения, ожоги второй и третьей
+                                степени, а также заживающие послеоперационные раны.</small>
+                        </label>
+                        <div class="col-xs-12">
+                            <? if ($can_conduct) : ?>
+                                <span>
+                                    <input id="L4_1" name="L4" type="radio" class="radio" value="1" <?= $survey->unitL->L4 != NULL && $survey->unitL->L4 == 1 ? 'checked' : '' ?> >
+                                    <label for="L4_1" class="radio-label">Да</label>
+                                </span>
+                                <span class="m-l-20">
+                                    <input id="L4_2" name="L4" type="radio" class="radio" value="0" <?= $survey->unitL->L4 != NULL && $survey->unitL->L4 == 0 ? 'checked' : '' ?> >
+                                    <label for="L4_2" class="radio-label">Нет</label>
+                                </span>
+                            <? else: ?>
+                                <p class="form-group__control-static p-l-0"> <? if ($survey->unitL->L4 != NULL) { if ($survey->unitL->L4 == 1) { echo 'Да'; } elseif ($survey->unitL->L4 == 0) { echo 'Нет'; } else { echo 'Не указано'; } } else { echo 'Не указано'; } ?> </p>
+                            <? endif; ?>
+                        </div>
+                    </div>
+
+                </fieldset>
+
+                <fieldset>
+
+                    <div class="form-group">
+                        <label class="form-group__label col-xs-12">
+                            Разрывы или порезы кожи
+                            <small class="text-italic text-normal">Кроме хирургических разрезов.</small>
+                        </label>
+                        <div class="col-xs-12">
+                            <? if ($can_conduct) : ?>
+                                <span>
+                                    <input id="L5_1" name="L5" type="radio" class="radio" value="1" <?= $survey->unitL->L5 != NULL && $survey->unitL->L5 == 1 ? 'checked' : '' ?> >
+                                    <label for="L5_1" class="radio-label">Да</label>
+                                </span>
+                                <span class="m-l-20">
+                                    <input id="L5_2" name="L5" type="radio" class="radio" value="0" <?= $survey->unitL->L5 != NULL && $survey->unitL->L5 == 0 ? 'checked' : '' ?> >
+                                    <label for="L5_2" class="radio-label">Нет</label>
+                                </span>
+                            <? else: ?>
+                                <p class="form-group__control-static p-l-0"> <? if ($survey->unitL->L5 != NULL) { if ($survey->unitL->L5 == 1) { echo 'Да'; } elseif ($survey->unitL->L5 == 0) { echo 'Нет'; } else { echo 'Не указано'; } } else { echo 'Не указано'; } ?> </p>
+                            <? endif; ?>
+                        </div>
+                    </div>
+
+                </fieldset>
+
+                <fieldset>
+
+                    <div class="form-group">
+                        <label class="form-group__label col-xs-12">
+                            Другте патологические состояния кожи или изменения в состоянии кожи
+                            <small class="text-italic text-normal">Например: гематомы, высыпания, чесотка, пятнистое поражение кожи,
+                                опоясывающий герпес, опрелости или экзема.</small>
+                        </label>
+                        <div class="col-xs-12">
+                            <? if ($can_conduct) : ?>
+                                <span>
+                                    <input id="L6_1" name="L6" type="radio" class="radio" value="1" <?= $survey->unitL->L6 != NULL && $survey->unitL->L6 == 1 ? 'checked' : '' ?> >
+                                    <label for="L6_1" class="radio-label">Да</label>
+                                </span>
+                                <span class="m-l-20">
+                                    <input id="L6_2" name="L6" type="radio" class="radio" value="0" <?= $survey->unitL->L6 != NULL && $survey->unitL->L6 == 0 ? 'checked' : '' ?> >
+                                    <label for="L6_2" class="radio-label">Нет</label>
+                                </span>
+                            <? else: ?>
+                                <p class="form-group__control-static p-l-0"> <? if ($survey->unitL->L6 != NULL) { if ($survey->unitL->L6 == 1) { echo 'Да'; } elseif ($survey->unitL->L6 == 0) { echo 'Нет'; } else { echo 'Не указано'; } } else { echo 'Не указано'; } ?> </p>
+                            <? endif; ?>
+                        </div>
+                    </div>
+
+                </fieldset>
+
+                <fieldset>
+
+                    <div class="form-group">
+                        <label for="L7" class="form-group__label col-xs-12">
+                            Проблемы со ступнями
+                            <small class="text-italic text-normal">Например: бурсит большого пальца, молоткообразное
+                            искривление пальца ноги, суперпозиция пальцев, структурные проблемы,
+                            инфекции и язвы.</small>
+                        </label>
+
+                        <div class="col-xs-12">
+                            <? if ($can_conduct) : ?>
+                                <select name="L7" id="L7" class="form-group__control js-single-select">
+                                    <option selected disabled value="-1">Не выбрано</option>
+                                    <? foreach ($L7 as $key => $option) :?>
+                                        <option value="<?= $key; ?>" <?= $survey->unitL->L7 != NULL && $key == $survey->unitL->L7? 'selected' : '' ?>><?= $option; ?></option>
+                                    <? endforeach; ?>
+                                </select>
+                            <? else : ?>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitL->L7 != NULL && $survey->unitL->L7 != -1 ? $L7[$survey->unitL->L7] : 'Не указано'; ?> </p>
+                            <? endif; ?>
+                        </div>
+                    </div>
+
+                </fieldset>
+
+            </div>
+
+            <? if ($can_conduct) : ?>
+                <a type="button" role="button" class="form__submit text-center text-brand text-bold" onclick="survey.send.updateunit('unitL');">
+                    Сохранить
+                </a>
+            <? endif; ?>
+
+        </div>
+
     </div>
 
-</div>
+</form>
