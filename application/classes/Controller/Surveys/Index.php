@@ -93,7 +93,8 @@ class Controller_Surveys_Index extends Dispatch
         $unitC = new Model_SurveyUnitC($this->survey->unitC);
         $units = array();
         if ($this->survey->type != 1) array_push($units, 'unitB');
-        if ($this->survey->type != 6) array_push($units, 'unitR');
+        if ($this->survey->type != 5) array_push($units, 'unitR');
+        if ($this->survey->type == 5) array_push($units, 'unitQ');
         if ($unitC->C1 == 5) {
             array_push($units, 'unitD');
             array_push($units, 'unitE');
@@ -172,7 +173,7 @@ class Controller_Surveys_Index extends Dispatch
 //        $this->survey->unitN = new Model_SurveyUnitN($this->survey->unitN);
 //        $this->survey->unitO = new Model_SurveyUnitO($this->survey->unitO);
         $this->survey->unitP = new Model_SurveyUnitP($this->survey->unitP);
-//        $this->survey->unitQ = new Model_SurveyUnitQ($this->survey->unitQ);
+        $this->survey->unitQ = new Model_SurveyUnitQ($this->survey->unitQ);
 //        $this->survey->unitR = new Model_SurveyUnitR($this->survey->unitR);
     }
 

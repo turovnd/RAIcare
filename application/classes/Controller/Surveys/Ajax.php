@@ -212,7 +212,7 @@ class Controller_Surveys_Ajax extends Ajax
 //        $this->survey->unitN = new Model_SurveyUnitN($this->survey->unitN);
 //        $this->survey->unitO = new Model_SurveyUnitO($this->survey->unitO);
         $this->survey->unitP = new Model_SurveyUnitP($this->survey->unitP);
-//        $this->survey->unitQ = new Model_SurveyUnitQ($this->survey->unitQ);
+        $this->survey->unitQ = new Model_SurveyUnitQ($this->survey->unitQ);
 //        $this->survey->unitR = new Model_SurveyUnitR($this->survey->unitR);
     }
 
@@ -246,7 +246,7 @@ class Controller_Surveys_Ajax extends Ajax
 //            case 'unitN': $this->update_unitN(); break;
 //            case 'unitO': $this->update_unitO(); break;
             case 'unitP': $this->update_unitP(); break;
-//            case 'unitQ': $this->update_unitQ(); break;
+            case 'unitQ': $this->update_unitQ(); break;
 //            case 'unitR': $this->update_unitR(); break;
         }
     }
@@ -905,6 +905,36 @@ class Controller_Surveys_Ajax extends Ajax
 
         if ($P1a == -1 || $P1b == -1 || $P1c == -1 || $P1d == -1 || $P1e == -1 ||
             $P2a == -1 || $P2b == -1 || $P2c == -1 || $P2d == -1 || $P2e == -1) {
+            $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_WARMING', 'warning');
+        } else {
+            $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_SUCCESS', 'success');
+        }
+
+        $this->response->body(@json_encode($response->get_response()));
+        return;
+    }
+
+    private function update_unitQ()
+    {
+        $Q1a = Arr::get($_POST,'Q1a', '-1');
+        $Q1b = Arr::get($_POST,'Q1b', '-1');
+        $Q1c = Arr::get($_POST,'Q1c', '-1');
+        $Q2 = Arr::get($_POST,'Q2');
+
+        $unitQ = new Model_SurveyUnitQ($this->survey->unitQ);
+
+        $unitQ->Q1 = json_encode(array($Q1a,$Q1b,$Q1c));
+        $unitQ->Q2 = $Q2;
+
+        if (!$unitQ->pk) {
+            $unitQ = $unitQ->save();
+            $this->survey->unitQ = $unitQ->pk;
+            $this->survey->update();
+        } else {
+            $unitQ->update();
+        }
+
+        if ($Q1a == -1 || $Q1b == -1 || $Q1c == -1 || $Q2 == -1) {
             $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_WARMING', 'warning');
         } else {
             $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_SUCCESS', 'success');
