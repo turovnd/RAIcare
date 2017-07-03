@@ -1,4 +1,5 @@
 <?
+if (empty($survey->type != 5)) return;
 $Q2 = array(
     '1' => '1-7 дней',
     '2' => '8-14 дней',

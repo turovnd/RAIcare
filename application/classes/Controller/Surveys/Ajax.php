@@ -213,7 +213,7 @@ class Controller_Surveys_Ajax extends Ajax
 //        $this->survey->unitO = new Model_SurveyUnitO($this->survey->unitO);
         $this->survey->unitP = new Model_SurveyUnitP($this->survey->unitP);
         $this->survey->unitQ = new Model_SurveyUnitQ($this->survey->unitQ);
-//        $this->survey->unitR = new Model_SurveyUnitR($this->survey->unitR);
+        $this->survey->unitR = new Model_SurveyUnitR($this->survey->unitR);
     }
 
 
@@ -247,7 +247,7 @@ class Controller_Surveys_Ajax extends Ajax
 //            case 'unitO': $this->update_unitO(); break;
             case 'unitP': $this->update_unitP(); break;
             case 'unitQ': $this->update_unitQ(); break;
-//            case 'unitR': $this->update_unitR(); break;
+            case 'unitR': $this->update_unitR(); break;
         }
     }
 
@@ -935,6 +935,36 @@ class Controller_Surveys_Ajax extends Ajax
         }
 
         if ($Q1a == -1 || $Q1b == -1 || $Q1c == -1 || $Q2 == -1) {
+            $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_WARMING', 'warning');
+        } else {
+            $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_SUCCESS', 'success');
+        }
+
+        $this->response->body(@json_encode($response->get_response()));
+        return;
+    }
+
+    private function update_unitR()
+    {
+        $R1 = Arr::get($_POST,'R1');
+        $R2 = Arr::get($_POST,'R2');
+        $R3 = Arr::get($_POST,'R3');
+
+        $unitR = new Model_SurveyUnitR($this->survey->unitR);
+
+        $unitR->R1 = $R1;
+        $unitR->R2 = $R2;
+        $unitR->R3 = $R3;
+
+        if (!$unitR->pk) {
+            $unitR = $unitR->save();
+            $this->survey->unitR = $unitR->pk;
+            $this->survey->update();
+        } else {
+            $unitR->update();
+        }
+
+        if ( $R1 == NULL || $R1 == "0000-00-00" || $R2 == -1 || $R3 == NULL) {
             $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_WARMING', 'warning');
         } else {
             $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_SUCCESS', 'success');
