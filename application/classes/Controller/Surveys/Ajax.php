@@ -210,7 +210,7 @@ class Controller_Surveys_Ajax extends Ajax
         $this->survey->unitL = new Model_SurveyUnitL($this->survey->unitL);
         $this->survey->unitM = new Model_SurveyUnitM($this->survey->unitM);
 //        $this->survey->unitN = new Model_SurveyUnitN($this->survey->unitN);
-//        $this->survey->unitO = new Model_SurveyUnitO($this->survey->unitO);
+        $this->survey->unitO = new Model_SurveyUnitO($this->survey->unitO);
         $this->survey->unitP = new Model_SurveyUnitP($this->survey->unitP);
         $this->survey->unitQ = new Model_SurveyUnitQ($this->survey->unitQ);
         $this->survey->unitR = new Model_SurveyUnitR($this->survey->unitR);
@@ -227,7 +227,6 @@ class Controller_Surveys_Ajax extends Ajax
         $unit = Arr::get($_POST,'unit');
 
         $this->getSurvey();
-        //$this->checkUnit($unit);
 
         switch ($unit) {
             case 'unitA': $this->update_unitA(); break;
@@ -244,7 +243,7 @@ class Controller_Surveys_Ajax extends Ajax
             case 'unitL': $this->update_unitL(); break;
             case 'unitM': $this->update_unitM(); break;
 //            case 'unitN': $this->update_unitN(); break;
-//            case 'unitO': $this->update_unitO(); break;
+            case 'unitO': $this->update_unitO(); break;
             case 'unitP': $this->update_unitP(); break;
             case 'unitQ': $this->update_unitQ(); break;
             case 'unitR': $this->update_unitR(); break;
@@ -293,7 +292,7 @@ class Controller_Surveys_Ajax extends Ajax
         $B9 = Arr::get($_POST,'B9');
 
         if (!empty($B6) && (!Valid::exact_length($B6, 9) || !Valid::digit($B6))) {
-            $response = new Model_Response_Survey('SURVEY_UNIT_POST_CODE_ERROR', 'error');
+            $response = new Model_Response_Survey('SURVEY_UNIT_B6_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
             return;
         }
@@ -832,41 +831,80 @@ class Controller_Surveys_Ajax extends Ajax
 
     private function update_unitO()
     {
-        $M1 = Arr::get($_POST,'M1');
-        $M2a = Arr::get($_POST,'M2a', '-1');
-        $M2b = Arr::get($_POST,'M2b', '-1');
-        $M2c = Arr::get($_POST,'M2c', '-1');
-        $M2d = Arr::get($_POST,'M2d', '-1');
-        $M2e = Arr::get($_POST,'M2e', '-1');
-        $M2f = Arr::get($_POST,'M2f', '-1');
-        $M2g = Arr::get($_POST,'M2g', '-1');
-        $M2h = Arr::get($_POST,'M2h', '-1');
-        $M2i = Arr::get($_POST,'M2i', '-1');
-        $M2j = Arr::get($_POST,'M2j', '-1');
-        $M2k = Arr::get($_POST,'M2k', '-1');
-        $M2l = Arr::get($_POST,'M2l', '-1');
-        $M2m = Arr::get($_POST,'M2m', '-1');
-        $M2n = Arr::get($_POST,'M2n', '-1');
-        $M2o = Arr::get($_POST,'M2o', '-1');
-        $M2p = Arr::get($_POST,'M2p', '-1');
-        $M3 = Arr::get($_POST,'M3');
+        $O1a = Arr::get($_POST,'O1a', '-1');
+        $O1b = Arr::get($_POST,'O1b', '-1');
+        $O1c = Arr::get($_POST,'O1c', '-1');
+        $O1d = Arr::get($_POST,'O1d', '-1');
+        $O1e = Arr::get($_POST,'O1e', '-1');
+        $O1f = Arr::get($_POST,'O1f', '-1');
+        $O1g = Arr::get($_POST,'O1g', '-1');
+        $O1h = Arr::get($_POST,'O1h', '-1');
+        $O2 = Arr::get($_POST,'O2');
+        $O3a = Arr::get($_POST,'O3a');
+        $O3b = Arr::get($_POST,'O3b');
+        $O3c = Arr::get($_POST,'O3c');
+        $O3d = Arr::get($_POST,'O3d');
+        $O3e = Arr::get($_POST,'O3e');
+        $O3f = Arr::get($_POST,'O3f');
+        $O4 = Arr::get($_POST,'O4');
+        $O5 = Arr::get($_POST,'O5');
+        $O6 = Arr::get($_POST,'O6');
+        $O7 = Arr::get($_POST,'O7');
 
-        $unitM = new Model_SurveyUnitM($this->survey->unitM);
+        $unitO = new Model_SurveyUnitO($this->survey->unitO);
 
-        $unitM->M1 = $M1;
-        $unitM->M2 = json_encode(array($M2a,$M2b,$M2c,$M2d,$M2e,$M2f,$M2g,$M2h,$M2i,$M2j,$M2k,$M2l,$M2m,$M2n,$M2o,$M2p));
-        $unitM->M3 = $M3;
+        $O1 = array($O1a,$O1b,$O1c,$O1d,$O1e,$O1f,$O1g,$O1h);
+        $O3 = array($O3a,$O3b,$O3c,$O3d,$O3e,$O3f);
 
-        if (!$unitM->pk) {
-            $unitM = $unitM->save();
-            $this->survey->unitM = $unitM->pk;
-            $this->survey->update();
-        } else {
-            $unitM->update();
+        $empty = false;
+        foreach ($O3 as $o3) {
+            if (!$empty && ($o3[0] == '' || $o3[1] == '' || $o3[2] == '')) { $empty = true; }
+            if ($o3[0] < 0 || $o3[0] > 7 || $o3[1] < 0 || $o3[1] > 7 || $o3[2] < 0 || $o3[2] > 999) {
+                $response = new Model_Response_Survey('SURVEY_UNIT_O3_ERROR', 'error');
+                $this->response->body(@json_encode($response->get_response()));
+                return;
+            }
         }
 
-        if ($M1 == -1 || $M2a == -1 || $M2b == -1 || $M2c == -1 || $M2d == -1 || $M2e == -1 || $M2f == -1 || $M2g == -1 || $M2h == -1
-            || $M2i == -1 || $M2j == -1 || $M2k == -1 || $M2l == -1 || $M2m == -1 || $M2n == -1 || $M2o == -1 || $M2p == -1 || $M3 == -1 ) {
+        if ($O4[0] < 0 || $O4[0] > 99 || $O4[1] < 0 || $O4[1] > 99) {
+            $response = new Model_Response_Survey('SURVEY_UNIT_O4_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        if ($O5 < 0 || $O5 > 99) {
+            $response = new Model_Response_Survey('SURVEY_UNIT_O5_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        if ($O6 < 0 || $O6 > 99) {
+            $response = new Model_Response_Survey('SURVEY_UNIT_O6_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        $unitO->O1 = json_encode($O1);
+        $unitO->O2 = json_encode($O2);
+        $unitO->O3 = json_encode($O3);
+        $unitO->O4 = json_encode($O4);
+        $unitO->O5 = $O5;
+        $unitO->O6 = $O6;
+        $unitO->O7 = json_encode($O7);
+
+        if (!$unitO->pk) {
+            $unitO = $unitO->save();
+            $this->survey->unitO = $unitO->pk;
+            $this->survey->update();
+        } else {
+            $unitO->update();
+        }
+
+        if (!$empty) { foreach ($O1 as $o1) { if ($o1 == -1) { $empty = true; break; } } }
+        if (!$empty) { foreach ($O2 as $o2) { if ($o2 == -1) { $empty = true; break; } } }
+        if (!$empty) { foreach ($O7 as $o7) { if ($o7 == -1) { $empty = true; break; } } }
+
+        if ($empty || $O4[0] == '' || $O4[1] == '' || $O5 == '' || $O6 == '') {
             $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_WARMING', 'warning');
         } else {
             $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_SUCCESS', 'success');

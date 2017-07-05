@@ -63,10 +63,34 @@ class Model_Response_Survey extends Model_Response_Abstract
         'message' => 'Не правильно указана скорость преодоления 4-метрового расстояния пешком   '
     );
 
-    protected $_SURVEY_UNIT__ERROR = array(
+    protected $_SURVEY_UNIT_B6_ERROR = array(
         'type' => 'survey',
         'code' => '168',
         'message' => 'Не правильно введен почтовый индекс постоянного места проживания'
+    );
+
+    protected $_SURVEY_UNIT_O3_ERROR = array(
+        'type' => 'survey',
+        'code' => '168',
+        'message' => 'Не правильно указано число в пункте "Терапия / сестринские услуги за последние 7 дней"'
+    );
+
+    protected $_SURVEY_UNIT_O4_ERROR = array(
+        'type' => 'survey',
+        'code' => '168',
+        'message' => 'Не правильно указано число в пункте "Госпитализация и посещение отделений неотложной помощи"'
+    );
+
+    protected $_SURVEY_UNIT_O5_ERROR = array(
+        'type' => 'survey',
+        'code' => '168',
+        'message' => 'Не правильно указано число дней, когда пациента посещал терапевта'
+    );
+
+    protected $_SURVEY_UNIT_O6_ERROR = array(
+        'type' => 'survey',
+        'code' => '168',
+        'message' => 'Не правильно указано число дней, когда терапевт менял назначения пациента'
     );
 
     protected $_SURVEY_UNIT_UPDATE_WITH_REFRESH_SUCCESS = array(

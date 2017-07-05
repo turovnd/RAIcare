@@ -223,12 +223,12 @@ $survey->unitJ->J9 = json_decode($survey->unitJ->J9);
                         2. Сердечные или легочные нарушения
                     </p>
                     <div class="form-group">
-                        <label for="J3d" class="form-group__label col-xs-12">
+                        <label for="J3e" class="form-group__label col-xs-12">
                             Боль в груди
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
-                                <select name="J3[]" id="J3d" class="form-group__control js-single-select">
+                                <select name="J3[]" id="J3e" class="form-group__control js-single-select">
                                     <option selected disabled value="-1">Не выбрано</option>
                                     <? foreach ($J3 as $key => $option) :?>
                                         <option value="<?= $key; ?>" <?= $survey->unitJ->J3 != NULL && $key == $survey->unitJ->J3[4] ? 'selected' : '' ?>><?= $option; ?></option>
@@ -240,12 +240,12 @@ $survey->unitJ->J9 = json_decode($survey->unitJ->J9);
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="J3e" class="form-group__label col-xs-12">
+                        <label for="J3f" class="form-group__label col-xs-12">
                             Трудности при удалении выделений дыхательных путей
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
-                                <select name="J3[]" id="J3e" class="form-group__control js-single-select">
+                                <select name="J3[]" id="J3f" class="form-group__control js-single-select">
                                     <option selected disabled value="-1">Не выбрано</option>
                                     <? foreach ($J3 as $key => $option) :?>
                                         <option value="<?= $key; ?>" <?= $survey->unitJ->J3 != NULL && $key == $survey->unitJ->J3[5] ? 'selected' : '' ?>><?= $option; ?></option>
