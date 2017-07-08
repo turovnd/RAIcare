@@ -66,7 +66,7 @@ body{
     display: none !important;
 }
 .display-flex{
-    display: flex;
+    display: flex !important;
 }
 .display-table{
     display: table;

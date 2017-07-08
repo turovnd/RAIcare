@@ -275,8 +275,12 @@ textarea:-moz-placeholder { color:#BDBDBD; }
 textarea:-ms-input-placeholder { color:#BDBDBD; }
 
 
+.form__body:before,
+.form__body:after,
 .form__submit:before,
 .form__submit:after,
+.block__body:before,
+.block__body:after,
 .block__footer:before,
 .block__footer:after{
     content: " ";

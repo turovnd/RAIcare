@@ -69,6 +69,18 @@ class Model_Response_Survey extends Model_Response_Abstract
         'message' => 'Не правильно введен почтовый индекс постоянного места проживания'
     );
 
+    protected $_SURVEY_UNIT_N1_0_ERROR = array(
+        'type' => 'survey',
+        'code' => '168',
+        'message' => 'Не выбрано название лекарства'
+    );
+
+    protected $_SURVEY_UNIT_N1_1_ERROR = array(
+        'type' => 'survey',
+        'code' => '168',
+        'message' => 'Не правильно указана дозировка лекарства'
+    );
+
     protected $_SURVEY_UNIT_O3_ERROR = array(
         'type' => 'survey',
         'code' => '168',

@@ -29,3 +29,7 @@
     <?= View::factory('surveys/units/unitR', array('survey' => $survey, 'can_conduct' => false)); ?>
 
 </div>
+
+<script type="text/javascript">
+    raisoft.table.init();
+</script>

@@ -69,31 +69,46 @@ class Dispatch extends Controller_Template
     */
     public function XSSfilter()
     {
-        /**
-         * @var array Исключения для полей с визуальным редактором
-         */
-        $exceptionsAllowingHTML = array( 'contest_text', 'results_contest' );
-
-        foreach ($_POST as $key => $value){
-            if (is_array($value)) {
-                foreach ($value as $sub_key => $sub_value) {
-                    $sub_value = stripos( $sub_value, 'سمَـَّوُوُحخ ̷̴̐خ ̷̴̐خ ̷̴̐خ امارتيخ ̷̴̐خ') !== false ? '' : $sub_value ;
-                    $_POST[$key][$sub_key] = Security::xss_clean(HTML::chars($sub_value));
+        $exceptions = array( 'long_desc' , 'blog_text', 'long_description' , 'content' ); // Исключения для полей с визуальным редактором
+        foreach ($_POST as $key => $value) {
+            if (gettype($value) == 'array') {
+                foreach ($value as $key1 => $value1) {
+                    if (gettype($value1) == 'array') {
+                        foreach ($value1 as $key2 => $value2) {
+                            $this->doPostCheck($exceptions, $key2, $value2);
+                        }
+                    } else {
+                        $this->doPostCheck($exceptions, $key1, $value1);
+                    }
                 }
-                continue;
-            }
-            $value = stripos($value, 'سمَـَّوُوُحخ ̷̴̐خ ̷̴̐خ ̷̴̐خ امارتيخ ̷̴̐خ') !== false ? '' : $value ;
-
-            /** $exceptionsAllowingHTML — allow html tags (does not fire HTML Purifier) */
-            if ( in_array($key, $exceptionsAllowingHTML) === false) {
-                $_POST[$key] = Security::xss_clean(HTML::chars($value));
+            } else {
+                $this->doPostCheck($exceptions, $key, $value);
             }
         }
         foreach ($_GET  as $key => $value) {
-            $value = stripos( $value, 'سمَـَّوُوُحخ ̷̴̐خ ̷̴̐خ ̷̴̐خ امارتيخ ̷̴̐خ') !== false ? '' : $value ;
-            $_GET[$key] = Security::xss_clean(HTML::chars($value));
+            if (gettype($value) == 'array') {
+                foreach ($value as $key1 => $value1) {
+                    $this->doGetCheck($key1, $value1);
+                }
+            } else {
+                $this->doGetCheck($key, $value);
+            }
         }
+    }
 
+    private function doPostCheck($exceptions, $key, $value){
+
+        $value = stripos($value, 'سمَـَّوُوُحخ ̷̴̐خ ̷̴̐خ ̷̴̐خ امارتيخ ̷̴̐خ') !== false ? '' : $value;
+        if (in_array($key, $exceptions) === false) {
+            $_POST[$key] = Security::xss_clean(HTML::chars($value));
+        } else {
+            $_POST[$key] = strip_tags(trim($value), '<br><em><del><p><a><b><strong><i><strike><blockquote><ul><li><ol><img><tr><table><td><th><span><h1><h2><h3><iframe>');
+        }
+    }
+
+    private function doGetCheck($key, $value){
+        $value = stripos( $value, 'سمَـَّوُوُحخ ̷̴̐خ ̷̴̐خ ̷̴̐خ امارتيخ ̷̴̐خ') !== false ? '' : $value;
+        $_GET[$key] = Security::xss_clean(HTML::chars($value));
     }
 
     /**
