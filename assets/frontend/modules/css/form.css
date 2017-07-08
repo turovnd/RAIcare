@@ -190,6 +190,22 @@
     width: 15px;
 }
 
+fieldset {
+    border: 0;
+    min-width: 0;
+    padding: 0 0 20px;
+    border-bottom: 1px dashed #e5e5e5;
+    margin: 0 0 20px;
+}
+
+fieldset:last-child {
+    border-bottom: 0;
+    margin-bottom: 0;
+}
+
+fieldset .form-group {
+    margin-bottom: 0;
+}
 
 /** checkbox */
 /** radio */

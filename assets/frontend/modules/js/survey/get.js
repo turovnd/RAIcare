@@ -46,8 +46,7 @@ module.exports = (function (get) {
     function getUnitOnHashChange_() {
 
         var unit           = window.location.hash.replace('#', ''),
-            element        = null,
-            availableUnits = [];
+            element        = null;
 
 
         if (unit === '') unit = 'progress';
@@ -123,6 +122,7 @@ module.exports = (function (get) {
 
                     unitHolder.innerHTML = response.html;
                     survey.table.init();
+                    raisoft.loader.init();
                     initSelects_();
 
                 } else {

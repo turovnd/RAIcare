@@ -289,7 +289,7 @@ class Controller_Surveys_Ajax extends Ajax
         $B6 = Arr::get($_POST,'B6');
         $B7 = Arr::get($_POST,'B7');
         $B8 = Arr::get($_POST,'B8');
-        $B9 = Arr::get($_POST,'B9');
+        $B9 = Arr::get($_POST,'B9','-1');
 
         if (!empty($B6) && (!Valid::exact_length($B6, 9) || !Valid::digit($B6))) {
             $response = new Model_Response_Survey('SURVEY_UNIT_B6_ERROR', 'error');
@@ -318,7 +318,7 @@ class Controller_Surveys_Ajax extends Ajax
         }
 
         if ($B1 == NULL || $B2 == NULL || $B2 == "0000-00-00" || $B3 == NULL || $B3 == "null" || $B4 == NULL  ||
-            $B5 == NULL || $B6 == NULL || $B7 == NULL || $B8 == NULL || $B8 == "null" || $B9 == NULL)
+            $B5 == NULL || $B6 == NULL || $B7 == NULL || $B8 == NULL || $B8 == "null" || $B9 == -1)
         {
             $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_WARMING', 'warning');
         } else {
@@ -331,13 +331,13 @@ class Controller_Surveys_Ajax extends Ajax
 
     private function update_unitC()
     {
-        $C1  = Arr::get($_POST,'C1');
+        $C1  = Arr::get($_POST,'C1', '-1');
         $C2  = Arr::get($_POST,'C2');
         $C3a = Arr::get($_POST,'C3a','-1');
         $C3b = Arr::get($_POST,'C3b', '-1');
         $C3c = Arr::get($_POST,'C3c', '-1');
-        $C4  = Arr::get($_POST,'C4');
-        $C5  = Arr::get($_POST,'C5');
+        $C4  = Arr::get($_POST,'C4', '-1');
+        $C5  = Arr::get($_POST,'C5','-1');
 
         $unitC = new Model_SurveyUnitC($this->survey->unitC);
 
@@ -369,7 +369,7 @@ class Controller_Surveys_Ajax extends Ajax
         if ($need_update) {
             $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_WITH_REFRESH_SUCCESS', 'success');
         } else if ($C1 == NULL || $C2 == NULL || $C2 == "null" || $C3a == -1 || $C3b == -1 ||
-                    $C3c == -1 || $C4 == NULL || $C5 == NULL )
+                    $C3c == -1 || $C4 == -1 || $C5 == -1 )
         {
             $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_WARMING', 'warning');
         } else {

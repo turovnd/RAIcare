@@ -22,6 +22,7 @@
             raisoft.aside.init();
             raisoft.notification.createHolder();
             raisoft.modal.init();
+            raisoft.loader.init();
         }
 
         document.addEventListener("DOMContentLoaded", ready);

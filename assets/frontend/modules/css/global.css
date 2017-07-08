@@ -290,27 +290,6 @@ body{
 .f-s-2_5{ font-size: 2.5em; }
 .f-s-3{ font-size: 3em; }
 
-fieldset {
-    border: 0;
-    min-width: 0;
-    padding: 0 0 20px;
-    border-bottom: 1px dashed #e5e5e5;
-    margin: 0 0 20px;
-}
-
-fieldset:last-child {
-    border-bottom: 0;
-    margin-bottom: 0;
-}
-
-fieldset .form-group {
-    margin-bottom: 0;
-}
-small{
-    display: block;
-    font-size: 12px;
-}
-
 .clear-fix:after, .clear-fix:before,
 .container:after, .container:before,
 .row:before, .row:after{
