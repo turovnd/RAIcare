@@ -1,5 +1,5 @@
 <?
-
+    $total_progress = Model_Survey::getProgress($survey->pk);
 ?>
 
 <h3 class="section__heading">
@@ -10,15 +10,35 @@
 
     <div class="col-xs-12">
 
-        <div class="block">
-            <div class="block__body valign">
-                <div class="col-xs-12">
-                    <span class="text-bold"><?=$survey->patient->name; ?></span>
-                    <small>д.р. <?= date('d M Y', strtotime($survey->patient->birthday)); ?>, ОМС: <?= $survey->patient->oms; ?></small>
-                </div>
-                <div class="fl_r">
-                    <canvas data-diameter="25" data-fontsize="16px" data-percentage="<?= Model_Survey::getProgress($survey->pk); ?>" data-speed="20" data-linecolor="rgba(0,141,167,1)" data-remaininglinecolor="rgba(0,141,167,.15)" data-fontcolor="rgba(31,110,125,1)" data-linewidth="2" width="65px" height="65px" class="js-loader"></canvas>
-                </div>
+        <div class="form" id="progressForm">
+            <div class="form__body">
+                <table class="tablesaw" data-tablesaw-mode="stack">
+                    <thead>
+                        <tr>
+                            <th class="hide">Пациент</th>
+                            <th class="hide">Прогресс</th>
+                            <th class="hide">Время</th>
+                        </tr>
+                    </thead>
+                    <tbody valign="middle">
+                        <tr class="b-b-0">
+                            <td>
+                                <span class="text-bold"><?=$survey->patient->name; ?></span>
+                                <small>д.р. <?= date('d M Y', strtotime($survey->patient->birthday)); ?>, ОМС: <?= $survey->patient->oms; ?></small>
+                            </td>
+                            <td>
+                                <canvas data-diameter="25" data-fontsize="16px" data-percentage="<?= $total_progress; ?>" data-speed="20" data-linecolor="rgba(0,141,167,1)" data-remaininglinecolor="rgba(0,141,167,.15)" data-fontcolor="rgba(31,110,125,1)" data-linewidth="2" width="65px" height="65px" class="js-loader"></canvas>
+                            </td>
+                            <td>
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <? if ($total_progress == 100) : ?>
+                    <button onclick="survey.send.complete()" class="btn btn--brand m-t-10 m-l-10">Завершить заполнение анкеты</button>
+                    <input type="hidden" id="patientID" value="<?= $survey->patient->id; ?>">
+                <? endif; ?>
             </div>
         </div>
 

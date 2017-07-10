@@ -47,7 +47,7 @@ class Controller_Surveys_Ajax extends Ajax
         $this->redis->set(self::REDIS_PACKAGE . ':pensions:' . $this->pension->id . ':Surveys', $count_forms);
 
         $first_survey = Model_Survey::getFirstSurvey($this->pension->id, $this->patient->id);
-//echo Debug::vars($first_survey );
+
         $survey               = new Model_Survey();
         $survey->id           = $count_forms;
         $survey->patient      = $this->patient->pk;
@@ -1116,6 +1116,19 @@ class Controller_Surveys_Ajax extends Ajax
             if ($item != '-1') $count++;
         }
         return $count;
+    }
+
+    public function action_complete()
+    {
+        $this->getSurvey();
+
+        $this->survey->status = 2;
+        $this->survey->dt_finish = Date::formatted_time('now');
+        $this->survey->update();
+
+        $response = new Model_Response_Survey('SURVEY_COMPLETE_SUCCESS', 'success');
+        $this->response->body(@json_encode($response->get_response()));
+        return;
     }
 
 }

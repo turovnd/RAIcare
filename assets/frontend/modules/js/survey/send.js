@@ -1,14 +1,11 @@
-
 module.exports = (function (send) {
 
     var corePrefix  = 'Survey: send AJAX',
-        // holder      = document.getElementsByClassName('section__content')[0],
         surveyID    = document.getElementById('surveyID'),
         pensionID   = document.getElementById('pensionID');
 
     if(surveyID) surveyID= surveyID.value;
     if(pensionID) pensionID = pensionID.value;
-
 
     send.updateunit = function (unit) {
 
@@ -172,6 +169,55 @@ module.exports = (function (send) {
 
     };
 
+    send.complete = function () {
+
+        var patientID = document.getElementById('patientID').value;
+
+        var form     = document.getElementById('progressForm'),
+            formData = new FormData();
+
+        formData.append('survey', surveyID);
+        formData.append('pension', pensionID);
+        formData.append('csrf', document.getElementById('csrf').value);
+
+        var ajaxData = {
+            url: '/survey/complete',
+            type: 'POST',
+            data: formData,
+            beforeSend: function () {
+
+                form.classList.add('loading');
+
+            },
+            success: function (response) {
+
+                response = JSON.parse(response);
+                raisoft.core.log(response.message, response.status, corePrefix);
+                form.classList.remove('loading');
+
+                raisoft.notification.notify({
+                    type: response.status,
+                    message: response.message
+                });
+
+                if (parseInt(response.code) === 169) {
+
+                    window.location = window.location.protocol + '//' + window.location.hostname + '/pension/' + pensionID + '/patient/' + patientID;
+
+                }
+
+            },
+            error: function (callbacks) {
+
+                raisoft.core.log('ajax error occur on updating unit data', 'error', corePrefix, callbacks);
+                form.classList.remove('loading');
+
+            }
+        };
+
+        raisoft.ajax.send(ajaxData);
+
+    };
 
     return send;
 

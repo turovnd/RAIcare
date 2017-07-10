@@ -122,4 +122,10 @@ class Model_Response_Survey extends Model_Response_Abstract
         'code' => '169',
         'message' => 'Информация сохранена'
     );
+
+    protected $_SURVEY_COMPLETE_SUCCESS = array(
+        'type' => 'survey',
+        'code' => '169',
+        'message' => 'Проведение анкетирования завершено'
+    );
 }
