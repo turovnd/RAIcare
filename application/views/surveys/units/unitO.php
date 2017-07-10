@@ -165,24 +165,24 @@ $survey->unitO->O7 = json_decode($survey->unitO->O7);
                     <? if ($survey->patient->sex == 2) : ?>
 
                         <div class="form-group">
-                        <label class="form-group__label col-xs-12">
-                            Маммография или осмотр груди за ПОСЛЕДНИЕ 2 ГОДА (для женщин)
-                        </label>
-                        <div class="col-xs-12">
-                            <? if ($can_conduct) : ?>
-                                <span>
-                                    <input id="O1g_1" name="O1g" type="radio" class="radio" value="1" <?= $survey->unitO->O1 != NULL && $survey->unitO->O1[6] == 1 ? 'checked' : ''; ?> >
-                                    <label for="O1g_1" class="radio-label">Да</label>
-                                </span>
-                                <span class="m-l-20">
-                                    <input id="O1g_2" name="O1g" type="radio" class="radio" value="0" <?= $survey->unitO->O1 != NULL && $survey->unitO->O1[6] == 0 ? 'checked' : ''; ?> >
-                                    <label for="O1g_2" class="radio-label">Нет</label>
-                                </span>
-                            <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <? if ($survey->unitO->O1[6] == 1) { echo 'Да'; } elseif ($survey->unitO->O1[6] == 0) { echo 'Нет'; } else { echo 'Не указано'; } ?> </p>
-                            <? endif; ?>
+                            <label class="form-group__label col-xs-12">
+                                Маммография или осмотр груди за ПОСЛЕДНИЕ 2 ГОДА (для женщин)
+                            </label>
+                            <div class="col-xs-12">
+                                <? if ($can_conduct) : ?>
+                                    <span>
+                                        <input id="O1g_1" name="O1g" type="radio" class="radio" value="1" <?= $survey->unitO->O1 != NULL && $survey->unitO->O1[6] == 1 ? 'checked' : ''; ?> >
+                                        <label for="O1g_1" class="radio-label">Да</label>
+                                    </span>
+                                    <span class="m-l-20">
+                                        <input id="O1g_2" name="O1g" type="radio" class="radio" value="0" <?= $survey->unitO->O1 != NULL && $survey->unitO->O1[6] == 0 ? 'checked' : ''; ?> >
+                                        <label for="O1g_2" class="radio-label">Нет</label>
+                                    </span>
+                                <? else : ?>
+                                    <p class="form-group__control-static p-l-0"> <? if ($survey->unitO->O1[6] == 1) { echo 'Да'; } elseif ($survey->unitO->O1[6] == 0) { echo 'Нет'; } else { echo 'Не указано'; } ?> </p>
+                                <? endif; ?>
+                            </div>
                         </div>
-                    </div>
 
                     <? endif; ?>
 
@@ -504,19 +504,19 @@ $survey->unitO->O7 = json_decode($survey->unitO->O7);
                                     <div class="col-xs-12 col-sm-4 valign m-b-10">
                                         <label for="O3a_A" class="form-group__label m-0 p-5"> А </label>
                                         <div class="col-xs-12 p-l-0 p-r-0">
-                                            <input id="O3a_A" name="O3a[]" type="number" min="0" max="7" class="form-group__control" value="<?= $survey->unitO->O3 != NULL ? $survey->unitO->O3[0][0] : '' ?>">
+                                            <input id="O3a_A" name="O3a[]" type="number" min="0" max="7" class="form-group__control" value="<?= $survey->unitO->O3 != NULL ? $survey->unitO->O3[0][0] : '-1' ?>">
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-4 valign m-b-10">
                                         <label for="O3a_B" class="form-group__label m-0 p-5"> B </label>
                                         <div class="col-xs-12 p-l-0 p-r-0">
-                                            <input id="O3a_B" name="O3a[]" type="number" min="0" max="7" class="form-group__control"  value="<?= $survey->unitO->O3 != NULL ? $survey->unitO->O3[0][1] : '' ?>">
+                                            <input id="O3a_B" name="O3a[]" type="number" min="0" max="7" class="form-group__control"  value="<?= $survey->unitO->O3 != NULL ? $survey->unitO->O3[0][1] : '-1' ?>">
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-4 valign m-b-10">
                                         <label for="O3a_C" class="form-group__label m-0 p-5"> C </label>
                                         <div class="col-xs-12 p-l-0 p-r-0">
-                                            <input id="O3a_C" name="O3a[]" type="number" min="0" max="999" class="form-group__control"  value="<?= $survey->unitO->O3 != NULL ? $survey->unitO->O3[0][2] : '' ?>">
+                                            <input id="O3a_C" name="O3a[]" type="number" min="0" max="999" class="form-group__control"  value="<?= $survey->unitO->O3 != NULL ? $survey->unitO->O3[0][2] : '-1' ?>">
                                         </div>
                                     </div>
                                 </div>
@@ -524,13 +524,13 @@ $survey->unitO->O7 = json_decode($survey->unitO->O7);
                                 <div class="form-group__control-static p-l-0">
                                     <div class="row">
                                         <p class="col-xs-12 col-sm-4">
-                                            <b>A:</b> <?=$survey->unitO->O3 != NULL && $survey->unitO->O3[0][0] != '' ? $survey->unitO->O3[0][0] . ' дн.' : 'Не указано' ?>
+                                            <b>A:</b> <?=$survey->unitO->O3 != NULL && $survey->unitO->O3[0][0] != '-1' ? $survey->unitO->O3[0][0] . ' дн.' : 'Не указано' ?>
                                         </p>
                                         <p class="col-xs-12 col-sm-4">
-                                            <b>B:</b> <?=$survey->unitO->O3 != NULL && $survey->unitO->O3[0][1] != '' ? $survey->unitO->O3[0][1] . ' дн.' : 'Не указано' ?>
+                                            <b>B:</b> <?=$survey->unitO->O3 != NULL && $survey->unitO->O3[0][1] != '-1' ? $survey->unitO->O3[0][1] . ' дн.' : 'Не указано' ?>
                                         </p>
                                         <p class="col-xs-12 col-sm-4">
-                                            <b>C:</b> <?=$survey->unitO->O3 != NULL && $survey->unitO->O3[0][2] != '' ? $survey->unitO->O3[0][2]  . ' мин.': 'Не указано' ?>
+                                            <b>C:</b> <?=$survey->unitO->O3 != NULL && $survey->unitO->O3[0][2] != '-1' ? $survey->unitO->O3[0][2]  . ' мин.': 'Не указано' ?>
                                         </p>
                                     </div>
                                 </div>
@@ -548,19 +548,19 @@ $survey->unitO->O7 = json_decode($survey->unitO->O7);
                                     <div class="col-xs-12 col-sm-4 valign m-b-10">
                                         <label for="O3b_A" class="form-group__label m-0 p-5"> А </label>
                                         <div class="col-xs-12 p-l-0 p-r-0">
-                                            <input id="O3b_A" name="O3b[]" type="number" min="0" max="7" class="form-group__control" value="<?= $survey->unitO->O3 != NULL ? $survey->unitO->O3[1][0] : '' ?>">
+                                            <input id="O3b_A" name="O3b[]" type="number" min="0" max="7" class="form-group__control" value="<?= $survey->unitO->O3 != NULL ? $survey->unitO->O3[1][0] : '-1' ?>">
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-4 valign m-b-10">
                                         <label for="O3b_B" class="form-group__label m-0 p-5"> B </label>
                                         <div class="col-xs-12 p-l-0 p-r-0">
-                                            <input id="O3b_B" name="O3b[]" type="number" min="0" max="7" class="form-group__control"  value="<?= $survey->unitO->O3 != NULL ? $survey->unitO->O3[1][1] : '' ?>">
+                                            <input id="O3b_B" name="O3b[]" type="number" min="0" max="7" class="form-group__control"  value="<?= $survey->unitO->O3 != NULL ? $survey->unitO->O3[1][1] : '-1' ?>">
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-4 valign m-b-10">
                                         <label for="O3b_C" class="form-group__label m-0 p-5"> C </label>
                                         <div class="col-xs-12 p-l-0 p-r-0">
-                                            <input id="O3b_C" name="O3b[]" type="number" min="0" max="999" class="form-group__control"  value="<?= $survey->unitO->O3 != NULL ? $survey->unitO->O3[1][2] : '' ?>">
+                                            <input id="O3b_C" name="O3b[]" type="number" min="0" max="999" class="form-group__control"  value="<?= $survey->unitO->O3 != NULL ? $survey->unitO->O3[1][2] : '-1' ?>">
                                         </div>
                                     </div>
                                 </div>
@@ -568,13 +568,13 @@ $survey->unitO->O7 = json_decode($survey->unitO->O7);
                                 <div class="form-group__control-static p-l-0">
                                     <div class="row">
                                         <p class="col-xs-12 col-sm-4">
-                                            <b>A:</b> <?=$survey->unitO->O3 != NULL && $survey->unitO->O3[1][0] != '' ? $survey->unitO->O3[1][0] . ' дн.' : 'Не указано' ?>
+                                            <b>A:</b> <?=$survey->unitO->O3 != NULL && $survey->unitO->O3[1][0] != '-1' ? $survey->unitO->O3[1][0] . ' дн.' : 'Не указано' ?>
                                         </p>
                                         <p class="col-xs-12 col-sm-4">
-                                            <b>B:</b> <?=$survey->unitO->O3 != NULL && $survey->unitO->O3[1][1] != '' ? $survey->unitO->O3[1][1] . ' дн.' : 'Не указано' ?>
+                                            <b>B:</b> <?=$survey->unitO->O3 != NULL && $survey->unitO->O3[1][1] != '-1' ? $survey->unitO->O3[1][1] . ' дн.' : 'Не указано' ?>
                                         </p>
                                         <p class="col-xs-12 col-sm-4">
-                                            <b>C:</b> <?= $survey->unitO->O3 != NULL && $survey->unitO->O3[1][2] != '' ? $survey->unitO->O3[1][2]  . ' мин.': 'Не указано' ?>
+                                            <b>C:</b> <?= $survey->unitO->O3 != NULL && $survey->unitO->O3[1][2] != '-1' ? $survey->unitO->O3[1][2]  . ' мин.': 'Не указано' ?>
                                         </p>
                                     </div>
                                 </div>
@@ -592,19 +592,19 @@ $survey->unitO->O7 = json_decode($survey->unitO->O7);
                                     <div class="col-xs-12 col-sm-4 valign m-b-10">
                                         <label for="O3c_A" class="form-group__label m-0 p-5"> А </label>
                                         <div class="col-xs-12 p-l-0 p-r-0">
-                                            <input id="O3c_A" name="O3c[]" type="number" min="0" max="7" class="form-group__control" value="<?= $survey->unitO->O3 != NULL ? $survey->unitO->O3[2][0] : '' ?>">
+                                            <input id="O3c_A" name="O3c[]" type="number" min="0" max="7" class="form-group__control" value="<?= $survey->unitO->O3 != NULL ? $survey->unitO->O3[2][0] : '-1' ?>">
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-4 valign m-b-10">
                                         <label for="O3c_B" class="form-group__label m-0 p-5"> B </label>
                                         <div class="col-xs-12 p-l-0 p-r-0">
-                                            <input id="O3c_B" name="O3c[]" type="number" min="0" max="7" class="form-group__control"  value="<?= $survey->unitO->O3 != NULL ? $survey->unitO->O3[2][1] : '' ?>">
+                                            <input id="O3c_B" name="O3c[]" type="number" min="0" max="7" class="form-group__control"  value="<?= $survey->unitO->O3 != NULL ? $survey->unitO->O3[2][1] : '-1' ?>">
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-4 valign m-b-10">
                                         <label for="O3c_C" class="form-group__label m-0 p-5"> C </label>
                                         <div class="col-xs-12 p-l-0 p-r-0">
-                                            <input id="O3c_C" name="O3c[]" type="number" min="0" max="999" class="form-group__control"  value="<?= $survey->unitO->O3 != NULL ? $survey->unitO->O3[2][2] : '' ?>">
+                                            <input id="O3c_C" name="O3c[]" type="number" min="0" max="999" class="form-group__control"  value="<?= $survey->unitO->O3 != NULL ? $survey->unitO->O3[2][2] : '-1' ?>">
                                         </div>
                                     </div>
                                 </div>
@@ -612,13 +612,13 @@ $survey->unitO->O7 = json_decode($survey->unitO->O7);
                                 <div class="form-group__control-static p-l-0">
                                     <div class="row">
                                         <p class="col-xs-12 col-sm-4">
-                                            <b>A:</b> <?=$survey->unitO->O3 != NULL && $survey->unitO->O3[2][0] != '' ? $survey->unitO->O3[2][0] . ' дн.' : 'Не указано' ?>
+                                            <b>A:</b> <?=$survey->unitO->O3 != NULL && $survey->unitO->O3[2][0] != '-1' ? $survey->unitO->O3[2][0] . ' дн.' : 'Не указано' ?>
                                         </p>
                                         <p class="col-xs-12 col-sm-4">
-                                            <b>B:</b> <?=$survey->unitO->O3 != NULL && $survey->unitO->O3[2][1] != '' ? $survey->unitO->O3[2][1] . ' дн.' : 'Не указано' ?>
+                                            <b>B:</b> <?=$survey->unitO->O3 != NULL && $survey->unitO->O3[2][1] != '-1' ? $survey->unitO->O3[2][1] . ' дн.' : 'Не указано' ?>
                                         </p>
                                         <p class="col-xs-12 col-sm-4">
-                                            <b>C:</b> <?=$survey->unitO->O3 != NULL && $survey->unitO->O3[2][2] != '' ? $survey->unitO->O3[2][2]  . ' мин.': 'Не указано' ?>
+                                            <b>C:</b> <?=$survey->unitO->O3 != NULL && $survey->unitO->O3[2][2] != '-1' ? $survey->unitO->O3[2][2]  . ' мин.': 'Не указано' ?>
                                         </p>
                                     </div>
                                 </div>
@@ -636,19 +636,19 @@ $survey->unitO->O7 = json_decode($survey->unitO->O7);
                                     <div class="col-xs-12 col-sm-4 valign m-b-10">
                                         <label for="O3d_A" class="form-group__label m-0 p-5"> А </label>
                                         <div class="col-xs-12 p-l-0 p-r-0">
-                                            <input id="O3d_A" name="O3d[]" type="number" min="0" max="7" class="form-group__control" value="<?= $survey->unitO->O3 != NULL ? $survey->unitO->O3[3][0] : '' ?>">
+                                            <input id="O3d_A" name="O3d[]" type="number" min="0" max="7" class="form-group__control" value="<?= $survey->unitO->O3 != NULL ? $survey->unitO->O3[3][0] : '-1' ?>">
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-4 valign m-b-10">
                                         <label for="O3d_B" class="form-group__label m-0 p-5"> B </label>
                                         <div class="col-xs-12 p-l-0 p-r-0">
-                                            <input id="O3d_B" name="O3d[]" type="number" min="0" max="7" class="form-group__control"  value="<?= $survey->unitO->O3 != NULL ? $survey->unitO->O3[3][1] : '' ?>">
+                                            <input id="O3d_B" name="O3d[]" type="number" min="0" max="7" class="form-group__control"  value="<?= $survey->unitO->O3 != NULL ? $survey->unitO->O3[3][1] : '-1' ?>">
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-4 valign m-b-10">
                                         <label for="O3d_C" class="form-group__label m-0 p-5"> C </label>
                                         <div class="col-xs-12 p-l-0 p-r-0">
-                                            <input id="O3d_C" name="O3d[]" type="number" min="0" max="999" class="form-group__control"  value="<?= $survey->unitO->O3 != NULL ? $survey->unitO->O3[3][2] : '' ?>">
+                                            <input id="O3d_C" name="O3d[]" type="number" min="0" max="999" class="form-group__control"  value="<?= $survey->unitO->O3 != NULL ? $survey->unitO->O3[3][2] : '-1' ?>">
                                         </div>
                                     </div>
                                 </div>
@@ -656,13 +656,13 @@ $survey->unitO->O7 = json_decode($survey->unitO->O7);
                                 <div class="form-group__control-static p-l-0">
                                     <div class="row">
                                         <p class="col-xs-12 col-sm-4">
-                                            <b>A:</b> <?=$survey->unitO->O3 != NULL && $survey->unitO->O3[3][0] != '' ? $survey->unitO->O3[3][0] . ' дн.' : 'Не указано' ?>
+                                            <b>A:</b> <?=$survey->unitO->O3 != NULL && $survey->unitO->O3[3][0] != '-1' ? $survey->unitO->O3[3][0] . ' дн.' : 'Не указано' ?>
                                         </p>
                                         <p class="col-xs-12 col-sm-4">
-                                            <b>B:</b> <?=$survey->unitO->O3 != NULL && $survey->unitO->O3[3][1] != '' ? $survey->unitO->O3[3][1] . ' дн.' : 'Не указано' ?>
+                                            <b>B:</b> <?=$survey->unitO->O3 != NULL && $survey->unitO->O3[3][1] != '-1' ? $survey->unitO->O3[3][1] . ' дн.' : 'Не указано' ?>
                                         </p>
                                         <p class="col-xs-12 col-sm-4">
-                                            <b>C:</b> <?=$survey->unitO->O3 != NULL && $survey->unitO->O3[3][2] != '' ? $survey->unitO->O3[3][2]  . ' мин.': 'Не указано' ?>
+                                            <b>C:</b> <?=$survey->unitO->O3 != NULL && $survey->unitO->O3[3][2] != '-1' ? $survey->unitO->O3[3][2]  . ' мин.': 'Не указано' ?>
                                         </p>
                                     </div>
                                 </div>
@@ -680,19 +680,19 @@ $survey->unitO->O7 = json_decode($survey->unitO->O7);
                                     <div class="col-xs-12 col-sm-4 valign m-b-10">
                                         <label for="O3e_A" class="form-group__label m-0 p-5"> А </label>
                                         <div class="col-xs-12 p-l-0 p-r-0">
-                                            <input id="O3e_A" name="O3e[]" type="number" min="0" max="7" class="form-group__control" value="<?= $survey->unitO->O3 != NULL ? $survey->unitO->O3[4][0] : '' ?>">
+                                            <input id="O3e_A" name="O3e[]" type="number" min="0" max="7" class="form-group__control" value="<?= $survey->unitO->O3 != NULL ? $survey->unitO->O3[4][0] : '-1' ?>">
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-4 valign m-b-10">
                                         <label for="O3e_B" class="form-group__label m-0 p-5"> B </label>
                                         <div class="col-xs-12 p-l-0 p-r-0">
-                                            <input id="O3e_B" name="O3e[]" type="number" min="0" max="7" class="form-group__control"  value="<?= $survey->unitO->O3 != NULL ? $survey->unitO->O3[4][1] : '' ?>">
+                                            <input id="O3e_B" name="O3e[]" type="number" min="0" max="7" class="form-group__control"  value="<?= $survey->unitO->O3 != NULL ? $survey->unitO->O3[4][1] : '-1' ?>">
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-4 valign m-b-10">
                                         <label for="O3e_C" class="form-group__label m-0 p-5"> C </label>
                                         <div class="col-xs-12 p-l-0 p-r-0">
-                                            <input id="O3e_C" name="O3e[]" type="number" min="0" max="999" class="form-group__control"  value="<?= $survey->unitO->O3 != NULL ? $survey->unitO->O3[4][2] : '' ?>">
+                                            <input id="O3e_C" name="O3e[]" type="number" min="0" max="999" class="form-group__control"  value="<?= $survey->unitO->O3 != NULL ? $survey->unitO->O3[4][2] : '-1' ?>">
                                         </div>
                                     </div>
                                 </div>
@@ -700,13 +700,13 @@ $survey->unitO->O7 = json_decode($survey->unitO->O7);
                                 <div class="form-group__control-static p-l-0">
                                     <div class="row">
                                         <p class="col-xs-12 col-sm-4">
-                                            <b>A:</b> <?=$survey->unitO->O3 != NULL && $survey->unitO->O3[4][0] != '' ? $survey->unitO->O3[4][0] . ' дн.' : 'Не указано' ?>
+                                            <b>A:</b> <?=$survey->unitO->O3 != NULL && $survey->unitO->O3[4][0] != '-1' ? $survey->unitO->O3[4][0] . ' дн.' : 'Не указано' ?>
                                         </p>
                                         <p class="col-xs-12 col-sm-4">
-                                            <b>B:</b> <?=$survey->unitO->O3 != NULL && $survey->unitO->O3[4][1] != '' ? $survey->unitO->O3[4][1] . ' дн.' : 'Не указано' ?>
+                                            <b>B:</b> <?=$survey->unitO->O3 != NULL && $survey->unitO->O3[4][1] != '-1' ? $survey->unitO->O3[4][1] . ' дн.' : 'Не указано' ?>
                                         </p>
                                         <p class="col-xs-12 col-sm-4">
-                                            <b>C:</b> <?=$survey->unitO->O3 != NULL && $survey->unitO->O3[4][2] != '' ? $survey->unitO->O3[4][2]  . ' мин.': 'Не указано' ?>
+                                            <b>C:</b> <?=$survey->unitO->O3 != NULL && $survey->unitO->O3[4][2] != '-1' ? $survey->unitO->O3[4][2]  . ' мин.': 'Не указано' ?>
                                         </p>
                                     </div>
                                 </div>
@@ -724,19 +724,19 @@ $survey->unitO->O7 = json_decode($survey->unitO->O7);
                                     <div class="col-xs-12 col-sm-4 valign m-b-10">
                                         <label for="O3f_A" class="form-group__label m-0 p-5"> А </label>
                                         <div class="col-xs-12 p-l-0 p-r-0">
-                                            <input id="O3f_A" name="O3f[]" type="number" min="0" max="7" class="form-group__control" value="<?= $survey->unitO->O3 != NULL ? $survey->unitO->O3[5][0] : '' ?>">
+                                            <input id="O3f_A" name="O3f[]" type="number" min="0" max="7" class="form-group__control" value="<?= $survey->unitO->O3 != NULL ? $survey->unitO->O3[5][0] : '-1' ?>">
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-4 valign m-b-10">
                                         <label for="O3f_B" class="form-group__label m-0 p-5"> B </label>
                                         <div class="col-xs-12 p-l-0 p-r-0">
-                                            <input id="O3f_B" name="O3f[]" type="number" min="0" max="7" class="form-group__control"  value="<?= $survey->unitO->O3 != NULL ? $survey->unitO->O3[5][1] : '' ?>">
+                                            <input id="O3f_B" name="O3f[]" type="number" min="0" max="7" class="form-group__control"  value="<?= $survey->unitO->O3 != NULL ? $survey->unitO->O3[5][1] : '-1' ?>">
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-4 valign m-b-10">
                                         <label for="O3f_C" class="form-group__label m-0 p-5"> C </label>
                                         <div class="col-xs-12 p-l-0 p-r-0">
-                                            <input id="O3f_C" name="O3f[]" type="number" min="0" max="999" class="form-group__control"  value="<?= $survey->unitO->O3 != NULL ? $survey->unitO->O3[5][2] : '' ?>">
+                                            <input id="O3f_C" name="O3f[]" type="number" min="0" max="999" class="form-group__control"  value="<?= $survey->unitO->O3 != NULL ? $survey->unitO->O3[5][2] : '-1' ?>">
                                         </div>
                                     </div>
                                 </div>
@@ -744,13 +744,13 @@ $survey->unitO->O7 = json_decode($survey->unitO->O7);
                                 <div class="form-group__control-static p-l-0">
                                     <div class="row">
                                         <p class="col-xs-12 col-sm-4">
-                                            <b>A:</b> <?=$survey->unitO->O3 != NULL && $survey->unitO->O3[5][0] != '' ? $survey->unitO->O3[5][0] . ' дн.' : 'Не указано' ?>
+                                            <b>A:</b> <?=$survey->unitO->O3 != NULL && $survey->unitO->O3[5][0] != '-1' ? $survey->unitO->O3[5][0] . ' дн.' : 'Не указано' ?>
                                         </p>
                                         <p class="col-xs-12 col-sm-4">
-                                            <b>B:</b> <?=$survey->unitO->O3 != NULL && $survey->unitO->O3[5][1] != '' ? $survey->unitO->O3[5][1] . ' дн.' : 'Не указано' ?>
+                                            <b>B:</b> <?=$survey->unitO->O3 != NULL && $survey->unitO->O3[5][1] != '-1' ? $survey->unitO->O3[5][1] . ' дн.' : 'Не указано' ?>
                                         </p>
                                         <p class="col-xs-12 col-sm-4">
-                                            <b>C:</b> <?=$survey->unitO->O3 != NULL && $survey->unitO->O3[5][2] != '' ? $survey->unitO->O3[5][2]  . ' мин.': 'Не указано' ?>
+                                            <b>C:</b> <?=$survey->unitO->O3 != NULL && $survey->unitO->O3[5][2] != '-1' ? $survey->unitO->O3[5][2]  . ' мин.': 'Не указано' ?>
                                         </p>
                                     </div>
                                 </div>
@@ -776,9 +776,9 @@ $survey->unitO->O7 = json_decode($survey->unitO->O7);
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
-                                <input id="O4a" name="O4[]" type="number" min="0" max="99" class="form-group__control" value="<?= $survey->unitO->O4 != NULL ? $survey->unitO->O4[0] : '' ?>">
+                                <input id="O4a" name="O4[]" type="number" min="0" max="99" class="form-group__control" value="<?= $survey->unitO->O4 != NULL ? $survey->unitO->O4[0] : '-1' ?>">
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?=$survey->unitO->O4 != NULL && $survey->unitO->O4[0] != '' ? $survey->unitO->O4[0] . ' раз(а)' : 'Не указано' ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?=$survey->unitO->O4 != NULL && $survey->unitO->O4[0] != '-1' ? $survey->unitO->O4[0] . ' раз(а)' : 'Не указано' ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -789,9 +789,9 @@ $survey->unitO->O7 = json_decode($survey->unitO->O7);
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
-                                <input id="O4b" name="O4[]" type="number" min="0" max="99" class="form-group__control" value="<?= $survey->unitO->O4 != NULL ? $survey->unitO->O4[1] : '' ?>">
+                                <input id="O4b" name="O4[]" type="number" min="0" max="99" class="form-group__control" value="<?= $survey->unitO->O4 != NULL ? $survey->unitO->O4[1] : '-1' ?>">
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?=$survey->unitO->O4 != NULL && $survey->unitO->O4[1] != '' ? $survey->unitO->O4[1] . ' раз(а)' : 'Не указано' ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?=$survey->unitO->O4 != NULL && $survey->unitO->O4[1] != '-1' ? $survey->unitO->O4[1] . ' раз(а)' : 'Не указано' ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -813,9 +813,9 @@ $survey->unitO->O7 = json_decode($survey->unitO->O7);
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
-                                <input id="O5" name="O5" type="number" min="0" max="99" class="form-group__control" value="<?= $survey->unitO->O5 != NULL ? $survey->unitO->O5 : '' ?>">
+                                <input id="O5" name="O5" type="number" min="0" max="99" class="form-group__control" value="<?= $survey->unitO->O5 != NULL ? $survey->unitO->O5 : '-1' ?>">
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?=$survey->unitO->O5 != NULL && $survey->unitO->O5 != '' ? $survey->unitO->O5 . ' дн.' : 'Не указано' ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?=$survey->unitO->O5 != NULL && $survey->unitO->O5 != '-1' ? $survey->unitO->O5 . ' дн.' : 'Не указано' ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -838,9 +838,9 @@ $survey->unitO->O7 = json_decode($survey->unitO->O7);
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
-                                <input id="O6" name="O6" type="number" min="0" max="99" class="form-group__control" value="<?= $survey->unitO->O6 != NULL ? $survey->unitO->O6 : '' ?>">
+                                <input id="O6" name="O6" type="number" min="0" max="99" class="form-group__control" value="<?= $survey->unitO->O6 != NULL ? $survey->unitO->O6 : '-1' ?>">
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?=$survey->unitO->O6 != NULL && $survey->unitO->O6 != '' ? $survey->unitO->O6 . ' дн.' : 'Не указано' ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?=$survey->unitO->O6 != NULL && $survey->unitO->O6 != '-1' ? $survey->unitO->O6 . ' дн.' : 'Не указано' ?> </p>
                             <? endif; ?>
                         </div>
                     </div>

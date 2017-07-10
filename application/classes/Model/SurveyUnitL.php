@@ -11,6 +11,7 @@ Class Model_SurveyUnitL
     public $L5;
     public $L6;
     public $L7;
+    public $progress;
 
     public function __construct($pk = null)
     {

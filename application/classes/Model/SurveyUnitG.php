@@ -9,6 +9,7 @@ Class Model_SurveyUnitG
     public $G3;
     public $G4;
     public $G5;
+    public $progress;
 
     public function __construct($pk = null)
     {

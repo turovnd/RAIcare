@@ -114,7 +114,7 @@ $survey->unitJ->J9 = json_decode($survey->unitJ->J9);
 
                 </fieldset>
 
-                <? if (!empty($survey->unitB)) : ?>
+                <? if (empty($survey->unitB)) : ?>
 
                     <fieldset>
 

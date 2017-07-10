@@ -151,6 +151,9 @@ body{
 .word-break--normal{
     word-break: normal;
 }
+.word-wrap--break-word{
+    word-wrap: break-word;
+}
 .letter-spacing--5{
     letter-spacing: 5px;
 }

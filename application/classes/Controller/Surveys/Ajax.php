@@ -259,6 +259,8 @@ class Controller_Surveys_Ajax extends Ajax
 
         $unitA->A10 = $A10;
         $unitA->A11 = $A11;
+        $unitA->progress =  70 + (($unitA->A10 == NULL || $unitA->A10 == "") ? 0 : 15) +
+            (($unitA->A11 == NULL || $unitA->A11 == -1) ? 0 : 15);
 
         if (!$unitA->pk) {
             $unitA = $unitA->save();
@@ -308,6 +310,15 @@ class Controller_Surveys_Ajax extends Ajax
         $unitB->B7 = $B7;
         $unitB->B8 = json_encode($B8);
         $unitB->B9 = $B9;
+        $unitB->progress =  $this->survey->type == 1 ? 100 : (($unitB->B1 == NULL || $unitB->B1 == "-1") ? 0 : 11) +
+            (($unitB->B2 == NULL || $unitB->B2 == "0000-00-00") ? 0 : 11) +
+            (($unitB->B3 == NULL || $unitB->B3 == "null") ? 0 : 11) +
+            (($unitB->B4 == NULL || $unitB->B4 == "-1") ? 0 : 11) +
+            ($unitB->B5 == NULL ? 0 : $this->countNotEmptyInArray($unitB->B5) * 6) +
+            (($unitB->B6 == NULL || $unitB->B6 == "") ? 0 : 11) +
+            (($unitB->B7 == NULL || $unitB->B7 == "-1") ? 0 : 11) +
+            (($unitB->B8 == NULL || $unitB->B8 == "null") ? 0 : 11) +
+            (($unitB->B9 == NULL || $unitB->B9 == "-1") ? 0 : 11);
 
         if (!$unitB->pk) {
             $unitB = $unitB->save();
@@ -349,7 +360,7 @@ class Controller_Surveys_Ajax extends Ajax
         if ($C1 == 5) {
             $unitC->C2 = NULL;
             $unitC->C3 = json_encode(array('-1', '-1', '-1'));
-            $unitC->C4 = NULL;
+            $unitC->C4 = -1;
             $unitC->C5 = -1;
         } else {
             $unitC->C2 = json_encode($C2);
@@ -357,6 +368,13 @@ class Controller_Surveys_Ajax extends Ajax
             $unitC->C4 = $C4;
             $unitC->C5 = $C5;
         }
+
+        $unitC->progress = $unitC->C1 == 5 ? 100 :
+            (($unitC->C1 == NULL || $unitC->C1 == "-1") ? 0 : 14) +
+            (($unitC->C2 == NULL || $unitC->C2 == "null") ? 0 : 14) +
+            ($unitC->C3 == NULL ? 0 : $this->countNotEmptyInArray($unitC->C3) * 14)+
+            (($unitC->C4 == NULL || $unitC->C4 == "-1") ? 0 : 15) +
+            (($unitC->C5 == NULL || $unitC->C5 == "-1") ? 0 : 15);
 
         if (!$unitC->pk) {
             $unitC = $unitC->save();
@@ -382,8 +400,8 @@ class Controller_Surveys_Ajax extends Ajax
 
     private function update_unitD()
     {
-        $D1  = Arr::get($_POST,'D1');
-        $D2  = Arr::get($_POST,'D2');
+        $D1  = Arr::get($_POST,'D1', '-1');
+        $D2  = Arr::get($_POST,'D2', '-1');
         $D3a = Arr::get($_POST,'D3a', '-1');
         $D3b = Arr::get($_POST,'D3b', '-1');
         $D4a = Arr::get($_POST,'D4a', '-1');
@@ -395,6 +413,10 @@ class Controller_Surveys_Ajax extends Ajax
         $unitD->D2 = $D2;
         $unitD->D3 = json_encode(array($D3a, $D3b));
         $unitD->D4 = json_encode(array($D4a, $D4b));
+        $unitD->progress = (($unitD->D1 == NULL || $unitD->D1 == "-1") ? 0 : 18)  +
+            (($unitD->D2 == NULL || $unitD->D2 == "-1") ? 0 : 18) +
+            ($unitD->D3 == NULL ? 0 : $this->countNotEmptyInArray($unitD->D3) * 16) +
+            ($unitD->D4 == NULL ? 0 : $this->countNotEmptyInArray($unitD->D4) * 16);
 
         if (!$unitD->pk) {
             $unitD = $unitD->save();
@@ -426,6 +448,9 @@ class Controller_Surveys_Ajax extends Ajax
         $unitE->E1 = json_encode($E1);
         $unitE->E2 = json_encode($E2);
         $unitE->E3 = json_encode($E3);
+        $unitE->progress = ($unitE->E1 == NULL ? 0 : $this->countNotEmptyInArray($unitE->E1) * 5) +
+        ($unitE->E2 == NULL ? 0 : $this->countNotEmptyInArray($unitE->E2) * 5) +
+        ($unitE->E3 == NULL ? 0 : $this->countNotEmptyInArray($unitE->E3) * 5);
 
         if (!$unitE->pk) {
             $unitE = $unitE->save();
@@ -465,6 +490,11 @@ class Controller_Surveys_Ajax extends Ajax
         $unitF->F3 = json_encode($F3);
         $unitF->F4 = $F4;
         $unitF->F5 = json_encode($F5);
+        $unitF->progress = ($unitF->F1 == NULL ? 0 : $this->countNotEmptyInArray($unitF->F1) * 5) +
+            ($unitF->F2 == NULL ? 0 : $this->countNotEmptyInArray($unitF->F2) * 5) +
+            ($unitF->F3 == NULL ? 0 : $this->countNotEmptyInArray($unitF->F3) * 5) +
+            (($unitF->F4 == NULL || $unitF->F4 == "-1") ? 0 : 10) +
+            ($unitF->F5 == NULL ? 0 : $this->countNotEmptyInArray($unitF->F5) * 5);
 
         if (!$unitF->pk) {
             $unitF = $unitF->save();
@@ -505,6 +535,11 @@ class Controller_Surveys_Ajax extends Ajax
         $unitG->G3 = json_encode($G3);
         $unitG->G4 = json_encode($G4);
         $unitG->G5 = $G5;
+        $unitG->progress = ($unitG->G1 == NULL ? 0 : $this->countNotEmptyInArray($unitG->G1) * 5) +
+            ($unitG->G2 == NULL ? 0 : $this->countNotEmptyInArray($unitG->G2) * 5) +
+            ($unitG->G3 == NULL ? 0 : $this->countNotEmptyInArray($unitG->G3) * 5) +
+            ($unitG->G4 == NULL ? 0 : $this->countNotEmptyInArray($unitG->G4) * 5) +
+            (($unitG->G5 == NULL || $unitG->G5 == "-1") ? 0 : 10);
 
         if ($G2[1] != -1 && !($G2[1] < 30 || $G2[1] == 30 || $G2[1] == 77 || $G2[1] == 88 || $G2[1] == 99)) {
             $response = new Model_Response_Survey('SURVEY_UNIT_G2B_ERROR', 'error');
@@ -550,6 +585,10 @@ class Controller_Surveys_Ajax extends Ajax
         $unitH->H2 = $H2;
         $unitH->H3 = $H3;
         $unitH->H4 = $H4;
+        $unitH->progress = ($unitH->H1 == NULL ? 0 : 25) +
+            ($unitH->H2 == NULL ? 0 : 25) +
+            ($unitH->H3 == NULL ? 0 : 25) +
+            ($unitH->H4 == NULL ? 0 : 25);
 
         if (!$unitH->pk) {
             $unitH = $unitH->save();
@@ -577,7 +616,8 @@ class Controller_Surveys_Ajax extends Ajax
         $unitI = new Model_SurveyUnitI($this->survey->unitI);
 
         $unitI->I1 = json_encode($I1);
-        $unitI->I2 = json_encode($I2);
+        $unitI->I2 = $I2 == '[]' ? '[]' : json_encode($I2);
+        $unitI->progress = ($unitI->I1 == NULL ? 0 : $this->countNotEmptyInArray($unitI->I1) * 4.76);
 
         if (!$unitI->pk) {
             $unitI = $unitI->save();
@@ -590,7 +630,7 @@ class Controller_Surveys_Ajax extends Ajax
         $empty = false;
         if (!$empty) { foreach ($I1 as $i1) { if ($i1 == -1) { $empty = true; } } }
 
-        if ($empty || $I2 == '[]') {
+        if ($empty) {
             $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_WARMING', 'warning');
         } else {
             $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_SUCCESS', 'success');
@@ -602,11 +642,11 @@ class Controller_Surveys_Ajax extends Ajax
 
     private function update_unitJ()
     {
-        $J1 = Arr::get($_POST,'J1');
-        $J2 = Arr::get($_POST,'J2');
+        $J1 = Arr::get($_POST,'J1','-1');
+        $J2 = Arr::get($_POST,'J2','-1');
         $J3 = Arr::get($_POST,'J3');
-        $J4 = Arr::get($_POST,'J4');
-        $J5 = Arr::get($_POST,'J5');
+        $J4 = Arr::get($_POST,'J4','-1');
+        $J5 = Arr::get($_POST,'J5','-1');
         $J6a = Arr::get($_POST,'J6a', '-1');
         $J6b = Arr::get($_POST,'J6b', '-1');
         $J6c = Arr::get($_POST,'J6c', '-1');
@@ -629,6 +669,15 @@ class Controller_Surveys_Ajax extends Ajax
         $unitJ->J7 = json_encode(array($J7a, $J7b, $J7c));
         $unitJ->J8 = $J8;
         $unitJ->J9 = json_encode($J9);
+        $unitJ->progress = (($unitJ->J1 == NULL || $unitJ->J1 == "-1") ? 0 : 2.6) +
+            2.6 +
+            ($unitJ->J3 == NULL ? 0 : $this->countNotEmptyInArray($unitJ->J3) * 2.8) +
+            (($unitJ->J4 == NULL || $unitJ->J4 == "-1") ? 0 : 2.6) +
+            (($unitJ->J5 == NULL || $unitJ->J5 == "-1") ? 0 : 2.6) +
+            ($unitJ->J6 == NULL ? 0 : $this->countNotEmptyInArray($unitJ->J6) * 2.8) +
+            ($unitJ->J7 == NULL ? 0 : $this->countNotEmptyInArray($unitJ->J7) * 2.8) +
+            (($unitJ->J8 == NULL || $unitJ->J8 == "-1") ? 0 : 2.6) +
+            ($unitJ->J9 == NULL ? 0 : $this->countNotEmptyInArray($unitJ->J9) * 2.8);
 
         if (!$unitJ->pk) {
             $unitJ = $unitJ->save();
@@ -662,8 +711,8 @@ class Controller_Surveys_Ajax extends Ajax
         $K2b = Arr::get($_POST,'K2b', '-1');
         $K2c = Arr::get($_POST,'K2c', '-1');
         $K2d = Arr::get($_POST,'K2d', '-1');
-        $K3 = Arr::get($_POST,'K3');
-        $K4 = Arr::get($_POST,'K4');
+        $K3 = Arr::get($_POST,'K3','-1');
+        $K4 = Arr::get($_POST,'K4','-1');
         $K5a = Arr::get($_POST,'K5a', '-1');
         $K5b = Arr::get($_POST,'K5b', '-1');
         $K5c = Arr::get($_POST,'K5c', '-1');
@@ -671,6 +720,17 @@ class Controller_Surveys_Ajax extends Ajax
         $K5e = Arr::get($_POST,'K5e', '-1');
         $K5f = Arr::get($_POST,'K5f', '-1');
 
+        if ($K1a != -1 && ($K1a < 100 || $K1a > 500)) {
+            $response = new Model_Response_Survey('SURVEY_UNIT_K1a_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        if ($K1b != -1 && ($K1b < 10 || $K1b > 300)) {
+            $response = new Model_Response_Survey('SURVEY_UNIT_K1b_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
 
         $unitK = new Model_SurveyUnitK($this->survey->unitK);
 
@@ -679,6 +739,11 @@ class Controller_Surveys_Ajax extends Ajax
         $unitK->K3 = $K3;
         $unitK->K4 = $K4;
         $unitK->K5 = json_encode(array($K5a, $K5b, $K5c, $K5d, $K5e, $K5f));
+        $unitK->progress = ($unitK->K1 == NULL ? 0 : $this->countNotEmptyInArray($unitK->K1) * 7) +
+            ($unitK->K2 == NULL ? 0 : $this->countNotEmptyInArray($unitK->K2) * 7) +
+            (($unitK->K3 == NULL || $unitK->K3 == "-1") ? 0 : 8) +
+            (($unitK->K4 == NULL || $unitK->K4 == "-1") ? 0 : 8) +
+            ($unitK->K5 == NULL ? 0 : $this->countNotEmptyInArray($unitK->K5) * 7);
 
         if (!$unitK->pk) {
             $unitK = $unitK->save();
@@ -701,13 +766,13 @@ class Controller_Surveys_Ajax extends Ajax
 
     private function update_unitL()
     {
-        $L1 = Arr::get($_POST,'L1');
-        $L2 = Arr::get($_POST,'L2');
-        $L3 = Arr::get($_POST,'L3');
-        $L4 = Arr::get($_POST,'L4');
-        $L5 = Arr::get($_POST,'L5');
-        $L6 = Arr::get($_POST,'L6');
-        $L7 = Arr::get($_POST,'L7');
+        $L1 = Arr::get($_POST,'L1','-1');
+        $L2 = Arr::get($_POST,'L2','-1');
+        $L3 = Arr::get($_POST,'L3','-1');
+        $L4 = Arr::get($_POST,'L4','-1');
+        $L5 = Arr::get($_POST,'L5','-1');
+        $L6 = Arr::get($_POST,'L6','-1');
+        $L7 = Arr::get($_POST,'L7','-1');
 
         $unitL = new Model_SurveyUnitL($this->survey->unitL);
 
@@ -718,6 +783,13 @@ class Controller_Surveys_Ajax extends Ajax
         $unitL->L5 = $L5;
         $unitL->L6 = $L6;
         $unitL->L7 = $L7;
+        $unitL->progress = (($unitL->L1 == NULL || $unitL->L1 == "-1") ? 0 : 14.28) +
+            (($unitL->L2 == NULL || $unitL->L2 == "-1") ? 0 : 14.28) +
+            (($unitL->L3 == NULL || $unitL->L3 == "-1") ? 0 : 14.28) +
+            (($unitL->L4 == NULL || $unitL->L4 == "-1") ? 0 : 14.28) +
+            (($unitL->L5 == NULL || $unitL->L5 == "-1") ? 0 : 14.28) +
+            (($unitL->L6 == NULL || $unitL->L6 == "-1") ? 0 : 14.28) +
+            (($unitL->L7 == NULL || $unitL->L7 == "-1") ? 0 : 14.28);
 
         if (!$unitL->pk) {
             $unitL = $unitL->save();
@@ -763,10 +835,13 @@ class Controller_Surveys_Ajax extends Ajax
         $unitM->M1 = $M1;
         $unitM->M2 = json_encode(array($M2a,$M2b,$M2c,$M2d,$M2e,$M2f,$M2g,$M2h,$M2i,$M2j,$M2k,$M2l,$M2m,$M2n,$M2o,$M2p));
         $unitM->M3 = $M3;
+        $unitM->progress = (($unitM->M1 == NULL || $unitM->M1 == "-1") ? 0 : 6) +
+            ($unitM->M2 == NULL ? 0 : $this->countNotEmptyInArray($unitM->M2) * 5.5) +
+            (($unitM->M3 == NULL || $unitM->M3 == "-1") ? 0 : 6);
 
         if (!$unitM->pk) {
             $unitM = $unitM->save();
-            $this->survey->unitM = $unitM->pk;
+            $this->unitM = $unitM->pk;
             $this->survey->update();
         } else {
             $unitM->update();
@@ -785,35 +860,39 @@ class Controller_Surveys_Ajax extends Ajax
 
     private function update_unitN()
     {
-        $N1 = Arr::get($_POST,'N1');
+        $N1 = Arr::get($_POST,'N1', '[]');
         $N2 = Arr::get($_POST,'N2', '-1');
 
         $empty = false;
 
-        foreach ($N1 as $key => $n1) {
+        if ($N1 != '[]') {
+            foreach ($N1 as $key => $n1) {
+                echo Debug::vars($n1);
+                if (empty($n1[0])) { $N1[$key][0] = ""; $empty = true; }
+                if (empty($n1[1])) { $N1[$key][1] = ""; $empty = true; }
+                if (empty($n1[2]) && $n1[2] != 0) { $N1[$key][2] = "-1"; $empty = true; }
+                if (empty($n1[3]) && $n1[3] != 0) { $N1[$key][3] = "-1"; $empty = true;}
+                if (empty($n1[4]) && $n1[4] != 0) { $N1[$key][4] = "-1"; $empty = true;}
+                if (empty($n1[5]) && $n1[5] != 0) { $N1[$key][5] = "-1"; $empty = true;}
 
-            if (empty($n1[0])) { $N1[$key][0] = ""; $empty = true; }
-            if (empty($n1[1])) { $N1[$key][1] = ""; $empty = true; }
-            if (empty($n1[2])) { $N1[$key][2] = "-1"; $empty = true; }
-            if (empty($n1[3])) { $N1[$key][3] = "-1"; $empty = true;}
-            if (empty($n1[4])) { $N1[$key][4] = "-1"; $empty = true;}
-            if (empty($n1[5])) { $N1[$key][5] = "-1"; $empty = true;}
-
-            if ($N1[$key][0] == "") {
-                $response = new Model_Response_Survey('SURVEY_UNIT_N1_0_ERROR', 'error');
-                $this->response->body(@json_encode($response->get_response()));
-                return;
-            }
-            if ($N1[$key][1] <= 0) {
-                $response = new Model_Response_Survey('SURVEY_UNIT_N1_1_ERROR', 'error');
-                $this->response->body(@json_encode($response->get_response()));
-                return;
+                if ($N1[$key][0] == "") {
+                    $response = new Model_Response_Survey('SURVEY_UNIT_N1_0_ERROR', 'error');
+                    $this->response->body(@json_encode($response->get_response()));
+                    return;
+                }
+                if ($N1[$key][1] <= 0) {
+                    $response = new Model_Response_Survey('SURVEY_UNIT_N1_1_ERROR', 'error');
+                    $this->response->body(@json_encode($response->get_response()));
+                    return;
+                }
             }
         }
 
         $unitN = new Model_SurveyUnitN($this->survey->unitN);
-        $unitN->N1 = json_encode($N1);
+        $unitN->N1 = $N1 == '[]' ? '[]' : json_encode($N1);
         $unitN->N2 = $N2;
+        $unitN->progress = ($unitN->N1 == NULL ? 0 : $unitN->N2 == "[]" ? 50 : 50) +
+            (($unitN->N2 == NULL || $unitN->N2 == "-1") ? 0 : 50);
 
         if (!$unitN->pk) {
             $unitN = $unitN->save();
@@ -862,27 +941,27 @@ class Controller_Surveys_Ajax extends Ajax
 
         $empty = false;
         foreach ($O3 as $o3) {
-            if (!$empty && ($o3[0] == '' || $o3[1] == '' || $o3[2] == '')) { $empty = true; }
-            if ($o3[0] < 0 || $o3[0] > 7 || $o3[1] < 0 || $o3[1] > 7 || $o3[2] < 0 || $o3[2] > 999) {
+            if (($o3[0] != -1 && ($o3[0] < 0 || $o3[0] > 7)) || ($o3[1] != -1 && ($o3[1] < 0 || $o3[1] > 7)) || ($o3[2] != -1 && ($o3[2] < 0 || $o3[2] > 999))) {
                 $response = new Model_Response_Survey('SURVEY_UNIT_O3_ERROR', 'error');
                 $this->response->body(@json_encode($response->get_response()));
                 return;
             }
+            if (!$empty && ($o3[0] == -1 || $o3[1] == -1 || $o3[2] == -1)) { $empty = true; }
         }
 
-        if ($O4[0] < 0 || $O4[0] > 99 || $O4[1] < 0 || $O4[1] > 99) {
+        if (($O4[0] != -1 && ($O4[0] < 0 || $O4[0] > 99)) || ($O4[1] != -1 && ($O4[1] < 0 || $O4[1] > 99))) {
             $response = new Model_Response_Survey('SURVEY_UNIT_O4_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
             return;
         }
 
-        if ($O5 < 0 || $O5 > 99) {
+        if ($O5 != -1 && ($O5 < 0 || $O5 > 99)) {
             $response = new Model_Response_Survey('SURVEY_UNIT_O5_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
             return;
         }
 
-        if ($O6 < 0 || $O6 > 99) {
+        if ($O6 != -1 && ($O6 < 0 || $O6 > 99)) {
             $response = new Model_Response_Survey('SURVEY_UNIT_O6_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
             return;
@@ -895,6 +974,13 @@ class Controller_Surveys_Ajax extends Ajax
         $unitO->O5 = $O5;
         $unitO->O6 = $O6;
         $unitO->O7 = json_encode($O7);
+        $unitO->progress = ($unitO->O1 == NULL ? 0 : $this->countNotEmptyInArray($unitO->O1) * 2.2) +
+            ($unitO->O2 == NULL ? 0 : $this->countNotEmptyInArray($unitO->O2) * 2.2) +
+            ($unitO->O3 == NULL ? 0 : ($this->countNotEmptyInArray(json_encode($O3[0]))+$this->countNotEmptyInArray(json_encode($O3[1]))+$this->countNotEmptyInArray(json_encode($O3[2]))+$this->countNotEmptyInArray(json_encode($O3[3]))+$this->countNotEmptyInArray(json_encode($O3[4]))+$this->countNotEmptyInArray(json_encode($O3[5]))) * 2.2) +
+            ($unitO->O4 == NULL ? 0 : $this->countNotEmptyInArray($unitO->O4) * 2.2) +
+            (($unitO->O5 == NULL || $unitO->O5 == "-1") ? 0 : 1.6) +
+            (($unitO->O6 == NULL || $unitO->O6 == "-1") ? 0 : 1.6) +
+            ($unitO->O7 == NULL ? 0 : $this->countNotEmptyInArray($unitO->O7) * 2.2);
 
         if (!$unitO->pk) {
             $unitO = $unitO->save();
@@ -904,11 +990,11 @@ class Controller_Surveys_Ajax extends Ajax
             $unitO->update();
         }
 
-        if (!$empty) { foreach ($O1 as $o1) { if ($o1 == -1) { $empty = true; break; } } }
+        if (!$empty) { foreach ($O1 as $ind => $o1) { if ($ind != 6 && $o1 == -1) { $empty = true; break; } } }
         if (!$empty) { foreach ($O2 as $o2) { if ($o2 == -1) { $empty = true; break; } } }
         if (!$empty) { foreach ($O7 as $o7) { if ($o7 == -1) { $empty = true; break; } } }
 
-        if ($empty || $O4[0] == '' || $O4[1] == '' || $O5 == '' || $O6 == '') {
+        if ($empty || $O4[0] == -1 || $O4[1] == -1 || $O5 == -1 || $O6 == -1) {
             $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_WARMING', 'warning');
         } else {
             $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_SUCCESS', 'success');
@@ -936,6 +1022,8 @@ class Controller_Surveys_Ajax extends Ajax
 
         $unitP->P1 = json_encode(array($P1a,$P1b,$P1c,$P1d,$P1e));
         $unitP->P2 = json_encode(array($P2a,$P2b,$P2c,$P2d,$P2e));
+        $unitP->progress = ($unitP->P1 == NULL ? 0 : $this->countNotEmptyInArray($unitP->P1) * 10) +
+            ($unitP->P2 == NULL ? 0 : $this->countNotEmptyInArray($unitP->P2) * 10);
 
         if (!$unitP->pk) {
             $unitP = $unitP->save();
@@ -967,6 +1055,8 @@ class Controller_Surveys_Ajax extends Ajax
 
         $unitQ->Q1 = json_encode(array($Q1a,$Q1b,$Q1c));
         $unitQ->Q2 = $Q2;
+        $unitQ->progress = ($unitQ->Q1 == NULL ? 0 : $this->countNotEmptyInArray($unitQ->Q1) * 25) +
+            (($unitQ->Q2 == NULL || $unitQ->Q2 == "-1") ? 0 : 25);
 
         if (!$unitQ->pk) {
             $unitQ = $unitQ->save();
@@ -990,13 +1080,16 @@ class Controller_Surveys_Ajax extends Ajax
     {
         $R1 = Arr::get($_POST,'R1');
         $R2 = Arr::get($_POST,'R2');
-        $R3 = Arr::get($_POST,'R3');
+        $R3 = Arr::get($_POST,'R3', '-1');
 
         $unitR = new Model_SurveyUnitR($this->survey->unitR);
 
         $unitR->R1 = $R1;
         $unitR->R2 = $R2;
         $unitR->R3 = $R3;
+        $unitR->progress = ((($unitR->R1 == NULL || $unitR->R1 == "0000-00-00") ? 0 : 34) +
+            (($unitR->R2 == NULL || $unitR->R2 == "-1") ? 0 : 33) +
+            (($unitR->R3 == NULL || $unitR->R3 == "-1") ? 0 : 33));
 
         if (!$unitR->pk) {
             $unitR = $unitR->save();
@@ -1014,6 +1107,15 @@ class Controller_Surveys_Ajax extends Ajax
 
         $this->response->body(@json_encode($response->get_response()));
         return;
+    }
+
+    private function countNotEmptyInArray($array) {
+        $array = json_decode($array);
+        $count = 0;
+        foreach ($array as $item) {
+            if ($item != '-1') $count++;
+        }
+        return $count;
     }
 
 }

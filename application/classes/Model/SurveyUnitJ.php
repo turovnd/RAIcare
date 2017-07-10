@@ -13,6 +13,7 @@ Class Model_SurveyUnitJ
     public $J7;
     public $J8;
     public $J9;
+    public $progress;
 
     public function __construct($pk = null)
     {

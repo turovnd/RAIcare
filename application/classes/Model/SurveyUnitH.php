@@ -8,6 +8,7 @@ Class Model_SurveyUnitH
     public $H2;
     public $H3;
     public $H4;
+    public $progress;
 
     public function __construct($pk = null)
     {

@@ -9,6 +9,7 @@ Class Model_SurveyUnitK
     public $K3;
     public $K4;
     public $K5;
+    public $progress;
 
     public function __construct($pk = null)
     {

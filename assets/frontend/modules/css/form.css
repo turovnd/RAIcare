@@ -4,6 +4,10 @@
     align-items: flex-start;
     flex-flow: row wrap;
 }
+.form-wrapper--flex-end,
+.block-wrapper--flex-end{
+    align-items: flex-end;
+}
 
 .form,
 .block{

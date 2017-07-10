@@ -369,9 +369,9 @@ $survey->unitG->G4 = json_decode($survey->unitG->G4);
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
-                                <input id="G2b" name="G2[]" type="number" class="form-group__control" value="<?= $survey->unitG->G2[1]; ?>" min="1" max="99">
+                                <input id="G2b" name="G2[]" type="number" class="form-group__control" value="<?= $survey->unitG->G2 != NULL ? $survey->unitG->G2[1] : -1; ?>" min="1" max="99">
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= $survey->unitG->G2 != NULL && $survey->unitG->G2[1] != "" ? $survey->unitG->G2[1] . ' сек.' : 'Не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitG->G2 != NULL && $survey->unitG->G2[1] != "-1" ? $survey->unitG->G2[1] . ' сек.' : 'Не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>

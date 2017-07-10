@@ -277,7 +277,69 @@ Class Model_Survey {
 
         $survey = new Model_Survey();
         return $survey->fill_by_row($select);
+    }
 
+    public static function getProgress($pk)
+    {
+        $survey = new Model_Survey($pk);
+        $unitA = new Model_SurveyUnitA($survey->unitA);
+        $unitB = new Model_SurveyUnitB($survey->unitB);
+        $unitC = new Model_SurveyUnitC($survey->unitC);
+        $unitD = new Model_SurveyUnitD($survey->unitD);
+        $unitE = new Model_SurveyUnitE($survey->unitE);
+        $unitF = new Model_SurveyUnitF($survey->unitF);
+        $unitG = new Model_SurveyUnitG($survey->unitG);
+        $unitH = new Model_SurveyUnitH($survey->unitH);
+        $unitI = new Model_SurveyUnitI($survey->unitI);
+        $unitJ = new Model_SurveyUnitJ($survey->unitJ);
+        $unitK = new Model_SurveyUnitK($survey->unitK);
+        $unitL = new Model_SurveyUnitL($survey->unitL);
+        $unitM = new Model_SurveyUnitM($survey->unitM);
+        $unitN = new Model_SurveyUnitN($survey->unitN);
+        $unitO = new Model_SurveyUnitO($survey->unitO);
+        $unitP = new Model_SurveyUnitP($survey->unitP);
+        $unitQ = new Model_SurveyUnitQ($survey->unitQ);
+        $unitR = new Model_SurveyUnitR($survey->unitR);
+
+        $progress = 0;
+        $count = 17;
+
+        $progress += !empty($unitA->progress) ? $unitA->progress : 0;
+
+        if ($survey->type != 1) {
+            $count -= 1;
+        } else {
+            $progress += !empty($unitB->progress) ? $unitB->progress : 0;
+        }
+
+        $progress += !empty($unitC->progress) ? $unitC->progress : 0;
+
+        if ($unitC->C1 == 5) {
+            $count -= 3;
+        } else {
+            $progress += !empty($unitD->progress) ? $unitD->progress : 0;
+            $progress += !empty($unitE->progress) ? $unitE->progress : 0;
+            $progress += !empty($unitF->progress) ? $unitF->progress : 0;
+        }
+
+        $progress += !empty($unitG->progress) ? $unitG->progress : 0;
+        $progress += !empty($unitH->progress) ? $unitH->progress : 0;
+        $progress += !empty($unitI->progress) ? $unitI->progress : 0;
+        $progress += !empty($unitJ->progress) ? $unitJ->progress : 0;
+        $progress += !empty($unitK->progress) ? $unitK->progress : 0;
+        $progress += !empty($unitL->progress) ? $unitL->progress : 0;
+        $progress += !empty($unitM->progress) ? $unitM->progress : 0;
+        $progress += !empty($unitN->progress) ? $unitN->progress : 0;
+        $progress += !empty($unitO->progress) ? $unitO->progress : 0;
+        $progress += !empty($unitP->progress) ? $unitP->progress : 0;
+
+        if ($survey->type == 5 ) {
+            $progress += !empty($unitR->progress) ? $unitR->progress : 0;
+        } else {
+            $progress += !empty($unitQ->progress) ? $unitQ->progress : 0;
+        }
+
+        return intval($progress / $count);
     }
 
 }

@@ -50,7 +50,8 @@ $N1e = array(
     '19' => '2M',
     '20' => 'OTH',
 );
-$survey->unitN->N1 = !empty($survey->unitN->N1) ? json_decode($survey->unitN->N1) : array(array());
+
+$survey->unitN->N1 = !empty($survey->unitN->N1) ? json_decode($survey->unitN->N1) : array();
 ?>
 
 <h3 class="section__heading">
@@ -101,7 +102,7 @@ $survey->unitN->N1 = !empty($survey->unitN->N1) ? json_decode($survey->unitN->N1
                             <th scope="col">Способ приема</th>
                             <th scope="col">Частота приема</th>
                             <th scope="col">PRN (по мере необх.)</th>
-                            <th scope="col"></th>
+                            <th scope="col" class="hide">Выбрать</th>
                         </tr>
                         </thead>
                         <tbody valign="middle">

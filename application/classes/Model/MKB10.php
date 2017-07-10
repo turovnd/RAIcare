@@ -52,7 +52,6 @@ Class Model_MKB10 {
             ->or_having('name', '%' . $name . '%')
             ->or_having('code', '%' . $name . '%')
             ->order_by('name', 'DESC')
-            ->limit(10)
             ->execute();
 
         $items = array();

@@ -50,9 +50,9 @@ $survey->unitK->K5 = json_decode($survey->unitK->K5);
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
-                                <input id="K1a" name="K1a" type="number" class="form-group__control" value="<?= $survey->unitK->K1 != NULL ? $survey->unitK->K1[0] : '0'; ?>" min="1" maxlength="3">
+                                <input id="K1a" name="K1a" type="number" class="form-group__control" value="<?= $survey->unitK->K1 != NULL ? $survey->unitK->K1[0] : '-1'; ?>" min="100" max="500">
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= $survey->unitK->K1 != NULL && $survey->unitK->K1[1] != 0 ?  $survey->unitK->K1[0] : 'Не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitK->K1 != NULL && $survey->unitK->K1[1] != -1 ?  $survey->unitK->K1[0] : 'Не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
@@ -63,9 +63,9 @@ $survey->unitK->K5 = json_decode($survey->unitK->K5);
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
-                                <input id="K1b" name="K1b" type="number" class="form-group__control" value="<?= $survey->unitK->K1 != NULL ? $survey->unitK->K1[1] : '0'; ?>" min="1" maxlength="3">
+                                <input id="K1b" name="K1b" type="number" class="form-group__control" value="<?= $survey->unitK->K1 != NULL ? $survey->unitK->K1[1] : '-1'; ?>" min="10" max="300">
                             <? else : ?>
-                                <p class="form-group__control-static p-l-0"> <?= $survey->unitK->K1 != NULL && $survey->unitK->K1[1] != 0 ? $survey->unitK->K1[1] : 'Не указано'; ?> </p>
+                                <p class="form-group__control-static p-l-0"> <?= $survey->unitK->K1 != NULL && $survey->unitK->K1[1] != -1 ? $survey->unitK->K1[1] : 'Не указано'; ?> </p>
                             <? endif; ?>
                         </div>
                     </div>
