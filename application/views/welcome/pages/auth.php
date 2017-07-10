@@ -3,12 +3,12 @@
 
     <div class="container animated fade__in">
 
-        <div class="form form--sm m-l-auto m-r-auto">
+        <? if (empty(Cookie::get('reset_link'))) : ?>
 
-            <? if (empty(Cookie::get('reset_link'))) : ?>
+            <!-- SignIn Form -->
+            <form id="signin" class="form form--sm m-l-auto m-r-auto">
 
-                <!-- SignIn Form -->
-                <form class="form__body" id="signin">
+                <div class="form__body" >
                     <div class="col-xs-12 m-b-30">
 
                         <p class="h3 bold text-center m-t-30 m-b-30">Авторизация</p>
@@ -37,11 +37,14 @@
                         <input type="hidden" name="csrf" value="<?=Security::token(); ?>">
 
                     </div>
-                </form>
+                </div>
 
+            </form>
 
-                <!-- Forget Password Form -->
-                <form class="form__body hide" id="forget">
+            <!-- Forget Password Form -->
+            <form id="forget" class="form form--sm m-l-auto m-r-auto hide">
+
+                <div class="form__body ">
                     <div class="col-xs-12 m-b-30">
 
                         <p class="h3 bold text-center m-t-30 m-b-30">Востановление пароля</p>
@@ -61,12 +64,16 @@
                         <button type="submit" id="" class="btn btn--brand btn--round col-xs-6 fl_r m-r-0">Восстановить</button>
                         <input type="hidden" name="csrf" value="<?=Security::token(); ?>">
                     </div>
-                </form>
+                </div>
+
+            </form>
 
             <? else: ?>
 
-                <!-- Reset Password Form -->
-                <form class="form__body" id="reset">
+            <!-- Reset Password Form -->
+            <form id="reset" class="form form--sm m-l-auto m-r-auto">
+
+                <div class="form__body">
                     <div class="col-xs-12 m-b-30">
 
                         <p class="h3 bold text-center m-b-30">Сброс пароля</p>
@@ -93,11 +100,11 @@
                         <button type="submit" id="" class="btn btn--brand btn--round col-xs-6 fl_r m-r-0">Восстановить</button>
                         <input type="hidden" name="csrf" value="<?=Security::token(); ?>">
                     </div>
-                </form>
+                </div>
 
-            <? endif; ?>
+            </form>
 
-        </div>
+        <? endif; ?>
 
     </div>
 

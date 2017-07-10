@@ -15,9 +15,6 @@ class Controller_Pensions_Index extends Dispatch
     CONST WATCH_MY_PEN_PAGE              = 26;
     CONST EDIT_PENSION                   = 27;
     CONST STATISTIC_PENSION              = 30;
-    CONST WATCH_ALL_PATIENTS_PROFILES    = 34;
-    CONST WATCH_PATIENTS_PROFILES_IN_PEN = 35;
-    CONST CAN_CONDUCT_A_SURVEY           = 36;
     CONST AVAILABLE_PERMISSIONS_PEN      = array(27,28,29,30,31,32,36);
 
     public $template = 'main';
@@ -33,9 +30,7 @@ class Controller_Pensions_Index extends Dispatch
         }
 
         $data = array(
-            'action'    => 'pen_' . $this->request->action(),
-            'form'      => (bool) $this->request->query('id'),
-            'unit'      => 'unit' . $this->request->query('unit')
+            'action'    => 'pen_' . $this->request->action()
         );
 
         $this->template->aside = View::factory('global_blocks/aside', $data);
@@ -180,103 +175,6 @@ class Controller_Pensions_Index extends Dispatch
         $this->template->title = $this->pension->name;
         $this->template->section = View::factory('pensions/pages/statistic')
             ->set('pension', $this->pension);
-    }
-
-
-    public function action_patients()
-    {
-        if (!in_array(self::WATCH_ALL_PATIENTS_PROFILES, $this->user->permissions)) {
-            if (!in_array(self::WATCH_PATIENTS_PROFILES_IN_PEN, $this->user->permissions)) {
-                throw new HTTP_Exception_403;
-            }
-        }
-
-        $patients = Model_Patient::getByPension($this->pension->id, 0, 10);
-
-        foreach ($patients as $key => $patient) {
-            $patients[$key]->form = Model_LongTermForm::getFillingFormByPatientAndPension($patient->pk, $this->pension->id);
-        }
-
-        $this->template->title = "База данных пациентов пансионата " . $this->pension->name;
-        $this->template->section = View::factory('patients/pages/pension-patients')
-            ->set('pension', $this->pension)
-            ->set('patients', $patients);
-    }
-
-
-    public function action_patient()
-    {
-        self::hasAccess(self::WATCH_PATIENTS_PROFILES_IN_PEN);
-
-        $pat_id = $this->request->param('pat_id');
-        $patient = Model_Patient::getByFieldName('id', $pat_id);
-
-        if (!$patient->pk)
-            throw new HTTP_Exception_404();
-
-        $forms = Model_LongTermForm::getAllFormsByPatientAndPension($patient->pk, $this->pension->id, 0, 10);
-
-        $patient->creator = new Model_User($patient->creator);
-        $patient->pension = $this->pension;
-        $patient->forms   = $forms;
-
-        $this->template->title = "Профиль пациента " . $patient->name;
-        $this->template->section = View::factory('patients/pages/profile')
-            ->set('patient', $patient);
-    }
-
-
-    public function action_survey()
-    {
-        $form_id = $this->request->query('id');
-        $unit    = $this->request->query('unit') ?: "progress";
-
-        if (!$form_id)
-            $this->redirect('pension/' . $this->pension->id . '/patients');
-
-        $form = new Model_LongTermForm($form_id);
-
-        $this->isFormValid($form);
-        $form->pension = $this->pension;
-        $form->patient = new Model_Patient($form->patient);
-        $this->isUnitValid($form, $unit);
-
-        $this->template->title = "Форма оценки долговременного ухода";
-        $this->template->section = View::factory('pensions/pages/survey')
-            ->set('unit', $unit)
-            ->set('form', $form)
-            ->set('pension', $this->pension);
-    }
-
-
-    private function isFormValid($form)
-    {
-        if ($form->status != 2 && strtotime(Date::formatted_time('now')) - strtotime($form->dt_create) > Date::DAY * 3)
-        {
-            $form->status= 3;
-            $form->update();
-            $this->redirect('pension/' . $this->pension->id . '/patients');
-        }
-
-        if ($form->pension != $this->pension->id || $form->status == 3) {
-            throw new HTTP_Exception_404();
-        }
-    }
-
-
-    function isUnitValid($form, $unit)
-    {
-        $availableUnits = array("progress","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q");
-
-        if (!in_array($unit, $availableUnits)) {
-            $this->redirect('pension/' . $this->pension->id . '/survey?id=' . $form->id . '&&unit=progress');
-        }
-    }
-
-
-    function getAvailableUnits()
-    {
-
     }
 
 }

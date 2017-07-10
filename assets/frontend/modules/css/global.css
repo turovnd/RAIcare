@@ -66,7 +66,7 @@ body{
     display: none !important;
 }
 .display-flex{
-    display: flex;
+    display: flex !important;
 }
 .display-table{
     display: table;
@@ -150,6 +150,9 @@ body{
 }
 .word-break--normal{
     word-break: normal;
+}
+.word-wrap--break-word{
+    word-wrap: break-word;
 }
 .letter-spacing--5{
     letter-spacing: 5px;
@@ -289,26 +292,6 @@ body{
 .f-s-2{ font-size: 2em; }
 .f-s-2_5{ font-size: 2.5em; }
 .f-s-3{ font-size: 3em; }
-
-fieldset {
-    border: 0;
-    min-width: 0;
-    padding: 0 0 20px;
-    border-bottom: 1px dashed #e5e5e5;
-    margin: 0 0 20px;
-}
-
-fieldset:last-child {
-    border-bottom: 0;
-}
-
-fieldset .form-group {
-    margin-bottom: 0;
-}
-small{
-    display: block;
-    font-size: 13px;
-}
 
 .clear-fix:after, .clear-fix:before,
 .container:after, .container:before,

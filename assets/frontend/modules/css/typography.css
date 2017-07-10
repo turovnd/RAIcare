@@ -87,7 +87,14 @@ ul, ol{
     font-size: 75em;
 }
 p {
-    margin: 1px 0 10px;
+    margin: 0 0 10px;
+}
+small{
+    display: block;
+    font-size: 12px;
+}
+canvas{
+    max-width: 100%;
 }
 .bold{
     font-weight: bold;
@@ -121,6 +128,12 @@ p {
 }
 .text-bold{
     font-weight: bold;
+}
+.text-normal{
+    font-weight: normal;
+}
+.text-italic{
+    font-style: italic;
 }
 .text-brand {
     color: #008DA7;

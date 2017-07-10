@@ -1,134 +1,131 @@
 module.exports = (function (get) {
 
-    var corePrefix  = 'Survey: get AJAX',
-        holder      = document.getElementsByClassName('section__content')[0],
-        form        = null,
-        mode        = null,
-        pensionID   = document.getElementById('pensionID');
+    var corePrefix       = 'Survey: get AJAX',
+        unitHolder       = document.getElementsByClassName('section__content')[0],
+        pensionID        = document.getElementById('pensionID'),
+        patientID        = document.getElementById('patientID'),
+        units            = ['progress', 'unitA', 'unitB', 'unitC', 'unitD', 'unitE', 'unitF', 'unitG', 'unitH', 'unitI',
+            'unitJ', 'unitK', 'unitL', 'unitM', 'unitN', 'unitO', 'unitP', 'unitQ', 'unitR'],
+        surveyID         = document.getElementById('surveyID'),
+        ajaxSend         = false;
+
 
     if(pensionID) pensionID = pensionID.value;
+    if(patientID) patientID = patientID.value;
+    if(surveyID) surveyID = surveyID.value;
 
-    get.unit = function (unit) {
+    get.unitstart = function () {
 
-        if (!form)
-            form = document.getElementById('formID').value;
+        var unavailableUnits = document.getElementById('unavailableUnits');
 
-        window.location.assign('survey?id=' + form + '&unit=' + unit);
+        if(unavailableUnits) {
+
+            unavailableUnits = JSON.parse(unavailableUnits.value);
+
+            for (var i = 0; i < unavailableUnits.length; i++) {
+
+                units.splice(units.indexOf(unavailableUnits[i]), 1);
+                var unit = document.querySelector(".aside__link[href='#" + unavailableUnits[i] + "']");
+
+                if (unit) unit.parentNode.remove();
+
+            }
+
+        } else {
+
+            return;
+
+        }
+
+        window.addEventListener('hashchange', getUnitOnHashChange_);
+        getUnitOnHashChange_();
 
     };
 
 
-    /** *
-     *
-     * Searching functions
-     *
-     */
-    var searchingPatientName = '',
-        holderPatients       = document.getElementById('patients'),
-        getMorePatientsBtn   = document.getElementById('getMorePatientsBtn'),
-        ajaxPOSTing          = false;
+    function getUnitOnHashChange_() {
+
+        var unit           = window.location.hash.replace('#', ''),
+            element        = null;
 
 
-    get.search = function (element, mod) {
+        if (unit === '') unit = 'progress';
 
-        if (!mode) mode = mod;
-        searchingPatientName = element.value;
+        element = unit === 'progress' ? '' : unit;
+        element = document.querySelector('.aside__link[href="#' + element + '"]');
 
-        if (!ajaxPOSTing) {
-
-            getMorePatientsBtn.dataset.offset = 0;
-            holderPatients.innerHTML = '';
-            getPatients_();
-
-        }
-
-    };
-
-    get.patients = function (element, mod) {
-
-        if (!mode) mode = mod;
-        getMorePatientsBtn  = element;
-
-        if (!ajaxPOSTing) {
-
-            getPatients_();
-            document.addEventListener('scroll', checkPageOffset_);
-
-        }
-
-    };
-
-    /**
-     * Function checking offset of bottom of page for sending new AJAX request (getting patients)
-     * @private
-     */
-    function checkPageOffset_() {
-
-        var bottom = holder.getBoundingClientRect().bottom;
-
-        if (window.innerHeight - bottom > 0 && ajaxPOSTing === false) {
-
-            getPatients_();
-
-        }
+        get.unit(element, unit);
 
     }
 
-    function getPatients_() {
 
-        var formData       = new FormData(),
-            offset         = getMorePatientsBtn.dataset.offset,
-            sendSearchName = searchingPatientName;
+    get.unit = function (element, unit) {
 
-        formData.append('name', sendSearchName);
+        if (!isAvailableUnit(unit)) return;
+
+        if (document.getElementsByClassName('aside__item--active')[0])
+            document.getElementsByClassName('aside__item--active')[0].classList.remove('aside__item--active');
+
+        if(document.getElementsByClassName('aside__link--active')[0])
+            document.getElementsByClassName('aside__link--active')[0].classList.remove('aside__link--active');
+
+        element.parentNode.classList.add('aside__item--active');
+        element.classList.add('aside__link--active');
+
+        getUnit_(unit);
+
+    };
+
+    function isAvailableUnit(unit) {
+
+        if (units.indexOf(unit) === -1) {
+
+            raisoft.notification.notify({
+                type: 'error',
+                message: 'Не правильно указан адрес'
+            });
+
+            return false;
+
+        }
+
+        return true;
+
+    }
+
+
+    function getUnit_(unit) {
+
+        var formData = new FormData();
+
+        formData.append('unit', unit);
+        formData.append('survey', surveyID);
         formData.append('pension', pensionID);
-        formData.append('offset', offset);
         formData.append('csrf', document.getElementById('csrf').value);
 
         var ajaxData = {
-            url: '/patient/' + mode,
+            url: '/survey/getunit',
             type: 'POST',
             data: formData,
             beforeSend: function () {
 
-                ajaxPOSTing = true;
-                getMorePatientsBtn.innerHTML = 'Загрузка ...';
+                document.getElementsByClassName('wrapper')[0].classList.add('loading');
 
             },
             success: function (response) {
 
                 response = JSON.parse(response);
                 raisoft.core.log(response.message, response.status, corePrefix);
-                ajaxPOSTing = false;
+                document.getElementsByClassName('wrapper')[0].classList.remove('loading');
 
-                if (parseInt(response.code) === 150 ) {
+                if (parseInt(response.code) === 165 ) {
 
-                    getMorePatientsBtn.innerHTML = 'Загрузить ещё';
-
-                    if (response.html !== '') {
-
-                        getMorePatientsBtn.dataset.offset = parseInt(offset) + parseInt(response.number);
-
-                        if (searchingPatientName === sendSearchName) {
-
-                            holderPatients.innerHTML += response.html;
-
-                        } else {
-
-                            holderPatients.innerHTML = response.html;
-
-                        }
-
-                    } else {
-
-                        getMorePatientsBtn.innerHTML = 'Всего ' + parseInt(parseInt(offset) + parseInt(response.number));
-                        document.removeEventListener('scroll', checkPageOffset_);
-
-                    }
+                    unitHolder.innerHTML = response.html;
+                    survey.table.init();
+                    raisoft.loader.init();
+                    initSelects_();
 
                 } else {
-
-                    getMorePatientsBtn.innerHTML = "Ошибка при загрузке. <span class='link'>Повторить</span>";
 
                     raisoft.notification.notify({
                         type: response.status,
@@ -140,9 +137,8 @@ module.exports = (function (get) {
             },
             error: function (callbacks) {
 
-                raisoft.core.log('ajax error occur on getting patients', 'error', corePrefix, callbacks);
-                getMorePatientsBtn.innerHTML = "Ошибка при загрузке. <span class='link'>Повторить</span>";
-                ajaxPOSTing = false;
+                raisoft.core.log('ajax error occur on getting unit of survey', 'error', corePrefix, callbacks);
+                document.getElementsByClassName('wrapper')[0].classList.remove('loading');
 
             }
         };
@@ -152,16 +148,16 @@ module.exports = (function (get) {
     }
 
 
-    /** *
+    /**
      *
-     * Function for working with FORMS
+     * Function for working with time - line (getting surveys)
      *
      */
     var timeline        = null,
         getMoreFormsBtn = null,
         type            = null,
-        patients        = null, // json string array
-        ajaxSend        = false;
+        patients        = null; // json string array
+
 
     get.forms = function () {
 
@@ -186,21 +182,17 @@ module.exports = (function (get) {
     function getForms_() {
 
         var formData       = new FormData(),
-            offset         = parseInt(getMoreFormsBtn.dataset.offset),
-            patient        = document.getElementById('patientID'),
-            pension        = document.getElementById('pensionID');
+            offset         = parseInt(getMoreFormsBtn.dataset.offset);
 
         formData.append('type', type);
         formData.append('patients', patients);
         formData.append('offset', offset);
+        formData.append('patient', patientID);
+        formData.append('pension', pensionID);
         formData.append('csrf', document.getElementById('csrf').value);
-        formData.append('patient', patient ? patient.value : '');
-        formData.append('pension', pension ? pension.value : '');
-
-
 
         var ajaxData = {
-            url: '/forms/longterm/get',
+            url: '/survey/get',
             type: 'POST',
             data: formData,
             beforeSend: function () {
@@ -287,6 +279,218 @@ module.exports = (function (get) {
     }
 
 
+    /**
+     *
+     * Function for searching forms by Patient Name or Pension Name
+     *
+     */
+    var holderSearch  = document.getElementById('surveys'),
+        searchingName = '',
+        getMoreBtn    = document.getElementById('getMoreBtn');
+
+    get.search = function (element) {
+
+        searchingName = element.value;
+
+        if (!ajaxSend) {
+
+            getMoreBtn.dataset.offset = 0;
+            holderSearch.innerHTML = '';
+            getSurveys_();
+
+        }
+
+    };
+
+
+    get.surveys = function (element) {
+
+        getMoreBtn  = element;
+
+        if (!ajaxSend) {
+
+            getSurveys_();
+            document.addEventListener('scroll', checkPageOffset_);
+
+        }
+
+    };
+
+
+    /**
+     * Function checking offset of bottom of page for sending new AJAX request (getting patients)
+     * @private
+     */
+    function checkPageOffset_() {
+
+        var bottom = holderSearch.getBoundingClientRect().bottom;
+
+        if (window.innerHeight - bottom > 0 && ajaxSend === false) {
+
+            getSurveys_();
+
+        }
+
+    }
+
+    function getSurveys_() {
+
+        var formData       = new FormData(),
+            offset         = getMoreBtn.dataset.offset,
+            sendSearchName = searchingName;
+
+        formData.append('name', sendSearchName);
+        formData.append('offset', offset);
+        formData.append('csrf', document.getElementById('csrf').value);
+
+        var ajaxData = {
+            url: '/survey/search',
+            type: 'POST',
+            data: formData,
+            beforeSend: function () {
+
+                ajaxSend = true;
+                getMoreBtn.innerHTML = 'Загрузка ...';
+
+            },
+            success: function (response) {
+
+                response = JSON.parse(response);
+                raisoft.core.log(response.message, response.status, corePrefix);
+                ajaxSend = false;
+
+                if (parseInt(response.code) === 162 ) {
+
+                    getMoreBtn.innerHTML = 'Загрузить ещё';
+
+                    if (response.html !== '') {
+
+                        getMoreBtn.dataset.offset = parseInt(offset) + parseInt(response.number);
+
+                        if (searchingName === sendSearchName) {
+
+                            holderSearch.innerHTML += response.html;
+
+                        } else {
+
+                            holderSearch.innerHTML = response.html;
+
+                        }
+
+                    } else {
+
+                        getMoreBtn.innerHTML = 'Всего ' + parseInt(parseInt(offset) + parseInt(response.number));
+                        document.removeEventListener('scroll', checkPageOffset_);
+
+                    }
+
+                } else {
+
+                    getMoreBtn.innerHTML = "Ошибка при загрузке. <span class='link'>Повторить</span>";
+                    document.removeEventListener('scroll', checkPageOffset_);
+
+                    raisoft.notification.notify({
+                        type: response.status,
+                        message: response.message
+                    });
+
+                }
+
+            },
+            error: function (callbacks) {
+
+                raisoft.core.log('ajax error occur on searching surveys', 'error', corePrefix, callbacks);
+                getMoreBtn.innerHTML = "Ошибка при загрузке. <span class='link'>Повторить</span>";
+                document.removeEventListener('scroll', checkPageOffset_);
+                ajaxSend = false;
+
+            }
+        };
+
+        raisoft.ajax.send(ajaxData);
+
+    }
+
+    function initSelects_() {
+
+        if (document.getElementsByClassName('js-single-select').length > 0) {
+
+            new raisoft.choices('.js-single-select', {
+                shouldSort: false,
+                searchEnabled: false,
+                itemSelectText: 'выбрать'
+            });
+
+        }
+
+        if (document.getElementsByClassName('js-single-select--with-search').length > 0) {
+
+            new raisoft.choices('.js-single-select--with-search', {
+                searchEnabled: true,
+                loadingText: 'Загрузка...',
+                noResultsText: 'Ничего не найдено',
+                noChoicesText: 'Нет элементов для выбора',
+                itemSelectText: 'выбрать'
+            });
+
+        }
+
+        if (document.getElementsByClassName('js-multiple-select').length > 0) {
+
+            new raisoft.choices('.js-multiple-select', {
+                removeItemButton: true,
+                placeholderValue: 'Введите для поиска',
+                noResultsText: 'Ничего не найдено',
+                noChoicesText: 'Нет элементов для выбора',
+                itemSelectText: 'выбрать'
+            });
+
+        }
+
+        if (document.getElementById('I2')) {
+
+            var I2 = new raisoft.choices(document.getElementById('I2'), {
+                removeItemButton: true,
+                placeholderValue: 'Введите названия диагноза или код МКБ-10',
+                loadingText: 'Загрузка...',
+                noResultsText: 'Ничего не найдено',
+                noChoicesText: 'Нет элементов для выбора',
+                itemSelectText: 'выбрать',
+                searchEnabled: true,
+                searchChoices: true,
+                searchFloor: 1,
+                searchResultLimit: 10,
+                searchFields: ['label', 'value'],
+            });
+
+            I2.passedElement.addEventListener('search', function (event) {
+
+
+                I2.ajax(function (callback) {
+
+                    fetch('/mkb10/get?name=' + event.detail.value)
+                        .then(function (response) {
+
+                            response.json().then(function (data) {
+
+                                callback(data, 'value', 'label');
+
+                            });
+
+                        })
+                        .catch(function (error) {
+
+                            console.log(error);
+
+                        });
+
+                });
+
+            }, false);
+
+        }
+
+    }
 
     return get;
 

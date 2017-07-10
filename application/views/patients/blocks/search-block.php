@@ -82,7 +82,7 @@
                 <? // Module Patients && Pensions => CAN_CONDUCT_A_SURVEY = 36
                 if (in_array(36, $user->permissions)) : ?>
 
-                    <div class="form-group collapse" id="formType<?=$patient->id; ?>">
+                    <div class="form-group collapse" id="surveyType<?=$patient->id; ?>">
                         <label class="col-xs-12 col-md-5 col-lg-4 form-group__label">
                             Причина прохождения оценки
                         </label>
@@ -106,15 +106,15 @@
         <? // Module Patients && Pensions => CAN_CONDUCT_A_SURVEY = 36
         if (in_array(36, $user->permissions)) : ?>
 
-            <a href="<?= URL::site('pension/' . $patient->pension->id . '/survey?id=' . $patient->form->id); ?>" class="block__footer clear-fix text-center text-brand text-bold user-select--none <?= $patient->form->id ? '' : 'hide'; ?>">
+            <a href="<?= URL::site('pension/' . $patient->pension->id . '/survey/' . $patient->survey->id); ?>" class="block__footer clear-fix text-center text-brand text-bold user-select--none <?= $patient->survey->id ? '' : 'hide'; ?>">
                 Продолжить оценивание
             </a>
 
-            <a data-area="formType<?=$patient->id; ?>" data-opened="false" class="block__footer clear-fix text-center text-brand text-bold user-select--none <?= $patient->form->id ? 'hide' : ''; ?>" onclick="this.classList.add('hide'); document.getElementById('openForm<?=$patient->id; ?>').classList.remove('hide'); raisoft.collapse.toggle(this)">
+            <a data-area="surveyType<?=$patient->id; ?>" data-opened="false" class="block__footer clear-fix text-center text-brand text-bold user-select--none <?= $patient->survey->id ? 'hide' : ''; ?>" onclick="this.classList.add('hide'); document.getElementById('openForm<?=$patient->id; ?>').classList.remove('hide'); raisoft.collapse.toggle(this)">
                 Новая оценка
             </a>
 
-            <a id="openForm<?=$patient->id; ?>" class="block__footer clear-fix text-center text-brand text-bold user-select--none hide" data-pk="<?=$patient->pk; ?>" data-area="formType<?=$patient->id; ?>" onclick="survey.send.newpatientformwithtype(this)">
+            <a id="openForm<?=$patient->id; ?>" class="block__footer clear-fix text-center text-brand text-bold user-select--none hide" data-pk="<?=$patient->pk; ?>" data-area="surveyType<?=$patient->id; ?>" onclick="survey.send.newpatientformwithtype(this)">
                 Продолжить
             </a>
 

@@ -2,13 +2,63 @@
 module.exports = (function (send) {
 
     var corePrefix  = 'Survey: send AJAX',
-        holder      = document.getElementsByClassName('section__content')[0],
+        // holder      = document.getElementsByClassName('section__content')[0],
+        surveyID    = document.getElementById('surveyID'),
         pensionID   = document.getElementById('pensionID');
 
+    if(surveyID) surveyID= surveyID.value;
     if(pensionID) pensionID = pensionID.value;
 
 
-    send.unit = function (unit) {
+    send.updateunit = function (unit) {
+
+        var form = document.getElementById(unit);
+
+        if (!form) return;
+
+        var formData = new FormData(form);
+
+        formData.append('unit', unit);
+        formData.append('survey', surveyID);
+        formData.append('pension', pensionID);
+        formData.append('csrf', document.getElementById('csrf').value);
+
+        var ajaxData = {
+            url: '/survey/updateunit',
+            type: 'POST',
+            data: formData,
+            beforeSend: function () {
+
+                form.getElementsByClassName('form')[0].classList.add('loading');
+
+            },
+            success: function (response) {
+
+                response = JSON.parse(response);
+                raisoft.core.log(response.message, response.status, corePrefix);
+                form.getElementsByClassName('form')[0].classList.remove('loading');
+
+                raisoft.notification.notify({
+                    type: response.status,
+                    message: response.message
+                });
+
+                if (parseInt(response.code) === 169) {
+
+                    window.location.reload();
+
+                }
+
+            },
+            error: function (callbacks) {
+
+                raisoft.core.log('ajax error occur on updating unit data', 'error', corePrefix, callbacks);
+                form.getElementsByClassName('form')[0].classList.remove('loading');
+
+            }
+        };
+
+        raisoft.ajax.send(ajaxData);
 
     };
 
@@ -43,7 +93,7 @@ module.exports = (function (send) {
                 if (parseInt(response.code) === 151 ) {
 
                     raisoft.modal.hide(form);
-                    window.location.assign('survey?id=' + response.id);
+                    window.location.assign('survey/' + response.id);
 
                 }
 
@@ -84,7 +134,7 @@ module.exports = (function (send) {
         formData.append('csrf', document.getElementById('csrf').value);
 
         var ajaxData = {
-            url: '/forms/longterm/create',
+            url: '/survey/new',
             type: 'POST',
             data: formData,
             beforeSend: function () {
@@ -105,7 +155,7 @@ module.exports = (function (send) {
 
                 if (parseInt(response.code) === 161 ) {
 
-                    window.location.assign('survey?id=' + response.id);
+                    window.location.assign('survey/' + response.id);
 
                 }
 

@@ -14,6 +14,9 @@ class Controller_Patients_Ajax extends Ajax
     CONST WATCH_PATIENTS_PROFILES_IN_PEN = 35;
     CONST CAN_CONDUCT_A_SURVEY           = 36;
 
+    protected $pension = null;
+
+
     public function action_new()
     {
         self::hasAccess(self::CAN_CONDUCT_A_SURVEY);
@@ -52,13 +55,13 @@ class Controller_Patients_Ajax extends Ajax
             return;
         }
 
-        if (!empty($oms) && (!Valid::exact_length($oms, 16) || !Valid::digit($oms))) {
+        if (!Valid::exact_length($oms, 16) || !Valid::digit($oms)) {
             $response = new Model_Response_Patients('PATIENTS_OMS_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
             return;
         }
 
-        if (!empty($disability_certificate) && (!Valid::exact_length($disability_certificate, 18) || !Valid::digit($disability_certificate))) {
+        if (!Valid::exact_length($disability_certificate, 18) || !Valid::digit($disability_certificate)) {
             $response = new Model_Response_Patients('PATIENTS_DISABILITY_CERTIFICATE_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
             return;
@@ -99,44 +102,50 @@ class Controller_Patients_Ajax extends Ajax
 
         Model_PensionPatient::add($pension->id, $patient->pk);
 
-        $count_forms = $this->redis->get(self::REDIS_PACKAGE . ':pensions:' . $pension->id . ':longtermforms');
+        $count_forms = $this->redis->get(self::REDIS_PACKAGE . ':pensions:' . $pension->id . ':Surveys');
         $count_forms = $count_forms == false ? 1 : $count_forms + 1;
-        $this->redis->set(self::REDIS_PACKAGE . ':pensions:' . $pension->id . ':longtermforms', $count_forms);
+        $this->redis->set(self::REDIS_PACKAGE . ':pensions:' . $pension->id . ':Surveys', $count_forms);
 
-        $form = new Model_LongTermForm();
-        $form->id           = $count_forms;
-        $form->patient      = $patient->pk;
-        $form->pension      = $pension->id;
-        $form->organization = $pension->organization;
-        $form->type         = 1;
-        $form->creator      = $this->user->id;
-        $form->save();
+        $survey = new Model_Survey();
+        $survey->id           = $count_forms;
+        $survey->patient      = $patient->pk;
+        $survey->pension      = $pension->id;
+        $survey->organization = $pension->organization;
+        $survey->type         = 1;
+        $survey->creator      = $this->user->id;
+        $survey->save();
 
         $response = new Model_Response_Patients('PATIENTS_CREATE_SUCCESS', 'success', array('id' => $count_forms));
         $this->response->body(@json_encode($response->get_response()));
     }
 
+
     public function action_get()
     {
-        self::hasAccess(self::WATCH_PATIENTS_PROFILES_IN_PEN);
+        $mode   = Arr::get($_POST, 'mode');
+        $name   = Arr::get($_POST, 'name');
+        $offset = Arr::get($_POST, 'offset');
 
-        $name    = Arr::get($_POST, 'name');
-        $pension = Arr::get($_POST, 'pension');
-        $offset  = Arr::get($_POST, 'offset');
-
-        $pension = new Model_Pension($pension);
-
-        if (!$pension->id) {
-            $response = new Model_Response_Pensions('PENSION_DOES_NOT_EXISTED_ERROR', 'error');
-            $this->response->body(@json_encode($response->get_response()));
-            return;
+        switch ($mode) {
+            case 'getAll' :
+                self::hasAccess(self::WATCH_ALL_PATIENTS_PROFILES);
+                $patients = Model_Patient::getAll($offset, 10, $name);
+                break;
+            case "get" :
+                if (!in_array(self::WATCH_ALL_PATIENTS_PROFILES, $this->user->permissions)) {
+                    if (!in_array(self::WATCH_PATIENTS_PROFILES_IN_PEN, $this->user->permissions)) {
+                        throw new HTTP_Exception_403;
+                    }
+                }
+                $this->getPension();
+                $patients = Model_Patient::getByPension($this->pension->id, $offset, 10, $name);
+                break;
         }
-
-        $patients = Model_Patient::getByPension($pension->id, $offset, 10, $name);
 
         $html = "";
         foreach ($patients as $patient) {
-            $patient->form = Model_LongTermForm::getFillingFormByPatientAndPension($patient->pk, $pension->id);
+            if ($mode == "get")
+                $patient->form = Model_Survey::getFillingFormByPatientAndPension($patient->pk, $this->pension->id);
             $html .= View::factory('patients/blocks/search-block', array('patient' => $patient))->render();
         }
 
@@ -144,22 +153,87 @@ class Controller_Patients_Ajax extends Ajax
         $this->response->body(@json_encode($response->get_response()));
     }
 
-    public function action_getAll()
+
+    private function getPension()
     {
-        self::hasAccess(self::WATCH_ALL_PATIENTS_PROFILES);
+        $pension = Arr::get($_POST, 'pension');
+        $this->pension = new Model_Pension($pension);
 
+        if (!$this->pension->id) {
+            $response = new Model_Response_Pensions('PENSION_DOES_NOT_EXISTED_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+    }
+
+
+    public function action_update()
+    {
+        $pk      = Arr::get($_POST, 'id');
         $name    = Arr::get($_POST, 'name');
-        $offset  = Arr::get($_POST, 'offset');
+        $value   = Arr::get($_POST, 'value');
+        $pension = Arr::get($_POST, 'pension');
 
-        $patients = Model_Patient::getAll($offset, 10, $name);
-
-
-        $html = "";
-        foreach ($patients as $patient) {
-            $html .= View::factory('patients/blocks/search-block', array('patient' => $patient))->render();
+        if (empty($value)) {
+            $response = new Model_Response_Form('EMPTY_FIELDS_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
         }
 
-        $response = new Model_Response_Patients('PATIENTS_GET_SUCCESS', 'success', array('html'=>$html, 'number'=>count($patients)));
+        if ($name == 'birthday' && !Valid::date($value)) {
+            $response = new Model_Response_Patients('PATIENTS_BIRTHDAY_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        if ($name == 'name' && substr_count($value, ' ') != 2) {
+            $response = new Model_Response_Patients('PATIENTS_NAME_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        if ($name == 'snils' && (!Valid::exact_length($value, 11) || !Valid::digit($value))) {
+            $response = new Model_Response_Patients('PATIENTS_SNILS_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        if ($name == 'oms' && (!Valid::exact_length($value, 16) || !Valid::digit($value))) {
+            $response = new Model_Response_Patients('PATIENTS_OMS_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        if ($name == 'disability_certificate' && (!Valid::exact_length($value, 18) || !Valid::digit($value))) {
+            $response = new Model_Response_Patients('PATIENTS_DISABILITY_CERTIFICATE_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        $patient = new Model_Patient($pk);
+
+        if (!$patient->pk) {
+            $response = new Model_Response_Patients('PATIENTS_DOES_NOT_EXISTED_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        if ($patient->$name == $value) {
+            $response = new Model_Response_Patients('PATIENTS_UPDATE_WARNING', 'warning');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        if ($name == 'snils' && Model_Patient::checkBySnilsAndPension($value, $pension)) {
+            $response = new Model_Response_Patients('PATIENTS_SNILS_EXISTED_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        $patient->$name = $value;
+        $patient->update();
+
+        $response = new Model_Response_Patients('PATIENTS_UPDATE_SUCCESS', 'success');
         $this->response->body(@json_encode($response->get_response()));
     }
 }

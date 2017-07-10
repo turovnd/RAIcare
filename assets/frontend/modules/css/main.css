@@ -16,5 +16,9 @@
 @import url("timeline.css");
 @import url("search.css");
 @import url("card.css");
+@import url("choices.css");
+@import url("~tablesaw/dist/tablesaw.css");
+@import url("tablesaw.css");
 
 @import url("global.css");
+

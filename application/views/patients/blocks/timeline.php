@@ -1,5 +1,5 @@
 <?
-if (empty($forms)) {
+if (empty($surveys)) {
     echo '<h4 class="h4 text-brand m-b-15 col-xs-12">Анкетирования не найдены.</h4>';
     return;
 }
@@ -9,29 +9,29 @@ if (empty($forms)) {
 
 <?
 
-$date = Date('M Y', strtotime($forms[0]->dt_finish));
+$date = Date('M Y', strtotime($surveys[0]->dt_finish));
 
-foreach ($forms as $key => $form) {
+foreach ($surveys as $key => $survey) {
 
     if ($key == 0) {
-        echo '<li data-datetime="' . Date('M Y', strtotime($form->dt_finish)) . '" class="time-line__separator"></li>';
+        echo '<li data-datetime="' . Date('M Y', strtotime($survey->dt_finish)) . '" class="time-line__separator"></li>';
     }
 
-    if ($date != Date('M Y', strtotime($form->dt_finish))) {
-        $date = Date('M Y', strtotime($form->dt_finish));
-        echo '<li data-datetime="' . Date('M Y', strtotime($form->dt_finish)) . '" class="time-line__separator"></li>';
+    if ($date != Date('M Y', strtotime($survey->dt_finish))) {
+        $date = Date('M Y', strtotime($survey->dt_finish));
+        echo '<li data-datetime="' . Date('M Y', strtotime($survey->dt_finish)) . '" class="time-line__separator"></li>';
     }
 
     echo
         '<li class="time-line__item' . ($key % 2 == 0 ? '' : ' time-line__item--inverted') . '">' .
-            View::factory('patients/blocks/timeline-item', array('key' => $key, 'form' => $form)) .
+            View::factory('patients/blocks/timeline-item', array('key' => $key, 'survey' => $survey)) .
         '</li>';
 
 } ?>
 
 
     <li class="time-line__end">
-        <a id="getMoreFormsBtn" data-offset="<?= count($forms); ?>" data-type="<?= $type; ?>" role="button" class="time-line__badge bg-gray-dark" onclick="survey.get.forms();">
+        <a id="getMoreFormsBtn" data-offset="<?= count($surveys); ?>" data-type="<?= $type; ?>" role="button" class="time-line__badge bg-gray-dark" onclick="survey.get.forms();">
             <i class="fa fa-plus" aria-hidden="true"></i>
         </a>
     </li>
