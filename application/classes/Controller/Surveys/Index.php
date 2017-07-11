@@ -12,7 +12,6 @@ class Controller_Surveys_Index extends Dispatch
 {
     CONST CAN_CONDUCT_A_SURVEY  = 36;
     CONST WATCH_ALL_SURVEYS     = 37;
-    CONST WATCH_SURVEY_IN_PEN   = 38;
 
     public $template = 'main';
 
@@ -34,7 +33,6 @@ class Controller_Surveys_Index extends Dispatch
         $this->template->aside = View::factory('global_blocks/aside', $data);
     }
 
-
     public function action_all_surveys()
     {
         self::hasAccess(self::WATCH_ALL_SURVEYS);
@@ -46,24 +44,19 @@ class Controller_Surveys_Index extends Dispatch
             ->set('surveys', $surveys);
     }
 
-
     public function action_all_survey()
     {
         self::hasAccess(self::WATCH_ALL_SURVEYS);
 
         $this->getSurvey();
-        $this->getSurveyUnits();
 
-        $this->survey->pension = new Model_Pension($this->survey->pension);
         $this->survey->patient = new Model_Patient($this->survey->patient);
         $this->survey->patient->can_edit = false;
-        $this->survey->patient->creator = new Model_User($this->survey->patient->creator);
 
         $this->template->title = "Форма оценки #" . $this->survey->pk;
-        $this->template->section = View::factory('surveys/pages/survey-full')
+        $this->template->section = View::factory('surveys/pages/survey')
             ->set('survey', $this->survey);
     }
-
 
     public function action_pen_survey()
     {
@@ -77,8 +70,8 @@ class Controller_Surveys_Index extends Dispatch
         }
 
         if ($this->survey->status == 2) {
-            self::hasAccess(self::WATCH_SURVEY_IN_PEN);
-            $this->getSurveyUnits();
+            $this->survey->patient = new Model_Patient($this->survey->patient);
+            $this->survey->patient->can_edit = false;
             $section = 'survey';
         }
 
@@ -104,7 +97,6 @@ class Controller_Surveys_Index extends Dispatch
         return $units;
     }
 
-
     private function getPension()
     {
         $pension = $this->request->param('pen_id');
@@ -123,7 +115,6 @@ class Controller_Surveys_Index extends Dispatch
             }
         }
     }
-
 
     private function getSurvey()
     {

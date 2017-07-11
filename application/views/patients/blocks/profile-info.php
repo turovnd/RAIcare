@@ -3,7 +3,7 @@
     <div class="block__body clear-fix">
 
         <div class="form-group m-b-5 js-field-name">
-            <label for="patientName" class="form-group__label col-xs-12 col-sm-4 col-md-3">ФИО</label>
+            <label for="patientName" class="form-group__label col-xs-12 col-sm-4 col-md-3">Пациент</label>
             <div class="col-xs-12 col-sm-8 col-md-9">
                 <p class="form-group__control-static">
                     <span class="js-patient-info"><?=$patient->name; ?></span>
@@ -56,135 +56,136 @@
                 <? endif; ?>
             </div>
         </div>
-        <div class="col-xs-12 collapse" id="personalInfo">
-            <div class="row">
-                <div class="form-group m-b-5 js-field-name">
-                    <label for="patientSex" class="form-group__label col-xs-12 col-sm-4 col-md-3">Пол</label>
-                    <div class="col-xs-12 col-sm-8 col-md-9">
-                        <p class="form-group__control-static">
-                            <span class="js-patient-info"><?= $patient->sex == 1 ? '<i class="fa fa-male" aria-hidden="true"></i> мужской': '<i class="fa fa-female" aria-hidden="true"></i> женский'; ?></span>
+        <? if ($full_info) : ?>
+
+            <div class="col-xs-12 collapse" id="personalInfo">
+                <div class="row">
+                    <div class="form-group m-b-5 js-field-name">
+                        <label for="patientSex" class="form-group__label col-xs-12 col-sm-4 col-md-3">Пол</label>
+                        <div class="col-xs-12 col-sm-8 col-md-9">
+                            <p class="form-group__control-static">
+                                <span class="js-patient-info"><?= $patient->sex == 1 ? '<i class="fa fa-male" aria-hidden="true"></i> мужской': '<i class="fa fa-female" aria-hidden="true"></i> женский'; ?></span>
+                                <? if ($patient->can_edit) : ?>
+                                    <a onclick="patient.edit.toggle(this)" role="button" class="m-l-5"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                <? endif; ?>
+                            </p>
                             <? if ($patient->can_edit) : ?>
-                                <a onclick="patient.edit.toggle(this)" role="button" class="m-l-5"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                            <? endif; ?>
-                        </p>
-                        <? if ($patient->can_edit) : ?>
-                            <div class="form-group__control-group hide">
-                                <select name="sex" id="patientSex" class="form-group__control form-group__control-group-input" >
-                                    <option value="1" <?= $patient->sex == 1 ? 'selected': ''; ?>>мужской</option>
-                                    <option value="2" <?= $patient->sex == 2 ? 'selected': ''; ?>>женский</option>
-                                </select>
-                                <label onclick="patient.edit.toggle(this)" class="b-l-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
-                                <label onclick="patient.edit.save(this)" class="cursor-pointer form-group__control-group-addon"><i class="fa fa-check" aria-hidden="true"></i></label>
-                            </div>
-                        <? endif; ?>
-                    </div>
-                </div>
-                <div class="form-group m-b-5 js-field-name">
-                    <label for="patientRelation" class="form-group__label col-xs-12 col-sm-4 col-md-3">Семейное положение</label>
-                    <div class="col-xs-12 col-sm-8 col-md-9">
-                        <p class="form-group__control-static">
-                            <span class="js-patient-info"><?= Kohana::$config->load('form_relations')[$patient->relation]; ?></span>
-                            <? if ($patient->can_edit) : ?>
-                                <a onclick="patient.edit.toggle(this)" role="button" class="m-l-5"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                            <? endif; ?>
-                        </p>
-                        <? if ($patient->can_edit) : ?>
-                            <div class="form-group__control-group hide">
-                                <select name="relation" id="patientRelation" class="form-group__control form-group__control-group-input">
-                                    <? foreach (Kohana::$config->load('form_relations') as $key => $value) : ?>
-                                        <option value="<?= $key; ?>" <?= $patient->relation == $key ? 'selected' : ''?>><?= $value; ?></option>
-                                    <? endforeach; ?>
-                                </select>
-                                <label onclick="patient.edit.toggle(this)" class="b-l-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
-                                <label onclick="patient.edit.save(this)" class="cursor-pointer form-group__control-group-addon"><i class="fa fa-check" aria-hidden="true"></i></label>
-                            </div>
-                        <? endif; ?>
-                    </div>
-                </div>
-                <div class="form-group m-b-5 js-field-name">
-                    <label for="patientOms" class="form-group__label col-xs-12 col-sm-4 col-md-3">Номер полиса ОМС или документа, его заменяющего</label>
-                    <div class="col-xs-12 col-sm-8 col-md-9">
-                        <p class="form-group__control-static letter-spacing--5">
-                            <span class="js-patient-info"><?= chunk_split($patient->oms, 3); ?></span>
-                            <? if ($patient->can_edit) : ?>
-                                <a onclick="patient.edit.toggle(this)" role="button" class="m-l-5"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                            <? endif; ?>
-                        </p>
-                        <? if ($patient->can_edit) : ?>
-                            <div class="form-group__control-group hide">
-                                <input id="patientOms" name="oms" type="text" class="form-group__control form-group__control-group-input letter-spacing--5" value="<?= $patient->oms; ?>" maxlength="16">
-                                <label onclick="patient.edit.toggle(this)" class="b-l-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
-                                <label onclick="patient.edit.save(this)" class="cursor-pointer form-group__control-group-addon"><i class="fa fa-check" aria-hidden="true"></i></label>
-                            </div>
-                        <? endif; ?>
-                    </div>
-                </div>
-                <div class="form-group m-b-5 js-field-name">
-                    <label for="patientDisCer" class="form-group__label col-xs-12 col-sm-4 col-md-3">Номер справки об инвалидности</label>
-                    <div class="col-xs-12 col-sm-8 col-md-9">
-                        <p class="form-group__control-static letter-spacing--5">
-                            <span class="js-patient-info"><?= chunk_split($patient->disability_certificate, 3); ?></span>
-                            <? if ($patient->can_edit) : ?>
-                                <a onclick="patient.edit.toggle(this)" role="button" class="m-l-5"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                            <? endif; ?>
-                        </p>
-                        <? if ($patient->can_edit) : ?>
-                            <div class="form-group__control-group hide">
-                                <input id="patientDisCer" name="disability_certificate" type="text" class="form-group__control form-group__control-group-input letter-spacing--5" value="<?= $patient->disability_certificate; ?>" maxlength="18">
-                                <label onclick="patient.edit.toggle(this)" class="b-l-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
-                                <label onclick="patient.edit.save(this)" class="cursor-pointer form-group__control-group-addon"><i class="fa fa-check" aria-hidden="true"></i></label>
-                            </div>
-                        <? endif; ?>
-                    </div>
-                </div>
-                <div class="form-group m-b-5 js-field-name">
-                    <label for="patientSources" class="form-group__label col-xs-12 col-sm-4 col-md-3">Текущие источники оплаты пребывания в пансионате</label>
-                    <div class="col-xs-12 col-sm-8 col-md-9">
-                        <div class="form-group__control-static">
-                            <ol class="js-patient-info">
-                                <? foreach (json_decode($patient->sources) as $source) : ?>
-                                    <li><?= Kohana::$config->load('form_sources')[$source]; ?></li>
-                                <? endforeach; ?>
-                            </ol>
-                            <? if ($patient->can_edit) : ?>
-                                <a onclick="patient.edit.toggle(this)" role="button" class="btn btn--default"><i class="fa fa-pencil" aria-hidden="true"> изменить</i></a>
+                                <div class="form-group__control-group hide">
+                                    <select name="sex" id="patientSex" class="form-group__control form-group__control-group-input" >
+                                        <option value="1" <?= $patient->sex == 1 ? 'selected': ''; ?>>мужской</option>
+                                        <option value="2" <?= $patient->sex == 2 ? 'selected': ''; ?>>женский</option>
+                                    </select>
+                                    <label onclick="patient.edit.toggle(this)" class="b-l-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
+                                    <label onclick="patient.edit.save(this)" class="cursor-pointer form-group__control-group-addon"><i class="fa fa-check" aria-hidden="true"></i></label>
+                                </div>
                             <? endif; ?>
                         </div>
-                        <? if ($patient->can_edit) : ?>
-                            <div class="form-group__control-group display-block hide">
-                                <? foreach (Kohana::$config->load('form_sources') as $key => $value) : ?>
-                                    <div class="m-b-5">
-                                        <input id="sources<?=$key;?>" type="checkbox" name="sources" class="form-group__control checkbox" value="<?=$key;?>" <?=  in_array($key, json_decode($patient->sources)) ? 'checked' : ''?>>
-                                        <label for="sources<?=$key;?>" class="checkbox-label"><?=$value;?></label>
-                                    </div>
-                                <? endforeach; ?>
-                                <label onclick="patient.edit.save(this)" class="cursor-pointer btn btn--brand fl_r m-r-0"><i class="fa fa-check" aria-hidden="true"></i> сохранить</label>
-                                <label onclick="patient.edit.toggle(this)" class="cursor-pointer btn btn--default fl_r"><i class="fa fa-times" aria-hidden="true"></i> отменить</label>
+                    </div>
+                    <div class="form-group m-b-5 js-field-name">
+                        <label for="patientRelation" class="form-group__label col-xs-12 col-sm-4 col-md-3">Семейное положение</label>
+                        <div class="col-xs-12 col-sm-8 col-md-9">
+                            <p class="form-group__control-static">
+                                <span class="js-patient-info"><?= Kohana::$config->load('form_relations')[$patient->relation]; ?></span>
+                                <? if ($patient->can_edit) : ?>
+                                    <a onclick="patient.edit.toggle(this)" role="button" class="m-l-5"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                <? endif; ?>
+                            </p>
+                            <? if ($patient->can_edit) : ?>
+                                <div class="form-group__control-group hide">
+                                    <select name="relation" id="patientRelation" class="form-group__control form-group__control-group-input">
+                                        <? foreach (Kohana::$config->load('form_relations') as $key => $value) : ?>
+                                            <option value="<?= $key; ?>" <?= $patient->relation == $key ? 'selected' : ''?>><?= $value; ?></option>
+                                        <? endforeach; ?>
+                                    </select>
+                                    <label onclick="patient.edit.toggle(this)" class="b-l-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
+                                    <label onclick="patient.edit.save(this)" class="cursor-pointer form-group__control-group-addon"><i class="fa fa-check" aria-hidden="true"></i></label>
+                                </div>
+                            <? endif; ?>
+                        </div>
+                    </div>
+                    <div class="form-group m-b-5 js-field-name">
+                        <label for="patientOms" class="form-group__label col-xs-12 col-sm-4 col-md-3">Номер полиса ОМС или документа, его заменяющего</label>
+                        <div class="col-xs-12 col-sm-8 col-md-9">
+                            <p class="form-group__control-static letter-spacing--5">
+                                <span class="js-patient-info"><?= chunk_split($patient->oms, 3); ?></span>
+                                <? if ($patient->can_edit) : ?>
+                                    <a onclick="patient.edit.toggle(this)" role="button" class="m-l-5"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                <? endif; ?>
+                            </p>
+                            <? if ($patient->can_edit) : ?>
+                                <div class="form-group__control-group hide">
+                                    <input id="patientOms" name="oms" type="text" class="form-group__control form-group__control-group-input letter-spacing--5" value="<?= $patient->oms; ?>" maxlength="16">
+                                    <label onclick="patient.edit.toggle(this)" class="b-l-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
+                                    <label onclick="patient.edit.save(this)" class="cursor-pointer form-group__control-group-addon"><i class="fa fa-check" aria-hidden="true"></i></label>
+                                </div>
+                            <? endif; ?>
+                        </div>
+                    </div>
+                    <div class="form-group m-b-5 js-field-name">
+                        <label for="patientDisCer" class="form-group__label col-xs-12 col-sm-4 col-md-3">Номер справки об инвалидности</label>
+                        <div class="col-xs-12 col-sm-8 col-md-9">
+                            <p class="form-group__control-static letter-spacing--5">
+                                <span class="js-patient-info"><?= chunk_split($patient->disability_certificate, 3); ?></span>
+                                <? if ($patient->can_edit) : ?>
+                                    <a onclick="patient.edit.toggle(this)" role="button" class="m-l-5"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                <? endif; ?>
+                            </p>
+                            <? if ($patient->can_edit) : ?>
+                                <div class="form-group__control-group hide">
+                                    <input id="patientDisCer" name="disability_certificate" type="text" class="form-group__control form-group__control-group-input letter-spacing--5" value="<?= $patient->disability_certificate; ?>" maxlength="18">
+                                    <label onclick="patient.edit.toggle(this)" class="b-l-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
+                                    <label onclick="patient.edit.save(this)" class="cursor-pointer form-group__control-group-addon"><i class="fa fa-check" aria-hidden="true"></i></label>
+                                </div>
+                            <? endif; ?>
+                        </div>
+                    </div>
+                    <div class="form-group m-b-5 js-field-name">
+                        <label for="patientSources" class="form-group__label col-xs-12 col-sm-4 col-md-3">Текущие источники оплаты пребывания в пансионате</label>
+                        <div class="col-xs-12 col-sm-8 col-md-9">
+                            <div class="form-group__control-static">
+                                <ol class="js-patient-info">
+                                    <? foreach (json_decode($patient->sources) as $source) : ?>
+                                        <li><?= Kohana::$config->load('form_sources')[$source]; ?></li>
+                                    <? endforeach; ?>
+                                </ol>
+                                <? if ($patient->can_edit) : ?>
+                                    <a onclick="patient.edit.toggle(this)" role="button" class="btn btn--default"><i class="fa fa-pencil" aria-hidden="true"> изменить</i></a>
+                                <? endif; ?>
                             </div>
-                        <? endif; ?>
+                            <? if ($patient->can_edit) : ?>
+                                <div class="form-group__control-group display-block hide">
+                                    <? foreach (Kohana::$config->load('form_sources') as $key => $value) : ?>
+                                        <div class="m-b-5">
+                                            <input id="sources<?=$key;?>" type="checkbox" name="sources" class="form-group__control checkbox" value="<?=$key;?>" <?=  in_array($key, json_decode($patient->sources)) ? 'checked' : ''?>>
+                                            <label for="sources<?=$key;?>" class="checkbox-label"><?=$value;?></label>
+                                        </div>
+                                    <? endforeach; ?>
+                                    <label onclick="patient.edit.save(this)" class="cursor-pointer btn btn--brand fl_r m-r-0"><i class="fa fa-check" aria-hidden="true"></i> сохранить</label>
+                                    <label onclick="patient.edit.toggle(this)" class="cursor-pointer btn btn--default fl_r"><i class="fa fa-times" aria-hidden="true"></i> отменить</label>
+                                </div>
+                            <? endif; ?>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group m-b-5">
-                    <label class="form-group__label col-xs-12 col-sm-4 col-md-3">Дата создания</label>
-                    <div class="col-xs-12 col-sm-8 col-md-9">
-                        <p class="form-group__control-static"><?= date('d M Y', strtotime($patient->dt_create)); ?></p>
+                    <div class="form-group m-b-5">
+                        <label class="form-group__label col-xs-12 col-sm-4 col-md-3">Дата создания</label>
+                        <div class="col-xs-12 col-sm-8 col-md-9">
+                            <p class="form-group__control-static"><?= date('d M Y', strtotime($patient->dt_create)); ?></p>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group m-b-5 p-b-10">
-                    <label class="form-group__label col-xs-12 col-sm-4 col-md-3">Создатель</label>
-                    <div class="col-xs-12 col-sm-8 col-md-9">
-                        <p class="form-group__control-static">
-                            <a class="link" href="<?= URL::site('profile/' . $patient->creator->id); ?>"><?=$patient->creator->name; ?></a>
-                        </p>
+                    <div class="form-group m-b-5 p-b-10">
+                        <label class="form-group__label col-xs-12 col-sm-4 col-md-3">Создатель</label>
+                        <div class="col-xs-12 col-sm-8 col-md-9">
+                            <p class="form-group__control-static">
+                                <a class="link" href="<?= URL::site('profile/' . $patient->creator->id); ?>"><?=$patient->creator->name; ?></a>
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <input type="hidden" id="patientID" value="<?=$patient->pk;?>">
-
+            <input type="hidden" id="patientID" value="<?=$patient->pk;?>">
+        <? endif; ?>
     </div>
-
 </div>
 
 <script type="text/javascript" src="<?=$assets; ?>frontend/bundles/patient.min.js?v=<?= filemtime("assets/frontend/bundles/patient.min.js") ?>"></script>

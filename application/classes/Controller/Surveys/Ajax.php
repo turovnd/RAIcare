@@ -14,7 +14,6 @@ class Controller_Surveys_Ajax extends Ajax
     CONST WATCH_PATIENTS_PROFILES_IN_PEN = 35;
     CONST CAN_CONDUCT_A_SURVEY           = 36;
     CONST WATCH_ALL_SURVEYS              = 37;
-    CONST WATCH_SURVEY_IN_PEN            = 38;
 
     protected $pension  = null;
     protected $patient  = null;
@@ -62,7 +61,6 @@ class Controller_Surveys_Ajax extends Ajax
         $this->response->body(@json_encode($response->get_response()));
     }
 
-
     public function action_get()
     {
         $patients = json_decode(Arr::get($_POST,'patients'));
@@ -83,7 +81,6 @@ class Controller_Surveys_Ajax extends Ajax
                 break;
             case 'id':
                 self::hasAccess(self::WATCH_PATIENTS_PROFILES_IN_PEN);
-                self::hasAccess(self::WATCH_SURVEY_IN_PEN);
                 $this->getPatientAndPensionData();
                 $formsModel = Model_Survey::getAllFormsByPatientAndPension($this->patient->pk, $this->pension->id, $offset, 10);
                 foreach ($formsModel as $key => $form) {
@@ -98,7 +95,6 @@ class Controller_Surveys_Ajax extends Ajax
         $response = new Model_Response_Survey('SURVEY_GET_SUCCESS', 'success', array('forms' => $forms, 'number' => count($forms)));
         $this->response->body(@json_encode($response->get_response()));
     }
-
 
     public function action_search()
     {
@@ -116,7 +112,6 @@ class Controller_Surveys_Ajax extends Ajax
         $response = new Model_Response_Survey('SURVEY_GET_SUCCESS', 'success', array('html' => $html, 'number' => count($surveys)));
         $this->response->body(@json_encode($response->get_response()));
     }
-
 
     public function action_getunit()
     {

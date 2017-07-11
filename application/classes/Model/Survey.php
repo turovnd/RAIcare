@@ -166,6 +166,7 @@ Class Model_Survey {
             ->where('status','=', 2)
             ->offset($offset)
             ->limit($limit)
+            ->order_by('dt_finish', 'DESC')
             ->execute();
 
         $forms = array();

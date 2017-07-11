@@ -53,13 +53,10 @@ class Controller_Patients_Index extends Dispatch
 
         $this->getPatient();
 
-        $surveys      = array();
         $pensions   = array();
         $sameSnils  = array();
 
         $same_patients = Model_Patient::getSamePatients($this->patient);
-
-        if (count($same_patients) == 1) goto finish;
 
         foreach ($same_patients as $same_patient) {
             $sameSnils[] = $same_patient['pat_id'];
