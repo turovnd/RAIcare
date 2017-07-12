@@ -12,6 +12,7 @@ class Controller_Surveys_Index extends Dispatch
 {
     CONST CAN_CONDUCT_A_SURVEY  = 36;
     CONST WATCH_ALL_SURVEYS     = 37;
+    CONST WATCH_PEN_SURVEY      = 39;
 
     public $template = 'main';
 
@@ -52,6 +53,7 @@ class Controller_Surveys_Index extends Dispatch
 
         $this->survey->patient = new Model_Patient($this->survey->patient);
         $this->survey->patient->can_edit = false;
+        $this->survey->patient->full_info = true;
 
         $this->template->title = "Форма оценки #" . $this->survey->pk;
         $this->template->section = View::factory('surveys/pages/survey')
@@ -70,8 +72,10 @@ class Controller_Surveys_Index extends Dispatch
         }
 
         if ($this->survey->status == 2) {
+            self::hasAccess(self::WATCH_PEN_SURVEY);
             $this->survey->patient = new Model_Patient($this->survey->patient);
             $this->survey->patient->can_edit = false;
+            $this->survey->patient->full_info = true;
             $section = 'survey';
         }
 
@@ -141,31 +145,6 @@ class Controller_Surveys_Index extends Dispatch
             throw new HTTP_Exception_404();
         }
 
-    }
-
-    private function getSurveyUnits()
-    {
-        $first_survey = Model_Survey::getFirstSurvey($this->survey->pension, $this->survey->patient);
-        $this->survey->dt_first_survey = !empty($first_survey->pk) ? $first_survey->dt_create : $this->survey->dt_create;
-
-        $this->survey->unitA = new Model_SurveyUnitA($this->survey->unitA);
-        $this->survey->unitB = new Model_SurveyUnitB($this->survey->unitB);
-        $this->survey->unitC = new Model_SurveyUnitC($this->survey->unitC);
-        $this->survey->unitD = new Model_SurveyUnitD($this->survey->unitD);
-        $this->survey->unitE = new Model_SurveyUnitE($this->survey->unitE);
-        $this->survey->unitF = new Model_SurveyUnitF($this->survey->unitF);
-        $this->survey->unitG = new Model_SurveyUnitG($this->survey->unitG);
-        $this->survey->unitH = new Model_SurveyUnitH($this->survey->unitH);
-        $this->survey->unitI = new Model_SurveyUnitI($this->survey->unitI);
-        $this->survey->unitJ = new Model_SurveyUnitJ($this->survey->unitJ);
-        $this->survey->unitK = new Model_SurveyUnitK($this->survey->unitK);
-        $this->survey->unitL = new Model_SurveyUnitL($this->survey->unitL);
-        $this->survey->unitM = new Model_SurveyUnitM($this->survey->unitM);
-        $this->survey->unitN = new Model_SurveyUnitN($this->survey->unitN);
-        $this->survey->unitO = new Model_SurveyUnitO($this->survey->unitO);
-        $this->survey->unitP = new Model_SurveyUnitP($this->survey->unitP);
-        $this->survey->unitQ = new Model_SurveyUnitQ($this->survey->unitQ);
-        $this->survey->unitR = new Model_SurveyUnitR($this->survey->unitR);
     }
 
 }

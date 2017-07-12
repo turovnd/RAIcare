@@ -238,7 +238,10 @@
                                     || $action == "pen_settings"
                                     || $action == "pen_statistic"
                                     || $action == "pen_patients"
-                                    || $action == "pen_patient" ? 'aside__item--active' : ''; ?>">
+                                    || $action == "pen_patient"
+                                    || $action == "pen_survey"
+                                    || $action == "pen_fullreport" || $action == "pen_protocolsreport" || $action == "pen_basicreport" || $action == "pen_statusreport" || $action == "pen_raiscalesreport" || $action == "pen_rugclassification" || $action == "pen_clinicalprotocol"
+                                    ? 'aside__item--active' : ''; ?>">
             <a href="<?=URL::site('pensions/my'); ?>" class="aside__link <? echo $action == "pen_my" ? 'aside__link--active' : ''; ?>">
                 <i class="fa fa-user-md aside__icon" aria-hidden="true"></i>
                 <span class="aside__text">Мои пансионаты</span>
@@ -265,7 +268,9 @@
     if (in_array(34, $user->permissions)) : ?>
 
         <li class="aside__item <? echo $action == "all_surveys"
-                                    || $action == "all_survey" ? 'aside__item--active' : ''; ?>">
+                                    || $action == "all_survey"
+                                    || $action == "fullreport" || $action == "protocolsreport" || $action == "basicreport" || $action == "statusreport" || $action == "raiscalesreport" || $action == "rugclassification" || $action == "clinicalprotocol"
+                                    ? 'aside__item--active' : ''; ?>">
             <a href="<?=URL::site('surveys'); ?>" class="aside__link <? echo $action == "all_surveys" ? 'aside__link--active' : ''; ?>">
                 <i class="fa fa-archive aside__icon" aria-hidden="true"></i>
                 <span class="aside__text">БД всех форм</span>

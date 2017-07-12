@@ -13,7 +13,7 @@ return array
         ),
         '3' => array(
             'name' => 'Базовый персональный отчет',
-            'hash' => 'basicreports',
+            'hash' => 'basicreport',
         ),
         '4' => array(
             'name' => 'Персональный отчет о состоянии',
@@ -26,6 +26,10 @@ return array
         '6' => array(
             'name' => 'Классификация RUG',
             'hash' => 'rugclassification',
+        ),
+        '7' => array(
+            'name' => 'Клинический протокол',
+            'hash' => 'clinicalprotocol',
         )
     )
 

@@ -73,7 +73,8 @@ class Controller_Patients_Index extends Dispatch
         $this->patient->creator   = new Model_User($this->patient->creator);
         $this->patient->pensions  = $pensions;
         $this->patient->sameSnils = $sameSnils;
-        $this->patient->surveys     = $surveys;
+        $this->patient->surveys   = $surveys;
+        $this->patient->full_info = true;
 
         $this->template->title = "Профиль пациента " . $this->patient->name;
         $this->template->section = View::factory('patients/pages/profile-full')
@@ -116,7 +117,8 @@ class Controller_Patients_Index extends Dispatch
 
         $this->patient->creator = new Model_User($this->patient->creator);
         $this->patient->pension = $this->pension;
-        $this->patient->surveys   = $surveys;
+        $this->patient->surveys = $surveys;
+        $this->patient->full_info = true;
 
         $this->template->title = "Профиль пациента " . $this->patient->name;
         $this->template->section = View::factory('patients/pages/profile')
@@ -161,6 +163,5 @@ class Controller_Patients_Index extends Dispatch
         }
 
     }
-
 
 }

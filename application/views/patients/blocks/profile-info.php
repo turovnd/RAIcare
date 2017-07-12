@@ -6,7 +6,14 @@
             <label for="patientName" class="form-group__label col-xs-12 col-sm-4 col-md-3">Пациент</label>
             <div class="col-xs-12 col-sm-8 col-md-9">
                 <p class="form-group__control-static">
-                    <span class="js-patient-info"><?=$patient->name; ?></span>
+                    <span class="js-patient-info">
+                        <? // WATCH_ALL_PATIENTS_PROFILES = 34;
+                        if (in_array(34, $user->permissions)) : ?>
+                            <a class="link" href="<?=URL::site('patient/'. $patient->id); ?>"><?=$patient->name; ?></a>
+                        <? else: ?>
+                            <?=$patient->name; ?>
+                        <? endif; ?>
+                    </span>
                     <? if ($patient->can_edit) : ?>
                         <a onclick="patient.edit.toggle(this)" role="button" class="m-l-5"><i class="fa fa-pencil" aria-hidden="true"></i></a>
                     <? endif; ?>
@@ -56,7 +63,7 @@
                 <? endif; ?>
             </div>
         </div>
-        <? if ($full_info) : ?>
+        <? if ($patient->full_info) : ?>
 
             <div class="col-xs-12 collapse" id="personalInfo">
                 <div class="row">
@@ -170,14 +177,6 @@
                         <label class="form-group__label col-xs-12 col-sm-4 col-md-3">Дата создания</label>
                         <div class="col-xs-12 col-sm-8 col-md-9">
                             <p class="form-group__control-static"><?= date('d M Y', strtotime($patient->dt_create)); ?></p>
-                        </div>
-                    </div>
-                    <div class="form-group m-b-5 p-b-10">
-                        <label class="form-group__label col-xs-12 col-sm-4 col-md-3">Создатель</label>
-                        <div class="col-xs-12 col-sm-8 col-md-9">
-                            <p class="form-group__control-static">
-                                <a class="link" href="<?= URL::site('profile/' . $patient->creator->id); ?>"><?=$patient->creator->name; ?></a>
-                            </p>
                         </div>
                     </div>
                 </div>

@@ -5,7 +5,7 @@
         Персональные данные пациента #<?=$patient->pk; ?>
 
         <? if (!empty($patient->sameSnils)) {
-            echo '<small>Похожие профиля пациента по данным СНИЛСа и даты рождения: ';
+            echo '<small>Похожие профиля пациента по данным СНИЛСа: ';
             foreach ($patient->sameSnils as $id) {
                 echo '<a class="link m-r-5" href="' . URL::site('patient/' . $id ) . '">#' . $id . '</a>';
             }
