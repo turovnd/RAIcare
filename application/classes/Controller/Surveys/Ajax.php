@@ -1121,9 +1121,11 @@ class Controller_Surveys_Ajax extends Ajax
         $this->survey->dt_finish = Date::formatted_time('now');
         $this->survey->update();
 
+        $this->prepareDataForReports();
+        $this->createProtocolsReport();
+
         $response = new Model_Response_Survey('SURVEY_COMPLETE_SUCCESS', 'success');
         $this->response->body(@json_encode($response->get_response()));
         return;
     }
-
 }

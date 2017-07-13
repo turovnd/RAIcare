@@ -58,7 +58,7 @@ class Methods_Time
         return $str;
     }
 
-    private static function relativeTimeWithPlural($number, $withoutSuffix, $key) {
+    public static function relativeTimeWithPlural($number, $withoutSuffix, $key) {
         $format = array(
             'mm' => $withoutSuffix ? array('минута','минуты','минут') : array('минуту','минуты','минут'),
             'hh' => array('час','часа','часов'),
