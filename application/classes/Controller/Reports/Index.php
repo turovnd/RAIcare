@@ -152,11 +152,15 @@ class Controller_Reports_Index extends Dispatch
         $this->report->P4 = $P4 >= 3 ? 2 : ($P4 == 1 || $P4 == 2) ? 1 : 0;
 
         // Cardio-respiratory - Сердечно-дыхательная недостаточность
-        $P5 = ($this->survey->unitJ->J3[2] >= 2 || $this->survey->unitJ->J3[4] >= 2 || $this->survey->unitJ->J4 >= 2) ? 1 : 0;
+        $J3 = json_decode($this->survey->unitJ->J3);
+        $I1 = json_decode($this->survey->unitI->I1);
+
+        $P5 = ($J3[2] >= 2 || $J3[4] >= 2 || $this->survey->unitJ->J4 >= 2 || $I1[10] >= 2 || $I1[11] >= 2 || $I1[12] >= 2) ? 1 : 0;
         $this->report->P5 = $P5; // TODO добавить ещё условие ИЛИ про `аритмию` из мкб10
 
         // Dehydration - Дегидратация
-        $P6 = $this->survey->unitK->K2[1] == 1 ? ($this->survey->unitK->K2[0] == 1 || $this->survey->unitJ->J3[2] >= 2 || $this->survey->unitJ->J3[8] >= 2 || $this->survey->unitJ->J3[12] >= 2 || $this->survey->unitJ->J3[13] >= 2 || $this->survey->unitJ->J3[17] >= 2) ? 2 : 1 : 0;
+        $K2 = json_decode($this->survey->unitK->K2);
+        $P6 = $K2[1] == 1 ? (($K2[0] == 1 || $J3[2] >= 2 || $J3[8] >= 2 || $J3[12] >= 2 || $J3[13] >= 2 || $J3[17] >= 2) ? 2 : 1) : 0;
         $this->report->P6 = $P6; // TODO добавить ещё условие ИЛИ `обморочное состояние`
 
         // Falls - Падения
@@ -164,7 +168,7 @@ class Controller_Reports_Index extends Dispatch
         $this->report->P7 = $P7;
 
         // Feeding Tube - Питательная трубка
-        $P8 = ($this->survey->unitK->K3 < 5 || $this->survey->unitK->K3 == 9) ? 0 : ($this->survey->unitC->C1 >= 0 && $this->survey->unitC->C1 <=3) ? 2 : 1;
+        $P8 = ($this->survey->unitK->K3 < 5 || $this->survey->unitK->K3 == 9) ? 0 : (($this->survey->unitC->C1 >= 0 && $this->survey->unitC->C1 <=3) ? 2 : 1);
         $this->report->P8 = $P8;
 
         // Nutrition - Питание
@@ -172,15 +176,17 @@ class Controller_Reports_Index extends Dispatch
         $this->report->P9 = $P9; // TODO $this->getBMI() + `нет признаков приближающейся смерти`
 
         // Pain - Повреждения
-        $P10 = ($this->survey->unitJ->J6[1] == 3 || $this->survey->unitJ->J6[1] == 4) ? 2 : (($this->survey->unitJ->J6[1] == 1 || $this->survey->unitJ->J6[1] == 2) && $this->survey->unitJ->J6[0] == 3) ? 1 : 0;
+        $J6 = json_decode($this->survey->unitJ->J6);
+        $P10 = ($J6[1] == 3 || $J6[1] == 4) ? 2 : (($J6[1] == 1 || $J6[1] == 2) && $J6[0] == 3) ? 1 : 0;
         $this->report->P10 = $P10;
 
         // Smoking and Drinking
-        $P11 = ($this->survey->unitJ->J9[0] >= 1 || $this->survey->unitJ->J9[1] == 3) ? 1 : 0;
+        $J9 = json_decode($this->survey->unitJ->J9);
+        $P11 = ($J9[0] >= 1 || $J9[1] == 3) ? 1 : 0;
         $this->report->P11 = $P11;
 
         // Pressure Ulcer - Тяжелые пролежни
-        $P12 = $this->survey->unitL->L1 >= 2 ? 1 : $this->survey->unitL->L1 = 1 ? 2 : (($this->getADL() == 5 || $this->getADL() == 6) && ($this->survey->unitL->L2 == 1 || $this->survey->unitL->L3 == 1 || $this->survey->unitL->L4 == 1 || $this->survey->unitL->L5 == 1 || $this->survey->unitL->L6 == 1)) ? 3 : 0;
+        $P12 = $this->survey->unitL->L1 >= 2 ? 1 : $this->survey->unitL->L1 == 1 ? 2 : (($this->getADL() == 5 || $this->getADL() == 6) && ($this->survey->unitL->L2 == 1 || $this->survey->unitL->L3 == 1 || $this->survey->unitL->L4 == 1 || $this->survey->unitL->L5 == 1 || $this->survey->unitL->L6 == 1)) ? 3 : 0;
         $this->report->P12 = $P12;
 
         // Urinary Incontinence - Недержание мочи
@@ -195,7 +201,7 @@ class Controller_Reports_Index extends Dispatch
         $P15 = 0;
         $this->report->P15 = $P15;
 
-        $this->report->save();
+        //$this->report->save();
     }
 
 

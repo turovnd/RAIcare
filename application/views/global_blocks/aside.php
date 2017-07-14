@@ -291,8 +291,8 @@
                 <div class="text-bold p-5 p-l-10 text-brand aside__text">Форма оценки</div>
             </li>
 
-            <li class="aside__item aside__item--active">
-                <a href="#" class="aside__link display-flex aside__link--active">
+            <li class="aside__item">
+                <a href="#" class="aside__link display-flex">
                     <i class="fa fa-bookmark aside__icon" aria-hidden="true"></i>
                     <span class="white-space--normal aside__text">Прогресс</span>
                 </a>

@@ -11,7 +11,7 @@
     <div class="col-xs-12">
 
         <div class="form" id="progressForm">
-            <div class="form__body">
+            <div class="form__body p-t-0 p-b-0">
                 <table class="tablesaw" data-tablesaw-mode="stack">
                     <thead>
                         <tr>

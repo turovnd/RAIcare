@@ -125,6 +125,7 @@ class Controller_Surveys_Ajax extends Ajax
         $this->survey->pension = new Model_Pension($this->survey->pension);
         $this->survey->patient = new Model_Patient($this->survey->patient);
         $this->survey->patient->can_edit = true;
+        $this->survey->patient->full_info = true;
         $this->survey->patient->creator = new Model_User($this->survey->patient->creator);
 
 
@@ -836,7 +837,7 @@ class Controller_Surveys_Ajax extends Ajax
 
         if (!$unitM->pk) {
             $unitM = $unitM->save();
-            $this->unitM = $unitM->pk;
+            $this->survey->unitM = $unitM->pk;
             $this->survey->update();
         } else {
             $unitM->update();
@@ -1120,9 +1121,6 @@ class Controller_Surveys_Ajax extends Ajax
         $this->survey->status = 2;
         $this->survey->dt_finish = Date::formatted_time('now');
         $this->survey->update();
-
-        $this->prepareDataForReports();
-        $this->createProtocolsReport();
 
         $response = new Model_Response_Survey('SURVEY_COMPLETE_SUCCESS', 'success');
         $this->response->body(@json_encode($response->get_response()));
