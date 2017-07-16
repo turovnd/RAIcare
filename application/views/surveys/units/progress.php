@@ -24,7 +24,7 @@
                         <tr class="b-b-0">
                             <td>
                                 <span class="text-bold"><?=$survey->patient->name; ?></span>
-                                <small>д.р. <?= date('d M Y', strtotime($survey->patient->birthday)); ?>, ОМС: <?= $survey->patient->oms; ?></small>
+                                <small>д.р. <?= date('d M Y', strtotime($survey->patient->birthday)); ?>, СНИЛС: <?= $survey->patient->snils; ?></small>
                             </td>
                             <td>
                                 <canvas data-diameter="25" data-fontsize="16px" data-percentage="<?= $total_progress; ?>" data-speed="20" data-linecolor="rgba(0,141,167,1)" data-remaininglinecolor="rgba(0,141,167,.15)" data-fontcolor="rgba(31,110,125,1)" data-linewidth="2" width="65px" height="65px" class="js-loader"></canvas>

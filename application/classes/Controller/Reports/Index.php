@@ -128,6 +128,16 @@ class Controller_Reports_Index extends Dispatch
      */
     private function createProtocolsReport()
     {
+        $E1 = json_encode($this->survey->unitE->E1);
+        $F2 = json_encode($this->survey->unitF->F2);
+        $I1 = json_decode($this->survey->unitI->I1);
+        $J3 = json_decode($this->survey->unitJ->J3);
+        $J6 = json_decode($this->survey->unitJ->J6);
+        $J9 = json_decode($this->survey->unitJ->J9);
+        $K2 = json_decode($this->survey->unitK->K2);
+        $O2 = json_encode($this->survey->unitO->O2);
+        $O7 = json_encode($this->survey->unitO->O7);
+
         $this->report = new Model_ReportProtocols();
 
         $this->report->pk = $this->survey->pk;
@@ -140,7 +150,9 @@ class Controller_Reports_Index extends Dispatch
         $this->report->P1 = $P1;
 
         // Communication - Коммуникация
-        $this->report->P2 = 0; // TODO $P2
+        $P2 = ($this->survey->unitC->C1 >= 3 && $this->survey->unitD->D1 < 3 && $this->survey->unitD->D2 < 3) ? 2 :
+                (($this->survey->unitC->C1 < 3 && $this->survey->unitD->D1 >=2 && $this->survey->unitD->D2 >= 2) ? 1 : 0);
+        $this->report->P2 = $P2;
 
         // Delirium - деменция
         $P3 = $this->survey->unitC->C4 == 1 ? 1 : 0;
@@ -152,16 +164,12 @@ class Controller_Reports_Index extends Dispatch
         $this->report->P4 = $P4 >= 3 ? 2 : ($P4 == 1 || $P4 == 2) ? 1 : 0;
 
         // Cardio-respiratory - Сердечно-дыхательная недостаточность
-        $J3 = json_decode($this->survey->unitJ->J3);
-        $I1 = json_decode($this->survey->unitI->I1);
-
         $P5 = ($J3[2] >= 2 || $J3[4] >= 2 || $this->survey->unitJ->J4 >= 2 || $I1[10] >= 2 || $I1[11] >= 2 || $I1[12] >= 2) ? 1 : 0;
-        $this->report->P5 = $P5; // TODO добавить ещё условие ИЛИ про `аритмию` из мкб10
+        $this->report->P5 = $P5;
 
         // Dehydration - Дегидратация
-        $K2 = json_decode($this->survey->unitK->K2);
         $P6 = $K2[1] == 1 ? (($K2[0] == 1 || $J3[2] >= 2 || $J3[8] >= 2 || $J3[12] >= 2 || $J3[13] >= 2 || $J3[17] >= 2) ? 2 : 1) : 0;
-        $this->report->P6 = $P6; // TODO добавить ещё условие ИЛИ `обморочное состояние`
+        $this->report->P6 = $P6;
 
         // Falls - Падения
         $P7 = $this->survey->unitJ->J1 == 3 ? 2 : $this->survey->unitJ->J1 == 0 ? 0 : 1;
@@ -173,15 +181,13 @@ class Controller_Reports_Index extends Dispatch
 
         // Nutrition - Питание
         $P9 = $this->getBMI() < 19 ? 2 : $this->getBMI() > 21 ? 0 : 1;
-        $this->report->P9 = $P9; // TODO $this->getBMI() + `нет признаков приближающейся смерти`
+        $this->report->P9 = $P9;
 
         // Pain - Повреждения
-        $J6 = json_decode($this->survey->unitJ->J6);
         $P10 = ($J6[1] == 3 || $J6[1] == 4) ? 2 : (($J6[1] == 1 || $J6[1] == 2) && $J6[0] == 3) ? 1 : 0;
         $this->report->P10 = $P10;
 
         // Smoking and Drinking
-        $J9 = json_decode($this->survey->unitJ->J9);
         $P11 = ($J9[0] >= 1 || $J9[1] == 3) ? 1 : 0;
         $this->report->P11 = $P11;
 
@@ -190,15 +196,24 @@ class Controller_Reports_Index extends Dispatch
         $this->report->P12 = $P12;
 
         // Urinary Incontinence - Недержание мочи
-        $P13 = 0;
+        $P13 = ($this->getCPS() >= 5) ? 0 :
+            (($this->survey->unitH->H1 >= 2 && $this->getCPS() <= 3 && ($this->survey->unitO->O2[8] == 0 || $this->survey->unitI->I1[0] >= 1 || $this->survey->unitG->G5 == 2 || $this->survey->unitH->H2 == 2 || $this->survey->unitI->I1[17] >= 1 || $this->survey->unitJ->J3[12] >= 1)) ? 2 :
+            (($this->survey->unitH->H1 >= 2 && $this->survey->unitC->C1 < 2 && $this->getADL() < 6 && $this->survey->unitG->G1[5] < 4 && ($this->survey->unitO->O2[8] == 0 || $this->survey->unitI->I1[0] >= 1 || $this->survey->unitG->G5 == 2 || $this->survey->unitH->H2 == 2 || $this->survey->unitI->I1[17] >= 1 || $this->survey->unitJ->J3[12] >= 1)) ? 3 : 1));
         $this->report->P13 = $P13;
 
         // Physical restraint - Физическая сдержанность
-        $P14 = 0;
+        $P14 = (($O7[0] > 0 || $O7[1] > 0 || $O7[2] > 0) && $this->getADL() <= 2) ? 2 :
+            (($O7[0] > 0 || $O7[1] > 0 || $O7[2] > 0) && ($this->getADL() <= 4 && $this->getADL() > 2)) ? 1 : 0;
         $this->report->P14 = $P14;
 
         // Activities - Активность
-        $P15 = 0;
+        $P15count = 0;
+        if ($E1[8] > 0) $P15count++;
+        if ($E1[9] > 0 ) $P15count++;
+        if ($F2[0] == 0 ) $P15count++;
+        if ($F2[1] == 0) $P15count++;
+
+        $P15 = ($this->survey->unitM->M1 < 3 && $this->survey->unitC->C1 <= 3 && $P15count >= 2) ? 1 : 0;
         $this->report->P15 = $P15;
 
         //$this->report->save();
@@ -263,6 +278,7 @@ class Controller_Reports_Index extends Dispatch
         }
     }
 
+    // Depression Rating Scale, DRS 
     private function getDRS()
     {
         $drs = 0;
@@ -277,12 +293,14 @@ class Controller_Reports_Index extends Dispatch
         return $drs;
     }
 
+    // Body Mass Index, BMI
     private function getBMI()
     {
         $K1 = json_decode($this->survey->unitK->K1);
         return $K1[1] / ($K1[0] * $K1[0]);
     }
 
+    // Activities of Daily Living (Hierarchy), ADLH
     private function getADL()
     {
         //Personal hygiene  $this->survey->unitG->G1[1] => G1b
@@ -296,6 +314,49 @@ class Controller_Reports_Index extends Dispatch
                 (($this->survey->unitG->G1[1] == 4 || $this->survey->unitG->G1[7] == 4) && ($this->survey->unitG->G1[9] < 4 && $this->survey->unitG->G1[5] < 4)) ? 3 :
                 (($this->survey->unitG->G1[1] < 4 && $this->survey->unitG->G1[7] < 4 && $this->survey->unitG->G1[9] < 4 && $this->survey->unitG->G1[5] < 4) && ($this->survey->unitG->G1[1] == 3 || $this->survey->unitG->G1[7] == 3 || $this->survey->unitG->G1[9] == 3 || $this->survey->unitG->G1[5] == 3)) ? 2 :
                 (($this->survey->unitG->G1[1] < 3 && $this->survey->unitG->G1[7] < 3 && $this->survey->unitG->G1[9] < 3 && $this->survey->unitG->G1[5] < 3) && ($this->survey->unitG->G1[1] == 2 || $this->survey->unitG->G1[7] == 2 || $this->survey->unitG->G1[9] == 2 || $this->survey->unitG->G1[5] == 2)) ? 1 : 0;
+    }
+
+    // Cognitive Performance Scale
+    private function getCPS()
+    {
+        switch ($this->survey->unitC->C1) {
+            case 5:
+                return 6;
+                break;
+            case 4:
+                $G1j = json_decode($this->survey->unitG->G1)[9];
+                if ($G1j == 6 || $G1j == 8) return 6;
+                else return 5;
+                break;
+            default:
+                // Impairment Count
+                $imp_count = 0;
+                if ($this->survey->unitC->C1 > 0) $imp_count++;
+                if (json_decode($this->survey->unitC->C2)[0] == 1) $imp_count++;
+                if ($this->survey->unitD->D1 > 0 || $this->survey->unitD->D2 > 0) $imp_count++;
+                switch ($imp_count) {
+                    case 0: return 0; break;
+                    case 1: return 1; break;
+                    default:
+                        // Severe Impairment Count
+                        $sev_imp_count = 0;
+                        if ($this->survey->unitC->C1 == 3) $sev_imp_count++;
+                        if ($this->survey->unitD->D1 >= 3 || $this->survey->unitD->D2 >= 3) $sev_imp_count++;
+                        switch ($sev_imp_count) {
+                            case 0: return 2; break;
+                            case 1: return 3; break;
+                            case 2: return 4; break;
+                        }
+                        break;
+                }
+                break;
+        }
+    }
+
+    // Communication Scale, COMM
+    private function getCOMM()
+    {
+        return $this->survey->unitD->D1 + $this->survey->unitD->D2;
     }
 
 }

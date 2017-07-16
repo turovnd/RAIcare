@@ -102,7 +102,9 @@ $survey->unitN->N1 = !empty($survey->unitN->N1) ? json_decode($survey->unitN->N1
                             <th scope="col">Способ приема</th>
                             <th scope="col">Частота приема</th>
                             <th scope="col">PRN (по мере необх.)</th>
-                            <th scope="col" class="hide">Выбрать</th>
+                            <? if ($can_conduct) : ?>
+                                <th scope="col" class="hide">Выбрать</th>
+                            <? endif; ?>
                         </tr>
                         </thead>
                         <tbody valign="middle">
@@ -162,20 +164,22 @@ $survey->unitN->N1 = !empty($survey->unitN->N1) ? json_decode($survey->unitN->N1
                                             </select>
                                         </div>
                                     </td>
+                                    <? if ($can_conduct) : ?>
                                     <td width="5%">
                                         <input id="N1_checkbox<?= $N1_key; ?>" class="checkbox" type="checkbox" data-row="<?=$N1_key;?>">
                                         <label for="N1_checkbox<?= $N1_key; ?>" class="checkbox-label"></label>
                                     </td>
+                                    <? endif; ?>
                                 </tr>
 
                             <? endforeach; ?>
 
                         </tbody>
                     </table>
-
-                    <button class="btn btn--brand m-l-10 m-t-20 m-b-0" onclick="survey.table.addRow('N1')">Добавить</button>
-                    <button class="btn btn--brand m-l-10 m-t-20 m-b-0" onclick="survey.table.removeRow('N1')">Удалить</button>
-
+                    <? if ($can_conduct) : ?>
+                        <button class="btn btn--brand m-l-10 m-t-20 m-b-0" onclick="survey.table.addRow('N1')">Добавить</button>
+                        <button class="btn btn--brand m-l-10 m-t-20 m-b-0" onclick="survey.table.removeRow('N1')">Удалить</button>
+                    <? endif; ?>
                 </fieldset>
 
                 <fieldset>
