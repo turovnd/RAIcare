@@ -165,13 +165,60 @@ class Controller_Reports_Index extends Dispatch
             $this->createRAIScales();
         }
 
-        $this->template->title = "Отчет по шкалам RAI #" . $this->survey->pk;
+        $this->template->title = "Отчет по шкалам RAI #" . $this->survey->id;
         $this->template->section = View::factory('reports/pages/rai-scales-report')
             ->set('survey', $this->survey)
             ->set('report', $this->report);
     }
 
+    /**
+     * Patient Basic Report
+     */
+    public function action_basicreport()
+    {
+        self::hasAccess(self::WATCH_ALL_REPORTS);
 
+        $pk = $this->request->param('pk');
+
+        $this->getSurveyData('pk', $pk);
+
+        $this->report = new Model_ReportRAIScales($pk);
+
+        if (!$this->report->pk) {
+            $this->getUnitsData();
+            $this->createRAIScales();
+        }
+
+        $this->template->title = "Базовый персональный отчет #" . $this->survey->pk;
+        $this->template->section = View::factory('reports/pages/basic-report')
+            ->set('survey', $this->survey)
+            ->set('report', $this->report);
+    }
+
+    /**
+     * Patient Basic Report On Pension Page
+     */
+    public function action_pen_basicreport()
+    {
+        self::hasAccess(self::WATCH_PEN_REPORT);
+        $this->checkUsersPensionAccess();
+
+        $pension = $this->request->param('pen_id');
+        $id = $this->request->param('sur_id');
+
+        $this->getSurveyData('id', $id);
+
+        $this->report = Model_ReportRAIScales::getByPension($id, $pension);
+        $this->getUnitsData();
+        if (!$this->report->pk) {
+            $this->createRAIScales();
+        }
+
+        $this->template->title = "Базовый персональный отчет #" . $this->survey->id;
+        $this->template->section = View::factory('reports/pages/basic-report')
+            ->set('survey', $this->survey)
+            ->set('report', $this->report);
+    }
 
     /**
      * Create Protocols Report

@@ -33,46 +33,21 @@
                                     </label>
                                     <div class="col-xs-12 collapse" id="PURS">
                                         <ul class="m-0 pos-relative p-l-20 list-style--none">
-                                            <li class="p-b-10 <?= $report->PURS == 0 ? 'text-brand' : ''; ?>">
-                                                <? if ($report->PURS == 0) : ?>
-                                                    <span class="fl_l pos-absolute left-0">
-                                                    <i class="fa fa-play" aria-hidden="true"></i>
-                                                </span>
-                                                <? endif; ?>
-                                                0 Very low risk
-                                            </li>
-                                            <li class="p-b-10 <?= $report->PURS == 1 || $report->PURS == 2 ? 'text-brand' : ''; ?>">
-                                                <? if ($report->PURS == 1 || $report->PURS == 2) : ?>
-                                                    <span class="fl_l pos-absolute left-0">
-                                                    <i class="fa fa-play" aria-hidden="true"></i>
-                                                </span>
-                                                <? endif; ?>
-                                                1 - 2 Low risk
-                                            </li>
-                                            <li class="p-b-10 <?= $report->PURS == 3 ? 'text-brand' : ''; ?>">
-                                                <? if ($report->PURS == 3) : ?>
-                                                    <span class="fl_l pos-absolute left-0">
-                                                    <i class="fa fa-play" aria-hidden="true"></i>
-                                                </span>
-                                                <? endif; ?>
-                                                3 Moderate risk
-                                            </li>
-                                            <li class="p-b-10 <?= $report->PURS == 4 || $report->PURS == 5 ? 'text-danger' : ''; ?>">
-                                                <? if ($report->PURS == 4 || $report->PURS == 5) : ?>
-                                                    <span class="fl_l pos-absolute left-0">
-                                                    <i class="fa fa-play" aria-hidden="true"></i>
-                                                </span>
-                                                <? endif; ?>
-                                                4 - 5 High risk
-                                            </li>
-                                            <li class="p-b-10 <?= $report->PURS == 6 || $report->PURS == 7 || $report->PURS == 8 ? 'text-danger' : ''; ?>">
-                                                <? if ($report->PURS == 6 || $report->PURS == 7 || $report->PURS == 8) : ?>
-                                                    <span class="fl_l pos-absolute left-0">
-                                                    <i class="fa fa-play" aria-hidden="true"></i>
-                                                </span>
-                                                <? endif; ?>
-                                                6 - 8 Very high risk
-                                            </li>
+
+
+                                            <? foreach (Kohana::$config->load('RAIScales.PURS') as $PURS) : ?>
+
+                                                <li class="p-b-10 <?= is_array($PURS['key']) ? in_array($report->PURS, $PURS['key']) : $report->PURS == $PURS['key'] ? $PURS['class'] : ''; ?>">
+                                                    <? if (is_array($PURS['key']) ? in_array($report->PURS, $PURS['key']) : $report->PURS == $PURS['key']) : ?>
+                                                        <span class="fl_l pos-absolute left-0">
+                                                            <i class="fa fa-play" aria-hidden="true"></i>
+                                                        </span>
+                                                    <? endif; ?>
+                                                    <?= $PURS['name']; ?>
+                                                </li>
+
+                                            <? endforeach; ?>
+
                                         </ul>
                                     </div>
                                 </div>
@@ -96,62 +71,20 @@
                                     </label>
                                     <div class="col-xs-12 collapse" id="CPS">
                                         <ul class="m-0 pos-relative p-l-20 list-style--none">
-                                            <li class="p-b-10 <?= $report->CPS == 0 ? 'text-brand' : ''; ?>">
-                                                <? if ($report->CPS == 0) : ?>
-                                                    <span class="fl_l pos-absolute left-0">
-                                                        <i class="fa fa-play" aria-hidden="true"></i>
-                                                    </span>
-                                                <? endif; ?>
-                                                0 Intact
-                                            </li>
-                                            <li class="p-b-10 <?= $report->CPS == 1 ? 'text-brand' : ''; ?>">
-                                                <? if ($report->CPS == 1) : ?>
-                                                    <span class="fl_l pos-absolute left-0">
-                                                        <i class="fa fa-play" aria-hidden="true"></i>
-                                                    </span>
-                                                <? endif; ?>
-                                                1 Borderline intact
-                                            </li>
-                                            <li class="p-b-10 <?= $report->CPS == 2 ? 'text-brand' : ''; ?>">
-                                                <? if ($report->CPS == 2) : ?>
-                                                    <span class="fl_l pos-absolute left-0">
-                                                        <i class="fa fa-play" aria-hidden="true"></i>
-                                                    </span>
-                                                <? endif; ?>
-                                                2 Mild impairment
-                                            </li>
-                                            <li class="p-b-10 <?= $report->CPS == 3 ? 'text-brand' : ''; ?>">
-                                                <? if ($report->CPS == 3) : ?>
-                                                    <span class="fl_l pos-absolute left-0">
-                                                        <i class="fa fa-play" aria-hidden="true"></i>
-                                                    </span>
-                                                <? endif; ?>
-                                                3 Moderate impairment
-                                            </li>
-                                            <li class="p-b-10 <?= $report->CPS == 4 ? 'text-danger' : ''; ?>">
-                                                <? if ($report->CPS == 4) : ?>
-                                                    <span class="fl_l pos-absolute left-0">
-                                                        <i class="fa fa-play" aria-hidden="true"></i>
-                                                    </span>
-                                                <? endif; ?>
-                                                4 Moderate / severe impairment
-                                            </li>
-                                            <li class="p-b-10 <?= $report->CPS == 5 ? 'text-danger' : ''; ?>">
-                                                <? if ($report->CPS == 5) : ?>
-                                                    <span class="fl_l pos-absolute left-0">
-                                                        <i class="fa fa-play" aria-hidden="true"></i>
-                                                    </span>
-                                                <? endif; ?>
-                                                5 Severe impairment
-                                            </li>
-                                            <li class="p-b-10 <?= $report->CPS == 6 ? 'text-danger' : ''; ?>">
-                                                <? if ($report->CPS == 6) : ?>
-                                                    <span class="fl_l pos-absolute left-0">
-                                                        <i class="fa fa-play" aria-hidden="true"></i>
-                                                    </span>
-                                                <? endif; ?>
-                                                6 Very severe impairment
-                                            </li>
+
+                                            <? foreach (Kohana::$config->load('RAIScales.CPS') as $CPS) : ?>
+
+                                                <li class="p-b-10 <?= is_array($CPS['key']) ? in_array($report->CPS, $CPS['key']) : $report->CPS == $CPS['key'] ? $CPS['class'] : ''; ?>">
+                                                    <? if (is_array($CPS['key']) ? in_array($report->CPS, $CPS['key']) : $report->CPS == $CPS['key']) : ?>
+                                                        <span class="fl_l pos-absolute left-0">
+                                                            <i class="fa fa-play" aria-hidden="true"></i>
+                                                        </span>
+                                                    <? endif; ?>
+                                                    <?= $CPS['name']; ?>
+                                                </li>
+
+                                            <? endforeach; ?>
+
                                         </ul>
                                     </div>
                                 </div>
@@ -175,30 +108,20 @@
                                     </label>
                                     <div class="col-xs-12 collapse" id="BMI">
                                         <ul class="m-0 pos-relative p-l-20 list-style--none">
-                                            <li class="p-b-10 <?= $report->BMI < 20 ? 'text-danger' : ''; ?>">
-                                                <? if ($report->BMI < 20) : ?>
-                                                    <span class="fl_l pos-absolute left-0">
-                                                        <i class="fa fa-play" aria-hidden="true"></i>
-                                                    </span>
-                                                <? endif; ?>
-                                                Less than normal BMI
-                                            </li>
-                                            <li class="p-b-10 <?= $report->BMI <= 20 && $report->BMI >= 25 ? 'text-brand' : ''; ?>">
-                                                <? if ($report->BMI <= 20 && $report->BMI >= 25) : ?>
-                                                    <span class="fl_l pos-absolute left-0">
-                                                        <i class="fa fa-play" aria-hidden="true"></i>
-                                                    </span>
-                                                <? endif; ?>
-                                                Normal MBI
-                                            </li>
-                                            <li class="p-b-10 <?= $report->BMI > 25 ? 'text-danger' : ''; ?>">
-                                                <? if ($report->BMI > 25) : ?>
-                                                    <span class="fl_l pos-absolute left-0">
-                                                        <i class="fa fa-play" aria-hidden="true"></i>
-                                                    </span>
-                                                <? endif; ?>
-                                                Large than normal BMI
-                                            </li>
+
+                                            <? foreach (Kohana::$config->load('RAIScales.BMI') as $BMI) : ?>
+
+                                                <li class="p-b-10 <?= is_array($BMI['key']) ? in_array(intval($report->BMI), $BMI['key']) : $report->BMI == $BMI['key'] ? $BMI['class'] : ''; ?>">
+                                                    <? if (is_array($BMI['key']) ? in_array(intval($report->BMI), $BMI['key']) : $report->BMI == $BMI['key']) : ?>
+                                                        <span class="fl_l pos-absolute left-0">
+                                                            <i class="fa fa-play" aria-hidden="true"></i>
+                                                        </span>
+                                                    <? endif; ?>
+                                                    <?= $BMI['name']; ?>
+                                                </li>
+
+                                            <? endforeach; ?>
+
                                         </ul>
                                     </div>
                                 </div>
@@ -240,30 +163,20 @@
                                     </label>
                                     <div class="col-xs-12 collapse" id="DRS">
                                         <ul class="m-0 pos-relative p-l-20 list-style--none">
-                                            <li class="p-b-10 <?= $report->DRS <= 2 ? 'text-brand' : ''; ?>">
-                                                <? if ($report->DRS <= 2) : ?>
-                                                    <span class="fl_l pos-absolute left-0">
-                                                        <i class="fa fa-play" aria-hidden="true"></i>
-                                                    </span>
-                                                <? endif; ?>
-                                                0 - 2 No depression
-                                            </li>
-                                            <li class="p-b-10 <?= $report->DRS < 9 && $report->DRS > 2 ? 'text-brand' : ''; ?>">
-                                                <? if ($report->DRS < 9 && $report->DRS > 2) : ?>
-                                                    <span class="fl_l pos-absolute left-0">
-                                                        <i class="fa fa-play" aria-hidden="true"></i>
-                                                    </span>
-                                                <? endif; ?>
-                                                3 - 8 Depressive symptoms, likelihood of at least mild depression
-                                            </li>
-                                            <li class="p-b-10 <?= $report->DRS >= 9 ? 'text-danger' : ''; ?>">
-                                                <? if ($report->DRS >= 9 ) : ?>
-                                                    <span class="fl_l pos-absolute left-0">
-                                                        <i class="fa fa-play" aria-hidden="true"></i>
-                                                    </span>
-                                                <? endif; ?>
-                                                9 - 14 Depressive symptoms, high likelihood of major depression
-                                            </li>
+
+                                            <? foreach (Kohana::$config->load('RAIScales.DRS') as $DRS) : ?>
+
+                                                <li class="p-b-10 <?= is_array($DRS['key']) ? in_array($report->DRS, $DRS['key']) : $report->DRS == $DRS['key'] ? $DRS['class'] : ''; ?>">
+                                                    <? if (is_array($DRS['key']) ? in_array($report->DRS, $DRS['key']) : $report->DRS == $DRS['key']) : ?>
+                                                        <span class="fl_l pos-absolute left-0">
+                                                            <i class="fa fa-play" aria-hidden="true"></i>
+                                                        </span>
+                                                    <? endif; ?>
+                                                    <?= $DRS['name']; ?>
+                                                </li>
+
+                                            <? endforeach; ?>
+
                                         </ul>
                                     </div>
                                 </div>
@@ -287,46 +200,20 @@
                                     </label>
                                     <div class="col-xs-12 collapse" id="Pain">
                                         <ul class="m-0 pos-relative p-l-20 list-style--none">
-                                            <li class="p-b-10 <?= $report->Pain == 0 ? 'text-brand' : ''; ?>">
-                                                <? if ($report->Pain == 0) : ?>
-                                                    <span class="fl_l pos-absolute left-0">
-                                                        <i class="fa fa-play" aria-hidden="true"></i>
-                                                    </span>
-                                                <? endif; ?>
-                                                0 No pain
-                                            </li>
-                                            <li class="p-b-10 <?= $report->Pain == 1 ? 'text-brand' : ''; ?>">
-                                                <? if ($report->Pain == 1) : ?>
-                                                    <span class="fl_l pos-absolute left-0">
-                                                        <i class="fa fa-play" aria-hidden="true"></i>
-                                                    </span>
-                                                <? endif; ?>
-                                                1 Less than daily pain
-                                            </li>
-                                            <li class="p-b-10 <?= $report->Pain == 2 ? 'text-brand' : ''; ?>">
-                                                <? if ($report->Pain == 2) : ?>
-                                                    <span class="fl_l pos-absolute left-0">
-                                                        <i class="fa fa-play" aria-hidden="true"></i>
-                                                    </span>
-                                                <? endif; ?>
-                                                2 Daily pain but not severe
-                                            </li>
-                                            <li class="p-b-10 <?= $report->Pain == 3 ? 'text-danger' : ''; ?>">
-                                                <? if ($report->Pain == 3) : ?>
-                                                    <span class="fl_l pos-absolute left-0">
-                                                        <i class="fa fa-play" aria-hidden="true"></i>
-                                                    </span>
-                                                <? endif; ?>
-                                                3 Daily severe pain
-                                            </li>
-                                            <li class="p-b-10 <?= $report->Pain == 4 ? 'text-danger' : ''; ?>">
-                                                <? if ($report->Pain == 4) : ?>
-                                                    <span class="fl_l pos-absolute left-0">
-                                                        <i class="fa fa-play" aria-hidden="true"></i>
-                                                    </span>
-                                                <? endif; ?>
-                                                4 Daily excruciating pain
-                                            </li>
+
+                                            <? foreach (Kohana::$config->load('RAIScales.DRS') as $DRS) : ?>
+
+                                                <li class="p-b-10 <?= is_array($DRS['key']) ? in_array($report->DRS, $DRS['key']) : $report->DRS == $DRS['key'] ? $DRS['class'] : ''; ?>">
+                                                    <? if (is_array($DRS['key']) ? in_array($report->DRS, $DRS['key']) : $report->DRS == $DRS['key']) : ?>
+                                                        <span class="fl_l pos-absolute left-0">
+                                                            <i class="fa fa-play" aria-hidden="true"></i>
+                                                        </span>
+                                                    <? endif; ?>
+                                                    <?= $DRS['name']; ?>
+                                                </li>
+
+                                            <? endforeach; ?>
+
                                         </ul>
                                     </div>
                                 </div>
@@ -350,78 +237,20 @@
                                     </label>
                                     <div class="col-xs-12 collapse" id="COMM">
                                         <ul class="m-0 pos-relative p-l-20 list-style--none">
-                                            <li class="p-b-10 <?= $report->COMM == 0 ? 'text-brand' : ''; ?>">
-                                                <? if ($report->COMM == 0) : ?>
-                                                    <span class="fl_l pos-absolute left-0">
-                                                        <i class="fa fa-play" aria-hidden="true"></i>
-                                                    </span>
-                                                <? endif; ?>
-                                                0 Intact
-                                            </li>
-                                            <li class="p-b-10 <?= $report->COMM == 1 ? 'text-brand' : ''; ?>">
-                                                <? if ($report->COMM == 1) : ?>
-                                                    <span class="fl_l pos-absolute left-0">
-                                                        <i class="fa fa-play" aria-hidden="true"></i>
-                                                    </span>
-                                                <? endif; ?>
-                                                1 Borderline intact
-                                            </li>
-                                            <li class="p-b-10 <?= $report->COMM == 2 ? 'text-brand' : ''; ?>">
-                                                <? if ($report->COMM == 2) : ?>
-                                                    <span class="fl_l pos-absolute left-0">
-                                                        <i class="fa fa-play" aria-hidden="true"></i>
-                                                    </span>
-                                                <? endif; ?>
-                                                2 Mild impairment
-                                            </li>
-                                            <li class="p-b-10 <?= $report->COMM == 3 ? 'text-brand' : ''; ?>">
-                                                <? if ($report->COMM == 3) : ?>
-                                                    <span class="fl_l pos-absolute left-0">
-                                                        <i class="fa fa-play" aria-hidden="true"></i>
-                                                    </span>
-                                                <? endif; ?>
-                                                3 Mild / moderate impairment
-                                            </li>
-                                            <li class="p-b-10 <?= $report->COMM == 4 ? 'text-danger' : ''; ?>">
-                                                <? if ($report->COMM == 4) : ?>
-                                                    <span class="fl_l pos-absolute left-0">
-                                                        <i class="fa fa-play" aria-hidden="true"></i>
-                                                    </span>
-                                                <? endif; ?>
-                                                4 Moderate impairment
-                                            </li>
-                                            <li class="p-b-10 <?= $report->COMM == 5 ? 'text-danger' : ''; ?>">
-                                                <? if ($report->COMM == 5) : ?>
-                                                    <span class="fl_l pos-absolute left-0">
-                                                        <i class="fa fa-play" aria-hidden="true"></i>
-                                                    </span>
-                                                <? endif; ?>
-                                                5 Moderate / severe impairment
-                                            </li>
-                                            <li class="p-b-10 <?= $report->COMM == 6 ? 'text-danger' : ''; ?>">
-                                                <? if ($report->COMM == 6) : ?>
-                                                    <span class="fl_l pos-absolute left-0">
-                                                        <i class="fa fa-play" aria-hidden="true"></i>
-                                                    </span>
-                                                <? endif; ?>
-                                                6 Severe impairment
-                                            </li>
-                                            <li class="p-b-10 <?= $report->COMM == 7 ? 'text-danger' : ''; ?>">
-                                                <? if ($report->COMM == 7) : ?>
-                                                    <span class="fl_l pos-absolute left-0">
-                                                        <i class="fa fa-play" aria-hidden="true"></i>
-                                                    </span>
-                                                <? endif; ?>
-                                                7 Severe / very severe impairment
-                                            </li>
-                                            <li class="p-b-10 <?= $report->COMM == 8 ? 'text-danger' : ''; ?>">
-                                                <? if ($report->COMM == 8) : ?>
-                                                    <span class="fl_l pos-absolute left-0">
-                                                        <i class="fa fa-play" aria-hidden="true"></i>
-                                                    </span>
-                                                <? endif; ?>
-                                                8 Very severe impairment
-                                            </li>
+
+                                            <? foreach (Kohana::$config->load('RAIScales.COMM') as $COMM) : ?>
+
+                                                <li class="p-b-10 <?= is_array($COMM['key']) ? in_array($report->COMM, $COMM['key']) : $report->COMM == $COMM['key'] ? $COMM['class'] : ''; ?>">
+                                                    <? if (is_array($COMM['key']) ? in_array($report->COMM, $COMM['key']) : $report->COMM == $COMM['key']) : ?>
+                                                        <span class="fl_l pos-absolute left-0">
+                                                            <i class="fa fa-play" aria-hidden="true"></i>
+                                                        </span>
+                                                    <? endif; ?>
+                                                    <?= $COMM['name']; ?>
+                                                </li>
+
+                                            <? endforeach; ?>
+
                                         </ul>
                                     </div>
                                 </div>
@@ -445,54 +274,20 @@
                                     </label>
                                     <div class="col-xs-12 collapse" id="CHESS">
                                         <ul class="m-0 pos-relative p-l-20 list-style--none">
-                                            <li class="p-b-10 <?= $report->CHESS == 0 ? 'text-brand' : ''; ?>">
-                                                <? if ($report->CHESS == 0) : ?>
-                                                    <span class="fl_l pos-absolute left-0">
-                                                        <i class="fa fa-play" aria-hidden="true"></i>
-                                                    </span>
-                                                <? endif; ?>
-                                                0 No health instability
-                                            </li>
-                                            <li class="p-b-10 <?= $report->CHESS == 1 ? 'text-brand' : ''; ?>">
-                                                <? if ($report->CHESS == 1) : ?>
-                                                    <span class="fl_l pos-absolute left-0">
-                                                        <i class="fa fa-play" aria-hidden="true"></i>
-                                                    </span>
-                                                <? endif; ?>
-                                                1 Minimal health instability
-                                            </li>
-                                            <li class="p-b-10 <?= $report->CHESS == 2 ? 'text-brand' : ''; ?>">
-                                                <? if ($report->CHESS == 2) : ?>
-                                                    <span class="fl_l pos-absolute left-0">
-                                                        <i class="fa fa-play" aria-hidden="true"></i>
-                                                    </span>
-                                                <? endif; ?>
-                                                2 Low health instability
-                                            </li>
-                                            <li class="p-b-10 <?= $report->CHESS == 3 ? 'text-brand' : ''; ?>">
-                                                <? if ($report->CHESS == 3) : ?>
-                                                    <span class="fl_l pos-absolute left-0">
-                                                        <i class="fa fa-play" aria-hidden="true"></i>
-                                                    </span>
-                                                <? endif; ?>
-                                                3 Moderate health instability
-                                            </li>
-                                            <li class="p-b-10 <?= $report->CHESS == 4 ? 'text-danger' : ''; ?>">
-                                                <? if ($report->CHESS == 4) : ?>
-                                                    <span class="fl_l pos-absolute left-0">
-                                                        <i class="fa fa-play" aria-hidden="true"></i>
-                                                    </span>
-                                                <? endif; ?>
-                                                4 High health instability
-                                            </li>
-                                            <li class="p-b-10 <?= $report->CHESS == 5 ? 'text-danger' : ''; ?>">
-                                                <? if ($report->CHESS == 5) : ?>
-                                                    <span class="fl_l pos-absolute left-0">
-                                                        <i class="fa fa-play" aria-hidden="true"></i>
-                                                    </span>
-                                                <? endif; ?>
-                                                5 Very high health instability
-                                            </li>
+
+                                            <? foreach (Kohana::$config->load('RAIScales.CHESS') as $CHESS) : ?>
+
+                                                <li class="p-b-10 <?= is_array($CHESS['key']) ? in_array($report->CHESS, $CHESS['key']) : $report->CHESS == $CHESS['key'] ? $CHESS['class'] : ''; ?>">
+                                                    <? if (is_array($CHESS['key']) ? in_array($report->CHESS, $CHESS['key']) : $report->CHESS == $CHESS['key']) : ?>
+                                                        <span class="fl_l pos-absolute left-0">
+                                                            <i class="fa fa-play" aria-hidden="true"></i>
+                                                        </span>
+                                                    <? endif; ?>
+                                                    <?= $CHESS['name']; ?>
+                                                </li>
+
+                                            <? endforeach; ?>
+
                                         </ul>
                                     </div>
                                 </div>
@@ -516,62 +311,20 @@
                                     </label>
                                     <div class="col-xs-12 collapse" id="ADLH">
                                         <ul class="m-0 pos-relative p-l-20 list-style--none">
-                                            <li class="p-b-10 <?= $report->ADLH == 0 ? 'text-brand' : ''; ?>">
-                                                <? if ($report->ADLH == 0) : ?>
-                                                    <span class="fl_l pos-absolute left-0">
-                                                        <i class="fa fa-play" aria-hidden="true"></i>
-                                                    </span>
-                                                <? endif; ?>
-                                                0 Independent
-                                            </li>
-                                            <li class="p-b-10 <?= $report->ADLH == 1 ? 'text-brand' : ''; ?>">
-                                                <? if ($report->ADLH == 1) : ?>
-                                                    <span class="fl_l pos-absolute left-0">
-                                                        <i class="fa fa-play" aria-hidden="true"></i>
-                                                    </span>
-                                                <? endif; ?>
-                                                1 Supervision required
-                                            </li>
-                                            <li class="p-b-10 <?= $report->ADLH == 2 ? 'text-brand' : ''; ?>">
-                                                <? if ($report->ADLH == 2) : ?>
-                                                    <span class="fl_l pos-absolute left-0">
-                                                        <i class="fa fa-play" aria-hidden="true"></i>
-                                                    </span>
-                                                <? endif; ?>
-                                                2 Limited impairment
-                                            </li>
-                                            <li class="p-b-10 <?= $report->ADLH == 3 ? 'text-brand' : ''; ?>">
-                                                <? if ($report->ADLH == 3 ) : ?>
-                                                    <span class="fl_l pos-absolute left-0">
-                                                        <i class="fa fa-play" aria-hidden="true"></i>
-                                                    </span>
-                                                <? endif; ?>
-                                                3 Maximal
-                                            </li>
-                                            <li class="p-b-10 <?= $report->ADLH == 4 ? 'text-danger' : ''; ?>">
-                                                <? if ($report->ADLH == 4) : ?>
-                                                    <span class="fl_l pos-absolute left-0">
-                                                        <i class="fa fa-play" aria-hidden="true"></i>
-                                                    </span>
-                                                <? endif; ?>
-                                                4 Extensive assistance required - 1
-                                            </li>
-                                            <li class="p-b-10 <?= $report->ADLH == 5 ? 'text-danger' : ''; ?>">
-                                                <? if ($report->ADLH == 5) : ?>
-                                                    <span class="fl_l pos-absolute left-0">
-                                                        <i class="fa fa-play" aria-hidden="true"></i>
-                                                    </span>
-                                                <? endif; ?>
-                                                5 Dependent
-                                            </li>
-                                            <li class="p-b-10 <?= $report->ADLH == 6 ? 'text-danger' : ''; ?>">
-                                                <? if ($report->ADLH == 6) : ?>
-                                                    <span class="fl_l pos-absolute left-0">
-                                                        <i class="fa fa-play" aria-hidden="true"></i>
-                                                    </span>
-                                                <? endif; ?>
-                                                6 Total dependence
-                                            </li>
+
+                                            <? foreach (Kohana::$config->load('RAIScales.ADLH') as $ADLH) : ?>
+
+                                                <li class="p-b-10 <?= is_array($ADLH['key']) ? in_array($report->ADLH, $ADLH['key']) : $report->ADLH == $ADLH['key'] ? $ADLH['class'] : ''; ?>">
+                                                    <? if (is_array($ADLH['key']) ? in_array($report->ADLH, $ADLH['key']) : $report->ADLH == $ADLH['key']) : ?>
+                                                        <span class="fl_l pos-absolute left-0">
+                                                            <i class="fa fa-play" aria-hidden="true"></i>
+                                                        </span>
+                                                    <? endif; ?>
+                                                    <?= $ADLH['name']; ?>
+                                                </li>
+
+                                            <? endforeach; ?>
+
                                         </ul>
                                     </div>
                                 </div>
@@ -595,30 +348,20 @@
                                     </label>
                                     <div class="col-xs-12 collapse" id="ABS">
                                         <ul class="m-0 pos-relative p-l-20 list-style--none">
-                                            <li class="p-b-10 <?= $report->ABS == 0 ? 'text-brand' : ''; ?>">
-                                                <? if ($report->ABS == 0) : ?>
-                                                    <span class="fl_l pos-absolute left-0">
-                                                        <i class="fa fa-play" aria-hidden="true"></i>
-                                                    </span>
-                                                <? endif; ?>
-                                                0 No aggressive behavior
-                                            </li>
-                                            <li class="p-b-10 <?= $report->ABS >= 1 && $report->ABS <= 5 ? 'text-brand' : ''; ?>">
-                                                <? if ($report->ABS >= 1 && $report->ABS <= 5) : ?>
-                                                    <span class="fl_l pos-absolute left-0">
-                                                        <i class="fa fa-play" aria-hidden="true"></i>
-                                                    </span>
-                                                <? endif; ?>
-                                                1 - 5 Mild to moderate aggressive behavior
-                                            </li>
-                                            <li class="p-b-10 <?= $report->ABS >= 6 && $report->ABS <= 12 ? 'text-danger' : ''; ?>">
-                                                <? if ($report->ABS >= 6 && $report->ABS <= 12) : ?>
-                                                    <span class="fl_l pos-absolute left-0">
-                                                        <i class="fa fa-play" aria-hidden="true"></i>
-                                                    </span>
-                                                <? endif; ?>
-                                                6 - 12 Severe aggressive behavior
-                                            </li>
+
+                                            <? foreach (Kohana::$config->load('RAIScales.ABS') as $ABS) : ?>
+
+                                                <li class="p-b-10 <?= is_array($ABS['key']) ? in_array($report->ABS, $ABS['key']) : $report->ABS == $ABS['key'] ? $ABS['class'] : ''; ?>">
+                                                    <? if (is_array($ABS['key']) ? in_array($report->ABS, $ABS['key']) : $report->ABS == $ABS['key']) : ?>
+                                                        <span class="fl_l pos-absolute left-0">
+                                                            <i class="fa fa-play" aria-hidden="true"></i>
+                                                        </span>
+                                                    <? endif; ?>
+                                                    <?= $ABS['name']; ?>
+                                                </li>
+
+                                            <? endforeach; ?>
+
                                         </ul>
                                     </div>
                                 </div>

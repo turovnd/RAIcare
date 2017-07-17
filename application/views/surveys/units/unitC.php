@@ -1,31 +1,11 @@
 <?
-$C1 = array(
-    '0' => 'Не зависит от окружающих - решения пациента были непротиворечивыми, разумными и безопасными',
-    '1' => 'Условно не зависит от окружающих - некоторые трудности при принятии решений в необычных ситуациях',
-    '2' => 'Минимальная зависимость - в определенных повторяющихся ситуациях принимались нерациональные или небезопасные решения, и в это время пациенту требовались подсказки или присмотр',
-    '3' => 'Средняя зависимость - пациент регулярно принимал неразумные или небезопасные решения, требовались напоминания, подсказки или присмотр',
-    '4' => 'Значительная зависимость - пациент никогда не принимал решений или принимал их редко',
-    '5' => 'Нет признаков сознания, кома <b>[Перейдите к "Функциональное состояние"]</b>'
-);
-$C2 = array(
-    'a' => 'Кратковременная память в порядке - пациент может вспомнить информацию, полученную 5 минут назад',
-    'b' => 'Долговременная память в порядке - пациент может вспомнить информацию, полученную в отдаленном прошлом',
-    'c' => 'Процедурная память в порядке - пациент может выполнять все или почти все шаги многозадачной последовательности без подсказок',
-    'd' => 'Ситуационная память в порядке - пациент одновременно узнает имена и лица представителей обслуживающего персонала, с которыми часто сталкивается, И помнит расположение регулярно посещаемых мест (например, спальни, столовой, комнаты для физических упражнений, процедурной комнаты)'
-);
-$C3 = array(
-    '0' => 'Характерные поведенческие проявления отсутствуют',
-    '1' => 'Характерные поведенческие проявления присутствуют и соответствуют обычным параметрам когнитивной деятельности пациента',
-    '2' => 'Характерные поведенческие проявления присутствуют и не соответствуют обычным параметрам когнитивной деятельности пациента (например: новое проявление заболевания или ухудшение состояния по сравнению с состоянием несколькими неделями раньше)',
-);
-$C5 = array(
-    '0' => 'Улучшилась',
-    '1' => 'Не изменилась',
-    '2' => 'Ухудшилась',
-    '8' => 'Невозможно дать определенный ответ',
-);
-$survey->unitC->C2 = json_decode($survey->unitC->C2);
-$survey->unitC->C3 = json_decode($survey->unitC->C3);
+    $C1 = Kohana::$config->load('Units.C.C1');
+    $C2 = Kohana::$config->load('Units.C.C2');
+    $C3 = Kohana::$config->load('Units.C.C3');
+    $C5 = Kohana::$config->load('Units.C.C5');
+
+    $survey->unitC->C2 = json_decode($survey->unitC->C2);
+    $survey->unitC->C3 = json_decode($survey->unitC->C3);
 ?>
 
 <h3 class="section__heading">
@@ -66,31 +46,85 @@ $survey->unitC->C3 = json_decode($survey->unitC->C3);
                 <div id="unitC_block" class="<?= $survey->unitC->C1 == 5 ? 'hide' : ''; ?>">
                     <fieldset>
                         <div class="form-group">
-                            <label for="C2" class="form-group__label col-xs-12">
-                                Способность запоминать / вспоминать
-                                <small class="text-italic text-normal">Не отмечено - память в порядке. Отмечено - проблемы с памятью.</small>
-                            </label>
-                            <div class="col-xs-12">
-                                <? if ($can_conduct) : ?>
-                                    <? foreach ($C2 as $key => $value) : ?>
-                                        <p>
-                                            <input id="C2<?= $key; ?>" name="C2[]" type="checkbox" class="checkbox" value="<?= $key; ?>" <?= !empty($survey->unitC->C2) && in_array($key, $survey->unitC->C2) ? 'checked' : '' ?>>
-                                            <label for="C2<?= $key; ?>" class="checkbox-label"><?= $value; ?></label>
-                                        </p>
-                                    <? endforeach;?>
-                                <? else : ?>
-                                    <div class="form-group__control-static p-l-0">
-                                        <? if (empty($survey->unitC->C2)) : ?>
-                                            Не указано
-                                        <? else: ?>
-                                            <ol class="p-l-20">
-                                                <? foreach ($survey->unitC->C2 as $item) : ?>
-                                                    <li><?= $C2[$item]; ?></li>
-                                                <? endforeach; ?>
-                                            </ol>
-                                        <? endif; ?>
-                                    </div>
-                                <? endif; ?>
+                            <p class="col-xs-12">
+                                <span class="text-bold">Способность запоминать / вспоминать</span>
+                            </p>
+
+
+                            <div class="form-group">
+                                <label for="C2a" class="form-group__label col-xs-12">
+                                    Кратковременная память
+                                    <small class="text-italic text-normal">Пациент может вспомнить информацию, полученную 5 минут назад</small>
+                                </label>
+                                <div class="col-xs-12">
+                                    <? if ($can_conduct) : ?>
+                                        <? foreach ($C2 as $key => $value) :?>
+                                            <span class="m-r-20">
+                                                <input id="C2a<?= $key; ?>" name="C2a" type="radio" class="radio" value="<?= $key; ?>" <?= $survey->unitC->C2[0] != NULL && $key == $survey->unitC->C2[0] ? 'checked' : '' ?> >
+                                                <label for="C2a<?= $key; ?>" class="radio-label"><?= $value; ?></label>
+                                            </span>
+                                        <? endforeach; ?>
+                                    <? else : ?>
+                                        <p class="form-group__control-static p-l-0"> <?= $survey->unitC->C2 != NULL && $survey->unitC->C2[0] != -1 ? $C2[$survey->unitC->C2[0]] : 'Не указано'; ?> </p>
+                                    <? endif; ?>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="C2b" class="form-group__label col-xs-12">
+                                    Долговременная память
+                                    <small class="text-italic text-normal">Пациент может вспомнить информацию, полученную в отдаленном прошлом</small>
+                                </label>
+                                <div class="col-xs-12">
+                                    <? if ($can_conduct) : ?>
+                                        <? foreach ($C2 as $key => $value) :?>
+                                            <span class="m-r-20">
+                                                <input id="C2b<?= $key; ?>" name="C2b" type="radio" class="radio" value="<?= $key; ?>" <?= $survey->unitC->C2[1] != NULL && $key == $survey->unitC->C2[1] ? 'checked' : '' ?> >
+                                                <label for="C2b<?= $key; ?>" class="radio-label"><?= $value; ?></label>
+                                            </span>
+                                        <? endforeach; ?>
+                                    <? else : ?>
+                                        <p class="form-group__control-static p-l-0"> <?= $survey->unitC->C2 != NULL && $survey->unitC->C2[1] != -1 ? $C2[$survey->unitC->C2[1]] : 'Не указано'; ?> </p>
+                                    <? endif; ?>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="C2c" class="form-group__label col-xs-12">
+                                    Процедурная память
+                                    <small class="text-italic text-normal">Пациент может выполнять все или почти все шаги многозадачной последовательности без подсказок</small>
+                                </label>
+                                <div class="col-xs-12">
+                                    <? if ($can_conduct) : ?>
+                                        <? foreach ($C2 as $key => $value) :?>
+                                            <span class="m-r-20">
+                                                <input id="C2c<?= $key; ?>" name="C2c" type="radio" class="radio" value="<?= $key; ?>" <?= $survey->unitC->C2[2] != NULL && $key == $survey->unitC->C2[2] ? 'checked' : '' ?> >
+                                                <label for="C2c<?= $key; ?>" class="radio-label"><?= $value; ?></label>
+                                            </span>
+                                        <? endforeach; ?>
+                                    <? else : ?>
+                                        <p class="form-group__control-static p-l-0"> <?= $survey->unitC->C2 != NULL && $survey->unitC->C2[2] != -1 ? $C2[$survey->unitC->C2[2]] : 'Не указано'; ?> </p>
+                                    <? endif; ?>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="C2d" class="form-group__label col-xs-12">
+                                    Ситуационная память
+                                    <small class="text-italic text-normal">Пациент одновременно узнает имена и лица представителей обслуживающего персонала, с которыми часто сталкивается, И помнит расположение регулярно посещаемых мест (например, спальни, столовой, комнаты для физических упражнений, процедурной комнаты)</small>
+                                </label>
+                                <div class="col-xs-12">
+                                    <? if ($can_conduct) : ?>
+                                        <? foreach ($C2 as $key => $value) :?>
+                                            <span class="m-r-20">
+                                                <input id="C2d<?= $key; ?>" name="C2d" type="radio" class="radio" value="<?= $key; ?>" <?= $survey->unitC->C2[3] != NULL && $key == $survey->unitC->C2[3] ? 'checked' : '' ?> >
+                                                <label for="C2d<?= $key; ?>" class="radio-label"><?= $value; ?></label>
+                                            </span>
+                                        <? endforeach; ?>
+                                    <? else : ?>
+                                        <p class="form-group__control-static p-l-0"> <?= $survey->unitC->C2 != NULL && $survey->unitC->C2[3] != -1 ? $C2[$survey->unitC->C2[3]] : 'Не указано'; ?> </p>
+                                    <? endif; ?>
+                                </div>
                             </div>
                         </div>
                     </fieldset>

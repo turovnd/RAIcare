@@ -1,23 +1,12 @@
 <?
-$O2 = array(
-    '0' => 'Лечебное мероприятие / программа не была назначена И не выполнялась',
-    '1' => 'Была назначена, но не выполнялась',
-    '2' => 'Выполнялась на протяжении 1-2 дней из последних 3 дней',
-    '3' => 'Выполнялась ежедневно в течение последних 3 дней'
-);
-$O7 = array(
-    '0' => 'Не использовалось',
-    '1' => 'Использовалось менее чем раз в день',
-    '2' => 'Использовалось ежедневно – только ночью',
-    '3' => 'Использовалось ежедневно – только днем',
-    '4' => 'Использовалось и днем, и ночью, но не постоянно',
-    '5' => 'Постоянно использовалось 24 часа в сутки (возможно, с короткими перерывами)'
-);
-$survey->unitO->O1 = json_decode($survey->unitO->O1);
-$survey->unitO->O2 = json_decode($survey->unitO->O2);
-$survey->unitO->O3 = json_decode($survey->unitO->O3);
-$survey->unitO->O4 = json_decode($survey->unitO->O4);
-$survey->unitO->O7 = json_decode($survey->unitO->O7);
+    $O2 = Kohana::$config->load('Units.O.O2');
+    $O7 = Kohana::$config->load('Units.O.O7');
+
+    $survey->unitO->O1 = json_decode($survey->unitO->O1);
+    $survey->unitO->O2 = json_decode($survey->unitO->O2);
+    $survey->unitO->O3 = json_decode($survey->unitO->O3);
+    $survey->unitO->O4 = json_decode($survey->unitO->O4);
+    $survey->unitO->O7 = json_decode($survey->unitO->O7);
 ?>
 
 <h3 class="section__heading">

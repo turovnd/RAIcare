@@ -1,30 +1,13 @@
 <?
-$F1 = array(
-    '0' => 'Никогда',
-    '1' => 'Более 30 дней назад',
-    '2' => '8-30 дней назад',
-    '3' => '4-7 дней назад',
-    '4' => 'За последние 3 дня',
-    '8' => 'Невозможно определить'
-);
-$F2 = array(
-    '0' => 'Отсутствует',
-    '1' => 'Признак присутствует, но не проявлялся за последние 3 дня',
-    '2' => 'Признак проявлялся на протяжении 1—2 дней из последних 3 дней',
-    '3' => 'Признак проявлялся ежедневно на протяжении последних 3 дней'
-);
-$F3 = array(
-    '1' => 'Да',
-    '0' => 'Нет'
-);
-$F5 = array(
-    '1' => 'Да',
-    '0' => 'Нет'
-);
-$survey->unitF->F1 = json_decode($survey->unitF->F1);
-$survey->unitF->F2 = json_decode($survey->unitF->F2);
-$survey->unitF->F3 = json_decode($survey->unitF->F3);
-$survey->unitF->F5 = json_decode($survey->unitF->F5);
+    $F1 = Kohana::$config->load('Units.F.F1');
+    $F2 = Kohana::$config->load('Units.F.F2');
+    $F3 = Kohana::$config->load('Units.F.F3');
+    $F5 = Kohana::$config->load('Units.F.F5');
+
+    $survey->unitF->F1 = json_decode($survey->unitF->F1);
+    $survey->unitF->F2 = json_decode($survey->unitF->F2);
+    $survey->unitF->F3 = json_decode($survey->unitF->F3);
+    $survey->unitF->F5 = json_decode($survey->unitF->F5);
 ?>
 
 <h3 class="section__heading">

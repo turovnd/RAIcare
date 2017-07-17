@@ -339,7 +339,10 @@ class Controller_Surveys_Ajax extends Ajax
     private function update_unitC()
     {
         $C1  = Arr::get($_POST,'C1', '-1');
-        $C2  = Arr::get($_POST,'C2');
+        $C2a = Arr::get($_POST,'C2a','-1');
+        $C2b = Arr::get($_POST,'C2b', '-1');
+        $C2c = Arr::get($_POST,'C2c', '-1');
+        $C2d = Arr::get($_POST,'C2d', '-1');
         $C3a = Arr::get($_POST,'C3a','-1');
         $C3b = Arr::get($_POST,'C3b', '-1');
         $C3c = Arr::get($_POST,'C3c', '-1');
@@ -354,23 +357,23 @@ class Controller_Surveys_Ajax extends Ajax
         $unitC->C1 = $C1;
 
         if ($C1 == 5) {
-            $unitC->C2 = NULL;
+            $unitC->C2 = json_encode(array('-1', '-1', '-1', '-1'));
             $unitC->C3 = json_encode(array('-1', '-1', '-1'));
             $unitC->C4 = -1;
             $unitC->C5 = -1;
         } else {
-            $unitC->C2 = json_encode($C2);
+            $unitC->C2 = json_encode(array($C2a, $C2b, $C2c, $C2d));
             $unitC->C3 = json_encode(array($C3a, $C3b, $C3c));
             $unitC->C4 = $C4;
             $unitC->C5 = $C5;
         }
 
         $unitC->progress = $unitC->C1 == 5 ? 100 :
-            (($unitC->C1 == NULL || $unitC->C1 == "-1") ? 0 : 14) +
-            (($unitC->C2 == NULL || $unitC->C2 == "null") ? 0 : 14) +
-            ($unitC->C3 == NULL ? 0 : $this->countNotEmptyInArray($unitC->C3) * 14)+
-            (($unitC->C4 == NULL || $unitC->C4 == "-1") ? 0 : 15) +
-            (($unitC->C5 == NULL || $unitC->C5 == "-1") ? 0 : 15);
+            (($unitC->C1 == NULL || $unitC->C1 == "-1") ? 0 : 10) +
+            ($unitC->C2 == NULL ? 0 : $this->countNotEmptyInArray($unitC->C2) * 10)+
+            ($unitC->C3 == NULL ? 0 : $this->countNotEmptyInArray($unitC->C3) * 10)+
+            (($unitC->C4 == NULL || $unitC->C4 == "-1") ? 0 : 10) +
+            (($unitC->C5 == NULL || $unitC->C5 == "-1") ? 0 : 10);
 
         if (!$unitC->pk) {
             $unitC = $unitC->save();
@@ -382,8 +385,8 @@ class Controller_Surveys_Ajax extends Ajax
 
         if ($need_update) {
             $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_WITH_REFRESH_SUCCESS', 'success');
-        } else if ($C1 == NULL || $C2 == NULL || $C2 == "null" || $C3a == -1 || $C3b == -1 ||
-                    $C3c == -1 || $C4 == -1 || $C5 == -1 )
+        } else if ($C1 == NULL || $C2a == -1 || $C2b == -1 || $C2c == -1 || $C2d == -1 ||
+                $C3a == -1 || $C3b == -1 || $C3c == -1 || $C4 == -1 || $C5 == -1 )
         {
             $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_WARMING', 'warning');
         } else {
