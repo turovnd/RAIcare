@@ -20,17 +20,18 @@
 
             <?= View::factory('reports/block/patient-info', array('survey' => $survey)); ?>
 
-            <div class="block">
+            <div class="block user-select--none">
                 <div class="block__body">
 
                     <fieldset>
-                        <div class="row">
+                        <div class="row cursor-pointer" data-toggle="collapse" data-area="PURS" data-opened="false">
                             <div class="col-xs-12 col-sm-8 col-md-9">
                                 <div class="form-group">
-                                    <label class="form-group__label col-xs-12">
+                                    <label class="form-group__label col-xs-12 cursor-pointer">
                                         Pressure Ulcer Risk Scale (PURS)
+                                        <small class="text-normal text-italic">подробнее</small>
                                     </label>
-                                    <div class="col-xs-12">
+                                    <div class="col-xs-12 collapse" id="PURS">
                                         <ul class="m-0 pos-relative p-l-20 list-style--none">
                                             <li class="p-b-10 <?= $report->PURS == 0 ? 'text-brand' : ''; ?>">
                                                 <? if ($report->PURS == 0) : ?>
@@ -48,7 +49,7 @@
                                                 <? endif; ?>
                                                 1 - 2 Low risk
                                             </li>
-                                            <li class="p-b-10 <?= $report->PURS == 3 ? 'text-danger' : ''; ?>">
+                                            <li class="p-b-10 <?= $report->PURS == 3 ? 'text-brand' : ''; ?>">
                                                 <? if ($report->PURS == 3) : ?>
                                                     <span class="fl_l pos-absolute left-0">
                                                     <i class="fa fa-play" aria-hidden="true"></i>
@@ -77,8 +78,8 @@
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-4 col-md-3 p-l-30 p-r-30 text-center m-t-10">
-                                <canvas data-min="0" data-max="8" data-value="<?= $report->PURS; ?>" data-fontsize="22" width="200" height="35" data-speed="80" data-animate="true" data-inpercent="false" data-showtext="true" data-showlabels="true" class="js-progress" data-linecolor="<?= $report->PURS < 3 ? '#008DA7' : '#f05050'; ?>"></canvas>
-                                <div class="text-bold m-t-5 <?= $report->PURS < 3 ? 'text-brand' : 'text-danger'; ?>">
+                                <canvas data-min="0" data-max="8" data-value="<?= $report->PURS; ?>" data-fontsize="22" width="200" height="35" data-speed="80" data-animate="true" data-inpercent="false" data-showtext="true" data-showlabels="true" class="js-progress" data-linecolor="<?= $report->PURS < 4 ? '#008DA7' : '#f05050'; ?>"></canvas>
+                                <div class="text-bold m-t-5 <?= $report->PURS < 4 ? 'text-brand' : 'text-danger'; ?>">
                                     PURS = <?= $report->PURS; ?>
                                 </div>
                             </div>
@@ -86,13 +87,14 @@
                     </fieldset>
 
                     <fieldset>
-                        <div class="row">
+                        <div class="row cursor-pointer" data-toggle="collapse" data-area="CPS" data-opened="false">
                             <div class="col-xs-12 col-sm-8 col-md-9">
                                 <div class="form-group">
-                                    <label class="form-group__label col-xs-12">
+                                    <label class="form-group__label col-xs-12 cursor-pointer">
                                         Cognitive Performance Scale (CPS)
+                                        <small class="text-normal text-italic">подробнее</small>
                                     </label>
-                                    <div class="col-xs-12">
+                                    <div class="col-xs-12 collapse" id="CPS">
                                         <ul class="m-0 pos-relative p-l-20 list-style--none">
                                             <li class="p-b-10 <?= $report->CPS == 0 ? 'text-brand' : ''; ?>">
                                                 <? if ($report->CPS == 0) : ?>
@@ -118,7 +120,7 @@
                                                 <? endif; ?>
                                                 2 Mild impairment
                                             </li>
-                                            <li class="p-b-10 <?= $report->CPS == 3 ? 'text-danger' : ''; ?>">
+                                            <li class="p-b-10 <?= $report->CPS == 3 ? 'text-brand' : ''; ?>">
                                                 <? if ($report->CPS == 3) : ?>
                                                     <span class="fl_l pos-absolute left-0">
                                                         <i class="fa fa-play" aria-hidden="true"></i>
@@ -155,8 +157,8 @@
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-4 col-md-3 p-l-30 p-r-30 text-center m-t-10">
-                                <canvas data-min="0" data-max="6" data-value="<?= $report->CPS; ?>" data-fontsize="22" width="200" height="35" data-speed="80" data-animate="true" data-inpercent="false" data-showtext="true" data-showlabels="true" class="js-progress" data-linecolor="<?= $report->CPS < 3 ? '#008DA7' : '#f05050'; ?>"></canvas>
-                                <div class="text-bold m-t-5 <?= $report->CPS < 3 ? 'text-brand' : 'text-danger'; ?>">
+                                <canvas data-min="0" data-max="6" data-value="<?= $report->CPS; ?>" data-fontsize="22" width="200" height="35" data-speed="80" data-animate="true" data-inpercent="false" data-showtext="true" data-showlabels="true" class="js-progress" data-linecolor="<?= $report->CPS < 4 ? '#008DA7' : '#f05050'; ?>"></canvas>
+                                <div class="text-bold m-t-5 <?= $report->CPS < 4 ? 'text-brand' : 'text-danger'; ?>">
                                     CPS = <?= $report->CPS; ?>
                                 </div>
                             </div>
@@ -164,13 +166,14 @@
                     </fieldset>
 
                     <fieldset>
-                        <div class="row">
+                        <div class="row" data-toggle="collapse" data-area="BMI" data-opened="false">
                             <div class="col-xs-12 col-sm-8 col-md-9">
                                 <div class="form-group">
-                                    <label class="form-group__label col-xs-12">
+                                    <label class="form-group__label col-xs-12 cursor-pointer">
                                         Body Mass Index (BMI)
+                                        <small class="text-normal text-italic">подробнее</small>
                                     </label>
-                                    <div class="col-xs-12">
+                                    <div class="col-xs-12 collapse" id="BMI">
                                         <ul class="m-0 pos-relative p-l-20 list-style--none">
                                             <li class="p-b-10 <?= $report->BMI < 20 ? 'text-danger' : ''; ?>">
                                                 <? if ($report->BMI < 20) : ?>
@@ -219,8 +222,8 @@
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-4 col-md-3 p-l-30 p-r-30 text-center m-t-10">
-                                <canvas data-min="0" data-max="9" data-value="<?= $report->SRD; ?>" data-fontsize="22" width="200" height="35" data-speed="80" data-animate="true" data-inpercent="false" data-showtext="false" data-showlabels="true" class="js-progress" data-linecolor="<?= $report->SRD <= 4 ? '#008DA7' : '#f05050'; ?>"></canvas>
-                                <div class="text-bold m-t-5 <?= $report->SRD <= 4 ? 'text-brand' : 'text-danger'; ?>">
+                                <canvas data-min="0" data-max="9" data-value="<?= $report->SRD; ?>" data-fontsize="22" width="200" height="35" data-speed="80" data-animate="true" data-inpercent="false" data-showtext="false" data-showlabels="true" class="js-progress" data-linecolor="<?= $report->SRD < 5 ? '#008DA7' : '#f05050'; ?>"></canvas>
+                                <div class="text-bold m-t-5 <?= $report->SRD < 5 ? 'text-brand' : 'text-danger'; ?>">
                                     SRD = <?= $report->SRD; ?>
                                 </div>
                             </div>
@@ -228,13 +231,14 @@
                     </fieldset>
 
                     <fieldset>
-                        <div class="row">
+                        <div class="row" data-toggle="collapse" data-area="DRS" data-opened="false">
                             <div class="col-xs-12 col-sm-8 col-md-9">
                                 <div class="form-group">
-                                    <label class="form-group__label col-xs-12">
+                                    <label class="form-group__label col-xs-12 cursor-pointer">
                                         Depression Rating Scale (DRS)
+                                        <small class="text-normal text-italic">подробнее</small>
                                     </label>
-                                    <div class="col-xs-12">
+                                    <div class="col-xs-12 collapse" id="DRS">
                                         <ul class="m-0 pos-relative p-l-20 list-style--none">
                                             <li class="p-b-10 <?= $report->DRS <= 2 ? 'text-brand' : ''; ?>">
                                                 <? if ($report->DRS <= 2) : ?>
@@ -252,7 +256,7 @@
                                                 <? endif; ?>
                                                 3 - 8 Depressive symptoms, likelihood of at least mild depression
                                             </li>
-                                            <li class="p-b-10 <?= $report->DRS >= 9 ? 'text-brand' : ''; ?>">
+                                            <li class="p-b-10 <?= $report->DRS >= 9 ? 'text-danger' : ''; ?>">
                                                 <? if ($report->DRS >= 9 ) : ?>
                                                     <span class="fl_l pos-absolute left-0">
                                                         <i class="fa fa-play" aria-hidden="true"></i>
@@ -265,8 +269,8 @@
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-4 col-md-3 p-l-30 p-r-30 text-center m-t-10">
-                                <canvas data-min="0" data-max="14" data-value="<?= $report->DRS; ?>" data-fontsize="22" width="200" height="35" data-speed="80" data-animate="true" data-inpercent="false" data-showtext="true" data-showlabels="true" class="js-progress" data-linecolor="<?= $report->DRS <= 2 ? '#008DA7' : '#f05050'; ?>"></canvas>
-                                <div class="text-bold m-t-5 <?= $report->DRS <= 2 ? 'text-brand' : 'text-danger'; ?>">
+                                <canvas data-min="0" data-max="14" data-value="<?= $report->DRS; ?>" data-fontsize="22" width="200" height="35" data-speed="80" data-animate="true" data-inpercent="false" data-showtext="true" data-showlabels="true" class="js-progress" data-linecolor="<?= $report->DRS < 9 ? '#008DA7' : '#f05050'; ?>"></canvas>
+                                <div class="text-bold m-t-5 <?= $report->DRS < 9 ? 'text-brand' : 'text-danger'; ?>">
                                     DRS = <?= $report->DRS; ?>
                                 </div>
                             </div>
@@ -274,13 +278,14 @@
                     </fieldset>
 
                     <fieldset>
-                        <div class="row">
+                        <div class="row" data-toggle="collapse" data-area="Pain" data-opened="false">
                             <div class="col-xs-12 col-sm-8 col-md-9">
                                 <div class="form-group">
-                                    <label class="form-group__label col-xs-12">
+                                    <label class="form-group__label col-xs-12 cursor-pointer">
                                         Pain Scale (Pain)
+                                        <small class="text-normal text-italic">подробнее</small>
                                     </label>
-                                    <div class="col-xs-12">
+                                    <div class="col-xs-12 collapse" id="Pain">
                                         <ul class="m-0 pos-relative p-l-20 list-style--none">
                                             <li class="p-b-10 <?= $report->Pain == 0 ? 'text-brand' : ''; ?>">
                                                 <? if ($report->Pain == 0) : ?>
@@ -298,7 +303,7 @@
                                                 <? endif; ?>
                                                 1 Less than daily pain
                                             </li>
-                                            <li class="p-b-10 <?= $report->Pain == 2 ? 'text-danger' : ''; ?>">
+                                            <li class="p-b-10 <?= $report->Pain == 2 ? 'text-brand' : ''; ?>">
                                                 <? if ($report->Pain == 2) : ?>
                                                     <span class="fl_l pos-absolute left-0">
                                                         <i class="fa fa-play" aria-hidden="true"></i>
@@ -327,8 +332,8 @@
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-4 col-md-3 p-l-30 p-r-30 text-center m-t-10">
-                                <canvas data-min="0" data-max="4" data-value="<?= $report->Pain; ?>" data-fontsize="22" width="200" height="35" data-speed="80" data-animate="true" data-inpercent="false" data-showtext="true" data-showlabels="true" class="js-progress" data-linecolor="<?= $report->Pain < 2 ? '#008DA7' : '#f05050'; ?>"></canvas>
-                                <div class="text-bold m-t-5 <?= $report->Pain < 2 ? 'text-brand' : 'text-danger'; ?>">
+                                <canvas data-min="0" data-max="4" data-value="<?= $report->Pain; ?>" data-fontsize="22" width="200" height="35" data-speed="80" data-animate="true" data-inpercent="false" data-showtext="true" data-showlabels="true" class="js-progress" data-linecolor="<?= $report->Pain < 3 ? '#008DA7' : '#f05050'; ?>"></canvas>
+                                <div class="text-bold m-t-5 <?= $report->Pain < 3 ? 'text-brand' : 'text-danger'; ?>">
                                     Pain = <?= $report->Pain; ?>
                                 </div>
                             </div>
@@ -336,13 +341,14 @@
                     </fieldset>
 
                     <fieldset>
-                        <div class="row">
+                        <div class="row" data-toggle="collapse" data-area="COMM" data-opened="false">
                             <div class="col-xs-12 col-sm-8 col-md-9">
                                 <div class="form-group">
-                                    <label class="form-group__label col-xs-12">
+                                    <label class="form-group__label col-xs-12 cursor-pointer">
                                         Communication Scale (COMM)
+                                        <small class="text-normal text-italic">подробнее</small>
                                     </label>
-                                    <div class="col-xs-12">
+                                    <div class="col-xs-12 collapse" id="COMM">
                                         <ul class="m-0 pos-relative p-l-20 list-style--none">
                                             <li class="p-b-10 <?= $report->COMM == 0 ? 'text-brand' : ''; ?>">
                                                 <? if ($report->COMM == 0) : ?>
@@ -421,8 +427,8 @@
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-4 col-md-3 p-l-30 p-r-30 text-center m-t-10">
-                                <canvas data-min="0" data-max="8" data-value="<?= $report->COMM; ?>" data-fontsize="22" width="200" height="35" data-speed="80" data-animate="true" data-inpercent="false" data-showtext="true" data-showlabels="true" class="js-progress" data-linecolor="<?= $report->COMM <= 3 ? '#008DA7' : '#f05050'; ?>"></canvas>
-                                <div class="text-bold m-t-5 <?= $report->COMM <= 3 ? 'text-brand' : 'text-danger'; ?>">
+                                <canvas data-min="0" data-max="8" data-value="<?= $report->COMM; ?>" data-fontsize="22" width="200" height="35" data-speed="80" data-animate="true" data-inpercent="false" data-showtext="true" data-showlabels="true" class="js-progress" data-linecolor="<?= $report->COMM < 4 ? '#008DA7' : '#f05050'; ?>"></canvas>
+                                <div class="text-bold m-t-5 <?= $report->COMM < 4 ? 'text-brand' : 'text-danger'; ?>">
                                     COMM = <?= $report->COMM; ?>
                                 </div>
                             </div>
@@ -430,13 +436,14 @@
                     </fieldset>
 
                     <fieldset>
-                        <div class="row">
+                        <div class="row" data-toggle="collapse" data-area="CHESS" data-opened="false">
                             <div class="col-xs-12 col-sm-8 col-md-9">
                                 <div class="form-group">
-                                    <label class="form-group__label col-xs-12">
+                                    <label class="form-group__label col-xs-12 cursor-pointer">
                                         Changes in Health, End-Stage Disease, Signs, and Symptoms Scale (CHESS)
+                                        <small class="text-normal text-italic">подробнее</small>
                                     </label>
-                                    <div class="col-xs-12">
+                                    <div class="col-xs-12 collapse" id="CHESS">
                                         <ul class="m-0 pos-relative p-l-20 list-style--none">
                                             <li class="p-b-10 <?= $report->CHESS == 0 ? 'text-brand' : ''; ?>">
                                                 <? if ($report->CHESS == 0) : ?>
@@ -491,8 +498,8 @@
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-4 col-md-3 p-l-30 p-r-30 text-center m-t-10">
-                                <canvas data-min="0" data-max="5" data-value="<?= $report->CHESS; ?>" data-fontsize="22" width="200" height="35" data-speed="80" data-animate="true" data-inpercent="false" data-showtext="true" data-showlabels="true" class="js-progress" data-linecolor="<?= $report->CHESS < 3 ? '#008DA7' : '#f05050'; ?>"></canvas>
-                                <div class="text-bold m-t-5 <?= $report->CHESS < 3 ? 'text-brand' : 'text-danger'; ?>">
+                                <canvas data-min="0" data-max="5" data-value="<?= $report->CHESS; ?>" data-fontsize="22" width="200" height="35" data-speed="80" data-animate="true" data-inpercent="false" data-showtext="true" data-showlabels="true" class="js-progress" data-linecolor="<?= $report->CHESS < 4 ? '#008DA7' : '#f05050'; ?>"></canvas>
+                                <div class="text-bold m-t-5 <?= $report->CHESS < 4 ? 'text-brand' : 'text-danger'; ?>">
                                     CHESS = <?= $report->CHESS; ?>
                                 </div>
                             </div>
@@ -500,13 +507,14 @@
                     </fieldset>
 
                     <fieldset>
-                        <div class="row">
+                        <div class="row" data-toggle="collapse" data-area="ADLH" data-opened="false">
                             <div class="col-xs-12 col-sm-8 col-md-9">
                                 <div class="form-group">
-                                    <label class="form-group__label col-xs-12">
+                                    <label class="form-group__label col-xs-12 cursor-pointer">
                                         Activities of Daily Living Hierarchy (ADLH)
+                                        <small class="text-normal text-italic">подробнее</small>
                                     </label>
-                                    <div class="col-xs-12">
+                                    <div class="col-xs-12 collapse" id="ADLH">
                                         <ul class="m-0 pos-relative p-l-20 list-style--none">
                                             <li class="p-b-10 <?= $report->ADLH == 0 ? 'text-brand' : ''; ?>">
                                                 <? if ($report->ADLH == 0) : ?>
@@ -516,7 +524,7 @@
                                                 <? endif; ?>
                                                 0 Independent
                                             </li>
-                                            <li class="p-b-10 <?= $report->ADLH == 1 ? 'text-danger' : ''; ?>">
+                                            <li class="p-b-10 <?= $report->ADLH == 1 ? 'text-brand' : ''; ?>">
                                                 <? if ($report->ADLH == 1) : ?>
                                                     <span class="fl_l pos-absolute left-0">
                                                         <i class="fa fa-play" aria-hidden="true"></i>
@@ -524,7 +532,7 @@
                                                 <? endif; ?>
                                                 1 Supervision required
                                             </li>
-                                            <li class="p-b-10 <?= $report->ADLH == 2 ? 'text-danger' : ''; ?>">
+                                            <li class="p-b-10 <?= $report->ADLH == 2 ? 'text-brand' : ''; ?>">
                                                 <? if ($report->ADLH == 2) : ?>
                                                     <span class="fl_l pos-absolute left-0">
                                                         <i class="fa fa-play" aria-hidden="true"></i>
@@ -532,13 +540,21 @@
                                                 <? endif; ?>
                                                 2 Limited impairment
                                             </li>
-                                            <li class="p-b-10 <?= $report->ADLH == 3 || $report->ADLH == 4 ? 'text-danger' : ''; ?>">
-                                                <? if ($report->ADLH == 3 || $report->ADLH == 4) : ?>
+                                            <li class="p-b-10 <?= $report->ADLH == 3 ? 'text-brand' : ''; ?>">
+                                                <? if ($report->ADLH == 3 ) : ?>
                                                     <span class="fl_l pos-absolute left-0">
                                                         <i class="fa fa-play" aria-hidden="true"></i>
                                                     </span>
                                                 <? endif; ?>
-                                                3 - 4 Extensive assistance required - 1
+                                                3 Maximal
+                                            </li>
+                                            <li class="p-b-10 <?= $report->ADLH == 4 ? 'text-danger' : ''; ?>">
+                                                <? if ($report->ADLH == 4) : ?>
+                                                    <span class="fl_l pos-absolute left-0">
+                                                        <i class="fa fa-play" aria-hidden="true"></i>
+                                                    </span>
+                                                <? endif; ?>
+                                                4 Extensive assistance required - 1
                                             </li>
                                             <li class="p-b-10 <?= $report->ADLH == 5 ? 'text-danger' : ''; ?>">
                                                 <? if ($report->ADLH == 5) : ?>
@@ -561,8 +577,8 @@
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-4 col-md-3 p-l-30 p-r-30 text-center m-t-10">
-                                <canvas data-min="0" data-max="6" data-value="<?= $report->ADLH; ?>" data-fontsize="22" width="200" height="35" data-speed="80" data-animate="true" data-inpercent="false" data-showtext="true" data-showlabels="true" class="js-progress" data-linecolor="<?= $report->ADLH == 0 ? '#008DA7' : '#f05050'; ?>"></canvas>
-                                <div class="text-bold m-t-5 <?= $report->ADLH == 0 ? 'text-brand' : 'text-danger'; ?>">
+                                <canvas data-min="0" data-max="6" data-value="<?= $report->ADLH; ?>" data-fontsize="22" width="200" height="35" data-speed="80" data-animate="true" data-inpercent="false" data-showtext="true" data-showlabels="true" class="js-progress" data-linecolor="<?= $report->ADLH < 4 ? '#008DA7' : '#f05050'; ?>"></canvas>
+                                <div class="text-bold m-t-5 <?= $report->ADLH < 4 ? 'text-brand' : 'text-danger'; ?>">
                                     ADLH = <?= $report->ADLH; ?>
                                 </div>
                             </div>
@@ -570,13 +586,14 @@
                     </fieldset>
 
                     <fieldset>
-                        <div class="row">
+                        <div class="row" data-toggle="collapse" data-area="ABS" data-opened="false">
                             <div class="col-xs-12 col-sm-8 col-md-9">
                                 <div class="form-group">
-                                    <label class="form-group__label col-xs-12">
+                                    <label class="form-group__label col-xs-12 cursor-pointer">
                                         Aggressive Behaviour Scale (ABS)
+                                        <small class="text-normal text-italic">подробнее</small>
                                     </label>
-                                    <div class="col-xs-12">
+                                    <div class="col-xs-12 collapse" id="ABS">
                                         <ul class="m-0 pos-relative p-l-20 list-style--none">
                                             <li class="p-b-10 <?= $report->ABS == 0 ? 'text-brand' : ''; ?>">
                                                 <? if ($report->ABS == 0) : ?>
@@ -586,7 +603,7 @@
                                                 <? endif; ?>
                                                 0 No aggressive behavior
                                             </li>
-                                            <li class="p-b-10 <?= $report->ABS >= 1 && $report->ABS <= 5 ? 'text-danger' : ''; ?>">
+                                            <li class="p-b-10 <?= $report->ABS >= 1 && $report->ABS <= 5 ? 'text-brand' : ''; ?>">
                                                 <? if ($report->ABS >= 1 && $report->ABS <= 5) : ?>
                                                     <span class="fl_l pos-absolute left-0">
                                                         <i class="fa fa-play" aria-hidden="true"></i>
@@ -607,8 +624,8 @@
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-4 col-md-3 p-l-30 p-r-30 text-center m-t-10">
-                                <canvas data-min="0" data-max="12" data-value="<?= $report->ABS; ?>" data-fontsize="22" width="200" height="35" data-speed="80" data-animate="true" data-inpercent="false" data-showtext="true" data-showlabels="true" class="js-progress" data-linecolor="<?= $report->ABS == 0 ? '#008DA7' : '#f05050'; ?>"></canvas>
-                                <div class="text-bold m-t-5 <?= $report->ABS == 0 ? 'text-brand' : 'text-danger'; ?>">
+                                <canvas data-min="0" data-max="12" data-value="<?= $report->ABS; ?>" data-fontsize="22" width="200" height="35" data-speed="80" data-animate="true" data-inpercent="false" data-showtext="true" data-showlabels="true" class="js-progress" data-linecolor="<?= $report->ABS < 6 ? '#008DA7' : '#f05050'; ?>"></canvas>
+                                <div class="text-bold m-t-5 <?= $report->ABS < 6 ? 'text-brand' : 'text-danger'; ?>">
                                     ABS = <?= $report->ABS; ?>
                                 </div>
                             </div>
@@ -625,8 +642,8 @@
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-4 col-md-3 p-l-30 p-r-30 text-center m-t-10">
-                                <canvas data-min="0" data-max="28" data-value="<?= $report->ADLLF; ?>" data-fontsize="22" width="200" height="35" data-speed="80" data-animate="true" data-inpercent="false" data-showtext="false" data-showlabels="true" class="js-progress" data-linecolor="<?= $report->ADLLF <= 10 ? '#008DA7' : '#f05050'; ?>"></canvas>
-                                <div class="text-bold m-t-5 <?= $report->ADLLF <= 10 ? 'text-brand' : 'text-danger'; ?>">
+                                <canvas data-min="0" data-max="28" data-value="<?= $report->ADLLF; ?>" data-fontsize="22" width="200" height="35" data-speed="80" data-animate="true" data-inpercent="false" data-showtext="false" data-showlabels="true" class="js-progress" data-linecolor="<?= $report->ADLLF < 15 ? '#008DA7' : '#f05050'; ?>"></canvas>
+                                <div class="text-bold m-t-5 <?= $report->ADLLF < 15 ? 'text-brand' : 'text-danger'; ?>">
                                     ADLLF = <?= $report->ADLLF; ?>
                                 </div>
                             </div>
