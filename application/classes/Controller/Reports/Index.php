@@ -241,18 +241,18 @@ class Controller_Reports_Index extends Dispatch
         $this->report->P11 = $P11;
 
         // Pressure Ulcer - Тяжелые пролежни
-        $P12 = $this->survey->unitL->L1 >= 2 ? 1 : $this->survey->unitL->L1 == 1 ? 2 : (($this->getADL() == 5 || $this->getADL() == 6) && ($this->survey->unitL->L2 == 1 || $this->survey->unitL->L3 == 1 || $this->survey->unitL->L4 == 1 || $this->survey->unitL->L5 == 1 || $this->survey->unitL->L6 == 1)) ? 3 : 0;
+        $P12 = $this->survey->unitL->L1 >= 2 ? 1 : $this->survey->unitL->L1 == 1 ? 2 : (($this->getADLH() == 5 || $this->getADLH() == 6) && ($this->survey->unitL->L2 == 1 || $this->survey->unitL->L3 == 1 || $this->survey->unitL->L4 == 1 || $this->survey->unitL->L5 == 1 || $this->survey->unitL->L6 == 1)) ? 3 : 0;
         $this->report->P12 = $P12;
 
         // Urinary Incontinence - Недержание мочи
         $P13 = ($this->getCPS() >= 5) ? 0 :
             (($this->survey->unitH->H1 >= 2 && $this->getCPS() <= 3 && ($this->survey->unitO->O2[8] == 0 || $this->survey->unitI->I1[0] >= 1 || $this->survey->unitG->G5 == 2 || $this->survey->unitH->H2 == 2 || $this->survey->unitI->I1[17] >= 1 || $this->survey->unitJ->J3[12] >= 1)) ? 2 :
-            (($this->survey->unitH->H1 >= 2 && $this->survey->unitC->C1 < 2 && $this->getADL() < 6 && $this->survey->unitG->G1[5] < 4 && ($this->survey->unitO->O2[8] == 0 || $this->survey->unitI->I1[0] >= 1 || $this->survey->unitG->G5 == 2 || $this->survey->unitH->H2 == 2 || $this->survey->unitI->I1[17] >= 1 || $this->survey->unitJ->J3[12] >= 1)) ? 3 : 1));
+            (($this->survey->unitH->H1 >= 2 && $this->survey->unitC->C1 < 2 && $this->getADLH() < 6 && $this->survey->unitG->G1[5] < 4 && ($this->survey->unitO->O2[8] == 0 || $this->survey->unitI->I1[0] >= 1 || $this->survey->unitG->G5 == 2 || $this->survey->unitH->H2 == 2 || $this->survey->unitI->I1[17] >= 1 || $this->survey->unitJ->J3[12] >= 1)) ? 3 : 1));
         $this->report->P13 = $P13;
 
         // Physical restraint - Физическая сдержанность
-        $P14 = (($O7[0] > 0 || $O7[1] > 0 || $O7[2] > 0) && $this->getADL() <= 2) ? 2 :
-            (($O7[0] > 0 || $O7[1] > 0 || $O7[2] > 0) && ($this->getADL() <= 4 && $this->getADL() > 2)) ? 1 : 0;
+        $P14 = (($O7[0] > 0 || $O7[1] > 0 || $O7[2] > 0) && $this->getADLH() <= 2) ? 2 :
+            (($O7[0] > 0 || $O7[1] > 0 || $O7[2] > 0) && ($this->getADLH() <= 4 && $this->getADLH() > 2)) ? 1 : 0;
         $this->report->P14 = $P14;
 
         // Activities - Активность
@@ -279,54 +279,22 @@ class Controller_Reports_Index extends Dispatch
         $this->report->id = $this->survey->id;
         $this->report->pension = $this->survey->pension->id;
 
-        // Pressure Ulcer Risk Scale
-        $PURS = 0;
-        $this->report->PURS = $PURS;
-
-        // Cognitive Performance Scale
-        $CPS = 0;
-        $this->report->CPS = $CPS;
-
-        // Body Mass Index
-        $BMI = 0;
-        $this->report->BMI = $BMI;
-
-        // Self Rated Depression
-        $SRD = 0;
-        $this->report->SRD = $SRD;
-
-        // Depression Rating Scale
-        $DRS = 0;
-        $this->report->DRS = $DRS;
-
-        // Pain Scale
-        $Pain = 0;
-        $this->report->Pain = $Pain;
-
-        // Communication Scale
-        $COMM = 0;
-        $this->report->COMM = $COMM;
-
-        // Changes in Health, End-Stage Disease, Signs, and Symptoms Scale
-        $CHESS = 0;
-        $this->report->CHESS = $CHESS;
-
-        // Activities of Daily Living (Hierarchy)
-        $ADLH = 0;
-        $this->report->ADLH = $ADLH;
-
-        // Aggressive Behaviour Scale
-        $ABS = 0;
-        $this->report->ABS = $ABS;
-
-        // Activities of Daily Living (Long Form)
-        $ADLLF = 0;
-        $this->report->ADLLF = $ADLLF;
+        $this->report->PURS = $this->getPURS();
+        $this->report->CPS = $this->getCPS();
+        $this->report->BMI = $this->getBMI();
+        $this->report->SRD = $this->getSRD();
+        $this->report->DRS = $this->getDRS();
+        $this->report->Pain = $this->getPain();
+        $this->report->COMM = $this->getCOMM();
+        $this->report->CHESS = $this->getCHESS();
+        $this->report->ADLH = $this->getADLH();
+        $this->report->ABS = $this->getABS();
+        $this->report->ADLLF = $this->getADLLF();
 
         //$this->report->save();
     }
 
-
+    // Get Main Survey Data
     private function getSurveyData($mod, $id)
     {
         if ($mod == 'pk') $this->survey = new Model_Survey($id);
@@ -345,6 +313,7 @@ class Controller_Reports_Index extends Dispatch
         $this->survey->patient->full_info = true;
     }
 
+    // Get All Units Data
     private function getUnitsData()
     {
         $this->survey->unitA = new Model_SurveyUnitA($this->survey->unitA);
@@ -367,6 +336,7 @@ class Controller_Reports_Index extends Dispatch
         $this->survey->unitR = new Model_SurveyUnitR($this->survey->unitR);
     }
 
+    // Check User Access to the Report
     private function checkUsersPensionAccess()
     {
         $pension = $this->request->param('pen_id');
@@ -383,42 +353,23 @@ class Controller_Reports_Index extends Dispatch
         }
     }
 
-    // Depression Rating Scale, DRS 
-    private function getDRS()
+    // Pressure Ulcer Risk Scale
+    private function getPURS()
     {
-        $drs = 0;
-        $E1 = json_decode($this->survey->unitE->E1);
-        $drs += $E1[0] == 0 ? 0 : ($E1[0] == 1 || $E1[0] == 2) ? 1 : 2;
-        $drs += $E1[1] == 0 ? 0 : ($E1[1] == 1 || $E1[1] == 2) ? 1 : 2;
-        $drs += $E1[2] == 0 ? 0 : ($E1[2] == 1 || $E1[2] == 2) ? 1 : 2;
-        $drs += $E1[3] == 0 ? 0 : ($E1[3] == 1 || $E1[3] == 2) ? 1 : 2;
-        $drs += $E1[4] == 0 ? 0 : ($E1[4] == 1 || $E1[4] == 2) ? 1 : 2;
-        $drs += $E1[5] == 0 ? 0 : ($E1[5] == 1 || $E1[5] == 2) ? 1 : 2;
-        $drs += $E1[6] == 0 ? 0 : ($E1[6] == 1 || $E1[6] == 2) ? 1 : 2;
-        return $drs;
-    }
+        $G1 = json_decode($this->survey->unitG->G1);
+        $K2 = json_decode($this->survey->unitK->K2);
+        $J6 = json_decode($this->survey->unitJ->J6);
 
-    // Body Mass Index, BMI
-    private function getBMI()
-    {
-        $K1 = json_decode($this->survey->unitK->K1);
-        return $K1[1] / ($K1[0] * $K1[0]);
-    }
+        $purs = 0;
+        if ( $G1[8] >=4 ) $purs++;
+        if ( $G1[4] >=4 ) $purs++;
+        if ( $this->survey->unitH->H3 >= 2 ) $purs++;
+        // TODO add condition - https://github.com/kolyasha/raisoft/issues/26
+        if ( $K2[0] == 1 ) $purs++;
+        if ( $J6[0] == 3 ) $purs++;
+        if ( $this->survey->unitJ->J4 >= 2 ) $purs++;
 
-    // Activities of Daily Living (Hierarchy), ADLH
-    private function getADL()
-    {
-        //Personal hygiene  $this->survey->unitG->G1[1] => G1b
-        //Toilet use        $this->survey->unitG->G1[7] => G1h
-        //Locomotion        $this->survey->unitG->G1[5] => G1f
-        //Eating            $this->survey->unitG->G1[9] => G1j
-
-        return  ($this->survey->unitG->G1[1] >= 6 && $this->survey->unitG->G1[5] >= 6 && $this->survey->unitG->G1[7] >= 6 && $this->survey->unitG->G1[9] >= 6) ? 6 :
-                ($this->survey->unitG->G1[9] >= 6 || $this->survey->unitG->G1[5] >= 6) ? 5 :
-                (($this->survey->unitG->G1[9] < 6 && $this->survey->unitG->G1[5] < 6) && ($this->survey->unitG->G1[9] == 4 || $this->survey->unitG->G1[5] == 4)) ? 4 :
-                (($this->survey->unitG->G1[1] == 4 || $this->survey->unitG->G1[7] == 4) && ($this->survey->unitG->G1[9] < 4 && $this->survey->unitG->G1[5] < 4)) ? 3 :
-                (($this->survey->unitG->G1[1] < 4 && $this->survey->unitG->G1[7] < 4 && $this->survey->unitG->G1[9] < 4 && $this->survey->unitG->G1[5] < 4) && ($this->survey->unitG->G1[1] == 3 || $this->survey->unitG->G1[7] == 3 || $this->survey->unitG->G1[9] == 3 || $this->survey->unitG->G1[5] == 3)) ? 2 :
-                (($this->survey->unitG->G1[1] < 3 && $this->survey->unitG->G1[7] < 3 && $this->survey->unitG->G1[9] < 3 && $this->survey->unitG->G1[5] < 3) && ($this->survey->unitG->G1[1] == 2 || $this->survey->unitG->G1[7] == 2 || $this->survey->unitG->G1[9] == 2 || $this->survey->unitG->G1[5] == 2)) ? 1 : 0;
+        return $purs;
     }
 
     // Cognitive Performance Scale
@@ -458,10 +409,113 @@ class Controller_Reports_Index extends Dispatch
         }
     }
 
-    // Communication Scale, COMM
+    // Body Mass Index
+    private function getBMI()
+    {
+        $K1 = json_decode($this->survey->unitK->K1);
+        return number_format ($K1[1] / ($K1[0] * $K1[0]) * 10000, 2);
+    }
+
+    // Self Rated Depression
+    private function getSRD()
+    {
+        $E2 = json_decode($this->survey->unitE->E2);
+        return ($E2[0] == 8 ? 0 : $E2[0]) + ($E2[1] == 8 ? 0 : $E2[1]) + ($E2[2] == 8 ? 0 : $E2[2]);
+    }
+
+    // Depression Rating Scale
+    private function getDRS()
+    {
+        $E1 = json_decode($this->survey->unitE->E1);
+        $drs = 0;
+        $drs += $E1[0] == 0 ? 0 : (($E1[0] == 1 || $E1[0] == 2) ? 1 : 2);
+        $drs += $E1[1] == 0 ? 0 : (($E1[1] == 1 || $E1[1] == 2) ? 1 : 2);
+        $drs += $E1[2] == 0 ? 0 : (($E1[2] == 1 || $E1[2] == 2) ? 1 : 2);
+        $drs += $E1[3] == 0 ? 0 : (($E1[3] == 1 || $E1[3] == 2) ? 1 : 2);
+        $drs += $E1[4] == 0 ? 0 : (($E1[4] == 1 || $E1[4] == 2) ? 1 : 2);
+        $drs += $E1[5] == 0 ? 0 : (($E1[5] == 1 || $E1[5] == 2) ? 1 : 2);
+        $drs += $E1[6] == 0 ? 0 : (($E1[6] == 1 || $E1[6] == 2) ? 1 : 2);
+        return $drs;
+    }
+
+    // Pain Scale
+    private function getPain()
+    {
+        $J6 = json_decode($this->survey->unitJ->J6);
+        if ($J6[0] == 0 || $J6[1] == 0) return 0;
+        if ($J6[0] < 3) return 1;
+        if ($J6[1] < 3) return 2;
+        if ($J6[1] == 3) return 3;
+        return 4;
+    }
+
+    // Communication Scale
     private function getCOMM()
     {
         return $this->survey->unitD->D1 + $this->survey->unitD->D2;
+    }
+
+    // Changes in Health, End-Stage Disease, Signs, and Symptoms Scale
+    private function getCHESS()
+    {
+        $J3 = json_decode($this->survey->unitJ->J3);
+        $J7 = json_decode($this->survey->unitJ->J7);
+        $K2 = json_decode($this->survey->unitK->K2);
+
+        $CHESS = 0;
+        $count = 0;
+
+        if ( $this->survey->unitC->C5 == 2 ) $CHESS++;
+        if ( $this->survey->unitG->G5 == 2 ) $CHESS++;
+        if ( $J7[2] == 1 ) $CHESS++;
+
+        if ($count <= 2 && $K2[1] == 1 && $K2[3] == 1) $count++;
+        if ($count <= 2 && $K2[0] == 1) $count++;
+        if ($count <= 2 && $K2[2] == 1) $count++;
+        // может оказаться что J4>1
+        if ($count <= 2 && $this->survey->unitJ->J4 != 0) $count++;
+        if ($count <= 2 && $J3[13] == 1) $count++;
+        if ($count <= 2 && $J3[20] == 1) $count++;
+
+        return $CHESS + $count;
+    }
+
+    // Activities of Daily Living (Hierarchy)
+    private function getADLH()
+    {
+        //Personal hygiene  $this->survey->unitG->G1[1] => G1b
+        //Toilet use        $this->survey->unitG->G1[7] => G1h
+        //Locomotion        $this->survey->unitG->G1[5] => G1f
+        //Eating            $this->survey->unitG->G1[9] => G1j
+        $G1 =  json_decode($this->survey->unitG->G1);
+        return  ($G1[1] >= 6 && $G1[5] >= 6 && $G1[7] >= 6 && $G1[9] >= 6) ? 6 :
+            ($G1[9] >= 6 || $G1[5] >= 6) ? 5 :
+            (($G1[9] < 6 && $G1[5] < 6) && ($G1[9] == 4 || $G1[5] == 4)) ? 4 :
+            (($G1[1] == 4 || $G1[7] == 4) && ($G1[9] < 4 && $G1[5] < 4)) ? 3 :
+            (($G1[1] < 4 && $G1[7] < 4 && $G1[9] < 4 && $G1[5] < 4) && ($G1[1] == 3 || $G1[7] == 3 || $G1[9] == 3 || $G1[5] == 3)) ? 2 :
+            (($G1[1] < 3 && $G1[7] < 3 && $G1[9] < 3 && $G1[5] < 3) && ($G1[1] == 2 || $G1[7] == 2 || $G1[9] == 2 || $G1[5] == 2)) ? 1 : 0;
+    }
+
+    // Aggressive Behaviour Scale
+    private function getABS()
+    {
+        $E3 =  json_decode($this->survey->unitE->E3);
+        return $E3[1] + $E3[2] + $E3[3] + $E3[5];
+    }
+
+    // Activities of Daily Living (Long Form)
+    private function getADLLF()
+    {
+        $G1 =  json_decode($this->survey->unitG->G1);
+        $ADLLF = 0;
+        $ADLLF += ($G1[1] == 0 || $G1[1] == 1) ? 0 : ($G1[1] == 2 ? 1 : ($G1[1] == 3 ? 2 : ($G1[1] == 4 ? 3 : 4)));
+        $ADLLF += ($G1[2] == 0 || $G1[2] == 1) ? 0 : ($G1[2] == 2 ? 1 : ($G1[2] == 3 ? 2 : ($G1[2] == 4 ? 3 : 4)));
+        $ADLLF += ($G1[3] == 0 || $G1[3] == 1) ? 0 : ($G1[3] == 2 ? 1 : ($G1[3] == 3 ? 2 : ($G1[3] == 4 ? 3 : 4)));
+        $ADLLF += ($G1[5] == 0 || $G1[5] == 1) ? 0 : ($G1[5] == 2 ? 1 : ($G1[5] == 3 ? 2 : ($G1[5] == 4 ? 3 : 4)));
+        $ADLLF += ($G1[7] == 0 || $G1[7] == 1) ? 0 : ($G1[7] == 2 ? 1 : ($G1[7] == 3 ? 2 : ($G1[7] == 4 ? 3 : 4)));
+        $ADLLF += ($G1[8] == 0 || $G1[8] == 1) ? 0 : ($G1[8] == 2 ? 1 : ($G1[8] == 3 ? 2 : ($G1[8] == 4 ? 3 : 4)));
+        $ADLLF += ($G1[9] == 0 || $G1[9] == 1) ? 0 : ($G1[9] == 2 ? 1 : ($G1[9] == 3 ? 2 : ($G1[9] == 4 ? 3 : 4)));
+        return $ADLLF;
     }
 
 }

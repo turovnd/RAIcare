@@ -52,7 +52,9 @@ module.exports = (function (progress) {
 
         function getProgress(width, value) {
 
-            return width * (value - settings.min) / (settings.max - settings.min);
+            var prog = width * (value - settings.min) / (settings.max - settings.min);
+
+            return prog > width ? width : prog;
 
         }
 
@@ -83,7 +85,7 @@ module.exports = (function (progress) {
                 ctx.fillText(settings.max, xPrEnd, hh);
 
                 xPrSt = xPrSt * 2 + 5;
-                width = width - (settings.max.length) * 5 - 13;
+                width = width - (settings.max.length) * 5 - 15;
 
             } else {
 
