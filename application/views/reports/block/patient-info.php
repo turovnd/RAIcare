@@ -15,7 +15,7 @@
         <div class="form-group">
             <label class="form-group__label col-xs-12 col-sm-4 col-md-3">Возраст</label>
             <div class="col-xs-12 col-sm-8 col-md-9">
-                <p class="form-group__control-static"><?= Methods_Time::relativeTimeWithPlural(intval((time()-$survey->patient->birthday)/Date::YEAR), false, 'yy'); ?></p>
+                <p class="form-group__control-static"><?= Methods_Time::relativeTimeWithPlural(intval((time()-strtotime($survey->patient->birthday))/Date::YEAR), false, 'yy'); ?></p>
             </div>
         </div>
         <div class="form-group">
