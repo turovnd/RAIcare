@@ -122,7 +122,7 @@ class Controller_Reports_Index extends Dispatch
     }
 
     /**
-     * Patient Rai Scales Report
+     * Patient RAI Scales Report
      */
     public function action_raiscalesreport()
     {
@@ -132,7 +132,7 @@ class Controller_Reports_Index extends Dispatch
 
         $this->getSurveyData('pk', $pk);
 
-        $this->report = new Model_ReportRaiScales($pk);
+        $this->report = new Model_ReportRAIScales($pk);
 
         if (!$this->report->pk) {
             $this->getUnitsData();
@@ -146,7 +146,7 @@ class Controller_Reports_Index extends Dispatch
     }
 
     /**
-     * Patient Rai Scales Report On Pension Page
+     * Patient RAI Scales Report On Pension Page
      */
     public function action_pen_raiscalesreport()
     {
@@ -158,7 +158,7 @@ class Controller_Reports_Index extends Dispatch
 
         $this->getSurveyData('id', $id);
 
-        $this->report = Model_ReportRaiScales::getByPension($id, $pension);
+        $this->report = Model_ReportRAIScales::getByPension($id, $pension);
 
         if (!$this->report->pk) {
             $this->getUnitsData();
@@ -291,7 +291,7 @@ class Controller_Reports_Index extends Dispatch
         $this->report->ABS = $this->getABS();
         $this->report->ADLLF = $this->getADLLF();
 
-        //$this->report->save();
+        $this->report->save();
     }
 
     // Get Main Survey Data
