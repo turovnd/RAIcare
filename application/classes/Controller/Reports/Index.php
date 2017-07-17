@@ -121,6 +121,56 @@ class Controller_Reports_Index extends Dispatch
             ->set('report', $this->report);
     }
 
+    /**
+     * Patient Rai Scales Report
+     */
+    public function action_raiscalesreport()
+    {
+        self::hasAccess(self::WATCH_ALL_REPORTS);
+
+        $pk = $this->request->param('pk');
+
+        $this->getSurveyData('pk', $pk);
+
+        $this->report = new Model_ReportRaiScales($pk);
+
+        if (!$this->report->pk) {
+            $this->getUnitsData();
+            $this->createRAIScales();
+        }
+
+        $this->template->title = "Отчет по шкалам RAI #" . $this->survey->pk;
+        $this->template->section = View::factory('reports/pages/rai-scales-report')
+            ->set('survey', $this->survey)
+            ->set('report', $this->report);
+    }
+
+    /**
+     * Patient Rai Scales Report On Pension Page
+     */
+    public function action_pen_raiscalesreport()
+    {
+        self::hasAccess(self::WATCH_PEN_REPORT);
+        $this->checkUsersPensionAccess();
+
+        $pension = $this->request->param('pen_id');
+        $id = $this->request->param('sur_id');
+
+        $this->getSurveyData('id', $id);
+
+        $this->report = Model_ReportRaiScales::getByPension($id, $pension);
+
+        if (!$this->report->pk) {
+            $this->getUnitsData();
+            $this->createRAIScales();
+        }
+
+        $this->template->title = "Отчет по шкалам RAI #" . $this->survey->pk;
+        $this->template->section = View::factory('reports/pages/rai-scales-report')
+            ->set('survey', $this->survey)
+            ->set('report', $this->report);
+    }
+
 
 
     /**
@@ -135,7 +185,6 @@ class Controller_Reports_Index extends Dispatch
         $J6 = json_decode($this->survey->unitJ->J6);
         $J9 = json_decode($this->survey->unitJ->J9);
         $K2 = json_decode($this->survey->unitK->K2);
-        $O2 = json_encode($this->survey->unitO->O2);
         $O7 = json_encode($this->survey->unitO->O7);
 
         $this->report = new Model_ReportProtocols();
@@ -216,10 +265,66 @@ class Controller_Reports_Index extends Dispatch
         $P15 = ($this->survey->unitM->M1 < 3 && $this->survey->unitC->C1 <= 3 && $P15count >= 2) ? 1 : 0;
         $this->report->P15 = $P15;
 
-        //$this->report->save();
+        $this->report->save();
     }
 
+    /**
+     * Create RAI Scales Report
+     */
+    private function createRAIScales()
+    {
+        $this->report = new Model_ReportRAIScales();
 
+        $this->report->pk = $this->survey->pk;
+        $this->report->id = $this->survey->id;
+        $this->report->pension = $this->survey->pension->id;
+
+        // Pressure Ulcer Risk Scale
+        $PURS = 0;
+        $this->report->PURS = $PURS;
+
+        // Cognitive Performance Scale
+        $CPS = 0;
+        $this->report->CPS = $CPS;
+
+        // Body Mass Index
+        $BMI = 0;
+        $this->report->BMI = $BMI;
+
+        // Self Rated Depression
+        $SRD = 0;
+        $this->report->SRD = $SRD;
+
+        // Depression Rating Scale
+        $DRS = 0;
+        $this->report->DRS = $DRS;
+
+        // Pain Scale
+        $Pain = 0;
+        $this->report->Pain = $Pain;
+
+        // Communication Scale
+        $COMM = 0;
+        $this->report->COMM = $COMM;
+
+        // Changes in Health, End-Stage Disease, Signs, and Symptoms Scale
+        $CHESS = 0;
+        $this->report->CHESS = $CHESS;
+
+        // Activities of Daily Living (Hierarchy)
+        $ADLH = 0;
+        $this->report->ADLH = $ADLH;
+
+        // Aggressive Behaviour Scale
+        $ABS = 0;
+        $this->report->ABS = $ABS;
+
+        // Activities of Daily Living (Long Form)
+        $ADLLF = 0;
+        $this->report->ADLLF = $ADLLF;
+
+        //$this->report->save();
+    }
 
 
     private function getSurveyData($mod, $id)
