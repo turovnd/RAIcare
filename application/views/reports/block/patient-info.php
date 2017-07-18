@@ -1,6 +1,6 @@
 <div class="block">
     <div class="block__body">
-        <div class="cursor-pointer pos-absolute right-0 btn btn--sm btn--default m-b-0 m-r-15" data-toggle="collapse" data-area="patientInfo" data-opened="false" style="z-index: 1">подробнее</div>
+        <a role="button" data-toggle="collapse" data-area="patientInfo" data-opened="false" data-textclosed="подробно" data-textopened="кратко" class="pos-absolute right-0 btn btn--sm btn--default m-b-0 m-r-15 collapse-btn" style="z-index: 1"></a>
         <div class="form-group">
             <label class="form-group__label col-xs-12 col-sm-4 col-md-3">Пациент</label>
             <div class="col-xs-12 col-sm-8 col-md-9">

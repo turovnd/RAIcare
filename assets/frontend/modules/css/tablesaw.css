@@ -6,7 +6,7 @@
 }
 .tablesaw-stack td .tablesaw-cell-label,
 .tablesaw-stack th .tablesaw-cell-label {
-    padding-top: 5px;
+    text-align: left;
     word-wrap: break-word;
 }
 .tablesaw-cell-content{

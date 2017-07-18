@@ -24,6 +24,8 @@
             raisoft.modal.init();
             raisoft.loader.init();
             raisoft.progress.init();
+            raisoft.table.init();
+            raisoft.table.create();
         }
 
         document.addEventListener("DOMContentLoaded", ready);

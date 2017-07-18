@@ -112,7 +112,7 @@ canvas{
     text-align: right;
 }
 .text-center {
-    text-align: center;
+    text-align: center !important;
 }
 .text-nowrap {
     white-space: nowrap;
