@@ -457,14 +457,15 @@ module.exports = (function (get) {
                 noChoicesText: 'Нет элементов для выбора',
                 itemSelectText: 'выбрать',
                 searchEnabled: true,
-                searchChoices: true,
-                searchFloor: 1,
-                searchResultLimit: 10,
-                searchFields: ['label', 'value'],
+                searchFloor: 2,
+                searchResultLimit: 30,
+                resetScrollPosition: false
             });
+
 
             I2.passedElement.addEventListener('search', function (event) {
 
+                I2.clearStore();
 
                 I2.ajax(function (callback) {
 

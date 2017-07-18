@@ -453,8 +453,9 @@
                                         Не указано
                                     <? else : ?>
                                     <ol class="p-l-20">
-                                        <? foreach ($survey->unitI->I2 as $value) : ?>
-                                            <li><?= $value; ?></li>
+                                        <? foreach ($survey->unitI->I2 as $key) : ?>
+                                            <? $mkb10 = new Model_MKB10($key); ?>
+                                            <li><?= $mkb10->name . ' (' . $mkb10->code . ')'; ?></li>
                                         <? endforeach; ?>
                                     </ol>
                                     <? endif; ?>
