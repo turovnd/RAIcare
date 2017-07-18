@@ -8,9 +8,9 @@
 
         <? // WATCH_ALL_SURVEYS = 37
         if (in_array(37, $user->permissions)) : ?>
-            Базовый персональный отчет #<?= $survey->pk; ?>
+            Персональный отчет #<?= $survey->pk; ?>
         <? else: ?>
-            Базовый персональный отчет #<?= $survey->id; ?>
+            Персональный отчет #<?= $survey->id; ?>
         <? endif; ?>
 
     </h3>

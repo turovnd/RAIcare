@@ -20,6 +20,10 @@
 
             <?= View::factory('reports/block/patient-info', array('survey' => $survey)); ?>
 
+            <h3 class="section__heading">
+                Протоколы клинической оценки
+            </h3>
+
             <div class="block">
                 <div class="block__body">
 

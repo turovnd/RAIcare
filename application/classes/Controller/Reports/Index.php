@@ -47,7 +47,7 @@ class Controller_Reports_Index extends Dispatch
         $this->getSurveyData('pk', $pk);
         $this->getUnitsData();
 
-        $this->template->title = "Полный отчет формы оценки #" . $this->survey->pk;
+        $this->template->title = "Детальный отчет #" . $this->survey->pk;
         $this->template->section = View::factory('reports/pages/full-report')
             ->set('survey', $this->survey);
     }
@@ -65,7 +65,7 @@ class Controller_Reports_Index extends Dispatch
         $this->getSurveyData('id', $id);
         $this->getUnitsData();
 
-        $this->template->title = "Полный отчет формы оценки #" . $this->survey->id;
+        $this->template->title = "Детальный отчет #" . $this->survey->id;
         $this->template->section = View::factory('reports/pages/full-report')
             ->set('survey', $this->survey);
     }
@@ -172,9 +172,9 @@ class Controller_Reports_Index extends Dispatch
     }
 
     /**
-     * Patient Basic Report
+     * Patient Personal Report
      */
-    public function action_basicreport()
+    public function action_personalreport()
     {
         self::hasAccess(self::WATCH_ALL_REPORTS);
 
@@ -189,16 +189,16 @@ class Controller_Reports_Index extends Dispatch
             $this->createRAIScales();
         }
 
-        $this->template->title = "Базовый персональный отчет #" . $this->survey->pk;
-        $this->template->section = View::factory('reports/pages/basic-report')
+        $this->template->title = "Персональный отчет #" . $this->survey->pk;
+        $this->template->section = View::factory('reports/pages/personal-report')
             ->set('survey', $this->survey)
             ->set('report', $this->report);
     }
 
     /**
-     * Patient Basic Report On Pension Page
+     * Patient Personal Report On Pension Page
      */
-    public function action_pen_basicreport()
+    public function action_pen_personalreport()
     {
         self::hasAccess(self::WATCH_PEN_REPORT);
         $this->checkUsersPensionAccess();
@@ -214,8 +214,8 @@ class Controller_Reports_Index extends Dispatch
             $this->createRAIScales();
         }
 
-        $this->template->title = "Базовый персональный отчет #" . $this->survey->id;
-        $this->template->section = View::factory('reports/pages/basic-report')
+        $this->template->title = "Персональный отчет #" . $this->survey->id;
+        $this->template->section = View::factory('reports/pages/personal-report')
             ->set('survey', $this->survey)
             ->set('report', $this->report);
     }

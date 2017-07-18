@@ -8,9 +8,9 @@
 
         <? // CONST WATCH_ALL_SURVEYS = 37
         if (in_array(37, $user->permissions)) : ?>
-            Полный отчет формы оценки #<?= $survey->pk; ?>
+            Детальный отчет #<?= $survey->pk; ?>
         <? else: ?>
-            Полный отчет формы оценки #<?= $survey->id; ?>
+            Детальный отчет #<?= $survey->id; ?>
         <? endif; ?>
 
     </h3>

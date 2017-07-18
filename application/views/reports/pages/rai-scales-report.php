@@ -8,9 +8,9 @@
 
         <? // WATCH_ALL_SURVEYS = 37
         if (in_array(37, $user->permissions)) : ?>
-            Итоговый протокол оценки #<?= $survey->pk; ?>
+            Отчет по шкалам RAI #<?= $survey->pk; ?>
         <? else: ?>
-            Итоговый протокол оценки #<?= $survey->id; ?>
+            Отчет по шкалам RAI #<?= $survey->id; ?>
         <? endif; ?>
 
     </h3>
@@ -19,6 +19,10 @@
         <div class="col-xs-12">
 
             <?= View::factory('reports/block/patient-info', array('survey' => $survey)); ?>
+
+            <h3 class="section__heading">
+                Шкалы RAI
+            </h3>
 
             <div class="block user-select--none">
                 <div class="block__body">

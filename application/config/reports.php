@@ -4,32 +4,24 @@ return array
 (
     'patient' => array(
         '1' => array(
-            'name' => 'Полный отчет (ответы на вопросы анкеты)',
+            'name' => 'Детальный отчет (ответы на вопросы анкеты)',
             'hash' => 'fullreport',
         ),
         '2' => array(
-            'name' => 'Итоговый протокол оценки',
-            'hash' => 'protocolsreport',
+            'name' => 'Персональный отчет',
+            'hash' => 'personalreport',
         ),
         '3' => array(
-            'name' => 'Базовый персональный отчет',
-            'hash' => 'basicreport',
-        ),
-        '4' => array(
-            'name' => 'Персональный отчет о состоянии',
-            'hash' => 'statusreport',
-        ),
-        '5' => array(
             'name' => 'Отчет по шкалам RAI',
             'hash' => 'raiscalesreport',
         ),
-        '6' => array(
-            'name' => 'Классификация RUG',
-            'hash' => 'rugclassification',
+        '4' => array(
+            'name' => 'Итоговый протокол оценки',
+            'hash' => 'protocolsreport',
         ),
-        '7' => array(
-            'name' => 'Клинический протокол',
-            'hash' => 'clinicalprotocol',
+        '5' => array(
+            'name' => 'Клинический отчет по пациенту',
+            'hash' => 'clinicalreport',
         )
     )
 
