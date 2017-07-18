@@ -1,8 +1,8 @@
 <?
     $D1 = Kohana::$config->load('Units.D.D1');
     $D2 = Kohana::$config->load('Units.D.D2');
-    $D3 = Kohana::$config->load('Units.D.D3');
-    $D4 = Kohana::$config->load('Units.D.D4');
+    $D3 = Kohana::$config->load('Units.D.D3a');
+    $D4 = Kohana::$config->load('Units.D.D4a');
 
     $survey->unitD->D3 = json_decode($survey->unitD->D3);
     $survey->unitD->D4 = json_decode($survey->unitD->D4);
