@@ -58,7 +58,7 @@
                             </div>
                         </div>
 
-                        <div class="g-recaptcha m-b-20" data-sitekey="6Lfb5SMUAAAAAIW0QFdCOGR77RtXTu4keNZf8A8V"></div>
+                        <div class="g-recaptcha m-b-20 fl_l" data-sitekey="6Lfb5SMUAAAAAIW0QFdCOGR77RtXTu4keNZf8A8V"></div>
 
                         <button type="button" id="cancelForget" class="btn btn--default btn--round col-xs-5">Отмена</button>
                         <button type="submit" id="" class="btn btn--brand btn--round col-xs-6 fl_r m-r-0">Восстановить</button>

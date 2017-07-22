@@ -596,6 +596,115 @@
                         </div>
                     </fieldset>
 
+                    <fieldset>
+                        <div class="form-group">
+                            <label class="form-group__label col-xs-12">
+                                <span class="fl_r f-s-1_25 <?= $report->P16 == 0 ? 'text-brand' : 'text-danger'; ?>"><i class="fa fa-flag" aria-hidden="true"></i></span>
+                                Physical Activities Promotion
+                            </label>
+                            <div class="col-xs-12">
+                                <div class="form-group__control-static p-0">
+                                    <ol start="0" class="m-0 pos-relative p-l-50">
+                                        <li class="p-b-10 <?= $report->P16 == 0 ? 'text-brand' : ''; ?>">
+                                            <? if ($report->P16 == 0) : ?>
+                                                <span class="fl_l pos-absolute left-0">
+                                                    <i class="fa fa-play" aria-hidden="true"></i>
+                                                </span>
+                                            <? endif; ?>
+                                            Не выявлено
+                                        </li>
+                                        <li class="p-b-10 <?= $report->P16 == 1 ? 'text-danger' : ''; ?>">
+                                            <? if ($report->P16 == 1) : ?>
+                                                <span class="fl_l pos-absolute left-0">
+                                                    <i class="fa fa-play" aria-hidden="true"></i>
+                                                </span>
+                                            <? endif; ?>
+                                            Выявлено - Trigger to facilitate improvement
+                                        </li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <div class="form-group">
+                            <label class="form-group__label col-xs-12">
+                                <span class="fl_r f-s-1_25 <?= $report->P17 == 0 ? 'text-brand' : 'text-danger'; ?>"><i class="fa fa-flag" aria-hidden="true"></i></span>
+                                Prevention
+                            </label>
+                            <div class="col-xs-12">
+                                <div class="form-group__control-static p-0">
+                                    <ol start="0" class="m-0 pos-relative p-l-50">
+                                        <li class="p-b-10 <?= $report->P17 == 0 ? 'text-brand' : ''; ?>">
+                                            <? if ($report->P17 == 0) : ?>
+                                                <span class="fl_l pos-absolute left-0">
+                                                    <i class="fa fa-play" aria-hidden="true"></i>
+                                                </span>
+                                            <? endif; ?>
+                                            Не выявлено
+                                        </li>
+                                        <li class="p-b-10 <?= $report->P17 == 1 ? 'text-danger' : ''; ?>">
+                                            <? if ($report->P17 == 1) : ?>
+                                                <span class="fl_l pos-absolute left-0">
+                                                    <i class="fa fa-play" aria-hidden="true"></i>
+                                                </span>
+                                            <? endif; ?>
+                                            Выявлено - Preventive strategy was not pursed, and there has been no recent physican visit
+                                        </li>
+                                        <li class="p-b-10 <?= $report->P17 == 2 ? 'text-danger' : ''; ?>">
+                                            <? if ($report->P17 == 2) : ?>
+                                                <span class="fl_l pos-absolute left-0">
+                                                    <i class="fa fa-play" aria-hidden="true"></i>
+                                                </span>
+                                            <? endif; ?>
+                                            Выявлено - Preventive strategy was not pursed, despite a recent physican visit
+                                        </li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <div class="form-group">
+                            <label class="form-group__label col-xs-12">
+                                <span class="fl_r f-s-1_25 <?= $report->P18 == 0 ? 'text-brand' : 'text-danger'; ?>"><i class="fa fa-flag" aria-hidden="true"></i></span>
+                                Cognitive Loss
+                            </label>
+                            <div class="col-xs-12">
+                                <div class="form-group__control-static p-0">
+                                    <ol start="0" class="m-0 pos-relative p-l-50">
+                                        <li class="p-b-10 <?= $report->P18 == 0 ? 'text-brand' : ''; ?>">
+                                            <? if ($report->P18 == 0) : ?>
+                                                <span class="fl_l pos-absolute left-0">
+                                                    <i class="fa fa-play" aria-hidden="true"></i>
+                                                </span>
+                                            <? endif; ?>
+                                            Не выявлено
+                                        </li>
+                                        <li class="p-b-10 <?= $report->P18 == 1 ? 'text-danger' : ''; ?>">
+                                            <? if ($report->P18 == 1) : ?>
+                                                <span class="fl_l pos-absolute left-0">
+                                                    <i class="fa fa-play" aria-hidden="true"></i>
+                                                </span>
+                                            <? endif; ?>
+                                            Выявлено - to monitor risk of cognitive decline
+                                        </li>
+                                        <li class="p-b-10 <?= $report->P18 == 2 ? 'text-danger' : ''; ?>">
+                                            <? if ($report->P18 == 2) : ?>
+                                                <span class="fl_l pos-absolute left-0">
+                                                    <i class="fa fa-play" aria-hidden="true"></i>
+                                                </span>
+                                            <? endif; ?>
+                                            Выявлено - to prevent decline
+                                        </li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+
                 </div>
             </div>
 

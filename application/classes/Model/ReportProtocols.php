@@ -21,6 +21,10 @@ Class Model_ReportProtocols {
     public $P13;        // Urinary Incontinence - Недержание мочи
     public $P14;        // Physical restraint - Физическая сдержанность
     public $P15;        // Activities - Активность
+    public $P16;        // Physical Activities Promotion
+    public $P17;        // Prevention
+    public $P18;        // Cognitive Loss
+    public $P19;        // Appropriate Medications
 
 
     public function __construct($id = null) {

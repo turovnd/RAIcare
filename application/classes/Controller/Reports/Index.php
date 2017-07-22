@@ -225,13 +225,19 @@ class Controller_Reports_Index extends Dispatch
      */
     private function createProtocolsReport()
     {
+        $C3 = json_encode($this->survey->unitC->C3);
         $E1 = json_encode($this->survey->unitE->E1);
+        $E3 = json_encode($this->survey->unitE->E3);
         $F2 = json_encode($this->survey->unitF->F2);
+        $G1 = json_encode($this->survey->unitG->G1);
+        $G3 = json_encode($this->survey->unitG->G3);
+        $G4 = json_encode($this->survey->unitG->G4);
         $I1 = json_decode($this->survey->unitI->I1);
         $J3 = json_decode($this->survey->unitJ->J3);
         $J6 = json_decode($this->survey->unitJ->J6);
         $J9 = json_decode($this->survey->unitJ->J9);
         $K2 = json_decode($this->survey->unitK->K2);
+        $O1 = json_encode($this->survey->unitO->O1);
         $O7 = json_encode($this->survey->unitO->O7);
 
         $this->report = new Model_ReportProtocols();
@@ -311,6 +317,42 @@ class Controller_Reports_Index extends Dispatch
 
         $P15 = ($this->survey->unitM->M1 < 3 && $this->survey->unitC->C1 <= 3 && $P15count >= 2) ? 1 : 0;
         $this->report->P15 = $P15;
+
+        // Physical Activities Promotion
+        // TODO про тот триггер оставь звездочку что там могут быть еще условия потом
+        $P16 = $G3[0] <= 2 && ($G1[5] < 3 || $G4[0] == 1 || $G4[1] == 1) ? 1 : 0;
+        $this->report->P16 = $P16;
+
+        // Prevention
+
+        $P17check = ($O1[0] == 0 || $O1[1] == 0 || $O1[2] == 0 || $O1[3] == 0 || $O1[4] == 0 || $O1[5] == 0 || $O1[6] == 0 || $O1[7] == 0) ? true : false;
+        $P17 = ($this->survey->unitO->O5 < 7 && $P17check) ? 2 : (($this->survey->unitO->O5 > 7 && $P17check) ? 1 : 0);
+        $this->report->P17 = $P17;
+
+        // Cognitive Loss
+        $P18count = 0;
+        if ($I1[2] >= 2) $P18count++;
+        if ($I1[3] >= 2) $P18count++;
+        if ($this->survey->unitD->D1 == 4) $P18count++;
+        if ($this->survey->unitD->D2 == 4) $P18count++;
+        if ($E1[3] >= 2) $P18count++;
+        if ($E1[4] >= 2) $P18count++;
+        if ($E1[7] >= 2) $P18count++;
+        if ($E3[0] >= 2) $P18count++;
+        if ($E3[2] >= 2) $P18count++;
+        if ($C3[0] == 2) $P18count++;
+        if ($C3[1] == 2) $P18count++;
+        if ($C3[2] == 2) $P18count++;
+        if ($this->survey->unitC->C4 == 1) $P18count++;
+        if ($this->survey->unitC->C5 == 2) $P18count++;
+
+        $P18 = $this->getCPS() <= 2 ? ($P18count >= 2 ? 2 : ($P18count == 1 ? 1 : 0)) : 0;
+        $this->report->P18 = $P18;
+
+        // Appropriate Medications
+        // TODO do it in future
+        $P19 = 0;
+        $this->report->P19 = $P19;
 
         $this->report->save();
     }
