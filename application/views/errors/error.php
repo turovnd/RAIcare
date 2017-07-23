@@ -9,7 +9,7 @@
 	</head>
 	<body class="error-block">
 		<div class="error-block__center">
-            <h1 class="error-block__title"> RAIsoft </h1>
+            <h1 class="error-block__title"> RAIcare </h1>
 			<p class="error-block__text"><b>Ошибка <?= $code; ?>.</b> <?= $message; ?></p>
 			<a href="/" class="error-block__link">Главная</a>
             <a class="error-block__link" onclick = "window.history.back()">Назад</a>

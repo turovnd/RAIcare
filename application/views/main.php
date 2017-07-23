@@ -12,19 +12,19 @@
 
     <link rel="stylesheet" href="<?=$assets; ?>vendor/font-awesome/css/font-awesome.css?v=<?= filemtime("assets/vendor/font-awesome/css/font-awesome.css") ?>">
 
-    <link rel="stylesheet" href="<?=$assets; ?>frontend/bundles/raisoft.min.css?v=<?= filemtime("assets/frontend/bundles/raisoft.min.css") ?>">
-    <script type="text/javascript" src="<?=$assets; ?>frontend/bundles/raisoft.min.js?v=<?= filemtime("assets/frontend/bundles/raisoft.min.js") ?>"></script>
+    <link rel="stylesheet" href="<?=$assets; ?>frontend/bundles/raicare.min.css?v=<?= filemtime("assets/frontend/bundles/raicare.min.css") ?>">
+    <script type="text/javascript" src="<?=$assets; ?>frontend/bundles/raicare.min.js?v=<?= filemtime("assets/frontend/bundles/raicare.min.js") ?>"></script>
 
     <script type="text/javascript">
         function ready() {
-            raisoft.header.init('app');
-            raisoft.collapse.init();
-            raisoft.aside.init();
-            raisoft.notification.createHolder();
-            raisoft.modal.init();
-            raisoft.loader.init();
-            raisoft.progress.init();
-            raisoft.select.init();
+            raicare.header.init('app');
+            raicare.collapse.init();
+            raicare.aside.init();
+            raicare.notification.createHolder();
+            raicare.modal.init();
+            raicare.loader.init();
+            raicare.progress.init();
+            raicare.select.init();
         }
 
         document.addEventListener("DOMContentLoaded", ready);

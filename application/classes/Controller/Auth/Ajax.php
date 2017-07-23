@@ -3,7 +3,7 @@
 /**
  * Class Controller_Auth_Ajax
  *
- * @copyright raisoft
+ * @copyright RAIcare
  * @author Nikolai Turov
  * @version 0.0.0
  */
@@ -225,7 +225,7 @@ class Controller_Auth_Ajax extends Auth
 
         Cookie::set('secret', $hash, Date::WEEK);
 
-        $this->redis->set($_SERVER['REDIS_PACKAGE'] . ':sessions:secrets:' . $hash, $sid . ':' . $uid . ':' . Request::$client_ip, array('nx', 'ex' => Date::WEEK));
+        $this->redis->set($_SERVER['REDIS_SESSIONS_HASHES'] . $hash, $sid . ':' . $uid , array('nx', 'ex' => Date::WEEK));
     }
 
 }

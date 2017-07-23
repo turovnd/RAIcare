@@ -32,10 +32,10 @@ module.exports = (function (send) {
             success: function (response) {
 
                 response = JSON.parse(response);
-                raisoft.core.log(response.message, response.status, corePrefix);
+                raicare.core.log(response.message, response.status, corePrefix);
                 form.getElementsByClassName('form')[0].classList.remove('loading');
 
-                raisoft.notification.notify({
+                raicare.notification.notify({
                     type: response.status,
                     message: response.message
                 });
@@ -49,13 +49,13 @@ module.exports = (function (send) {
             },
             error: function (callbacks) {
 
-                raisoft.core.log('ajax error occur on updating unit data', 'error', corePrefix, callbacks);
+                raicare.core.log('ajax error occur on updating unit data', 'error', corePrefix, callbacks);
                 form.getElementsByClassName('form')[0].classList.remove('loading');
 
             }
         };
 
-        raisoft.ajax.send(ajaxData);
+        raicare.ajax.send(ajaxData);
 
     };
 
@@ -79,17 +79,17 @@ module.exports = (function (send) {
             success: function (response) {
 
                 response = JSON.parse(response);
-                raisoft.core.log(response.message, response.status, corePrefix);
+                raicare.core.log(response.message, response.status, corePrefix);
                 form.getElementsByClassName('modal__wrapper')[0].classList.remove('loading');
 
-                raisoft.notification.notify({
+                raicare.notification.notify({
                     type: response.status,
                     message: response.message
                 });
 
                 if (parseInt(response.code) === 151 ) {
 
-                    raisoft.modal.hide(form);
+                    raicare.modal.hide(form);
                     window.location.assign('survey/' + response.id);
 
                 }
@@ -97,13 +97,13 @@ module.exports = (function (send) {
             },
             error: function (callbacks) {
 
-                raisoft.core.log('ajax error occur on sending new patient form', 'error', corePrefix, callbacks);
+                raicare.core.log('ajax error occur on sending new patient form', 'error', corePrefix, callbacks);
                 form.getElementsByClassName('modal__wrapper')[0].classList.remove('loading');
 
             }
         };
 
-        raisoft.ajax.send(ajaxData);
+        raicare.ajax.send(ajaxData);
 
     };
 
@@ -117,7 +117,7 @@ module.exports = (function (send) {
 
         if (type === '') {
 
-            raisoft.notification.notify({
+            raicare.notification.notify({
                 type: 'error',
                 message: 'Пожалуйста выберите причина прохождения оценки пациентом'
             });
@@ -142,10 +142,10 @@ module.exports = (function (send) {
             success: function (response) {
 
                 response = JSON.parse(response);
-                raisoft.core.log(response.message, response.status, corePrefix);
+                raicare.core.log(response.message, response.status, corePrefix);
                 form.classList.remove('loading');
 
-                raisoft.notification.notify({
+                raicare.notification.notify({
                     type: response.status,
                     message: response.message
                 });
@@ -159,13 +159,13 @@ module.exports = (function (send) {
             },
             error: function (callbacks) {
 
-                raisoft.core.log('ajax error occur on sending new patient form', 'error', corePrefix, callbacks);
+                raicare.core.log('ajax error occur on sending new patient form', 'error', corePrefix, callbacks);
                 form.classList.remove('loading');
 
             }
         };
 
-        raisoft.ajax.send(ajaxData);
+        raicare.ajax.send(ajaxData);
 
     };
 
@@ -192,10 +192,10 @@ module.exports = (function (send) {
             success: function (response) {
 
                 response = JSON.parse(response);
-                raisoft.core.log(response.message, response.status, corePrefix);
+                raicare.core.log(response.message, response.status, corePrefix);
                 form.classList.remove('loading');
 
-                raisoft.notification.notify({
+                raicare.notification.notify({
                     type: response.status,
                     message: response.message
                 });
@@ -209,13 +209,13 @@ module.exports = (function (send) {
             },
             error: function (callbacks) {
 
-                raisoft.core.log('ajax error occur on updating unit data', 'error', corePrefix, callbacks);
+                raicare.core.log('ajax error occur on updating unit data', 'error', corePrefix, callbacks);
                 form.classList.remove('loading');
 
             }
         };
 
-        raisoft.ajax.send(ajaxData);
+        raicare.ajax.send(ajaxData);
 
     };
 

@@ -21,7 +21,7 @@
             <?= View::factory('reports/block/patient-info', array('survey' => $survey)); ?>
 
             <h3 class="section__heading">
-                <a role="button" onclick="raisoft.collapse.toggle(this)" data-area="cognition" data-opened="true" data-textclosed="показать" data-textopened="скрыть" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn"></a>
+                <a role="button" onclick="raicare.collapse.toggle(this)" data-area="cognition" data-opened="true" data-textclosed="показать" data-textopened="скрыть" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn"></a>
                 Когнитивные способности
             </h3>
 
@@ -152,7 +152,7 @@
             </div>
 
             <h3 class="section__heading">
-                <a role="button" onclick="raisoft.collapse.toggle(this)" data-area="comAndVision" data-opened="true" data-textclosed="показать" data-textopened="скрыть" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn"></a>
+                <a role="button" onclick="raicare.collapse.toggle(this)" data-area="comAndVision" data-opened="true" data-textclosed="показать" data-textopened="скрыть" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn"></a>
                 Коммуникация и зрение
             </h3>
 
@@ -230,7 +230,7 @@
             </div>
 
             <h3 class="section__heading">
-                <a role="button" onclick="raisoft.collapse.toggle(this)" data-area="funPerform" data-opened="true" data-textclosed="показать" data-textopened="скрыть" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn"></a>
+                <a role="button" onclick="raicare.collapse.toggle(this)" data-area="funPerform" data-opened="true" data-textclosed="показать" data-textopened="скрыть" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn"></a>
                 Функциональное состояние
             </h3>
 
@@ -488,7 +488,7 @@
             </div>
 
             <h3 class="section__heading">
-                <a role="button" onclick="raisoft.collapse.toggle(this)" data-area="mentalHealth" data-opened="true" data-textclosed="показать" data-textopened="скрыть" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn"></a>
+                <a role="button" onclick="raicare.collapse.toggle(this)" data-area="mentalHealth" data-opened="true" data-textclosed="показать" data-textopened="скрыть" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn"></a>
                 Душевное здоровье
             </h3>
 
@@ -647,7 +647,7 @@
             </div>
 
             <h3 class="section__heading">
-                <a role="button" onclick="raisoft.collapse.toggle(this)" data-area="continence" data-opened="true" data-textclosed="показать" data-textopened="скрыть" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn"></a>
+                <a role="button" onclick="raicare.collapse.toggle(this)" data-area="continence" data-opened="true" data-textclosed="показать" data-textopened="скрыть" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn"></a>
                 Недержание
             </h3>
 
@@ -716,7 +716,7 @@
             </div>
 
             <h3 class="section__heading">
-                <a role="button" onclick="raisoft.collapse.toggle(this)" data-area="healthConditions" data-opened="true" data-textclosed="показать" data-textopened="скрыть" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn"></a>
+                <a role="button" onclick="raicare.collapse.toggle(this)" data-area="healthConditions" data-opened="true" data-textclosed="показать" data-textopened="скрыть" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn"></a>
                 Нарушения состояния здоровья
             </h3>
 
@@ -878,7 +878,7 @@
             </div>
 
             <h3 class="section__heading">
-                <a role="button" onclick="raisoft.collapse.toggle(this)" data-area="nutrition" data-opened="true" data-textclosed="показать" data-textopened="скрыть" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn"></a>
+                <a role="button" onclick="raicare.collapse.toggle(this)" data-area="nutrition" data-opened="true" data-textclosed="показать" data-textopened="скрыть" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn"></a>
                 Вопросы питания
             </h3>
 
@@ -965,7 +965,7 @@
             </div>
 
             <h3 class="section__heading">
-                <a role="button" onclick="raisoft.collapse.toggle(this)" data-area="skinCondition" data-opened="true" data-textclosed="показать" data-textopened="скрыть" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn"></a>
+                <a role="button" onclick="raicare.collapse.toggle(this)" data-area="skinCondition" data-opened="true" data-textclosed="показать" data-textopened="скрыть" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn"></a>
                 Состояние кожи
             </h3>
 
@@ -1061,7 +1061,7 @@
             </div>
 
             <h3 class="section__heading">
-                <a role="button" onclick="raisoft.collapse.toggle(this)" data-area="socialLife" data-opened="true" data-textclosed="показать" data-textopened="скрыть" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn"></a>
+                <a role="button" onclick="raicare.collapse.toggle(this)" data-area="socialLife" data-opened="true" data-textclosed="показать" data-textopened="скрыть" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn"></a>
                 Досуг
             </h3>
 
@@ -1112,7 +1112,7 @@
             </div>
 
             <h3 class="section__heading">
-                <a role="button" onclick="raisoft.collapse.toggle(this)" data-area="therapies" data-opened="true" data-textclosed="показать" data-textopened="скрыть" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn"></a>
+                <a role="button" onclick="raicare.collapse.toggle(this)" data-area="therapies" data-opened="true" data-textclosed="показать" data-textopened="скрыть" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn"></a>
                 Лечебные мероприятия
             </h3>
 
@@ -1163,7 +1163,7 @@
             </div>
 
             <h3 class="section__heading">
-                <a role="button" onclick="raisoft.collapse.toggle(this)" data-area="diagnoses" data-opened="true" data-textclosed="показать" data-textopened="скрыть" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn"></a>
+                <a role="button" onclick="raicare.collapse.toggle(this)" data-area="diagnoses" data-opened="true" data-textclosed="показать" data-textopened="скрыть" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn"></a>
                 Диагнозы
             </h3>
 

@@ -1,6 +1,6 @@
 function ready() {
 
-    var corePrefix  = "RAIsoft new application",
+    var corePrefix  = "RAIcare new application",
         form        = document.getElementById('newApplication');
 
 
@@ -17,9 +17,9 @@ function ready() {
             success: function(response) {
                 response = JSON.parse(response);
                 form.getElementsByClassName('form__body')[0].classList.remove('loading');
-                raisoft.core.log(response.message, response.status, corePrefix);
+                raicare.core.log(response.message, response.status, corePrefix);
 
-                raisoft.notification.notify({
+                raicare.notification.notify({
                     type: response.status,
                     message: response.message
                 });
@@ -32,12 +32,12 @@ function ready() {
 
             },
             error: function(callbacks) {
-                raisoft.core.log('ajax error occur on sending new application form','error', corePrefix, callbacks);
+                raicare.core.log('ajax error occur on sending new application form','error', corePrefix, callbacks);
                 form.getElementsByClassName('form__body')[0].classList.remove('loading');
             }
         };
 
-        raisoft.ajax.send(ajaxData);
+        raicare.ajax.send(ajaxData);
     });
 
 }

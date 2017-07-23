@@ -37,10 +37,10 @@ module.exports = (function (edit) {
             success: function (response) {
 
                 response = JSON.parse(response);
-                raisoft.core.log(response.message, response.status, corePrefix);
+                raicare.core.log(response.message, response.status, corePrefix);
                 form.classList.remove('loading');
 
-                raisoft.notification.notify({
+                raicare.notification.notify({
                     type: response.status,
                     message: response.message
                 });
@@ -57,13 +57,13 @@ module.exports = (function (edit) {
             },
             error: function (callbacks) {
 
-                raisoft.core.log('ajax error occur on updating organization info', 'error', corePrefix, callbacks);
+                raicare.core.log('ajax error occur on updating organization info', 'error', corePrefix, callbacks);
                 form.classList.remove('loading');
 
             }
         };
 
-        raisoft.ajax.send(ajaxData);
+        raicare.ajax.send(ajaxData);
 
     };
 
@@ -71,7 +71,7 @@ module.exports = (function (edit) {
 
         var holder = document.getElementById('organizationCover');
 
-        raisoft.transport.init({
+        raicare.transport.init({
             url : '/transport/1',
             params : {
                 id : element.dataset.pk
@@ -79,7 +79,7 @@ module.exports = (function (edit) {
             beforeSend : function () {
 
                 var fileReader = new FileReader(),
-                    input = raisoft.transport.getInput(),
+                    input = raicare.transport.getInput(),
                     file = input.files[0];
 
                 fileReader.readAsDataURL(file);
@@ -103,7 +103,7 @@ module.exports = (function (edit) {
 
                 } else {
 
-                    raisoft.notification.notify({
+                    raicare.notification.notify({
                         type: response.status,
                         message: response.message
                     });
@@ -113,7 +113,7 @@ module.exports = (function (edit) {
             },
             error : function (callbacks) {
 
-                raisoft.core.log('ajax error occur on updating organization cover', 'error', corePrefix, callbacks);
+                raicare.core.log('ajax error occur on updating organization cover', 'error', corePrefix, callbacks);
                 return false;
 
             }

@@ -39,10 +39,10 @@ module.exports = (function (coworker) {
             success: function (response) {
 
                 response = JSON.parse(response);
-                raisoft.core.log(response.message, response.status, corePrefix);
+                raicare.core.log(response.message, response.status, corePrefix);
                 form.getElementsByClassName('modal__content')[0].classList.remove('loading');
 
-                raisoft.notification.notify({
+                raicare.notification.notify({
                     type: response.status,
                     message: response.message
                 });
@@ -50,20 +50,20 @@ module.exports = (function (coworker) {
 
                 if (parseInt(response.code) === 62 ) {
 
-                    raisoft.modal.hide(form);
+                    raicare.modal.hide(form);
 
                 }
 
             },
             error: function (callbacks) {
 
-                raisoft.core.log('ajax error occur on inviting coworker', 'error', corePrefix, callbacks);
+                raicare.core.log('ajax error occur on inviting coworker', 'error', corePrefix, callbacks);
                 form.getElementsByClassName('modal__content')[0].classList.remove('loading');
 
             }
         };
 
-        raisoft.ajax.send(ajaxData);
+        raicare.ajax.send(ajaxData);
 
     };
 
@@ -74,7 +74,7 @@ module.exports = (function (coworker) {
 
         var name = element.dataset.name;
 
-        excludeForm = raisoft.notification.notify({
+        excludeForm = raicare.notification.notify({
             type: 'confirm',
             message: '<div id="excludeForm">' +
             '<h2>Исключить сотрудника</h2>'+
@@ -115,10 +115,10 @@ module.exports = (function (coworker) {
             success: function (response) {
 
                 response = JSON.parse(response);
-                raisoft.core.log(response.message, response.status, corePrefix);
+                raicare.core.log(response.message, response.status, corePrefix);
                 form.classList.remove('loading');
 
-                raisoft.notification.notify({
+                raicare.notification.notify({
                     type: response.status,
                     message: response.message
                 });
@@ -135,13 +135,13 @@ module.exports = (function (coworker) {
             },
             error: function (callbacks) {
 
-                raisoft.core.log('ajax error occur on excluding coworker', 'error', corePrefix, callbacks);
+                raicare.core.log('ajax error occur on excluding coworker', 'error', corePrefix, callbacks);
                 form.classList.remove('loading');
 
             }
         };
 
-        raisoft.ajax.send(ajaxData);
+        raicare.ajax.send(ajaxData);
 
     }
 
@@ -149,7 +149,7 @@ module.exports = (function (coworker) {
 
         roleLabel = element.parentNode.getElementsByClassName('label')[0];
 
-        raisoft.modal.create({
+        raicare.modal.create({
             id: 'updateCoWorkerModal',
             header: 'Изменить роль сотрудника',
             body:
@@ -215,10 +215,10 @@ module.exports = (function (coworker) {
             success: function (response) {
 
                 response = JSON.parse(response);
-                raisoft.core.log(response.message, response.status, corePrefix);
+                raicare.core.log(response.message, response.status, corePrefix);
                 form.getElementsByClassName('modal__content')[0].classList.remove('loading');
 
-                raisoft.notification.notify({
+                raicare.notification.notify({
                     type: response.status,
                     message: response.message
                 });
@@ -226,7 +226,7 @@ module.exports = (function (coworker) {
 
                 if (parseInt(response.code) === 53 ) {
 
-                    raisoft.modal.destroy(form);
+                    raicare.modal.destroy(form);
                     roleLabel.textContent = response.role['name'];
                     roleLabel = null;
 
@@ -235,13 +235,13 @@ module.exports = (function (coworker) {
             },
             error: function (callbacks) {
 
-                raisoft.core.log('ajax error occur on changing coworker role', 'error', corePrefix, callbacks);
+                raicare.core.log('ajax error occur on changing coworker role', 'error', corePrefix, callbacks);
                 form.getElementsByClassName('modal__content')[0].classList.remove('loading');
 
             }
         };
 
-        raisoft.ajax.send(ajaxData);
+        raicare.ajax.send(ajaxData);
 
     };
 

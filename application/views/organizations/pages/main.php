@@ -94,5 +94,5 @@
 <script type="text/javascript" src="<?=$assets; ?>frontend/bundles/organization.min.js?v=<?= filemtime("assets/frontend/bundles/organization.min.js") ?>"></script>
 
 <script type="text/javascript">
-    raisoft.parallax.init();
+    raicare.parallax.init();
 </script>

@@ -65,7 +65,7 @@
         "require": true,
         "window": true,
         "console" : true,
-        "raisoft": true,
+        "raicare": true,
         "survey": true,
         "fetch": true,
         "VERSION" : true,

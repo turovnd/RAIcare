@@ -1,5 +1,5 @@
 {
-  "name": "raisoft",
+  "name": "raicare",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,17 +8,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kolyasha/raisoft.git"
+    "url": "git+https://github.com/kolyasha/RAIcare.git"
   },
   "keywords": [
-    "raisoft"
+    "RAIcare"
   ],
   "author": "Turov Nikolai",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/kolyasha/raisoft/issues"
+    "url": "https://github.com/kolyasha/RAIcare/issues"
   },
-  "homepage": "https://github.com/kolyasha/raisoft#readme",
+  "homepage": "https://github.com/kolyasha/RAIcare#readme",
   "devDependencies": {
     "autoprefixer": "^7.1.1",
     "choices.js": "^2.8.6",

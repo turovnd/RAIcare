@@ -11,14 +11,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <link rel="stylesheet" href="<?=$assets; ?>vendor/font-awesome/css/font-awesome.css?v=<?= filemtime("assets/vendor/font-awesome/css/font-awesome.css") ?>">
-    <link rel="stylesheet" href="<?=$assets; ?>frontend/bundles/raisoft.min.css?v=<?= filemtime("assets/frontend/bundles/raisoft.min.css") ?>">
-    <script type="text/javascript" src="<?=$assets; ?>frontend/bundles/raisoft.min.js?v=<?= filemtime("assets/frontend/bundles/raisoft.min.js") ?>"></script>
+    <link rel="stylesheet" href="<?=$assets; ?>frontend/bundles/raicare.min.css?v=<?= filemtime("assets/frontend/bundles/raicare.min.css") ?>">
+    <script type="text/javascript" src="<?=$assets; ?>frontend/bundles/raicare.min.js?v=<?= filemtime("assets/frontend/bundles/raicare.min.js") ?>"></script>
 
     <script type="text/javascript">
         function ready() {
-            raisoft.header.init('welcome');
-            raisoft.parallax.init();
-            raisoft.notification.createHolder();
+            raicare.header.init('welcome');
+            raicare.parallax.init();
+            raicare.notification.createHolder();
         }
         document.addEventListener("DOMContentLoaded", ready);
     </script>

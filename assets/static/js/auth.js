@@ -1,6 +1,6 @@
 function ready() {
 
-    var corePrefix      = "RAIsoft auth",
+    var corePrefix      = "RAIcare auth",
         host            = window.location.host,
         protocol        = window.location.protocol,
         pathname        = window.location.pathname,
@@ -30,7 +30,7 @@ function ready() {
 
 
 
-    if (!raisoft.cookies.get('reset_link')) {
+    if (!raicare.cookies.get('reset_link')) {
 
         /**
          * On page load
@@ -65,25 +65,25 @@ function ready() {
                 success: function(response) {
                     response = JSON.parse(response);
                     signin.classList.remove('loading');
-                    raisoft.core.log(response.message, response.status, corePrefix);
+                    raicare.core.log(response.message, response.status, corePrefix);
 
                     if (parseInt(response.code) === 12) {
                         window.location.replace(protocol + '//' + host + '/dashboard');
                         return;
                     }
 
-                    raisoft.notification.notify({
+                    raicare.notification.notify({
                         type: response.status,
                         message: response.message
                     });
                 },
                 error: function(callbacks) {
-                    raisoft.core.log('ajax error occur on signin form','error',corePrefix ,callbacks);
+                    raicare.core.log('ajax error occur on signin form','error',corePrefix ,callbacks);
                     signin.classList.add('loading');
                 }
             };
 
-            raisoft.ajax.send(ajaxData);
+            raicare.ajax.send(ajaxData);
         });
 
 
@@ -103,9 +103,9 @@ function ready() {
                 success: function(response) {
                     response = JSON.parse(response);
                     forget.classList.remove('loading');
-                    raisoft.core.log(response.message, response.status, corePrefix);
+                    raicare.core.log(response.message, response.status, corePrefix);
 
-                    raisoft.notification.notify({
+                    raicare.notification.notify({
                         type: response.status,
                         message: response.message
                     });
@@ -115,12 +115,12 @@ function ready() {
 
                 },
                 error: function(callbacks) {
-                    raisoft.core.log('ajax error occur on forget form','error',corePrefix,callbacks);
+                    raicare.core.log('ajax error occur on forget form','error',corePrefix,callbacks);
                     forget.classList.remove('loading');
                 }
             };
 
-            raisoft.ajax.send(ajaxData);
+            raicare.ajax.send(ajaxData);
         });
 
 
@@ -142,9 +142,9 @@ function ready() {
                 success: function(response) {
                     response = JSON.parse(response);
                     reset.classList.remove('loading');
-                    raisoft.core.log(response.message, response.status, corePrefix);
+                    raicare.core.log(response.message, response.status, corePrefix);
 
-                    raisoft.notification.notify({
+                    raicare.notification.notify({
                         type: response.status,
                         message: response.message
                     });
@@ -154,16 +154,16 @@ function ready() {
 
                 },
                 error: function(callbacks) {
-                    raisoft.core.log('ajax error occur on reset form','error',corePrefix,callbacks);
+                    raicare.core.log('ajax error occur on reset form','error',corePrefix,callbacks);
                     reset.classList.remove('loading');
                 }
             };
 
-            raisoft.ajax.send(ajaxData);
+            raicare.ajax.send(ajaxData);
         });
 
         cancelReset.addEventListener('click', function () {
-           raisoft.cookies.remove('reset_link');
+           raicare.cookies.remove('reset_link');
            window.location.reload();
         });
 

@@ -579,9 +579,9 @@
 
 <script type="text/javascript">
     function ready() {
-        raisoft.table.init();
-        raisoft.table.create();
-        raisoft.progress.init();
+        raicare.table.init();
+        raicare.table.create();
+        raicare.progress.init();
     }
 
     document.addEventListener("DOMContentLoaded", ready);

@@ -37,10 +37,10 @@ module.exports = (function (edit) {
             success: function (response) {
 
                 response = JSON.parse(response);
-                raisoft.core.log(response.message, response.status, corePrefix);
+                raicare.core.log(response.message, response.status, corePrefix);
                 form.classList.remove('loading');
 
-                raisoft.notification.notify({
+                raicare.notification.notify({
                     type: response.status,
                     message: response.message
                 });
@@ -57,13 +57,13 @@ module.exports = (function (edit) {
             },
             error: function (callbacks) {
 
-                raisoft.core.log('ajax error occur on updating client info', 'error', corePrefix, callbacks);
+                raicare.core.log('ajax error occur on updating client info', 'error', corePrefix, callbacks);
                 form.classList.remove('loading');
 
             }
         };
 
-        raisoft.ajax.send(ajaxData);
+        raicare.ajax.send(ajaxData);
 
     };
 

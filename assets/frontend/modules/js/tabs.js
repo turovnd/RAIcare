@@ -27,7 +27,7 @@ module.exports = (function (tabs) {
 
                 if (nodes[i].counter && parseInt(nodes[i].counter.innerHTML) === 0) {
 
-                    var noItems = raisoft.draw.node('DIV', 'text-center p-20', {id: 'noItems'});
+                    var noItems = raicare.draw.node('DIV', 'text-center p-20', {id: 'noItems'});
 
                     noItems.textContent = 'К сожалению, элементы не найдены.';
 
@@ -97,7 +97,7 @@ module.exports = (function (tabs) {
 
                 if (!document.getElementById('noResult')) {
 
-                    var noResult = raisoft.draw.node('DIV', 'text-center p-20', {id: 'noResult'});
+                    var noResult = raicare.draw.node('DIV', 'text-center p-20', {id: 'noResult'});
 
                     noResult.textContent = 'К сожалению, ничего не найдено. Попробуйте изменить запрос.';
 

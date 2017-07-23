@@ -43,5 +43,5 @@
 </div>
 
 <script type="text/javascript">
-    raisoft.table.init();
+    raicare.table.init();
 </script>

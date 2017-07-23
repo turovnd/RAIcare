@@ -21,10 +21,10 @@ module.exports = (function (create) {
             success: function (response) {
 
                 response = JSON.parse(response);
-                raisoft.core.log(response.message, response.status, corePrefix);
+                raicare.core.log(response.message, response.status, corePrefix);
                 form.getElementsByClassName('modal__content')[0].classList.remove('loading');
 
-                raisoft.notification.notify({
+                raicare.notification.notify({
                     type: response.status,
                     message: response.message
                 });
@@ -32,7 +32,7 @@ module.exports = (function (create) {
                 if (parseInt(response.code) === 22 ) {
 
                     form.reset();
-                    raisoft.modal.hide(form);
+                    raicare.modal.hide(form);
                     window.location.assign('/client/' + response.id);
 
                 }
@@ -40,13 +40,13 @@ module.exports = (function (create) {
             },
             error: function (callbacks) {
 
-                raisoft.core.log('ajax error occur on submitting new client form', 'error', corePrefix, callbacks);
+                raicare.core.log('ajax error occur on submitting new client form', 'error', corePrefix, callbacks);
                 form.getElementsByClassName('modal__content')[0].classList.remove('loading');
 
             }
         };
 
-        raisoft.ajax.send(ajaxData);
+        raicare.ajax.send(ajaxData);
 
     };
 
@@ -65,12 +65,12 @@ module.exports = (function (create) {
             success: function (response) {
 
                 response = JSON.parse(response);
-                raisoft.core.log(response.message, response.status, corePrefix);
+                raicare.core.log(response.message, response.status, corePrefix);
 
 
                 if (parseInt(response.code) !== 50 ) {
 
-                    raisoft.notification.notify({
+                    raicare.notification.notify({
                         type: response.status,
                         message: response.message
                     });
@@ -84,12 +84,12 @@ module.exports = (function (create) {
             },
             error: function (callbacks) {
 
-                raisoft.core.log('ajax error occur on submitting creating new user form', 'error', corePrefix, callbacks);
+                raicare.core.log('ajax error occur on submitting creating new user form', 'error', corePrefix, callbacks);
 
             }
         };
 
-        raisoft.ajax.send(ajaxData);
+        raicare.ajax.send(ajaxData);
 
     };
 
@@ -99,7 +99,7 @@ module.exports = (function (create) {
 
         if (!form) {
 
-            raisoft.core.log('Не удается найти форму создания организации. Перезагрузите страницу', 'error', corePrefix);
+            raicare.core.log('Не удается найти форму создания организации. Перезагрузите страницу', 'error', corePrefix);
             return;
 
         }
@@ -121,18 +121,18 @@ module.exports = (function (create) {
             success: function (response) {
 
                 response = JSON.parse(response);
-                raisoft.core.log(response.message, response.status, corePrefix);
+                raicare.core.log(response.message, response.status, corePrefix);
                 form.getElementsByClassName('modal__content')[0].classList.remove('loading');
 
-                raisoft.notification.notify({
+                raicare.notification.notify({
                     type: response.status,
                     message: response.message
                 });
 
                 if (parseInt(response.code) === 131 ) {
 
-                    var block                   = raisoft.draw.node('LI', 'col-xs-12 col-md-6'),
-                        optionForCreatePension  = raisoft.draw.node('OPTION', '', {'value': response.id}),
+                    var block                   = raicare.draw.node('LI', 'col-xs-12 col-md-6'),
+                        optionForCreatePension  = raicare.draw.node('OPTION', '', {'value': response.id}),
                         organizations           = document.getElementById('organizations'),
                         selectForCreatePension  = document.getElementById('createPensionOrganization');
 
@@ -153,20 +153,20 @@ module.exports = (function (create) {
                     }
 
                     form.reset();
-                    raisoft.modal.hide(form);
+                    raicare.modal.hide(form);
 
                 }
 
             },
             error: function (callbacks) {
 
-                raisoft.core.log('ajax error occur on submitting new client form', 'error', corePrefix, callbacks);
+                raicare.core.log('ajax error occur on submitting new client form', 'error', corePrefix, callbacks);
                 form.getElementsByClassName('modal__content')[0].classList.remove('loading');
 
             }
         };
 
-        raisoft.ajax.send(ajaxData);
+        raicare.ajax.send(ajaxData);
 
     };
 
@@ -176,7 +176,7 @@ module.exports = (function (create) {
 
         if (!form) {
 
-            raisoft.core.log('Не удается найти форму создания пансионата. Перезагрузите страницу', 'error', corePrefix);
+            raicare.core.log('Не удается найти форму создания пансионата. Перезагрузите страницу', 'error', corePrefix);
             return;
 
         }
@@ -198,17 +198,17 @@ module.exports = (function (create) {
             success: function (response) {
 
                 response = JSON.parse(response);
-                raisoft.core.log(response.message, response.status, corePrefix);
+                raicare.core.log(response.message, response.status, corePrefix);
                 form.getElementsByClassName('modal__content')[0].classList.remove('loading');
 
-                raisoft.notification.notify({
+                raicare.notification.notify({
                     type: response.status,
                     message: response.message
                 });
 
                 if (parseInt(response.code) === 141 ) {
 
-                    var block    = raisoft.draw.node('LI', 'col-xs-12 col-md-6'),
+                    var block    = raicare.draw.node('LI', 'col-xs-12 col-md-6'),
                         pensions = document.getElementById('pensions');
 
                     block.innerHTML = response.pension;
@@ -225,20 +225,20 @@ module.exports = (function (create) {
                     }
 
                     form.reset();
-                    raisoft.modal.hide(form);
+                    raicare.modal.hide(form);
 
                 }
 
             },
             error: function (callbacks) {
 
-                raisoft.core.log('ajax error occur on submitting new client form', 'error', corePrefix, callbacks);
+                raicare.core.log('ajax error occur on submitting new client form', 'error', corePrefix, callbacks);
                 form.getElementsByClassName('modal__content')[0].classList.remove('loading');
 
             }
         };
 
-        raisoft.ajax.send(ajaxData);
+        raicare.ajax.send(ajaxData);
 
     };
 
