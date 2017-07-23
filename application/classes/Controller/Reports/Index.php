@@ -92,7 +92,7 @@ class Controller_Reports_Index extends Dispatch
         $this->template->title = "Итоговый протокол оценки #" . $this->survey->pk;
         $this->template->section = View::factory('reports/pages/protocols-report')
             ->set('survey', $this->survey)
-            ->set('report', $this->report);
+            ->set('protocols', $this->report);
     }
 
     /**
@@ -118,7 +118,7 @@ class Controller_Reports_Index extends Dispatch
         $this->template->title = "Итоговый протокол оценки #" . $this->survey->id;
         $this->template->section = View::factory('reports/pages/protocols-report')
             ->set('survey', $this->survey)
-            ->set('report', $this->report);
+            ->set('protocols', $this->report);
     }
 
     /**
@@ -218,6 +218,80 @@ class Controller_Reports_Index extends Dispatch
         $this->template->section = View::factory('reports/pages/personal-report')
             ->set('survey', $this->survey)
             ->set('report', $this->report);
+    }
+
+    /**
+     * Patient Personal Report
+     */
+    public function action_clinicalreport()
+    {
+        self::hasAccess(self::WATCH_ALL_REPORTS);
+
+        $pk = $this->request->param('pk');
+
+        $this->getSurveyData('pk', $pk);
+
+        $this->report = new Model_ReportRAIScales($pk);
+
+        if (!$this->report->pk) {
+            $this->getUnitsData();
+            $this->createRAIScales();
+        }
+
+        $raiscales = $this->report;
+
+        $this->report = new Model_ReportProtocols($pk);
+
+        if (!$this->report->pk) {
+            $this->getUnitsData();
+            $this->createProtocolsReport();
+        }
+
+        $protocols = $this->report;
+
+        $this->template->title = "Клинический отчет #" . $this->survey->pk;
+        $this->template->section = View::factory('reports/pages/clinical-report')
+            ->set('survey', $this->survey)
+            ->set('protocols', $protocols)
+            ->set('raiscales', $raiscales);
+    }
+
+    /**
+     * Patient Personal Report On Pension Page
+     */
+    public function action_pen_clinicalreport()
+    {
+        self::hasAccess(self::WATCH_PEN_REPORT);
+        $this->checkUsersPensionAccess();
+
+        $pension = $this->request->param('pen_id');
+        $id = $this->request->param('sur_id');
+
+        $this->getSurveyData('id', $id);
+
+        $this->report = Model_ReportRAIScales::getByPension($id, $pension);
+
+        $this->getUnitsData();
+        if (!$this->report->pk) {
+            $this->createRAIScales();
+        }
+
+        $raiscales = $this->report;
+
+        $this->report = Model_ReportProtocols::getByPension($id, $pension);
+
+        if (!$this->report->pk) {
+            $this->getUnitsData();
+            $this->createProtocolsReport();
+        }
+
+        $protocols = $this->report;
+
+        $this->template->title = "Клинический отчет #" . $this->survey->id;
+        $this->template->section = View::factory('reports/pages/clinical-report')
+            ->set('survey', $this->survey)
+            ->set('protocols', $protocols)
+            ->set('raiscales', $raiscales);
     }
 
     /**
@@ -324,7 +398,6 @@ class Controller_Reports_Index extends Dispatch
         $this->report->P16 = $P16;
 
         // Prevention
-
         $P17check = ($O1[0] == 0 || $O1[1] == 0 || $O1[2] == 0 || $O1[3] == 0 || $O1[4] == 0 || $O1[5] == 0 || $O1[6] == 0 || $O1[7] == 0) ? true : false;
         $P17 = ($this->survey->unitO->O5 < 7 && $P17check) ? 2 : (($this->survey->unitO->O5 > 7 && $P17check) ? 1 : 0);
         $this->report->P17 = $P17;
@@ -382,6 +455,7 @@ class Controller_Reports_Index extends Dispatch
 
         $this->report->save();
     }
+
 
     // Get Main Survey Data
     private function getSurveyData($mod, $id)

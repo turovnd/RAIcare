@@ -101,13 +101,13 @@ module.exports = (function (progress) {
 
             var getLen = function (len) {
 
-                ctx.clearRect(xPrSt + 1, 1, width - 2, settings.height - 2);
+                ctx.clearRect(xPrSt + 3, 1, width - 3, settings.height - 2);
 
                 prog = getProgress(width, len);
 
                 ctx.lineWidth = settings.lineWidth;
                 ctx.fillStyle = settings.lineColor;
-                ctx.fillRect(xPrSt + 1, 1, prog - 2, settings.height-2);
+                ctx.fillRect(xPrSt + 3, 1, prog - 3, settings.height-2);
 
                 if (width / 2 - prog < settings.fontSize + 10) {
 

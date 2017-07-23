@@ -205,15 +205,15 @@
                                     <div class="col-xs-12 collapse" id="Pain">
                                         <ul class="m-0 pos-relative p-l-20 list-style--none">
 
-                                            <? foreach (Kohana::$config->load('RAIScales.DRS') as $DRS) : ?>
+                                            <? foreach (Kohana::$config->load('RAIScales.Pain') as $Pain) : ?>
 
-                                                <li class="p-b-10 <?= is_array($DRS['key']) ? in_array($report->DRS, $DRS['key']) : $report->DRS == $DRS['key'] ? $DRS['class'] : ''; ?>">
-                                                    <? if (is_array($DRS['key']) ? in_array($report->DRS, $DRS['key']) : $report->DRS == $DRS['key']) : ?>
+                                                <li class="p-b-10 <?= is_array($Pain['key']) ? in_array($report->Pain, $Pain['key']) : $report->Pain == $Pain['key'] ? $Pain['class'] : ''; ?>">
+                                                    <? if (is_array($Pain['key']) ? in_array($report->Pain, $Pain['key']) : $report->Pain == $Pain['key']) : ?>
                                                         <span class="fl_l pos-absolute left-0">
                                                             <i class="fa fa-play" aria-hidden="true"></i>
                                                         </span>
                                                     <? endif; ?>
-                                                    <?= $DRS['name']; ?>
+                                                    <?= $Pain['name']; ?>
                                                 </li>
 
                                             <? endforeach; ?>

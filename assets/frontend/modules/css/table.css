@@ -1,0 +1,119 @@
+@media (min-width: 40em) {
+    .tablesaw-stack th{
+        max-width: 60px;
+        word-wrap: break-word;
+    }
+}
+.tablesaw-stack td .tablesaw-cell-label,
+.tablesaw-stack th .tablesaw-cell-label {
+    text-align: left;
+    word-wrap: break-word;
+}
+.tablesaw-cell-content{
+    width: 70%;
+    max-width: 70%;
+}
+
+@media (max-width: 39.9375em) {
+    .tablesaw-stack tbody tr{
+        display: inline-block;
+        width: 100%;
+        padding-bottom: 15px;
+        margin-bottom: 15px;
+        border-bottom: 1px dashed #dfdfdf;
+    }
+    .tablesaw-stack tbody tr:last-child{
+        border-bottom: 0;
+    }
+}
+
+
+.table-style--raiscales,
+.table-style--protocols{
+    border-collapse: collapse;
+}
+.table-style--raiscales thead th,
+.table-style--protocols thead th{
+    padding: 10px 5px;
+}
+.table-style--raiscales thead th:nth-child(2),
+.table-style--protocols thead th:nth-child(2){
+    padding: 0;
+}
+.table-style--raiscales thead th:nth-child(2) button,
+.table-style--protocols thead th:nth-child(2) button{
+    padding: 10px 5px;
+}
+
+.table-style--raiscales tbody tr,
+.table-style--protocols tbody tr{
+    cursor: pointer;
+}
+.table-style--raiscales tbody td,
+.table-style--protocols tbody td{
+    padding: 20px 5px;
+    border-top: 1px dashed #dfdfdf;
+    border-bottom: 1px dashed #dfdfdf;
+}
+
+.table-style--raiscales tbody tr:last-child td,
+.table-style--protocols tbody tr:last-child td{
+    border: 0;
+}
+
+.table-style--raiscales tbody td:nth-child(4) {
+    text-align: center;
+}
+.table-style--raiscales tbody td:nth-child(5) {
+    text-align: right;
+}
+
+.table-style--protocols tbody tr:last-child td{
+    border: 0;
+}
+.table-style--protocols tbody td:nth-child(4) {
+    text-align: right;
+}
+
+@media (max-width: 39.9375em) {
+    .table-style--raiscales tbody tr,
+    .table-style--protocols tbody tr{
+        position: relative;
+    }
+    .table-style--raiscales tbody td,
+    .table-style--protocols tbody td{
+        border: 0;
+        padding: 0;
+        margin-bottom: 10px;
+    }
+    .table-style--raiscales tbody td:first-child,
+    .table-style--protocols tbody td:first-child{
+        display: flex;
+        position: absolute;
+        width: initial;
+        top: 0;
+        right: 10px;
+    }
+    .table-style--raiscales tbody td:nth-child(4) {
+        margin-bottom: 0;
+    }
+    .table-style--raiscales tbody td:last-child,
+    .table-style--protocols tbody td:last-child{
+        display: none;
+    }
+
+    .table-style--raiscales tbody b,
+    .table-style--raiscales tbody span,
+    .table-style--protocols tbody b,
+    .table-style--protocols tbody span{
+        display: block !important;
+        width: 100% !important;
+        max-width: 100%;
+    }
+
+    .table-style--raiscales tbody b,
+    .table-style--protocols tbody b{
+        padding: 0 0 3px !important;
+    }
+
+}

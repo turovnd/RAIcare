@@ -20,7 +20,7 @@ return array
             'hash' => 'protocolsreport',
         ),
         '5' => array(
-            'name' => 'Клинический отчет по пациенту',
+            'name' => 'Клинический отчет',
             'hash' => 'clinicalreport',
         )
     )
