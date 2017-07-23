@@ -22,8 +22,6 @@
             raisoft.aside.init();
             raisoft.notification.createHolder();
             raisoft.modal.init();
-            raisoft.table.init();
-            raisoft.table.create();
             raisoft.loader.init();
             raisoft.progress.init();
             raisoft.select.init();
