@@ -16,7 +16,6 @@ Class Model_Patient {
     public $dt_create;              // дата первичной оценки в пансионате
     public $creator;
 
-    
     public function __construct($pk = null) {
 
         if ( !empty($pk) ) {
@@ -209,13 +208,11 @@ Class Model_Patient {
     {
         return Dao_Patients::select(array('pen_id' , 'pat_id'))
             ->where('snils','=', $patient->snils)
-            ->where('birthday','=', $patient->birthday)
             ->join('Pensions_Patients')
             ->on('pk','=','pat_id')
             ->order_by('dt_create', 'DESC')
             ->execute();
 
     }
-
 
 }

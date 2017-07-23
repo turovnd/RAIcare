@@ -1,13 +1,8 @@
 <?
-$I1 = array(
-    '0' => 'Отсутствует',
-    '1' => 'Основной диагноз (основные диагнозы) для текущего пребывания в стационаре',
-    '2' => 'Диагноз установлен - пациент получает активное лечение',
-    '3' => 'Диагноз установлен - пациент наблюдается, но не получает активного лечения'
-);
-$survey->unitI->I1 = json_decode($survey->unitI->I1);
-$survey->unitI->I2 = json_decode($survey->unitI->I2);
+    $I1 = Kohana::$config->load('Units.I.I1');
 
+    $survey->unitI->I1 = json_decode($survey->unitI->I1);
+    $survey->unitI->I2 = json_decode($survey->unitI->I2);
 ?>
 
 <h3 class="section__heading">
@@ -458,8 +453,9 @@ $survey->unitI->I2 = json_decode($survey->unitI->I2);
                                         Не указано
                                     <? else : ?>
                                     <ol class="p-l-20">
-                                        <? foreach ($survey->unitI->I2 as $value) : ?>
-                                            <li><?= $value; ?></li>
+                                        <? foreach ($survey->unitI->I2 as $key) : ?>
+                                            <? $mkb10 = new Model_MKB10($key); ?>
+                                            <li><?= $mkb10->name . ' (' . $mkb10->code . ')'; ?></li>
                                         <? endforeach; ?>
                                     </ol>
                                     <? endif; ?>

@@ -15,7 +15,7 @@ class Controller_Pensions_Index extends Dispatch
     CONST WATCH_MY_PEN_PAGE              = 26;
     CONST EDIT_PENSION                   = 27;
     CONST STATISTIC_PENSION              = 30;
-    CONST AVAILABLE_PERMISSIONS_PEN      = array(27,28,29,30,31,32,36);
+    CONST AVAILABLE_PERMISSIONS_PEN      = array(27,28,29,30,31,32,36,39,40);
 
     public $template = 'main';
     public $pension  = null;

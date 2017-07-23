@@ -53,13 +53,10 @@ class Controller_Patients_Index extends Dispatch
 
         $this->getPatient();
 
-        $surveys      = array();
         $pensions   = array();
         $sameSnils  = array();
 
         $same_patients = Model_Patient::getSamePatients($this->patient);
-
-        if (count($same_patients) == 1) goto finish;
 
         foreach ($same_patients as $same_patient) {
             $sameSnils[] = $same_patient['pat_id'];
@@ -76,7 +73,8 @@ class Controller_Patients_Index extends Dispatch
         $this->patient->creator   = new Model_User($this->patient->creator);
         $this->patient->pensions  = $pensions;
         $this->patient->sameSnils = $sameSnils;
-        $this->patient->surveys     = $surveys;
+        $this->patient->surveys   = $surveys;
+        $this->patient->full_info = true;
 
         $this->template->title = "Профиль пациента " . $this->patient->name;
         $this->template->section = View::factory('patients/pages/profile-full')
@@ -119,7 +117,8 @@ class Controller_Patients_Index extends Dispatch
 
         $this->patient->creator = new Model_User($this->patient->creator);
         $this->patient->pension = $this->pension;
-        $this->patient->surveys   = $surveys;
+        $this->patient->surveys = $surveys;
+        $this->patient->full_info = true;
 
         $this->template->title = "Профиль пациента " . $this->patient->name;
         $this->template->section = View::factory('patients/pages/profile')
@@ -164,6 +163,5 @@ class Controller_Patients_Index extends Dispatch
         }
 
     }
-
 
 }

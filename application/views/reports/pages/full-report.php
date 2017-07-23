@@ -1,13 +1,25 @@
 <div class="section__content">
 
+
     <h3 class="section__heading">
-        Форма оценки #<?= $survey->pk; ?>
+        <a role="button" onclick="window.history.back()" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn">Назад</a>
+        <a role="button" onclick="" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn"><i class="fa fa-print" aria-hidden="true"></i></a>
+        <a role="button" onclick="" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn"><i class="fa fa-floppy-o" aria-hidden="true"></i></a>
+
+        <? // CONST WATCH_ALL_SURVEYS = 37
+        if (in_array(37, $user->permissions)) : ?>
+            Детальный отчет #<?= $survey->pk; ?>
+        <? else: ?>
+            Детальный отчет #<?= $survey->id; ?>
+        <? endif; ?>
+
     </h3>
 
     <div class="row">
-    <? echo json_encode($survey) ?>
+        <div class="col-xs-12">
+            <?= View::factory('reports/block/patient-info', array('survey' => $survey)); ?>
+        </div>
     </div>
-
 
     <?= View::factory('surveys/units/unitA', array('survey' => $survey, 'can_conduct' => false)); ?>
     <?= View::factory('surveys/units/unitB', array('survey' => $survey, 'can_conduct' => false)); ?>

@@ -7,6 +7,18 @@ module.exports = (function (tablesaw) {
 
     };
 
+    tablesaw.create = function () {
+
+        (function (win) {
+
+            var $ = win.shoestring;
+
+            $(document).trigger('enhance.tablesaw');
+
+        })(typeof window !== 'undefined' ? window : this);
+
+    };
+
     return tablesaw;
 
 })({});

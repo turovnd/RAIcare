@@ -1,14 +1,9 @@
 <?
-if (empty($survey->type != 5)) return;
-$Q2 = array(
-    '1' => '1-7 дней',
-    '2' => '8-14 дней',
-    '3' => '15-30 дней',
-    '4' => '31-90 дней',
-    '5' => '91 или более дней',
-    '6' => 'Выписка с возвращением в местное сообщество не предполагается'
-);
-$survey->unitQ->Q1 = json_decode($survey->unitQ->Q1);
+    if (empty($survey->type != 5)) return;
+
+    $Q2 = Kohana::$config->load('Units.Q.Q2');
+
+    $survey->unitQ->Q1 = json_decode($survey->unitQ->Q1);
 ?>
 
 <h3 class="section__heading">

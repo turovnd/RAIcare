@@ -1,57 +1,9 @@
 <?
-$N1c = array(
-    '0' => 'мЭкв',
-    '1' => 'ингаляция',
-    '2' => 'капли',
-    '3' => 'г',
-    '4' => 'мг',
-    '5' => 'мкг',
-    '6' => '%',
-    '7' => 'л',
-    '8' => 'мл',
-    '9' => 'единицы',
-    '10' => 'унции',
-    '11' => 'др.'
-);
-$N1d = array(
-    '0' => 'PO',
-    '1' => 'REC',
-    '2' => 'ET',
-    '3' => 'SL',
-    '4' => 'TOP',
-    '5' => 'TD',
-    '6' => 'IM',
-    '7' => 'IH',
-    '8' => 'EYE',
-    '9' => 'IV',
-    '10' => 'NAS',
-    '11' => 'OTH'
-);
-$N1e = array(
-    '0' => 'Q1H',
-    '1' => 'Q2H',
-    '2' => 'Q3H',
-    '3' => 'Q4H',
-    '4' => 'Q6H',
-    '5' => 'Q8H',
-    '6' => 'BED',
-    '7' => 'BID',
-    '8' => 'TID',
-    '9' => 'QID',
-    '10' => '5D',
-    '11' => 'Q2D',
-    '12' => 'Q3D',
-    '13' => '2W',
-    '14' => '3W',
-    '15' => '4W',
-    '16' => '5W',
-    '17' => '6W',
-    '18' => '1M',
-    '19' => '2M',
-    '20' => 'OTH',
-);
+    $N1c = Kohana::$config->load('Units.N.N1c');
+    $N1d = Kohana::$config->load('Units.N.N1d');
+    $N1e = Kohana::$config->load('Units.N.N1e');
 
-$survey->unitN->N1 = !empty($survey->unitN->N1) ? json_decode($survey->unitN->N1) : array();
+    $survey->unitN->N1 = !empty($survey->unitN->N1) ? json_decode($survey->unitN->N1) : array();
 ?>
 
 <h3 class="section__heading">
@@ -102,7 +54,9 @@ $survey->unitN->N1 = !empty($survey->unitN->N1) ? json_decode($survey->unitN->N1
                             <th scope="col">Способ приема</th>
                             <th scope="col">Частота приема</th>
                             <th scope="col">PRN (по мере необх.)</th>
-                            <th scope="col" class="hide">Выбрать</th>
+                            <? if ($can_conduct) : ?>
+                                <th scope="col" class="hide">Выбрать</th>
+                            <? endif; ?>
                         </tr>
                         </thead>
                         <tbody valign="middle">
@@ -162,20 +116,22 @@ $survey->unitN->N1 = !empty($survey->unitN->N1) ? json_decode($survey->unitN->N1
                                             </select>
                                         </div>
                                     </td>
+                                    <? if ($can_conduct) : ?>
                                     <td width="5%">
                                         <input id="N1_checkbox<?= $N1_key; ?>" class="checkbox" type="checkbox" data-row="<?=$N1_key;?>">
                                         <label for="N1_checkbox<?= $N1_key; ?>" class="checkbox-label"></label>
                                     </td>
+                                    <? endif; ?>
                                 </tr>
 
                             <? endforeach; ?>
 
                         </tbody>
                     </table>
-
-                    <button class="btn btn--brand m-l-10 m-t-20 m-b-0" onclick="survey.table.addRow('N1')">Добавить</button>
-                    <button class="btn btn--brand m-l-10 m-t-20 m-b-0" onclick="survey.table.removeRow('N1')">Удалить</button>
-
+                    <? if ($can_conduct) : ?>
+                        <button class="btn btn--brand m-l-10 m-t-20 m-b-0" onclick="survey.table.addRow('N1')">Добавить</button>
+                        <button class="btn btn--brand m-l-10 m-t-20 m-b-0" onclick="survey.table.removeRow('N1')">Удалить</button>
+                    <? endif; ?>
                 </fieldset>
 
                 <fieldset>
