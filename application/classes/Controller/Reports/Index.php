@@ -3,7 +3,7 @@
 /**
  * Class Controller_Reports_Index
  *
- * @copyright raisoft
+ * @copyright RAIcare
  * @author Nikolai Turov
  * @version 0.0.0
  */
@@ -527,7 +527,7 @@ class Controller_Reports_Index extends Dispatch
         if ( $G1[8] >=4 ) $purs++;
         if ( $G1[4] >=4 ) $purs++;
         if ( $this->survey->unitH->H3 >= 2 ) $purs++;
-        // TODO add condition - https://github.com/kolyasha/raisoft/issues/26
+        // TODO add condition - https://github.com/kolyasha/RAIcare/issues/26
         if ( $K2[0] == 1 ) $purs++;
         if ( $J6[0] == 3 ) $purs++;
         if ( $this->survey->unitJ->J4 >= 2 ) $purs++;

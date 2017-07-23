@@ -35,10 +35,10 @@ module.exports = (function (edit) {
             success: function (response) {
 
                 response = JSON.parse(response);
-                raisoft.core.log(response.message, response.status, corePrefix);
+                raicare.core.log(response.message, response.status, corePrefix);
                 form.classList.remove('loading');
 
-                raisoft.notification.notify({
+                raicare.notification.notify({
                     type: response.status,
                     message: response.message
                 });
@@ -55,13 +55,13 @@ module.exports = (function (edit) {
             },
             error: function (callbacks) {
 
-                raisoft.core.log('ajax error occur on updating profile info', 'error', corePrefix, callbacks);
+                raicare.core.log('ajax error occur on updating profile info', 'error', corePrefix, callbacks);
                 form.classList.remove('loading');
 
             }
         };
 
-        raisoft.ajax.send(ajaxData);
+        raicare.ajax.send(ajaxData);
 
     };
 
@@ -91,7 +91,7 @@ module.exports = (function (edit) {
         console.log(formData.get('newpassword') !== formData.get('newpassword2'), formData.get('newpassword'), formData.get('newpassword2'));
         if (message !== null) {
 
-            raisoft.notification.notify({
+            raicare.notification.notify({
                 type: 'warning',
                 message: message
             });
@@ -113,10 +113,10 @@ module.exports = (function (edit) {
             success: function (response) {
 
                 response = JSON.parse(response);
-                raisoft.core.log(response.message, response.status, corePrefix);
+                raicare.core.log(response.message, response.status, corePrefix);
                 form.getElementsByClassName('modal__content')[0].classList.remove('loading');
 
-                raisoft.notification.notify({
+                raicare.notification.notify({
                     type: response.status,
                     message: response.message
                 });
@@ -125,20 +125,20 @@ module.exports = (function (edit) {
                 if (parseInt(response.code) === 57 ) {
 
                     form.reset();
-                    raisoft.modal.hide(form);
+                    raicare.modal.hide(form);
 
                 }
 
             },
             error: function (callbacks) {
 
-                raisoft.core.log('ajax error occur on updating profile info', 'error', corePrefix, callbacks);
+                raicare.core.log('ajax error occur on updating profile info', 'error', corePrefix, callbacks);
                 form.getElementsByClassName('modal__content')[0].classList.remove('loading');
 
             }
         };
 
-        raisoft.ajax.send(ajaxData);
+        raicare.ajax.send(ajaxData);
 
     };
 

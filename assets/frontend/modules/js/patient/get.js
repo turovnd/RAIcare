@@ -82,7 +82,7 @@ module.exports = (function (get) {
             success: function (response) {
 
                 response = JSON.parse(response);
-                raisoft.core.log(response.message, response.status, corePrefix);
+                raicare.core.log(response.message, response.status, corePrefix);
                 ajaxPOSTing = false;
 
                 if (parseInt(response.code) === 150 ) {
@@ -103,7 +103,7 @@ module.exports = (function (get) {
 
                         }
 
-                        raisoft.select.init();
+                        raicare.select.init();
 
                     } else {
 
@@ -117,7 +117,7 @@ module.exports = (function (get) {
                     getMorePatientsBtn.innerHTML = "Ошибка при загрузке. <span class='link'>Повторить</span>";
                     document.removeEventListener('scroll', checkPageOffset_);
 
-                    raisoft.notification.notify({
+                    raicare.notification.notify({
                         type: response.status,
                         message: response.message
                     });
@@ -127,7 +127,7 @@ module.exports = (function (get) {
             },
             error: function (callbacks) {
 
-                raisoft.core.log('ajax error occur on getting patients', 'error', corePrefix, callbacks);
+                raicare.core.log('ajax error occur on getting patients', 'error', corePrefix, callbacks);
                 getMorePatientsBtn.innerHTML = "Ошибка при загрузке. <span class='link'>Повторить</span>";
                 document.removeEventListener('scroll', checkPageOffset_);
                 ajaxPOSTing = false;
@@ -135,7 +135,7 @@ module.exports = (function (get) {
             }
         };
 
-        raisoft.ajax.send(ajaxData);
+        raicare.ajax.send(ajaxData);
 
     }
 

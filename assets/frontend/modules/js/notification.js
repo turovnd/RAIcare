@@ -29,7 +29,7 @@ module.exports = (function (notification) {
 
     notification.createHolder = function () {
 
-        var tempHolder = raisoft.draw.node('DIV', 'notifications-block');
+        var tempHolder = raicare.draw.node('DIV', 'notifications-block');
 
         holder = document.body.appendChild(tempHolder);
 
@@ -112,7 +112,7 @@ module.exports = (function (notification) {
 
             if (!(settings && settings.message)) {
 
-                raisoft.core.log('Can\'t create notification. Message is missed', 'error', 'notification');
+                raicare.core.log('Can\'t create notification. Message is missed', 'error', 'notification');
                 return;
 
             }
@@ -120,12 +120,12 @@ module.exports = (function (notification) {
             settings.type = settings.type || 'alert';
             settings.time = settings.time * 1000 || 3000;
 
-            var wrapper     = raisoft.draw.node('DIV', 'notification'),
-                message     = raisoft.draw.node('DIV', 'notification__message'),
-                input       = raisoft.draw.node('INPUT', 'notification__input'),
-                confirmBtn  = raisoft.draw.node('SPAN', 'notification__confirm-btn'),
-                cancelBtn   = raisoft.draw.node('SPAN', 'notification__cancel-btn'),
-                backdropBl  = raisoft.draw.node('DIV', 'notification-backdrop');
+            var wrapper     = raicare.draw.node('DIV', 'notification'),
+                message     = raicare.draw.node('DIV', 'notification__message'),
+                input       = raicare.draw.node('INPUT', 'notification__input'),
+                confirmBtn  = raicare.draw.node('SPAN', 'notification__confirm-btn'),
+                cancelBtn   = raicare.draw.node('SPAN', 'notification__cancel-btn'),
+                backdropBl  = raicare.draw.node('DIV', 'notification-backdrop');
 
             message.innerHTML       = settings.message;
 

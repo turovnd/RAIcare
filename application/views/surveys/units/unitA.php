@@ -3,9 +3,9 @@
 ?>
 
 <h3 class="section__heading">
-    <a role="button" onclick="raisoft.collapse.toggle(this)" data-area="personalInfo" data-opened="false" data-textclosed="подробно" data-textopened="кратко" class="btn btn--default btn--sm m-b-0 m-r-0 fl_r collapse-btn"></a>
+    <a role="button" onclick="raicare.collapse.toggle(this)" data-area="personalInfo" data-opened="false" data-textclosed="подробно" data-textopened="кратко" class="btn btn--default btn--sm m-b-0 m-r-0 fl_r collapse-btn"></a>
     <? if (!$can_conduct) : ?>
-        <a role="button" onclick="raisoft.collapse.toggle(this)" data-area="unitA" data-opened="true" data-textclosed="показать" data-textopened="скрыть" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn"></a>
+        <a role="button" onclick="raicare.collapse.toggle(this)" data-area="unitA" data-opened="true" data-textclosed="показать" data-textopened="скрыть" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn"></a>
     <? endif; ?>
     Персональная информация
 </h3>

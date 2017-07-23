@@ -1,6 +1,6 @@
 module.exports = (function (roles) {
 
-    var corePrefix   = 'RAIsoft admin', i,
+    var corePrefix   = 'RAIcare admin', i,
         roleID       = null,
         rolesWrapper = null;
 
@@ -12,7 +12,7 @@ module.exports = (function (roles) {
         var rolename = element.dataset.rolename,
             selectedPermissions = JSON.parse(element.dataset.permissions);
 
-        raisoft.modal.create({
+        raicare.modal.create({
             id: 'updateRoleModal',
             header: 'Изменить права доступа роли: ' + rolename,
             body:
@@ -71,10 +71,10 @@ module.exports = (function (roles) {
             success: function (response) {
 
                 response = JSON.parse(response);
-                raisoft.core.log(response.message, response.status, corePrefix);
+                raicare.core.log(response.message, response.status, corePrefix);
                 form.getElementsByClassName('modal__content')[0].classList.remove('loading');
 
-                raisoft.notification.notify({
+                raicare.notification.notify({
                     type: response.status,
                     message: response.message
                 });
@@ -83,7 +83,7 @@ module.exports = (function (roles) {
                 if (parseInt(response.code) === 103 ) {
 
                     rolesWrapper.innerHTML = updateHTML_(permis);
-                    raisoft.modal.hide(form);
+                    raicare.modal.hide(form);
                     form.remove();
 
                 }
@@ -91,13 +91,13 @@ module.exports = (function (roles) {
             },
             error: function (callbacks) {
 
-                raisoft.core.log('ajax error occur on changing user role', 'error', corePrefix, callbacks);
+                raicare.core.log('ajax error occur on changing user role', 'error', corePrefix, callbacks);
                 form.getElementsByClassName('modal__content')[0].classList.remove('loading');
 
             }
         };
 
-        raisoft.ajax.send(ajaxData);
+        raicare.ajax.send(ajaxData);
 
     };
 

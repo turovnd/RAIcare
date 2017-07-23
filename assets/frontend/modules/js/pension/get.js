@@ -68,7 +68,7 @@ module.exports = (function (get) {
             success: function (response) {
 
                 response = JSON.parse(response);
-                raisoft.core.log(response.message, response.status, corePrefix);
+                raicare.core.log(response.message, response.status, corePrefix);
                 ajaxPOST = false;
 
                 if (parseInt(response.code) === 146 ) {
@@ -101,7 +101,7 @@ module.exports = (function (get) {
 
                     button.innerHTML = "Ошибка при загрузке. <span class='link'>Повторить</span>";
 
-                    raisoft.notification.notify({
+                    raicare.notification.notify({
                         type: response.status,
                         message: response.message
                     });
@@ -111,14 +111,14 @@ module.exports = (function (get) {
             },
             error: function (callbacks) {
 
-                raisoft.core.log('ajax error occur on getting organizations', 'error', corePrefix, callbacks);
+                raicare.core.log('ajax error occur on getting organizations', 'error', corePrefix, callbacks);
                 button.innerHTML = "Ошибка при загрузке. <span class='link'>Повторить</span>";
                 ajaxPOST = false;
 
             }
         };
 
-        raisoft.ajax.send(ajaxData);
+        raicare.ajax.send(ajaxData);
 
     }
 

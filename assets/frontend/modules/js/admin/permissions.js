@@ -1,6 +1,6 @@
 module.exports = (function (permissions) {
 
-    var corePrefix            = 'RAIsoft admin', i,
+    var corePrefix            = 'RAIcare admin', i,
         permissionsWrapper    = null,
         newPermissionModal    = null,
         editPermissionModal   = null,
@@ -59,17 +59,17 @@ module.exports = (function (permissions) {
             success: function (response) {
 
                 response = JSON.parse(response);
-                raisoft.core.log(response.message, response.status, corePrefix);
+                raicare.core.log(response.message, response.status, corePrefix);
                 form.classList.remove('loading');
 
-                raisoft.notification.notify({
+                raicare.notification.notify({
                     type: response.status,
                     message: response.message
                 });
 
                 if ( parseInt(response.code) === 111) {
 
-                    var element = raisoft.draw.node('LI', 'p-b-10');
+                    var element = raicare.draw.node('LI', 'p-b-10');
 
                     element.innerHTML =
                         '<div class="fl_r">'+
@@ -91,13 +91,13 @@ module.exports = (function (permissions) {
             },
             error: function (callbacks) {
 
-                raisoft.core.log('ajax error occur on crating new permission', 'error', corePrefix, callbacks);
+                raicare.core.log('ajax error occur on crating new permission', 'error', corePrefix, callbacks);
                 form.classList.remove('loading');
 
             }
         };
 
-        raisoft.ajax.send(ajaxData);
+        raicare.ajax.send(ajaxData);
 
     }
 
@@ -124,10 +124,10 @@ module.exports = (function (permissions) {
             success: function (response) {
 
                 response = JSON.parse(response);
-                raisoft.core.log(response.message, response.status, corePrefix);
+                raicare.core.log(response.message, response.status, corePrefix);
                 form.classList.remove('loading');
 
-                raisoft.notification.notify({
+                raicare.notification.notify({
                     type: response.status,
                     message: response.message
                 });
@@ -154,13 +154,13 @@ module.exports = (function (permissions) {
             },
             error: function (callbacks) {
 
-                raisoft.core.log('ajax error occur on updating permission form', 'error', corePrefix, callbacks);
+                raicare.core.log('ajax error occur on updating permission form', 'error', corePrefix, callbacks);
                 form.classList.remove('loading');
 
             }
         };
 
-        raisoft.ajax.send(ajaxData);
+        raicare.ajax.send(ajaxData);
 
     }
 
@@ -185,10 +185,10 @@ module.exports = (function (permissions) {
             success: function (response) {
 
                 response = JSON.parse(response);
-                raisoft.core.log(response.message, response.status, corePrefix);
+                raicare.core.log(response.message, response.status, corePrefix);
                 form.classList.remove('loading');
 
-                raisoft.notification.notify({
+                raicare.notification.notify({
                     type: response.status,
                     message: response.message
                 });
@@ -225,13 +225,13 @@ module.exports = (function (permissions) {
             },
             error: function (callbacks) {
 
-                raisoft.core.log('ajax error occur on deleting permission form', 'error', corePrefix, callbacks);
+                raicare.core.log('ajax error occur on deleting permission form', 'error', corePrefix, callbacks);
                 form.classList.remove('loading');
 
             }
         };
 
-        raisoft.ajax.send(ajaxData);
+        raicare.ajax.send(ajaxData);
 
     }
 
@@ -239,7 +239,7 @@ module.exports = (function (permissions) {
 
         if (newPermissionModal === null) {
 
-            newPermissionModal = raisoft.notification.notify({
+            newPermissionModal = raicare.notification.notify({
                 type: 'confirm',
                 message: '<div id="newPermissionForm">' +
                 '<h2>Новое право доступа</h2>'+
@@ -272,7 +272,7 @@ module.exports = (function (permissions) {
             var id   = this.dataset.id,
                 name = this.dataset.name;
 
-            editPermissionModal = raisoft.notification.notify({
+            editPermissionModal = raicare.notification.notify({
                 type: 'confirm',
                 message:    '<div id="editPermissionForm">' +
                 '<h2>Редактировать право доступа</h2>'+
@@ -301,7 +301,7 @@ module.exports = (function (permissions) {
 
             var id   = this.dataset.id;
 
-            deletePermissionModal = raisoft.notification.notify({
+            deletePermissionModal = raicare.notification.notify({
                 type: 'confirm',
                 message:    '<div id="deletePermissionForm" data-id="' + id + '">' +
                 '<h2>Удалить право доступа</h2>'+

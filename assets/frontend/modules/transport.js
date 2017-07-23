@@ -7,7 +7,7 @@ module.exports = (function (transport) {
     var prepare_ = function (settings) {
 
         settings_ = settings;
-        input_ = raisoft.draw.node('INPUT', '', {type : 'file'});
+        input_ = raicare.draw.node('INPUT', '', {type : 'file'});
 
         if (settings_.multiple) {
 
@@ -36,7 +36,7 @@ module.exports = (function (transport) {
         formData.append('files', file, file.name);
         formData.append('params', JSON.stringify(settings_.params));
 
-        raisoft.ajax.send({
+        raicare.ajax.send({
             url: settings_.url,
             type: 'POST',
             data: formData,

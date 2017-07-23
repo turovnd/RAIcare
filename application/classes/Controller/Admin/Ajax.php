@@ -3,7 +3,7 @@
 /**
  * Class Controller_Admin_Ajax
  *
- * @copyright raisoft
+ * @copyright RAIcare
  * @author Nikolai Turov
  * @version 0.0.0
  */

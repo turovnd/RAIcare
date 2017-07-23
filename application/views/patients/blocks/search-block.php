@@ -113,7 +113,7 @@
                 Продолжить оценивание
             </a>
 
-            <a data-area="surveyType<?=$patient->id; ?>" data-opened="false" class="block__footer clear-fix text-center text-brand text-bold user-select--none <?= $patient->survey->id ? 'hide' : ''; ?>" onclick="this.classList.add('hide'); document.getElementById('openForm<?=$patient->id; ?>').classList.remove('hide'); raisoft.collapse.toggle(this)">
+            <a data-area="surveyType<?=$patient->id; ?>" data-opened="false" class="block__footer clear-fix text-center text-brand text-bold user-select--none <?= $patient->survey->id ? 'hide' : ''; ?>" onclick="this.classList.add('hide'); document.getElementById('openForm<?=$patient->id; ?>').classList.remove('hide'); raicare.collapse.toggle(this)">
                 Новая оценка
             </a>
 

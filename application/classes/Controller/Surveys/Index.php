@@ -3,7 +3,7 @@
 /**
  * Class Controller_Surveys_Index
  *
- * @copyright raisoft
+ * @copyright RAIcare
  * @author Nikolai Turov
  * @version 0.0.0
  */

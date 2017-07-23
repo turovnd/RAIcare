@@ -80,7 +80,7 @@ module.exports = (function (get) {
 
         if (units.indexOf(unit) === -1) {
 
-            raisoft.notification.notify({
+            raicare.notification.notify({
                 type: 'error',
                 message: 'Не правильно указан адрес'
             });
@@ -115,19 +115,19 @@ module.exports = (function (get) {
             success: function (response) {
 
                 response = JSON.parse(response);
-                raisoft.core.log(response.message, response.status, corePrefix);
+                raicare.core.log(response.message, response.status, corePrefix);
                 document.getElementsByClassName('wrapper')[0].classList.remove('loading');
 
                 if (parseInt(response.code) === 165 ) {
 
                     unitHolder.innerHTML = response.html;
                     survey.table.init();
-                    raisoft.loader.init();
+                    raicare.loader.init();
                     initSelects_();
 
                 } else {
 
-                    raisoft.notification.notify({
+                    raicare.notification.notify({
                         type: response.status,
                         message: response.message
                     });
@@ -137,13 +137,13 @@ module.exports = (function (get) {
             },
             error: function (callbacks) {
 
-                raisoft.core.log('ajax error occur on getting unit of survey', 'error', corePrefix, callbacks);
+                raicare.core.log('ajax error occur on getting unit of survey', 'error', corePrefix, callbacks);
                 document.getElementsByClassName('wrapper')[0].classList.remove('loading');
 
             }
         };
 
-        raisoft.ajax.send(ajaxData);
+        raicare.ajax.send(ajaxData);
 
     }
 
@@ -205,7 +205,7 @@ module.exports = (function (get) {
             success: function (response) {
 
                 response = JSON.parse(response);
-                raisoft.core.log(response.message, response.status, corePrefix);
+                raicare.core.log(response.message, response.status, corePrefix);
                 ajaxSend = false;
                 getMoreFormsBtn.getElementsByClassName('fa')[0].classList.add('fa-plus');
                 getMoreFormsBtn.getElementsByClassName('fa')[0].classList.remove('fa-spinner', 'fa-fw', 'fa-pulse');
@@ -228,13 +228,13 @@ module.exports = (function (get) {
 
                             if ( date - lastDate !== 0) {
 
-                                separator = raisoft.draw.node('LI', 'time-line__separator', {'data-datetime': response.forms[i].date});
+                                separator = raicare.draw.node('LI', 'time-line__separator', {'data-datetime': response.forms[i].date});
 
                                 timeline.insertBefore(separator, timeline.getElementsByClassName('time-line__end')[0]);
 
                             }
 
-                            var li = raisoft.draw.node('LI', 'time-line__item' + ((offset + i) % 2 === 0 ? '' : ' time-line__item--inverted'));
+                            var li = raicare.draw.node('LI', 'time-line__item' + ((offset + i) % 2 === 0 ? '' : ' time-line__item--inverted'));
 
 
                             li.innerHTML = response.forms[i].html;
@@ -255,7 +255,7 @@ module.exports = (function (get) {
 
                 } else {
 
-                    raisoft.notification.notify({
+                    raicare.notification.notify({
                         type: response.status,
                         message: response.message
                     });
@@ -265,7 +265,7 @@ module.exports = (function (get) {
             },
             error: function (callbacks) {
 
-                raisoft.core.log('ajax error occur on getting patients', 'error', corePrefix, callbacks);
+                raicare.core.log('ajax error occur on getting patients', 'error', corePrefix, callbacks);
                 ajaxSend = false;
                 getMoreFormsBtn.getElementsByClassName('fa')[0].classList.add('fa-plus');
                 getMoreFormsBtn.getElementsByClassName('fa')[0].classList.remove('fa-spinner', 'fa-fw', 'fa-pulse');
@@ -274,7 +274,7 @@ module.exports = (function (get) {
 
         };
 
-        raisoft.ajax.send(ajaxData);
+        raicare.ajax.send(ajaxData);
 
     }
 
@@ -356,7 +356,7 @@ module.exports = (function (get) {
             success: function (response) {
 
                 response = JSON.parse(response);
-                raisoft.core.log(response.message, response.status, corePrefix);
+                raicare.core.log(response.message, response.status, corePrefix);
                 ajaxSend = false;
 
                 if (parseInt(response.code) === 162 ) {
@@ -389,7 +389,7 @@ module.exports = (function (get) {
                     getMoreBtn.innerHTML = "Ошибка при загрузке. <span class='link'>Повторить</span>";
                     document.removeEventListener('scroll', checkPageOffset_);
 
-                    raisoft.notification.notify({
+                    raicare.notification.notify({
                         type: response.status,
                         message: response.message
                     });
@@ -399,7 +399,7 @@ module.exports = (function (get) {
             },
             error: function (callbacks) {
 
-                raisoft.core.log('ajax error occur on searching surveys', 'error', corePrefix, callbacks);
+                raicare.core.log('ajax error occur on searching surveys', 'error', corePrefix, callbacks);
                 getMoreBtn.innerHTML = "Ошибка при загрузке. <span class='link'>Повторить</span>";
                 document.removeEventListener('scroll', checkPageOffset_);
                 ajaxSend = false;
@@ -407,7 +407,7 @@ module.exports = (function (get) {
             }
         };
 
-        raisoft.ajax.send(ajaxData);
+        raicare.ajax.send(ajaxData);
 
     }
 
@@ -415,7 +415,7 @@ module.exports = (function (get) {
 
         if (document.getElementsByClassName('js-single-select').length > 0) {
 
-            new raisoft.choices('.js-single-select', {
+            new raicare.choices('.js-single-select', {
                 shouldSort: false,
                 searchEnabled: false,
                 itemSelectText: 'выбрать'
@@ -425,7 +425,7 @@ module.exports = (function (get) {
 
         if (document.getElementById('I2')) {
 
-            var I2 = new raisoft.choices(document.getElementById('I2'), {
+            var I2 = new raicare.choices(document.getElementById('I2'), {
                 removeItemButton: true,
                 placeholderValue: 'Введите названия диагноза или код МКБ-10',
                 loadingText: 'Загрузка...',

@@ -18,7 +18,7 @@ module.exports = (function (progress) {
 
         if (el.nodeType !== 1) {
 
-            raisoft.core.log('Is not HTML element', 'error', corePrefix);
+            raicare.core.log('Is not HTML element', 'error', corePrefix);
             return;
 
         }

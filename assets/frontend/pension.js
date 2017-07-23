@@ -1,6 +1,6 @@
 /**
  * @author Turov Nikolay
- * @copyright RAIsoft
+ * @copyright RAIcare
  */
 
 module.exports = ( function (pension) {

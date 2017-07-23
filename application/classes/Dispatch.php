@@ -2,11 +2,11 @@
 
 class Dispatch extends Controller_Template
 {
-    const POST          = 'POST';
-    const GET           = 'GET';
-    const SALT          = "b82d12b5be9c4f0d37a8501859e89762";
-    const AUTHSALT      = "e4dff5bbee5839ea587d38cc03917150";
-    const REDIS_PACKAGE = "raisoft";
+    const POST                  = 'POST';
+    const GET                   = 'GET';
+    const SALT                  = "b82d12b5be9c4f0d37a8501859e89762";
+    const AUTHSALT              = "e4dff5bbee5839ea587d38cc03917150";
+    const REDIS_SESSIONS_HASHES = "raicare:sessions:";
 
     /** @var string - Path to template */
     public $template = '';
@@ -28,8 +28,8 @@ class Dispatch extends Controller_Template
 
     function before()
     {
-        $GLOBALS['SITE_NAME']   = "RAIsoft";
-        $GLOBALS['FROM_ACTION'] = $this->request->action();
+        $GLOBALS['SITE_NAME']     = "RAIcare";
+        $GLOBALS['FROM_ACTION']   = $this->request->action();
 
         // XSS clean in POST and GET requests
         self::XSSfilter();
@@ -200,7 +200,7 @@ class Dispatch extends Controller_Template
         $secret = Cookie::get('secret');
         $hash   = self::makeHash('sha256', self::SALT . $sid . self::AUTHSALT . $uid);
 
-        if ($redis->get(self::REDIS_PACKAGE . ':sessions:secrets:' . $hash) && $hash == $secret) {
+        if ($redis->get(self::REDIS_SESSIONS_HASHES .$hash) && $hash == $secret) {
 
             // Создаем новую сессию
             $auth = new Model_Auth();
@@ -209,7 +209,7 @@ class Dispatch extends Controller_Template
             $sid = $session->id();
             $uid = $session->get('uid');
 
-            $redis->delete(self::REDIS_PACKAGE . ':sessions:secrets:' . $hash);
+            $redis->delete(self::REDIS_SESSIONS_HASHES .$hash);
 
             // генерируем новый хэш c новый session id
             $newHash = self::makeHash('sha256', self::SALT . $sid . self::AUTHSALT . $uid);
@@ -218,7 +218,7 @@ class Dispatch extends Controller_Template
             Cookie::set('secret', $newHash, Date::WEEK);
 
             // сохраняем в редис
-            $redis->set(self::REDIS_PACKAGE . ':sessions:secrets:' . $hash, $sid . ':' . $uid . ':' . Request::$client_ip, array('nx', 'ex' => Date::WEEK));
+            $redis->set(self::REDIS_SESSIONS_HASHES .$hash, $sid . ':' . $uid , array('nx', 'ex' => Date::WEEK));
 
             return true;
 

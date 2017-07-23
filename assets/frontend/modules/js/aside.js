@@ -12,7 +12,7 @@ module.exports = (function (aside) {
         collapseBtns = asideWrapper.querySelectorAll('[data-toggle="collapse"]');
         isCollapsed  = false;
 
-        if ( raisoft.cookies.get('aside') === 'collapsed' ) {
+        if ( raicare.cookies.get('aside') === 'collapsed' ) {
 
             asideWrapper.classList.add('aside--collapsed');
             destroyAsideCollapseBtns_();
@@ -43,7 +43,7 @@ module.exports = (function (aside) {
 
             if (!isCollapsed) {
 
-                raisoft.cookies.set({
+                raicare.cookies.set({
                     name: 'aside',
                     value: '~collapsed',
                     path: '/'
@@ -53,7 +53,7 @@ module.exports = (function (aside) {
 
             } else {
 
-                raisoft.cookies.remove('aside');
+                raicare.cookies.remove('aside');
                 createAsideCollapseBtns_();
                 isCollapsed = false;
 
@@ -76,7 +76,7 @@ module.exports = (function (aside) {
 
         for (var i = 0; i < collapseBtns.length; i++) {
 
-            raisoft.collapse.create(collapseBtns[i]);
+            raicare.collapse.create(collapseBtns[i]);
 
         }
 
@@ -86,7 +86,7 @@ module.exports = (function (aside) {
 
         for (var i = 0; i < collapseBtns.length; i++) {
 
-            raisoft.collapse.destroy(collapseBtns[i]);
+            raicare.collapse.destroy(collapseBtns[i]);
 
         }
 

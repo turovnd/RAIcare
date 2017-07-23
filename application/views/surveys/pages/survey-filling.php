@@ -15,7 +15,7 @@
 
 <script type="text/javascript">
 
-    raisoft.table.init();
+    raicare.table.init();
 
     document.getElementById('pen_survey').classList.remove('hide');
 
