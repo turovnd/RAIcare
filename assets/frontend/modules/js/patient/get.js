@@ -103,6 +103,8 @@ module.exports = (function (get) {
 
                         }
 
+                        raisoft.select.init();
+
                     } else {
 
                         getMorePatientsBtn.innerHTML = 'Всего ' + parseInt(parseInt(offset) + parseInt(response.number));

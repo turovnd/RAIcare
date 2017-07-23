@@ -1,15 +1,15 @@
 <div class="col-xs-12 col-sm-6">
     <div class="block">
 
-        <? // Module Patients => CONST WATCH_ALL_SURVEYS = 37
+        <? // Module Reports=> WATCH_ALL_SURVEYS = 37
         if (in_array(37, $user->permissions)) : ?>
             <a href="<?=URL::site('/survey/' . $survey->pk); ?>" class="block__heading">
                 Форма оценки #<?= $survey->pk; ?>
             </a>
         <? endif; ?>
 
-        <? // Module Patients => CONST WATCH_SURVEY_IN_PEN = 38
-        if (in_array(38, $user->permissions)) : ?>
+        <? // Module Reports => WATCH_SURVEY_IN_PEN = 39
+        if (in_array(39, $user->permissions)) : ?>
             <a href="<?=URL::site('pension/' . $survey->pension->id . '/survey/' . $survey->id); ?>" class="block__heading">
                 Форма оценки #<?= $survey->id; ?>
             </a>
@@ -57,12 +57,12 @@
                     </label>
                     <div class="col-xs-12 col-md-7 col-lg-8">
                         <p class="form-group__control-static">
-                            <? // Module Patients => CONST WATCH_ALL_SURVEYS = 37
+                            <? // Module Reports=> CONST WATCH_ALL_SURVEYS = 37
                             if (in_array(37, $user->permissions)) : ?>
                                 <a class="link" href="<?=URL::site('patient/' . $survey->patient->pk)?>"><?=$survey->patient->name; ?></a>
                             <? endif; ?>
-                            <? // Module Patients => CONST WATCH_SURVEY_IN_PEN = 38
-                            if (in_array(38, $user->permissions)) : ?>
+                            <? // Module Reports => WATCH_SURVEY_IN_PEN = 39
+                            if (in_array(39, $user->permissions)) : ?>
                                 <a class="link" href="<?=URL::site('patient/' . $survey->patient->id)?>"><?=$survey->patient->name; ?></a>
                             <? endif; ?>
                         </p>

@@ -21,6 +21,7 @@ module.exports = ( function (raisoft) {
     raisoft.form         = require('./modules/js/form');
     raisoft.notification = require('./modules/js/notification');
     raisoft.choices      = require('choices.js');
+    raisoft.select       = require('./modules/js/select');
     raisoft.table        = require('./modules/js/tablesaw');
     raisoft.loader       = require('./modules/js/loader');
     raisoft.progress     = require('./modules/js/progress');
