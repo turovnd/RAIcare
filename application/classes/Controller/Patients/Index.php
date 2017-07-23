@@ -69,7 +69,6 @@ class Controller_Patients_Index extends Dispatch
 
         $surveys = Model_Survey::getAllFormsByPatients($sameSnils, 0, 10);
 
-        finish:
         $this->patient->creator   = new Model_User($this->patient->creator);
         $this->patient->pensions  = $pensions;
         $this->patient->sameSnils = $sameSnils;
@@ -94,7 +93,7 @@ class Controller_Patients_Index extends Dispatch
         $patients = Model_Patient::getByPension($this->pension->id, 0, 10);
 
         foreach ($patients as $key => $patient) {
-            $patients[$key]->survey = Model_Survey::getFillingFormByPatientAndPension($patient->pk, $this->pension->id);
+            $patients[$key]->survey = Model_Survey::getFillingSurveyByPatientAndPension($patient->pk, $this->pension->id);
         }
 
         $this->template->title = "База данных пациентов пансионата " . $this->pension->name;

@@ -117,7 +117,7 @@ Class Model_Survey {
         return $this->get_($this->pk);
     }
 
-    public static function getFillingFormByPatientAndPension($patient, $pension)
+    public static function getFillingSurveyByPatientAndPension($patient, $pension)
     {
         $select = Dao_Surveys::select()
             ->where('pension','=', $pension)

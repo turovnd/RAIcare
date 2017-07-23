@@ -19,6 +19,7 @@
                 </label>
             </form>
 
+
             <div class="row block-wrapper" id="patients">
 
                 <? foreach ($patients as $patient) : ?>
@@ -39,12 +40,12 @@
 
     </div>
 
-<? // Module Patients && Pensions => CAN_CONDUCT_A_SURVEY = 36
-if (in_array(36, $user->permissions)) : ?>
+    <? // Module Patients && Pensions => CAN_CONDUCT_A_SURVEY = 36
+    if (in_array(36, $user->permissions)) : ?>
 
-    <?= View::factory('patients/blocks/new'); ?>
+        <?= View::factory('patients/blocks/new'); ?>
 
-<? endif; ?>
+    <? endif; ?>
 
     <input type="hidden" id="pensionID" value="<?=$pension->id; ?>">
 

@@ -576,3 +576,13 @@
 <!--        </div>-->
 <!--    </div>-->
 <!--</div>-->
+
+<script type="text/javascript">
+    function ready() {
+        raisoft.table.init();
+        raisoft.table.create();
+        raisoft.progress.init();
+    }
+
+    document.addEventListener("DOMContentLoaded", ready);
+</script>

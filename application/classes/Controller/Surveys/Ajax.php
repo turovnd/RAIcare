@@ -41,9 +41,9 @@ class Controller_Surveys_Ajax extends Ajax
         }
 
 
-        $count_forms = $this->redis->get(self::REDIS_PACKAGE . ':pensions:' . $this->pension->id . ':Surveys');
+        $count_forms = $this->redis->get(self::REDIS_PACKAGE . ':pensions:' . $this->pension->id . ':surveys');
         $count_forms = $count_forms == false ? 1 : $count_forms + 1;
-        $this->redis->set(self::REDIS_PACKAGE . ':pensions:' . $this->pension->id . ':Surveys', $count_forms);
+        $this->redis->set(self::REDIS_PACKAGE . ':pensions:' . $this->pension->id . ':surveys', $count_forms);
 
         $first_survey = Model_Survey::getFirstSurvey($this->pension->id, $this->patient->id);
 

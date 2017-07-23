@@ -145,7 +145,7 @@ class Controller_Patients_Ajax extends Ajax
         $html = "";
         foreach ($patients as $patient) {
             if ($mode == "get")
-                $patient->form = Model_Survey::getFillingFormByPatientAndPension($patient->pk, $this->pension->id);
+                $patient->survey = Model_Survey::getFillingSurveyByPatientAndPension($patient->pk, $this->pension->id);
             $html .= View::factory('patients/blocks/search-block', array('patient' => $patient))->render();
         }
 

@@ -423,30 +423,6 @@ module.exports = (function (get) {
 
         }
 
-        if (document.getElementsByClassName('js-single-select--with-search').length > 0) {
-
-            new raisoft.choices('.js-single-select--with-search', {
-                searchEnabled: true,
-                loadingText: 'Загрузка...',
-                noResultsText: 'Ничего не найдено',
-                noChoicesText: 'Нет элементов для выбора',
-                itemSelectText: 'выбрать'
-            });
-
-        }
-
-        if (document.getElementsByClassName('js-multiple-select').length > 0) {
-
-            new raisoft.choices('.js-multiple-select', {
-                removeItemButton: true,
-                placeholderValue: 'Введите для поиска',
-                noResultsText: 'Ничего не найдено',
-                noChoicesText: 'Нет элементов для выбора',
-                itemSelectText: 'выбрать'
-            });
-
-        }
-
         if (document.getElementById('I2')) {
 
             var I2 = new raisoft.choices(document.getElementById('I2'), {
