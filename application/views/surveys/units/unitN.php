@@ -45,93 +45,93 @@
                         </small>
                     </div>
 
-                    <table class="tablesaw" data-tablesaw-mode="stack" id="N1">
-                        <thead>
-                        <tr>
-                            <th scope="col">Наименование</th>
-                            <th scope="col">Дозировка</th>
-                            <th scope="col">Ед.измер.</th>
-                            <th scope="col">Способ приема</th>
-                            <th scope="col">Частота приема</th>
-                            <th scope="col">PRN (по мере необх.)</th>
-                            <? if ($can_conduct) : ?>
-                                <th scope="col" class="hide">Выбрать</th>
-                            <? endif; ?>
-                        </tr>
-                        </thead>
-                        <tbody valign="middle">
-
-                            <? foreach ($survey->unitN->N1 as $N1_key => $N1) : ?>
-
-                                <tr>
-                                    <td width="30%">
-                                        <div class="form-group">
-                                            <select name="N1[<?= $N1_key; ?>][0]" class="form-group__control">
-                                                <option selected disabled value="-1">Не выбрано</option>
-                                                <option value="<?= !empty($N1) ? $N1[0] : ''; ?>"> <?//= Model_::getByName($N1[0])?> </option>
-                                            </select>
-                                        </div>
-                                    </td>
-                                    <td width="13%">
-                                        <div class="form-group">
-                                            <input name="N1[<?= $N1_key; ?>][1]" type="number" min="0" step=".01" class="form-group__control" value="<?= !empty($N1) ? $N1[1] : ''; ?>">
-                                        </div>
-                                    </td>
-                                    <td width="13%">
-                                        <div class="form-group">
-                                            <select name="N1[<?= $N1_key; ?>][2]" class="form-group__control">
-                                                <option selected disabled value="-1">Не выбрано</option>
-                                                <? foreach ($N1c as $key => $value) :?>
-                                                    <option value="<?= $key; ?>" <? echo !empty($N1) && $key == $N1[2] ? 'selected': '' ?> > <?= $value; ?> </option>
-                                                <? endforeach; ?>
-                                            </select>
-                                        </div>
-                                    </td>
-                                    <td width="13%">
-                                        <div class="form-group">
-                                            <select name="N1[<?= $N1_key; ?>][3]" class="form-group__control">
-                                                <option selected disabled value="-1">Не выбрано</option>
-                                                <? foreach ($N1d as $key => $value) :?>
-                                                    <option value="<?= $key; ?>" <? echo !empty($N1) && $key == $N1[3] ? 'selected': '' ?> > <?= $value; ?> </option>
-                                                <? endforeach; ?>
-                                            </select>
-                                        </div>
-                                    </td>
-                                    <td width="13%">
-                                        <div class="form-group">
-                                            <select name="N1[<?= $N1_key; ?>][4]" class="form-group__control">
-                                                <option selected disabled value="-1">Не выбрано</option>
-                                                <? foreach ($N1e as $key => $value) :?>
-                                                    <option value="<?= $key; ?>" <? echo !empty($N1) && $key == $N1[4] ? 'selected': '' ?> > <?= $value; ?> </option>
-                                                <? endforeach; ?>
-                                            </select>
-                                        </div>
-                                    </td>
-                                    <td width="13%">
-                                        <div class="form-group">
-                                            <select name="N1[<?= $N1_key; ?>][5]" class="form-group__control">
-                                                <option selected disabled value="-1">Не выбрано</option>
-                                                <option value="1" <? echo !empty($N1) && $N1[5] == 1 ? 'selected': '' ?>>Да</option>
-                                                <option value="0" <? echo !empty($N1) && $N1[5] == 0 ? 'selected': '' ?>>Нет</option>
-                                            </select>
-                                        </div>
-                                    </td>
-                                    <? if ($can_conduct) : ?>
-                                    <td width="5%">
-                                        <input id="N1_checkbox<?= $N1_key; ?>" class="checkbox" type="checkbox" data-row="<?=$N1_key;?>">
-                                        <label for="N1_checkbox<?= $N1_key; ?>" class="checkbox-label"></label>
-                                    </td>
-                                    <? endif; ?>
-                                </tr>
-
-                            <? endforeach; ?>
-
-                        </tbody>
-                    </table>
-                    <? if ($can_conduct) : ?>
-                        <button class="btn btn--brand m-l-10 m-t-20 m-b-0" onclick="survey.table.addRow('N1')">Добавить</button>
-                        <button class="btn btn--brand m-l-10 m-t-20 m-b-0" onclick="survey.table.removeRow('N1')">Удалить</button>
-                    <? endif; ?>
+<!--                    <table class="tablesaw" data-tablesaw-mode="stack" id="N1">-->
+<!--                        <thead>-->
+<!--                        <tr>-->
+<!--                            <th scope="col">Наименование</th>-->
+<!--                            <th scope="col">Дозировка</th>-->
+<!--                            <th scope="col">Ед.измер.</th>-->
+<!--                            <th scope="col">Способ приема</th>-->
+<!--                            <th scope="col">Частота приема</th>-->
+<!--                            <th scope="col">PRN (по мере необх.)</th>-->
+<!--                            --><?// if ($can_conduct) : ?>
+<!--                                <th scope="col" class="hide">Выбрать</th>-->
+<!--                            --><?// endif; ?>
+<!--                        </tr>-->
+<!--                        </thead>-->
+<!--                        <tbody valign="middle">-->
+<!---->
+<!--                            --><?// foreach ($survey->unitN->N1 as $N1_key => $N1) : ?>
+<!---->
+<!--                                <tr>-->
+<!--                                    <td width="30%">-->
+<!--                                        <div class="form-group">-->
+<!--                                            <select name="N1[--><?//= $N1_key; ?><!--][0]" class="form-group__control">-->
+<!--                                                <option selected disabled value="-1">Не выбрано</option>-->
+<!--                                                <option value="--><?//= !empty($N1) ? $N1[0] : ''; ?><!--"> --><?////= Model_::getByName($N1[0])?><!-- </option>-->
+<!--                                            </select>-->
+<!--                                        </div>-->
+<!--                                    </td>-->
+<!--                                    <td width="13%">-->
+<!--                                        <div class="form-group">-->
+<!--                                            <input name="N1[--><?//= $N1_key; ?><!--][1]" type="number" min="0" step=".01" class="form-group__control" value="--><?//= !empty($N1) ? $N1[1] : ''; ?><!--">-->
+<!--                                        </div>-->
+<!--                                    </td>-->
+<!--                                    <td width="13%">-->
+<!--                                        <div class="form-group">-->
+<!--                                            <select name="N1[--><?//= $N1_key; ?><!--][2]" class="form-group__control">-->
+<!--                                                <option selected disabled value="-1">Не выбрано</option>-->
+<!--                                                --><?// foreach ($N1c as $key => $value) :?>
+<!--                                                    <option value="--><?//= $key; ?><!--" --><?// echo !empty($N1) && $key == $N1[2] ? 'selected': '' ?><!-- > --><?//= $value; ?><!-- </option>-->
+<!--                                                --><?// endforeach; ?>
+<!--                                            </select>-->
+<!--                                        </div>-->
+<!--                                    </td>-->
+<!--                                    <td width="13%">-->
+<!--                                        <div class="form-group">-->
+<!--                                            <select name="N1[--><?//= $N1_key; ?><!--][3]" class="form-group__control">-->
+<!--                                                <option selected disabled value="-1">Не выбрано</option>-->
+<!--                                                --><?// foreach ($N1d as $key => $value) :?>
+<!--                                                    <option value="--><?//= $key; ?><!--" --><?// echo !empty($N1) && $key == $N1[3] ? 'selected': '' ?><!-- > --><?//= $value; ?><!-- </option>-->
+<!--                                                --><?// endforeach; ?>
+<!--                                            </select>-->
+<!--                                        </div>-->
+<!--                                    </td>-->
+<!--                                    <td width="13%">-->
+<!--                                        <div class="form-group">-->
+<!--                                            <select name="N1[--><?//= $N1_key; ?><!--][4]" class="form-group__control">-->
+<!--                                                <option selected disabled value="-1">Не выбрано</option>-->
+<!--                                                --><?// foreach ($N1e as $key => $value) :?>
+<!--                                                    <option value="--><?//= $key; ?><!--" --><?// echo !empty($N1) && $key == $N1[4] ? 'selected': '' ?><!-- > --><?//= $value; ?><!-- </option>-->
+<!--                                                --><?// endforeach; ?>
+<!--                                            </select>-->
+<!--                                        </div>-->
+<!--                                    </td>-->
+<!--                                    <td width="13%">-->
+<!--                                        <div class="form-group">-->
+<!--                                            <select name="N1[--><?//= $N1_key; ?><!--][5]" class="form-group__control">-->
+<!--                                                <option selected disabled value="-1">Не выбрано</option>-->
+<!--                                                <option value="1" --><?// echo !empty($N1) && $N1[5] == 1 ? 'selected': '' ?><!-->Да</option>-->
+<!--                                                <option value="0" --><?// echo !empty($N1) && $N1[5] == 0 ? 'selected': '' ?><!-->Нет</option>-->
+<!--                                            </select>-->
+<!--                                        </div>-->
+<!--                                    </td>-->
+<!--                                    --><?// if ($can_conduct) : ?>
+<!--                                    <td width="5%">-->
+<!--                                        <input id="N1_checkbox--><?//= $N1_key; ?><!--" class="checkbox" type="checkbox" data-row="--><?//=$N1_key;?><!--">-->
+<!--                                        <label for="N1_checkbox--><?//= $N1_key; ?><!--" class="checkbox-label"></label>-->
+<!--                                    </td>-->
+<!--                                    --><?// endif; ?>
+<!--                                </tr>-->
+<!---->
+<!--                            --><?// endforeach; ?>
+<!---->
+<!--                        </tbody>-->
+<!--                    </table>-->
+<!--                    --><?// if ($can_conduct) : ?>
+<!--                        <button class="btn btn--brand m-l-10 m-t-20 m-b-0" onclick="survey.table.addRow('N1')">Добавить</button>-->
+<!--                        <button class="btn btn--brand m-l-10 m-t-20 m-b-0" onclick="survey.table.removeRow('N1')">Удалить</button>-->
+<!--                    --><?// endif; ?>
                 </fieldset>
 
                 <fieldset>
