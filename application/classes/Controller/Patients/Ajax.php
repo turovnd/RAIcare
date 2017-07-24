@@ -102,9 +102,9 @@ class Controller_Patients_Ajax extends Ajax
 
         Model_PensionPatient::add($pension->id, $patient->pk);
 
-        $count_forms = $this->redis->get($_SERVER['REDIS_PATIENT_HASHES'] . $pension->id . ':Surveys');
+        $count_forms = $this->redis->get($_SERVER['REDIS_PATIENT_HASHES'] . $pension->id . ':surveys');
         $count_forms = $count_forms == false ? 1 : $count_forms + 1;
-        $this->redis->set($_SERVER['REDIS_PATIENT_HASHES'] . $pension->id . ':Surveys', $count_forms);
+        $this->redis->set($_SERVER['REDIS_PATIENT_HASHES'] . $pension->id . ':surveys', $count_forms);
 
         $survey = new Model_Survey();
         $survey->id           = $count_forms;
