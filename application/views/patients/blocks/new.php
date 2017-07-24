@@ -36,7 +36,7 @@
                 <fieldset>
                     <div class="form-group">
                         <label for="newPatientBirthday" class="form-group__label">Дата рождения</label>
-                        <input type="date" id="newPatientBirthday" name="birthday" class="form-group__control">
+                        <input type="date" id="newPatientBirthday" name="birthday" class="form-group__control" placeholder="31.12.1900">
                     </div>
                 </fieldset>
 

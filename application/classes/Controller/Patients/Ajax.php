@@ -23,7 +23,7 @@ class Controller_Patients_Ajax extends Ajax
 
         $name                    = trim(Arr::get($_POST,'name'));
         $sex                     = Arr::get($_POST,'sex');
-        $birthday                = Arr::get($_POST,'birthday');
+        $birthday                = Date::formatted_time(Arr::get($_POST,'birthday'));
         $relation                = Arr::get($_POST,'relation');
         $snils                   = Arr::get($_POST,'snils');
         $oms                     = Arr::get($_POST,'oms');

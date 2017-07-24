@@ -280,7 +280,7 @@ class Controller_Surveys_Ajax extends Ajax
     {
 
         $B1 = Arr::get($_POST,'B1');
-        $B2 = Arr::get($_POST,'B2');
+        $B2 = Date::formatted_time(Arr::get($_POST,'B2'));
         $B3 = Arr::get($_POST,'B3');
         $B4 = Arr::get($_POST,'B4');
         $B5 = Arr::get($_POST,'B5');
@@ -307,7 +307,7 @@ class Controller_Surveys_Ajax extends Ajax
         $unitB->B8 = json_encode($B8);
         $unitB->B9 = $B9;
         $unitB->progress =  $this->survey->type == 1 ? 100 : (($unitB->B1 == NULL || $unitB->B1 == "-1") ? 0 : 11) +
-            (($unitB->B2 == NULL || $unitB->B2 == "0000-00-00") ? 0 : 11) +
+            (($unitB->B2 == "0000-00-00") ? 0 : 11) +
             (($unitB->B3 == NULL || $unitB->B3 == "null") ? 0 : 11) +
             (($unitB->B4 == NULL || $unitB->B4 == "-1") ? 0 : 11) +
             ($unitB->B5 == NULL ? 0 : $this->countNotEmptyInArray($unitB->B5) * 6) +
@@ -324,7 +324,7 @@ class Controller_Surveys_Ajax extends Ajax
             $unitB->update();
         }
 
-        if ($B1 == NULL || $B2 == NULL || $B2 == "0000-00-00" || $B3 == NULL || $B3 == "null" || $B4 == NULL  ||
+        if ($B1 == NULL || $B2 == "0000-00-00" || $B3 == NULL || $B3 == "null" || $B4 == NULL  ||
             $B5 == NULL || $B6 == NULL || $B7 == NULL || $B8 == NULL || $B8 == "null" || $B9 == -1)
         {
             $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_WARMING', 'warning');
@@ -1077,16 +1077,17 @@ class Controller_Surveys_Ajax extends Ajax
 
     private function update_unitR()
     {
-        $R1 = Arr::get($_POST,'R1');
+        $R1 = Date::formatted_time(Arr::get($_POST,'R1'));
         $R2 = Arr::get($_POST,'R2');
         $R3 = Arr::get($_POST,'R3', '-1');
 
         $unitR = new Model_SurveyUnitR($this->survey->unitR);
 
+
         $unitR->R1 = $R1;
         $unitR->R2 = $R2;
         $unitR->R3 = $R3;
-        $unitR->progress = ((($unitR->R1 == NULL || $unitR->R1 == "0000-00-00") ? 0 : 34) +
+        $unitR->progress = ((($unitR->R1 == "0000-00-00") ? 0 : 34) +
             (($unitR->R2 == NULL || $unitR->R2 == "-1") ? 0 : 33) +
             (($unitR->R3 == NULL || $unitR->R3 == "-1") ? 0 : 33));
 
@@ -1098,7 +1099,7 @@ class Controller_Surveys_Ajax extends Ajax
             $unitR->update();
         }
 
-        if ( $R1 == NULL || $R1 == "0000-00-00" || $R2 == -1 || $R3 == NULL) {
+        if ( $R1 == "0000-00-00" || $R2 == -1 || $R3 == NULL) {
             $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_WARMING', 'warning');
         } else {
             $response = new Model_Response_Survey('SURVEY_UNIT_UPDATE_SUCCESS', 'success');
