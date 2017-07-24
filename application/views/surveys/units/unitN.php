@@ -111,8 +111,8 @@
 <!--                                        <div class="form-group">-->
 <!--                                            <select name="N1[--><?//= $N1_key; ?><!--][5]" class="form-group__control">-->
 <!--                                                <option selected disabled value="-1">Не выбрано</option>-->
-<!--                                                <option value="1" --><?// echo !empty($N1) && $N1[5] == 1 ? 'selected': '' ?><!-->Да</option>-->
-<!--                                                <option value="0" --><?// echo !empty($N1) && $N1[5] == 0 ? 'selected': '' ?><!-->Нет</option>-->
+                                                <!--<option value="1" <?// echo !empty($N1) && $N1[5] == 1 ? 'selected': '' ?>>Да</option>-->
+                                                <!--<option value="0" <?// echo !empty($N1) && $N1[5] == 0 ? 'selected': '' ?>>Нет</option>-->
 <!--                                            </select>-->
 <!--                                        </div>-->
 <!--                                    </td>-->
