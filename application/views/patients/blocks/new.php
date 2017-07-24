@@ -23,12 +23,12 @@
                     <div class="form-group">
                         <label class="form-group__label">Пол</label>
                         <span class="m-l-15">
-                            <input id="maleSex" type="radio" name="sex" class="checkbox" value="1">
-                            <label for="maleSex" class="checkbox-label">мужской</label>
+                            <input id="maleSex" type="radio" name="sex" class="radio" value="1">
+                            <label for="maleSex" class="radio-label">мужской</label>
                         </span>
                         <span class="m-l-15">
-                            <input id="femaleSex" type="radio" name="sex" class="checkbox" value="2">
-                            <label for="femaleSex" class="checkbox-label">женский</label>
+                            <input id="femaleSex" type="radio" name="sex" class="radio" value="2">
+                            <label for="femaleSex" class="radio-label">женский</label>
                         </span>
                     </div>
                 </fieldset>
@@ -44,7 +44,7 @@
                     <div class="form-group">
                         <label for="newPatientRelation" class="form-group__label">Семейное положение</label>
                         <select id="newPatientRelation" name="relation" class="form-group__control">
-                            <option value=""></option>
+                            <option value="-1" disabled selected>Не выбрано</option>
                             <? foreach (Kohana::$config->load('form_relations') as $key => $value) : ?>
                                 <option value="<?= $key; ?>"><?= $value; ?></option>
                             <? endforeach; ?>

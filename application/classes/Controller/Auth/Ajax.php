@@ -79,7 +79,7 @@ class Controller_Auth_Ajax extends Auth
     {
         $hash = $this->request->param('hash');
 
-        $id = $this->redis->get($_SERVER['REDIS_PACKAGE'] . ':confirmation:email:' . $hash);
+        $id = $this->redis->get($_SERVER['REDIS_RESET_HASHES'] . $hash);
 
         if (!$id) {
             throw new HTTP_Exception_400;
@@ -91,7 +91,7 @@ class Controller_Auth_Ajax extends Auth
 
         $user->update();
 
-        $this->redis->delete($_SERVER['REDIS_PACKAGE'] . ':confirmation:email:' . $hash);
+        $this->redis->delete($_SERVER['REDIS_CONFIRMATION_HASHES'] . $hash);
 
         $this->redirect('app');
 
@@ -141,7 +141,7 @@ class Controller_Auth_Ajax extends Auth
 
         $hash = $this->makeHash('sha256', $_SERVER['SALT'] . $user->id . Date::formatted_time('now'));
 
-        $this->redis->set($_SERVER['REDIS_PACKAGE'] . ':reset:password:' . $hash, $user->id, array('nx', 'ex' => 3600));
+        $this->redis->set($_SERVER['REDIS_RESET_HASHES'] . $hash, $user->id, array('nx', 'ex' => 3600));
 
         $template = View::factory('email_templates/reset_password', array('user' => $user, 'hash' => $hash));
 
@@ -160,7 +160,7 @@ class Controller_Auth_Ajax extends Auth
         $this->checkRequest();
 
         $hash = Cookie::get('reset_link');
-        $id = $this->redis->get($_SERVER['REDIS_PACKAGE'] . ':reset:password:' . $hash);
+        $id = $this->redis->get($_SERVER['REDIS_RESET_HASHES'] . $hash);
 
         $user = new Model_User($id);
 
@@ -183,7 +183,7 @@ class Controller_Auth_Ajax extends Auth
         $user->changePassword($password);
 
         Cookie::delete('reset_link');
-        $this->redis->delete($_SERVER['REDIS_PACKAGE'] . ':reset:password:' . $hash);
+        $this->redis->delete($_SERVER['REDIS_RESET_HASHES'] . $hash);
         
         $response = new Model_Response_Auth('PASSWORD_CHANGE_SUCCESS', 'success');
         $this->response->body(@json_encode($response->get_response()));
@@ -201,7 +201,7 @@ class Controller_Auth_Ajax extends Auth
 
         $hash = $this->request->param('hash');
 
-        $id = $this->redis->get($_SERVER['REDIS_PACKAGE'] . ':reset:password:' . $hash);
+        $id = $this->redis->get($_SERVER['REDIS_RESET_HASHES'] . $hash);
 
         $user = new Model_User($id);
 
