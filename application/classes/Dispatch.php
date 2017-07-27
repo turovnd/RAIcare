@@ -4,9 +4,6 @@ class Dispatch extends Controller_Template
 {
     const POST                  = 'POST';
     const GET                   = 'GET';
-    const SALT                  = "b82d12b5be9c4f0d37a8501859e89762";
-    const AUTHSALT              = "e4dff5bbee5839ea587d38cc03917150";
-    const REDIS_SESSIONS_HASHES = "raicare:sessions:";
 
     /** @var string - Path to template */
     public $template = '';
@@ -151,6 +148,8 @@ class Dispatch extends Controller_Template
         View::set_global('user', $user);
         $this->user = $user;
 
+        View::set_global('isLogged', self::isLogged());
+        View::set_global('canLogin', self::canLogin());
 
         $address = Arr::get($_SERVER, 'HTTP_ORIGIN');
         View::set_global('assets', $address . DIRECTORY_SEPARATOR. 'assets' . DIRECTORY_SEPARATOR);
@@ -160,7 +159,7 @@ class Dispatch extends Controller_Template
     }
 
 
-    protected static function makeHash($algo, $string) {
+    protected function makeHash($algo, $string) {
         return hash($algo, $string);
     }
 
@@ -176,7 +175,6 @@ class Dispatch extends Controller_Template
     }
 
 
-
     /**
      * Return "True" if user is logged
      *
@@ -187,47 +185,43 @@ class Dispatch extends Controller_Template
     public static function isLogged()
     {
         $session = Session::Instance();
+        return !empty($session->get('uid'));
+    }
 
-        if ( empty($session->get('uid')) ) {
-            return false;
-        }
+    /**
+     * Return True if user had logged
+     * @return bool
+     */
+    public static function hadLogged()
+    {
+        $secret   = Cookie::get('secret', '');
+        $id       = Cookie::get('uid', '');
+        $sid      = Cookie::get('sid', '');
+        $authMode = Cookie::get('mode', '');
 
-        $redis = self::redisInstance();
-
-        /** get data from cookie  */
-        $uid    = Cookie::get('uid');
-        $sid    = Cookie::get('sid');
-        $secret = Cookie::get('secret');
-        $hash   = self::makeHash('sha256', self::SALT . $sid . self::AUTHSALT . $uid);
-
-        if ($redis->get(self::REDIS_SESSIONS_HASHES .$hash) && $hash == $secret) {
-
-            // Создаем новую сессию
-            $auth = new Model_Auth();
-            $auth->recoverById($uid);
-
-            $sid = $session->id();
-            $uid = $session->get('uid');
-
-            $redis->delete(self::REDIS_SESSIONS_HASHES .$hash);
-
-            // генерируем новый хэш c новый session id
-            $newHash = self::makeHash('sha256', self::SALT . $sid . self::AUTHSALT . $uid);
-
-            // меняем хэш в куки
-            Cookie::set('secret', $newHash, Date::WEEK);
-
-            // сохраняем в редис
-            $redis->set(self::REDIS_SESSIONS_HASHES .$hash, $sid . ':' . $uid , array('nx', 'ex' => Date::WEEK));
-
+        if ($secret && $id && $sid) {
             return true;
-
         }
 
         return false;
-
     }
 
+    /**
+     * Can user login or not
+     * @return bool
+     */
+    public static function canLogin()
+    {
+        $isLogged  = self::isLogged();
+        $hadLogged = self::hadLogged();
+
+        $canLogin = false;
+
+        if ($isLogged || (!$isLogged && $hadLogged))
+            $canLogin = true;
+
+        return $canLogin;
+    }
 
     /**
      * Checking user access for module

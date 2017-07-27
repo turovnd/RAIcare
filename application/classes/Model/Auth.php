@@ -10,7 +10,7 @@ class Model_Auth extends Model {
         $this->_session = Dispatch::sessionInstance($this->_session_driver);
     }
 
-    public function login($username, $password, $remember = false)
+    public function login($username, $password)
     {
         $select = Dao_Users::select('*')
             ->where('username', '=', $username)
@@ -41,13 +41,19 @@ class Model_Auth extends Model {
         return false;
     }
 
-    public function logout()
+    public function logout($destroy = FALSE)
     {
-        $this->_session->destroy();
+        if ($destroy === TRUE)
+        {
+            // Destroy the session completely
+            $this->_session->destroy();
+        }
+        else
+        {
+            // Remove the user from the session
+            $this->_session->delete();
 
-        Cookie::delete('sid');
-        Cookie::delete('uid');
-        Cookie::delete('secret');
+        }
 
         return false;
     }
@@ -63,5 +69,20 @@ class Model_Auth extends Model {
         Cookie::set('uid', $select['id'], Date::WEEK);
         Cookie::set('sid', $sessionId, Date::WEEK);
 
+    }
+
+    public static function checkPasswordById($id, $password)
+    {
+        $select = Dao_Users::select('*')
+            ->where('password', '=', $password)
+            ->where('id', '=', $id)
+            ->limit(1)
+            ->execute();
+
+        if (Arr::get($select, 'id')) {
+            return true;
+        }
+
+        return false;
     }
 }

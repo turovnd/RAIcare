@@ -20,7 +20,8 @@ class Controller_Auth_Index extends Dispatch
     public function action_login()
     {
         $this->template->title = "Авторизация";
-        $this->template->section = View::factory('welcome/pages/auth');
+        $this->template->section = View::factory('welcome/pages/login')
+            ->set('reset', false);
     }
 
     /**
@@ -32,13 +33,32 @@ class Controller_Auth_Index extends Dispatch
         $this->template->section = View::factory('welcome/pages/join');
     }
 
+    /**
+     * Reset Page
+     */
+    public function action_reset()
+    {
+        $hash = $this->request->param('hash');
+        $id = $this->redis->get(getenv('REDIS_RESET_HASHES') . $hash);
 
+        if (!$id) {
+            $this->redirect('/login');
+        }
+
+        $this->template->section = View::factory('welcome/pages/login')
+            ->set('reset', true);
+
+    }
+
+    /**
+     * Do logout
+     */
     public function action_logout()
     {
         $auth = new Model_Auth();
-        $auth->logout();
+        $auth->logout(TRUE);
+
         $this->redirect('/');
     }
-
 
 }

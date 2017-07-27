@@ -38,7 +38,7 @@ class Controller_Auth_Ajax extends Auth
 
         $username   = Arr::get($_POST, 'username');
         $password   = Arr::get($_POST, 'password');
-        $remember   = false;
+
 
         if ( empty($username) || empty($password)) {
             $this->makeAttempt();
@@ -48,9 +48,9 @@ class Controller_Auth_Ajax extends Auth
         }
 
         $user = new Model_Auth();
-        $password = $this->makeHash('md5', $password . $_SERVER['SALT']);
+        $password = $this->makeHash('md5', $password . getenv('SALT'));
 
-        if (!$user->login($username, $password, $remember)) {
+        if (!$user->login($username, $password)) {
             $this->makeAttempt();
             $response = new Model_Response_Auth('INVALID_INPUT_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
@@ -72,6 +72,107 @@ class Controller_Auth_Ajax extends Auth
 
 
     /**
+     * action - SignIn Recover Session from cookie
+     */
+    public function action_signinrecover()
+    {
+        $password = Arr::get($_POST, 'password');
+
+        if ( empty($password) ) {
+            $response = new Model_Response_Form('EMPTY_FIELD_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        $id = $this->recover();
+
+        // Если сессия была уничтожена или хэш не совпал
+        if (!$id) {
+            $this->clearCookie();
+
+            $response = new Model_Response_Auth('RECOVER_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        $password = $this->makeHash('md5', $password . getenv('SALT'));
+
+        if ( !Model_Auth::checkPasswordById($id, $password) ) {
+            $response = new Model_Response_Auth('INVALID_PASSWORD_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        Cookie::delete('attempt');
+
+        $response = new Model_Response_Auth('RECOVER_SUCCESS', 'success');
+        $this->response->body(@json_encode($response->get_response()));
+        return;
+    }
+
+    /**
+     * action - SignIn Recover Cancel - Clear Redis and Cookie
+     */
+    public function action_signinrecovercancel()
+    {
+        echo Debug::vars(1);
+        $uid    = Cookie::get('uid');
+        $sid    = Cookie::get('sid');
+
+        $hash   = $this->makeHash('sha256', getenv('SALT') . $sid . getenv('AUTHSALT') . $uid);
+
+        $this->redis->delete(getenv('REDIS_SESSIONS_HASHES'). $hash);
+
+        $this->clearCookie();
+
+        $response = new Model_Response_Auth('RECOVER_CANCEL_SUCCESS', 'success');
+        $this->response->body(@json_encode($response->get_response()));
+    }
+
+
+    /**
+     * Check session token (make secret from Cookie data)
+     *
+     * @return null|string
+     */
+    private function recover()
+    {
+        /** get data from cookie  */
+        $uid    = Cookie::get('uid');
+        $sid    = Cookie::get('sid');
+        $secret = Cookie::get('secret');
+        $hash   = $this->makeHash('sha256', getenv('SALT') . $sid . getenv('AUTHSALT') . $uid);
+
+        if ($this->redis->get(getenv('REDIS_SESSIONS_HASHES') . $hash) && $hash == $secret) {
+
+            $this->redis->delete(getenv('REDIS_SESSIONS_HASHES'). $hash);
+
+            // Создаем новую сессию
+            $auth = new Model_Auth();
+            $auth->recoverById($uid);
+
+            $session = Session::instance();
+            $sid = $session->id();
+            $uid = $session->get('uid');
+
+            $this->setSecret($sid, $uid);
+
+            return $uid;
+
+        }
+
+        return NULL;
+    }
+
+    private function clearCookie()
+    {
+        Cookie::delete('sid');
+        Cookie::delete('uid');
+        Cookie::delete('secret');
+    }
+
+
+    /**
      * action - Checking Email Confirmation hash
      * @throws HTTP_Exception_400
      */
@@ -79,7 +180,7 @@ class Controller_Auth_Ajax extends Auth
     {
         $hash = $this->request->param('hash');
 
-        $id = $this->redis->get($_SERVER['REDIS_RESET_HASHES'] . $hash);
+        $id = $this->redis->get(getenv('REDIS_RESET_HASHES') . $hash);
 
         if (!$id) {
             throw new HTTP_Exception_400;
@@ -91,7 +192,7 @@ class Controller_Auth_Ajax extends Auth
 
         $user->update();
 
-        $this->redis->delete($_SERVER['REDIS_CONFIRMATION_HASHES'] . $hash);
+        $this->redis->delete(getenv('REDIS_CONFIRMATION_HASHES') . $hash);
 
         $this->redirect('app');
 
@@ -139,15 +240,15 @@ class Controller_Auth_Ajax extends Auth
      */
     private function send_forget_email($user) {
 
-        $hash = $this->makeHash('sha256', $_SERVER['SALT'] . $user->id . Date::formatted_time('now'));
+        $hash = $this->makeHash('sha256', getenv('SALT') . $user->id . Date::formatted_time('now'));
 
-        $this->redis->set($_SERVER['REDIS_RESET_HASHES'] . $hash, $user->id, array('nx', 'ex' => 3600));
+        $this->redis->set(getenv('REDIS_RESET_HASHES') . $hash, $user->id, array('nx', 'ex' => 3600));
 
         $template = View::factory('email_templates/reset_password', array('user' => $user, 'hash' => $hash));
 
         $email = new Email();
 
-        return $email->send($user->email, $_SERVER['INFO_EMAIL'], 'Сброс пароля на ' . $_SERVER['SITE_NAME'], $template, true);
+        return $email->send($user->email, getenv('INFO_EMAIL'), 'Сброс пароля на ' . getenv('SITE_NAME'), $template, true);
 
     }
 
@@ -160,7 +261,7 @@ class Controller_Auth_Ajax extends Auth
         $this->checkRequest();
 
         $hash = Cookie::get('reset_link');
-        $id = $this->redis->get($_SERVER['REDIS_RESET_HASHES'] . $hash);
+        $id = $this->redis->get(getenv('REDIS_RESET_HASHES') . $hash);
 
         $user = new Model_User($id);
 
@@ -179,11 +280,11 @@ class Controller_Auth_Ajax extends Auth
             return;
         }
 
-        $password = $this->makeHash('md5', $newpass1 . $_SERVER['SALT']);
+        $password = $this->makeHash('md5', $newpass1 . getenv('SALT'));
         $user->changePassword($password);
 
         Cookie::delete('reset_link');
-        $this->redis->delete($_SERVER['REDIS_RESET_HASHES'] . $hash);
+        $this->redis->delete(getenv('REDIS_RESET_HASHES') . $hash);
         
         $response = new Model_Response_Auth('PASSWORD_CHANGE_SUCCESS', 'success');
         $this->response->body(@json_encode($response->get_response()));
@@ -201,7 +302,7 @@ class Controller_Auth_Ajax extends Auth
 
         $hash = $this->request->param('hash');
 
-        $id = $this->redis->get($_SERVER['REDIS_RESET_HASHES'] . $hash);
+        $id = $this->redis->get(getenv('REDIS_RESET_HASHES') . $hash);
 
         $user = new Model_User($id);
 
@@ -221,11 +322,14 @@ class Controller_Auth_Ajax extends Auth
      */
     protected function setSecret($sid, $uid)
     {
-        $hash = $this->makeHash('sha256', $_SERVER['SALT'] . $sid . $_SERVER['AUTHSALT'] . $uid);
+        // генерируем новый хэш c новый session id
+        $hash = $this->makeHash('sha256', getenv('SALT') . $sid . getenv('AUTHSALT') . $uid);
 
+        // меняем хэш в куки
         Cookie::set('secret', $hash, Date::WEEK);
 
-        $this->redis->set($_SERVER['REDIS_SESSIONS_HASHES'] . $hash, $sid . ':' . $uid , array('nx', 'ex' => Date::WEEK));
+        // сохраняем в редис
+        $this->redis->set(getenv('REDIS_SESSIONS_HASHES') . $hash, $sid . ':' . $uid , array('nx', 'ex' => Date::WEEK));
     }
 
 }

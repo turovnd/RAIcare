@@ -81,9 +81,9 @@ class Controller_Patients_Ajax extends Ajax
             return;
         }
 
-        $count_patients = $this->redis->get($_SERVER['REDIS_PATIENT_HASHES'] . $pension->id . ':patients');
+        $count_patients = $this->redis->get(getenv('REDIS_PATIENT_HASHES') . $pension->id . ':patients');
         $count_patients = $count_patients == false ? 1 : $count_patients + 1;
-        $this->redis->set($_SERVER['REDIS_PATIENT_HASHES'] . $pension->id . ':patients', $count_patients);
+        $this->redis->set(getenv('REDIS_PATIENT_HASHES') . $pension->id . ':patients', $count_patients);
 
         $patient = new Model_Patient();
 
@@ -102,9 +102,9 @@ class Controller_Patients_Ajax extends Ajax
 
         Model_PensionPatient::add($pension->id, $patient->pk);
 
-        $count_forms = $this->redis->get($_SERVER['REDIS_PATIENT_HASHES'] . $pension->id . ':surveys');
+        $count_forms = $this->redis->get(getenv('REDIS_PATIENT_HASHES') . $pension->id . ':surveys');
         $count_forms = $count_forms == false ? 1 : $count_forms + 1;
-        $this->redis->set($_SERVER['REDIS_PATIENT_HASHES'] . $pension->id . ':surveys', $count_forms);
+        $this->redis->set(getenv('REDIS_PATIENT_HASHES') . $pension->id . ':surveys', $count_forms);
 
         $survey = new Model_Survey();
         $survey->id           = $count_forms;

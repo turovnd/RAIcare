@@ -1,176 +1,209 @@
-function ready() {
+var auth = ( function (auth) {
 
-    var corePrefix      = "RAIcare auth",
-        host            = window.location.host,
-        protocol        = window.location.protocol,
-        pathname        = window.location.pathname,
-        signin          = document.getElementById('signin'),
-        forget          = document.getElementById('forget'),
-        reset           = document.getElementById('reset'),
-        toReset         = document.getElementById('toReset'),
-        cancelForget    = document.getElementById('cancelForget'),
-        cancelReset     = document.getElementById('cancelReset');
+    var corePrefix   = "RAIcare auth",
+        host         = window.location.host,
+        protocol     = window.location.protocol,
+        pathname     = window.location.pathname,
+        signInLogged = document.getElementById('signinLogged'),
+        signIn       = document.getElementById('signin'),
+        forget       = document.getElementById('forget'),
+        reset        = document.getElementById('reset');
 
-    /**
-     * Opening SignIn Form
-     */
-    var openSignIn = function () {
-        signin.classList.remove('hide');
-        forget.classList.add('hide');
-    };
+    if (signInLogged) {
+        signInLogged.addEventListener('submit', submitSignInLogged_);
+        document.getElementById('signinLoggedCancel').addEventListener('click', submitSignInLoggedCancel_)
+    }
 
+    if (reset) reset.addEventListener('submit', submitReset_);
 
-    /**
-     * Open Reset Password Form
-     */
-    var openReset = function () {
-        signin.classList.add('hide');
-        forget.classList.remove('hide');
-    };
+    if (!forget || !signIn)  {
+        raicare.core.log('Not found forget || signin forms', 'error', corePrefix);
+        return;
+    }
+
+    signIn.addEventListener('submit', submitSignIn_);
+    forget.addEventListener('submit', submitForget_);
 
 
+    function submitSignInLogged_(event) {
+        event.preventDefault();
 
-    if (!raicare.cookies.get('reset_link')) {
+        var ajaxData = {
+            url: 'auth/signinrecover',
+            type: 'POST',
+            data: new FormData(signInLogged),
+            beforeSend: function () {
+                signInLogged.classList.add('loading');
+            },
+            success: function (response) {
+                response = JSON.parse(response);
+                signInLogged.classList.remove('loading');
+                raicare.core.log(response.message, response.status, corePrefix);
 
-        /**
-         * On page load
-         */
-        if (pathname === "/login") {
-            openSignIn();
-        } else {
-            window.location.replace(protocol + '//' + host);
-        }
-
-
-        /**
-         * Event Listener
-         */
-        toReset.addEventListener('click', openReset);
-        cancelForget.addEventListener('click', openSignIn);
-
-
-        /**
-         * Submit SignIn Form
-         */
-        signin.addEventListener('submit', function (event) {
-            event.preventDefault();
-
-            var ajaxData = {
-                url: 'auth/signin',
-                type: 'POST',
-                data: new FormData(signin),
-                beforeSend: function(){
-                    signin.classList.add('loading');
-                },
-                success: function(response) {
-                    response = JSON.parse(response);
-                    signin.classList.remove('loading');
-                    raicare.core.log(response.message, response.status, corePrefix);
-
-                    if (parseInt(response.code) === 12) {
-                        window.location.replace(protocol + '//' + host + '/dashboard');
-                        return;
-                    }
-
-                    raicare.notification.notify({
-                        type: response.status,
-                        message: response.message
-                    });
-                },
-                error: function(callbacks) {
-                    raicare.core.log('ajax error occur on signin form','error',corePrefix ,callbacks);
-                    signin.classList.add('loading');
+                if (parseInt(response.code) === 17) {
+                    window.location.replace(protocol + '//' + host + '/dashboard');
+                    return;
                 }
-            };
 
-            raicare.ajax.send(ajaxData);
-        });
+                raicare.notification.notify({
+                    type: response.status,
+                    message: response.message
+                });
+            },
+            error: function (callbacks) {
+                raicare.core.log('ajax error occur on signInLogged form', 'error', corePrefix, callbacks);
+                signInLogged.classList.add('loading');
+            }
+        };
 
+        raicare.ajax.send(ajaxData);
+    }
 
-        /**
-         * Submit Forget password Form
-         */
-        forget.addEventListener('submit', function (event) {
-            event.preventDefault();
+    function submitSignInLoggedCancel_(event) {
+        event.preventDefault();
 
-            var ajaxData = {
-                url: '/auth/forget',
-                type: 'POST',
-                data: new FormData(forget),
-                beforeSend: function(){
-                    forget.classList.add('loading');
-                },
-                success: function(response) {
-                    response = JSON.parse(response);
-                    forget.classList.remove('loading');
-                    raicare.core.log(response.message, response.status, corePrefix);
+        var ajaxData = {
+            url: 'auth/signinrecovercancel',
+            type: 'POST',
+            beforeSend: function () {
+                signInLogged.classList.add('loading');
+            },
+            success: function (response) {
+                response = JSON.parse(response);
+                signInLogged.classList.remove('loading');
 
-                    raicare.notification.notify({
-                        type: response.status,
-                        message: response.message
-                    });
-
-                    if (response.code === "62")
-                        window.location.replace(protocol + '//' + host + '/login');
-
-                },
-                error: function(callbacks) {
-                    raicare.core.log('ajax error occur on forget form','error',corePrefix,callbacks);
-                    forget.classList.remove('loading');
+                if (parseInt(response.code) === 18) {
+                    window.location.reload();
                 }
-            };
+            },
+            error: function (callbacks) {
+                raicare.core.log('ajax error occur on signInLoggedCancel form', 'error', corePrefix, callbacks);
+                signInLogged.classList.add('loading');
+            }
+        };
 
-            raicare.ajax.send(ajaxData);
-        });
+        raicare.ajax.send(ajaxData);
+    }
 
+    function submitSignIn_(event) {
+        event.preventDefault();
 
-    } else {
+        var ajaxData = {
+            url: 'auth/signin',
+            type: 'POST',
+            data: new FormData(signIn),
+            beforeSend: function () {
+                signIn.classList.add('loading');
+            },
+            success: function (response) {
+                response = JSON.parse(response);
+                signIn.classList.remove('loading');
+                raicare.core.log(response.message, response.status, corePrefix);
 
-        /**
-         * Submit Reset password Form
-         */
-        reset.addEventListener('submit', function (event) {
-            event.preventDefault();
-
-            var ajaxData = {
-                url: '/auth/reset',
-                type: 'POST',
-                data: new FormData(reset),
-                beforeSend: function(){
-                    reset.classList.add('loading');
-                },
-                success: function(response) {
-                    response = JSON.parse(response);
-                    reset.classList.remove('loading');
-                    raicare.core.log(response.message, response.status, corePrefix);
-
-                    raicare.notification.notify({
-                        type: response.status,
-                        message: response.message
-                    });
-
-                    if (response.code === "15")
-                        window.location.reload();
-
-                },
-                error: function(callbacks) {
-                    raicare.core.log('ajax error occur on reset form','error',corePrefix,callbacks);
-                    reset.classList.remove('loading');
+                if (parseInt(response.code) === 12) {
+                    window.location.replace(protocol + '//' + host + '/dashboard');
+                    return;
                 }
-            };
 
-            raicare.ajax.send(ajaxData);
-        });
+                raicare.notification.notify({
+                    type: response.status,
+                    message: response.message
+                });
+            },
+            error: function (callbacks) {
+                raicare.core.log('ajax error occur on signIn form', 'error', corePrefix, callbacks);
+                signIn.classList.add('loading');
+            }
+        };
 
-        cancelReset.addEventListener('click', function () {
-           raicare.cookies.remove('reset_link');
-           window.location.reload();
-        });
-
+        raicare.ajax.send(ajaxData);
     }
 
 
+    function submitForget_(event) {
+        event.preventDefault();
 
-}
+        var ajaxData = {
+            url: '/auth/forget',
+            type: 'POST',
+            data: new FormData(forget),
+            beforeSend: function(){
+                forget.classList.add('loading');
+            },
+            success: function(response) {
+                response = JSON.parse(response);
+                forget.classList.remove('loading');
+                raicare.core.log(response.message, response.status, corePrefix);
 
-document.addEventListener("DOMContentLoaded", ready);
+                raicare.notification.notify({
+                    type: response.status,
+                    message: response.message
+                });
+
+                if (response.code === "62")
+                    window.location.replace(protocol + '//' + host + '/login');
+
+            },
+            error: function(callbacks) {
+                raicare.core.log('ajax error occur on forget form','error',corePrefix,callbacks);
+                forget.classList.remove('loading');
+            }
+        };
+
+        raicare.ajax.send(ajaxData);
+    }
+
+    function submitReset_(event) {
+        event.preventDefault();
+
+        var ajaxData = {
+            url: '/auth/reset',
+            type: 'POST',
+            data: new FormData(reset),
+            beforeSend: function(){
+                reset.classList.add('loading');
+            },
+            success: function(response) {
+                response = JSON.parse(response);
+                reset.classList.remove('loading');
+                raicare.core.log(response.message, response.status, corePrefix);
+
+                raicare.notification.notify({
+                    type: response.status,
+                    message: response.message
+                });
+
+                if (response.code === "15")
+                    window.location.reload();
+
+            },
+            error: function(callbacks) {
+                raicare.core.log('ajax error occur on reset form','error',corePrefix,callbacks);
+                reset.classList.remove('loading');
+            }
+        };
+
+        raicare.ajax.send(ajaxData);
+    }
+
+    auth.logout = function () {
+        raicare.cookies.remove('uid');
+        raicare.cookies.remove('sid');
+        raicare.cookies.remove('secret');
+        raicare.cookies.remove('session_name');
+        window.location.reload();
+    };
+
+    auth.openSignIn = function () {
+        signIn.classList.remove('hide');
+        forget.classList.add('hide');
+    };
+
+    auth.openReset = function () {
+        signIn.classList.add('hide');
+        forget.classList.remove('hide');
+    };
+
+    return auth;
+
+})({});
