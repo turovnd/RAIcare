@@ -14,15 +14,15 @@ var auth = ( function (auth) {
         document.getElementById('signinLoggedCancel').addEventListener('click', submitSignInLoggedCancel_)
     }
 
-    if (reset) reset.addEventListener('submit', submitReset_);
-
-    if (!forget || !signIn)  {
-        raicare.core.log('Not found forget || signin forms', 'error', corePrefix);
-        return;
+    if (reset) {
+        reset.addEventListener('submit', submitReset_);
+        document.getElementById('resetCancel').addEventListener('click', submitResetCancel_)
     }
 
-    signIn.addEventListener('submit', submitSignIn_);
-    forget.addEventListener('submit', submitForget_);
+    if (forget && signIn)  {
+        signIn.addEventListener('submit', submitSignIn_);
+        forget.addEventListener('submit', submitForget_);
+    }
 
 
     function submitSignInLogged_(event) {
@@ -41,7 +41,7 @@ var auth = ( function (auth) {
                 raicare.core.log(response.message, response.status, corePrefix);
 
                 if (parseInt(response.code) === 17) {
-                    window.location.replace(protocol + '//' + host + '/dashboard');
+                    window.location = protocol + '//' + host + '/dashboard';
                     return;
                 }
 
@@ -59,12 +59,14 @@ var auth = ( function (auth) {
         raicare.ajax.send(ajaxData);
     }
 
+
     function submitSignInLoggedCancel_(event) {
         event.preventDefault();
 
         var ajaxData = {
             url: 'auth/signinrecovercancel',
             type: 'POST',
+            data: new FormData(signInLogged),
             beforeSend: function () {
                 signInLogged.classList.add('loading');
             },
@@ -85,6 +87,7 @@ var auth = ( function (auth) {
         raicare.ajax.send(ajaxData);
     }
 
+
     function submitSignIn_(event) {
         event.preventDefault();
 
@@ -101,7 +104,7 @@ var auth = ( function (auth) {
                 raicare.core.log(response.message, response.status, corePrefix);
 
                 if (parseInt(response.code) === 12) {
-                    window.location.replace(protocol + '//' + host + '/dashboard');
+                    window.location = protocol + '//' + host + '/dashboard';
                     return;
                 }
 
@@ -141,7 +144,7 @@ var auth = ( function (auth) {
                 });
 
                 if (response.code === "62")
-                    window.location.replace(protocol + '//' + host + '/login');
+                    forget.reset();
 
             },
             error: function(callbacks) {
@@ -152,6 +155,7 @@ var auth = ( function (auth) {
 
         raicare.ajax.send(ajaxData);
     }
+
 
     function submitReset_(event) {
         event.preventDefault();
@@ -168,14 +172,15 @@ var auth = ( function (auth) {
                 reset.classList.remove('loading');
                 raicare.core.log(response.message, response.status, corePrefix);
 
+                if (parseInt(response.code) === 56) {
+                    window.location = protocol + '//' + host + '/dashboard';
+                    return;
+                }
+
                 raicare.notification.notify({
                     type: response.status,
                     message: response.message
                 });
-
-                if (response.code === "15")
-                    window.location.reload();
-
             },
             error: function(callbacks) {
                 raicare.core.log('ajax error occur on reset form','error',corePrefix,callbacks);
@@ -186,13 +191,42 @@ var auth = ( function (auth) {
         raicare.ajax.send(ajaxData);
     }
 
-    auth.logout = function () {
-        raicare.cookies.remove('uid');
-        raicare.cookies.remove('sid');
-        raicare.cookies.remove('secret');
-        raicare.cookies.remove('session_name');
-        window.location.reload();
-    };
+
+    function submitResetCancel_() {
+        event.preventDefault();
+
+        var ajaxData = {
+            url: '/auth/resetcancel',
+            type: 'POST',
+            data: new FormData(reset),
+            beforeSend: function(){
+                reset.classList.add('loading');
+            },
+            success: function(response) {
+                response = JSON.parse(response);
+                reset.classList.remove('loading');
+                raicare.core.log(response.message, response.status, corePrefix);
+
+                if (parseInt(response.code) === 57) {
+                    window.setTimeout(function () {
+                        window.location.reload();
+                    }, 500);
+                }
+
+                raicare.notification.notify({
+                    type: response.status,
+                    message: response.message
+                });
+            },
+            error: function(callbacks) {
+                raicare.core.log('ajax error occur on resetcancel form','error',corePrefix,callbacks);
+                reset.classList.remove('loading');
+            }
+        };
+
+        raicare.ajax.send(ajaxData);
+    }
+
 
     auth.openSignIn = function () {
         signIn.classList.remove('hide');

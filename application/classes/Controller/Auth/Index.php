@@ -46,7 +46,8 @@ class Controller_Auth_Index extends Dispatch
         }
 
         $this->template->section = View::factory('welcome/pages/login')
-            ->set('reset', true);
+            ->set('reset', true)
+            ->set('hash', $hash);
 
     }
 
