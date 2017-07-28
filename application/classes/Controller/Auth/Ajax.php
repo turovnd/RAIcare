@@ -63,9 +63,11 @@ class Controller_Auth_Ajax extends Auth
         $sid = $session->id();
         $uid = $session->get('uid');
 
+        $org = Model_UserOrganization::getOrganization($session->get('uid'));
+
         $this->setSecret($sid, $uid);
 
-        $response = new Model_Response_Auth('LOGIN_SUCCESS', 'success');
+        $response = new Model_Response_Auth('LOGIN_SUCCESS', 'success', array('org' => $org->uri));
         $this->response->body(@json_encode($response->get_response()));
 
     }
@@ -104,7 +106,9 @@ class Controller_Auth_Ajax extends Auth
 
         Cookie::delete('attempt');
 
-        $response = new Model_Response_Auth('LOGIN_RECOVER_SUCCESS', 'success');
+        $org = Model_UserOrganization::getOrganization($id);
+
+        $response = new Model_Response_Auth('LOGIN_RECOVER_SUCCESS', 'success', array('org' => $org->uri));
         $this->response->body(@json_encode($response->get_response()));
     }
 

@@ -27,23 +27,16 @@ Class Model_UserOrganization {
             ->execute();
     }
 
-    public static function getOrganizations($user)
+    public static function getOrganization($user)
     {
-        $select = Dao_UsersOrganizations::select()
+        $select = Dao_UsersOrganizations::select('o_id')
             ->where('u_id', '=', $user)
             ->cached(Date::MINUTE * 5, 'user_' . $user)
             ->order_by('o_id', 'DESC')
+            ->limit(1)
             ->execute();
 
-        if (empty($select)) return array();
-
-        $organizations = array();
-
-        foreach ($select as $item) {
-            $organizations[] = $item['o_id'];
-        }
-
-        return $organizations;
+        return new Model_Organization($select['o_id']);
     }
 
     public static function getUsers($organization)

@@ -1,23 +1,4 @@
-<div class="section__content section__content--unwrap">
-
-    <?= View::factory('organizations/blocks/cover', array( 'organization' => $organization )); ?>
-
-    <div class="row">
-
-        <div class="col-xs-12 col-md-9">
-
-            <? // Module Organizations => TIME_LINE_ORGANIZATION = 21
-                if (!in_array(21, $user->permissions)) : ?>
-
-                    <div class="h3 text-center text-brand m-t-20 m-b-50">Лента новостей не доступна</div>
-
-            <? else: ?>
-
-                <?= View::factory('organizations/blocks/timeline'); ?>
-
-            <? endif; ?>
-
-        </div>
+<div class="section__content">
 
         <div class="col-xs-12 col-md-3">
 

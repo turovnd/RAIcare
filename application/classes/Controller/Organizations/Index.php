@@ -17,17 +17,54 @@ class Controller_Organizations_Index extends Dispatch
     CONST STATISTIC_ORGANIZATION    = 20;
     CONST AVAILABLE_PERMISSIONS_ORG = array(17,18,19,20,21,22);
 
+    /**
+     * @const ACTION_LOGIN [String]
+     */
+    const ACTION_LOGIN = 'index';
+
     public $template = 'main';
+
+    /** Organization */
+    protected $organization = null;
+
+    /** Users that has access to $organization */
+    protected $users = null;
+
 
     public function before()
     {
         parent::before();
 
-        if (!self::isLogged()) {
-            $this->redirect('login');
+        $org_uri = $this->request->param('org_uri');
+
+        switch ($this->request->action()) {
+
+            case self::ACTION_LOGIN:
+                return;
+
+            default:
+                if (!self::isLogged()) {
+                    $this->redirect($org_uri);
+                }
         }
 
+        $this->organization = Model_Organization::getByFieldName('uri', $org_uri);
+
+        if (!$this->organization->id || in_array($org_uri, self::PRIVATE_SUBDOMIANS)) {
+            throw new HTTP_Exception_404();
+        }
+
+        $this->users = Model_UserOrganization::getUsers($this->organization->id);
+
+        if (!in_array($this->user->id, $this->users)) {
+            throw new HTTP_Exception_403;
+        }
+
+        $this->organization->pensions = Model_OrganizationPension::getPensions($this->organization->id);
+//echo Debug::vars($this->organization->pensions);die();
         $data = array(
+            'org_uri'  => $org_uri,
+            'pensions'  => $this->organization->pensions,
             'action'    => 'org_' . $this->request->action(),
         );
 
@@ -35,18 +72,32 @@ class Controller_Organizations_Index extends Dispatch
 
     }
 
-
-    public function action_all()
+    /**
+     * Organization Page - dashboard
+     */
+    public function action_index()
     {
-        self::hasAccess(self::WATCH_ALL_ORGS_PAGES);
+        $this->template = View::factory('organizations/pages/login');
+        $this->template->section = View::factory('welcome/pages/login')
+            ->set('reset', false);
+    }
 
-        $organizations = Model_Organization::getAll(0,10);
 
-        $this->template->title = "Все организации";
-        $this->template->section = View::factory('organizations/pages/organizations')
-            ->set('title', $this->template->title)
-            ->set('organizations', $organizations)
-            ->set('type', 'all_organizations');
+    /**
+     * Dashboard Page
+     */
+    public function action_dashboard()
+    {
+        foreach ($this->users as $key => $userID) {
+            $this->users[$key] = new Model_User($userID);
+            $this->users[$key]->role = new Model_Role($this->users[$key]->role);
+        }
+
+        $this->organization->users = $this->users;
+
+        $this->template->title = "Главная - " . $this->organization->name;
+        $this->template->section = View::factory('organizations/pages/dashboard')
+            ->set('organization', $this->organization);
     }
 
 

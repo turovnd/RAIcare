@@ -1,12 +1,33 @@
 
 <ul class="aside__menu list-style--none">
 
-    <li class="aside__item <? echo $action == "dashboard" ? 'aside__item--active' : ''; ?>">
-        <a href="<?=URL::site('dashboard'); ?>" class="aside__link <? echo $action == "dashboard" ? 'aside__link--active' : ''; ?>">
-            <i class="fa fa-dashboard aside__icon" aria-hidden="true"></i>
-            <span class="aside__text">Главная</span>
-        </a>
-    </li>
+    <? if (!empty($org_uri)): ?>
+
+        <li class="aside__item <? echo $action == 'org_dashboard'
+                                    || $action == "org_settings"
+                                    || $action == "org_statistic" ? 'aside__item--active' : ''; ?>">
+            <a href="//<?=$org_uri . '.' . $_SERVER['HTTP_HOST'] . '/dashboard'; ?>" class="aside__link <? echo $action == "org_dashboard" ? 'aside__link--active' : ''; ?>">
+                <i class="fa fa-dashboard aside__icon" aria-hidden="true"></i>
+                <span class="aside__text">Главная</span>
+            </a>
+        </li>
+
+        <li class="divider"></li>
+        <li class="aside__text text-bold f-s-0_8 p-t-5 p-l-5 p-b-0">Список пансионатов</li>
+
+        <? foreach ($pensions as $pension) : ?>
+
+            <li class="aside__item <? echo $action == "pen_" . $pension->uri ? 'aside__item--active' : ''; ?>">
+                <a href="//<?=$org_uri . '.' . $_SERVER['HTTP_HOST'] . '/' . $pension->uri; ?>" class="aside__link <? echo $action == "pen_" . $pension->uri ? 'aside__link--active' : ''; ?>">
+                    <i class="fa fa-user-md aside__icon" aria-hidden="true"></i>
+                    <span class="aside__text"><?= $pension->name; ?></span>
+                </a>
+            </li>
+
+        <? endforeach; ?>
+
+    <? endif; ?>
+
 
 
     <? // Module Admin => permission: MODULE_ADMIN = 1
@@ -117,135 +138,6 @@
 
             </ul>
 
-        </li>
-
-    <? endif; ?>
-
-
-    <? // Module Organizations => permission: WATCH_ALL_ORGS_PAGES = 14 || WATCH_CREATED_ORGS_PAGES = 15
-    if (in_array(14, $user->permissions) || in_array(15, $user->permissions)) : ?>
-
-        <li class="aside__item <? echo $action == 'org_all'
-                                    || $action == 'org_created'
-                                    || $action == "org_organization"
-                                    || $action == "org_settings"
-                                    || $action == "org_statistic" ? 'aside__item--active' : ''; ?>">
-            <a role="button" data-toggle="collapse" data-area="moduleOrganizations" data-opened="false" class="aside__link <? echo $action == 'org_all' || $action == 'org_created' ? 'aside__link--active' : ''; ?>">
-                <i class="fa fa-briefcase aside__icon" aria-hidden="true"></i>
-                <span class="aside__text">Организации</span>
-                <i class="fa fa-angle-down aside__icon--right" aria-hidden="true"></i>
-            </a>
-
-            <ul id="moduleOrganizations" class="aside__collapse collapse list-style--none">
-
-                <? // Module Organizations => permission: WATCH_ALL_ORGS_PAGES = 14
-                if (in_array(14, $user->permissions)) : ?>
-
-                    <li class="aside__collapse-item">
-                        <a href="<?=URL::site('organizations/all'); ?>"  class="aside__collapse-link <?= $action == 'org_all' ? 'aside__collapse-link--active' : ''; ?>">
-                            Все организации
-                        </a>
-                    </li>
-
-                <? endif; ?>
-
-                <? // Module Organizations => permission: WATCH_CREATED_ORGS_PAGES = 15
-                if (in_array(15, $user->permissions)) : ?>
-
-                    <li class="aside__collapse-item">
-                        <a href="<?=URL::site('organizations/created'); ?>"  class="aside__collapse-link <?= $action == 'org_created' ? 'aside__collapse-link--active' : ''; ?>">
-                            Созданные орг-ии
-                        </a>
-                    </li>
-
-                <? endif; ?>
-
-            </ul>
-
-        </li>
-
-    <? endif; ?>
-
-
-    <? // Module Organizations => WATCH_CERTAIN_ORGS_PAGES = 16
-    if (in_array(16, $user->permissions)) : ?>
-
-        <li class="aside__item <? echo $action == 'org_my'
-                                        || $action == "org_organization"
-                                        || $action == "org_settings"
-                                        || $action == "org_statistic" ? 'aside__item--active' : ''; ?>">
-            <a href="<?=URL::site('organizations/my'); ?>" class="aside__link <? echo $action == "org_my" ? 'aside__link--active' : ''; ?>">
-                <i class="fa fa-briefcase aside__icon" aria-hidden="true"></i>
-                <span class="aside__text">Мои организации</span>
-            </a>
-        </li>
-
-    <? endif; ?>
-
-
-    <? // Module Pensions => permission: WATCH_ALL_PENSIONS_PAGES = 24 || WATCH_CREATED_PENSIONS_PAGES = 25
-    if (in_array(24, $user->permissions) || in_array(25, $user->permissions)) : ?>
-
-        <li class="aside__item <? echo $action == 'pen_all'
-                                    || $action == 'pen_created'
-                                    || $action == "pen_pension"
-                                    || $action == "pen_settings"
-                                    || $action == "pen_statistic"
-                                    || $action == "pen_survey"
-                                    || $action == "pen_patients"? 'aside__item--active' : ''; ?>">
-            <a role="button" data-toggle="collapse" data-area="modulePensions" data-opened="false" class="aside__link <? echo $action == 'pen_all' || $action == 'pen_created' ? 'aside__link--active' : ''; ?>">
-                <i class="fa fa-user-md aside__icon" aria-hidden="true"></i>
-                <span class="aside__text">Пансионаты</span>
-                <i class="fa fa-angle-down aside__icon--right" aria-hidden="true"></i>
-            </a>
-
-            <ul id="modulePensions" class="aside__collapse collapse list-style--none">
-
-                <? // Module Pensions => permission: WATCH_ALL_PENSIONS_PAGES = 24
-                if (in_array(24, $user->permissions)) : ?>
-
-                    <li class="aside__collapse-item">
-                        <a href="<?=URL::site('pensions/all'); ?>"  class="aside__collapse-link <?= $action == 'pen_all' ? 'aside__collapse-link--active' : ''; ?>">
-                            Все пансионаты
-                        </a>
-                    </li>
-
-                <? endif; ?>
-
-                <? // Module Pensions => permission: WATCH_CREATED_PENSIONS_PAGES = 25
-                if (in_array(25, $user->permissions)) : ?>
-
-                    <li class="aside__collapse-item">
-                        <a href="<?=URL::site('pensions/created'); ?>"  class="aside__collapse-link <?= $action == 'pen_created' ? 'aside__collapse-link--active' : ''; ?>">
-                            Созданные пан-ты
-                        </a>
-                    </li>
-
-                <? endif; ?>
-
-            </ul>
-
-        </li>
-
-    <? endif; ?>
-
-
-    <? // Module Pensions => WATCH_CERTAIN_PENSIONS_PAGES = 26
-    if (in_array(26, $user->permissions)) : ?>
-
-        <li class="aside__item <? echo $action == "pen_my"
-                                    || $action == "pen_pension"
-                                    || $action == "pen_settings"
-                                    || $action == "pen_statistic"
-                                    || $action == "pen_patients"
-                                    || $action == "pen_patient"
-                                    || $action == "pen_survey"
-                                    || $action == "pen_fullreport" || $action == "pen_protocolsreport" || $action == "pen_basicreport" || $action == "pen_statusreport" || $action == "pen_raiscalesreport" || $action == "pen_rugclassification" || $action == "pen_clinicalprotocol"
-                                    ? 'aside__item--active' : ''; ?>">
-            <a href="<?=URL::site('pensions/my'); ?>" class="aside__link <? echo $action == "pen_my" ? 'aside__link--active' : ''; ?>">
-                <i class="fa fa-user-md aside__icon" aria-hidden="true"></i>
-                <span class="aside__text">Мои пансионаты</span>
-            </a>
         </li>
 
     <? endif; ?>

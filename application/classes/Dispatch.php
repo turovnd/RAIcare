@@ -2,8 +2,9 @@
 
 class Dispatch extends Controller_Template
 {
-    const POST                  = 'POST';
-    const GET                   = 'GET';
+    const POST = 'POST';
+    const GET  = 'GET';
+    CONST PRIVATE_SUBDOMIANS = array('admin', 'my');
 
     /** @var string - Path to template */
     public $template = '';
