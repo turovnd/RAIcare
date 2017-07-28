@@ -4,14 +4,13 @@ module.exports = (function (header) {
         headerMenu      = null,
         headerBtn       = null,
         pathname_       = null,
-        pathnameHeaderFixed = ['/login', '/join'];
-
+        pathnameHeaderFixed = ['login', 'join', 'reset'];
 
 
     function prepare_(type) {
 
         headerWrapper = document.getElementsByClassName('header')[0];
-        pathname_ = window.location.pathname;
+        pathname_ = window.location.pathname.split('/')[1];
 
         if (type === 'welcome' && pathnameHeaderFixed.indexOf(pathname_) === -1) {
 
@@ -24,7 +23,6 @@ module.exports = (function (header) {
         } else {
 
             headerWrapper.classList.remove('header--default');
-            headerWrapper.classList.add('header--fixed');
 
         }
 
@@ -74,12 +72,10 @@ module.exports = (function (header) {
 
         if ( window.scrollY > 5 ) {
 
-            headerWrapper.classList.add('header--fixed');
             headerWrapper.classList.remove('header--default');
 
         } else {
 
-            headerWrapper.classList.remove('header--fixed');
             headerWrapper.classList.add('header--default');
 
         }
@@ -97,9 +93,6 @@ module.exports = (function (header) {
 
     };
 
-
-
     return header;
-
 
 })({});

@@ -35,7 +35,13 @@ class Model_Response_Users extends Model_Response_Abstract
     protected $_USER_UPDATE_PASSWORD_EQUAL_ERROR = array (
         'type' => 'user',
         'code' => '55',
-        'message' => 'Пароли не совпадают'
+        'message' => 'Новые пароли не совпадают'
+    );
+
+    protected $_USER_SAME_PASSWORDS_ERROR = array (
+        'type' => 'user',
+        'code' => '55',
+        'message' => 'Старый и новый пароль совпадают'
     );
 
     protected $_USER_UPDATE_PASSWORD_OLD_ERROR = array (
@@ -47,13 +53,19 @@ class Model_Response_Users extends Model_Response_Abstract
     protected $_USER_UPDATE_PASSWORD_SUCCESS = array (
         'type' => 'user',
         'code' => '57',
-        'message' => 'Пароль успешно изменен'
+        'message' => 'Сброс пароля успешно отменен'
     );
 
-    protected $_USER_DOES_NOT_EXISTED_ERROR = array (
-        'type' => 'user',
-        'code' => '58',
-        'message' => 'Пользователь не существует'
+    protected $_USER_RESET_PASSWORD_SUCCESS = array (
+        'type' => 'reset',
+        'code' => '56',
+        'message' => 'Сброс пароля успешно завершен'
+    );
+
+    protected $_USER_RESET_PASSWORD_CANCEL_SUCCESS = array (
+        'type' => 'reset',
+        'code' => '57',
+        'message' => 'Сброс пароля успешно отменен'
     );
 
 }
