@@ -44,25 +44,4 @@ class Model_Response_Auth extends Model_Response_Abstract
         'message' => 'Вы не прошли проверку `Я не робот`'
     );
 
-
-
-
-
-
-
-
-    protected $_USER_DOES_NOT_EXIST_ERROR = array (
-        'type' => 'login',
-        'code' => '13',
-        'message' => 'Пользователь не существует'
-    );
-
-    protected $_PASSWORD_CHANGE_SUCCESS = array (
-        'type' => 'login',
-        'code' => '15',
-        'message' => 'Пароль успешно изменен'
-    );
-
-
-
 }
