@@ -31,7 +31,7 @@ class Controller_Auth_Ajax extends Auth
     {
 
 //        if ($this->getAttempt() > 3) {
-//            $response = new Model_Response_Auth('ATTEMPT_NUMBER_ERROR', 'error');
+//            $response = new Model_Response_Auth('', 'error');
 //            $this->response->body(@json_encode($response->get_response()));
 //            return;
 //        }
@@ -52,7 +52,7 @@ class Controller_Auth_Ajax extends Auth
 
         if (!$user->login($username, $password)) {
             $this->makeAttempt();
-            $response = new Model_Response_Auth('INVALID_INPUT_ERROR', 'error');
+            $response = new Model_Response_Auth('LOGIN_INVALID_INPUT_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
             return;
         }
@@ -89,7 +89,7 @@ class Controller_Auth_Ajax extends Auth
         if (!$id) {
             $this->clearCookie();
 
-            $response = new Model_Response_Auth('RECOVER_ERROR', 'error');
+            $response = new Model_Response_Auth('LOGIN_RECOVER_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
             return;
         }
@@ -97,16 +97,15 @@ class Controller_Auth_Ajax extends Auth
         $password = $this->makeHash('md5', $password . getenv('SALT'));
 
         if ( !Model_Auth::checkPasswordById($id, $password) ) {
-            $response = new Model_Response_Auth('INVALID_PASSWORD_ERROR', 'error');
+            $response = new Model_Response_Auth('LOGIN_INVALID_PASSWORD_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
             return;
         }
 
         Cookie::delete('attempt');
 
-        $response = new Model_Response_Auth('RECOVER_SUCCESS', 'success');
+        $response = new Model_Response_Auth('LOGIN_RECOVER_SUCCESS', 'success');
         $this->response->body(@json_encode($response->get_response()));
-        return;
     }
 
     /**
@@ -123,7 +122,7 @@ class Controller_Auth_Ajax extends Auth
 
         $this->clearCookie();
 
-        $response = new Model_Response_Auth('RECOVER_CANCEL_SUCCESS', 'success');
+        $response = new Model_Response_Auth('LOGIN_RECOVER_CANCEL_SUCCESS', 'success');
         $this->response->body(@json_encode($response->get_response()));
     }
 
@@ -141,20 +140,20 @@ class Controller_Auth_Ajax extends Auth
             return;
         }
 
-        $user = Model_User::getByFieldName('email', $email);
-
-        if (!$user->id) {
-            $response = new Model_Response_Users('USER_DOES_NOT_EXISTED_ERROR', 'error');
-            $this->response->body(@json_encode($response->get_response()));
-            return;
-        }
-
         $recaptcha = new \ReCaptcha\ReCaptcha(getenv('RECAPTCHA'));
 
         $resp = $recaptcha->verify($captcha, $_SERVER['REMOTE_ADDR']);
 
         if (!$resp->isSuccess()){
-            $response = new Model_Response_Email('RECAPTCHA_ERROR', 'error');
+            $response = new Model_Response_Email('FORGET_RECAPTCHA_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        $user = Model_User::getByFieldName('email', $email);
+
+        if (!$user->id) {
+            $response = new Model_Response_Users('USER_DOES_NOT_EXISTED_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
             return;
         }
@@ -191,7 +190,7 @@ class Controller_Auth_Ajax extends Auth
         }
 
         if ($newpass1 != $newpass2) {
-            $response = new Model_Response_Users('PASSWORDS_ARE_NOT_EQUAL_ERROR', 'error');
+            $response = new Model_Response_Users('USER_UPDATE_PASSWORD_EQUAL_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
             return;
         }
@@ -272,14 +271,15 @@ class Controller_Auth_Ajax extends Auth
         return NULL;
     }
 
-
+    /**
+     * Clear cookie
+     */
     private function clearCookie()
     {
         Cookie::delete('sid');
         Cookie::delete('uid');
         Cookie::delete('secret');
     }
-
 
     /**
      * Set `secret` to cookie and Redis
@@ -295,6 +295,7 @@ class Controller_Auth_Ajax extends Auth
         // сохраняем в редис
         $this->redis->set(getenv('REDIS_SESSIONS_HASHES') . $hash, $sid . ':' . $uid , array('nx', 'ex' => Date::WEEK));
     }
+
     /**
      * action - Checking Email Confirmation hash
      * @throws HTTP_Exception_400

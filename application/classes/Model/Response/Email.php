@@ -20,9 +20,4 @@ class Model_Response_Email extends Model_Response_Abstract
         'message' => 'Письмо успешно отправлно'
     );
 
-    protected $_RECAPTCHA_ERROR = array (
-        'type' => 'recaptcha',
-        'code' => '63',
-        'message' => 'Вы не прошли проверку `Я не робот`'
-    );
 }

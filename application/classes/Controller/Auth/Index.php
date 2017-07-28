@@ -45,6 +45,7 @@ class Controller_Auth_Index extends Dispatch
             $this->redirect('/login');
         }
 
+        $this->template->title = "Сброс пароля";
         $this->template->section = View::factory('welcome/pages/login')
             ->set('reset', true)
             ->set('hash', $hash);
