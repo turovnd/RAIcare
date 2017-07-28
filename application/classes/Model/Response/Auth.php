@@ -38,10 +38,4 @@ class Model_Response_Auth extends Model_Response_Abstract
         'message' => 'Полный выход из аккаунта с этого устройства выполнен'
     );
 
-    protected $_FORGET_RECAPTCHA_ERROR = array (
-        'type' => 'recaptcha',
-        'code' => '15',
-        'message' => 'Вы не прошли проверку `Я не робот`'
-    );
-
 }

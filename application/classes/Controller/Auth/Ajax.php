@@ -145,7 +145,7 @@ class Controller_Auth_Ajax extends Auth
         $resp = $recaptcha->verify($captcha, $_SERVER['REMOTE_ADDR']);
 
         if (!$resp->isSuccess()){
-            $response = new Model_Response_Email('FORGET_RECAPTCHA_ERROR', 'error');
+            $response = new Model_Response_Email('RECAPTCHA_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
             return;
         }

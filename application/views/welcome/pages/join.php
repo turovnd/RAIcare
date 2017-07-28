@@ -3,7 +3,7 @@
 
     <div class="container animated fade__in">
 
-        <form class="form clear-fix" id="newApplication">
+        <form class="form" id="newApplication">
 
             <div class="form__body p-t-20">
 
@@ -71,16 +71,17 @@
                         </div>
                     </fieldset>
 
+                    <div class="g-recaptcha m-b-20" data-sitekey="6LcPxioUAAAAAFAyRCFSMHYpaLY2jqwnxKaL9bXW"></div>
+
                 </div>
 
             </div>
 
             <input type="hidden" name="csrf" value="<?= Security::token(); ?>">
 
-            <button type="submit" class="form__submit text-center col-xs-12 text-brand text-bold">
+            <button type="submit" class="form__submit text-center col-xs-12 text-brand text-bold fl_n">
                 Присоединиться к <?=$GLOBALS['SITE_NAME']?>
             </button>
-
 
         </form>
 
@@ -118,4 +119,5 @@
 </div>
 
 <!-- =============== PAGE SCRIPTS ===============-->
+<script src='https://www.google.com/recaptcha/api.js'></script>
 <script type="text/javascript" src="<?=$assets; ?>static/js/new-application.js"></script>

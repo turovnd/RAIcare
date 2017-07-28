@@ -1,22 +1,27 @@
-function ready() {
+var join = ( function (join) {
 
-    var corePrefix  = "RAIcare new application",
-        form        = document.getElementById('newApplication');
+    var corePrefix  = "New application",
+        joinForm    = document.getElementById('newApplication'),
+        successJoin = document.getElementById('sendApplication');
 
+    if (!joinForm || !successJoin) {
+        raicare.core.log('Not found neWApplication || sendApplication forms','error',corePrefix);
+        return;
+    }
 
-    form.addEventListener('submit', function (event) {
+    joinForm.addEventListener('submit', function (event) {
         event.preventDefault();
 
         var ajaxData = {
             url: '/application/new',
             type: 'POST',
-            data: new FormData(form),
+            data: new FormData(joinForm),
             beforeSend: function(){
-                form.getElementsByClassName('form__body')[0].classList.add('loading');
+                joinForm.classList.add('loading');
             },
             success: function(response) {
                 response = JSON.parse(response);
-                form.getElementsByClassName('form__body')[0].classList.remove('loading');
+                joinForm.classList.remove('loading');
                 raicare.core.log(response.message, response.status, corePrefix);
 
                 raicare.notification.notify({
@@ -25,21 +30,21 @@ function ready() {
                 });
 
                 if (parseInt(response.code) === 21) {
-                    form.classList.add('hide');
-                    document.getElementById('sendApplication').classList.remove('hide');
+                    joinForm.classList.add('hide');
+                    successJoin.classList.remove('hide');
                 }
 
 
             },
             error: function(callbacks) {
                 raicare.core.log('ajax error occur on sending new application form','error', corePrefix, callbacks);
-                form.getElementsByClassName('form__body')[0].classList.remove('loading');
+                joinForm.classList.remove('loading');
             }
         };
 
         raicare.ajax.send(ajaxData);
     });
 
-}
+    return join;
 
-document.addEventListener("DOMContentLoaded", ready);
+})({});
