@@ -20,15 +20,17 @@ class Controller_Organizations_Index extends Dispatch
     /** Organization */
     protected $organization = null;
 
-    /** Users that has access to $organization */
-    protected $users = null;
-
-
     public function before()
     {
         parent::before();
 
         $org_uri = $this->request->param('org_uri');
+
+        $this->organization = Model_Organization::getByFieldName('uri', $org_uri);
+
+        if (!$this->organization->id && !in_array($org_uri, self::PRIVATE_SUBDOMIANS)) {
+            throw new HTTP_Exception_404();
+        }
 
         switch ($this->request->action()) {
 
@@ -41,15 +43,7 @@ class Controller_Organizations_Index extends Dispatch
                 }
         }
 
-        $this->organization = Model_Organization::getByFieldName('uri', $org_uri);
-
-        if (!$this->organization->id || in_array($org_uri, self::PRIVATE_SUBDOMIANS)) {
-            throw new HTTP_Exception_404();
-        }
-
-        $this->users = Model_UserOrganization::getUsers($this->organization->id);
-
-        if (!in_array($this->user->id, $this->users)) {
+        if ($this->user->organization != $this->organization->id) {
             throw new HTTP_Exception_403;
         }
 
@@ -77,7 +71,6 @@ class Controller_Organizations_Index extends Dispatch
 
     /**
      * Manage Page
-     * - users in organization that have access to menage co-workers
      */
     public function action_manage()
     {
@@ -88,26 +81,11 @@ class Controller_Organizations_Index extends Dispatch
 
         }
 
-        $co_workers = $this->users;
-        $pensions = array();
+        $co_workers = Model_User::getAllFromOrganization($this->organization->id, true);
 
-        foreach ( $this->organization->pensions as $pension) {
-            $el = array('id' => $pension->id, 'name' => $pension->name);
-            $pensions[] = $el;
-            $users = Model_UserPension::getUsers($pension->id);
-            foreach ($users as $user) {
-                if (!in_array($user, $co_workers)) {
-                    array_push($co_workers, $user);
-                }
-            }
-        }
-
-        sort($co_workers);
-
-        foreach ($co_workers as $key => $id) {
-            $co_workers[$key] = new Model_User($id);
+        foreach ($co_workers as $key => $co_worker) {
             $co_workers[$key]->role = new Model_Role($co_workers[$key]->role);
-            $co_workers[$key]->pensions = Model_UserPension::getPensions($id, true);
+            $co_workers[$key]->pensions = Model_UserPension::getPensions($co_worker->id, true);
         }
 
         $roles = array();
@@ -122,7 +100,7 @@ class Controller_Organizations_Index extends Dispatch
         $this->template->section = View::factory('organizations/pages/manage')
             ->set('orgID', $this->organization->id)
             ->set('co_workers', $co_workers)
-            ->set('pensions', $pensions)
+            ->set('pensions', $this->organization->pensions)
             ->set('roles', $roles)
             ->set('orgRolesID', self::ORG_AVAILABLE_ROLES );
 

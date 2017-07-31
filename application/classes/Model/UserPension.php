@@ -38,7 +38,7 @@ Class Model_UserPension {
         $select = Dao_UsersPensions::select()
             ->cached(Date::MINUTE * 5, 'user_' . $user)
             ->where('u_id', '=', $user)
-            ->order_by('p_id', 'DESC')
+            ->order_by('p_id', 'ASC')
             ->execute();
 
         if (empty($select)) return array();

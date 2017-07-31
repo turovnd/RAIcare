@@ -56,8 +56,6 @@ class Controller_Organizations_Ajax extends Ajax
 
         $organization = $organization->save();
 
-        Model_UserOrganization::add($cl_user, $organization->id);
-
         $organization->creator = new Model_User($organization->creator);
         $organization->owner   = new Model_User($organization->owner);
 
@@ -154,14 +152,12 @@ class Controller_Organizations_Ajax extends Ajax
 
     public function action_coworkerupdate()
     {
-        if (!($this->user->role == self::ROLE_ORG_CO_WORKER_MANAGER || $this->user->role == self::ROLE_ORG_CREATOR)) {
-            throw new HTTP_Exception_403();
-        }
-
         $id    = Arr::get($_POST,'id');
         $name  = Arr::get($_POST, 'name');
         $value = Arr::get($_POST,'value');
         $orgID = Arr::get($_POST,'orgID');
+
+        $this->checkAccessToManage($orgID);
 
         $user = new Model_User($id);
         $oldRole = $user->role;
@@ -217,7 +213,7 @@ class Controller_Organizations_Ajax extends Ajax
             if ($email == 1) {
                 $this->redis->set($_SERVER['REDIS_CONFIRMATION_HASHES'] . $hash, $user->id, array('nx', 'ex' => Date::MONTH));
                 $user->update();
-                $response = new Model_Response_Email('EMAIL_SEND_SUCCESS', 'success');
+                $response = new Model_Response_Users('USER_UPDATE_SUCCESS', 'success');
             } else {
                 $response = new Model_Response_Email('EMAIL_SEND_ERROR', 'error');
             }
@@ -232,11 +228,9 @@ class Controller_Organizations_Ajax extends Ajax
             || in_array($oldRole, self::PEN_AVAILABLE_ROLES) && in_array($user->role, self::ORG_AVAILABLE_ROLES)) {
 
             if (in_array($oldRole, self::ORG_AVAILABLE_ROLES)) {
-                Model_UserOrganization::delete($user->id, $organization->id);
                 $pension = Model_OrganizationPension::getPensions($organization->id)[0];
                 Model_UserPension::add($user->id, $pension);
             } else {
-                Model_UserOrganization::add($user->id, $organization->id);
                 Model_UserPension::deleteAllPensions($user->id);
             }
 
@@ -248,13 +242,11 @@ class Controller_Organizations_Ajax extends Ajax
 
     public function action_coworkerpensions()
     {
-        if (!($this->user->role == self::ROLE_ORG_CO_WORKER_MANAGER || $this->user->role == self::ROLE_ORG_CREATOR)) {
-            throw new HTTP_Exception_403();
-        }
-
         $id       = Arr::get($_POST,'id');
         $pensions = json_decode(Arr::get($_POST, 'pensions'));
         $orgID    = Arr::get($_POST,'orgID');
+
+        $this->checkAccessToManage($orgID);
 
         $organization = new Model_Organization($orgID);
 
@@ -293,12 +285,10 @@ class Controller_Organizations_Ajax extends Ajax
 
     public function action_coworkerexclude()
     {
-        if (!($this->user->role == self::ROLE_ORG_CO_WORKER_MANAGER || $this->user->role == self::ROLE_ORG_CREATOR)) {
-            throw new HTTP_Exception_403();
-        }
-
         $userID = Arr::get($_POST,'user');
         $orgID  = Arr::get($_POST,'organization');
+
+        $this->checkAccessToManage($orgID);
 
         $user = new Model_User($userID);
 
@@ -321,8 +311,8 @@ class Controller_Organizations_Ajax extends Ajax
 
         $user->delete();
 
-        Model_UserOrganization::delete($user->id, $organization->id);
         $pensions = Model_OrganizationPension::getPensions($organization->id, false);
+
         foreach ($pensions as $pension) {
             Model_UserPension::delete($user->id, $pension);
         }
@@ -342,16 +332,14 @@ class Controller_Organizations_Ajax extends Ajax
 
     public function action_coworkerinvite()
     {
-        if (!($this->user->role == self::ROLE_ORG_CREATOR || $this->user->role == self::ROLE_ORG_CO_WORKER_MANAGER)) {
-            throw new HTTP_Exception_403();
-        }
-
         $name     = Arr::get($_POST, 'name');
         $email    = Arr::get($_POST, 'email');
         $username = Arr::get($_POST, 'username');
         $role     = Arr::get($_POST, 'role');
-        $orgID    = Arr::get($_POST, 'orgID');
         $pensions = Arr::get($_POST, 'pensions');
+        $orgID    = Arr::get($_POST, 'orgID');
+
+        $this->checkAccessToManage($orgID);
 
         if (empty($name) || empty($username)) {
             $response = new Model_Response_Form('EMPTY_FIELDS_ERROR', 'error');
@@ -378,6 +366,9 @@ class Controller_Organizations_Ajax extends Ajax
         $user->email = $email;
         $user->username = $username;
         $user->role = $role;
+        $user->organization = $organization->id;
+        $user->is_confirmed = 0;
+        $user->creator = $this->user->id;
 
         if ($user->emptyUserName()) {
             $response = new Model_Response_Users('USERNAME_EXISTED_ERROR', 'error');
@@ -399,15 +390,11 @@ class Controller_Organizations_Ajax extends Ajax
 
         $password = substr(hash('md5', rand()),0,10);
 
-        $user->is_confirmed = 0;
         $user->password = $this->makeHash('md5', $password . getenv('SALT'));
-        $user->creator = $this->user->id;
 
         $user = $user->save();
 
-        if (in_array($role, self::ORG_AVAILABLE_ROLES)) {
-            Model_UserOrganization::add($user->id, $organization->id);
-        } elseif(in_array($role, self::PEN_AVAILABLE_ROLES)) {
+        if (in_array($role, self::PEN_AVAILABLE_ROLES)) {
             foreach ($pensions as $pension) {
                 Model_UserPension::add($user->id, $pension);
             }
@@ -427,5 +414,16 @@ class Controller_Organizations_Ajax extends Ajax
         }
 
         $this->response->body(@json_encode($response->get_response()));
+    }
+
+
+    private function checkAccessToManage($orgID)
+    {
+        if (!($this->user->role == self::ROLE_ORG_CREATOR ||
+            $this->user->role == self::ROLE_ORG_CO_WORKER_MANAGER ||
+            $this->user->organization == $orgID))
+        {
+            throw new HTTP_Exception_403();
+        }
     }
 }

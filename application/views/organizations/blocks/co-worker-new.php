@@ -51,8 +51,8 @@
 
                         <? foreach ($pensions as $pension) : ?>
                             <p>
-                                <input type="checkbox" id="newCoWorkerPension<?= $pension['id']; ?>" name="pensions[]" class="checkbox" value="<?= $pension['id']; ?>">
-                                <label for="newCoWorkerPension<?= $pension['id']; ?>" class="checkbox-label"><?= $pension['name']; ?></label>
+                                <input type="checkbox" id="newCoWorkerPension<?= $pension->id; ?>" name="pensions[]" class="checkbox" value="<?= $pension->id; ?>">
+                                <label for="newCoWorkerPension<?= $pension->id; ?>" class="checkbox-label"><?= $pension->name; ?></label>
                             </p>
                         <? endforeach; ?>
 

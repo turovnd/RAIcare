@@ -9,6 +9,7 @@ Class Model_User
     public $email;
     public $username;
     public $role;
+    public $organization;
     public $city;
     public $phone;
     public $is_confirmed;
@@ -77,6 +78,7 @@ Class Model_User
             if (property_exists($this, $fieldname)) $insert->set($fieldname, $value);
         }
 
+        $insert->clearcache('org_' . $this->organization);
         $result = $insert->execute();
 
         return $this->get_($result);
@@ -91,6 +93,7 @@ Class Model_User
         }
 
         $insert->clearcache($this->id);
+        $insert->clearcache('org_' . $this->organization);
         $insert->where('id', '=', $this->id);
         $insert->execute();
 
@@ -177,9 +180,31 @@ Class Model_User
     {
         Dao_Users::delete()
             ->where('id', '=', $this->id)
+            ->clearcache('org_' . $this->organization)
             ->clearcache($this->id)
             ->execute();
     }
 
+    public static function getAllFromOrganization($org, $as_model = false)
+    {
+        $select = Dao_Users::select()
+            ->where('organization', '=', $org)
+            ->cached(Date::MONTH * 5, 'org_' . $org)
+            ->execute();
+
+        $users = array();
+        if (empty($select)) return $users;
+
+        foreach ($select as $selection) {
+            if ($as_model) {
+                $user = new Model_User();
+                $user->fill_by_row($selection);
+                $users[] = $user;
+            } else {
+                $users[] = $selection['id'];
+            }
+        }
+        return $users;
+    }
 
 }
