@@ -25,7 +25,7 @@ Class Model_OrganizationPension {
             ->execute();
     }
 
-    public static function getPensions($organization)
+    public static function getPensions($organization, $as_model = false)
     {
         $select = Dao_OrganizationsPensions::select()
             ->where('o_id', '=', $organization)
@@ -38,7 +38,11 @@ Class Model_OrganizationPension {
         $pensions = array();
 
         foreach ($select as $item) {
-            $pensions[] = new Model_Pension($item['p_id']);
+            if ($as_model) {
+                $pensions[] = new Model_Pension($item['p_id']);
+            } else {
+                $pensions[] = $item['p_id'];
+            }
         }
 
         return $pensions;

@@ -2,9 +2,18 @@
 
 class Dispatch extends Controller_Template
 {
-    const POST = 'POST';
-    const GET  = 'GET';
-    CONST PRIVATE_SUBDOMIANS = array('admin', 'my');
+    CONST POST = 'POST';
+    CONST GET  = 'GET';
+    CONST PRIVATE_SUBDOMIANS = array('admin', 'my', 'confirm', 'reset');
+
+    CONST ROLE_ADMIN                    = 1;
+    CONST ROLE_ORG_CREATOR              = 10;
+    CONST ROLE_ORG_CO_WORKER_MANAGER    = 11;
+    CONST ROLE_ORG_QUALITY_MANAGER      = 12;
+
+    CONST ORG_AVAILABLE_ROLES = array(11,12);
+    CONST PEN_AVAILABLE_ROLES = array(20,21);
+
 
     /** @var string - Path to template */
     public $template = '';

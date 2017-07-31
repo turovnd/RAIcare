@@ -173,7 +173,7 @@ var auth = ( function (auth) {
                 raicare.core.log(response.message, response.status, corePrefix);
 
                 if (parseInt(response.code) === 56) {
-                    window.location = protocol + '//' + host + '/dashboard';
+                    window.location = protocol + '//' + response.org + '.' + host + '/dashboard';
                     return;
                 }
 

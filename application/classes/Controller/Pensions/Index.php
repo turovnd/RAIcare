@@ -18,7 +18,16 @@ class Controller_Pensions_Index extends Dispatch
     CONST AVAILABLE_PERMISSIONS_PEN      = array(27,28,29,30,31,32,36,39,40);
 
     public $template = 'main';
+
+    /** Organization */
+    protected $organization = null;
+
+    /** Current Pension */
     public $pension  = null;
+
+    /** Users that has access to $organization */
+    protected $users = null;
+
     public $usersIDs = null;
 
     public function before()

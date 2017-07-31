@@ -63,7 +63,7 @@ class Controller_Auth_Ajax extends Auth
         $sid = $session->id();
         $uid = $session->get('uid');
 
-        $org = Model_UserOrganization::getOrganization($session->get('uid'));
+        $org = Model_UserOrganization::getOrganization($uid);
 
         $this->setSecret($sid, $uid);
 
@@ -223,8 +223,13 @@ class Controller_Auth_Ajax extends Auth
         $auth->login($user->email, $password);
 
         $this->redis->delete(getenv('REDIS_RESET_HASHES') . $hash);
+
+        $session = Session::instance();
+        $uid = $session->get('uid');
+
+        $org = Model_UserOrganization::getOrganization($uid);
         
-        $response = new Model_Response_Users('USER_RESET_PASSWORD_SUCCESS', 'success');
+        $response = new Model_Response_Users('USER_RESET_PASSWORD_SUCCESS', 'success', array('org' => $org->uri));
         $this->response->body(@json_encode($response->get_response()));
         return;
     }

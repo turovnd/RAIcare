@@ -63,7 +63,6 @@ class Controller_Profiles_Ajax extends Ajax
         $user->username     = $this->getUserName($client->name);
         $user->password     = $this->makeHash('md5', $password . $_SERVER['SALT']);
         $user->role         = 2;
-        $user->newsletter   = 1;
         $user->creator      = $this->user->id;
         $user->is_confirmed = 0;
         $user = $user->save();
@@ -144,7 +143,6 @@ class Controller_Profiles_Ajax extends Ajax
         $user->username     = $this->getUserName($name);
         $user->password     = $this->makeHash('md5', $password . $_SERVER['SALT']);;
         $user->role         = $role;
-        $user->newsletter   = 1;
         $user->creator      = $this->user->id;
         $user->is_confirmed = 0;
         $user = $user->save();

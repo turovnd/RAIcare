@@ -1,13 +1,8 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-/**
- * Main pages in app
- * - show all presentations
- */
-Route::set('DASHBOARD', '<action>',  array(
-        'action' => "dashboard"
-    ))
+Route::set('DASHBOARD', '<org_uri>/dashboard')
     ->defaults(array(
         'controller'  => 'Dashboard_Index',
+        'action'      => 'dashboard'
     ));
 

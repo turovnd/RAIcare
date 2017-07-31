@@ -1,7 +1,8 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
 
-Class Model_User {
+Class Model_User
+{
 
     public $id;
     public $name;
@@ -10,21 +11,22 @@ Class Model_User {
     public $role;
     public $city;
     public $phone;
-    public $newsletter;
     public $is_confirmed;
     public $creator;
     public $dt_create;
 
-    
-    public function __construct($id = null) {
 
-        if ( !empty($id) ) {
+    public function __construct($id = null)
+    {
+
+        if (!empty($id)) {
             $this->get_($id);
         }
 
     }
 
-    private function fill_by_row($db_selection) {
+    private function fill_by_row($db_selection)
+    {
 
         if (empty($db_selection['id'])) return $this;
 
@@ -35,7 +37,8 @@ Class Model_User {
         return $this;
     }
 
-    private function get_($id) {
+    private function get_($id)
+    {
 
         $select = Dao_Users::select()
             ->where('id', '=', $id)
@@ -50,7 +53,8 @@ Class Model_User {
     }
 
 
-    public static function getByFieldName($field, $value) {
+    public static function getByFieldName($field, $value)
+    {
 
         $select = Dao_Users::select()
             ->where($field, '=', $value)
@@ -65,22 +69,22 @@ Class Model_User {
 
     public function save()
     {
-       $this->dt_create = Date::formatted_time('now');
+        $this->dt_create = Date::formatted_time('now');
 
-       $insert = Dao_Users::insert();
+        $insert = Dao_Users::insert();
 
-       foreach ($this as $fieldname => $value) {
-           if (property_exists($this, $fieldname)) $insert->set($fieldname, $value);
-       }
+        foreach ($this as $fieldname => $value) {
+            if (property_exists($this, $fieldname)) $insert->set($fieldname, $value);
+        }
 
-       $result = $insert->execute();
+        $result = $insert->execute();
 
-       return $this->get_($result);
+        return $this->get_($result);
     }
 
     public function update()
     {
-       $insert = Dao_Users::update();
+        $insert = Dao_Users::update();
 
         foreach ($this as $fieldname => $value) {
             if (property_exists($this, $fieldname)) $insert->set($fieldname, $value);
@@ -94,7 +98,6 @@ Class Model_User {
     }
 
 
-
     public static function getAll()
     {
         $select = Dao_Users::select()
@@ -103,7 +106,7 @@ Class Model_User {
 
         $users = array();
 
-        if ( empty($select) ) return $users;
+        if (empty($select)) return $users;
 
         foreach ($select as $item) {
             $user = new Model_User();
@@ -120,12 +123,13 @@ Class Model_User {
      * @param $pass
      * @return bool
      */
-    public function checkPassword ($pass) {
+    public function checkPassword($pass)
+    {
 
         $select = Dao_Users::select(array('password'))
-                      ->where('id', '=', $this->id)
-                      ->limit(1)
-                      ->execute();
+            ->where('id', '=', $this->id)
+            ->limit(1)
+            ->execute();
 
         $password = $select['password'];
         return $password == $pass;
@@ -138,14 +142,43 @@ Class Model_User {
      * @param $password
      * @return object
      */
-    public function changePassword ($password) {
+    public function changePassword($password)
+    {
 
         $insert = Dao_Users::update()
-                   ->set('password', $password)
-                   ->where('id', '=', $this->id)
-                   ->clearcache($this->id)
-                   ->execute();
+            ->set('password', $password)
+            ->where('id', '=', $this->id)
+            ->clearcache($this->id)
+            ->execute();
         return $insert;
+    }
+
+    public function emptyUserName()
+    {
+        $select = Dao_Users::select()
+            ->where('username', '=', $this->username)
+            ->limit(1)
+            ->execute();
+
+        return !empty($select);
+    }
+
+    public function emptyEmail()
+    {
+        $select = Dao_Users::select()
+            ->where('email', '=', $this->email)
+            ->limit(1)
+            ->execute();
+
+        return !empty($select);
+    }
+
+    public function delete()
+    {
+        Dao_Users::delete()
+            ->where('id', '=', $this->id)
+            ->clearcache($this->id)
+            ->execute();
     }
 
 

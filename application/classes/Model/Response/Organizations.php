@@ -26,9 +26,15 @@ class Model_Response_Organizations extends Model_Response_Abstract
         'message' => 'Пользователь успешно исключен из организации'
     );
 
-    protected $_ORGANIZATION_UPDATE_SUCCESS = array (
+    protected $_ORGANIZATION_USER_INVITE_SUCCESS = array (
         'type' => 'organization',
         'code' => '134',
+        'message' => 'Пользователь успешно приглашен в организацию'
+    );
+
+    protected $_ORGANIZATION_UPDATE_SUCCESS = array (
+        'type' => 'organization',
+        'code' => '135',
         'message' => 'Информация успешно изменена'
     );
 
@@ -42,5 +48,11 @@ class Model_Response_Organizations extends Model_Response_Abstract
         'type' => 'organization',
         'code' => '136',
         'message' => 'Организации получены'
+    );
+
+    protected $_ORGANIZATION_USER_INVITE_PENSION_ERROR = array (
+        'type' => 'organization',
+        'code' => '137',
+        'message' => 'Для данной роли необходимо выбрать хотя бы один пансионат'
     );
 }

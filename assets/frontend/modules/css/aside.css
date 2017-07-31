@@ -18,9 +18,9 @@
 
 .aside__menu{
     position: relative;
-    padding-top: 10px;
+    padding-top: 5px;
     padding-bottom: 30px;
-    margin-top: 57px;
+    margin-top: 56px;
 }
 .aside__item{
     position: relative;
@@ -29,8 +29,7 @@
 .aside__link,
 .aside__collapse-link{
     display: block;
-    padding: 10px 20px 10px 15px;
-    white-space: nowrap;
+    padding: 10px 18px 10px 15px;
 }
 .aside__link:hover,
 .aside__link:focus,
@@ -46,6 +45,9 @@
     width: 20px;
     margin-right: 10px;
     text-align: center;
+}
+.aside__text{
+    word-break: break-all
 }
 .aside__icon--right{
     float: right;
@@ -69,10 +71,6 @@
 
 .aside--collapsed{
     width: 65px;
-}
-
-.aside--collapsed .aside__menu{
-    padding-top: 0;
 }
 
 .aside--collapsed .aside__link {

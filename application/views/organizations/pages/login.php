@@ -31,7 +31,7 @@
 
     <section class="section">
 
-        <?= $section; ?>
+        <?= View::factory('welcome/pages/login', array('reset' => false)); ?>
 
     </section>
 

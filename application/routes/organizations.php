@@ -1,7 +1,7 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
 Route::set('ORGANIZATION', '<org_uri>(/<action>)', array(
-        'action' => $STRING
+        'action' => 'manage|control'
     ))
     ->defaults(array(
         'controller'  => 'Organizations_Index',

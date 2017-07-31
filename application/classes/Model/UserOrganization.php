@@ -6,6 +6,18 @@ Class Model_UserOrganization {
     public $o_id;
     public $u_id;
 
+    public static function has($user, $organization)
+    {
+        $select = Dao_UsersOrganizations::select()
+            ->where('o_id', '=', $organization)
+            ->where('u_id', '=', $user)
+            ->limit(1)
+            ->execute();
+
+        if (empty($select)) return false;
+        return true;
+    }
+
     public static function add($user, $organization)
     {
         Dao_UsersOrganizations::insert()
@@ -23,7 +35,6 @@ Class Model_UserOrganization {
             ->where('o_id', '=', $organization)
             ->clearcache('user_' . $user)
             ->clearcache('organization_' . $organization)
-            ->limit(1)
             ->execute();
     }
 
@@ -57,6 +68,5 @@ Class Model_UserOrganization {
 
         return $users;
     }
-
 
 }

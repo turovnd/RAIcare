@@ -152,23 +152,209 @@ class Controller_Organizations_Ajax extends Ajax
         $this->response->body(@json_encode($response->get_response()));
     }
 
-    public function action_inviteuser()
+    public function action_coworkerupdate()
     {
-        $name          = Arr::get($_POST, 'name');
-        $email         = Arr::get($_POST, 'email');
-        $organization  = Arr::get($_POST, 'organization');
-        $role          = Arr::get($_POST, 'role');
-        $roleName      = Arr::get($_POST, 'roleName');
-        $permissions   = json_decode(Arr::get($_POST, 'permissions'));
+        if (!($this->user->role == self::ROLE_ORG_CO_WORKER_MANAGER || $this->user->role == self::ROLE_ORG_CREATOR)) {
+            throw new HTTP_Exception_403();
+        }
 
-        if ($role == "new" && count($permissions) == 0) {
-            $response = new Model_Response_Permissions('PERMISSION_EMPTY_ERROR', 'error');
+        $id    = Arr::get($_POST,'id');
+        $name  = Arr::get($_POST, 'name');
+        $value = Arr::get($_POST,'value');
+        $orgID = Arr::get($_POST,'orgID');
+
+        $user = new Model_User($id);
+        $oldRole = $user->role;
+
+        if (!$user->id) {
+            $response = new Model_Response_Users('USER_DOES_NOT_EXISTED_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
             return;
         }
 
-        if (empty($name) || ($role == "new" && empty($roleName))) {
-            $response = new Model_Response_Form('EMPTY_FIELD_ERROR', 'error');
+        $organization = new Model_Organization($orgID);
+
+        if (!$organization->id) {
+            $response = new Model_Response_Organizations('ORGANIZATION_DOES_NOT_EXISTED_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        if ($name != 'password') {
+            $user->$name = $value;
+        }
+
+        if ($name == 'email' && !Valid::email($value)) {
+            $response = new Model_Response_Email('EMAIL_FORMAT_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        if ($name == 'username' && $user->emptyUserName()) {
+            $response = new Model_Response_Users('USERNAME_EXISTED_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        if ($name == 'email' && $user->emptyEmail()) {
+            $response = new Model_Response_Users('USER_EXISTED_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        if ($name == 'email' || $name == 'password') {
+            $password = substr(hash('md5', rand()),0,10);
+
+            $user->is_confirmed = 0;
+            $user->password = $this->makeHash('md5', $password . getenv('SALT'));
+
+            $hash = $this->makeHash('sha256', $user->id . $_SERVER['SALT'] . $user->email);
+            $template = View::factory('email-templates/email-confirm', array('profile' => $user, 'password' => $password, 'hash' => $hash));
+
+            $email = new Email();
+            $email = $email->send($user->email, array($_SERVER['INFO_EMAIL'], $_SERVER['INFO_EMAIL_NAME']), 'Добро пожаловать в ' .$GLOBALS['SITE_NAME'] . '!', $template, true);
+
+            if ($email == 1) {
+                $this->redis->set($_SERVER['REDIS_CONFIRMATION_HASHES'] . $hash, $user->id, array('nx', 'ex' => Date::MONTH));
+                $user->update();
+                $response = new Model_Response_Email('EMAIL_SEND_SUCCESS', 'success');
+            } else {
+                $response = new Model_Response_Email('EMAIL_SEND_ERROR', 'error');
+            }
+
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        $user->update();
+
+        if (in_array($oldRole, self::ORG_AVAILABLE_ROLES) && in_array($user->role, self::PEN_AVAILABLE_ROLES)
+            || in_array($oldRole, self::PEN_AVAILABLE_ROLES) && in_array($user->role, self::ORG_AVAILABLE_ROLES)) {
+
+            if (in_array($oldRole, self::ORG_AVAILABLE_ROLES)) {
+                Model_UserOrganization::delete($user->id, $organization->id);
+                $pension = Model_OrganizationPension::getPensions($organization->id)[0];
+                Model_UserPension::add($user->id, $pension);
+            } else {
+                Model_UserOrganization::add($user->id, $organization->id);
+                Model_UserPension::deleteAllPensions($user->id);
+            }
+
+        }
+
+        $response = new Model_Response_Users('USER_UPDATE_SUCCESS', 'success');
+        $this->response->body(@json_encode($response->get_response()));
+    }
+
+    public function action_coworkerpensions()
+    {
+        if (!($this->user->role == self::ROLE_ORG_CO_WORKER_MANAGER || $this->user->role == self::ROLE_ORG_CREATOR)) {
+            throw new HTTP_Exception_403();
+        }
+
+        $id       = Arr::get($_POST,'id');
+        $pensions = json_decode(Arr::get($_POST, 'pensions'));
+        $orgID    = Arr::get($_POST,'orgID');
+
+        $organization = new Model_Organization($orgID);
+
+        if (!$organization->id) {
+            $response = new Model_Response_Organizations('ORGANIZATION_DOES_NOT_EXISTED_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        $user = new Model_User($id);
+
+        if (!$user->id) {
+            $response = new Model_Response_Users('USER_DOES_NOT_EXISTED_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        if (empty($pensions)) {
+            $response = new Model_Response_Pensions('PENSION_USER_NOT_EMPTY_PENSIONS_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        $orgPensions = Model_OrganizationPension::getPensions($organization->id, false);
+        Model_UserPension::deleteAllPensions($user->id);
+
+        foreach ($pensions as $pension) {
+            if (in_array($pension, $orgPensions)) {
+                Model_UserPension::add($user->id, $pension);
+            }
+        }
+
+        $response = new Model_Response_Pensions('PENSION_USER_UPDATE_SUCCESS', 'success');
+        $this->response->body(@json_encode($response->get_response()));
+    }
+
+    public function action_coworkerexclude()
+    {
+        if (!($this->user->role == self::ROLE_ORG_CO_WORKER_MANAGER || $this->user->role == self::ROLE_ORG_CREATOR)) {
+            throw new HTTP_Exception_403();
+        }
+
+        $userID = Arr::get($_POST,'user');
+        $orgID  = Arr::get($_POST,'organization');
+
+        $user = new Model_User($userID);
+
+        if (!$user->id) {
+            $response = new Model_Response_Users('USER_DOES_NOT_EXISTED_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        $organization = new Model_Organization($orgID);
+
+        if (!$organization->id) {
+            $response = new Model_Response_Organizations('ORGANIZATION_DOES_NOT_EXISTED_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        $uName  = $user->name;
+        $uEmail = $user->email;
+
+        $user->delete();
+
+        Model_UserOrganization::delete($user->id, $organization->id);
+        $pensions = Model_OrganizationPension::getPensions($organization->id, false);
+        foreach ($pensions as $pension) {
+            Model_UserPension::delete($user->id, $pension);
+        }
+
+        $template = View::factory('email-templates/co-worker-exclude', array('uName' => $uName, 'orgName' => $organization->name, 'ownerName' => $this->user->name));
+        $email = new Email();
+        $email = $email->send($uEmail, array($_SERVER['INFO_EMAIL'], $_SERVER['INFO_EMAIL_NAME']), 'Вас исключили из организации на сайте ' .$GLOBALS['SITE_NAME'] . '!', $template, true);
+
+        if ($email == 1) {
+            $response = new Model_Response_Organizations('ORGANIZATION_USER_DELETE_SUCCESS', 'success');
+        } else {
+            $response = new Model_Response_Email('EMAIL_SEND_ERROR', 'error');
+        }
+
+        $this->response->body(@json_encode($response->get_response()));
+    }
+
+    public function action_coworkerinvite()
+    {
+        if (!($this->user->role == self::ROLE_ORG_CREATOR || $this->user->role == self::ROLE_ORG_CO_WORKER_MANAGER)) {
+            throw new HTTP_Exception_403();
+        }
+
+        $name     = Arr::get($_POST, 'name');
+        $email    = Arr::get($_POST, 'email');
+        $username = Arr::get($_POST, 'username');
+        $role     = Arr::get($_POST, 'role');
+        $orgID    = Arr::get($_POST, 'orgID');
+        $pensions = Arr::get($_POST, 'pensions');
+
+        if (empty($name) || empty($username)) {
+            $response = new Model_Response_Form('EMPTY_FIELDS_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
             return;
         }
@@ -179,83 +365,67 @@ class Controller_Organizations_Ajax extends Ajax
             return;
         }
 
-        $organization = new Model_Organization($organization);
+        $organization = new Model_Organization($orgID);
 
-        if (!$organization->id)
-        {
+        if (!$organization->id) {
             $response = new Model_Response_Organizations('ORGANIZATION_DOES_NOT_EXISTED_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
             return;
         }
 
-        $users = Model_UserOrganization::getUsers($organization->id);
+        $user = new Model_User();
+        $user->name = $name;
+        $user->email = $email;
+        $user->username = $username;
+        $user->role = $role;
 
-        if (!in_array($this->user->id, $users) || !in_array(self::INVITE_CO_WORKER_TO_ORG, $this->user->permissions)) {
-            throw new HTTP_Exception_403();
-        }
-
-        $permissions[] = strval(self::WATCH_MY_ORGS_PAGE); //each member of organization can WATCH_MY_ORGS_PAGE
-        if ($role == "new") {
-            $role = new Model_Role();
-            $role->name = $roleName;
-            $role->type = 'organization';
-            $role->permissions = json_encode($permissions);
-            $role->type_id = $organization->id;
-            $role = $role->save()->id;
-        }
-
-        /**
-         * TODO send inviting email to CO-WORKER + generate link + save user DATA + role to Redis until it confirm
-         */
-//        $template = View::factory('email_templates/application_request', array('name' => $name, 'email' => $email));
-//        $emailForm = new Email();
-//        $emailForm->send($email, $_SERVER['INFO_EMAIL'], 'Заявка принята - ' . $GLOBALS['SITE_NAME'], $template, true);
-
-        $response = new Model_Response_Email('EMAIL_SEND_SUCCESS', 'success');
-        $this->response->body(@json_encode($response->get_response()));
-
-    }
-
-    public function action_excludeuser()
-    {
-        $userID       = Arr::get($_POST, 'user');
-        $organization = Arr::get($_POST, 'organization');
-
-        $user = new Model_User($userID);
-
-        if (!$user->id) {
-            $response = new Model_Response_Users('USER_DOES_NOT_EXISTED_ERROR', 'error');
+        if ($user->emptyUserName()) {
+            $response = new Model_Response_Users('USERNAME_EXISTED_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
             return;
         }
 
-        $organization = new Model_Organization($organization);
-
-        if (!$organization->id)
-        {
-            $response = new Model_Response_Organizations('ORGANIZATION_DOES_NOT_EXISTED_ERROR', 'error');
+        if ($user->emptyEmail()) {
+            $response = new Model_Response_Users('USER_EXISTED_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
             return;
         }
 
-        $users = Model_UserOrganization::getUsers($organization->id);
-
-        if (!in_array($this->user->id, $users) || !in_array(self::EXCLUDE_CO_WORKER_FROM_ORG, $this->user->permissions)) {
-            throw new HTTP_Exception_403();
+        if (in_array($role, self::PEN_AVAILABLE_ROLES) && empty($pensions)) {
+            $response = new Model_Response_Organizations('ORGANIZATION_USER_INVITE_PENSION_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
         }
 
-        Model_UserOrganization::delete($user->id, $organization->id);
+        $password = substr(hash('md5', rand()),0,10);
 
-        /**
-         * TODO send email to $user that his was deleted from organization
-         */
-//        $template = View::factory('email_templates/application_request', array('name' => $name, 'email' => $email));
-//        $emailForm = new Email();
-//        $emailForm->send($email, $_SERVER['INFO_EMAIL'], 'Заявка принята - ' . $GLOBALS['SITE_NAME'], $template, true);
+        $user->is_confirmed = 0;
+        $user->password = $this->makeHash('md5', $password . getenv('SALT'));
+        $user->creator = $this->user->id;
 
-        $response = new Model_Response_Organizations('ORGANIZATION_USER_DELETE_SUCCESS', 'success');
+        $user = $user->save();
+
+        if (in_array($role, self::ORG_AVAILABLE_ROLES)) {
+            Model_UserOrganization::add($user->id, $organization->id);
+        } elseif(in_array($role, self::PEN_AVAILABLE_ROLES)) {
+            foreach ($pensions as $pension) {
+                Model_UserPension::add($user->id, $pension);
+            }
+        }
+
+        $hash = $this->makeHash('sha256', $user->id . $_SERVER['SALT'] . $user->email);
+        $template = View::factory('email-templates/co-worker-invite', array('user' => $user, 'organization' => $organization, 'owner' => $this->user, 'password' => $password, 'hash' => $hash));
+
+        $email = new Email();
+        $email = $email->send($user->email, array($_SERVER['INFO_EMAIL'], $_SERVER['INFO_EMAIL_NAME']), 'Вас пригласили в организацию на сайте ' .$GLOBALS['SITE_NAME'] . '!', $template, true);
+
+        if ($email == 1) {
+            $this->redis->set($_SERVER['REDIS_CONFIRMATION_HASHES'] . $hash, $user->id, array('nx', 'ex' => Date::MONTH));
+            $response = new Model_Response_Organizations('ORGANIZATION_USER_INVITE_SUCCESS', 'success');
+        } else {
+            $response = new Model_Response_Email('EMAIL_SEND_ERROR', 'error');
+        }
+
         $this->response->body(@json_encode($response->get_response()));
-
     }
-
 }

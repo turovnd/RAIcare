@@ -9,7 +9,6 @@ class Model_Response_Pensions extends Model_Response_Abstract
         'message' => 'Пансионат с таким адресом уже существет'
     );
 
-
     protected $_PENSION_CREATE_SUCCESS = array (
         'type' => 'pension',
         'code' => '141',
@@ -44,6 +43,18 @@ class Model_Response_Pensions extends Model_Response_Abstract
         'type' => 'pension',
         'code' => '146',
         'message' => 'Пансионаты получены'
+    );
+
+    protected $_PENSION_USER_UPDATE_SUCCESS = array (
+        'type' => 'pension',
+        'code' => '147',
+        'message' => 'Пансионат пользователя успешно обновлены'
+    );
+
+    protected $_PENSION_USER_NOT_EMPTY_PENSIONS_ERROR = array (
+        'type' => 'pension',
+        'code' => '148',
+        'message' => 'У пользователя с данной ролю должен быть хотя бы один пансионат'
     );
 
 }
