@@ -47,10 +47,10 @@ class Controller_Auth_Ajax extends Auth
             return;
         }
 
-        $user = new Model_Auth();
+        $auth = new Model_Auth();
         $password = $this->makeHash('md5', $password . getenv('SALT'));
 
-        if (!$user->login($username, $password)) {
+        if (!$auth->login($username, $password)) {
             $this->makeAttempt();
             $response = new Model_Response_Auth('LOGIN_INVALID_INPUT_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
@@ -63,7 +63,8 @@ class Controller_Auth_Ajax extends Auth
         $sid = $session->id();
         $uid = $session->get('uid');
 
-        $org = Model_UserOrganization::getOrganization($uid);
+        $user = new Model_User($uid);
+        $org = new Model_Organization($user->organization);
 
         $this->setSecret($sid, $uid);
 
@@ -106,7 +107,8 @@ class Controller_Auth_Ajax extends Auth
 
         Cookie::delete('attempt');
 
-        $org = Model_UserOrganization::getOrganization($id);
+        $user = new Model_User($id);
+        $org = new Model_Organization($user->organization);
 
         $response = new Model_Response_Auth('LOGIN_RECOVER_SUCCESS', 'success', array('org' => $org->uri));
         $this->response->body(@json_encode($response->get_response()));
@@ -224,11 +226,8 @@ class Controller_Auth_Ajax extends Auth
 
         $this->redis->delete(getenv('REDIS_RESET_HASHES') . $hash);
 
-        $session = Session::instance();
-        $uid = $session->get('uid');
+        $org = new Model_Organization($user->organization);
 
-        $org = Model_UserOrganization::getOrganization($uid);
-        
         $response = new Model_Response_Users('USER_RESET_PASSWORD_SUCCESS', 'success', array('org' => $org->uri));
         $this->response->body(@json_encode($response->get_response()));
         return;
@@ -303,31 +302,5 @@ class Controller_Auth_Ajax extends Auth
 
         // сохраняем в редис
         $this->redis->set(getenv('REDIS_SESSIONS_HASHES') . $hash, $sid . ':' . $uid , array('nx', 'ex' => Date::WEEK));
-    }
-
-    /**
-     * action - Checking Email Confirmation hash
-     * @throws HTTP_Exception_400
-     */
-    public function action_confirmEmail()
-    {
-        $hash = $this->request->param('hash');
-
-        $id = $this->redis->get(getenv('REDIS_RESET_HASHES') . $hash);
-
-        if (!$id) {
-            throw new HTTP_Exception_400;
-        }
-
-        $user = new Model_User($id);
-
-        $user->is_confirmed = 1;
-
-        $user->update();
-
-        $this->redis->delete(getenv('REDIS_CONFIRMATION_HASHES') . $hash);
-
-        $this->redirect('app');
-
     }
 }

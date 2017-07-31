@@ -24,6 +24,18 @@ Route::set('RESET_PASSWORD_PAGE', 'reset/<hash>',
         'action'     => 'reset',
     ));
 
+/**
+ * Reset Password Page
+ */
+Route::set('CONFIRM_EMAIL', 'confirm/<hash>',
+    array(
+        'hash' => $STRING
+    ))
+    ->defaults(array(
+        'controller' => 'Auth_Index',
+        'action'     => 'confirm',
+    ));
+
 
 /**
  * Authorization ajax action

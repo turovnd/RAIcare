@@ -42,7 +42,7 @@ class Controller_Auth_Index extends Dispatch
         $id = $this->redis->get(getenv('REDIS_RESET_HASHES') . $hash);
 
         if (!$id) {
-            $this->redirect('/login');
+            throw new HTTP_Exception_400();
         }
 
         $this->template->title = "Сброс пароля";
@@ -63,4 +63,24 @@ class Controller_Auth_Index extends Dispatch
         $this->redirect('/');
     }
 
+    public function action_confirm()
+    {
+        $hash = $this->request->param('hash');
+        $id = $this->redis->get(getenv('REDIS_CONFIRMATION_HASHES') . $hash);
+
+        if (!$id) {
+            throw new HTTP_Exception_400();
+        }
+
+        $user = new Model_User($id);
+        $user->is_confirmed = 1;
+        $user->update();
+
+        $org = new Model_Organization($user->organization);
+
+        $this->redis->delete(getenv('REDIS_CONFIRMATION_HASHES') . $hash);
+
+        header('Location: //' . $org->uri . '.' . $_SERVER['HTTP_HOST']  . '/dashboard');
+        die();
+    }
 }

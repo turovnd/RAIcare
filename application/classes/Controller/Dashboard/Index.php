@@ -15,9 +15,6 @@ class Controller_Dashboard_Index extends Dispatch
     /** Organization */
     protected $organization = null;
 
-    /** Users that has access to $organization and their $pensions */
-    protected $users = null;
-
     public function before()
     {
         parent::before();
@@ -26,7 +23,7 @@ class Controller_Dashboard_Index extends Dispatch
 
         $this->organization = Model_Organization::getByFieldName('uri', $org_uri);
 
-        if (!$this->organization->id || in_array($org_uri, self::PRIVATE_SUBDOMIANS)) {
+        if (!$this->organization->id && !in_array($org_uri, self::PRIVATE_SUBDOMIANS)) {
             throw new HTTP_Exception_404();
         }
 
@@ -34,21 +31,10 @@ class Controller_Dashboard_Index extends Dispatch
             $this->redirect($org_uri);
         }
 
+        $this->organization = Model_Organization::getByFieldName('uri', $org_uri);
         $this->organization->pensions = Model_OrganizationPension::getPensions($this->organization->id, true);
 
-        $this->users = Model_UserOrganization::getUsers($this->organization->id);
-
-        /** add users from pensions */
-        foreach ( $this->organization->pensions as $pension) {
-            $users = Model_UserPension::getUsers($pension->id);
-            foreach ($users as $user) {
-                if (!in_array($user, $this->users)) {
-                    array_push($this->users, $user);
-                }
-            }
-        }
-
-        if (!in_array($this->user->id, $this->users)) {
+        if ($this->user->organization != $this->organization->id) {
             throw new HTTP_Exception_403;
         }
 

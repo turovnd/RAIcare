@@ -20,7 +20,7 @@
                                         <td align="left" valign="top" style="vertical-align:top;text-align:left;background:#ffffff;padding: 35px;">
                                             <p style="margin:0 0 18px;font-weight: bold;font-size: 1.3em;">Здравствуйте, <?= $user->name ?>!</p>
                                             <p style="margin:12px 0 24px;font-size: 1.15em;">Для подтверждения электронного адреса, просто перейдите по ссылке: </p>
-                                            <p style="margin:12px 0 24px;font-size: 1em;"><a href="<?= $_SERVER['HTTP_HOST'].'/user/confirm/'.$hash ?>" style="text-decoration: none;color: #008DA7;padding-bottom: 2px;border-bottom: 2px solid #008DA7;"><?= $_SERVER['HTTP_HOST'].'/user/confirm/'.$hash ?></a></p>
+                                            <p style="margin:12px 0 24px;font-size: 1em;"><a href="<?= $_SERVER['HTTP_HOST'].'/confirm/'.$hash ?>" style="text-decoration: none;color: #008DA7;padding-bottom: 2px;border-bottom: 2px solid #008DA7;"><?= $_SERVER['HTTP_HOST'].'/confirm/'.$hash ?></a></p>
                                             <p style="margin:12px 0 0;font-size: .85em;">Ссылка действительна в течение <b>одного дня</b>.</p>
                                         </td>
                                     </tr>
