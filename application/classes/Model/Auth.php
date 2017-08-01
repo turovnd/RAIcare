@@ -51,7 +51,9 @@ class Model_Auth extends Model {
         else
         {
             // Remove the user from the session
-            $this->_session->delete();
+            $this->_session->delete('uid');
+            $this->_session->delete('name');
+            $this->_session->delete('email');
 
         }
 
