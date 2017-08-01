@@ -122,8 +122,10 @@ class Controller_Auth_Ajax extends Auth
         $uid    = Cookie::get('uid');
         $sid    = Cookie::get('sid');
 
-        $hash   = $this->makeHash('sha256', getenv('SALT') . $sid . getenv('AUTHSALT') . $uid);
+        $auth = new Model_Auth();
+        $auth->logout();
 
+        $hash   = $this->makeHash('sha256', getenv('SALT') . $sid . getenv('AUTHSALT') . $uid);
         $this->redis->delete(getenv('REDIS_SESSIONS_HASHES'). $hash);
 
         $this->clearCookie();
