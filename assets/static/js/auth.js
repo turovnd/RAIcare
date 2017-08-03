@@ -41,7 +41,7 @@ var auth = ( function (auth) {
                 raicare.core.log(response.message, response.status, corePrefix);
 
                 if (parseInt(response.code) === 11) {
-                    window.location = protocol + '//' + response.org + '.' + host + '/dashboard';
+                    window.location = protocol + '//' + host + '/dashboard';
                     return;
                 }
 
@@ -76,7 +76,7 @@ var auth = ( function (auth) {
                 raicare.core.log(response.message, response.status, corePrefix);
 
                 if (parseInt(response.code) === 13) {
-                    window.location = protocol + '//' + response.org + '.' + host + '/dashboard';
+                    window.location = protocol + '//' + host + '/dashboard';
                     return;
                 }
 
@@ -173,7 +173,7 @@ var auth = ( function (auth) {
                 raicare.core.log(response.message, response.status, corePrefix);
 
                 if (parseInt(response.code) === 56) {
-                    window.location = protocol + '//' + response.org + '.' + host + '/dashboard';
+                    window.location = protocol + '//' + host + '/dashboard';
                     return;
                 }
 

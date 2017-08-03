@@ -19,7 +19,7 @@ class Controller_Dashboard_Index extends Dispatch
     {
         parent::before();
 
-        $org_uri = $this->request->param('org_uri');
+        $org_uri = Request::$subdomain;
 
         $this->organization = Model_Organization::getByFieldName('uri', $org_uri);
 
@@ -27,19 +27,22 @@ class Controller_Dashboard_Index extends Dispatch
             throw new HTTP_Exception_404();
         }
 
-        if (!self::isLogged()) {
-            $this->redirect($org_uri);
-        }
+        if (!self::isLogged()) self::gotoLoginPage();
 
         $this->organization = Model_Organization::getByFieldName('uri', $org_uri);
-        $this->organization->pensions = Model_OrganizationPension::getPensions($this->organization->id, true);
+
+        if (in_array($this->user->role,self::ORG_AVAILABLE_ROLES) || $this->user->role == self::ROLE_ORG_CREATOR) {
+            $this->organization->pensions = Model_OrganizationPension::getPensions($this->organization->id, true);
+        } else {
+            $this->organization->pensions = Model_UserPension::getPensions($this->user->id, true);
+        }
 
         if ($this->user->organization != $this->organization->id) {
             throw new HTTP_Exception_403;
         }
 
         $data = array(
-            'org_uri'  => $org_uri,
+            'aside_type'=> 'dashboard',
             'pensions'  => $this->organization->pensions,
             'action'    => 'dashboard',
         );
@@ -50,7 +53,7 @@ class Controller_Dashboard_Index extends Dispatch
     public function action_dashboard()
     {
         $this->template->title = "Панель управления";
-        $this->template->section = View::factory('dashboard/content')
+        $this->template->section = View::factory('dashboards/content')
             ->set('org_uri', $this->organization->uri);
     }
 

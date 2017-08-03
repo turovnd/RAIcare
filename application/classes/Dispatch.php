@@ -161,7 +161,6 @@ class Dispatch extends Controller_Template
         View::set_global('isLogged', self::isLogged());
         View::set_global('canLogin', self::canLogin());
         $address = Arr::get($_SERVER, 'HTTP_ORIGIN');
-        echo Debug::vars($address );
 
         View::set_global('assets', $address . DIRECTORY_SEPARATOR. 'assets' . DIRECTORY_SEPARATOR);
 
@@ -187,10 +186,7 @@ class Dispatch extends Controller_Template
 
 
     /**
-     * Return "True" if user is logged
-     *
-     * Check session id
-     * Check session token (make secret from Cookie data and check in redis)
+     * If user is not logged
      * @return bool
      */
     public static function isLogged()
@@ -244,6 +240,14 @@ class Dispatch extends Controller_Template
         if (!in_array($permission, $this->user->permissions)) {
             throw new HTTP_Exception_403;
         }
+    }
+
+    /**
+     * Go To Login Page
+     */
+    public function gotoLoginPage()
+    {
+        header('Location: http://' . $_SERVER['HTTP_HOST']); die();
     }
 
 

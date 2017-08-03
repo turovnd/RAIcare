@@ -47,6 +47,7 @@ class Model_Auth extends Model {
         {
             // Destroy the session completely
             $this->_session->destroy();
+            echo Debug::vars($this->_session->destroy());
         }
         else
         {
@@ -56,8 +57,6 @@ class Model_Auth extends Model {
             $this->_session->delete('email');
 
         }
-
-        return false;
     }
 
     private function complete($select)

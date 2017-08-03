@@ -13,17 +13,6 @@ class Controller_Auth_Index extends Dispatch
 
     public $template = 'welcome/main';
 
-
-    /**
-     * Authentication page
-     */
-    public function action_login()
-    {
-        $this->template->title = "Авторизация";
-        $this->template->section = View::factory('welcome/pages/login')
-            ->set('reset', false);
-    }
-
     /**
      * Join page - create new application
      */
@@ -59,8 +48,7 @@ class Controller_Auth_Index extends Dispatch
     {
         $auth = new Model_Auth();
         $auth->logout(TRUE);
-
-        $this->redirect('/');
+        self::gotoLoginPage();
     }
 
     public function action_confirm()

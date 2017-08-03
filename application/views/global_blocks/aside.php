@@ -1,19 +1,19 @@
-
 <ul class="aside__menu list-style--none">
 
-    <? if (!empty($org_uri)): ?>
+    <li class="aside__item <? echo $action == 'dashboard' ? 'aside__item--active' : ''; ?>">
+        <a href="<?= '/\/' .$_SERVER['HTTP_HOST'] . '/dashboard'; ?>" class="aside__link <? echo $action == "dashboard" ? 'aside__link--active' : ''; ?>">
+            <i class="fa fa-dashboard aside__icon" aria-hidden="true"></i>
+            <span class="aside__text">Главная</span>
+        </a>
+    </li>
 
-        <li class="aside__item <? echo $action == 'dashboard' ? 'aside__item--active' : ''; ?>">
-            <a href="<?= '//' . $org_uri . '.' . $_SERVER['HTTP_HOST'] . '/dashboard'; ?>" class="aside__link <? echo $action == "dashboard" ? 'aside__link--active' : ''; ?>">
-                <i class="fa fa-dashboard aside__icon" aria-hidden="true"></i>
-                <span class="aside__text">Главная</span>
-            </a>
-        </li>
+
+    <? if ( $aside_type == 'organization' || $aside_type == 'dashboard') : ?>
 
         <? // Roles `Organization Creator` || `Organization co-workers manager` => 10 || 11
         if ( $user->role == 10 || $user->role == 11) : ?>
-            <li class="aside__item <? echo $action == "org_manage" ? 'aside__item--active' : ''; ?>">
-                <a href="<?= '//' . $org_uri . '.' . $_SERVER['HTTP_HOST'] . '/manage'; ?>" class="aside__link <? echo $action == "org_manage" ? 'aside__link--active' : ''; ?>">
+            <li class="aside__item <? echo $action == "manage" ? 'aside__item--active' : ''; ?>">
+                <a href="<?= '/\/' .$_SERVER['HTTP_HOST'] . '/manage'; ?>" class="aside__link <? echo $action == "manage" ? 'aside__link--active' : ''; ?>">
                     <i class="fa fa-group aside__icon" aria-hidden="true"></i>
                     <span class="aside__text">Сотрудники</span>
                 </a>
@@ -22,33 +22,66 @@
 
         <? // Roles `Organization Creator` || `Organization quality manager` => 10 || 12
         if ( $user->role == 10 || $user->role == 12 ) : ?>
-            <li class="aside__item <? echo $action == "org_control_org" ? 'aside__item--active' : ''; ?>">
-                <a href="<?= '//' . $org_uri . '.' . $_SERVER['HTTP_HOST'] . '/control/organization'; ?>" class="aside__link <? echo $action == "org_control_org" ? 'aside__link--active' : ''; ?>">
+            <li class="aside__item <? echo $action == "control_org" ? 'aside__item--active' : ''; ?>">
+                <a href="<?= '/\/' .$_SERVER['HTTP_HOST'] . '/control/organization'; ?>" class="aside__link <? echo $action == "control_org" ? 'aside__link--active' : ''; ?>">
                     <i class="fa fa-pie-chart aside__icon" aria-hidden="true"></i>
                     <span class="aside__text">Динамика орг-ии</span>
                 </a>
             </li>
-            <li class="aside__item <? echo $action == "org_control_pen" ? 'aside__item--active' : ''; ?>">
-                <a href="<?= '//' . $org_uri . '.' . $_SERVER['HTTP_HOST'] . '/control/pension'; ?>" class="aside__link <? echo $action == "org_control_pen" ? 'aside__link--active' : ''; ?>">
+            <li class="aside__item <? echo $action == "control_pen" ? 'aside__item--active' : ''; ?>">
+                <a href="<?= '/\/' .$_SERVER['HTTP_HOST'] . '/control/pension'; ?>" class="aside__link <? echo $action == "control_pen" ? 'aside__link--active' : ''; ?>">
                     <i class="fa fa-area-chart aside__icon" aria-hidden="true"></i>
                     <span class="aside__text">Динамика пан-та</span>
                 </a>
             </li>
-            <li class="aside__item <? echo $action == "org_control_pat" ? 'aside__item--active' : ''; ?>">
-                <a href="<?= '//' . $org_uri . '.' . $_SERVER['HTTP_HOST'] . '/control/patient'; ?>" class="aside__link <? echo $action == "org_control_pat" ? 'aside__link--active' : ''; ?>">
+            <li class="aside__item <? echo $action == "control_pat" ? 'aside__item--active' : ''; ?>">
+                <a href="<?= '/\/' .$_SERVER['HTTP_HOST'] . '/control/patient'; ?>" class="aside__link <? echo $action == "control_pat" ? 'aside__link--active' : ''; ?>">
                     <i class="fa fa-line-chart aside__icon" aria-hidden="true"></i>
                     <span class="aside__text">Динамика пац-та</span>
                 </a>
             </li>
         <? endif; ?>
 
+    <? endif; ?>
+
+
+    <? if ( $aside_type == 'pension') : ?>
+
+        <li class="divider"></li>
+
+        <li class="aside__item <? echo $action == "index" ? 'aside__item--active' : ''; ?>">
+            <a href="<?='/\/' . $_SERVER['HTTP_HOST'] . '/' . $pension->uri; ?>" class="aside__link <? echo $action == "index" ? 'aside__link--active' : ''; ?>">
+                <i class="fa fa-user-md aside__icon" aria-hidden="true"></i>
+                <span class="aside__text"><?= $pension->name; ?></span>
+            </a>
+        </li>
+
+        <li class="aside__item <? echo $action == "patients" ? 'aside__item--active' : ''; ?>">
+            <a href="<?='/\/' . $_SERVER['HTTP_HOST'] . '/' . $pension->uri. '/patients'; ?>" class="aside__link <? echo $action == "patients" ? 'aside__link--active' : ''; ?>">
+                <i class="fa fa-users aside__icon" aria-hidden="true"></i>
+                <span class="aside__text">Пациенты</span>
+            </a>
+        </li>
+
+        <li class="aside__item <? echo $action == "settings" ? 'aside__item--active' : ''; ?>">
+            <a href="<?='/\/' . $_SERVER['HTTP_HOST'] . '/' . $pension->uri. '/settings' ?>" class="aside__link <? echo $action == "settings" ? 'aside__link--active' : ''; ?>">
+                <i class="fa fa-cogs aside__icon" aria-hidden="true"></i>
+                <span class="aside__text">Настройки</span>
+            </a>
+        </li>
+
+    <? endif; ?>
+
+
+    <? if ( !empty($pensions)) : ?>
+
         <li class="divider"></li>
         <li class="aside__text text-bold f-s-0_8 p-5">Список пансионатов</li>
 
         <? foreach ($pensions as $pension) : ?>
 
-            <li class="aside__item <? echo $action == "pen_" . $pension->uri ? 'aside__item--active' : ''; ?>">
-                <a href="//<?=$org_uri . '.' . $_SERVER['HTTP_HOST'] . '/' . $pension->uri; ?>" class="aside__link <? echo $action == "pen_" . $pension->uri ? 'aside__link--active' : ''; ?>">
+            <li class="aside__item">
+                <a href="<?='/\/' . $_SERVER['HTTP_HOST'] . '/' . $pension->uri; ?>" class="aside__link">
                     <i class="fa fa-user-md aside__icon" aria-hidden="true"></i>
                     <span class="aside__text"><?= $pension->name; ?></span>
                 </a>
@@ -57,8 +90,6 @@
         <? endforeach; ?>
 
     <? endif; ?>
-
-
 
     <? // Module Admin => permission: MODULE_ADMIN = 1
     if (in_array(1, $user->permissions)) : ?>

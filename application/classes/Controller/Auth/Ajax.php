@@ -63,12 +63,9 @@ class Controller_Auth_Ajax extends Auth
         $sid = $session->id();
         $uid = $session->get('uid');
 
-        $user = new Model_User($uid);
-        $org = new Model_Organization($user->organization);
-
         $this->setSecret($sid, $uid);
 
-        $response = new Model_Response_Auth('LOGIN_SUCCESS', 'success', array('org' => $org->uri));
+        $response = new Model_Response_Auth('LOGIN_SUCCESS', 'success');
         $this->response->body(@json_encode($response->get_response()));
 
     }
@@ -107,10 +104,7 @@ class Controller_Auth_Ajax extends Auth
 
         Cookie::delete('attempt');
 
-        $user = new Model_User($id);
-        $org = new Model_Organization($user->organization);
-
-        $response = new Model_Response_Auth('LOGIN_RECOVER_SUCCESS', 'success', array('org' => $org->uri));
+        $response = new Model_Response_Auth('LOGIN_RECOVER_SUCCESS', 'success');
         $this->response->body(@json_encode($response->get_response()));
     }
 
@@ -228,9 +222,7 @@ class Controller_Auth_Ajax extends Auth
 
         $this->redis->delete(getenv('REDIS_RESET_HASHES') . $hash);
 
-        $org = new Model_Organization($user->organization);
-
-        $response = new Model_Response_Users('USER_RESET_PASSWORD_SUCCESS', 'success', array('org' => $org->uri));
+        $response = new Model_Response_Users('USER_RESET_PASSWORD_SUCCESS', 'success');
         $this->response->body(@json_encode($response->get_response()));
         return;
     }

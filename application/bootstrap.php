@@ -71,7 +71,7 @@ mb_substitute_character('none');
 /**
  * Set the default language
  */
-I18n::lang('en-us');
+I18n::lang('ru');
 
 
 /**
@@ -119,7 +119,7 @@ if (isset($_SERVER['KOHANA_ENV']))
  */
 
 Kohana::init(array(
-	'base_url'   => '//raicare.ru',
+	'base_url'   => '//raicare',
 	'index_file' => false,
 	'errors' => true,
 ));

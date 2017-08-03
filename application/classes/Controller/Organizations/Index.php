@@ -17,14 +17,14 @@ class Controller_Organizations_Index extends Dispatch
 
     public $template = 'main';
 
-    /** Organization */
+    /** Current Organization */
     protected $organization = null;
 
     public function before()
     {
         parent::before();
 
-        $org_uri = $this->request->param('org_uri');
+        $org_uri = Request::$subdomain;
 
         $this->organization = Model_Organization::getByFieldName('uri', $org_uri);
 
@@ -38,9 +38,7 @@ class Controller_Organizations_Index extends Dispatch
                 return;
 
             default:
-                if (!self::isLogged()) {
-                    $this->redirect($org_uri);
-                }
+                if (!self::isLogged()) self::gotoLoginPage();
         }
 
         if ($this->user->organization != $this->organization->id) {
@@ -50,9 +48,9 @@ class Controller_Organizations_Index extends Dispatch
         $this->organization->pensions = Model_OrganizationPension::getPensions($this->organization->id, true);
 
         $data = array(
-            'org_uri' => $org_uri,
-            'pensions' => $this->organization->pensions,
-            'action' => 'org_' . $this->request->action(),
+            'aside_type' => 'organization',
+            'pensions'   => $this->organization->pensions,
+            'action'     => $this->request->action(),
         );
 
         $this->template->aside = View::factory('global_blocks/aside', $data);
@@ -71,6 +69,7 @@ class Controller_Organizations_Index extends Dispatch
 
     /**
      * Manage Page
+     * @throws HTTP_Exception_403
      */
     public function action_manage()
     {
@@ -105,5 +104,11 @@ class Controller_Organizations_Index extends Dispatch
             ->set('orgRolesID', self::ORG_AVAILABLE_ROLES );
 
     }
+
+
+//    public function action_control_organization()
+//    {
+//
+//    }
 
 }

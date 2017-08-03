@@ -47,6 +47,18 @@ Class Model_Pension {
 
     }
 
+    public static function getByFieldName($field, $value) {
+
+        $select = Dao_Pensions::select()
+            ->where($field, '=', $value)
+            ->limit(1)
+            ->execute();
+
+        $pension = new Model_Pension();
+        return $pension->fill_by_row($select);
+
+    }
+
     public function save()
     {
         $this->dt_create = Date::formatted_time('now');
