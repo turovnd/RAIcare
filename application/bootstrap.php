@@ -119,7 +119,7 @@ if (isset($_SERVER['KOHANA_ENV']))
  */
 
 Kohana::init(array(
-	'base_url'   => '/',
+	'base_url'   => '//raicare.ru',
 	'index_file' => false,
 	'errors' => true,
 ));
@@ -148,7 +148,7 @@ Kohana::modules(array(
 //	 'orm'        => MODPATH.'orm',         // Object Relationship Mapping
 	 'unittest'   => MODPATH.'unittest',    // Unit testing
 //	 'userguide'  => MODPATH.'userguide',   // User guide and API documentation
-
+	 'subdomain'  => MODPATH.'subdomain'
 	));
 
 /**

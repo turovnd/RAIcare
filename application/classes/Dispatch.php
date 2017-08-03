@@ -160,8 +160,9 @@ class Dispatch extends Controller_Template
 
         View::set_global('isLogged', self::isLogged());
         View::set_global('canLogin', self::canLogin());
-
         $address = Arr::get($_SERVER, 'HTTP_ORIGIN');
+        echo Debug::vars($address );
+
         View::set_global('assets', $address . DIRECTORY_SEPARATOR. 'assets' . DIRECTORY_SEPARATOR);
 
         $this->memcache = self::memcacheInstance();
