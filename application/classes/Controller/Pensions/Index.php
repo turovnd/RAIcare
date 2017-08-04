@@ -10,13 +10,6 @@
 
 class Controller_Pensions_Index extends Dispatch
 {
-    CONST WATCH_ALL_PENSIONS_PAGE        = 24;
-    CONST WATCH_CREATED_PENSIONS_PAGE    = 25;
-    CONST WATCH_MY_PEN_PAGE              = 26;
-    CONST EDIT_PENSION                   = 27;
-    CONST STATISTIC_PENSION              = 30;
-    CONST AVAILABLE_PERMISSIONS_PEN      = array(27,28,29,30,31,32,36,39,40);
-
     public $template = 'main';
 
     /** Current Organization */
@@ -42,13 +35,14 @@ class Controller_Pensions_Index extends Dispatch
         $pen_uri = $this->request->param('pen_uri');
         $this->pension = Model_Pension::getByFieldName('uri', $pen_uri);
 
-        if (!$this->pension->id) {
+        if (!$this->pension->id || $this->pension->organization != $this->organization->id) {
             throw new HTTP_Exception_404();
         }
 
         $this->pension->users = Model_UserPension::getUsers($this->pension->id);
 
-        if (! (in_array($this->user->role,self::ORG_AVAILABLE_ROLES) || $this->user->role == self::ROLE_ORG_CREATOR) ) {
+        if (! ( in_array($this->user->role,self::ORG_AVAILABLE_ROLES) || $this->user->role == self::ROLE_ORG_CREATOR ||
+            in_array($this->user->role,self::PEN_AVAILABLE_ROLES) || $this->user->role == self::ROLE_PEN_CREATOR) ) {
 
             if ( ! (in_array($this->user->id, $this->pension->users) || $this->user->role == 1) ) {
                 throw new HTTP_Exception_403();
@@ -117,71 +111,65 @@ class Controller_Pensions_Index extends Dispatch
 //            ->set('pensions', $pensions);
 //    }
 
-
+    /**
+     * Main Page Of Pension - show not private statistic for all users (co-workers from org + pen)
+     */
     public function action_index()
     {
-
-        foreach ($this->pension->users as $key => $userID) {
-            $user = new Model_User($userID);
-            $user->role = new Model_Role($user->role);
-            $this->pension->users[$key] = $user;
-        }
-
-        $permissions = array();
-        foreach (self::AVAILABLE_PERMISSIONS_PEN as $permission) {
-            $permissions[] = new Model_Permission($permission);
-        }
-
-        $roles = array();
-        $availableRoles = Model_Role::getByType('organization', $this->pension->id);
-        foreach ($availableRoles as $role) {
-            $roles[] = new Model_Role($role->id);
-        }
-
-
-        $this->pension->permissions = $permissions;
-        $this->pension->roles       = $roles;
-
         $this->template->title = $this->pension->name;
         $this->template->section = View::factory('pensions/pages/main')
             ->set('pension', $this->pension);
     }
 
-
+    /**
+     * Edit Main Info about Pension - only for owner
+     */
     public function action_settings()
     {
-        foreach ($this->pension->users as $key => $userID) {
-            $user = new Model_User($userID);
-            $user->role = new Model_Role($user->role);
-            $this->pension->users[$key] = $user;
-        }
-
-        $permissions = array();
-        foreach (self::AVAILABLE_PERMISSIONS_PEN as $permission) {
-            $permissions[] = new Model_Permission($permission);
-        }
-
-        $roles = array();
-        $availableRoles = Model_Role::getByType('organization', $this->pension->id);
-        foreach ($availableRoles as $role) {
-            $roles[] = new Model_Role($role->id);
-        }
-
-        $this->pension->permissions = $permissions;
-        $this->pension->roles       = $roles;
-
-        $this->template->title = $this->pension->name;
+        $this->template->title = 'Настройки - ' . $this->pension->name;
         $this->template->section = View::factory('pensions/pages/settings')
             ->set('pension', $this->pension);
 
     }
 
 
-//    public function action_statistic()
-//    {
-//        $this->template->title = $this->pension->name;
-//        $this->template->section = View::factory('pensions/pages/statistic')
-//            ->set('pension', $this->pension);
-//    }
+    /**
+     * Manage Co Workers Of Pension
+     */
+    public function action_manage()
+    {
+        $co_workers = array();
+        foreach ($this->pension->users as $id) {
+            $user = new Model_User($id);
+            $user->role = new Model_Role($user->role);
+            $co_workers[] = $user;
+        }
+
+        $roles = array();
+        foreach (self::PEN_AVAILABLE_ROLES as $id) {
+            $roles[] = new Model_Role($id);
+        }
+
+        $this->template->title = 'Сотрудники - ' . $this->pension->name;
+        $this->template->section = View::factory('pensions/pages/manage')
+            ->set('co_workers', $co_workers)
+            ->set('roles', $roles)
+            ->set('pension', $this->pension);
+
+    }
+
+    /**
+     * Control Page
+     */
+    public function action_control()
+    {
+        $this->template->title = 'Динамика - ' . $this->pension->name;
+        $this->template->section = View::factory('pensions/pages/control')
+            ->set('pension', $this->pension);
+
+    }
+
+
+
 
 }

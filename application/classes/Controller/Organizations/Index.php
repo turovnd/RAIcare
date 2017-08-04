@@ -45,7 +45,7 @@ class Controller_Organizations_Index extends Dispatch
             throw new HTTP_Exception_403;
         }
 
-        $this->organization->pensions = Model_OrganizationPension::getPensions($this->organization->id, true);
+        $this->organization->pensions = Model_Pension::getByOrganizationID($this->organization->id, true);
 
         $data = array(
             'aside_type' => 'organization',
@@ -63,7 +63,8 @@ class Controller_Organizations_Index extends Dispatch
      */
     public function action_index()
     {
-        $this->template = View::factory('organizations/pages/login');
+        $this->template = View::factory('organizations/pages/login')
+            ->set('reset', false);
     }
 
 
@@ -91,6 +92,7 @@ class Controller_Organizations_Index extends Dispatch
         foreach (self::ORG_AVAILABLE_ROLES as $role) {
             array_push($roles, new Model_Role($role));
         }
+        array_push($roles, new Model_Role(self::ROLE_PEN_CREATOR));
         foreach (self::PEN_AVAILABLE_ROLES as $role) {
             array_push($roles, new Model_Role($role));
         }

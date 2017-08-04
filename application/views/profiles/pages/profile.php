@@ -14,24 +14,6 @@
 
     </div>
 
-    <? if($profile->additional_info) : ?>
-
-        <h3 class="section__heading">
-            Дополнительная информация
-        </h3>
-
-        <div class="row">
-
-            <div class="col-xs-12">
-
-                <?= View::factory('profiles/blocks/additional-info', array('profile' => $profile)); ?>
-
-            </div>
-
-        </div>
-
-    <? endif; ?>
-
 </div>
 
 <!-- =============== PAGE SCRIPTS ===============-->

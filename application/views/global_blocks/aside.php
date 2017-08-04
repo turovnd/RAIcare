@@ -8,9 +8,9 @@
     </li>
 
 
-    <? if ( $aside_type == 'organization' || $aside_type == 'dashboard') : ?>
+    <? if ( $aside_type == 'organization' || $aside_type == 'dashboard' || $aside_type == 'profile') : ?>
 
-        <? // Roles `Organization Creator` || `Organization co-workers manager` => 10 || 11
+        <? // ROLE_ORG_CREATOR || ROLE_ORG_CO_WORKER_MANAGER => 10 || 11
         if ( $user->role == 10 || $user->role == 11) : ?>
             <li class="aside__item <? echo $action == "manage" ? 'aside__item--active' : ''; ?>">
                 <a href="<?= '/\/' .$_SERVER['HTTP_HOST'] . '/manage'; ?>" class="aside__link <? echo $action == "manage" ? 'aside__link--active' : ''; ?>">
@@ -20,22 +20,22 @@
             </li>
         <? endif; ?>
 
-        <? // Roles `Organization Creator` || `Organization quality manager` => 10 || 12
+        <? // ROLE_ORG_CREATOR || ROLE_ORG_QUALITY_MANAGER => 10 || 12
         if ( $user->role == 10 || $user->role == 12 ) : ?>
-            <li class="aside__item <? echo $action == "control_org" ? 'aside__item--active' : ''; ?>">
-                <a href="<?= '/\/' .$_SERVER['HTTP_HOST'] . '/control/organization'; ?>" class="aside__link <? echo $action == "control_org" ? 'aside__link--active' : ''; ?>">
+            <li class="aside__item <? echo $action == "control_organization" ? 'aside__item--active' : ''; ?>">
+                <a href="<?= '/\/' .$_SERVER['HTTP_HOST'] . '/control/organization'; ?>" class="aside__link <? echo $action == "control_organization" ? 'aside__link--active' : ''; ?>">
                     <i class="fa fa-pie-chart aside__icon" aria-hidden="true"></i>
                     <span class="aside__text">Динамика орг-ии</span>
                 </a>
             </li>
-            <li class="aside__item <? echo $action == "control_pen" ? 'aside__item--active' : ''; ?>">
-                <a href="<?= '/\/' .$_SERVER['HTTP_HOST'] . '/control/pension'; ?>" class="aside__link <? echo $action == "control_pen" ? 'aside__link--active' : ''; ?>">
+            <li class="aside__item <? echo $action == "control_pension" ? 'aside__item--active' : ''; ?>">
+                <a href="<?= '/\/' .$_SERVER['HTTP_HOST'] . '/control/pension'; ?>" class="aside__link <? echo $action == "control_pension" ? 'aside__link--active' : ''; ?>">
                     <i class="fa fa-area-chart aside__icon" aria-hidden="true"></i>
                     <span class="aside__text">Динамика пан-та</span>
                 </a>
             </li>
-            <li class="aside__item <? echo $action == "control_pat" ? 'aside__item--active' : ''; ?>">
-                <a href="<?= '/\/' .$_SERVER['HTTP_HOST'] . '/control/patient'; ?>" class="aside__link <? echo $action == "control_pat" ? 'aside__link--active' : ''; ?>">
+            <li class="aside__item <? echo $action == "control_patient" ? 'aside__item--active' : ''; ?>">
+                <a href="<?= '/\/' .$_SERVER['HTTP_HOST'] . '/control/patient'; ?>" class="aside__link <? echo $action == "control_patient" ? 'aside__link--active' : ''; ?>">
                     <i class="fa fa-line-chart aside__icon" aria-hidden="true"></i>
                     <span class="aside__text">Динамика пац-та</span>
                 </a>
@@ -56,19 +56,45 @@
             </a>
         </li>
 
-        <li class="aside__item <? echo $action == "patients" ? 'aside__item--active' : ''; ?>">
-            <a href="<?='/\/' . $_SERVER['HTTP_HOST'] . '/' . $pension->uri. '/patients'; ?>" class="aside__link <? echo $action == "patients" ? 'aside__link--active' : ''; ?>">
-                <i class="fa fa-users aside__icon" aria-hidden="true"></i>
-                <span class="aside__text">Пациенты</span>
-            </a>
-        </li>
+        <? // ROLE_PEN_CREATOR => 20
+        if ( $user->role == 20 ) : ?>
+            <li class="aside__item <? echo $action == "settings" ? 'aside__item--active' : ''; ?>">
+                <a href="<?='/\/' . $_SERVER['HTTP_HOST'] . '/' . $pension->uri. '/settings' ?>" class="aside__link <? echo $action == "settings" ? 'aside__link--active' : ''; ?>">
+                    <i class="fa fa-cogs aside__icon" aria-hidden="true"></i>
+                    <span class="aside__text">Настройки</span>
+                </a>
+            </li>
+        <? endif; ?>
 
-        <li class="aside__item <? echo $action == "settings" ? 'aside__item--active' : ''; ?>">
-            <a href="<?='/\/' . $_SERVER['HTTP_HOST'] . '/' . $pension->uri. '/settings' ?>" class="aside__link <? echo $action == "settings" ? 'aside__link--active' : ''; ?>">
-                <i class="fa fa-cogs aside__icon" aria-hidden="true"></i>
-                <span class="aside__text">Настройки</span>
-            </a>
-        </li>
+        <? // ROLE_PEN_CREATOR || ROLE_PEN_CO_WORKER_MANAGER => 20 || 21
+        if ( $user->role == 20 || $user->role == 21) : ?>
+            <li class="aside__item <? echo $action == "manage" ? 'aside__item--active' : ''; ?>">
+                <a href="<?= '/\/' . $_SERVER['HTTP_HOST'] . '/' . $pension->uri . '/manage'; ?>" class="aside__link <? echo $action == "manage" ? 'aside__link--active' : ''; ?>">
+                    <i class="fa fa-group aside__icon" aria-hidden="true"></i>
+                    <span class="aside__text">Сотрудники</span>
+                </a>
+            </li>
+        <? endif; ?>
+
+        <? // ROLE_PEN_CREATOR || ROLE_PEN_QUALITY_MANAGER || ROLE_PEN_NURSE => 20 || 22 || 23
+        if ( $user->role == 20 || $user->role == 22|| $user->role == 23 ) : ?>
+
+            <li class="aside__item <? echo $action == "patients" ? 'aside__item--active' : ''; ?>">
+                <a href="<?='/\/' . $_SERVER['HTTP_HOST'] . '/' . $pension->uri. '/patients'; ?>" class="aside__link <? echo $action == "patients" ? 'aside__link--active' : ''; ?>">
+                    <i class="fa fa-database aside__icon" aria-hidden="true"></i>
+                    <span class="aside__text">Пациенты</span>
+                </a>
+            </li>
+
+            <li class="aside__item <? echo $action == "control" ? 'aside__item--active' : ''; ?>">
+                <a href="<?= '/\/' .$_SERVER['HTTP_HOST'] . '/' . $pension->uri. '/control'; ?>" class="aside__link <? echo $action == "control" ? 'aside__link--active' : ''; ?>">
+                    <i class="fa fa-area-chart aside__icon" aria-hidden="true"></i>
+                    <span class="aside__text">Динамика пан-та</span>
+                </a>
+            </li>
+
+        <? endif; ?>
+
 
     <? endif; ?>
 

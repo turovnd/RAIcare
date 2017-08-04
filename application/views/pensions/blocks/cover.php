@@ -2,8 +2,9 @@
     <div class="parallax" data-toggle="parallax">
         <img id="pensionCover" src="<?=URL::site('uploads/pensions/cover/o_'. $pension->cover); ?>" alt="Pension cover" class="parallax__img">
     </div>
-    <? // Module Organizations => EDIT_PENSION = 27
-    if (in_array(27, $user->permissions)) : ?>
+
+    <? // ROLE_PEN_CREATOR = 20
+    if ( $user->role == 20) : ?>
 
         <div class="section__cover-update-wrapper">
             <a onclick="pension.edit.cover(this)" role="button" class="section__cover-update-btn" data-pk="<?=$pension->id; ?>">

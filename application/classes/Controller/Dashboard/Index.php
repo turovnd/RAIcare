@@ -32,7 +32,7 @@ class Controller_Dashboard_Index extends Dispatch
         $this->organization = Model_Organization::getByFieldName('uri', $org_uri);
 
         if (in_array($this->user->role,self::ORG_AVAILABLE_ROLES) || $this->user->role == self::ROLE_ORG_CREATOR) {
-            $this->organization->pensions = Model_OrganizationPension::getPensions($this->organization->id, true);
+            $this->organization->pensions = Model_Pension::getByOrganizationID($this->organization->id, true);
         } else {
             $this->organization->pensions = Model_UserPension::getPensions($this->user->id, true);
         }

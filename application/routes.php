@@ -27,6 +27,7 @@ require_once ('routes/reports.php');
  * Only for XMLHTTP requests
  */
 Route::set('IMAGE_TRANSPORT', 'transport/<type>')
+    ->subdomains(array(Route::SUBDOMAIN_WILDCARD))
     ->defaults(array(
         'controller' => 'Transport',
         'action'     => 'upload'

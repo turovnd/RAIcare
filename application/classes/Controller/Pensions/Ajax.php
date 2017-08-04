@@ -10,20 +10,8 @@
 
 class Controller_Pensions_Ajax extends Ajax
 {
-    CONST MODULE_CLIENTS              = 6;
-    CONST CREATE_PENSION              = 23;
-    CONST WATCH_ALL_PENSIONS_PAGE     = 24;
-    CONST WATCH_CREATED_PENSIONS_PAGE = 25;
-    CONST WATCH_MY_PEN_PAGE           = 26;
-    CONST EDIT_PENSION                = 27;
-    CONST INVITE_CO_WORKER_TO_PEN     = 28;
-    CONST EXCLUDE_CO_WORKER_FROM_PEN  = 29;
-
     public function action_new()
     {
-        self::hasAccess(self::MODULE_CLIENTS);
-        self::hasAccess(self::CREATE_PENSION);
-
         $name         = Arr::get($_POST,'name');
         $uri          = Arr::get($_POST,'uri');
         $cl_user      = Arr::get($_POST,'userId');
@@ -74,8 +62,6 @@ class Controller_Pensions_Ajax extends Ajax
 
     public function action_update()
     {
-        self::hasAccess(self::EDIT_PENSION);
-
         $id     = Arr::get($_POST, 'id');
         $field  = Arr::get($_POST, 'name');
         $value  = Arr::get($_POST, 'value');
@@ -102,9 +88,7 @@ class Controller_Pensions_Ajax extends Ajax
 
         if ($field == "uri") {
 
-            $check_org = Model_Organization::getByFieldName("uri", $value);
-
-            if ($check_org->id) {
+            if ($pension->isEmptyURI($value, $pension->organization)) {
                 $response = new Model_Response_Pensions('PENSION_EXISTED_URI_ERROR', 'error');
                 $this->response->body(@json_encode($response->get_response()));
                 return;

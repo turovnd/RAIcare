@@ -10,76 +10,53 @@
 
 class Controller_Profiles_Index extends Dispatch
 {
-    CONST MODULE_USERS       = 10;
-    CONST WATCH_CERTAIN_USER = 11;
-
     public $template = 'main';
+
+    /** Organization */
+    protected $organization = null;
 
     public function before()
     {
         parent::before();
 
-        if (!self::isLogged()) {
-            $this->redirect('login');
+        $org_uri = Request::$subdomain;
+
+        $this->organization = Model_Organization::getByFieldName('uri', $org_uri);
+
+        if (!$this->organization->id && !in_array($org_uri, self::PRIVATE_SUBDOMIANS)) {
+            throw new HTTP_Exception_404();
+        }
+
+        if (!self::isLogged()) self::gotoLoginPage();
+
+        $this->organization = Model_Organization::getByFieldName('uri', $org_uri);
+
+        if (in_array($this->user->role,self::ORG_AVAILABLE_ROLES) || $this->user->role == self::ROLE_ORG_CREATOR) {
+            $this->organization->pensions = Model_Pension::getByOrganizationID($this->organization->id, true);
+        } else {
+            $this->organization->pensions = Model_UserPension::getPensions($this->user->id, true);
+        }
+
+        if ($this->user->organization != $this->organization->id) {
+            throw new HTTP_Exception_403;
         }
 
         $data = array(
-            'action'    => $this->request->action(),
+            'aside_type'=> 'profile',
+            'pensions'  => $this->organization->pensions,
+            'action'    => 'profile',
         );
 
         $this->template->aside = View::factory('global_blocks/aside', $data);
 
     }
 
-    public function action_users()
-    {
-        self::hasAccess(self::MODULE_USERS);
-
-        $profiles = Model_User::getAll();
-
-        if (!empty($profiles)) {
-            foreach ($profiles as $profile) {
-                $profile->role = new Model_Role($profile->role);
-                $profile->creator = new Model_User($profile->creator);
-            }
-        }
-
-        $this->template->title = "Пользователи";
-        $this->template->section = View::factory('profiles/pages/all-profiles')
-                ->set('profiles', $profiles);
-
-    }
-
     public function action_profile()
     {
-        $id = $this->request->param('id');
+        $profile = new Model_User($this->user->id);
 
-        if ($id) {
-
-            self::hasAccess(self::WATCH_CERTAIN_USER);
-            $profile = new Model_User($id);
-
-            if (!$profile->id) {
-                throw new HTTP_Exception_404;
-            }
-            $profile->role = new Model_Role($profile->role);
-            $permissions = array();
-            foreach (json_decode($profile->role->permissions) as $permission) {
-                $permissions[] = new Model_Permission($permission);
-            }
-            $profile->role->permissions = $permissions;
-            $profile->can_edit = false;
-            $profile->additional_info = true;
-            $profile->client = Model_Client::getByUserId($profile->id);
-
-        } else {
-
-            $profile = new Model_User($this->user->id);
-            $profile->role = new Model_Role($profile->role);
-            $profile->can_edit = true;
-            $profile->additional_info = false;
-
-        }
+        $profile->role = new Model_Role($profile->role);
+        $profile->can_edit = true;
 
         $this->template->title = "Профиль " . $profile->name;
         $this->template->section = View::factory('profiles/pages/profile')

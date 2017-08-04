@@ -1,7 +1,7 @@
 <div class="section__content">
 
     <h3 class="section__heading">
-        Статистика
+        Динамика пансионата
     </h3>
 
     <div class="row">

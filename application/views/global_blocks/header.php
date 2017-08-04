@@ -1,5 +1,5 @@
-<a href="<?=URL::site('dashboard'); ?>" class="header__brand fl_l">
-    <?=$GLOBALS['SITE_NAME'];?>
+<a href="<?= '//' . $_SERVER['HTTP_HOST'] . '/dashboard'; ?>" class="header__brand fl_l">
+    <?= $GLOBALS['SITE_NAME']; ?>
 </a>
 
 <div class="header__wrapper fl_r">
@@ -13,7 +13,7 @@
         </li>
 
         <li class="header__item">
-            <a href="<?= '//' . $_SERVER['HTTP_HOST'] . 'profile'?>" class="header__link p-l-15 p-r-15 m-l-0">
+            <a href="<?= '//' . $_SERVER['HTTP_HOST'] . '/profile'?>" class="header__link p-l-15 p-r-15 m-l-0">
                 <i class="fa fa-user" aria-hidden="true"></i>
             </a>
         </li>
