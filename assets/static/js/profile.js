@@ -1,8 +1,8 @@
-module.exports = (function (edit) {
+var profile = ( function (profile) {
 
-    var corePrefix  = 'Profile: edit info';
+    var corePrefix  = 'RAIcare: profile';
 
-    edit.toggle = function (element) {
+    profile.toggle = function (element) {
 
         var field = element.closest('.js-field-name');
 
@@ -11,7 +11,7 @@ module.exports = (function (edit) {
 
     };
 
-    edit.save = function (element) {
+    profile.save = function (element) {
 
         var form     = document.getElementById('profile'),
             field    = element.closest('.js-field-name'),
@@ -65,7 +65,44 @@ module.exports = (function (edit) {
 
     };
 
-    edit.password = function () {
+    profile.sendConfirm = function () {
+
+        var form     = document.getElementById('profile'),
+            formData = new FormData();
+
+        formData.append('csrf', document.getElementById('csrf').value);
+
+        var ajaxData = {
+            url: '/profile/confirmemail',
+            type: 'POST',
+            data: formData,
+            beforeSend: function () {
+                form.classList.add('loading');
+            },
+            success: function (response) {
+
+                response = JSON.parse(response);
+                raicare.core.log(response.message, response.status, corePrefix);
+                form.classList.remove('loading');
+
+                raicare.notification.notify({
+                    type: response.status,
+                    message: response.message
+                });
+
+            },
+            error: function (callbacks) {
+
+                raicare.core.log('ajax error occur on sending confirm email', 'error', corePrefix, callbacks);
+                form.classList.remove('loading');
+
+            }
+        };
+
+        raicare.ajax.send(ajaxData);
+    };
+
+    profile.changepassword = function () {
 
         var form     = document.getElementById('changePasswordModal'),
             formData = new FormData(form),
@@ -92,7 +129,7 @@ module.exports = (function (edit) {
         if (message !== null) {
 
             raicare.notification.notify({
-                type: 'warning',
+                type: 'error',
                 message: message
             });
             return;
@@ -107,14 +144,14 @@ module.exports = (function (edit) {
             data: formData,
             beforeSend: function () {
 
-                form.getElementsByClassName('modal__content')[0].classList.add('loading');
+                form.getElementsByClassName('modal__wrapper')[0].classList.add('loading');
 
             },
             success: function (response) {
 
                 response = JSON.parse(response);
                 raicare.core.log(response.message, response.status, corePrefix);
-                form.getElementsByClassName('modal__content')[0].classList.remove('loading');
+                form.getElementsByClassName('modal__wrapper')[0].classList.remove('loading');
 
                 raicare.notification.notify({
                     type: response.status,
@@ -133,7 +170,7 @@ module.exports = (function (edit) {
             error: function (callbacks) {
 
                 raicare.core.log('ajax error occur on updating profile info', 'error', corePrefix, callbacks);
-                form.getElementsByClassName('modal__content')[0].classList.remove('loading');
+                form.getElementsByClassName('modal__wrapper')[0].classList.remove('loading');
 
             }
         };
@@ -142,6 +179,6 @@ module.exports = (function (edit) {
 
     };
 
-    return edit;
+    return profile;
 
 })({});

@@ -63,7 +63,7 @@ class Controller_Organizations_Index extends Dispatch
      */
     public function action_index()
     {
-        $this->template = View::factory('organizations/pages/login')
+        $this->template = View::factory('login')
             ->set('reset', false);
     }
 

@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Вас пригласили в организацию на сайте <?= $GLOBALS['SITE_NAME']; ?></title>
+        <title>Вас пригласили в пансионат на сайте <?= $GLOBALS['SITE_NAME']; ?></title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
     </head>
 
@@ -19,7 +19,7 @@
                             <tr align="left" style="text-align:left;">
                                 <td align="left" valign="top" style="vertical-align:top;text-align:left;background:#ffffff;padding: 35px;">
                                     <p style="margin:0 0 18px;font-weight: bold;font-size: 2em;">Здравствуйте, <?= $user->name; ?>!</p>
-                                    <p style="margin:12px 0 24px;font-size: 1.3em;"><?= $owner->name; ?> пригласил(а) Вас в организацию <b><?= $organization->name; ?></b> на сайте <?= strtolower($GLOBALS['SITE_NAME']); ?>.ru!</p>
+                                    <p style="margin:12px 0 24px;font-size: 1.3em;"><?= $owner->name; ?> пригласил(а) Вас в пансионат <b><?= $pension->name; ?></b> на сайте <?= strtolower($GLOBALS['SITE_NAME']); ?>.ru!</p>
                                     <table style="border-spacing:0;width:100%;">
                                         <tbody>
                                         <tr align="left" style="text-align:left;">
@@ -48,7 +48,7 @@
                                                 <img alt="" src="https://resize.yandex.net/mailservice?url=https%3A%2F%2Fi.reg.ru%2Fi%2Fmail%2Fimg%2Fmail-icon-alert.png&amp;proxy=yes&amp;key=dada823f08ed77f3029a82a7d6c8ec5f">
                                             </td>
                                             <td style="vertical-align:middle;line-height:1.5em" align="left" valign="middle">
-                                                Для активации аккаунта, пожалуйста, <a href="<?= $_SERVER['HTTP_HOST'].'/confirm/'.$hash ?>" style="text-decoration: none;color: #008DA7;padding-bottom: 2px;border-bottom: 2px solid #008DA7;">подтвердите регистрацию</a> на сайте <?= strtolower($GLOBALS['SITE_NAME']); ?>.ru.
+                                                Для активации аккаунта, пожалуйста, <a href="<?= '//' . $_SERVER['HTTP_HOST'].'/confirm/'.$hash ?>" style="text-decoration: none;color: #008DA7;padding-bottom: 2px;border-bottom: 2px solid #008DA7;">подтвердите регистрацию</a> на сайте <?= strtolower($GLOBALS['SITE_NAME']); ?>.ru.
                                             </td>
                                         </tr>
                                         </tbody>
@@ -58,7 +58,7 @@
 
                             <tr align="left" style="text-align:left;">
                                 <td align="left" valign="top" style="vertical-align:top;text-align:left;background:#ffffff;padding: 35px;">
-                                    <a href="<?= $_SERVER['HTTP_HOST'].'/confirm/'.$hash ?>" style="display: block;border-radius: 3px;text-align: center;color: #FCFCFC;background: #008DA7;padding: 20px;font-size: 1.3em;text-decoration: none;cursor: pointer;">
+                                    <a href="<?= '//' . $_SERVER['HTTP_HOST'].'/confirm/'.$hash ?>" style="display: block;border-radius: 3px;text-align: center;color: #FCFCFC;background: #008DA7;padding: 20px;font-size: 1.3em;text-decoration: none;cursor: pointer;">
                                         Подтвердить регистрацию
                                     </a>
                                 </td>
@@ -66,7 +66,7 @@
 
                             <tr align="left" style="text-align:left;">
                                 <td align="left" valign="top" style="vertical-align:top;text-align:left;background:#ffffff;padding: 0 35px; font-size: .9em">
-                                    Если кнопка не работает, то перейдите по этой ссылке: <a href="<?= $_SERVER['HTTP_HOST'].'/confirm/'.$hash ?>" style="text-decoration: none;color: #008DA7;padding-bottom: 2px;border-bottom: 2px solid #008DA7;"><?= $_SERVER['HTTP_HOST'].'/confirm/'.$hash ?></a>
+                                    Если кнопка не работает, то перейдите по этой ссылке: <a href="<?= '//' . $_SERVER['HTTP_HOST'].'/confirm/'.$hash ?>" style="text-decoration: none;color: #008DA7;padding-bottom: 2px;border-bottom: 2px solid #008DA7;"><?= $_SERVER['HTTP_HOST'].'/confirm/'.$hash ?></a>
                                 </td>
                             </tr>
 

@@ -17,4 +17,4 @@
 </div>
 
 <!-- =============== PAGE SCRIPTS ===============-->
-<script type="text/javascript" src="<?=$assets; ?>frontend/bundles/profile.min.js?v<?= filemtime("assets/frontend/bundles/profile.min.js") ?>"></script>
+<script type="text/javascript" src="<?=$assets; ?>static/js/profile.js?v<?= filemtime("assets/static/js/profile.js") ?>"></script>

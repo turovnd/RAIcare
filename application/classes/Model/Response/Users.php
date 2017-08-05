@@ -74,4 +74,10 @@ class Model_Response_Users extends Model_Response_Abstract
         'message' => 'Пользователь не существует'
     );
 
+    protected $_USER_CONFIRM_EMAIL_ERROR = array (
+        'type' => 'user',
+        'code' => '59',
+        'message' => 'Электронная почта была ранее подтверждена'
+    );
+
 }

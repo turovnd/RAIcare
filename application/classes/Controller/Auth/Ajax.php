@@ -286,7 +286,7 @@ class Controller_Auth_Ajax extends Auth
     /**
      * Set `secret` to cookie and Redis
      */
-    protected function setSecret($sid, $uid)
+    private function setSecret($sid, $uid)
     {
         // генерируем новый хэш c новый session id
         $hash = $this->makeHash('sha256', getenv('SALT') . $sid . getenv('AUTHSALT') . $uid);

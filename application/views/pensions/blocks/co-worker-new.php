@@ -45,7 +45,7 @@
             </div>
             <div class="modal__footer">
                 <button type="button" class="btn btn--default" data-close="modal">Отмена</button>
-                <button onclick="organization.coworker.invite()" type="button" class="btn btn--brand">Создать</button>
+                <button onclick="pension.coworker.invite()" type="button" class="btn btn--brand">Создать</button>
             </div>
         </div>
     </div>

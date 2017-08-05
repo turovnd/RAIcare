@@ -60,57 +60,6 @@ class Controller_Pensions_Index extends Dispatch
     }
 
 
-//    public function action_all()
-//    {
-//        self::hasAccess(self::WATCH_ALL_PENSIONS_PAGE);
-//
-//        $pensions = Model_Pension::getAll(0,10);
-//
-//        $this->template->title = "Все пансионаты";
-//        $this->template->section = View::factory('pensions/pages/pensions')
-//            ->set('title', $this->template->title)
-//            ->set('pensions', $pensions)
-//            ->set('type', 'all_pensions');
-//    }
-//
-//
-//    public function action_created()
-//    {
-//        self::hasAccess(self::WATCH_CREATED_PENSIONS_PAGE);
-//
-//        $pensions = Model_Pension::getByCreator($this->user->id, 0, 10);
-//
-//        $this->template->title = "Созданные пансионаты";
-//        $this->template->section = View::factory('pensions/pages/pensions')
-//            ->set('title', $this->template->title)
-//            ->set('pensions', $pensions)
-//            ->set('type', 'created_pensions');
-//    }
-//
-//
-//    public function action_my()
-//    {
-//        self::hasAccess(self::WATCH_MY_PEN_PAGE);
-//
-//        $pensionsID = Model_UserPension::getPensions($this->user->id);
-//
-//        $pensions = array();
-//
-//        if (!empty($pensionsID)) {
-//            foreach ($pensionsID as $id) {
-//                $pension = new Model_Pension($id);
-//                $pension->creator = new Model_User($pension->creator);
-//                $pension->owner = new Model_User($pension->owner);
-//                $pension->organization = new Model_Organization($pension->organization);
-//                $pensions[] = $pension;
-//            }
-//        }
-//
-//        $this->template->title = "Мои пансионаты";
-//        $this->template->section = View::factory('pensions/pages/my-pensions')
-//            ->set('pensions', $pensions);
-//    }
-
     /**
      * Main Page Of Pension - show not private statistic for all users (co-workers from org + pen)
      */
@@ -126,10 +75,13 @@ class Controller_Pensions_Index extends Dispatch
      */
     public function action_settings()
     {
+        if ( $this->user->role != self::ROLE_PEN_CREATOR ) {
+            throw new HTTP_Exception_403();
+        }
+
         $this->template->title = 'Настройки - ' . $this->pension->name;
         $this->template->section = View::factory('pensions/pages/settings')
             ->set('pension', $this->pension);
-
     }
 
 
@@ -138,6 +90,13 @@ class Controller_Pensions_Index extends Dispatch
      */
     public function action_manage()
     {
+        if ( ! ($this->user->role == self::ROLE_PEN_CREATOR
+            || $this->user->role == self::ROLE_PEN_CO_WORKER_MANAGER) ) {
+
+            throw new HTTP_Exception_403();
+
+        }
+
         $co_workers = array();
         foreach ($this->pension->users as $id) {
             $user = new Model_User($id);
@@ -161,13 +120,13 @@ class Controller_Pensions_Index extends Dispatch
     /**
      * Control Page
      */
-    public function action_control()
-    {
-        $this->template->title = 'Динамика - ' . $this->pension->name;
-        $this->template->section = View::factory('pensions/pages/control')
-            ->set('pension', $this->pension);
-
-    }
+//    public function action_control()
+//    {
+//        $this->template->title = 'Динамика - ' . $this->pension->name;
+//        $this->template->section = View::factory('pensions/pages/control')
+//            ->set('pension', $this->pension);
+//
+//    }
 
 
 

@@ -76,20 +76,25 @@
             </li>
         <? endif; ?>
 
-        <? // ROLE_PEN_CREATOR || ROLE_PEN_QUALITY_MANAGER || ROLE_PEN_NURSE => 20 || 22 || 23
-        if ( $user->role == 20 || $user->role == 22|| $user->role == 23 ) : ?>
-
-            <li class="aside__item <? echo $action == "patients" ? 'aside__item--active' : ''; ?>">
-                <a href="<?='/\/' . $_SERVER['HTTP_HOST'] . '/' . $pension->uri. '/patients'; ?>" class="aside__link <? echo $action == "patients" ? 'aside__link--active' : ''; ?>">
-                    <i class="fa fa-database aside__icon" aria-hidden="true"></i>
-                    <span class="aside__text">Пациенты</span>
-                </a>
-            </li>
+        <? // ROLE_PEN_CREATOR || ROLE_PEN_QUALITY_MANAGER => 20 || 22
+        if ( $user->role == 20 || $user->role == 22 ) : ?>
 
             <li class="aside__item <? echo $action == "control" ? 'aside__item--active' : ''; ?>">
                 <a href="<?= '/\/' .$_SERVER['HTTP_HOST'] . '/' . $pension->uri. '/control'; ?>" class="aside__link <? echo $action == "control" ? 'aside__link--active' : ''; ?>">
                     <i class="fa fa-area-chart aside__icon" aria-hidden="true"></i>
                     <span class="aside__text">Динамика пан-та</span>
+                </a>
+            </li>
+
+        <? endif; ?>
+
+        <? // ROLE_PEN_CREATOR || ROLE_PEN_QUALITY_MANAGER || ROLE_PEN_NURSE => 20 || 22 || 23
+        if ( $user->role == 20 || $user->role == 22 || $user->role == 23 ) : ?>
+
+            <li class="aside__item <? echo $action == "patients" ? 'aside__item--active' : ''; ?>">
+                <a href="<?='/\/' . $_SERVER['HTTP_HOST'] . '/' . $pension->uri. '/patients'; ?>" class="aside__link <? echo $action == "patients" ? 'aside__link--active' : ''; ?>">
+                    <i class="fa fa-database aside__icon" aria-hidden="true"></i>
+                    <span class="aside__text">Пациенты</span>
                 </a>
             </li>
 

@@ -20,3 +20,5 @@
     <?= View::factory('pensions/blocks/co-worker-new', array('roles' => $roles)); ?>
 
 </div>
+
+<script type="text/javascript" src="<?=$assets; ?>frontend/bundles/pension.min.js?v=<?= filemtime("assets/frontend/bundles/pension.min.js") ?>"></script>

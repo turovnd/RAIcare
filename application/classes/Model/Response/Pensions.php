@@ -27,28 +27,28 @@ class Model_Response_Pensions extends Model_Response_Abstract
         'message' => 'Пользователь успешно исключен из пансионата'
     );
 
-    protected $_PENSION_UPDATE_SUCCESS = array (
+    protected $_PENSION_USER_INVITE_SUCCESS = array (
         'type' => 'pension',
         'code' => '144',
+        'message' => 'Пользователь успешно приглашен в пансионат'
+    );
+
+    protected $_PENSION_UPDATE_SUCCESS = array (
+        'type' => 'pension',
+        'code' => '145',
         'message' => 'Информация успешно изменена'
     );
 
     protected $_PENSION_UPDATE_WARNING = array (
         'type' => 'pension',
-        'code' => '145',
+        'code' => '146',
         'message' => 'Вы ничего не изменили'
     );
 
     protected $_PENSION_GET_SUCCESS = array (
         'type' => 'pension',
-        'code' => '146',
-        'message' => 'Пансионаты получены'
-    );
-
-    protected $_PENSION_USER_UPDATE_SUCCESS = array (
-        'type' => 'pension',
         'code' => '147',
-        'message' => 'Пансионат пользователя успешно обновлены'
+        'message' => 'Пансионаты получены'
     );
 
     protected $_PENSION_USER_NOT_EMPTY_PENSIONS_ERROR = array (
@@ -56,5 +56,12 @@ class Model_Response_Pensions extends Model_Response_Abstract
         'code' => '148',
         'message' => 'У пользователя с данной ролю должен быть хотя бы один пансионат'
     );
+
+    protected $_PENSION_USER_NOT_AVAILABLE_ROLE_ERROR = array (
+        'type' => 'pension',
+        'code' => '149',
+        'message' => 'Произошла ошибка, данная роль не доступна, обновите страницу'
+    );
+
 
 }

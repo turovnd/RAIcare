@@ -35,7 +35,7 @@ class Controller_Auth_Index extends Dispatch
         }
 
         $this->template->title = "Сброс пароля";
-        $this->template->section = View::factory('organizations/pages/login')
+        $this->template->section = View::factory('login')
             ->set('reset', true)
             ->set('hash', $hash);
 
@@ -64,11 +64,9 @@ class Controller_Auth_Index extends Dispatch
         $user->is_confirmed = 1;
         $user->update();
 
-        $org = new Model_Organization($user->organization);
-
         $this->redis->delete(getenv('REDIS_CONFIRMATION_HASHES') . $hash);
 
-        header('Location: //' . $org->uri . '.' . $_SERVER['HTTP_HOST']  . '/dashboard');
+        header('Location: //' . $_SERVER['HTTP_HOST']  . '/dashboard');
         die();
     }
 }
