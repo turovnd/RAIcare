@@ -1,11 +1,8 @@
 <div class="section__content">
 
     <h3 class="section__heading">
-        <? // Module Patients && Pensions => CAN_CONDUCT_A_SURVEY = 36
-        if (in_array(36, $user->permissions)) : ?>
-            <a role="button" data-toggle="modal" data-area="newPatientModalForm" class="btn btn--brand btn--sm m-0 fl_r">Новый пациент</a>
-        <? endif; ?>
-        База данных пациентов пансионата
+        <a role="button" data-toggle="modal" data-area="newPatientModalForm" class="btn btn--brand btn--sm m-0 fl_r">Новый пациент</a>
+        Все пациенты пансионата - <?= $pension->name; ?>
     </h3>
 
     <div class="row">
@@ -31,7 +28,7 @@
             </div>
 
             <div class="text-center m-t-20 m-b-10">
-                <button id="getMorePatientsBtn" onclick="patient.get.patients(this)" data-mode="get" data-offset="<?= count($patients); ?>" class="btn btn--lg btn--default btn--round p-r-50 p-l-50">
+                <button id="getMorePatientsBtn" onclick="patient.get.patients(this)" data-mode="get" data-offset="<?= count($patients); ?>" class="btn btn--lg btn--default btn--round p-r-50 p-l-50 m-0">
                     Загрузить ещё
                 </button>
             </div>
@@ -40,12 +37,7 @@
 
     </div>
 
-    <? // Module Patients && Pensions => CAN_CONDUCT_A_SURVEY = 36
-    if (in_array(36, $user->permissions)) : ?>
-
-        <?= View::factory('patients/blocks/new'); ?>
-
-    <? endif; ?>
+    <?= View::factory('patients/blocks/new'); ?>
 
     <input type="hidden" id="pensionID" value="<?=$pension->id; ?>">
 

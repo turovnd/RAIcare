@@ -42,12 +42,10 @@ class Controller_Pensions_Index extends Dispatch
         $this->pension->users = Model_UserPension::getUsers($this->pension->id);
 
         if (! ( in_array($this->user->role,self::ORG_AVAILABLE_ROLES) || $this->user->role == self::ROLE_ORG_CREATOR ||
-            in_array($this->user->role,self::PEN_AVAILABLE_ROLES) || $this->user->role == self::ROLE_PEN_CREATOR) ) {
+            in_array($this->user->role,self::PEN_AVAILABLE_ROLES) || $this->user->role == self::ROLE_PEN_CREATOR ||
+            in_array($this->user->id, $this->pension->users) || $this->user->role == 1 ) ) {
 
-            if ( ! (in_array($this->user->id, $this->pension->users) || $this->user->role == 1) ) {
                 throw new HTTP_Exception_403();
-            }
-
         }
 
         $data = array(

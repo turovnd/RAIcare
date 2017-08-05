@@ -1,7 +1,8 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
 Route::set('PENSION','<pen_uri>(/<action>)', array(
-        'action' => 'settings|manage|control'
+        'pen_uri' => $STRING,
+        'action'  => 'settings|manage|control'
     ))
     ->subdomains(array(Route::SUBDOMAIN_WILDCARD))
     ->defaults(array(

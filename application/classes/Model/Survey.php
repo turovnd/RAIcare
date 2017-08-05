@@ -158,7 +158,7 @@ Class Model_Survey {
 
 
 
-    public static function getAllFormsByPatientAndPension($patient, $pension, $offset, $limit)
+    public static function getAllSurveysByPatientAndPension($patient, $pension, $offset, $limit)
     {
         $select = Dao_Surveys::select()
             ->where('pension','=', $pension)

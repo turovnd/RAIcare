@@ -91,7 +91,7 @@
         <? // ROLE_PEN_CREATOR || ROLE_PEN_QUALITY_MANAGER || ROLE_PEN_NURSE => 20 || 22 || 23
         if ( $user->role == 20 || $user->role == 22 || $user->role == 23 ) : ?>
 
-            <li class="aside__item <? echo $action == "patients" ? 'aside__item--active' : ''; ?>">
+            <li class="aside__item <? echo $action == "patients" || $action == "patient" ? 'aside__item--active' : ''; ?>">
                 <a href="<?='/\/' . $_SERVER['HTTP_HOST'] . '/' . $pension->uri. '/patients'; ?>" class="aside__link <? echo $action == "patients" ? 'aside__link--active' : ''; ?>">
                     <i class="fa fa-database aside__icon" aria-hidden="true"></i>
                     <span class="aside__text">Пациенты</span>

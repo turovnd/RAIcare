@@ -108,6 +108,7 @@ module.exports = (function (get) {
                     } else {
 
                         getMorePatientsBtn.innerHTML = 'Всего ' + parseInt(parseInt(offset) + parseInt(response.number));
+                        getMorePatientsBtn.classList.add('pointer-events--none');
                         document.removeEventListener('scroll', checkPageOffset_);
 
                     }

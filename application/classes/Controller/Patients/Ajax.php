@@ -10,16 +10,11 @@
 
 class Controller_Patients_Ajax extends Ajax
 {
-    CONST WATCH_ALL_PATIENTS_PROFILES    = 34;
-    CONST WATCH_PATIENTS_PROFILES_IN_PEN = 35;
-    CONST CAN_CONDUCT_A_SURVEY           = 36;
-
-    protected $pension = null;
-
-
     public function action_new()
     {
-        self::hasAccess(self::CAN_CONDUCT_A_SURVEY);
+        if (!( $this->user->role == self::ROLE_PEN_QUALITY_MANAGER || $this->user->role == self::ROLE_PEN_NURSE )) {
+            throw new HTTP_Exception_403();
+        }
 
         $name                    = trim(Arr::get($_POST,'name'));
         $sex                     = Arr::get($_POST,'sex');
@@ -88,6 +83,7 @@ class Controller_Patients_Ajax extends Ajax
         $patient = new Model_Patient();
 
         $patient->id                     = $count_patients;
+        $patient->pension                = $pension->id;
         $patient->name                   = $name;
         $patient->sex                    = $sex;
         $patient->birthday               = $birthday;
@@ -100,14 +96,13 @@ class Controller_Patients_Ajax extends Ajax
 
         $patient = $patient->save();
 
-        Model_PensionPatient::add($pension->id, $patient->pk);
-
-        $count_forms = $this->redis->get(getenv('REDIS_PATIENT_HASHES') . $pension->id . ':surveys');
-        $count_forms = $count_forms == false ? 1 : $count_forms + 1;
-        $this->redis->set(getenv('REDIS_PATIENT_HASHES') . $pension->id . ':surveys', $count_forms);
+        // create new survey
+        $count_surveys = $this->redis->get(getenv('REDIS_PATIENT_HASHES') . $pension->id . ':surveys');
+        $count_surveys = $count_surveys == false ? 1 : $count_surveys + 1;
+        $this->redis->set(getenv('REDIS_PATIENT_HASHES') . $pension->id . ':surveys', $count_surveys);
 
         $survey = new Model_Survey();
-        $survey->id           = $count_forms;
+        $survey->id           = $count_surveys;
         $survey->patient      = $patient->pk;
         $survey->pension      = $pension->id;
         $survey->organization = $pension->organization;
@@ -115,37 +110,35 @@ class Controller_Patients_Ajax extends Ajax
         $survey->creator      = $this->user->id;
         $survey->save();
 
-        $response = new Model_Response_Patients('PATIENTS_CREATE_SUCCESS', 'success', array('id' => $count_forms));
+        $response = new Model_Response_Patients('PATIENTS_CREATE_SUCCESS', 'success', array('id' => $count_surveys));
         $this->response->body(@json_encode($response->get_response()));
     }
 
-
     public function action_get()
     {
-        $mode   = Arr::get($_POST, 'mode');
-        $name   = Arr::get($_POST, 'name');
-        $offset = Arr::get($_POST, 'offset');
-
-        switch ($mode) {
-            case 'getAll' :
-                self::hasAccess(self::WATCH_ALL_PATIENTS_PROFILES);
-                $patients = Model_Patient::getAll($offset, 10, $name);
-                break;
-            case "get" :
-                if (!in_array(self::WATCH_ALL_PATIENTS_PROFILES, $this->user->permissions)) {
-                    if (!in_array(self::WATCH_PATIENTS_PROFILES_IN_PEN, $this->user->permissions)) {
-                        throw new HTTP_Exception_403;
-                    }
-                }
-                $this->getPension();
-                $patients = Model_Patient::getByPension($this->pension->id, $offset, 10, $name);
-                break;
+        if (!( $this->user->role == self::ROLE_PEN_CREATOR || $this->user->role == self::ROLE_PEN_QUALITY_MANAGER || $this->user->role == self::ROLE_PEN_NURSE )) {
+            throw new HTTP_Exception_403();
         }
+
+        $mode    = Arr::get($_POST, 'mode');
+        $name    = Arr::get($_POST, 'name');
+        $offset  = Arr::get($_POST, 'offset');
+        $pension = Arr::get($_POST, 'pension');
+
+        $pension = new Model_Pension($pension);
+
+        if (!$pension->id) {
+            $response = new Model_Response_Pensions('PENSION_DOES_NOT_EXISTED_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        $patients = Model_Patient::getByPension($pension->id, $offset, 10, $name);
 
         $html = "";
         foreach ($patients as $patient) {
             if ($mode == "get")
-                $patient->survey = Model_Survey::getFillingSurveyByPatientAndPension($patient->pk, $this->pension->id);
+                $patient->survey = Model_Survey::getFillingSurveyByPatientAndPension($patient->pk, $pension->id);
             $html .= View::factory('patients/blocks/search-block', array('patient' => $patient))->render();
         }
 
@@ -153,22 +146,12 @@ class Controller_Patients_Ajax extends Ajax
         $this->response->body(@json_encode($response->get_response()));
     }
 
-
-    private function getPension()
-    {
-        $pension = Arr::get($_POST, 'pension');
-        $this->pension = new Model_Pension($pension);
-
-        if (!$this->pension->id) {
-            $response = new Model_Response_Pensions('PENSION_DOES_NOT_EXISTED_ERROR', 'error');
-            $this->response->body(@json_encode($response->get_response()));
-            return;
-        }
-    }
-
-
     public function action_update()
     {
+        if (!( $this->user->role == self::ROLE_PEN_QUALITY_MANAGER || $this->user->role == self::ROLE_PEN_NURSE )) {
+            throw new HTTP_Exception_403();
+        }
+
         $pk      = Arr::get($_POST, 'id');
         $name    = Arr::get($_POST, 'name');
         $value   = Arr::get($_POST, 'value');
@@ -224,7 +207,21 @@ class Controller_Patients_Ajax extends Ajax
             return;
         }
 
-        if ($name == 'snils' && Model_Patient::checkBySnilsAndPension($value, $pension)) {
+        $pension = new Model_Pension($pension);
+
+        if (!$pension->id) {
+            $response = new Model_Response_Pensions('PENSION_DOES_NOT_EXISTED_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        if ($patient->pension != $pension->id) {
+            $response = new Model_Response_Patients('PATIENT_PENSION_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        if ($name == 'snils' && Model_Patient::checkBySnilsAndPension($value, $pension->id)) {
             $response = new Model_Response_Patients('PATIENTS_SNILS_EXISTED_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
             return;
@@ -236,4 +233,5 @@ class Controller_Patients_Ajax extends Ajax
         $response = new Model_Response_Patients('PATIENTS_UPDATE_SUCCESS', 'success');
         $this->response->body(@json_encode($response->get_response()));
     }
+
 }

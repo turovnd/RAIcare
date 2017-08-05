@@ -7,12 +7,7 @@
             <div class="col-xs-12 col-sm-8 col-md-9">
                 <p class="form-group__control-static">
                     <span class="js-patient-info">
-                        <? // WATCH_ALL_PATIENTS_PROFILES = 34;
-                        if (in_array(34, $user->permissions)) : ?>
-                            <a class="link" href="<?=URL::site('patient/'. $patient->id); ?>"><?=$patient->name; ?></a>
-                        <? else: ?>
-                            <?=$patient->name; ?>
-                        <? endif; ?>
+                        <?=$patient->name; ?>
                     </span>
                     <? if ($patient->can_edit) : ?>
                         <a onclick="patient.edit.toggle(this)" role="button" class="m-l-5"><i class="fa fa-pencil" aria-hidden="true"></i></a>

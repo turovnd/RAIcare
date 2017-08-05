@@ -5,6 +5,7 @@ Class Model_Patient {
 
     public $pk;                     // primary key - autoincrement (unique in global)
     public $id;                     // not unique in  global + getting via redis
+    public $pension;
     public $name;
     public $sex;                    // 1 - male, 2 - female
     public $birthday;
