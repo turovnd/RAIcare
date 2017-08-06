@@ -45,7 +45,7 @@
     <? endif; ?>
 
 
-    <? if ( $aside_type == 'pension' || $aside_type == 'survey') : ?>
+    <? if ( $aside_type == 'pension' || $aside_type == 'survey' || $aside_type == 'report') : ?>
 
         <li class="divider"></li>
         <li class="aside__text text-bold f-s-0_8 p-5">Пансионат</li>
@@ -105,7 +105,8 @@
             </li>
 
             <li class="aside__item <? echo $action == "surveys" ||
-                                            $action == "survey" ? 'aside__item--active' : ''; ?>">
+                                            $action == "survey" ||
+                                            $aside_type == 'report' ? 'aside__item--active' : ''; ?>">
                 <a href="<?= '/\/' .$_SERVER['HTTP_HOST'] . '/' . $pension->uri. '/surveys'; ?>" class="aside__link <? echo $action == "surveys" ? 'aside__link--active' : ''; ?>">
                     <i class="fa fa-archive aside__icon" aria-hidden="true"></i>
                     <span class="aside__text">Отчеты</span>

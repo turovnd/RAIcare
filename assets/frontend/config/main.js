@@ -30,6 +30,7 @@ module.exports = {
         "pension"       : path.resolve(__dirname, "../pension.js"),
         "patient"       : path.resolve(__dirname, "../patient.js"),
         "survey"        : path.resolve(__dirname, "../survey.js"),
+        "report"        : path.resolve(__dirname, "../report.js"),
     },
 
     output: {

@@ -3,16 +3,8 @@
 
     <h3 class="section__heading">
         <a role="button" onclick="window.history.back()" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn">Назад</a>
-        <a role="button" onclick="" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn"><i class="fa fa-print" aria-hidden="true"></i></a>
         <a role="button" onclick="" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn"><i class="fa fa-floppy-o" aria-hidden="true"></i></a>
-
-        <? // CONST WATCH_ALL_SURVEYS = 37
-        if (in_array(37, $user->permissions)) : ?>
-            Детальный отчет #<?= $survey->pk; ?>
-        <? else: ?>
-            Детальный отчет #<?= $survey->id; ?>
-        <? endif; ?>
-
+        Детальный отчет #<?= $survey->id; ?>
     </h3>
 
     <div class="row">

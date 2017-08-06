@@ -10,60 +10,104 @@
 
 class Controller_Reports_Index extends Dispatch
 {
-    CONST WATCH_ALL_SURVEYS = 37;
-    CONST WATCH_PEN_SURVEY  = 39;
-    CONST WATCH_ALL_REPORTS = 38;
-    CONST WATCH_PEN_REPORT  = 40;
-
     public $template = 'main';
 
+    /** Current Organization */
+    protected $organization = null;
+
+    /** Current Pension */
+    protected $pension = null;
+
+    /** Current Patient */
+    protected $patient = null;
+
+    /** Current Survey */
+    protected $survey   = null;
+
+    /** Current Report */
     protected $report = null;
-    protected $survey = null;
+
 
     public function before()
     {
         parent::before();
 
-        if (!self::isLogged()) {
-            $this->redirect('login');
+        $org_uri = Request::$subdomain;
+
+        $this->organization = Model_Organization::getByFieldName('uri', $org_uri);
+
+        if (!$this->organization->id && !in_array($org_uri, self::PRIVATE_SUBDOMIANS)) {
+            throw new HTTP_Exception_404();
         }
 
+        if (!self::isLogged()) self::gotoLoginPage();
+
+        $pen_uri = $this->request->param('pen_uri');
+        $this->pension = Model_Pension::getByFieldName('uri', $pen_uri);
+
+        if (!$this->pension->id || $this->pension->organization != $this->organization->id) {
+            throw new HTTP_Exception_404();
+        }
+
+        $survey = $this->request->param('id');
+        $this->survey = Model_Survey::getByFieldName('id', $survey);
+
+        if (!$this->survey->pk || $this->survey->pension != $this->pension->id || $this->survey->status != 2) {
+            throw new HTTP_Exception_404();
+        }
+
+        $this->pension->users = Model_UserPension::getUsers($this->pension->id);
+
+        if (! ( in_array($this->user->role,self::PEN_AVAILABLE_ROLES) ||
+            $this->user->role == self::ROLE_PEN_CREATOR ||
+            in_array($this->user->id, $this->pension->users) || $this->user->role == 1) ) {
+
+            throw new HTTP_Exception_403();
+
+        }
+
+        $first_survey = Model_Survey::getFirstSurvey($this->survey->pension, $this->survey->patient);
+        $this->survey->dt_first_survey = !empty($first_survey->pk) ? $first_survey->dt_create : $this->survey->dt_create;
+
+        $this->survey->patient = new Model_Patient($this->survey->patient);
+        $this->survey->creator = new Model_User($this->survey->creator);
+        $this->survey->pension = new Model_Pension($this->survey->pension);
+
         $data = array(
-            'action'    => $this->request->action(),
+            'aside_type' => 'report',
+            'pension'    => $this->pension,
+            'action'     => $this->request->action()
         );
 
         $this->template->aside = View::factory('global_blocks/aside', $data);
     }
 
+
     /**
      * Patient Full Survey Report (based on questions)
      */
-    public function action_fullreport()
-    {
-        self::hasAccess(self::WATCH_ALL_SURVEYS);
-
-        $pk = $this->request->param('pk');
-
-        $this->getSurveyData('pk', $pk);
-        $this->getUnitsData();
-
-        $this->template->title = "Детальный отчет #" . $this->survey->pk;
-        $this->template->section = View::factory('reports/pages/full-report')
-            ->set('survey', $this->survey);
-    }
+//    public function action_fullreport()
+//    {
+//        $pk = $this->request->param('pk');
+//
+//        $this->getSurveyData('pk', $pk);
+//        $this->getUnitsData();
+//
+//        $this->template->title = "Детальный отчет #" . $this->survey->pk;
+//        $this->template->section = View::factory('reports/pages/full-report')
+//            ->set('survey', $this->survey);
+//    }
 
     /**
      * Patient Full Survey Report On Pension Page (based on questions)
      */
     public function action_pen_fullreport()
     {
-        self::hasAccess(self::WATCH_PEN_SURVEY);
-        $this->checkUsersPensionAccess();
-
-        $id = $this->request->param('sur_id');
-
-        $this->getSurveyData('id', $id);
         $this->getUnitsData();
+
+        $this->survey->patient->can_edit = false;
+        $this->survey->patient->full_info = true;
+        $this->survey->patient->creator = new Model_User($this->survey->patient->creator);
 
         $this->template->title = "Детальный отчет #" . $this->survey->id;
         $this->template->section = View::factory('reports/pages/full-report')
@@ -74,41 +118,32 @@ class Controller_Reports_Index extends Dispatch
     /**
      * Patient Protocols Report
      */
-    public function action_protocolsreport()
-    {
-        self::hasAccess(self::WATCH_ALL_REPORTS);
-
-        $pk = $this->request->param('pk');
-
-        $this->getSurveyData('pk', $pk);
-
-        $this->report = new Model_ReportProtocols($pk);
-
-        if (!$this->report->pk) {
-            $this->getUnitsData();
-            $this->createProtocolsReport();
-        }
-
-        $this->template->title = "Итоговый протокол оценки #" . $this->survey->pk;
-        $this->template->section = View::factory('reports/pages/protocols-report')
-            ->set('survey', $this->survey)
-            ->set('protocols', $this->report);
-    }
+//    public function action_protocolsreport()
+//    {
+//
+//        $pk = $this->request->param('pk');
+//
+//        $this->getSurveyData('pk', $pk);
+//
+//        $this->report = new Model_ReportProtocols($pk);
+//
+//        if (!$this->report->pk) {
+//            $this->getUnitsData();
+//            $this->createProtocolsReport();
+//        }
+//
+//        $this->template->title = "Итоговый протокол оценки #" . $this->survey->pk;
+//        $this->template->section = View::factory('reports/pages/protocols-report')
+//            ->set('survey', $this->survey)
+//            ->set('protocols', $this->report);
+//    }
 
     /**
      * Patient Protocols Report On Pension Page
      */
     public function action_pen_protocolsreport()
     {
-        self::hasAccess(self::WATCH_PEN_REPORT);
-        $this->checkUsersPensionAccess();
-
-        $pension = $this->request->param('pen_id');
-        $id = $this->request->param('sur_id');
-
-        $this->getSurveyData('id', $id);
-
-        $this->report = Model_ReportProtocols::getByPension($id, $pension);
+        $this->report = Model_ReportProtocols::getByPension($this->survey->pk, $this->pension->id);
 
         if (!$this->report->pk) {
             $this->getUnitsData();
@@ -124,41 +159,31 @@ class Controller_Reports_Index extends Dispatch
     /**
      * Patient RAI Scales Report
      */
-    public function action_raiscalesreport()
-    {
-        self::hasAccess(self::WATCH_ALL_REPORTS);
-
-        $pk = $this->request->param('pk');
-
-        $this->getSurveyData('pk', $pk);
-
-        $this->report = new Model_ReportRAIScales($pk);
-
-        if (!$this->report->pk) {
-            $this->getUnitsData();
-            $this->createRAIScales();
-        }
-
-        $this->template->title = "Отчет по шкалам RAI #" . $this->survey->pk;
-        $this->template->section = View::factory('reports/pages/rai-scales-report')
-            ->set('survey', $this->survey)
-            ->set('report', $this->report);
-    }
+//    public function action_raiscalesreport()
+//    {
+//        $pk = $this->request->param('pk');
+//
+//        $this->getSurveyData('pk', $pk);
+//
+//        $this->report = new Model_ReportRAIScales($pk);
+//
+//        if (!$this->report->pk) {
+//            $this->getUnitsData();
+//            $this->createRAIScales();
+//        }
+//
+//        $this->template->title = "Отчет по шкалам RAI #" . $this->survey->pk;
+//        $this->template->section = View::factory('reports/pages/rai-scales-report')
+//            ->set('survey', $this->survey)
+//            ->set('report', $this->report);
+//    }
 
     /**
      * Patient RAI Scales Report On Pension Page
      */
     public function action_pen_raiscalesreport()
     {
-        self::hasAccess(self::WATCH_PEN_REPORT);
-        $this->checkUsersPensionAccess();
-
-        $pension = $this->request->param('pen_id');
-        $id = $this->request->param('sur_id');
-
-        $this->getSurveyData('id', $id);
-
-        $this->report = Model_ReportRAIScales::getByPension($id, $pension);
+        $this->report = Model_ReportRAIScales::getByPension($this->survey->pk, $this->pension->id);
 
         if (!$this->report->pk) {
             $this->getUnitsData();
@@ -174,41 +199,32 @@ class Controller_Reports_Index extends Dispatch
     /**
      * Patient Personal Report
      */
-    public function action_personalreport()
-    {
-        self::hasAccess(self::WATCH_ALL_REPORTS);
-
-        $pk = $this->request->param('pk');
-
-        $this->getSurveyData('pk', $pk);
-
-        $this->report = new Model_ReportRAIScales($pk);
-
-        if (!$this->report->pk) {
-            $this->getUnitsData();
-            $this->createRAIScales();
-        }
-
-        $this->template->title = "Персональный отчет #" . $this->survey->pk;
-        $this->template->section = View::factory('reports/pages/personal-report')
-            ->set('survey', $this->survey)
-            ->set('report', $this->report);
-    }
+//    public function action_personalreport()
+//    {
+//        $pk = $this->request->param('pk');
+//
+//        $this->getSurveyData('pk', $pk);
+//
+//        $this->report = new Model_ReportRAIScales($pk);
+//
+//        if (!$this->report->pk) {
+//            $this->getUnitsData();
+//            $this->createRAIScales();
+//        }
+//
+//        $this->template->title = "Персональный отчет #" . $this->survey->pk;
+//        $this->template->section = View::factory('reports/pages/personal-report')
+//            ->set('survey', $this->survey)
+//            ->set('report', $this->report);
+//    }
 
     /**
      * Patient Personal Report On Pension Page
      */
     public function action_pen_personalreport()
     {
-        self::hasAccess(self::WATCH_PEN_REPORT);
-        $this->checkUsersPensionAccess();
+        $this->report = Model_ReportRAIScales::getByPension($this->survey->pk, $this->pension->id);
 
-        $pension = $this->request->param('pen_id');
-        $id = $this->request->param('sur_id');
-
-        $this->getSurveyData('id', $id);
-
-        $this->report = Model_ReportRAIScales::getByPension($id, $pension);
         $this->getUnitsData();
         if (!$this->report->pk) {
             $this->createRAIScales();
@@ -223,53 +239,43 @@ class Controller_Reports_Index extends Dispatch
     /**
      * Patient Personal Report
      */
-    public function action_clinicalreport()
-    {
-        self::hasAccess(self::WATCH_ALL_REPORTS);
-
-        $pk = $this->request->param('pk');
-
-        $this->getSurveyData('pk', $pk);
-
-        $this->report = new Model_ReportRAIScales($pk);
-
-        if (!$this->report->pk) {
-            $this->getUnitsData();
-            $this->createRAIScales();
-        }
-
-        $raiscales = $this->report;
-
-        $this->report = new Model_ReportProtocols($pk);
-
-        if (!$this->report->pk) {
-            $this->getUnitsData();
-            $this->createProtocolsReport();
-        }
-
-        $protocols = $this->report;
-
-        $this->template->title = "Клинический отчет #" . $this->survey->pk;
-        $this->template->section = View::factory('reports/pages/clinical-report')
-            ->set('survey', $this->survey)
-            ->set('protocols', $protocols)
-            ->set('raiscales', $raiscales);
-    }
+//    public function action_clinicalreport()
+//    {
+//        $pk = $this->request->param('pk');
+//
+//        $this->getSurveyData('pk', $pk);
+//
+//        $this->report = new Model_ReportRAIScales($pk);
+//
+//        if (!$this->report->pk) {
+//            $this->getUnitsData();
+//            $this->createRAIScales();
+//        }
+//
+//        $raiscales = $this->report;
+//
+//        $this->report = new Model_ReportProtocols($pk);
+//
+//        if (!$this->report->pk) {
+//            $this->getUnitsData();
+//            $this->createProtocolsReport();
+//        }
+//
+//        $protocols = $this->report;
+//
+//        $this->template->title = "Клинический отчет #" . $this->survey->pk;
+//        $this->template->section = View::factory('reports/pages/clinical-report')
+//            ->set('survey', $this->survey)
+//            ->set('protocols', $protocols)
+//            ->set('raiscales', $raiscales);
+//    }
 
     /**
      * Patient Personal Report On Pension Page
      */
     public function action_pen_clinicalreport()
     {
-        self::hasAccess(self::WATCH_PEN_REPORT);
-        $this->checkUsersPensionAccess();
-
-        $pension = $this->request->param('pen_id');
-        $id = $this->request->param('sur_id');
-
-        $this->getSurveyData('id', $id);
-
-        $this->report = Model_ReportRAIScales::getByPension($id, $pension);
+        $this->report = Model_ReportRAIScales::getByPension($this->survey->pk, $this->pension->id);
 
         $this->getUnitsData();
         if (!$this->report->pk) {
@@ -278,10 +284,9 @@ class Controller_Reports_Index extends Dispatch
 
         $raiscales = $this->report;
 
-        $this->report = Model_ReportProtocols::getByPension($id, $pension);
+        $this->report = Model_ReportProtocols::getByPension($this->survey->pk, $this->pension->id);
 
         if (!$this->report->pk) {
-            $this->getUnitsData();
             $this->createProtocolsReport();
         }
 
@@ -318,7 +323,7 @@ class Controller_Reports_Index extends Dispatch
 
         $this->report->pk = $this->survey->pk;
         $this->report->id = $this->survey->id;
-        $this->report->pension = $this->survey->pension->id;
+        $this->report->pension = $this->pension->id;
 
         // Behaviour - проблемное поведение
         $P1 = 0;
@@ -456,26 +461,6 @@ class Controller_Reports_Index extends Dispatch
         $this->report->save();
     }
 
-
-    // Get Main Survey Data
-    private function getSurveyData($mod, $id)
-    {
-        if ($mod == 'pk') $this->survey = new Model_Survey($id);
-        elseif ($mod == 'id') $this->survey = Model_Survey::getByFieldName('id', $id);
-        else throw new HTTP_Exception_404();
-
-        if (!$this->survey->pk) throw new HTTP_Exception_404();
-
-        $first_survey = Model_Survey::getFirstSurvey($this->survey->pension, $this->survey->patient);
-        $this->survey->dt_first_survey = !empty($first_survey->pk) ? $first_survey->dt_create : $this->survey->dt_create;
-
-        $this->survey->patient = new Model_Patient($this->survey->patient);
-        $this->survey->creator = new Model_User($this->survey->creator);
-        $this->survey->pension = new Model_Pension($this->survey->pension);
-        $this->survey->patient->can_edit = false;
-        $this->survey->patient->full_info = true;
-    }
-
     // Get All Units Data
     private function getUnitsData()
     {
@@ -499,22 +484,6 @@ class Controller_Reports_Index extends Dispatch
         $this->survey->unitR = new Model_SurveyUnitR($this->survey->unitR);
     }
 
-    // Check User Access to the Report
-    private function checkUsersPensionAccess()
-    {
-        $pension = $this->request->param('pen_id');
-        $pension = new Model_Pension($pension);
-
-        if (!$pension->id) throw new HTTP_Exception_404();
-
-        $usersIDs = Model_UserPension::getUsers($pension->id);
-
-        if (!(in_array($this->user->id, $usersIDs))) {
-            if ( $this->user->role != 1 ) {
-                throw new HTTP_Exception_403();
-            }
-        }
-    }
 
     // Pressure Ulcer Risk Scale
     private function getPURS()

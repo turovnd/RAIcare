@@ -3,7 +3,7 @@ module.exports = (function (get) {
     var corePrefix       = 'Survey: get AJAX',
         unitHolder       = document.getElementsByClassName('section__content')[0],
         pensionID        = document.getElementById('pensionID'),
-        patientID        = document.getElementById('patientID'),
+        patientPK        = document.getElementById('patientPK'),
         units            = ['progress', 'unitA', 'unitB', 'unitC', 'unitD', 'unitE', 'unitF', 'unitG', 'unitH', 'unitI',
             'unitJ', 'unitK', 'unitL', 'unitM', 'unitN', 'unitO', 'unitP', 'unitQ', 'unitR'],
         surveyID         = document.getElementById('surveyID'),
@@ -11,7 +11,7 @@ module.exports = (function (get) {
 
 
     if(pensionID) pensionID = pensionID.value;
-    if(patientID) patientID = patientID.value;
+    if(patientPK) patientPK = patientPK.value;
     if(surveyID) surveyID = surveyID.value;
 
     get.unitstart = function () {
@@ -181,7 +181,7 @@ module.exports = (function (get) {
             offset         = parseInt(getMoreSurveysBtn.dataset.offset);
 
         formData.append('offset', offset);
-        formData.append('patient', patientID);
+        formData.append('patient', patientPK);
         formData.append('pension', pensionID);
         formData.append('csrf', document.getElementById('csrf').value);
 

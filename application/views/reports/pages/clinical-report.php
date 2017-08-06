@@ -2,16 +2,8 @@
 
     <h3 class="section__heading">
         <a role="button" onclick="window.history.back()" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn">Назад</a>
-        <a role="button" onclick="" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn"><i class="fa fa-print" aria-hidden="true"></i></a>
         <a role="button" onclick="" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn"><i class="fa fa-floppy-o" aria-hidden="true"></i></a>
-
-        <? // WATCH_ALL_SURVEYS = 37
-        if (in_array(37, $user->permissions)) : ?>
-            Клинический отчет #<?= $survey->pk; ?>
-        <? else: ?>
-            Клинический отчет #<?= $survey->id; ?>
-        <? endif; ?>
-
+        Клинический отчет #<?= $survey->id; ?>
     </h3>
 
     <div class="row">
@@ -20,7 +12,7 @@
             <?= View::factory('reports/block/patient-info', array('survey' => $survey)); ?>
 
             <h3 class="section__heading">
-                <a role="button" data-area="raiscales" data-opened="true" data-textclosed="показать все" data-textopened="показать только выявленные" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn"></a>
+                <a onclick="report.onclick.triggered(this);" role="button" data-area="raiscales" data-opened="true" data-textclosed="показать все" data-textopened="показать только выявленные" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn"></a>
                 Шкалы RAI
             </h3>
 
@@ -244,7 +236,7 @@
             </div>
 
             <h3 class="section__heading">
-                <a role="button" data-area="protocols" data-opened="true" data-textclosed="показать все" data-textopened="показать только выявленные" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn"></a>
+                <a onclick="report.onclick.triggered(this);" role="button" data-area="protocols" data-opened="true" data-textclosed="показать все" data-textopened="показать только выявленные" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn"></a>
                 Протоколы оценки
             </h3>
 
@@ -586,3 +578,5 @@
 
     document.addEventListener("DOMContentLoaded", ready);
 </script>
+
+<script type="text/javascript" src="<?=$assets; ?>frontend/bundles/report.min.js?v=<?= filemtime("assets/frontend/bundles/report.min.js") ?>"></script>

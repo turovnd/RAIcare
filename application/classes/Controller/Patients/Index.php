@@ -149,7 +149,7 @@ class Controller_Patients_Index extends Dispatch
             throw new HTTP_Exception_404();
         }
 
-        $surveys = Model_Survey::getAllFinishedByPatientAndPension($this->patient->pk, $this->pension->id, 0, 2);
+        $surveys = Model_Survey::getAllFinishedByPatientAndPension($this->patient->pk, $this->pension->id, 0, 10);
 
         $this->patient->creator = new Model_User($this->patient->creator);
         $this->patient->surveys = $surveys;

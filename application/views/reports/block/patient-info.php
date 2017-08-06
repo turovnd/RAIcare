@@ -5,14 +5,7 @@
             <label class="form-group__label col-xs-12 col-sm-4 col-md-3">Пациент</label>
             <div class="col-xs-12 col-sm-8 col-md-9">
                 <p class="form-group__control-static">
-                    <? // Module Patients => WATCH_ALL_PATIENTS_PROFILES
-                    if (in_array(34, $user->permissions)) : ?>
-                    <a class="link" href="<?=URL::site('patient/'. $survey->patient->pk); ?>"><?= $survey->patient->name; ?></a>
-                    <? endif; ?>
-                    <? // Module Patients => WATCH_PATIENTS_PROFILES_IN_PEN
-                    if (in_array(35, $user->permissions)) : ?>
-                        <a class="link" href="<?=URL::site('pension/' . $survey->pension->id . '/patient/'. $survey->patient->id); ?>"><?= $survey->patient->name; ?></a>
-                    <? endif; ?>
+                    <a class="link" href="<?=URL::site('pension/' . $survey->pension->id . '/patient/'. $survey->patient->id); ?>"><?= $survey->patient->name; ?></a>
                 </p>
             </div>
         </div>
