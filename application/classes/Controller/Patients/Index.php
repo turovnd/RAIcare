@@ -17,10 +17,10 @@ class Controller_Patients_Index extends Dispatch
     protected $organization = null;
 
     /** Current Pension */
-    public $pension = null;
+    protected $pension = null;
 
     /** Current Patient */
-    public $patient = null;
+    protected $patient = null;
 
 
     public function before()
@@ -149,7 +149,7 @@ class Controller_Patients_Index extends Dispatch
             throw new HTTP_Exception_404();
         }
 
-        $surveys = Model_Survey::getAllFinishedByPatientAndPension($this->patient->pk, $this->pension->id, 0, 10);
+        $surveys = Model_Survey::getAllFinishedByPatientAndPension($this->patient->pk, $this->pension->id, 0, 2);
 
         $this->patient->creator = new Model_User($this->patient->creator);
         $this->patient->surveys = $surveys;

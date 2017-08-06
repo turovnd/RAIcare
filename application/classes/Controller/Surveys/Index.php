@@ -10,77 +10,105 @@
 
 class Controller_Surveys_Index extends Dispatch
 {
-    CONST CAN_CONDUCT_A_SURVEY  = 36;
-    CONST WATCH_ALL_SURVEYS     = 37;
-    CONST WATCH_PEN_SURVEY      = 39;
-
     public $template = 'main';
 
-    protected $pension  = null;
+    /** Current Organization */
+    protected $organization = null;
+
+    /** Current Pension */
+    protected $pension = null;
+
+    /** Current Patient */
+    protected $patient = null;
+
+    /** Current Survey */
     protected $survey   = null;
+
 
     public function before()
     {
         parent::before();
 
-        if (!self::isLogged()) {
-            $this->redirect('login');
+        $org_uri = Request::$subdomain;
+
+        $this->organization = Model_Organization::getByFieldName('uri', $org_uri);
+
+        if (!$this->organization->id && !in_array($org_uri, self::PRIVATE_SUBDOMIANS)) {
+            throw new HTTP_Exception_404();
+        }
+
+        if (!self::isLogged()) self::gotoLoginPage();
+
+        $pen_uri = $this->request->param('pen_uri');
+        $this->pension = Model_Pension::getByFieldName('uri', $pen_uri);
+
+        if (!$this->pension->id || $this->pension->organization != $this->organization->id) {
+            throw new HTTP_Exception_404();
+        }
+
+        $this->pension->users = Model_UserPension::getUsers($this->pension->id);
+
+        if (! ( in_array($this->user->role,self::PEN_AVAILABLE_ROLES) ||
+            $this->user->role == self::ROLE_PEN_CREATOR ||
+            in_array($this->user->id, $this->pension->users) || $this->user->role == 1) ) {
+
+            throw new HTTP_Exception_403();
+
+        }
+
+        if ($this->request->action() == 'survey') {
+            $survey = $this->request->param('id');
+            $this->survey = Model_Survey::getByFieldName('id', $survey);
+
+            if (!$this->survey->pk || $this->survey->pension != $this->pension->id) {
+                throw new HTTP_Exception_404();
+            }
+
+            if ($this->survey->status == 1 && strtotime(Date::formatted_time('now')) - strtotime($this->survey->dt_create) > Date::DAY * 3) {
+                $this->survey->status= 3;
+                $this->survey->update();
+            }
         }
 
         $data = array(
-            'action' => $this->request->action()
+            'aside_type' => 'survey',
+            'pension'    => $this->pension,
+            'survey'     => $this->survey,
+            'action'     => $this->request->action()
         );
 
         $this->template->aside = View::factory('global_blocks/aside', $data);
     }
 
-    public function action_all_surveys()
+    public function action_surveys()
     {
-        self::hasAccess(self::WATCH_ALL_SURVEYS);
+        $surveys = Model_Survey::getAllByPension($this->pension->id);
 
-        $surveys = Model_Survey::getAll(0,10);
-
-        $this->template->title = "База данных всех форм оценки";
-        $this->template->section = View::factory('surveys/pages/all-surveys')
+        $this->template->title = "Все формы оценки - " . $this->pension->name;
+        $this->template->section = View::factory('surveys/pages/surveys')
+            ->set('pension', $this->pension)
             ->set('surveys', $surveys);
     }
 
-    public function action_all_survey()
+    public function action_survey()
     {
-        self::hasAccess(self::WATCH_ALL_SURVEYS);
+        if ($this->survey->status == 1 && $this->user->role == self::ROLE_PEN_NURSE) {
 
-        $this->getSurvey();
-
-        $this->survey->patient = new Model_Patient($this->survey->patient);
-        $this->survey->patient->can_edit = false;
-        $this->survey->patient->full_info = true;
-
-        $this->template->title = "Форма оценки #" . $this->survey->pk;
-        $this->template->section = View::factory('surveys/pages/survey')
-            ->set('survey', $this->survey);
-    }
-
-    public function action_pen_survey()
-    {
-        $this->getPension();
-        $this->getSurvey();
-
-        if ($this->survey->status == 1) {
-            self::hasAccess(self::CAN_CONDUCT_A_SURVEY);
             $this->survey->unavailable_units = json_encode($this->getUnavailableUnits());
             $section = 'survey-filling';
+
+        } else {
+
+            $this->getSurveyUnits();
+            $this->patient = new Model_Patient($this->survey->patient);
+            $section = 'survey-control';
+
         }
 
-        if ($this->survey->status == 2) {
-            self::hasAccess(self::WATCH_PEN_SURVEY);
-            $this->survey->patient = new Model_Patient($this->survey->patient);
-            $this->survey->patient->can_edit = false;
-            $this->survey->patient->full_info = true;
-            $section = 'survey';
-        }
-
-        $this->template->title = "Форма оценки долговременного ухода";
+        $this->template->title = "Форма оценки #" . $this->survey->id . " - " . $this->pension->name;
         $this->template->section = View::factory('surveys/pages/' . $section)
+            ->set('pension', $this->pension)
+            ->set('patient', $this->patient)
             ->set('survey', $this->survey)
             ->set('can_conduct', true);
     }
@@ -101,50 +129,25 @@ class Controller_Surveys_Index extends Dispatch
         return $units;
     }
 
-    private function getPension()
+    private function getSurveyUnits()
     {
-        $pension = $this->request->param('pen_id');
-
-        $this->pension = new Model_Pension($pension);
-
-        if (!$this->pension->id) {
-            throw new HTTP_Exception_404();
-        }
-
-        $usersIDs = Model_UserPension::getUsers($this->pension->id);
-
-        if (!(in_array($this->user->id, $usersIDs))) {
-            if ( $this->user->role != 1 ) {
-                throw new HTTP_Exception_403();
-            }
-        }
+        $this->survey->unitA = new Model_SurveyUnitA($this->survey->unitA);
+        $this->survey->unitB = new Model_SurveyUnitB($this->survey->unitB);
+        $this->survey->unitC = new Model_SurveyUnitC($this->survey->unitC);
+        $this->survey->unitD = new Model_SurveyUnitD($this->survey->unitD);
+        $this->survey->unitE = new Model_SurveyUnitE($this->survey->unitE);
+        $this->survey->unitF = new Model_SurveyUnitF($this->survey->unitF);
+        $this->survey->unitG = new Model_SurveyUnitG($this->survey->unitG);
+        $this->survey->unitH = new Model_SurveyUnitH($this->survey->unitH);
+        $this->survey->unitI = new Model_SurveyUnitI($this->survey->unitI);
+        $this->survey->unitJ = new Model_SurveyUnitJ($this->survey->unitJ);
+        $this->survey->unitK = new Model_SurveyUnitK($this->survey->unitK);
+        $this->survey->unitL = new Model_SurveyUnitL($this->survey->unitL);
+        $this->survey->unitM = new Model_SurveyUnitM($this->survey->unitM);
+        $this->survey->unitN = new Model_SurveyUnitN($this->survey->unitN);
+        $this->survey->unitO = new Model_SurveyUnitO($this->survey->unitO);
+        $this->survey->unitP = new Model_SurveyUnitP($this->survey->unitP);
+        $this->survey->unitQ = new Model_SurveyUnitQ($this->survey->unitQ);
+        $this->survey->unitR = new Model_SurveyUnitR($this->survey->unitR);
     }
-
-    private function getSurvey()
-    {
-        $survey = $this->request->param('s_pk');
-        $this->survey = new Model_Survey($survey);
-
-        if (!$survey) {
-            $survey = $this->request->param('s_id');
-            $this->survey = Model_Survey::getByFieldName('id', $survey);
-
-            if ($this->survey->status == 1 && strtotime(Date::formatted_time('now')) - strtotime($this->survey->dt_create) > Date::DAY * 3) {
-                $this->survey->status= 3;
-                $this->survey->update();
-                echo '<h2 class="h2">Форма была удалена.</h2><h3 class="h3">С момента создания прошло более 3 дней</h3><h4>Дата создания: '. Date('d M Y H:i', strtotime($this->survey->dt_create)) . '</h4><h4>Текущее время: ' . Date('d M Y H:i', strtotime(Date::formatted_time('now'))) . '</h4>';
-                die();
-            }
-
-            if ($this->survey->pension != $this->pension->id || $this->survey->status == 3) {
-                throw new HTTP_Exception_404();
-            }
-        }
-
-        if (!$this->survey->pk) {
-            throw new HTTP_Exception_404();
-        }
-
-    }
-
 }

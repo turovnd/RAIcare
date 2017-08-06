@@ -16,7 +16,7 @@ class Controller_Pensions_Index extends Dispatch
     protected $organization = null;
 
     /** Current Pension */
-    public $pension  = null;
+    protected $pension  = null;
 
     public function before()
     {

@@ -10,20 +10,12 @@
 
 class Controller_Surveys_Ajax extends Ajax
 {
-    CONST WATCH_ALL_PATIENTS_PROFILES    = 34;
-    CONST WATCH_PATIENTS_PROFILES_IN_PEN = 35;
-    CONST CAN_CONDUCT_A_SURVEY           = 36;
-    CONST WATCH_ALL_SURVEYS              = 37;
-
     protected $pension  = null;
     protected $patient  = null;
     protected $survey   = null;
 
-
     public function action_new()
     {
-        self::hasAccess(self::CAN_CONDUCT_A_SURVEY);
-
         $this->getPatientAndPensionData();
         $type = Arr::get($_POST,'type');
 
@@ -33,22 +25,19 @@ class Controller_Surveys_Ajax extends Ajax
             return;
         }
 
-        $survey = Model_Survey::getFirstSurvey($this->pension->id, $this->patient->pk);
-        if ($survey->id && $survey->type == $type) {
+        $first_survey = Model_Survey::getFirstSurvey($this->pension->id, $this->patient->pk);
+        if ($first_survey->id && $first_survey->type == $type) {
             $response = new Model_Response_Survey('SURVEY_WITH_TYPE_1_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
             return;
         }
 
-
-        $count_forms = $this->redis->get($_SERVER['REDIS_PENSION_HASHES'] . $this->pension->id . ':surveys');
-        $count_forms = $count_forms == false ? 1 : $count_forms + 1;
-        $this->redis->set($_SERVER['REDIS_PENSION_HASHES'] . $this->pension->id . ':surveys', $count_forms);
-
-        $first_survey = Model_Survey::getFirstSurvey($this->pension->id, $this->patient->id);
+        $count_surveys = $this->redis->get($_SERVER['REDIS_PENSION_HASHES'] . $this->pension->id . ':surveys');
+        $count_surveys = $count_surveys == false ? 1 : $count_surveys + 1;
+        $this->redis->set($_SERVER['REDIS_PENSION_HASHES'] . $this->pension->id . ':surveys', $count_surveys);
 
         $survey               = new Model_Survey();
-        $survey->id           = $count_forms;
+        $survey->id           = $count_surveys;
         $survey->patient      = $this->patient->pk;
         $survey->pension      = $this->pension->id;
         $survey->organization = $this->pension->organization;
@@ -57,76 +46,63 @@ class Controller_Surveys_Ajax extends Ajax
         $survey->unitB        = $first_survey->unitB;
         $survey->save();
 
-        $response = new Model_Response_Survey('SURVEY_CREATED_SUCCESS', 'success', array('id' => $count_forms));
+        $response = new Model_Response_Survey('SURVEY_CREATED_SUCCESS', 'success', array('id' => $count_surveys));
         $this->response->body(@json_encode($response->get_response()));
     }
 
     public function action_get()
     {
-        $patients = json_decode(Arr::get($_POST,'patients'));
-        $type     = Arr::get($_POST,'type');
         $offset   = Arr::get($_POST,'offset');
-        $forms = array();
-        switch ($type) {
-            case 'json':
-                self::hasAccess(self::WATCH_ALL_PATIENTS_PROFILES);
-                self::hasAccess(self::WATCH_ALL_SURVEYS);
-                $formsModel = Model_Survey::getAllFormsByPatients($patients, $offset, 10);
-                foreach ($formsModel as $key => $form) {
-                    $forms[] = array(
-                        'date' => Date('M Y', strtotime($form->dt_finish)),
-                        'html' => View::factory('patients/blocks/timeline-item', array('form' => $form))->render()
-                    );
-                }
-                break;
-            case 'id':
-                self::hasAccess(self::WATCH_PATIENTS_PROFILES_IN_PEN);
-                $this->getPatientAndPensionData();
-                $formsModel = Model_Survey::getAllFormsByPatientAndPension($this->patient->pk, $this->pension->id, $offset, 10);
-                foreach ($formsModel as $key => $form) {
-                    $forms[] = array(
-                        'date' => Date('M Y', strtotime($form->dt_finish)),
-                        'html' => View::factory('patients/blocks/timeline-item', array('form' => $form))->render()
-                    );
-                }
-                break;
+        $surveys = array();
+
+        $this->getPatientAndPensionData();
+
+        $surveysModel = Model_Survey::getAllFinishedByPatientAndPension($this->patient->pk, $this->pension->id, $offset, 10);
+
+        foreach ($surveysModel as $key => $survey) {
+            $surveys[] = array(
+                'date' => Date('M Y', strtotime($survey->dt_finish)),
+                'html' => View::factory('patients/blocks/timeline-item', array('survey' => $survey))->render()
+            );
         }
 
-        $response = new Model_Response_Survey('SURVEY_GET_SUCCESS', 'success', array('forms' => $forms, 'number' => count($forms)));
+        $response = new Model_Response_Survey('SURVEY_GET_SUCCESS', 'success', array('surveys' => $surveys, 'number' => count($surveys)));
         $this->response->body(@json_encode($response->get_response()));
     }
 
-    public function action_search()
-    {
-        self::hasAccess(self::WATCH_ALL_SURVEYS);
-        $name   = Arr::get($_POST,'name');
-        $offset = Arr::get($_POST,'offset');
-
-        $surveys = Model_Survey::searchForms($offset, 10, $name);
-
-        $html = "";
-        foreach ($surveys as $survey) {
-            $html .= View::factory('surveys/blocks/search-block', array('survey' => $survey))->render();
-        }
-
-        $response = new Model_Response_Survey('SURVEY_GET_SUCCESS', 'success', array('html' => $html, 'number' => count($surveys)));
-        $this->response->body(@json_encode($response->get_response()));
-    }
+//    public function action_search()
+//    {
+//        self::hasAccess(self::WATCH_ALL_SURVEYS);
+//        $name   = Arr::get($_POST,'name');
+//        $offset = Arr::get($_POST,'offset');
+//
+//        $surveys = Model_Survey::searchForms($offset, 10, $name);
+//
+//        $html = "";
+//        foreach ($surveys as $survey) {
+//            $html .= View::factory('surveys/blocks/search-block', array('survey' => $survey))->render();
+//        }
+//
+//        $response = new Model_Response_Survey('SURVEY_GET_SUCCESS', 'success', array('html' => $html, 'number' => count($surveys)));
+//        $this->response->body(@json_encode($response->get_response()));
+//    }
 
     public function action_getunit()
     {
-        self::hasAccess(self::CAN_CONDUCT_A_SURVEY);
-
         $unit = Arr::get($_POST,'unit');
 
         $this->getSurvey();
-        $this->getSurveyUnits();
+        $this->getSurveyUnits($unit);
 
-        $this->survey->pension = new Model_Pension($this->survey->pension);
-        $this->survey->patient = new Model_Patient($this->survey->patient);
-        $this->survey->patient->can_edit = true;
-        $this->survey->patient->full_info = true;
-        $this->survey->patient->creator = new Model_User($this->survey->patient->creator);
+        if ($unit == 'progress' || $unit == 'unitA' || $unit == 'unitO') {
+            $this->survey->patient = new Model_Patient($this->survey->patient);
+        }
+        if ($unit == 'unitA') {
+            $this->survey->pension = new Model_Pension($this->survey->pension);
+            $this->survey->patient->can_edit = true;
+            $this->survey->patient->full_info = true;
+            $this->survey->patient->creator = new Model_User($this->survey->patient->creator);
+        }
 
 
         $html = View::factory('surveys/units/' . $unit, array('survey' => $this->survey, 'can_conduct' => true))->render();
@@ -184,32 +160,64 @@ class Controller_Surveys_Ajax extends Ajax
         }
     }
 
-    private function getSurveyUnits()
+    private function getSurveyUnits($unit)
     {
-        $first_survey = Model_Survey::getFirstSurvey($this->survey->pension, $this->survey->patient);
-        $this->survey->dt_first_survey = !empty($first_survey->pk) ? $first_survey->dt_create : $this->survey->dt_create;
-
-        $this->survey->unitA = new Model_SurveyUnitA($this->survey->unitA);
-
-        if ($this->survey->type == 1)
+        if ($unit == 'progress' || $unit == 'unitA') {
+            $first_survey = Model_Survey::getFirstSurvey($this->survey->pension, $this->survey->patient);
+            $this->survey->dt_first_survey = !empty($first_survey->pk) ? $first_survey->dt_create : $this->survey->dt_create;
+            $this->survey->unitA = new Model_SurveyUnitA($this->survey->unitA);
+        }
+        if ($unit == 'progress' || $unit == 'unitB') {
             $this->survey->unitB = new Model_SurveyUnitB($this->survey->unitB);
-
-        $this->survey->unitC = new Model_SurveyUnitC($this->survey->unitC);
-        $this->survey->unitD = new Model_SurveyUnitD($this->survey->unitD);
-        $this->survey->unitE = new Model_SurveyUnitE($this->survey->unitE);
-        $this->survey->unitF = new Model_SurveyUnitF($this->survey->unitF);
-        $this->survey->unitG = new Model_SurveyUnitG($this->survey->unitG);
-        $this->survey->unitH = new Model_SurveyUnitH($this->survey->unitH);
-        $this->survey->unitI = new Model_SurveyUnitI($this->survey->unitI);
-        $this->survey->unitJ = new Model_SurveyUnitJ($this->survey->unitJ);
-        $this->survey->unitK = new Model_SurveyUnitK($this->survey->unitK);
-        $this->survey->unitL = new Model_SurveyUnitL($this->survey->unitL);
-        $this->survey->unitM = new Model_SurveyUnitM($this->survey->unitM);
-        $this->survey->unitN = new Model_SurveyUnitN($this->survey->unitN);
-        $this->survey->unitO = new Model_SurveyUnitO($this->survey->unitO);
-        $this->survey->unitP = new Model_SurveyUnitP($this->survey->unitP);
-        $this->survey->unitQ = new Model_SurveyUnitQ($this->survey->unitQ);
-        $this->survey->unitR = new Model_SurveyUnitR($this->survey->unitR);
+        }
+        if ($unit == 'progress' || $unit == 'unitC') {
+            $this->survey->unitC = new Model_SurveyUnitC($this->survey->unitC);
+        }
+        if ($unit == 'progress' || $unit == 'unitD') {
+            $this->survey->unitD = new Model_SurveyUnitD($this->survey->unitD);
+        }
+        if ($unit == 'progress' || $unit == 'unitE') {
+            $this->survey->unitE = new Model_SurveyUnitE($this->survey->unitE);
+        }
+        if ($unit == 'progress' || $unit == 'unitF') {
+            $this->survey->unitF = new Model_SurveyUnitF($this->survey->unitF);
+        }
+        if ($unit == 'progress' || $unit == 'unitG') {
+            $this->survey->unitG = new Model_SurveyUnitG($this->survey->unitG);
+        }
+        if ($unit == 'progress' || $unit == 'unitH') {
+            $this->survey->unitH = new Model_SurveyUnitH($this->survey->unitH);
+        }
+        if ($unit == 'progress' || $unit == 'unitI') {
+            $this->survey->unitI = new Model_SurveyUnitI($this->survey->unitI);
+        }
+        if ($unit == 'progress' || $unit == 'unitJ') {
+            $this->survey->unitJ = new Model_SurveyUnitJ($this->survey->unitJ);
+        }
+        if ($unit == 'progress' || $unit == 'unitK') {
+            $this->survey->unitK = new Model_SurveyUnitK($this->survey->unitK);
+        }
+        if ($unit == 'progress' || $unit == 'unitL') {
+            $this->survey->unitL = new Model_SurveyUnitL($this->survey->unitL);
+        }
+        if ($unit == 'progress' || $unit == 'unitM') {
+            $this->survey->unitM = new Model_SurveyUnitM($this->survey->unitM);
+        }
+        if ($unit == 'progress' || $unit == 'unitN') {
+            $this->survey->unitN = new Model_SurveyUnitN($this->survey->unitN);
+        }
+        if ($unit == 'progress' || $unit == 'unitO') {
+            $this->survey->unitO = new Model_SurveyUnitO($this->survey->unitO);
+        }
+        if ($unit == 'progress' || $unit == 'unitP') {
+            $this->survey->unitP = new Model_SurveyUnitP($this->survey->unitP);
+        }
+        if ($unit == 'progress' || $unit == 'unitQ') {
+            $this->survey->unitQ = new Model_SurveyUnitQ($this->survey->unitQ);
+        }
+        if ($unit == 'progress' || $unit == 'unitR') {
+            $this->survey->unitR = new Model_SurveyUnitR($this->survey->unitR);
+        }
     }
 
 
@@ -218,8 +226,6 @@ class Controller_Surveys_Ajax extends Ajax
      */
     public function action_updateunit()
     {
-        self::hasAccess(self::CAN_CONDUCT_A_SURVEY);
-
         $unit = Arr::get($_POST,'unit');
 
         $this->getSurvey();

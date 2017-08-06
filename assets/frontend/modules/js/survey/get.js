@@ -45,15 +45,14 @@ module.exports = (function (get) {
 
     function getUnitOnHashChange_() {
 
-        var unit           = window.location.hash.replace('#', ''),
-            element        = null;
-
+        var unit    = window.location.hash.replace('#', ''),
+            element = null;
 
         if (unit === '') unit = 'progress';
 
-        element = unit === 'progress' ? '' : unit;
-        element = document.querySelector('.aside__link[href="#' + element + '"]');
+        element = (unit === 'progress' ? '' : unit);
 
+        element = document.querySelector('.aside__link[href="#' + element + '"]');
         get.unit(element, unit);
 
     }
@@ -75,6 +74,7 @@ module.exports = (function (get) {
         getUnit_(unit);
 
     };
+
 
     function isAvailableUnit(unit) {
 
@@ -154,38 +154,32 @@ module.exports = (function (get) {
      *
      */
     var timeline        = null,
-        getMoreFormsBtn = null,
-        type            = null,
-        patients        = null; // json string array
+        getMoreSurveysBtn = null;
 
 
-    get.forms = function () {
+    get.timeLineItems = function () {
 
 
-        if (!timeline || !getMoreFormsBtn) {
+        if (!timeline || !getMoreSurveysBtn) {
 
-            getMoreFormsBtn = document.getElementById('getMoreFormsBtn');
+            getMoreSurveysBtn = document.getElementById('getMoreSurveysBtn');
             timeline        = document.getElementById('timeline');
-            patients        = timeline.dataset.pk;
-            type            = getMoreFormsBtn.dataset.type;
 
         }
 
         if (!ajaxSend) {
 
-            getForms_();
+            getTimeLineItems_();
 
         }
 
     };
 
-    function getForms_() {
+    function getTimeLineItems_() {
 
         var formData       = new FormData(),
-            offset         = parseInt(getMoreFormsBtn.dataset.offset);
+            offset         = parseInt(getMoreSurveysBtn.dataset.offset);
 
-        formData.append('type', type);
-        formData.append('patients', patients);
         formData.append('offset', offset);
         formData.append('patient', patientID);
         formData.append('pension', pensionID);
@@ -198,8 +192,8 @@ module.exports = (function (get) {
             beforeSend: function () {
 
                 ajaxSend = true;
-                getMoreFormsBtn.getElementsByClassName('fa')[0].classList.remove('fa-plus');
-                getMoreFormsBtn.getElementsByClassName('fa')[0].classList.add('fa-spinner', 'fa-fw', 'fa-pulse');
+                getMoreSurveysBtn.getElementsByClassName('fa')[0].classList.remove('fa-plus');
+                getMoreSurveysBtn.getElementsByClassName('fa')[0].classList.add('fa-spinner', 'fa-fw', 'fa-pulse');
 
             },
             success: function (response) {
@@ -207,12 +201,12 @@ module.exports = (function (get) {
                 response = JSON.parse(response);
                 raicare.core.log(response.message, response.status, corePrefix);
                 ajaxSend = false;
-                getMoreFormsBtn.getElementsByClassName('fa')[0].classList.add('fa-plus');
-                getMoreFormsBtn.getElementsByClassName('fa')[0].classList.remove('fa-spinner', 'fa-fw', 'fa-pulse');
+                getMoreSurveysBtn.getElementsByClassName('fa')[0].classList.add('fa-plus');
+                getMoreSurveysBtn.getElementsByClassName('fa')[0].classList.remove('fa-spinner', 'fa-fw', 'fa-pulse');
 
                 if (parseInt(response.code) === 162 ) {
 
-                    if (response.forms.length !== 0) {
+                    if (response.surveys.length !== 0) {
 
                         var lastDate  = null,
                             separator = null,
@@ -220,15 +214,15 @@ module.exports = (function (get) {
 
 
 
-                        for (var i = 0; i < response.forms.length; i++) {
+                        for (var i = 0; i < response.surveys.length; i++) {
 
                             lastDate = document.querySelectorAll('[data-datetime]');
                             lastDate = new Date(lastDate[lastDate.length-1].dataset.datetime);
-                            date = new Date(response.forms[i].date);
+                            date = new Date(response.surveys[i].date);
 
                             if ( date - lastDate !== 0) {
 
-                                separator = raicare.draw.node('LI', 'time-line__separator', {'data-datetime': response.forms[i].date});
+                                separator = raicare.draw.node('LI', 'time-line__separator', {'data-datetime': response.surveys[i].date});
 
                                 timeline.insertBefore(separator, timeline.getElementsByClassName('time-line__end')[0]);
 
@@ -237,19 +231,19 @@ module.exports = (function (get) {
                             var li = raicare.draw.node('LI', 'time-line__item' + ((offset + i) % 2 === 0 ? '' : ' time-line__item--inverted'));
 
 
-                            li.innerHTML = response.forms[i].html;
+                            li.innerHTML = response.surveys[i].html;
                             timeline.insertBefore(li, timeline.getElementsByClassName('time-line__end')[0]);
 
                         }
 
 
-                        getMoreFormsBtn.dataset.offset = parseInt(offset) + parseInt(response.number);
+                        getMoreSurveysBtn.dataset.offset = parseInt(offset) + parseInt(response.number);
 
 
 
                     } else {
 
-                        getMoreFormsBtn.parentNode.remove();
+                        getMoreSurveysBtn.parentNode.remove();
 
                     }
 
@@ -267,8 +261,8 @@ module.exports = (function (get) {
 
                 raicare.core.log('ajax error occur on getting patients', 'error', corePrefix, callbacks);
                 ajaxSend = false;
-                getMoreFormsBtn.getElementsByClassName('fa')[0].classList.add('fa-plus');
-                getMoreFormsBtn.getElementsByClassName('fa')[0].classList.remove('fa-spinner', 'fa-fw', 'fa-pulse');
+                getMoreSurveysBtn.getElementsByClassName('fa')[0].classList.add('fa-plus');
+                getMoreSurveysBtn.getElementsByClassName('fa')[0].classList.remove('fa-spinner', 'fa-fw', 'fa-pulse');
 
             }
 
@@ -281,7 +275,7 @@ module.exports = (function (get) {
 
     /**
      *
-     * Function for searching forms by Patient Name or Pension Name
+     * Function for searching surveys by Patient Name or Pension Name
      *
      */
     var holderSearch  = document.getElementById('surveys'),

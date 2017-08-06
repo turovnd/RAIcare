@@ -22,7 +22,7 @@
 
     <div class="row">
 
-        <?= View::factory('patients/blocks/timeline', array('surveys' => $patient->surveys, 'sameSnils' => '', 'type' => 'id'));?>
+        <?= View::factory('patients/blocks/timeline', array('surveys' => $patient->surveys, 'sameSnils' => ''));?>
 
     </div>
 

@@ -32,13 +32,13 @@
             </div>
 
             <? // ROLE_PEN_QUALITY_MANAGER => 22;
-            if ($user->role == 22) : ?>
-                <a href="<?= '/\/' . $_SERVER['HTTP_HOST'] . '/' . $patient->pension->uri . '/survey/' . $patient->survey->id . '/control'; ?>" class="form-group m-b-0 link">
+            if ($user->role == 22 && $patient->survey->id) : ?>
+                <a href="<?= '/\/' . $_SERVER['HTTP_HOST'] . '/' . $patient->pension->uri . '/survey/' . $patient->survey->id; ?>" class="form-group m-b-0 link">
                     <div class="col-xs-12 col-md-5 col-lg-4 p-l-0 m-b-0 f-s-0_9 text-bold p-t-5">
                         Текущая анкета
                     </div>
-                    <div class="form-group__control-static col-xs-12 col-md-7 col-lg-8 p-l-0">
-                        Осталось <?= Methods_Time::getSurveyLeftTime($patient->survey->dt_create); ?>
+                    <div class="form-group__control-static col-xs-12 col-md-7 col-lg-8 p-l-0 <?= Methods_Time::getSurveyLeftTime($patient->survey->dt_create, $patient->survey->dt_finish, true) < Date::DAY / 2 ? 'text-danger text-bold' : ''; ?>">
+                        Осталось <?= Methods_Time::getSurveyLeftTime($patient->survey->dt_create, $patient->survey->dt_finish); ?>
                     </div>
                 </a>
             <? endif; ?>

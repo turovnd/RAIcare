@@ -237,9 +237,9 @@ $survey->unitP->P2 = json_decode($survey->unitP->P2);
             </div>
 
             <? if ($can_conduct) : ?>
-                <a type="button" role="button" class="form__submit text-center text-brand text-bold" onclick="survey.send.updateunit('unitP');">
+                <button type="button" role="button" class="form__submit text-center text-bold link" onclick="survey.send.updateunit('unitP');">
                     Сохранить
-                </a>
+                </button>
             <? endif; ?>
 
         </div>

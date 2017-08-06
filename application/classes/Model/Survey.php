@@ -185,7 +185,27 @@ Class Model_Survey {
         return $surveys;
     }
 
+    public static function getAllByPension($pension)
+    {
+        $select = Dao_Surveys::select()
+            ->where('pension','=', $pension)
+            ->order_by('dt_create', 'DESC')
+            ->execute();
 
+        $surveys = array();
+
+        if (empty($select)) return $surveys;
+
+        foreach ($select as $item) {
+            $survey = new Model_Survey();
+            $survey->fill_by_row($item);
+            $survey->patient= new Model_Patient($survey->patient);
+            $survey->creator = new Model_User($survey->creator);
+            $surveys[] = $survey;
+        }
+
+        return $surveys;
+    }
 
     public static function searchForms($offset, $limit, $name)
     {
@@ -279,7 +299,7 @@ Class Model_Survey {
         return $survey->fill_by_row($select);
     }
 
-    public static function getProgress($pk)
+    public static function getTotalProgress($pk)
     {
         $survey = new Model_Survey($pk);
         $unitA = new Model_SurveyUnitA($survey->unitA);
