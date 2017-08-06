@@ -143,20 +143,23 @@ class Controller_Patients_Index extends Dispatch
 
         $pat_id = $this->request->param('id');
 
-        $this->patient = Model_Patient::getByFieldName('id', $pat_id);
+        $this->patient = Model_Patient::getByPensionAndID($this->pension->id, $pat_id);
 
         if (!$this->patient->pk) {
             throw new HTTP_Exception_404();
         }
 
-        $this->patient->can_edit = true;
-
-        $surveys = Model_Survey::getAllSurveysByPatientAndPension($this->patient->pk, $this->pension->id, 0, 10);
+        $surveys = Model_Survey::getAllFinishedByPatientAndPension($this->patient->pk, $this->pension->id, 0, 10);
 
         $this->patient->creator = new Model_User($this->patient->creator);
-        $this->patient->pension = $this->pension;
         $this->patient->surveys = $surveys;
         $this->patient->full_info = true;
+
+        if ( $this->user->role == self::ROLE_PEN_QUALITY_MANAGER || $this->user->role == self::ROLE_PEN_NURSE ) {
+            $this->patient->can_edit = true;
+        } else {
+            $this->patient->can_edit = false;
+        }
 
         $this->template->title = "Профиль пациента " . $this->patient->name;
         $this->template->section = View::factory('patients/pages/profile')

@@ -2,7 +2,7 @@
 
     <h3 class="section__heading">
         <a role="button" data-toggle="collapse" data-area="personalInfo" data-opened="false" data-textclosed="подробно" data-textopened="кратко" class="btn btn--default btn--sm m-b-0 m-r-0 fl_r collapse-btn"></a>
-        Персональные данные пациента #<?=$patient->id; ?>
+        Профиль пациента #<?=$patient->id; ?>
     </h3>
 
     <div class="row">
@@ -26,8 +26,8 @@
 
     </div>
 
-    <input type="hidden" id="pensionID" value="<?= $patient->pension->id; ?>">
-    <input type="hidden" id="patientID" value="<?= $patient->pk; ?>">
+    <input type="hidden" id="pensionID" value="<?= $patient->pension; ?>">
+    <input type="hidden" id="patientPK" value="<?= $patient->pk; ?>">
 
 </div>
 

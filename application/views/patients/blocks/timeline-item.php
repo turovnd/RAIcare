@@ -8,34 +8,15 @@
         <div class="time-line__popover-arrow"></div>
         <div class="time-line__popover-content">
             <h4 class="time-line__popover-heading">
-                <? // WATCH_ALL_PATIENTS_PROFILES = 34;
-                if (in_array(34, $user->permissions)) : ?>
-                    Анкета #<?= $survey->pk; ?>
-                <? else: ?>
-                    Анкета #<?= $survey->id; ?>
-                <? endif; ?>
+                Анкета #<?= $survey->id; ?>
             </h4>
             <p class="time-line__popover-text">
                 В <?= Date('H:i', strtotime($survey->dt_finish)); ?>
-                <? // WATCH_ALL_PATIENTS_PROFILES = 34;
-                if (in_array(34, $user->permissions)) : ?>
-                    <a href="<?=URL::site('profile/' . $survey->creator->id); ?>" class="link text-bold"><?=$survey->creator->name; ?></a>
-                <? else: ?>
-                    <span class="text-bold"><?=$survey->creator->name; ?></span>
-                <? endif; ?>
+                <span class="text-bold"><?=$survey->creator->name; ?></span>
                 завершил(а) <?=Kohana::$config->load('form_type.get')[$survey->type]; ?>.
             </p>
-            <? // WATCH_ALL_PATIENTS_PROFILES = 34;
-            if (in_array(34, $user->permissions)) : ?>
-                <a class="display-block m-b-5 link" href="<?=URL::site('pension/' . $survey->pension->id); ?>"> <i class="fa fa-user-md m-r-10" aria-hidden="true"></i>Пансионат #<?=$survey->pension->id; ?></a>
-            <? endif; ?>
             <span class="time-line__popover-date"><?= Date('d M', strtotime($survey->dt_finish)); ?></span>
-            <? // WATCH_ALL_PATIENTS_PROFILES = 34;
-            if (in_array(34, $user->permissions)) : ?>
-                <a href="<?=URL::site('survey/' . $survey->pk); ?>" class="btn btn--default fl_r m-0">Подробнее</a>
-            <? else: ?>
-                <a href="<?=URL::site('pension/' . $survey->pension->id . '/survey/' . $survey->id); ?>" class="btn btn--default fl_r m-0">Подробнее</a>
-            <? endif; ?>
+            <a href="<?= '/\/' . $_SERVER['HTTP_HOST'] . '/' . $survey->pension->uri . '/survey/' . $survey->id; ?>" class="btn btn--default fl_r m-0">Подробнее</a>
         </div>
     </div>
 </div>

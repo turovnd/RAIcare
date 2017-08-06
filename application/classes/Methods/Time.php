@@ -70,4 +70,38 @@ class Methods_Time
         $forms = $format[$key];
         return $number . ' ' . ($number % 10 == 1 && $number % 100 != 11 ? $forms[0] : ($number % 10 >= 2 && $number % 10 <= 4 && ($number % 100 < 10 || $number % 100 >= 20) ? $forms[1] : $forms[2]));
     }
+
+    public static function getSurveyLeftTime($dt_create)
+    {
+        $cur = strtotime(Date::formatted_time('now'));
+        $finish = strtotime($dt_create) + Date::DAY * 3;
+
+        $timestamp  = $finish - $cur;
+
+        $has_day    = $timestamp / Date::DAY > 1 ? true : false;
+        $has_hour   = $timestamp / Date::HOUR > 1 ? true : false;
+        $has_minute = $timestamp / Date::MINUTE > 1 ? true : false;
+
+        $day    = $has_day ? intval($timestamp / Date::DAY) : 0;
+
+        $hour   = $has_hour ?
+                    $has_day ?
+                        intval(($timestamp - Date::DAY * $day) / Date::HOUR) :
+                        intval($timestamp / Date::HOUR) : 0;
+
+        $minute = $has_minute ?
+                    $has_hour ?
+                        $has_day ?
+                            intval(($timestamp - Date::DAY * $day - Date::HOUR * $hour) / Date::MINUTE) :
+                            intval(($timestamp - Date::HOUR * $hour) / Date::MINUTE) :
+                            intval($timestamp / Date::MINUTE) : 0;
+
+        $str = '';
+
+        $str .= $has_day ? ' ' . Methods_Time::relativeTimeWithPlural($day, false, 'dd') : '';
+        $str .= $has_hour ? ' ' . Methods_Time::relativeTimeWithPlural($hour, false, 'hh') : '';
+        $str .= $has_minute ? ' ' . Methods_Time::relativeTimeWithPlural($minute,true, 'mm') : '';
+
+        return $str;
+    }
 }

@@ -116,8 +116,11 @@ class Controller_Patients_Ajax extends Ajax
 
     public function action_get()
     {
-        if (!( $this->user->role == self::ROLE_PEN_CREATOR || $this->user->role == self::ROLE_PEN_QUALITY_MANAGER || $this->user->role == self::ROLE_PEN_NURSE )) {
-            throw new HTTP_Exception_403();
+        if (! ($this->user->role == self::ROLE_PEN_CREATOR ||
+            $this->user->role == self::ROLE_PEN_QUALITY_MANAGER ||
+            $this->user->role == self::ROLE_PEN_NURSE) ) {
+
+            throw new HTTP_Exception_403;
         }
 
         $mode    = Arr::get($_POST, 'mode');
@@ -137,8 +140,7 @@ class Controller_Patients_Ajax extends Ajax
 
         $html = "";
         foreach ($patients as $patient) {
-            if ($mode == "get")
-                $patient->survey = Model_Survey::getFillingSurveyByPatientAndPension($patient->pk, $pension->id);
+            $patient->survey = Model_Survey::getFillingSurveyByPatientAndPension($patient->pk, $pension->id);
             $html .= View::factory('patients/blocks/search-block', array('patient' => $patient))->render();
         }
 
@@ -152,7 +154,7 @@ class Controller_Patients_Ajax extends Ajax
             throw new HTTP_Exception_403();
         }
 
-        $pk      = Arr::get($_POST, 'id');
+        $pk      = Arr::get($_POST, 'pk');
         $name    = Arr::get($_POST, 'name');
         $value   = Arr::get($_POST, 'value');
         $pension = Arr::get($_POST, 'pension');

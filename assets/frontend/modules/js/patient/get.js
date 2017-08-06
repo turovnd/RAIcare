@@ -5,14 +5,12 @@ module.exports = (function (get) {
         holderPatients       = document.getElementById('patients'),
         getMorePatientsBtn   = document.getElementById('getMorePatientsBtn'),
         pensionID            = document.getElementById('pensionID'),
-        mode                 = null,
         ajaxPOSTing          = false;
 
     if(pensionID) pensionID = pensionID.value;
 
     get.search = function (element) {
 
-        if (!mode) mode = element.dataset.mode;
         searchingPatientName = element.value;
 
         if (!ajaxPOSTing) {
@@ -28,7 +26,6 @@ module.exports = (function (get) {
 
     get.patients = function (element) {
 
-        if (!mode) mode = element.dataset.mode;
         getMorePatientsBtn  = element;
 
         if (!ajaxPOSTing) {
@@ -63,7 +60,6 @@ module.exports = (function (get) {
             offset         = getMorePatientsBtn.dataset.offset,
             sendSearchName = searchingPatientName;
 
-        formData.append('mode', mode);
         formData.append('name', sendSearchName);
         formData.append('pension', pensionID);
         formData.append('offset', offset);
@@ -103,6 +99,7 @@ module.exports = (function (get) {
 
                         }
 
+                        getMorePatientsBtn.classList.remove('pointer-events--none');
                         raicare.select.init();
 
                     } else {
@@ -116,6 +113,7 @@ module.exports = (function (get) {
                 } else {
 
                     getMorePatientsBtn.innerHTML = "Ошибка при загрузке. <span class='link'>Повторить</span>";
+                    getMorePatientsBtn.classList.remove('pointer-events--none');
                     document.removeEventListener('scroll', checkPageOffset_);
 
                     raicare.notification.notify({

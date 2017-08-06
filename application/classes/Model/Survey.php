@@ -126,9 +126,9 @@ Class Model_Survey {
             ->limit(1)
             ->execute();
 
-        $form = new Model_Survey();
+        $survey = new Model_Survey();
 
-        return $form->fill_by_row($select);
+        return $survey->fill_by_row($select);
 
     }
 
@@ -139,26 +139,26 @@ Class Model_Survey {
             ->limit($limit)
             ->execute();
 
-        $forms = array();
+        $surveys = array();
 
-        if (empty($select)) return $forms;
+        if (empty($select)) return $surveys;
 
         foreach ($select as $item) {
-            $form = new Model_Survey();
-            $form->fill_by_row($item);
-            $form->organization = new Model_Organization($form->organization);
-            $form->pension = new Model_Pension($form->pension);
-            $form->patient = new Model_Patient($form->patient);
-            $form->creator = new Model_User($form->creator);
-            $forms[] = $form;
+            $survey = new Model_Survey();
+            $survey->fill_by_row($item);
+            $survey->organization = new Model_Organization($survey->organization);
+            $survey->pension = new Model_Pension($survey->pension);
+            $survey->patient = new Model_Patient($survey->patient);
+            $survey->creator = new Model_User($survey->creator);
+            $surveys[] = $survey;
         }
 
-        return $forms;
+        return $surveys;
     }
 
 
 
-    public static function getAllSurveysByPatientAndPension($patient, $pension, $offset, $limit)
+    public static function getAllFinishedByPatientAndPension($patient, $pension, $offset, $limit)
     {
         $select = Dao_Surveys::select()
             ->where('pension','=', $pension)
@@ -169,21 +169,20 @@ Class Model_Survey {
             ->order_by('dt_finish', 'DESC')
             ->execute();
 
-        $forms = array();
+        $surveys = array();
 
-        if (empty($select)) return $forms;
+        if (empty($select)) return $surveys;
 
         foreach ($select as $item) {
-            $form = new Model_Survey();
-            $form->fill_by_row($item);
-            $form->organization = new Model_Organization($form->organization);
-            $form->pension = new Model_Pension($form->pension);
-            $form->creator = new Model_User($form->creator);
-            $form->creator->role = new Model_Role($form->creator->role);
-            $forms[] = $form;
+            $survey = new Model_Survey();
+            $survey->fill_by_row($item);
+            $survey->pension = new Model_Pension($survey->pension);
+            $survey->creator = new Model_User($survey->creator);
+            $survey->creator->role = new Model_Role($survey->creator->role);
+            $surveys[] = $survey;
         }
 
-        return $forms;
+        return $surveys;
     }
 
 
@@ -211,20 +210,20 @@ Class Model_Survey {
                 ->as_array();
         }
 
-        $forms = array();
+        $surveys = array();
 
-        if (empty($select)) return $forms;
+        if (empty($select)) return $surveys;
 
         foreach ($select as $item) {
-            $form = new Model_Survey($item['pk']);
-            $form->organization = new Model_Organization($form->organization);
-            $form->patient = new Model_Patient($form->patient);
-            $form->pension = new Model_Pension($form->pension);
-            $form->creator = new Model_User($form->creator);
-            $forms[] = $form;
+            $survey = new Model_Survey($item['pk']);
+            $survey->organization = new Model_Organization($survey->organization);
+            $survey->patient = new Model_Patient($survey->patient);
+            $survey->pension = new Model_Pension($survey->pension);
+            $survey->creator = new Model_User($survey->creator);
+            $surveys[] = $survey;
         }
 
-        return $forms;
+        return $surveys;
     }
 
 
@@ -248,21 +247,21 @@ Class Model_Survey {
             ->execute()
             ->as_array();
 
-        $forms = array();
+        $surveys = array();
 
-        if (empty($select)) return $forms;
+        if (empty($select)) return $surveys;
 
         foreach ($select as $item) {
-            $form = new Model_Survey();
-            $form->fill_by_row($item);
-            $form->organization = new Model_Organization($form->organization);
-            $form->pension = new Model_Pension($form->pension);
-            $form->creator = new Model_User($form->creator);
-            $form->creator->role = new Model_Role($form->creator->role);
-            $forms[] = $form;
+            $survey = new Model_Survey();
+            $survey->fill_by_row($item);
+            $survey->organization = new Model_Organization($survey->organization);
+            $survey->pension = new Model_Pension($survey->pension);
+            $survey->creator = new Model_User($survey->creator);
+            $survey->creator->role = new Model_Role($survey->creator->role);
+            $surveys[] = $survey;
         }
 
-        return $forms;
+        return $surveys;
     }
 
 

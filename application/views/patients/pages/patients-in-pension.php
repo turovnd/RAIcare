@@ -10,7 +10,7 @@
         <div class="col-xs-12">
 
             <form class="search" data-search="pensions">
-                <input id="search" type="search" placeholder="Начните вводить ФИО пациента или номер СНИЛСа" class="search__input" oninput="patient.get.search(this)" data-mode="get" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                <input id="search" type="search" placeholder="Начните вводить ФИО пациента или номер СНИЛСа" class="search__input" oninput="patient.get.search(this)" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
                 <label for="search" class="search__submit">
                     <i class="fa fa-search search__submit-icon" aria-hidden="true"></i>
                 </label>
@@ -27,8 +27,8 @@
 
             </div>
 
-            <div class="text-center m-t-20 m-b-10">
-                <button id="getMorePatientsBtn" onclick="patient.get.patients(this)" data-mode="get" data-offset="<?= count($patients); ?>" class="btn btn--lg btn--default btn--round p-r-50 p-l-50 m-0">
+            <div class="text-center m-t-20 m-b-50">
+                <button id="getMorePatientsBtn" onclick="patient.get.patients(this)" data-offset="<?= count($patients); ?>" class="btn btn--lg btn--default btn--round p-r-50 p-l-50 m-0">
                     Загрузить ещё
                 </button>
             </div>
