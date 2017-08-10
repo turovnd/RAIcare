@@ -216,4 +216,32 @@ Class Model_Patient {
 
     }
 
+    public static function countByPension($pension)
+    {
+        $select = Dao_Patients::select()
+            ->where('pension', '=', $pension)
+            ->execute();
+
+        return count($select);
+    }
+
+    public static function getAllByPension($pension)
+    {
+        $select = Dao_Patients::select()
+            ->where('pension', '=', $pension)
+            ->execute();
+
+        $patients = array();
+
+        if (empty($select)) return $patients;
+
+        foreach ($select as $key => $db_selection) {
+            $patient = new Model_Patient();
+            $patients[$key] = $patient->fill_by_row($db_selection);
+            $patients[$key]->age = intval((time()-strtotime($patients[$key]->birthday))/Date::YEAR);
+        }
+
+        return $patients;
+    }
+
 }

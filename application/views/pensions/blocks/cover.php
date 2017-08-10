@@ -1,3 +1,7 @@
+<?
+    $count_patients = Model_Patient::countByPension($pension->id);
+    $count_surveys  = Model_Survey::countByPension($pension->id);
+?>
 <div class="section__cover valign">
     <div class="parallax" data-toggle="parallax">
         <img id="pensionCover" src="<?=URL::site('uploads/pensions/cover/o_'. $pension->cover); ?>" alt="Pension cover" class="parallax__img">
@@ -25,16 +29,16 @@
 <div class="bg-gray-dark p-15 m-b-30">
     <div class="display-flex">
         <div class="col-xs-4 text-center b-r-light">
-            <h3 class="h3 m-0">9,5</h3>
-            <small class="m-0 ">Рейтинг</small>
+            <h3 class="h3 m-0"><?= $pension->places; ?></h3>
+            <small class="m-0 "><?= Methods_Plural::getWithPlural($pension->places,'places');?></small>
         </div>
         <div class="col-xs-4 text-center b-r-light">
-            <h3 class="h3 m-0">30</h3>
-            <small class="m-0 ">Анкет</small>
+            <h3 class="h3 m-0"><?= $count_patients; ?></h3>
+            <small class="m-0 "><?= Methods_Plural::getWithPlural($count_patients,'patients');?></small>
         </div>
         <div class="col-xs-4 text-center">
-            <h3 class="h3 m-0">10</h3>
-            <small class="m-0 ">..</small>
+            <h3 class="h3 m-0"><?= $count_surveys; ?></h3>
+            <small class="m-0 "><?= Methods_Plural::getWithPlural($count_surveys,'surveys');?></small>
         </div>
     </div>
 </div>

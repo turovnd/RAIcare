@@ -7,6 +7,7 @@ Class Model_Pension {
     public $name;
     public $uri;
     public $organization;
+    public $places;
     public $creator;
     public $cover = "no-image.png";
     public $is_removed;

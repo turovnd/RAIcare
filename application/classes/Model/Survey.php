@@ -362,4 +362,12 @@ Class Model_Survey {
         return intval($progress / $count);
     }
 
+    public static function countByPension($pension)
+    {
+        $select = Dao_Surveys::select()
+            ->where('pension', '=', $pension)
+            ->execute();
+
+        return count($select);
+    }
 }

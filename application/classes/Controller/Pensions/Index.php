@@ -63,9 +63,31 @@ class Controller_Pensions_Index extends Dispatch
      */
     public function action_index()
     {
+        $patients = Model_Patient::getAllByPension($this->pension->id);
+        $patientsAges = array( 'total' => count($patients),
+                                'data' => array( array( 'age' => 'Меньше 65 лет', 'number' => 0 ),
+                                                 array( 'age' => '66-84 лет', 'number' => 0 ),
+                                                 array( 'age' => 'Старше 85 лет', 'number' => 0 ) ) );
+
+        $patientsSex = array( 'total' => count($patients),
+                                'data' => array( array( 'sex' => 'Мужской', 'number' => 0 ),
+                                                 array( 'sex' => 'Женский', 'number' => 0 ) ) );
+
+        foreach ($patients as $patient) {
+
+            if ($patient->age < 65)  $patientsAges['data'][0]['number']++;
+            elseif($patient->age > 85)  $patientsAges['data'][2]['number']++;
+            else  $patientsAges['data'][1]['number']++;
+
+            if ($patient->sex == 1) $patientsSex['data'][0]['number']++;
+            else $patientsSex['data'][1]['number']++;
+        }
+
         $this->template->title = $this->pension->name;
         $this->template->section = View::factory('pensions/pages/main')
-            ->set('pension', $this->pension);
+            ->set('pension', $this->pension)
+            ->set('patientsAges', json_encode($patientsAges))
+            ->set('patientsSex', json_encode($patientsSex));
     }
 
     /**
