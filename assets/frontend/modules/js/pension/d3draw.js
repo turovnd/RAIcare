@@ -57,7 +57,7 @@ module.exports = (function (d3draw) {
 
                 if (parseInt(d.data.number) !== 0) {
 
-                    return (parseInt(d.data.number) / dataValue.total * 100) + '%';
+                    return (parseInt(d.data.number) / dataValue.total * 100).toFixed(0) + '%';
 
                 }
 
@@ -169,7 +169,7 @@ module.exports = (function (d3draw) {
 
                 if (parseInt(d.data.number) !== 0) {
 
-                    return (parseInt(d.data.number) / dataValue.total * 100) + '%';
+                    return (parseInt(d.data.number) / dataValue.total * 100).toFixed(0) + '%';
 
                 }
 

@@ -15,6 +15,12 @@ class Model_Response_Survey extends Model_Response_Abstract
         'message' => 'Первоначальная форма оценки уже проводиась'
     );
 
+    protected $_HAS_NO_COMPLETE_SURVEY_ERROR = array(
+        'type' => 'survey',
+        'code' => '160',
+        'message' => 'Существует не завершенная форма оценки, пожалуйста, обновите страницу'
+    );
+
     protected $_SURVEY_CREATED_SUCCESS = array(
         'type' => 'survey',
         'code' => '161',

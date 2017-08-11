@@ -52,9 +52,20 @@ class Controller_Dashboard_Index extends Dispatch
 
     public function action_dashboard()
     {
+        switch ($this->user->role) {
+            case 1:  $page = 'dashboard-admin'; break;
+            case 10: $page = 'dashboard-org-10'; break;
+            case 11: $page = 'dashboard-org-11'; break;
+            case 12: $page = 'dashboard-org-12'; break;
+            case 20: $page = 'dashboard-pen-20'; break;
+            case 21: $page = 'dashboard-pen-21'; break;
+            case 22: $page = 'dashboard-pen-22'; break;
+            case 23: $page = 'dashboard-pen-23'; break;
+        }
+
         $this->template->title = "Панель управления";
-        $this->template->section = View::factory('dashboards/content')
-            ->set('org_uri', $this->organization->uri);
+        $this->template->section = View::factory('dashboards/' . $page)
+            ->set('organization', $this->organization);
     }
 
 }

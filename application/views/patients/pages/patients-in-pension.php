@@ -1,7 +1,10 @@
 <div class="section__content">
 
     <h3 class="section__heading">
-        <a role="button" data-toggle="modal" data-area="newPatientModalForm" class="btn btn--brand btn--sm m-0 fl_r">Новый пациент</a>
+        <? // ROLE_PEN_NURSE => 23;
+        if ($user->role == 23) : ?>
+            <a role="button" data-toggle="modal" data-area="newPatientModalForm" class="btn btn--brand btn--sm m-0 fl_r">Новый пациент</a>
+        <? endif; ?>
         Все пациенты пансионата - <?= $pension->name; ?>
     </h3>
 

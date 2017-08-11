@@ -97,12 +97,51 @@ Class Model_Patient {
 
 
 
-    public static function getAll($offset, $limit = 10, $name = "")
+//    public static function getAll($offset, $limit = 10, $name = "")
+//    {
+//        if ($name == "") {
+//            $select = Dao_Patients::select()
+//                ->join('Pensions_Patients')
+//                ->on('pk','=','pat_id')
+//                ->order_by('dt_create', 'DESC')
+//                ->offset($offset)
+//                ->limit($limit)
+//                ->execute();
+//
+//        } else {
+//            $select = Dao_Patients::select()
+//                ->or_having('name', '%' . $name . '%')
+//                ->or_having('snils', '%' . $name . '%')
+//                ->join('Pensions_Patients')
+//                ->on('pk','=','pat_id')
+//                ->order_by('dt_create', 'DESC')
+//                ->offset($offset)
+//                ->limit($limit)
+//                ->execute();
+//        }
+//
+//        $patients = array();
+//
+//        if ( empty($select) ) return $patients;
+//
+//        foreach ($select as $item) {
+//            $patient = new Model_Patient();
+//            $patient = $patient->fill_by_row($item);
+//            $patient->creator = new Model_User($patient->creator);
+//            $patient->pension = new Model_Pension($item['pension']);
+//            $patients[] = $patient;
+//        }
+//
+//        return $patients;
+//    }
+
+
+    public static function getByPension($pension, $offset, $limit = 10, $name = "")
     {
+
         if ($name == "") {
             $select = Dao_Patients::select()
-                ->join('Pensions_Patients')
-                ->on('pk','=','pat_id')
+                ->where('pension','=', $pension)
                 ->order_by('dt_create', 'DESC')
                 ->offset($offset)
                 ->limit($limit)
@@ -112,50 +151,7 @@ Class Model_Patient {
             $select = Dao_Patients::select()
                 ->or_having('name', '%' . $name . '%')
                 ->or_having('snils', '%' . $name . '%')
-                ->join('Pensions_Patients')
-                ->on('pk','=','pat_id')
-                ->order_by('dt_create', 'DESC')
-                ->offset($offset)
-                ->limit($limit)
-                ->execute();
-        }
-
-        $patients = array();
-
-        if ( empty($select) ) return $patients;
-
-        foreach ($select as $item) {
-            $patient = new Model_Patient();
-            $patient = $patient->fill_by_row($item);
-            $patient->creator = new Model_User($patient->creator);
-            $patient->pension = new Model_Pension($item['pen_id']);
-            $patients[] = $patient;
-        }
-
-        return $patients;
-    }
-
-
-    public static function getByPension($id, $offset, $limit = 10, $name = "")
-    {
-
-        if ($name == "") {
-            $select = Dao_Patients::select()
-                ->join('Pensions_Patients')
-                ->on('pk','=','pat_id')
-                ->where('pen_id','=', $id)
-                ->order_by('dt_create', 'DESC')
-                ->offset($offset)
-                ->limit($limit)
-                ->execute();
-
-        } else {
-            $select = Dao_Patients::select()
-                ->or_having('name', '%' . $name . '%')
-                ->or_having('snils', '%' . $name . '%')
-                ->join('Pensions_Patients')
-                ->on('pk','=','pat_id')
-                ->where('pen_id','=', $id)
+                ->where('pension','=', $pension)
                 ->order_by('dt_create', 'DESC')
                 ->offset($offset)
                 ->limit($limit)
@@ -171,7 +167,7 @@ Class Model_Patient {
             $patient = new Model_Patient();
             $patient = $patient->fill_by_row($item);
             $patient->creator = new Model_User($patient->creator);
-            $patient->pension = new Model_Pension($item['pen_id']);
+            $patient->pension = new Model_Pension($item['pension']);
             $patients[] = $patient;
         }
 
@@ -183,9 +179,7 @@ Class Model_Patient {
     {
         return (bool) Dao_Patients::select()
             ->where('snils','=', $snils)
-            ->join('Pensions_Patients')
-            ->on('pk','=','pat_id')
-            ->where('pen_id','=', $pension)
+            ->where('pension','=', $pension)
             ->limit(1)
             ->execute();
     }
@@ -194,9 +188,7 @@ Class Model_Patient {
     {
         $select = Dao_Patients::select()
             ->where('id','=', $patient)
-            ->join('Pensions_Patients')
-            ->on('pk','=','pat_id')
-            ->where('pen_id','=', $pension)
+            ->where('pension','=', $pension)
             ->limit(1)
             ->execute();
 
@@ -205,16 +197,16 @@ Class Model_Patient {
         return $patient->fill_by_row($select);
     }
 
-    public static function getSamePatients($patient)
-    {
-        return Dao_Patients::select(array('pen_id' , 'pat_id'))
-            ->where('snils','=', $patient->snils)
-            ->join('Pensions_Patients')
-            ->on('pk','=','pat_id')
-            ->order_by('dt_create', 'DESC')
-            ->execute();
-
-    }
+//    public static function getSamePatients($patient)
+//    {
+//        return Dao_Patients::select(array('pension' , 'pat_id'))
+//            ->where('snils','=', $patient->snils)
+//            ->join('Pensions_Patients')
+//            ->on('pk','=','pat_id')
+//            ->order_by('dt_create', 'DESC')
+//            ->execute();
+//
+//    }
 
     public static function countByPension($pension)
     {

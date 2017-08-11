@@ -12,7 +12,7 @@ class Controller_Patients_Ajax extends Ajax
 {
     public function action_new()
     {
-        if (!( $this->user->role == self::ROLE_PEN_QUALITY_MANAGER || $this->user->role == self::ROLE_PEN_NURSE )) {
+        if ( $this->user->role != self::ROLE_PEN_NURSE ) {
             throw new HTTP_Exception_403();
         }
 

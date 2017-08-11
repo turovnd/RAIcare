@@ -34,12 +34,6 @@
                     <span class="aside__text">Динамика пан-та</span>
                 </a>
             </li>
-            <li class="aside__item <? echo $action == "control_patient" ? 'aside__item--active' : ''; ?>">
-                <a href="<?= '/\/' .$_SERVER['HTTP_HOST'] . '/control/patient'; ?>" class="aside__link <? echo $action == "control_patient" ? 'aside__link--active' : ''; ?>">
-                    <i class="fa fa-line-chart aside__icon" aria-hidden="true"></i>
-                    <span class="aside__text">Динамика пац-та</span>
-                </a>
-            </li>
         <? endif; ?>
 
     <? endif; ?>

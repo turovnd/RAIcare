@@ -32,6 +32,12 @@ class Controller_Surveys_Ajax extends Ajax
             return;
         }
 
+        if (Model_Survey::getFillingSurveyByPatientAndPension($this->patient->pk, $this->pension->id)){
+            $response = new Model_Response_Survey('HAS_NO_COMPLETE_SURVEY_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
         $count_surveys = $this->redis->get($_SERVER['REDIS_PENSION_HASHES'] . $this->pension->id . ':surveys');
         $count_surveys = $count_surveys == false ? 1 : $count_surveys + 1;
         $this->redis->set($_SERVER['REDIS_PENSION_HASHES'] . $this->pension->id . ':surveys', $count_surveys);

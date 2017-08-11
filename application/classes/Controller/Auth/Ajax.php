@@ -164,7 +164,7 @@ class Controller_Auth_Ajax extends Auth
         $template = View::factory('email-templates/reset-password', array('user' => $user, 'hash' => $hash));
 
         $email = new Email();
-        $email = $email->send($user->email, $_SERVER['INFO_EMAIL'], 'Восстановление пароля', $template, true);
+        $email = $email->send($user->email, array($_SERVER['INFO_EMAIL'], $_SERVER['INFO_EMAIL_NAME']), 'Восстановление пароля', $template, true);
 
         if ($email == 1) {
             $this->redis->set(getenv('REDIS_RESET_HASHES') . $hash, $user->id, array('nx', 'ex' => Date::HOUR));

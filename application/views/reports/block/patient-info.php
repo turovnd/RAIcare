@@ -5,7 +5,7 @@
             <label class="form-group__label col-xs-12 col-sm-4 col-md-3">Пациент</label>
             <div class="col-xs-12 col-sm-8 col-md-9">
                 <p class="form-group__control-static">
-                    <a class="link" href="<?=URL::site('pension/' . $survey->pension->id . '/patient/'. $survey->patient->id); ?>"><?= $survey->patient->name; ?></a>
+                    <a class="link" href="<?= '/\/' . $_SERVER['HTTP_HOST'] . '/' . $survey->pension->uri . '/patient/'. $survey->patient->id; ?>"><?= $survey->patient->name; ?></a>
                 </p>
             </div>
         </div>
@@ -50,7 +50,7 @@
                 <label class="form-group__label col-xs-12 col-sm-4 col-md-3">Пансионат</label>
                 <div class="col-xs-12 col-sm-8 col-md-9">
                     <p class="form-group__control-static">
-                        <a class="link" href="<?=URL::site('pension/'. $survey->pension->id); ?>"><?= $survey->pension->name; ?></a>
+                        <a class="link" href="<?= '/\/' . $_SERVER['HTTP_HOST']. '/'. $survey->pension->uri; ?>"><?= $survey->pension->name; ?></a>
                     </p>
                 </div>
             </div>
