@@ -185,11 +185,13 @@ Class Model_Survey {
         return $surveys;
     }
 
-    public static function getAllByPension($pension)
+    public static function getAllByPension($pension, $offset, $limit)
     {
         $select = Dao_Surveys::select()
             ->where('pension','=', $pension)
             ->order_by('dt_create', 'DESC')
+            ->offset($offset)
+            ->limit($limit)
             ->execute();
 
         $surveys = array();
@@ -207,83 +209,79 @@ Class Model_Survey {
         return $surveys;
     }
 
-    public static function searchForms($offset, $limit, $name)
-    {
-        if ($name == "") {
-            $select = Dao_Surveys::select('pk')
-                ->offset($offset)
-                ->limit($limit)
-                ->execute();
-        } else {
-            echo Debug::vars();
+//    public static function searchForms($offset, $limit, $name)
+//    {
+//        if ($name == "") {
+//            $select = Dao_Surveys::select('pk')
+//                ->offset($offset)
+//                ->limit($limit)
+//                ->execute();
+//        } else {
+//            echo Debug::vars();
+//
+//            $select = DB::query(Database::SELECT,
+//                'SELECT `Surveys`.`pk` AS `pk` '.
+//                    'FROM `Surveys` '.
+//                        'JOIN `Patients` ON (`Surveys`.`patient` = `Patients`.`pk`)'.
+//                        'JOIN `Pensions` ON (`Surveys`.`pension` = `Pensions`.`id`)'.
+//                    'WHERE `Patients`.`name` LIKE \'%'. $name .'%\' '.
+//                        'OR `Pensions`.`name` LIKE \'%'. $name .'%\' '.
+//                    ' LIMIT '. $limit .
+//                    ' OFFSET '. $offset)
+//                ->execute()
+//                ->as_array();
+//        }
+//
+//        $surveys = array();
+//
+//        if (empty($select)) return $surveys;
+//
+//        foreach ($select as $item) {
+//            $survey = new Model_Survey($item['pk']);
+//            $survey->organization = new Model_Organization($survey->organization);
+//            $survey->patient = new Model_Patient($survey->patient);
+//            $survey->pension = new Model_Pension($survey->pension);
+//            $survey->creator = new Model_User($survey->creator);
+//            $surveys[] = $survey;
+//        }
+//
+//        return $surveys;
+//    }
 
-            $select = DB::query(Database::SELECT,
-                'SELECT `Surveys`.`pk` AS `pk` '.
-                    'FROM `Surveys` '.
-                        'JOIN `Patients` ON (`Surveys`.`patient` = `Patients`.`pk`)'.
-                        'JOIN `Pensions` ON (`Surveys`.`pension` = `Pensions`.`id`)'.
-                    'WHERE `Patients`.`name` LIKE \'%'. $name .'%\' '.
-                        'OR `Pensions`.`name` LIKE \'%'. $name .'%\' '.
-                    ' LIMIT '. $limit .
-                    ' OFFSET '. $offset)
-                ->execute()
-                ->as_array();
-        }
-
-        $surveys = array();
-
-        if (empty($select)) return $surveys;
-
-        foreach ($select as $item) {
-            $survey = new Model_Survey($item['pk']);
-            $survey->organization = new Model_Organization($survey->organization);
-            $survey->patient = new Model_Patient($survey->patient);
-            $survey->pension = new Model_Pension($survey->pension);
-            $survey->creator = new Model_User($survey->creator);
-            $surveys[] = $survey;
-        }
-
-        return $surveys;
-    }
-
-
-
-
-    public static function getAllFormsByPatients($patients, $offset, $limit)
-    {
-        $sql = "";
-        $key = 0;
-
-        foreach ($patients as $patient) {
-            $key++;
-            if ($key == count($patients)) {
-                $sql .= '`patient` = ' . $patient;
-            } else {
-                $sql .= '`patient` = ' . $patient . ' OR ';
-            }
-        }
-
-        $select = DB::query(Database::SELECT,'SELECT * from Surveys WHERE `status` = 2 AND (' . $sql . ') ORDER BY `dt_finish` DESC LIMIT ' .  $offset . ', ' . $limit)
-            ->execute()
-            ->as_array();
-
-        $surveys = array();
-
-        if (empty($select)) return $surveys;
-
-        foreach ($select as $item) {
-            $survey = new Model_Survey();
-            $survey->fill_by_row($item);
-            $survey->organization = new Model_Organization($survey->organization);
-            $survey->pension = new Model_Pension($survey->pension);
-            $survey->creator = new Model_User($survey->creator);
-            $survey->creator->role = new Model_Role($survey->creator->role);
-            $surveys[] = $survey;
-        }
-
-        return $surveys;
-    }
-
+//    public static function getAllFormsByPatients($patients, $offset, $limit)
+//    {
+//        $sql = "";
+//        $key = 0;
+//
+//        foreach ($patients as $patient) {
+//            $key++;
+//            if ($key == count($patients)) {
+//                $sql .= '`patient` = ' . $patient;
+//            } else {
+//                $sql .= '`patient` = ' . $patient . ' OR ';
+//            }
+//        }
+//
+//        $select = DB::query(Database::SELECT,'SELECT * from Surveys WHERE `status` = 2 AND (' . $sql . ') ORDER BY `dt_finish` DESC LIMIT ' .  $offset . ', ' . $limit)
+//            ->execute()
+//            ->as_array();
+//
+//        $surveys = array();
+//
+//        if (empty($select)) return $surveys;
+//
+//        foreach ($select as $item) {
+//            $survey = new Model_Survey();
+//            $survey->fill_by_row($item);
+//            $survey->organization = new Model_Organization($survey->organization);
+//            $survey->pension = new Model_Pension($survey->pension);
+//            $survey->creator = new Model_User($survey->creator);
+//            $survey->creator->role = new Model_Role($survey->creator->role);
+//            $surveys[] = $survey;
+//        }
+//
+//        return $surveys;
+//    }
 
     public static function getFirstSurvey($pension, $patient)
     {

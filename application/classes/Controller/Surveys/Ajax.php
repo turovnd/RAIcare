@@ -16,7 +16,7 @@ class Controller_Surveys_Ajax extends Ajax
 
     public function action_new()
     {
-        $this->getPatientAndPensionData();
+        if (!$this->getPatientAndPensionData()) return;
         $type = Arr::get($_POST,'type');
 
         if (empty($type)) {
@@ -26,13 +26,14 @@ class Controller_Surveys_Ajax extends Ajax
         }
 
         $first_survey = Model_Survey::getFirstSurvey($this->pension->id, $this->patient->pk);
-        if ($first_survey->id && $first_survey->type == $type) {
+        if ($first_survey->pk && $first_survey->type == $type) {
             $response = new Model_Response_Survey('SURVEY_WITH_TYPE_1_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
             return;
         }
 
-        if (Model_Survey::getFillingSurveyByPatientAndPension($this->patient->pk, $this->pension->id)){
+        $filling_survey = Model_Survey::getFillingSurveyByPatientAndPension($this->patient->pk, $this->pension->id);
+        if ($filling_survey->pk) {
             $response = new Model_Response_Survey('HAS_NO_COMPLETE_SURVEY_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
             return;
@@ -61,7 +62,7 @@ class Controller_Surveys_Ajax extends Ajax
         $offset   = Arr::get($_POST,'offset');
         $surveys = array();
 
-        $this->getPatientAndPensionData();
+        if (!$this->getPatientAndPensionData()) return;
 
         $surveysModel = Model_Survey::getAllFinishedByPatientAndPension($this->patient->pk, $this->pension->id, $offset, 10);
 
@@ -76,29 +77,29 @@ class Controller_Surveys_Ajax extends Ajax
         $this->response->body(@json_encode($response->get_response()));
     }
 
-//    public function action_search()
-//    {
-//        self::hasAccess(self::WATCH_ALL_SURVEYS);
-//        $name   = Arr::get($_POST,'name');
-//        $offset = Arr::get($_POST,'offset');
-//
-//        $surveys = Model_Survey::searchForms($offset, 10, $name);
-//
-//        $html = "";
-//        foreach ($surveys as $survey) {
-//            $html .= View::factory('surveys/blocks/search-block', array('survey' => $survey))->render();
-//        }
-//
-//        $response = new Model_Response_Survey('SURVEY_GET_SUCCESS', 'success', array('html' => $html, 'number' => count($surveys)));
-//        $this->response->body(@json_encode($response->get_response()));
-//    }
+    public function action_load()
+    {
+        $offset  = Arr::get($_POST,'offset');
+        if (!$this->getPensionData()) return;
+
+        $surveys = Model_Survey::getAllByPension($this->pension->id, $offset, 10);
+
+        $html = "";
+        foreach ($surveys as $survey) {
+            $html .= View::factory('surveys/blocks/all-surveys-item', array('survey' => $survey, 'pen_uri' => $this->pension->uri))->render();
+        }
+
+        $response = new Model_Response_Survey('SURVEY_GET_SUCCESS', 'success', array('html' => $html, 'number' => count($surveys)));
+        $this->response->body(@json_encode($response->get_response()));
+    }
+
 
     public function action_getunit()
     {
         $unit = Arr::get($_POST,'unit');
 
-        $this->getSurvey();
-        $this->getSurveyUnits($unit);
+        if (!$this->getSurvey()) return;
+        if (!$this->getSurveyUnits($unit)) return;
 
         if ($unit == 'progress' || $unit == 'unitA' || $unit == 'unitO') {
             $this->survey->patient = new Model_Patient($this->survey->patient);
@@ -117,6 +118,25 @@ class Controller_Surveys_Ajax extends Ajax
         $this->response->body(@json_encode($response->get_response()));
     }
 
+    private function getPensionData()
+    {
+        $pension = Arr::get($_POST,'pension');
+        $this->pension = new Model_Pension($pension);
+
+        if (!$this->pension->id) {
+            $response = new Model_Response_Pensions('PENSION_DOES_NOT_EXISTED_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return false;
+        }
+
+        $usersIDs = Model_UserPension::getUsers($this->pension->id);
+
+        if (!(in_array($this->user->id, $usersIDs))) {
+            throw new HTTP_Exception_403();
+        }
+        return true;
+    }
+
     private function getPatientAndPensionData()
     {
         $pension = Arr::get($_POST,'pension');
@@ -127,7 +147,7 @@ class Controller_Surveys_Ajax extends Ajax
         if (!$this->pension->id) {
             $response = new Model_Response_Pensions('PENSION_DOES_NOT_EXISTED_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
-            return;
+            return false;
         }
 
         $usersIDs = Model_UserPension::getUsers($this->pension->id);
@@ -141,8 +161,9 @@ class Controller_Surveys_Ajax extends Ajax
         if (!$this->patient->pk) {
             $response = new Model_Response_Patients('PATIENTS_DOES_NOT_EXISTED_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
-            return;
+            return false;
         }
+        return true;
     }
 
     private function getSurvey()
@@ -154,7 +175,7 @@ class Controller_Surveys_Ajax extends Ajax
         if (!$this->survey->pk || $this->survey->pension != $pension || $this->survey->status == 3) {
             $response = new Model_Response_Survey('SURVEY_DOES_NOT_EXISTED_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
-            return;
+            return false;
         }
 
         if ($this->survey->status == 1 && strtotime(Date::formatted_time('now')) - strtotime($this->survey->dt_create) > Date::DAY * 3) {
@@ -162,8 +183,9 @@ class Controller_Surveys_Ajax extends Ajax
             $this->survey->update();
             $response = new Model_Response_Survey('SURVEY_HAS_BEEN_DELETED_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
-            return;
+            return false;
         }
+        return true;
     }
 
     private function getSurveyUnits($unit)
@@ -234,7 +256,7 @@ class Controller_Surveys_Ajax extends Ajax
     {
         $unit = Arr::get($_POST,'unit');
 
-        $this->getSurvey();
+        if (!$this->getSurvey()) return;
 
         switch ($unit) {
             case 'unitA': $this->update_unitA(); break;
@@ -1132,7 +1154,7 @@ class Controller_Surveys_Ajax extends Ajax
 
     public function action_complete()
     {
-        $this->getSurvey();
+        if (!$this->getSurvey()) return;
 
         $this->survey->status = 2;
         $this->survey->dt_finish = Date::formatted_time('now');
