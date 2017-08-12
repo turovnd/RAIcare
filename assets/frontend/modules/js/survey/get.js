@@ -198,7 +198,6 @@ module.exports = (function (get) {
             },
             success: function (response) {
 
-                console.log(response);
                 response = JSON.parse(response);
                 raicare.core.log(response.message, response.status, corePrefix);
                 ajaxSend = false;

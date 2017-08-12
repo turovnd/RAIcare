@@ -119,7 +119,7 @@ if (isset($_SERVER['KOHANA_ENV']))
  */
 
 Kohana::init(array(
-	'base_url'   => '//raicare',
+	'base_url'   => getenv('BASE_URL'),
 	'index_file' => false,
 	'errors' => true,
 ));
