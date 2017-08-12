@@ -82,7 +82,7 @@ class Controller_Surveys_Index extends Dispatch
 
     public function action_surveys()
     {
-        $surveys = Model_Survey::getAllByPension($this->pension->id, 0, 2);
+        $surveys = Model_Survey::getAllByPension($this->pension->id, 0, 10);
 
         $this->template->title = "Все формы оценки - " . $this->pension->name;
         $this->template->section = View::factory('surveys/pages/surveys')

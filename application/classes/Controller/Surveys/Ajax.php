@@ -99,7 +99,7 @@ class Controller_Surveys_Ajax extends Ajax
         $unit = Arr::get($_POST,'unit');
 
         if (!$this->getSurvey()) return;
-        if (!$this->getSurveyUnits($unit)) return;
+        $this->getSurveyUnits($unit);
 
         if ($unit == 'progress' || $unit == 'unitA' || $unit == 'unitO') {
             $this->survey->patient = new Model_Patient($this->survey->patient);

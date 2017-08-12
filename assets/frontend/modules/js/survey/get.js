@@ -198,6 +198,7 @@ module.exports = (function (get) {
             },
             success: function (response) {
 
+                console.log(response);
                 response = JSON.parse(response);
                 raicare.core.log(response.message, response.status, corePrefix);
                 ajaxSend = false;
@@ -266,139 +267,6 @@ module.exports = (function (get) {
 
             }
 
-        };
-
-        raicare.ajax.send(ajaxData);
-
-    }
-
-
-    /**
-     *
-     * Function for searching surveys by Patient Name or Pension Name
-     *
-     */
-    var holderSearch  = document.getElementById('surveys'),
-        searchingName = '',
-        getMoreBtn    = document.getElementById('getMoreBtn');
-
-    get.search = function (element) {
-
-        searchingName = element.value;
-
-        if (!ajaxSend) {
-
-            getMoreBtn.dataset.offset = 0;
-            holderSearch.innerHTML = '';
-            getSurveys_();
-
-        }
-
-    };
-
-
-    get.surveys = function (element) {
-
-        getMoreBtn  = element;
-
-        if (!ajaxSend) {
-
-            getSurveys_();
-            document.addEventListener('scroll', checkPageOffset_);
-
-        }
-
-    };
-
-
-    /**
-     * Function checking offset of bottom of page for sending new AJAX request (getting patients)
-     * @private
-     */
-    function checkPageOffset_() {
-
-        var bottom = holderSearch.getBoundingClientRect().bottom;
-
-        if (window.innerHeight - bottom > 0 && ajaxSend === false) {
-
-            getSurveys_();
-
-        }
-
-    }
-
-    function getSurveys_() {
-
-        var formData       = new FormData(),
-            offset         = getMoreBtn.dataset.offset,
-            sendSearchName = searchingName;
-
-        formData.append('name', sendSearchName);
-        formData.append('offset', offset);
-        formData.append('csrf', document.getElementById('csrf').value);
-
-        var ajaxData = {
-            url: '/survey/search',
-            type: 'POST',
-            data: formData,
-            beforeSend: function () {
-
-                ajaxSend = true;
-                getMoreBtn.innerHTML = 'Загрузка ...';
-
-            },
-            success: function (response) {
-
-                response = JSON.parse(response);
-                raicare.core.log(response.message, response.status, corePrefix);
-                ajaxSend = false;
-
-                if (parseInt(response.code) === 162 ) {
-
-                    getMoreBtn.innerHTML = 'Загрузить ещё';
-
-                    if (response.html !== '') {
-
-                        getMoreBtn.dataset.offset = parseInt(offset) + parseInt(response.number);
-
-                        if (searchingName === sendSearchName) {
-
-                            holderSearch.innerHTML += response.html;
-
-                        } else {
-
-                            holderSearch.innerHTML = response.html;
-
-                        }
-
-                    } else {
-
-                        getMoreBtn.innerHTML = 'Всего ' + parseInt(parseInt(offset) + parseInt(response.number));
-                        document.removeEventListener('scroll', checkPageOffset_);
-
-                    }
-
-                } else {
-
-                    getMoreBtn.innerHTML = "Ошибка при загрузке. <span class='link'>Повторить</span>";
-                    document.removeEventListener('scroll', checkPageOffset_);
-
-                    raicare.notification.notify({
-                        type: response.status,
-                        message: response.message
-                    });
-
-                }
-
-            },
-            error: function (callbacks) {
-
-                raicare.core.log('ajax error occur on searching surveys', 'error', corePrefix, callbacks);
-                getMoreBtn.innerHTML = "Ошибка при загрузке. <span class='link'>Повторить</span>";
-                document.removeEventListener('scroll', checkPageOffset_);
-                ajaxSend = false;
-
-            }
         };
 
         raicare.ajax.send(ajaxData);

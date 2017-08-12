@@ -66,77 +66,81 @@
                             </div>
                         </fieldset>
 
-                        <fieldset>
-                            <div class="row">
-                                <div class="col-xs-12 col-sm-8 col-md-9">
-                                    <div class="form-group">
-                                        <div class="form-group__label col-xs-12">
-                                            Кратковременная память
-                                            <div class="text-normal p-t-5">
-                                                <?= Kohana::$config->load('Units.C.C2')[json_decode($survey->unitC->C2)[0]];?>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xs-12 col-sm-4 col-md-3 p-l-30 p-r-30 text-center m-t-10">
-                                    <span class="f-s-1_25 <?= json_decode($survey->unitC->C2)[0] == 0 ? 'text-brand' : 'text-danger'; ?>"><i class="fa fa-flag" aria-hidden="true"></i></span>
-                                </div>
-                            </div>
-                        </fieldset>
+                        <? if ($survey->unitC->C1 != 5) : ?>
 
-                        <fieldset>
-                            <div class="row">
-                                <div class="col-xs-12 col-sm-8 col-md-9">
-                                    <div class="form-group">
-                                        <div class="form-group__label col-xs-12">
-                                            Долговременная память
-                                            <div class="text-normal p-t-5">
-                                                <?= Kohana::$config->load('Units.C.C2')[json_decode($survey->unitC->C2)[1]];?>
+                            <fieldset>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-8 col-md-9">
+                                        <div class="form-group">
+                                            <div class="form-group__label col-xs-12">
+                                                Кратковременная память
+                                                <div class="text-normal p-t-5">
+                                                    <?= Kohana::$config->load('Units.C.C2')[json_decode($survey->unitC->C2)[0]];?>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-xs-12 col-sm-4 col-md-3 p-l-30 p-r-30 text-center m-t-10">
+                                        <span class="f-s-1_25 <?= json_decode($survey->unitC->C2)[0] == 0 ? 'text-brand' : 'text-danger'; ?>"><i class="fa fa-flag" aria-hidden="true"></i></span>
+                                    </div>
                                 </div>
-                                <div class="col-xs-12 col-sm-4 col-md-3 p-l-30 p-r-30 text-center m-t-10">
-                                    <span class="f-s-1_25 <?= json_decode($survey->unitC->C2)[1] == 0 ? 'text-brand' : 'text-danger'; ?>"><i class="fa fa-flag" aria-hidden="true"></i></span>
-                                </div>
-                            </div>
-                        </fieldset>
+                            </fieldset>
 
-                        <fieldset>
-                            <div class="row">
-                                <div class="col-xs-12 col-sm-8 col-md-9">
-                                    <div class="form-group">
-                                        <div class="form-group__label col-xs-12">
-                                            Процедурная память
-                                            <div class="text-normal p-t-5">
-                                                <?= Kohana::$config->load('Units.C.C2')[json_decode($survey->unitC->C2)[2]];?>
+                            <fieldset>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-8 col-md-9">
+                                        <div class="form-group">
+                                            <div class="form-group__label col-xs-12">
+                                                Долговременная память
+                                                <div class="text-normal p-t-5">
+                                                    <?= Kohana::$config->load('Units.C.C2')[json_decode($survey->unitC->C2)[1]];?>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-xs-12 col-sm-4 col-md-3 p-l-30 p-r-30 text-center m-t-10">
+                                        <span class="f-s-1_25 <?= json_decode($survey->unitC->C2)[1] == 0 ? 'text-brand' : 'text-danger'; ?>"><i class="fa fa-flag" aria-hidden="true"></i></span>
+                                    </div>
                                 </div>
-                                <div class="col-xs-12 col-sm-4 col-md-3 p-l-30 p-r-30 text-center m-t-10">
-                                    <span class="f-s-1_25 <?= json_decode($survey->unitC->C2)[2] == 0 ? 'text-brand' : 'text-danger'; ?>"><i class="fa fa-flag" aria-hidden="true"></i></span>
-                                </div>
-                            </div>
-                        </fieldset>
+                            </fieldset>
 
-                        <fieldset>
-                            <div class="row">
-                                <div class="col-xs-12 col-sm-8 col-md-9">
-                                    <div class="form-group">
-                                        <div class="form-group__label col-xs-12">
-                                            Ситуационная память
-                                            <div class="text-normal p-t-5">
-                                                <?= Kohana::$config->load('Units.C.C2')[json_decode($survey->unitC->C2)[3]];?>
+                            <fieldset>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-8 col-md-9">
+                                        <div class="form-group">
+                                            <div class="form-group__label col-xs-12">
+                                                Процедурная память
+                                                <div class="text-normal p-t-5">
+                                                    <?= Kohana::$config->load('Units.C.C2')[json_decode($survey->unitC->C2)[2]];?>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-xs-12 col-sm-4 col-md-3 p-l-30 p-r-30 text-center m-t-10">
+                                        <span class="f-s-1_25 <?= json_decode($survey->unitC->C2)[2] == 0 ? 'text-brand' : 'text-danger'; ?>"><i class="fa fa-flag" aria-hidden="true"></i></span>
+                                    </div>
                                 </div>
-                                <div class="col-xs-12 col-sm-4 col-md-3 p-l-30 p-r-30 text-center m-t-10">
-                                    <span class="f-s-1_25 <?= json_decode($survey->unitC->C2)[3] == 0 ? 'text-brand' : 'text-danger'; ?>"><i class="fa fa-flag" aria-hidden="true"></i></span>
+                            </fieldset>
+
+                            <fieldset>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-8 col-md-9">
+                                        <div class="form-group">
+                                            <div class="form-group__label col-xs-12">
+                                                Ситуационная память
+                                                <div class="text-normal p-t-5">
+                                                    <?= Kohana::$config->load('Units.C.C2')[json_decode($survey->unitC->C2)[3]];?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-4 col-md-3 p-l-30 p-r-30 text-center m-t-10">
+                                        <span class="f-s-1_25 <?= json_decode($survey->unitC->C2)[3] == 0 ? 'text-brand' : 'text-danger'; ?>"><i class="fa fa-flag" aria-hidden="true"></i></span>
+                                    </div>
                                 </div>
-                            </div>
-                        </fieldset>
+                            </fieldset>
+
+                        <? endif; ?>
 
                     </div>
                 </div>
@@ -180,41 +184,45 @@
                             </div>
                         </fieldset>
 
-                        <fieldset>
-                            <div class="row">
-                                <div class="col-xs-12 col-sm-8 col-md-9">
-                                    <div class="form-group">
-                                        <div class="form-group__label col-xs-12">
-                                            Способность слышать
-                                            <div class="text-normal p-t-5">
-                                                <?= Kohana::$config->load('Units.D.D3a')[json_decode($survey->unitD->D3)[0]];?>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xs-12 col-sm-4 col-md-3 p-l-30 p-r-30 text-center m-t-10">
-                                    <span class="f-s-1_25 <?= json_decode($survey->unitD->D3)[0] < 3 ?  'text-brand' : 'text-danger'; ?>"><i class="fa fa-flag" aria-hidden="true"></i></span>
-                                </div>
-                            </div>
-                        </fieldset>
+                        <? if ($survey->unitC->C1 != 5) : ?>
 
-                        <fieldset>
-                            <div class="row">
-                                <div class="col-xs-12 col-sm-8 col-md-9">
-                                    <div class="form-group">
-                                        <div class="form-group__label col-xs-12">
-                                            Способность видеть при адекватном освещении
-                                            <div class="text-normal p-t-5">
-                                                <?= Kohana::$config->load('Units.D.D4a')[json_decode($survey->unitD->D4)[0]];?>
+                            <fieldset>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-8 col-md-9">
+                                        <div class="form-group">
+                                            <div class="form-group__label col-xs-12">
+                                                Способность слышать
+                                                <div class="text-normal p-t-5">
+                                                    <?= Kohana::$config->load('Units.D.D3a')[json_decode($survey->unitD->D3)[0]];?>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-xs-12 col-sm-4 col-md-3 p-l-30 p-r-30 text-center m-t-10">
+                                        <span class="f-s-1_25 <?= json_decode($survey->unitD->D3)[0] < 3 ?  'text-brand' : 'text-danger'; ?>"><i class="fa fa-flag" aria-hidden="true"></i></span>
+                                    </div>
                                 </div>
-                                <div class="col-xs-12 col-sm-4 col-md-3 p-l-30 p-r-30 text-center m-t-10">
-                                    <span class="f-s-1_25 <?= json_decode($survey->unitD->D4)[0] < 3 ? 'text-brand' : 'text-danger'; ?>"><i class="fa fa-flag" aria-hidden="true"></i></span>
+                            </fieldset>
+
+                            <fieldset>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-8 col-md-9">
+                                        <div class="form-group">
+                                            <div class="form-group__label col-xs-12">
+                                                Способность видеть при адекватном освещении
+                                                <div class="text-normal p-t-5">
+                                                    <?= Kohana::$config->load('Units.D.D4a')[json_decode($survey->unitD->D4)[0]];?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-4 col-md-3 p-l-30 p-r-30 text-center m-t-10">
+                                        <span class="f-s-1_25 <?= json_decode($survey->unitD->D4)[0] < 3 ? 'text-brand' : 'text-danger'; ?>"><i class="fa fa-flag" aria-hidden="true"></i></span>
+                                    </div>
                                 </div>
-                            </div>
-                        </fieldset>
+                            </fieldset>
+
+                        <? endif; ?>
 
                     </div>
                 </div>
@@ -561,77 +569,81 @@
                             </div>
                         </fieldset>
 
-                        <fieldset>
-                            <div class="row">
-                                <div class="col-xs-12 col-sm-8 col-md-9">
-                                    <div class="form-group">
-                                        <div class="form-group__label col-xs-12">
-                                            Бесцельное перемещение
-                                            <div class="text-normal p-t-5">
-                                                <?= Kohana::$config->load('Units.E.E3')[json_decode($survey->unitE->E3)[0]]; ?>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xs-12 col-sm-4 col-md-3 p-l-30 p-r-30 text-center m-t-10">
-                                    <span class="f-s-1_25 <?= json_decode($survey->unitE->E3)[0] < 2 ?  'text-brand' : 'text-danger'; ?>"><i class="fa fa-flag" aria-hidden="true"></i></span>
-                                </div>
-                            </div>
-                        </fieldset>
+                        <? if ($survey->unitC->C1 != 5) : ?>
 
-                        <fieldset>
-                            <div class="row">
-                                <div class="col-xs-12 col-sm-8 col-md-9">
-                                    <div class="form-group">
-                                        <div class="form-group__label col-xs-12">
-                                            Словесная агрессия
-                                            <div class="text-normal p-t-5">
-                                                <?= Kohana::$config->load('Units.E.E3')[json_decode($survey->unitE->E3)[1]]; ?>
+                            <fieldset>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-8 col-md-9">
+                                        <div class="form-group">
+                                            <div class="form-group__label col-xs-12">
+                                                Бесцельное перемещение
+                                                <div class="text-normal p-t-5">
+                                                    <?= Kohana::$config->load('Units.E.E3')[json_decode($survey->unitE->E3)[0]]; ?>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-xs-12 col-sm-4 col-md-3 p-l-30 p-r-30 text-center m-t-10">
+                                        <span class="f-s-1_25 <?= json_decode($survey->unitE->E3)[0] < 2 ?  'text-brand' : 'text-danger'; ?>"><i class="fa fa-flag" aria-hidden="true"></i></span>
+                                    </div>
                                 </div>
-                                <div class="col-xs-12 col-sm-4 col-md-3 p-l-30 p-r-30 text-center m-t-10">
-                                    <span class="f-s-1_25 <?= json_decode($survey->unitE->E3)[1] < 2 ?  'text-brand' : 'text-danger'; ?>"><i class="fa fa-flag" aria-hidden="true"></i></span>
-                                </div>
-                            </div>
-                        </fieldset>
+                            </fieldset>
 
-                        <fieldset>
-                            <div class="row">
-                                <div class="col-xs-12 col-sm-8 col-md-9">
-                                    <div class="form-group">
-                                        <div class="form-group__label col-xs-12">
-                                            Физическое насилие
-                                            <div class="text-normal p-t-5">
-                                                <?= Kohana::$config->load('Units.E.E3')[json_decode($survey->unitE->E3)[2]]; ?>
+                            <fieldset>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-8 col-md-9">
+                                        <div class="form-group">
+                                            <div class="form-group__label col-xs-12">
+                                                Словесная агрессия
+                                                <div class="text-normal p-t-5">
+                                                    <?= Kohana::$config->load('Units.E.E3')[json_decode($survey->unitE->E3)[1]]; ?>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-xs-12 col-sm-4 col-md-3 p-l-30 p-r-30 text-center m-t-10">
+                                        <span class="f-s-1_25 <?= json_decode($survey->unitE->E3)[1] < 2 ?  'text-brand' : 'text-danger'; ?>"><i class="fa fa-flag" aria-hidden="true"></i></span>
+                                    </div>
                                 </div>
-                                <div class="col-xs-12 col-sm-4 col-md-3 p-l-30 p-r-30 text-center m-t-10">
-                                    <span class="f-s-1_25 <?= json_decode($survey->unitE->E3)[2] < 2 ?  'text-brand' : 'text-danger'; ?>"><i class="fa fa-flag" aria-hidden="true"></i></span>
-                                </div>
-                            </div>
-                        </fieldset>
+                            </fieldset>
 
-                        <fieldset>
-                            <div class="row">
-                                <div class="col-xs-12 col-sm-8 col-md-9">
-                                    <div class="form-group">
-                                        <div class="form-group__label col-xs-12">
-                                            Пациент противится уходу за ним
-                                            <div class="text-normal p-t-5">
-                                                <?= Kohana::$config->load('Units.E.E3')[json_decode($survey->unitE->E3)[5]]; ?>
+                            <fieldset>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-8 col-md-9">
+                                        <div class="form-group">
+                                            <div class="form-group__label col-xs-12">
+                                                Физическое насилие
+                                                <div class="text-normal p-t-5">
+                                                    <?= Kohana::$config->load('Units.E.E3')[json_decode($survey->unitE->E3)[2]]; ?>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-xs-12 col-sm-4 col-md-3 p-l-30 p-r-30 text-center m-t-10">
+                                        <span class="f-s-1_25 <?= json_decode($survey->unitE->E3)[2] < 2 ?  'text-brand' : 'text-danger'; ?>"><i class="fa fa-flag" aria-hidden="true"></i></span>
+                                    </div>
                                 </div>
-                                <div class="col-xs-12 col-sm-4 col-md-3 p-l-30 p-r-30 text-center m-t-10">
-                                    <span class="f-s-1_25 <?= json_decode($survey->unitE->E3)[5] < 2 ?  'text-brand' : 'text-danger'; ?>"><i class="fa fa-flag" aria-hidden="true"></i></span>
+                            </fieldset>
+
+                            <fieldset>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-8 col-md-9">
+                                        <div class="form-group">
+                                            <div class="form-group__label col-xs-12">
+                                                Пациент противится уходу за ним
+                                                <div class="text-normal p-t-5">
+                                                    <?= Kohana::$config->load('Units.E.E3')[json_decode($survey->unitE->E3)[5]]; ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-4 col-md-3 p-l-30 p-r-30 text-center m-t-10">
+                                        <span class="f-s-1_25 <?= json_decode($survey->unitE->E3)[5] < 2 ?  'text-brand' : 'text-danger'; ?>"><i class="fa fa-flag" aria-hidden="true"></i></span>
+                                    </div>
                                 </div>
-                            </div>
-                        </fieldset>
+                            </fieldset>
+
+                        <? endif; ?>
 
                     </div>
                 </div>
