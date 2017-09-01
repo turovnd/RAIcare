@@ -23,15 +23,6 @@
 
 <body>
 
-
-
-    $surveys;
-    $protocols;
-    $raiscales;
-    $excel_surveys;
-    $excel_protocols;
-    $excel_raiscales;
-
     <table class="tablesaw" data-tablesaw-mode="columntoggle" data-tablesaw-minimap>
         <thead>
             <tr>
@@ -45,7 +36,7 @@
         </thead>
         <tbody>
 
-            <? for($i = 0; $i <= 348; $i++) : ?>
+            <? for($i = 0; $i < count($surveys); $i++) : ?>
                 <tr>
                     <td>
                         <?= $i+1; ?>

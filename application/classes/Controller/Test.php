@@ -26,7 +26,7 @@ class Controller_Test extends Dispatch
         $excel_protocols = array();
         $excel_raiscales = array();
 
-        for ($i = 1; $i <= 349; $i++) {
+        for ($i = 1; $i <= 35; $i++) {
             $this->survey = new Model_Survey($i);
             $this->getUnitsData();
             $surveys[] = $this->survey;
@@ -44,7 +44,7 @@ class Controller_Test extends Dispatch
 //        echo Debug::vars($this->excel->getWorksheet(1)->getRecord(1));
 //        echo Debug::vars($this->excel->getWorksheet(1)->getRecord(2));
 //        die();
-        for ($i = 1; $i <= 349; $i++) {
+        for ($i = 1; $i <= 35; $i++) {
             $this->survey = new Model_Survey();
             $this->get_excel_surveys($i);
             $excel_surveys[] = $this->survey;
@@ -70,6 +70,495 @@ class Controller_Test extends Dispatch
         $this->template->excel_raiscales = $excel_raiscales;
     }
 
+
+    public function action_test1()
+    {
+        $surveys   = array();
+        $protocols = array();
+        $raiscales = array();
+
+        $excel_surveys   = array();
+        $excel_protocols = array();
+        $excel_raiscales = array();
+
+        for ($i = 36; $i <= 70; $i++) {
+            $this->survey = new Model_Survey($i);
+            $this->getUnitsData();
+            $surveys[] = $this->survey;
+
+            $this->report = new Model_ReportProtocols($i);
+            $protocols[] = $this->report;
+
+            $this->report = new Model_ReportRAIScales($i);
+            $raiscales[] = $this->report;
+        }
+
+
+        $this->excel = new SimpleExcel();
+        $this->excel->loadFile('data.csv', 'CSV', array('delimiter' => ';'));
+//        echo Debug::vars($this->excel->getWorksheet(1)->getRecord(1));
+//        echo Debug::vars($this->excel->getWorksheet(1)->getRecord(2));
+//        die();
+        for ($i = 36; $i <= 70; $i++) {
+            $this->survey = new Model_Survey();
+            $this->get_excel_surveys($i);
+            $excel_surveys[] = $this->survey;
+
+            $this->report = new Model_ReportProtocols();
+            $this->get_excel_protocols($i);
+            $excel_protocols[] = $this->report;
+
+            $this->report = new Model_ReportRAIScales();
+            $this->get_excel_raiscales($i);
+            $excel_raiscales[] = $this->report;
+        }
+//        echo Debug::vars($surveys, $protocols, $raiscales);
+//        echo Debug::vars($excel_surveys, $excel_protocols, $excel_raiscales);
+
+        $this->template = View::factory('test');
+        $this->template->headers = $this->excel->getWorksheet(1)->getRecord(1);
+        $this->template->surveys = $surveys;
+        $this->template->protocols = $protocols;
+        $this->template->raiscales = $raiscales;
+        $this->template->excel_surveys = $excel_surveys;
+        $this->template->excel_protocols = $excel_protocols;
+        $this->template->excel_raiscales = $excel_raiscales;
+    }
+
+
+    public function action_test2()
+    {
+        $surveys   = array();
+        $protocols = array();
+        $raiscales = array();
+
+        $excel_surveys   = array();
+        $excel_protocols = array();
+        $excel_raiscales = array();
+
+        for ($i = 71; $i <= 105; $i++) {
+            $this->survey = new Model_Survey($i);
+            $this->getUnitsData();
+            $surveys[] = $this->survey;
+
+            $this->report = new Model_ReportProtocols($i);
+            $protocols[] = $this->report;
+
+            $this->report = new Model_ReportRAIScales($i);
+            $raiscales[] = $this->report;
+        }
+
+
+        $this->excel = new SimpleExcel();
+        $this->excel->loadFile('data.csv', 'CSV', array('delimiter' => ';'));
+//        echo Debug::vars($this->excel->getWorksheet(1)->getRecord(1));
+//        echo Debug::vars($this->excel->getWorksheet(1)->getRecord(2));
+//        die();
+        for ($i = 71; $i <= 105; $i++) {
+            $this->survey = new Model_Survey();
+            $this->get_excel_surveys($i);
+            $excel_surveys[] = $this->survey;
+
+            $this->report = new Model_ReportProtocols();
+            $this->get_excel_protocols($i);
+            $excel_protocols[] = $this->report;
+
+            $this->report = new Model_ReportRAIScales();
+            $this->get_excel_raiscales($i);
+            $excel_raiscales[] = $this->report;
+        }
+//        echo Debug::vars($surveys, $protocols, $raiscales);
+//        echo Debug::vars($excel_surveys, $excel_protocols, $excel_raiscales);
+
+        $this->template = View::factory('test');
+        $this->template->headers = $this->excel->getWorksheet(1)->getRecord(1);
+        $this->template->surveys = $surveys;
+        $this->template->protocols = $protocols;
+        $this->template->raiscales = $raiscales;
+        $this->template->excel_surveys = $excel_surveys;
+        $this->template->excel_protocols = $excel_protocols;
+        $this->template->excel_raiscales = $excel_raiscales;
+    }
+
+
+    public function action_test3()
+    {
+        $surveys   = array();
+        $protocols = array();
+        $raiscales = array();
+
+        $excel_surveys   = array();
+        $excel_protocols = array();
+        $excel_raiscales = array();
+
+        for ($i = 106; $i <= 140; $i++) {
+            $this->survey = new Model_Survey($i);
+            $this->getUnitsData();
+            $surveys[] = $this->survey;
+
+            $this->report = new Model_ReportProtocols($i);
+            $protocols[] = $this->report;
+
+            $this->report = new Model_ReportRAIScales($i);
+            $raiscales[] = $this->report;
+        }
+
+
+        $this->excel = new SimpleExcel();
+        $this->excel->loadFile('data.csv', 'CSV', array('delimiter' => ';'));
+//        echo Debug::vars($this->excel->getWorksheet(1)->getRecord(1));
+//        echo Debug::vars($this->excel->getWorksheet(1)->getRecord(2));
+//        die();
+        for ($i = 106; $i <= 140; $i++) {
+            $this->survey = new Model_Survey();
+            $this->get_excel_surveys($i);
+            $excel_surveys[] = $this->survey;
+
+            $this->report = new Model_ReportProtocols();
+            $this->get_excel_protocols($i);
+            $excel_protocols[] = $this->report;
+
+            $this->report = new Model_ReportRAIScales();
+            $this->get_excel_raiscales($i);
+            $excel_raiscales[] = $this->report;
+        }
+//        echo Debug::vars($surveys, $protocols, $raiscales);
+//        echo Debug::vars($excel_surveys, $excel_protocols, $excel_raiscales);
+
+        $this->template = View::factory('test');
+        $this->template->headers = $this->excel->getWorksheet(1)->getRecord(1);
+        $this->template->surveys = $surveys;
+        $this->template->protocols = $protocols;
+        $this->template->raiscales = $raiscales;
+        $this->template->excel_surveys = $excel_surveys;
+        $this->template->excel_protocols = $excel_protocols;
+        $this->template->excel_raiscales = $excel_raiscales;
+    }
+
+
+    public function action_test4()
+    {
+        $surveys   = array();
+        $protocols = array();
+        $raiscales = array();
+
+        $excel_surveys   = array();
+        $excel_protocols = array();
+        $excel_raiscales = array();
+
+        for ($i = 141; $i <= 175; $i++) {
+            $this->survey = new Model_Survey($i);
+            $this->getUnitsData();
+            $surveys[] = $this->survey;
+
+            $this->report = new Model_ReportProtocols($i);
+            $protocols[] = $this->report;
+
+            $this->report = new Model_ReportRAIScales($i);
+            $raiscales[] = $this->report;
+        }
+
+
+        $this->excel = new SimpleExcel();
+        $this->excel->loadFile('data.csv', 'CSV', array('delimiter' => ';'));
+//        echo Debug::vars($this->excel->getWorksheet(1)->getRecord(1));
+//        echo Debug::vars($this->excel->getWorksheet(1)->getRecord(2));
+//        die();
+        for ($i = 141; $i <= 175; $i++) {
+            $this->survey = new Model_Survey();
+            $this->get_excel_surveys($i);
+            $excel_surveys[] = $this->survey;
+
+            $this->report = new Model_ReportProtocols();
+            $this->get_excel_protocols($i);
+            $excel_protocols[] = $this->report;
+
+            $this->report = new Model_ReportRAIScales();
+            $this->get_excel_raiscales($i);
+            $excel_raiscales[] = $this->report;
+        }
+//        echo Debug::vars($surveys, $protocols, $raiscales);
+//        echo Debug::vars($excel_surveys, $excel_protocols, $excel_raiscales);
+
+        $this->template = View::factory('test');
+        $this->template->headers = $this->excel->getWorksheet(1)->getRecord(1);
+        $this->template->surveys = $surveys;
+        $this->template->protocols = $protocols;
+        $this->template->raiscales = $raiscales;
+        $this->template->excel_surveys = $excel_surveys;
+        $this->template->excel_protocols = $excel_protocols;
+        $this->template->excel_raiscales = $excel_raiscales;
+    }
+
+    public function action_test5()
+    {
+        $surveys   = array();
+        $protocols = array();
+        $raiscales = array();
+
+        $excel_surveys   = array();
+        $excel_protocols = array();
+        $excel_raiscales = array();
+
+        for ($i = 176; $i <= 210; $i++) {
+            $this->survey = new Model_Survey($i);
+            $this->getUnitsData();
+            $surveys[] = $this->survey;
+
+            $this->report = new Model_ReportProtocols($i);
+            $protocols[] = $this->report;
+
+            $this->report = new Model_ReportRAIScales($i);
+            $raiscales[] = $this->report;
+        }
+
+
+        $this->excel = new SimpleExcel();
+        $this->excel->loadFile('data.csv', 'CSV', array('delimiter' => ';'));
+//        echo Debug::vars($this->excel->getWorksheet(1)->getRecord(1));
+//        echo Debug::vars($this->excel->getWorksheet(1)->getRecord(2));
+//        die();
+        for ($i = 176; $i <= 210; $i++) {
+            $this->survey = new Model_Survey();
+            $this->get_excel_surveys($i);
+            $excel_surveys[] = $this->survey;
+
+            $this->report = new Model_ReportProtocols();
+            $this->get_excel_protocols($i);
+            $excel_protocols[] = $this->report;
+
+            $this->report = new Model_ReportRAIScales();
+            $this->get_excel_raiscales($i);
+            $excel_raiscales[] = $this->report;
+        }
+//        echo Debug::vars($surveys, $protocols, $raiscales);
+//        echo Debug::vars($excel_surveys, $excel_protocols, $excel_raiscales);
+
+        $this->template = View::factory('test');
+        $this->template->headers = $this->excel->getWorksheet(1)->getRecord(1);
+        $this->template->surveys = $surveys;
+        $this->template->protocols = $protocols;
+        $this->template->raiscales = $raiscales;
+        $this->template->excel_surveys = $excel_surveys;
+        $this->template->excel_protocols = $excel_protocols;
+        $this->template->excel_raiscales = $excel_raiscales;
+    }
+
+    public function action_test6()
+    {
+        $surveys   = array();
+        $protocols = array();
+        $raiscales = array();
+
+        $excel_surveys   = array();
+        $excel_protocols = array();
+        $excel_raiscales = array();
+
+        for ($i = 211; $i <= 245; $i++) {
+            $this->survey = new Model_Survey($i);
+            $this->getUnitsData();
+            $surveys[] = $this->survey;
+
+            $this->report = new Model_ReportProtocols($i);
+            $protocols[] = $this->report;
+
+            $this->report = new Model_ReportRAIScales($i);
+            $raiscales[] = $this->report;
+        }
+
+
+        $this->excel = new SimpleExcel();
+        $this->excel->loadFile('data.csv', 'CSV', array('delimiter' => ';'));
+//        echo Debug::vars($this->excel->getWorksheet(1)->getRecord(1));
+//        echo Debug::vars($this->excel->getWorksheet(1)->getRecord(2));
+//        die();
+        for ($i = 211; $i <= 245; $i++) {
+            $this->survey = new Model_Survey();
+            $this->get_excel_surveys($i);
+            $excel_surveys[] = $this->survey;
+
+            $this->report = new Model_ReportProtocols();
+            $this->get_excel_protocols($i);
+            $excel_protocols[] = $this->report;
+
+            $this->report = new Model_ReportRAIScales();
+            $this->get_excel_raiscales($i);
+            $excel_raiscales[] = $this->report;
+        }
+//        echo Debug::vars($surveys, $protocols, $raiscales);
+//        echo Debug::vars($excel_surveys, $excel_protocols, $excel_raiscales);
+
+        $this->template = View::factory('test');
+        $this->template->headers = $this->excel->getWorksheet(1)->getRecord(1);
+        $this->template->surveys = $surveys;
+        $this->template->protocols = $protocols;
+        $this->template->raiscales = $raiscales;
+        $this->template->excel_surveys = $excel_surveys;
+        $this->template->excel_protocols = $excel_protocols;
+        $this->template->excel_raiscales = $excel_raiscales;
+    }
+
+    public function action_test7()
+    {
+        $surveys   = array();
+        $protocols = array();
+        $raiscales = array();
+
+        $excel_surveys   = array();
+        $excel_protocols = array();
+        $excel_raiscales = array();
+
+        for ($i = 246; $i <= 280; $i++) {
+            $this->survey = new Model_Survey($i);
+            $this->getUnitsData();
+            $surveys[] = $this->survey;
+
+            $this->report = new Model_ReportProtocols($i);
+            $protocols[] = $this->report;
+
+            $this->report = new Model_ReportRAIScales($i);
+            $raiscales[] = $this->report;
+        }
+
+
+        $this->excel = new SimpleExcel();
+        $this->excel->loadFile('data.csv', 'CSV', array('delimiter' => ';'));
+//        echo Debug::vars($this->excel->getWorksheet(1)->getRecord(1));
+//        echo Debug::vars($this->excel->getWorksheet(1)->getRecord(2));
+//        die();
+        for ($i = 246; $i <= 280; $i++) {
+            $this->survey = new Model_Survey();
+            $this->get_excel_surveys($i);
+            $excel_surveys[] = $this->survey;
+
+            $this->report = new Model_ReportProtocols();
+            $this->get_excel_protocols($i);
+            $excel_protocols[] = $this->report;
+
+            $this->report = new Model_ReportRAIScales();
+            $this->get_excel_raiscales($i);
+            $excel_raiscales[] = $this->report;
+        }
+//        echo Debug::vars($surveys, $protocols, $raiscales);
+//        echo Debug::vars($excel_surveys, $excel_protocols, $excel_raiscales);
+
+        $this->template = View::factory('test');
+        $this->template->headers = $this->excel->getWorksheet(1)->getRecord(1);
+        $this->template->surveys = $surveys;
+        $this->template->protocols = $protocols;
+        $this->template->raiscales = $raiscales;
+        $this->template->excel_surveys = $excel_surveys;
+        $this->template->excel_protocols = $excel_protocols;
+        $this->template->excel_raiscales = $excel_raiscales;
+    }
+
+    public function action_test8()
+    {
+        $surveys   = array();
+        $protocols = array();
+        $raiscales = array();
+
+        $excel_surveys   = array();
+        $excel_protocols = array();
+        $excel_raiscales = array();
+
+        for ($i = 281; $i <= 315; $i++) {
+            $this->survey = new Model_Survey($i);
+            $this->getUnitsData();
+            $surveys[] = $this->survey;
+
+            $this->report = new Model_ReportProtocols($i);
+            $protocols[] = $this->report;
+
+            $this->report = new Model_ReportRAIScales($i);
+            $raiscales[] = $this->report;
+        }
+
+
+        $this->excel = new SimpleExcel();
+        $this->excel->loadFile('data.csv', 'CSV', array('delimiter' => ';'));
+//        echo Debug::vars($this->excel->getWorksheet(1)->getRecord(1));
+//        echo Debug::vars($this->excel->getWorksheet(1)->getRecord(2));
+//        die();
+        for ($i = 281; $i <= 315; $i++) {
+            $this->survey = new Model_Survey();
+            $this->get_excel_surveys($i);
+            $excel_surveys[] = $this->survey;
+
+            $this->report = new Model_ReportProtocols();
+            $this->get_excel_protocols($i);
+            $excel_protocols[] = $this->report;
+
+            $this->report = new Model_ReportRAIScales();
+            $this->get_excel_raiscales($i);
+            $excel_raiscales[] = $this->report;
+        }
+//        echo Debug::vars($surveys, $protocols, $raiscales);
+//        echo Debug::vars($excel_surveys, $excel_protocols, $excel_raiscales);
+
+        $this->template = View::factory('test');
+        $this->template->headers = $this->excel->getWorksheet(1)->getRecord(1);
+        $this->template->surveys = $surveys;
+        $this->template->protocols = $protocols;
+        $this->template->raiscales = $raiscales;
+        $this->template->excel_surveys = $excel_surveys;
+        $this->template->excel_protocols = $excel_protocols;
+        $this->template->excel_raiscales = $excel_raiscales;
+    }
+
+    public function action_test9()
+    {
+        $surveys   = array();
+        $protocols = array();
+        $raiscales = array();
+
+        $excel_surveys   = array();
+        $excel_protocols = array();
+        $excel_raiscales = array();
+
+        for ($i = 316; $i <= 349; $i++) {
+            $this->survey = new Model_Survey($i);
+            $this->getUnitsData();
+            $surveys[] = $this->survey;
+
+            $this->report = new Model_ReportProtocols($i);
+            $protocols[] = $this->report;
+
+            $this->report = new Model_ReportRAIScales($i);
+            $raiscales[] = $this->report;
+        }
+
+
+        $this->excel = new SimpleExcel();
+        $this->excel->loadFile('data.csv', 'CSV', array('delimiter' => ';'));
+//        echo Debug::vars($this->excel->getWorksheet(1)->getRecord(1));
+//        echo Debug::vars($this->excel->getWorksheet(1)->getRecord(2));
+//        die();
+        for ($i = 316; $i <= 349; $i++) {
+            $this->survey = new Model_Survey();
+            $this->get_excel_surveys($i);
+            $excel_surveys[] = $this->survey;
+
+            $this->report = new Model_ReportProtocols();
+            $this->get_excel_protocols($i);
+            $excel_protocols[] = $this->report;
+
+            $this->report = new Model_ReportRAIScales();
+            $this->get_excel_raiscales($i);
+            $excel_raiscales[] = $this->report;
+        }
+//        echo Debug::vars($surveys, $protocols, $raiscales);
+//        echo Debug::vars($excel_surveys, $excel_protocols, $excel_raiscales);
+
+        $this->template = View::factory('test');
+        $this->template->headers = $this->excel->getWorksheet(1)->getRecord(1);
+        $this->template->surveys = $surveys;
+        $this->template->protocols = $protocols;
+        $this->template->raiscales = $raiscales;
+        $this->template->excel_surveys = $excel_surveys;
+        $this->template->excel_protocols = $excel_protocols;
+        $this->template->excel_raiscales = $excel_raiscales;
+    }
 
 
 //            $this->createRAIScales();
