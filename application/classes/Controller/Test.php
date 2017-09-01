@@ -1323,11 +1323,9 @@ class Controller_Test extends Dispatch
 
         $J6 = $this->survey->unitJ->J6;
         $purs = 0;
-        if ( $G1[8] >=3 ) $purs++;
-        if ( $G1[4] >=3 ) $purs++;
-//        if ( $this->survey->unitH->H3 > 2 ) $purs++;
-        if ( $this->survey->unitH->H3 != 8 && $this->survey->unitH->H3 > 2 ) $purs++;
-        // TODO add condition - https://github.com/kolyasha/RAIcare/issues/26
+        if ( $G1[8] > 3 ) $purs++;
+        if ( $G1[4] > 3 ) $purs++;
+        if ( $this->survey->unitH->H3 > 2 ) $purs++;
         if ( $K2[0] == 1 ) $purs++;
         if ( $J6[0] == 3 ) $purs++;
         if ( $this->survey->unitL->L2 == 1 ) $purs = $purs + 2;
@@ -1353,7 +1351,7 @@ class Controller_Test extends Dispatch
                 $imp_count = 0;
                 if ($this->survey->unitC->C1 > 0) $imp_count++;
                 if ($this->survey->unitC->C2[0] == 1) $imp_count++;
-                if ($this->survey->unitD->D1 > 0 || $this->survey->unitD->D2 > 0) $imp_count++;
+                if ($this->survey->unitD->D1 > 0) $imp_count++;
                 switch ($imp_count) {
                     case 0: return 0; break;
                     case 1: return 1; break;
@@ -1361,7 +1359,7 @@ class Controller_Test extends Dispatch
                         // Severe Impairment Count
                         $sev_imp_count = 0;
                         if ($this->survey->unitC->C1 == 3) $sev_imp_count++;
-                        if ($this->survey->unitD->D1 >= 3 || $this->survey->unitD->D2 >= 3) $sev_imp_count++;
+                        if ($this->survey->unitD->D1 >= 3) $sev_imp_count++;
                         switch ($sev_imp_count) {
                             case 0: return 2; break;
                             case 1: return 3; break;
@@ -1383,9 +1381,10 @@ class Controller_Test extends Dispatch
     // Self Rated Depression
     private function getSRD()
     {
+        $C1 = $this->survey->unitC->C1;
         $E2 = $this->survey->unitE->E2;
 
-        if ($E2[0] == 8 || $E2[1] == 8 || $E2[2] == 8)
+        if ($E2[0] == 8 || $E2[1] == 8 || $E2[2] == 8 || $C1 == 5)
             return -1;
         else
             return $E2[0] + $E2[1] + $E2[2];
@@ -1394,6 +1393,9 @@ class Controller_Test extends Dispatch
     // Depression Rating Scale
     private function getDRS()
     {
+        if ($this->survey->unitC->C1 == 5)
+            return -1;
+
         $E1 = $this->survey->unitE->E1;
         $drs = 0;
         $drs += $E1[0] == 0 ? 0 : (($E1[0] == 1 || $E1[0] == 2) ? 1 : 2);
@@ -1410,23 +1412,31 @@ class Controller_Test extends Dispatch
     private function getPain()
     {
         $J6 = $this->survey->unitJ->J6;
-        if ($J6[0] == 0 || $J6[1] == 0) return 0;
-        if ($J6[0] < 3) return 1;
-        if ($J6[1] < 3) return 2;
-        if ($J6[1] == 3) return 3;
-        return 4;
+
+        if ($J6[0] == 3) {
+            if ($J6[1] >= 3) return 3;
+            return 2;
+        }
+
+        if ($J6[0] > 0) return 1;
+//        if ($J6[0] > 0 || $J6[1] > 0) return 1; // согласно протоколу
+        return 0;
     }
 
     // Communication Scale
     private function getCOMM()
     {
+        if ($this->survey->unitC->C1 == 5)
+            return -1;
+
         return $this->survey->unitD->D1 + $this->survey->unitD->D2;
     }
 
     // Changes in Health, End-Stage Disease, Signs, and Symptoms Scale
     private function getCHESS()
     {
-        if ($this->survey->unitC->C5 == 8 || $this->survey->unitG->G5 == 8) {
+        if ( ($this->survey->unitC->C5 == 8 && $this->survey->unitG->G5 == 8) ||
+            ($this->survey->unitC->C5 <=2 && $this->survey->unitG->G5 == 8) ) {
 
             return -1;
 
@@ -1443,16 +1453,17 @@ class Controller_Test extends Dispatch
             if ( $this->survey->unitG->G5 == 2 ) $CHESS++;
             if ( $J7[2] == 1 ) $CHESS++;
 
-            if ($count <= 2 && $K2[1] == 1 && $K2[3] == 1) $count++;
-            if ($count <= 2 && $K2[0] == 1) $count++;
-            if ($count <= 2 && $K2[2] == 1) $count++;
+            if ($count <= 2 &&$K2[1] == 1 && $K2[3] == 1) $count++;
+            if ($count <= 2 &&$K2[0] == 1) $count++;
+            if ($count <= 2 &&$K2[2] == 1) $count++;
             // может оказаться что J4>1
-            if ($count <= 2 && $this->survey->unitJ->J4 != 0) $count++;
-            if ($count <= 2 && $J3[13] == 1) $count++;
-            if ($count <= 2 && $J3[20] == 1) $count++;
+            if ($count <= 2 &&$this->survey->unitJ->J4 != 0) $count++;
+            if ($count <= 2 &&$J3[13] == 2) $count++;
+            if ($count <= 2 &&$J3[20] == 2) $count++;
 
-            return $CHESS + $count;
+            return $CHESS + $count ;
         }
+
     }
 
     // Activities of Daily Living (Hierarchy)
