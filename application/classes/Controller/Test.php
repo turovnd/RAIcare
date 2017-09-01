@@ -1102,7 +1102,7 @@ class Controller_Test extends Dispatch
 
         // Mood - Настроение
         $P4 = $this->getDRS();
-        $this->report->P4 = $P4 >= 3 ? 2 : (($P4 == 1 || $P4 == 2) ? 1 : 0);
+        $this->report->P4 = $P4 >= 3 ? 2 : (($P4 == 1 || $P4 == 2) ? 1 : ($P4 != -1 ? 0 : -1));
 
         // Cardio-respiratory - Сердечно-дыхательная недостаточность
         $P5 = ($J3[2] >= 2 || $J3[4] >= 2 || $this->survey->unitJ->J4 >= 2 || $I1[10] >= 2 || $I1[11] >= 2 || $I1[12] >= 2) ? 1 : 0;
@@ -1117,7 +1117,7 @@ class Controller_Test extends Dispatch
         $this->report->P7 = $P7;
 
         // Feeding Tube - Питательная трубка
-        $P8 = ($this->survey->unitK->K3 < 5 || $this->survey->unitK->K3 == 9) ? 0 : (($this->survey->unitC->C1 >= 0 && $this->survey->unitC->C1 <=3) ? 2 : 1);
+        $P8 = ($this->survey->unitK->K3 < 5 || $this->survey->unitK->K3 == 9) ? 0 : (($this->survey->unitC->C1 >= 0 && $this->survey->unitC->C1 <=3) ? 2 : ($this->survey->unitC->C1 != 5 ? 1 : -1));
         $this->report->P8 = $P8;
 
         // Nutrition - Питание
@@ -1487,7 +1487,7 @@ class Controller_Test extends Dispatch
     {
         if ($this->survey->unitC->C1 == 5)
             return -1;
-        
+
         $E3 =  $this->survey->unitE->E3;
         return $E3[1] + $E3[2] + $E3[3] + $E3[5];
     }
