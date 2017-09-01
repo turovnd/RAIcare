@@ -74,6 +74,19 @@ Route::set('TeST9', 'test9')
         'action'     => 'test9'
     ));
 
+Route::set('testcreate', 'testcreate')
+    ->subdomains(array(Route::SUBDOMAIN_WILDCARD))
+    ->defaults(array(
+        'controller' => 'Test',
+        'action'     => 'testcreate'
+    ));
+
+Route::set('testreports', 'reports')
+    ->subdomains(array(Route::SUBDOMAIN_WILDCARD))
+    ->defaults(array(
+        'controller' => 'Test',
+        'action'     => 'reports'
+    ));
 
 require_once ('routes/welcome.php');
 require_once ('routes/auth.php');

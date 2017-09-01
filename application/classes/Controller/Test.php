@@ -70,7 +70,6 @@ class Controller_Test extends Dispatch
         $this->template->excel_raiscales = $excel_raiscales;
     }
 
-
     public function action_test1()
     {
         $surveys   = array();
@@ -124,7 +123,6 @@ class Controller_Test extends Dispatch
         $this->template->excel_protocols = $excel_protocols;
         $this->template->excel_raiscales = $excel_raiscales;
     }
-
 
     public function action_test2()
     {
@@ -180,7 +178,6 @@ class Controller_Test extends Dispatch
         $this->template->excel_raiscales = $excel_raiscales;
     }
 
-
     public function action_test3()
     {
         $surveys   = array();
@@ -234,7 +231,6 @@ class Controller_Test extends Dispatch
         $this->template->excel_protocols = $excel_protocols;
         $this->template->excel_raiscales = $excel_raiscales;
     }
-
 
     public function action_test4()
     {
@@ -560,45 +556,99 @@ class Controller_Test extends Dispatch
         $this->template->excel_raiscales = $excel_raiscales;
     }
 
+    public function action_testcreate()
+    {
+        for ($i = 1; $i <= 349; $i++) {
+            $this->survey = new Model_Survey($i);
+            $this->getUnitsData();
 
-//            $this->createRAIScales();
-//            echo Debug::vars(
-//                'id:   ' . $this->survey->pk,
-//                'PURS: ' . $this->report->PURS,
-//                'CPS:  ' . $this->report->CPS,
-//                'BMI:  ' . $this->report->BMI,
-//                'SRD:  ' . $this->report->SRD,
-//                'DRS:  ' . $this->report->DRS,
-//                'Pain: ' . $this->report->Pain,
-//                'COMM: ' . $this->report->COMM,
-//                'CHESS:' . $this->report->CHESS,
-//                'ADLH: ' . $this->report->ADLH,
-//                'ABS:  ' . $this->report->ABS,
-//                'ADLLF:' . $this->report->ADLLF);
+            $this->createRAIScales();
+            echo Debug::vars(
+                'id:   ' . $this->survey->pk,
+                'PURS: ' . $this->report->PURS,
+                'CPS:  ' . $this->report->CPS,
+                'BMI:  ' . $this->report->BMI,
+                'SRD:  ' . $this->report->SRD,
+                'DRS:  ' . $this->report->DRS,
+                'Pain: ' . $this->report->Pain,
+                'COMM: ' . $this->report->COMM,
+                'CHESS:' . $this->report->CHESS,
+                'ADLH: ' . $this->report->ADLH,
+                'ABS:  ' . $this->report->ABS,
+                'ADLLF:' . $this->report->ADLLF
+            );
 
-//            $this->createProtocolsReport();
-//            echo Debug::vars(
-//                'id: ' . $this->survey->pk,
-//                'P1: ' . $this->report->P1,
-//                'P2: ' . $this->report->P2,
-//                'P3: ' . $this->report->P3,
-//                'P4: ' . $this->report->P4,
-//                'P5: ' . $this->report->P5,
-//                'P6: ' . $this->report->P6,
-//                'P7: ' . $this->report->P7,
-//                'P8: ' . $this->report->P8,
-//                'P9: ' . $this->report->P9,
-//                'P10:' . $this->report->P10,
-//                'P11:' . $this->report->P11,
-//                'P12:' . $this->report->P12,
-//                'P13:' . $this->report->P13,
-//                'P14:' . $this->report->P14,
-//                'P15:' . $this->report->P15,
-//                'P16:' . $this->report->P16,
-//                'P17:' . $this->report->P17,
-//                'P18:' . $this->report->P18,
-//                'P19:' . $this->report->P19
-//            );
+            $this->createProtocolsReport();
+            echo Debug::vars(
+                'id: ' . $this->survey->pk,
+                'P1: ' . $this->report->P1,
+                'P2: ' . $this->report->P2,
+                'P3: ' . $this->report->P3,
+                'P4: ' . $this->report->P4,
+                'P5: ' . $this->report->P5,
+                'P6: ' . $this->report->P6,
+                'P7: ' . $this->report->P7,
+                'P8: ' . $this->report->P8,
+                'P9: ' . $this->report->P9,
+                'P10:' . $this->report->P10,
+                'P11:' . $this->report->P11,
+                'P12:' . $this->report->P12,
+                'P13:' . $this->report->P13,
+                'P14:' . $this->report->P14,
+                'P15:' . $this->report->P15,
+                'P16:' . $this->report->P16,
+                'P17:' . $this->report->P17,
+                'P18:' . $this->report->P18,
+                'P19:' . $this->report->P19
+            );
+        }
+
+        echo Debug::vars('Finish!');
+
+    }
+
+    public function action_reports()
+    {
+        $protocols = array();
+        $raiscales = array();
+
+        $excel_protocols = array();
+        $excel_raiscales = array();
+
+        for ($i = 1; $i <= 349; $i++) {
+            $this->report = new Model_ReportProtocols($i);
+            $protocols[] = $this->report;
+
+            $this->report = new Model_ReportRAIScales($i);
+            $raiscales[] = $this->report;
+        }
+
+        $this->excel = new SimpleExcel();
+        $this->excel->loadFile('data.csv', 'CSV', array('delimiter' => ';'));
+
+        for ($i = 1; $i <= 349; $i++) {
+            $this->report = new Model_ReportProtocols();
+            $this->get_excel_protocols($i);
+            $excel_protocols[] = $this->report;
+
+            $this->report = new Model_ReportRAIScales();
+            $this->get_excel_raiscales($i);
+            $excel_raiscales[] = $this->report;
+        }
+
+        $this->template = View::factory('test1');
+        $this->template->headers = $this->excel->getWorksheet(1)->getRecord(1);
+
+        $this->template->protocols = $protocols;
+        $this->template->raiscales = $raiscales;
+
+        $this->template->excel_protocols = $excel_protocols;
+        $this->template->excel_raiscales = $excel_raiscales;
+
+    }
+
+
+
 
 
 
@@ -779,7 +829,7 @@ class Controller_Test extends Dispatch
         $this->survey->unitJ->J6 = array(
             $this->excel->getWorksheet(1)->getRecord($i+1)[124]->value,
             $this->excel->getWorksheet(1)->getRecord($i+1)[125]->value,
-            $this->excel->getWorksheet(1)->getRecord($i+1)[121]->value,
+            $this->excel->getWorksheet(1)->getRecord($i+1)[126]->value,
             $this->excel->getWorksheet(1)->getRecord($i+1)[127]->value,
             $this->excel->getWorksheet(1)->getRecord($i+1)[128]->value,
         );
