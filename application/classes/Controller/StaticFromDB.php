@@ -1,7 +1,7 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
 /**
- * Class Controller_Surveys_Ajax
+ * Class Controller_StaticFromDB
  *
  * @copyright RAIcare
  * @author Nikolai Turov

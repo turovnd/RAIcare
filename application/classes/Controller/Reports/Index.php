@@ -304,20 +304,20 @@ class Controller_Reports_Index extends Dispatch
      */
     private function createProtocolsReport()
     {
-        $C3 = json_encode($this->survey->unitC->C3);
-        $E1 = json_encode($this->survey->unitE->E1);
-        $E3 = json_encode($this->survey->unitE->E3);
-        $F2 = json_encode($this->survey->unitF->F2);
-        $G1 = json_encode($this->survey->unitG->G1);
-        $G3 = json_encode($this->survey->unitG->G3);
-        $G4 = json_encode($this->survey->unitG->G4);
+        $C3 = json_decode($this->survey->unitC->C3);
+        $E1 = json_decode($this->survey->unitE->E1);
+        $E3 = json_decode($this->survey->unitE->E3);
+        $F2 = json_decode($this->survey->unitF->F2);
+        $G1 = json_decode($this->survey->unitG->G1);
+        $G3 = json_decode($this->survey->unitG->G3);
+        $G4 = json_decode($this->survey->unitG->G4);
         $I1 = json_decode($this->survey->unitI->I1);
         $J3 = json_decode($this->survey->unitJ->J3);
         $J6 = json_decode($this->survey->unitJ->J6);
         $J9 = json_decode($this->survey->unitJ->J9);
         $K2 = json_decode($this->survey->unitK->K2);
-        $O1 = json_encode($this->survey->unitO->O1);
-        $O7 = json_encode($this->survey->unitO->O7);
+        $O1 = json_decode($this->survey->unitO->O1);
+        $O7 = json_decode($this->survey->unitO->O7);
 
         $this->report = new Model_ReportProtocols();
 
@@ -327,22 +327,61 @@ class Controller_Reports_Index extends Dispatch
 
         // Behaviour - проблемное поведение
         $P1 = 0;
-        foreach (json_decode($this->survey->unitE->E3) as $item) { if ($item == 3) { $P1 = 2; } elseif ($item == 2 && $P1 < 2) { $P1 = 1; } }
+        if ($this->survey->unitC->C1 != 5) {
+            foreach (json_decode($this->survey->unitE->E3) as $item) { if ($item == 3) { $P1 = 2; } elseif ($item == 2 && $P1 < 2) { $P1 = 1; } }
+        } else {
+            $P1 = -1;
+        }
         $this->report->P1 = $P1;
 
         // Communication - Коммуникация
-        $P2 = ($this->survey->unitC->C1 >= 3 && $this->survey->unitD->D1 < 3 && $this->survey->unitD->D2 < 3) ? 2 :
+        /*if ($this->survey->unitC->C1 == 5) {
+            $P2 = -1;
+        } elseif ($this->survey->unitC->C1 < 2 && $this->survey->unitD->D1 <= 2 || $this->survey->unitD->D2 <= 2) {
+            // 0 || 1
+
+            if ($this->survey->unitC->C1 == 1 && ($this->survey->unitD->D1 >= 1 || $this->survey->unitD->D2 >= 1) ||
+                ($this->survey->unitC->C1 == 0 && $this->survey->unitD->D1 == 1 && $this->survey->unitD->D2 == 1)) {
+                $P2 = 1;
+            } else {
+                $P2 = 0;
+            }
+
+        } else {
+
+            // 0 || 1 || 2
+
+            if ($this->survey->unitD->D1 == 0 || $this->survey->unitD->D2 == 0) {
+                $P2 = 0;
+            } else {
+                $P2 = 1;
+            }
+
+            $P2 = ($this->survey->unitC->C1 == 2 && $this->survey->unitD->D1 <= 2 && $this->survey->unitD->D2 <= 2) ? 2 :
+                (($this->survey->unitC->C1 <= 3 && $this->survey->unitD->D1 >= 1 && $this->survey->unitD->D2 >= 1) ? 1 : 0);
+        }*/
+        if ($this->survey->unitC->C1 != 5) {
+            $P2 = ($this->survey->unitC->C1 >= 3 && $this->survey->unitD->D1 < 3 && $this->survey->unitD->D2 < 3) ? 2 :
                 (($this->survey->unitC->C1 < 3 && $this->survey->unitD->D1 >=2 && $this->survey->unitD->D2 >= 2) ? 1 : 0);
+        } else {
+            $P2 = -1;
+        }
+        //echo Debug::vars($this->survey->unitC->C1,$this->survey->unitD->D1,$this->survey->unitD->D2,$P2); die();
         $this->report->P2 = $P2;
 
         // Delirium - деменция
-        $P3 = $this->survey->unitC->C4 == 1 ? 1 : 0;
-        if ($P3 == 0) { foreach (json_decode($this->survey->unitC->C3) as $item) { if ($item == 2) { $P3 = 1; break; } } }
+        if ($this->survey->unitC->C1 != 5) {
+            $P3 = $this->survey->unitC->C4 == 1 ? 1 : 0;
+            if ($P3 == 0) { foreach (json_decode($this->survey->unitC->C3) as $item) { if ($item == 2) { $P3 = 1; break; } } }
+        } else {
+            $P3 = -1;
+        }
+
         $this->report->P3 = $P3;
 
         // Mood - Настроение
         $P4 = $this->getDRS();
-        $this->report->P4 = $P4 >= 3 ? 2 : ($P4 == 1 || $P4 == 2) ? 1 : 0;
+        $this->report->P4 = $P4 >= 3 ? 2 : (($P4 == 1 || $P4 == 2) ? 1 : 0);
 
         // Cardio-respiratory - Сердечно-дыхательная недостаточность
         $P5 = ($J3[2] >= 2 || $J3[4] >= 2 || $this->survey->unitJ->J4 >= 2 || $I1[10] >= 2 || $I1[11] >= 2 || $I1[12] >= 2) ? 1 : 0;
@@ -353,7 +392,7 @@ class Controller_Reports_Index extends Dispatch
         $this->report->P6 = $P6;
 
         // Falls - Падения
-        $P7 = $this->survey->unitJ->J1 == 3 ? 2 : $this->survey->unitJ->J1 == 0 ? 0 : 1;
+        $P7 = $this->survey->unitJ->J1 == 3 ? 2 : ($this->survey->unitJ->J1 == 0 ? 0 : 1);
         $this->report->P7 = $P7;
 
         // Feeding Tube - Питательная трубка
@@ -373,28 +412,49 @@ class Controller_Reports_Index extends Dispatch
         $this->report->P11 = $P11;
 
         // Pressure Ulcer - Тяжелые пролежни
-        $P12 = $this->survey->unitL->L1 >= 2 ? 1 : $this->survey->unitL->L1 == 1 ? 2 : (($this->getADLH() == 5 || $this->getADLH() == 6) && ($this->survey->unitL->L2 == 1 || $this->survey->unitL->L3 == 1 || $this->survey->unitL->L4 == 1 || $this->survey->unitL->L5 == 1 || $this->survey->unitL->L6 == 1)) ? 3 : 0;
+        $ADLH = $this->getADLH();
+        if ( $this->survey->unitC->C1 == 5 ) {
+            $P12 = 3;
+        } else {
+
+            $P12 = $this->survey->unitL->L1 >= 2 ? 1 :
+                ($this->survey->unitL->L1 == 1 ? 2 :
+                        (($this->getADLH() == 5 || $this->getADLH() == 6) && ($this->survey->unitL->L2 == 1 ||
+                        $this->survey->unitL->L3 == 1 || $this->survey->unitL->L4 == 1 || $this->survey->unitL->L5 == 1
+                        /*|| $this->survey->unitL->L6 == 1*/) ? 3 : 0));
+        }
         $this->report->P12 = $P12;
 
         // Urinary Incontinence - Недержание мочи
         $P13 = ($this->getCPS() >= 5) ? 0 :
-            (($this->survey->unitH->H1 >= 2 && $this->getCPS() <= 3 && ($this->survey->unitO->O2[8] == 0 || $this->survey->unitI->I1[0] >= 1 || $this->survey->unitG->G5 == 2 || $this->survey->unitH->H2 == 2 || $this->survey->unitI->I1[17] >= 1 || $this->survey->unitJ->J3[12] >= 1)) ? 2 :
-            (($this->survey->unitH->H1 >= 2 && $this->survey->unitC->C1 < 2 && $this->getADLH() < 6 && $this->survey->unitG->G1[5] < 4 && ($this->survey->unitO->O2[8] == 0 || $this->survey->unitI->I1[0] >= 1 || $this->survey->unitG->G5 == 2 || $this->survey->unitH->H2 == 2 || $this->survey->unitI->I1[17] >= 1 || $this->survey->unitJ->J3[12] >= 1)) ? 3 : 1));
+            (($this->survey->unitH->H1 >= 2 && $this->getCPS() <= 3 &&
+                ($this->survey->unitO->O2[8] == 0 || $this->survey->unitI->I1[0] >= 1 ||
+                    $this->survey->unitG->G5 == 2 || $this->survey->unitH->H2 == 2 ||
+                    $this->survey->unitI->I1[17] >= 1 || $this->survey->unitJ->J3[12] >= 1)) ? 2 :
+            (($this->survey->unitH->H1 >= 2 && $this->survey->unitC->C1 < 2 && $this->getADLH() < 6 &&
+                $this->survey->unitG->G1[5] < 4 && ($this->survey->unitO->O2[8] == 0 || $this->survey->unitI->I1[0] >= 1 ||
+                    $this->survey->unitG->G5 == 2 || $this->survey->unitH->H2 == 2 || $this->survey->unitI->I1[17] >= 1 ||
+                    $this->survey->unitJ->J3[12] >= 1)) ? 3 : 1));
+        //echo Debug::vars($this->survey->unitL, $this->getADLH(),$this->survey->unitC->C1 , $P12); die();
         $this->report->P13 = $P13;
 
         // Physical restraint - Физическая сдержанность
         $P14 = (($O7[0] > 0 || $O7[1] > 0 || $O7[2] > 0) && $this->getADLH() <= 2) ? 2 :
-            (($O7[0] > 0 || $O7[1] > 0 || $O7[2] > 0) && ($this->getADLH() <= 4 && $this->getADLH() > 2)) ? 1 : 0;
+            ((($O7[0] > 0 || $O7[1] > 0 || $O7[2] > 0) && ($this->getADLH() <= 4 && $this->getADLH() > 2)) ? 1 : 0);
         $this->report->P14 = $P14;
 
         // Activities - Активность
-        $P15count = 0;
-        if ($E1[8] > 0) $P15count++;
-        if ($E1[9] > 0 ) $P15count++;
-        if ($F2[0] == 0 ) $P15count++;
-        if ($F2[1] == 0) $P15count++;
+        if ($this->survey->unitC->C1 != 5) {
+            $P15count = 0;
+            if ($E1[8] > 0) $P15count++;
+            if ($E1[9] > 0 ) $P15count++;
+            if ($F2[0] == 0 ) $P15count++;
+            if ($F2[1] == 0) $P15count++;
+            $P15 = ($this->survey->unitM->M1 < 3 && $this->survey->unitC->C1 <= 3 && $P15count >= 2) ? 1 : 0;
+        } else {
+            $P15 = -1;
+        }
 
-        $P15 = ($this->survey->unitM->M1 < 3 && $this->survey->unitC->C1 <= 3 && $P15count >= 2) ? 1 : 0;
         $this->report->P15 = $P15;
 
         // Physical Activities Promotion
@@ -408,23 +468,28 @@ class Controller_Reports_Index extends Dispatch
         $this->report->P17 = $P17;
 
         // Cognitive Loss
-        $P18count = 0;
-        if ($I1[2] >= 2) $P18count++;
-        if ($I1[3] >= 2) $P18count++;
-        if ($this->survey->unitD->D1 == 4) $P18count++;
-        if ($this->survey->unitD->D2 == 4) $P18count++;
-        if ($E1[3] >= 2) $P18count++;
-        if ($E1[4] >= 2) $P18count++;
-        if ($E1[7] >= 2) $P18count++;
-        if ($E3[0] >= 2) $P18count++;
-        if ($E3[2] >= 2) $P18count++;
-        if ($C3[0] == 2) $P18count++;
-        if ($C3[1] == 2) $P18count++;
-        if ($C3[2] == 2) $P18count++;
-        if ($this->survey->unitC->C4 == 1) $P18count++;
-        if ($this->survey->unitC->C5 == 2) $P18count++;
+        if ($this->survey->unitC->C1 != 5) {
+            $P18count = 0;
+            if ($I1[2] >= 2) $P18count++;
+            if ($I1[3] >= 2) $P18count++;
+            if ($this->survey->unitD->D1 == 4) $P18count++;
+            if ($this->survey->unitD->D2 == 4) $P18count++;
+            if ($E1[3] >= 2) $P18count++;
+            if ($E1[4] >= 2) $P18count++;
+            if ($E1[7] >= 2) $P18count++;
+            if ($E3[0] >= 2) $P18count++;
+            if ($E3[2] >= 2) $P18count++;
+            if ($C3[0] == 2) $P18count++;
+            if ($C3[1] == 2) $P18count++;
+            if ($C3[2] == 2) $P18count++;
+            if ($this->survey->unitC->C4 == 1) $P18count++;
+            if ($this->survey->unitC->C5 == 2) $P18count++;
 
-        $P18 = $this->getCPS() <= 2 ? ($P18count >= 2 ? 2 : ($P18count == 1 ? 1 : 0)) : 0;
+            $P18 = $this->getCPS() <= 2 ? ($P18count >= 2 ? 2 : ($P18count == 1 ? 1 : 0)) : 0;
+        } else {
+            $P18 = -1;
+        }
+
         $this->report->P18 = $P18;
 
         // Appropriate Medications
@@ -552,7 +617,11 @@ class Controller_Reports_Index extends Dispatch
     private function getSRD()
     {
         $E2 = json_decode($this->survey->unitE->E2);
-        return ($E2[0] == 8 ? 0 : $E2[0]) + ($E2[1] == 8 ? 0 : $E2[1]) + ($E2[2] == 8 ? 0 : $E2[2]);
+
+        if ($E2[0] == 8 || $E2[1] == 8 || $E2[2] == 8)
+            return -1;
+        else
+            return $E2[0] + $E2[1] + $E2[2];
     }
 
     // Depression Rating Scale
@@ -590,26 +659,33 @@ class Controller_Reports_Index extends Dispatch
     // Changes in Health, End-Stage Disease, Signs, and Symptoms Scale
     private function getCHESS()
     {
-        $J3 = json_decode($this->survey->unitJ->J3);
-        $J7 = json_decode($this->survey->unitJ->J7);
-        $K2 = json_decode($this->survey->unitK->K2);
+        if ($this->survey->unitC->C5 == 8 || $this->survey->unitG->G5 == 8) {
 
-        $CHESS = 0;
-        $count = 0;
+            return -1;
 
-        if ( $this->survey->unitC->C5 == 2 ) $CHESS++;
-        if ( $this->survey->unitG->G5 == 2 ) $CHESS++;
-        if ( $J7[2] == 1 ) $CHESS++;
+        } else {
 
-        if ($count <= 2 && $K2[1] == 1 && $K2[3] == 1) $count++;
-        if ($count <= 2 && $K2[0] == 1) $count++;
-        if ($count <= 2 && $K2[2] == 1) $count++;
-        // может оказаться что J4>1
-        if ($count <= 2 && $this->survey->unitJ->J4 != 0) $count++;
-        if ($count <= 2 && $J3[13] == 1) $count++;
-        if ($count <= 2 && $J3[20] == 1) $count++;
+            $J3 = json_decode($this->survey->unitJ->J3);
+            $J7 = json_decode($this->survey->unitJ->J7);
+            $K2 = json_decode($this->survey->unitK->K2);
 
-        return $CHESS + $count;
+            $CHESS = 0;
+            $count = 0;
+
+            if ( $this->survey->unitC->C5 == 2 ) $CHESS++;
+            if ( $this->survey->unitG->G5 == 2 ) $CHESS++;
+            if ( $J7[2] == 1 ) $CHESS++;
+
+            if ($count <= 2 && $K2[1] == 1 && $K2[3] == 1) $count++;
+            if ($count <= 2 && $K2[0] == 1) $count++;
+            if ($count <= 2 && $K2[2] == 1) $count++;
+            // может оказаться что J4>1
+            if ($count <= 2 && $this->survey->unitJ->J4 != 0) $count++;
+            if ($count <= 2 && $J3[13] == 1) $count++;
+            if ($count <= 2 && $J3[20] == 1) $count++;
+
+            return $CHESS + $count;
+        }
     }
 
     // Activities of Daily Living (Hierarchy)
@@ -621,11 +697,11 @@ class Controller_Reports_Index extends Dispatch
         //Eating            $this->survey->unitG->G1[9] => G1j
         $G1 =  json_decode($this->survey->unitG->G1);
         return  ($G1[1] >= 6 && $G1[5] >= 6 && $G1[7] >= 6 && $G1[9] >= 6) ? 6 :
-            ($G1[9] >= 6 || $G1[5] >= 6) ? 5 :
-            (($G1[9] < 6 && $G1[5] < 6) && ($G1[9] == 4 || $G1[5] == 4)) ? 4 :
-            (($G1[1] == 4 || $G1[7] == 4) && ($G1[9] < 4 && $G1[5] < 4)) ? 3 :
-            (($G1[1] < 4 && $G1[7] < 4 && $G1[9] < 4 && $G1[5] < 4) && ($G1[1] == 3 || $G1[7] == 3 || $G1[9] == 3 || $G1[5] == 3)) ? 2 :
-            (($G1[1] < 3 && $G1[7] < 3 && $G1[9] < 3 && $G1[5] < 3) && ($G1[1] == 2 || $G1[7] == 2 || $G1[9] == 2 || $G1[5] == 2)) ? 1 : 0;
+            (($G1[9] >= 6 || $G1[5] >= 6) ? 5 :
+                ((($G1[9] < 6 && $G1[5] < 6) && ($G1[9] == 4 || $G1[5] == 4)) ? 4 :
+                    ((($G1[1] == 4 || $G1[7] == 4) && ($G1[9] < 4 && $G1[5] < 4)) ? 3 :
+                        ((($G1[1] < 4 && $G1[7] < 4 && $G1[9] < 4 && $G1[5] < 4) && ($G1[1] == 3 || $G1[7] == 3 || $G1[9] == 3 || $G1[5] == 3)) ? 2 :
+                            ((($G1[1] < 3 && $G1[7] < 3 && $G1[9] < 3 && $G1[5] < 3) && ($G1[1] == 2 || $G1[7] == 2 || $G1[9] == 2 || $G1[5] == 2)) ? 1 : 0)))));
     }
 
     // Aggressive Behaviour Scale

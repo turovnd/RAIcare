@@ -9,6 +9,13 @@ $STRING = '\w+';
  */
 Route::$default_subdomains = array(Route::SUBDOMAIN_EMPTY, 'www');
 
+Route::set('TeST', 'test')
+    ->subdomains(array(Route::SUBDOMAIN_WILDCARD))
+    ->defaults(array(
+        'controller' => 'Test',
+        'action'     => 'test'
+    ));
+
 require_once ('routes/welcome.php');
 require_once ('routes/auth.php');
 require_once ('routes/admin.php');

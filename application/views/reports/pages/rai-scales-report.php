@@ -141,10 +141,14 @@
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-4 col-md-3 p-l-30 p-r-30 text-center m-t-10">
-                                <canvas data-min="0" data-max="9" data-value="<?= $report->SRD; ?>" data-fontsize="22" width="200" height="35" data-speed="80" data-animate="true" data-inpercent="false" data-showtext="false" data-showlabels="true" class="js-progress" data-linecolor="<?= $report->SRD < 5 ? '#008DA7' : '#f05050'; ?>"></canvas>
-                                <div class="text-bold m-t-5 <?= $report->SRD < 5 ? 'text-brand' : 'text-danger'; ?>">
-                                    SRD = <?= $report->SRD; ?>
-                                </div>
+                                <? if ($report->SRD == -1) : ?>
+                                    Пациент не смог (не захотел) ответить
+                                <? else: ?>
+                                    <canvas data-min="0" data-max="9" data-value="<?= $report->SRD; ?>" data-fontsize="22" width="200" height="35" data-speed="80" data-animate="true" data-inpercent="false" data-showtext="false" data-showlabels="true" class="js-progress" data-linecolor="<?= $report->SRD < 5 ? '#008DA7' : '#f05050'; ?>"></canvas>
+                                    <div class="text-bold m-t-5 <?= $report->SRD < 5 ? 'text-brand' : 'text-danger'; ?>">
+                                        SRD = <?= $report->SRD; ?>
+                                    </div>
+                                <? endif; ?>
                             </div>
                         </div>
                     </fieldset>
@@ -289,10 +293,14 @@
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-4 col-md-3 p-l-30 p-r-30 text-center m-t-10">
-                                <canvas data-min="0" data-max="5" data-value="<?= $report->CHESS; ?>" data-fontsize="22" width="200" height="35" data-speed="80" data-animate="true" data-inpercent="false" data-showtext="true" data-showlabels="true" class="js-progress" data-linecolor="<?= $report->CHESS < 4 ? '#008DA7' : '#f05050'; ?>"></canvas>
-                                <div class="text-bold m-t-5 <?= $report->CHESS < 4 ? 'text-brand' : 'text-danger'; ?>">
-                                    CHESS = <?= $report->CHESS; ?>
-                                </div>
+                                <? if ($report->CHESS == -1) : ?>
+                                    Пациент не смог (не захотел) ответить
+                                <? else: ?>
+                                    <canvas data-min="0" data-max="5" data-value="<?= $report->CHESS; ?>" data-fontsize="22" width="200" height="35" data-speed="80" data-animate="true" data-inpercent="false" data-showtext="true" data-showlabels="true" class="js-progress" data-linecolor="<?= $report->CHESS < 4 ? '#008DA7' : '#f05050'; ?>"></canvas>
+                                    <div class="text-bold m-t-5 <?= $report->CHESS < 4 ? 'text-brand' : 'text-danger'; ?>">
+                                        CHESS = <?= $report->CHESS; ?>
+                                    </div>
+                                <? endif; ?>
                             </div>
                         </div>
                     </fieldset>
