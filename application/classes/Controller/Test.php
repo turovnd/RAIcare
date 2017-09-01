@@ -40,7 +40,7 @@ class Controller_Test extends Dispatch
 
 
         $this->excel = new SimpleExcel();
-        $this->excel->loadFile('uploads/data.csv', 'CSV', array('delimiter' => ';'));
+        $this->excel->loadFile('data.csv', 'CSV', array('delimiter' => ';'));
 //        echo Debug::vars($this->excel->getWorksheet(1)->getRecord(1));
 //        echo Debug::vars($this->excel->getWorksheet(1)->getRecord(2));
 //        die();
