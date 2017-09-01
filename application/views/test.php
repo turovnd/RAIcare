@@ -39,7 +39,7 @@
             <? for($i = 0; $i < count($surveys); $i++) : ?>
                 <tr>
                     <td>
-                        <?= $i+1; ?>
+                        <?= $surveys[$i]->id; ?>
                     </td>
                     <td class="<?= $surveys[$i]->unitC->C1 != $excel_surveys[$i]->unitC->C1 ? 'text-danger text-bold' : ''; ?>">
                         <?= $surveys[$i]->unitC->C1 . '||' . $excel_surveys[$i]->unitC->C1; ?>
