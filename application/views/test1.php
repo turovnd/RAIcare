@@ -160,11 +160,17 @@
 
             var col = element.dataset.col;
 
+            var count = 0;
+
             for (var i = 0; i < trs.length; i++) {
                 if (!trs[i].getElementsByTagName('td')[col].classList.contains('text-danger')) {
                     trs[i].classList.add('hide');
+                } else {
+                    count++;
                 }
             }
+
+            alert("Ошибок: " + count);
 
         };
 

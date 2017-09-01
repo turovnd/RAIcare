@@ -523,44 +523,44 @@ class Controller_Test extends Dispatch
             $this->getUnitsData();
 
             $this->createRAIScales();
-            echo Debug::vars(
-                'id:   ' . $this->survey->pk,
-                'PURS: ' . $this->report->PURS,
-                'CPS:  ' . $this->report->CPS,
-                'BMI:  ' . $this->report->BMI,
-                'SRD:  ' . $this->report->SRD,
-                'DRS:  ' . $this->report->DRS,
-                'Pain: ' . $this->report->Pain,
-                'COMM: ' . $this->report->COMM,
-                'CHESS:' . $this->report->CHESS,
-                'ADLH: ' . $this->report->ADLH,
-                'ABS:  ' . $this->report->ABS,
-                'ADLLF:' . $this->report->ADLLF
-            );
+//            echo Debug::vars(
+//                'id:   ' . $this->survey->pk,
+//                'PURS: ' . $this->report->PURS,
+//                'CPS:  ' . $this->report->CPS,
+//                'BMI:  ' . $this->report->BMI,
+//                'SRD:  ' . $this->report->SRD,
+//                'DRS:  ' . $this->report->DRS,
+//                'Pain: ' . $this->report->Pain,
+//                'COMM: ' . $this->report->COMM,
+//                'CHESS:' . $this->report->CHESS,
+//                'ADLH: ' . $this->report->ADLH,
+//                'ABS:  ' . $this->report->ABS,
+//                'ADLLF:' . $this->report->ADLLF
+//            );
 
             $this->createProtocolsReport();
-            echo Debug::vars(
-                'id: ' . $this->survey->pk,
-                'P1: ' . $this->report->P1,
-                'P2: ' . $this->report->P2,
-                'P3: ' . $this->report->P3,
-                'P4: ' . $this->report->P4,
-                'P5: ' . $this->report->P5,
-                'P6: ' . $this->report->P6,
-                'P7: ' . $this->report->P7,
-                'P8: ' . $this->report->P8,
-                'P9: ' . $this->report->P9,
-                'P10:' . $this->report->P10,
-                'P11:' . $this->report->P11,
-                'P12:' . $this->report->P12,
-                'P13:' . $this->report->P13,
-                'P14:' . $this->report->P14,
-                'P15:' . $this->report->P15,
-                'P16:' . $this->report->P16,
-                'P17:' . $this->report->P17,
-                'P18:' . $this->report->P18,
-                'P19:' . $this->report->P19
-            );
+//            echo Debug::vars(
+//                'id: ' . $this->survey->pk,
+//                'P1: ' . $this->report->P1,
+//                'P2: ' . $this->report->P2,
+//                'P3: ' . $this->report->P3,
+//                'P4: ' . $this->report->P4,
+//                'P5: ' . $this->report->P5,
+//                'P6: ' . $this->report->P6,
+//                'P7: ' . $this->report->P7,
+//                'P8: ' . $this->report->P8,
+//                'P9: ' . $this->report->P9,
+//                'P10:' . $this->report->P10,
+//                'P11:' . $this->report->P11,
+//                'P12:' . $this->report->P12,
+//                'P13:' . $this->report->P13,
+//                'P14:' . $this->report->P14,
+//                'P15:' . $this->report->P15,
+//                'P16:' . $this->report->P16,
+//                'P17:' . $this->report->P17,
+//                'P18:' . $this->report->P18,
+//                'P19:' . $this->report->P19
+//            );
         }
 
         echo Debug::vars('Finish!');
@@ -580,13 +580,20 @@ class Controller_Test extends Dispatch
         $this->excel->loadFile('data.csv', 'CSV', array('delimiter' => ';'));
 
         for ($i = 1; $i <= 349; $i++) {
-            $protocol = new Model_ReportProtocols($i);
+            $this->survey = new Model_Survey($i);
+            $this->getUnitsData();
+
+            $this->report = new Model_ReportProtocols();
+            $this->createProtocolsReport(false);
+            $protocol = $this->report;
 
             $this->report = new Model_ReportProtocols();
             $this->get_excel_protocols($i);
             $excel_protocol = $this->report;
 
-            $raiscale = new Model_ReportRAIScales($i);
+            $this->report = new Model_ReportRAIScales();
+            $this->createRAIScales(false);
+            $raiscale = $this->report;
 
             $this->report = new Model_ReportRAIScales();
             $this->get_excel_raiscales($i);
@@ -1016,7 +1023,7 @@ class Controller_Test extends Dispatch
     /**
      * Create Protocols Report
      */
-    private function createProtocolsReport()
+    private function createProtocolsReport($save = true)
     {
         $C3 = $this->survey->unitC->C3;
         $E1 = $this->survey->unitE->E1;
@@ -1153,8 +1160,8 @@ class Controller_Test extends Dispatch
         $this->report->P13 = $P13;
 
         // Physical restraint - Физическая сдержанность
-        $P14 = (($O7[0] > 0 || $O7[1] > 0 || $O7[2] > 0) && $this->getADLH() <= 2) ? 2 :
-            ((($O7[0] > 0 || $O7[1] > 0 || $O7[2] > 0) && ($this->getADLH() <= 4 && $this->getADLH() > 2)) ? 1 : 0);
+        $P14 = (($O7[0] > 0 || $O7[1] > 0 || $O7[2] > 0) && $this->getADLH() <= 3) ? 2 :
+            ((($O7[0] > 0 || $O7[1] > 0 || $O7[2] > 0) && ($this->getADLH() > 3)) ? 1 : 0);
         $this->report->P14 = $P14;
 
         // Activities - Активность
@@ -1211,13 +1218,14 @@ class Controller_Test extends Dispatch
         $P19 = 0;
         $this->report->P19 = $P19;
 
-        $this->report->save();
+        if ($save == true)
+            $this->report->save();
     }
 
     /**
      * Create RAI Scales Report
      */
-    private function createRAIScales()
+    private function createRAIScales($save = true)
     {
         $this->report = new Model_ReportRAIScales();
 
@@ -1237,7 +1245,8 @@ class Controller_Test extends Dispatch
         $this->report->ABS = $this->getABS();
         $this->report->ADLLF = $this->getADLLF();
 
-        $this->report->save();
+        if ($save == true)
+            $this->report->save();
     }
 
     // Get All Units Data
@@ -1316,7 +1325,8 @@ class Controller_Test extends Dispatch
         $purs = 0;
         if ( $G1[8] >=3 ) $purs++;
         if ( $G1[4] >=3 ) $purs++;
-        if ( $this->survey->unitH->H3 != 8 && $this->survey->unitH->H3 >= 2 ) $purs++;
+//        if ( $this->survey->unitH->H3 > 2 ) $purs++;
+        if ( $this->survey->unitH->H3 != 8 && $this->survey->unitH->H3 > 2 ) $purs++;
         // TODO add condition - https://github.com/kolyasha/RAIcare/issues/26
         if ( $K2[0] == 1 ) $purs++;
         if ( $J6[0] == 3 ) $purs++;

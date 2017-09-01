@@ -74,7 +74,7 @@ Route::set('TeST9', 'test9')
         'action'     => 'test9'
     ));
 
-Route::set('testcreate', 'testcreate')
+Route::set('testcreate', 'create')
     ->subdomains(array(Route::SUBDOMAIN_WILDCARD))
     ->defaults(array(
         'controller' => 'Test',
