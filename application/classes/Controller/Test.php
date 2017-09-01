@@ -1485,6 +1485,9 @@ class Controller_Test extends Dispatch
     // Aggressive Behaviour Scale
     private function getABS()
     {
+        if ($this->survey->unitC->C1 == 5)
+            return -1;
+        
         $E3 =  $this->survey->unitE->E3;
         return $E3[1] + $E3[2] + $E3[3] + $E3[5];
     }
