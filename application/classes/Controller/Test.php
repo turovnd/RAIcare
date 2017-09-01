@@ -26,6 +26,12 @@ class Controller_Test extends Dispatch
         $excel_protocols = array();
         $excel_raiscales = array();
 
+        $this->excel = new SimpleExcel();
+        $this->excel->loadFile('data.csv', 'CSV', array('delimiter' => ';'));
+//        echo Debug::vars($this->excel->getWorksheet(1)->getRecord(1));
+//        echo Debug::vars($this->excel->getWorksheet(1)->getRecord(2));
+//        die();
+
         for ($i = 1; $i <= 35; $i++) {
             $this->survey = new Model_Survey($i);
             $this->getUnitsData();
@@ -36,15 +42,7 @@ class Controller_Test extends Dispatch
 
             $this->report = new Model_ReportRAIScales($i);
             $raiscales[] = $this->report;
-        }
 
-
-        $this->excel = new SimpleExcel();
-        $this->excel->loadFile('data.csv', 'CSV', array('delimiter' => ';'));
-//        echo Debug::vars($this->excel->getWorksheet(1)->getRecord(1));
-//        echo Debug::vars($this->excel->getWorksheet(1)->getRecord(2));
-//        die();
-        for ($i = 1; $i <= 35; $i++) {
             $this->survey = new Model_Survey();
             $this->get_excel_surveys($i);
             $excel_surveys[] = $this->survey;
@@ -57,8 +55,6 @@ class Controller_Test extends Dispatch
             $this->get_excel_raiscales($i);
             $excel_raiscales[] = $this->report;
         }
-//        echo Debug::vars($surveys, $protocols, $raiscales);
-//        echo Debug::vars($excel_surveys, $excel_protocols, $excel_raiscales);
 
         $this->template = View::factory('test');
         $this->template->headers = $this->excel->getWorksheet(1)->getRecord(1);
@@ -80,6 +76,12 @@ class Controller_Test extends Dispatch
         $excel_protocols = array();
         $excel_raiscales = array();
 
+        $this->excel = new SimpleExcel();
+        $this->excel->loadFile('data.csv', 'CSV', array('delimiter' => ';'));
+//        echo Debug::vars($this->excel->getWorksheet(1)->getRecord(1));
+//        echo Debug::vars($this->excel->getWorksheet(1)->getRecord(2));
+//        die();
+
         for ($i = 36; $i <= 70; $i++) {
             $this->survey = new Model_Survey($i);
             $this->getUnitsData();
@@ -90,15 +92,7 @@ class Controller_Test extends Dispatch
 
             $this->report = new Model_ReportRAIScales($i);
             $raiscales[] = $this->report;
-        }
 
-
-        $this->excel = new SimpleExcel();
-        $this->excel->loadFile('data.csv', 'CSV', array('delimiter' => ';'));
-//        echo Debug::vars($this->excel->getWorksheet(1)->getRecord(1));
-//        echo Debug::vars($this->excel->getWorksheet(1)->getRecord(2));
-//        die();
-        for ($i = 36; $i <= 70; $i++) {
             $this->survey = new Model_Survey();
             $this->get_excel_surveys($i);
             $excel_surveys[] = $this->survey;
@@ -111,8 +105,6 @@ class Controller_Test extends Dispatch
             $this->get_excel_raiscales($i);
             $excel_raiscales[] = $this->report;
         }
-//        echo Debug::vars($surveys, $protocols, $raiscales);
-//        echo Debug::vars($excel_surveys, $excel_protocols, $excel_raiscales);
 
         $this->template = View::factory('test');
         $this->template->headers = $this->excel->getWorksheet(1)->getRecord(1);
@@ -134,6 +126,12 @@ class Controller_Test extends Dispatch
         $excel_protocols = array();
         $excel_raiscales = array();
 
+        $this->excel = new SimpleExcel();
+        $this->excel->loadFile('data.csv', 'CSV', array('delimiter' => ';'));
+//        echo Debug::vars($this->excel->getWorksheet(1)->getRecord(1));
+//        echo Debug::vars($this->excel->getWorksheet(1)->getRecord(2));
+//        die();
+
         for ($i = 71; $i <= 105; $i++) {
             $this->survey = new Model_Survey($i);
             $this->getUnitsData();
@@ -144,15 +142,7 @@ class Controller_Test extends Dispatch
 
             $this->report = new Model_ReportRAIScales($i);
             $raiscales[] = $this->report;
-        }
 
-
-        $this->excel = new SimpleExcel();
-        $this->excel->loadFile('data.csv', 'CSV', array('delimiter' => ';'));
-//        echo Debug::vars($this->excel->getWorksheet(1)->getRecord(1));
-//        echo Debug::vars($this->excel->getWorksheet(1)->getRecord(2));
-//        die();
-        for ($i = 71; $i <= 105; $i++) {
             $this->survey = new Model_Survey();
             $this->get_excel_surveys($i);
             $excel_surveys[] = $this->survey;
@@ -165,8 +155,6 @@ class Controller_Test extends Dispatch
             $this->get_excel_raiscales($i);
             $excel_raiscales[] = $this->report;
         }
-//        echo Debug::vars($surveys, $protocols, $raiscales);
-//        echo Debug::vars($excel_surveys, $excel_protocols, $excel_raiscales);
 
         $this->template = View::factory('test');
         $this->template->headers = $this->excel->getWorksheet(1)->getRecord(1);
@@ -188,6 +176,12 @@ class Controller_Test extends Dispatch
         $excel_protocols = array();
         $excel_raiscales = array();
 
+        $this->excel = new SimpleExcel();
+        $this->excel->loadFile('data.csv', 'CSV', array('delimiter' => ';'));
+//        echo Debug::vars($this->excel->getWorksheet(1)->getRecord(1));
+//        echo Debug::vars($this->excel->getWorksheet(1)->getRecord(2));
+//        die();
+
         for ($i = 106; $i <= 140; $i++) {
             $this->survey = new Model_Survey($i);
             $this->getUnitsData();
@@ -198,15 +192,7 @@ class Controller_Test extends Dispatch
 
             $this->report = new Model_ReportRAIScales($i);
             $raiscales[] = $this->report;
-        }
 
-
-        $this->excel = new SimpleExcel();
-        $this->excel->loadFile('data.csv', 'CSV', array('delimiter' => ';'));
-//        echo Debug::vars($this->excel->getWorksheet(1)->getRecord(1));
-//        echo Debug::vars($this->excel->getWorksheet(1)->getRecord(2));
-//        die();
-        for ($i = 106; $i <= 140; $i++) {
             $this->survey = new Model_Survey();
             $this->get_excel_surveys($i);
             $excel_surveys[] = $this->survey;
@@ -219,8 +205,6 @@ class Controller_Test extends Dispatch
             $this->get_excel_raiscales($i);
             $excel_raiscales[] = $this->report;
         }
-//        echo Debug::vars($surveys, $protocols, $raiscales);
-//        echo Debug::vars($excel_surveys, $excel_protocols, $excel_raiscales);
 
         $this->template = View::factory('test');
         $this->template->headers = $this->excel->getWorksheet(1)->getRecord(1);
@@ -242,6 +226,12 @@ class Controller_Test extends Dispatch
         $excel_protocols = array();
         $excel_raiscales = array();
 
+        $this->excel = new SimpleExcel();
+        $this->excel->loadFile('data.csv', 'CSV', array('delimiter' => ';'));
+//        echo Debug::vars($this->excel->getWorksheet(1)->getRecord(1));
+//        echo Debug::vars($this->excel->getWorksheet(1)->getRecord(2));
+//        die();
+
         for ($i = 141; $i <= 175; $i++) {
             $this->survey = new Model_Survey($i);
             $this->getUnitsData();
@@ -252,15 +242,7 @@ class Controller_Test extends Dispatch
 
             $this->report = new Model_ReportRAIScales($i);
             $raiscales[] = $this->report;
-        }
 
-
-        $this->excel = new SimpleExcel();
-        $this->excel->loadFile('data.csv', 'CSV', array('delimiter' => ';'));
-//        echo Debug::vars($this->excel->getWorksheet(1)->getRecord(1));
-//        echo Debug::vars($this->excel->getWorksheet(1)->getRecord(2));
-//        die();
-        for ($i = 141; $i <= 175; $i++) {
             $this->survey = new Model_Survey();
             $this->get_excel_surveys($i);
             $excel_surveys[] = $this->survey;
@@ -273,8 +255,6 @@ class Controller_Test extends Dispatch
             $this->get_excel_raiscales($i);
             $excel_raiscales[] = $this->report;
         }
-//        echo Debug::vars($surveys, $protocols, $raiscales);
-//        echo Debug::vars($excel_surveys, $excel_protocols, $excel_raiscales);
 
         $this->template = View::factory('test');
         $this->template->headers = $this->excel->getWorksheet(1)->getRecord(1);
@@ -296,6 +276,12 @@ class Controller_Test extends Dispatch
         $excel_protocols = array();
         $excel_raiscales = array();
 
+        $this->excel = new SimpleExcel();
+        $this->excel->loadFile('data.csv', 'CSV', array('delimiter' => ';'));
+//        echo Debug::vars($this->excel->getWorksheet(1)->getRecord(1));
+//        echo Debug::vars($this->excel->getWorksheet(1)->getRecord(2));
+//        die();
+
         for ($i = 176; $i <= 210; $i++) {
             $this->survey = new Model_Survey($i);
             $this->getUnitsData();
@@ -306,15 +292,7 @@ class Controller_Test extends Dispatch
 
             $this->report = new Model_ReportRAIScales($i);
             $raiscales[] = $this->report;
-        }
 
-
-        $this->excel = new SimpleExcel();
-        $this->excel->loadFile('data.csv', 'CSV', array('delimiter' => ';'));
-//        echo Debug::vars($this->excel->getWorksheet(1)->getRecord(1));
-//        echo Debug::vars($this->excel->getWorksheet(1)->getRecord(2));
-//        die();
-        for ($i = 176; $i <= 210; $i++) {
             $this->survey = new Model_Survey();
             $this->get_excel_surveys($i);
             $excel_surveys[] = $this->survey;
@@ -327,8 +305,6 @@ class Controller_Test extends Dispatch
             $this->get_excel_raiscales($i);
             $excel_raiscales[] = $this->report;
         }
-//        echo Debug::vars($surveys, $protocols, $raiscales);
-//        echo Debug::vars($excel_surveys, $excel_protocols, $excel_raiscales);
 
         $this->template = View::factory('test');
         $this->template->headers = $this->excel->getWorksheet(1)->getRecord(1);
@@ -350,6 +326,12 @@ class Controller_Test extends Dispatch
         $excel_protocols = array();
         $excel_raiscales = array();
 
+        $this->excel = new SimpleExcel();
+        $this->excel->loadFile('data.csv', 'CSV', array('delimiter' => ';'));
+//        echo Debug::vars($this->excel->getWorksheet(1)->getRecord(1));
+//        echo Debug::vars($this->excel->getWorksheet(1)->getRecord(2));
+//        die();
+
         for ($i = 211; $i <= 245; $i++) {
             $this->survey = new Model_Survey($i);
             $this->getUnitsData();
@@ -360,15 +342,7 @@ class Controller_Test extends Dispatch
 
             $this->report = new Model_ReportRAIScales($i);
             $raiscales[] = $this->report;
-        }
 
-
-        $this->excel = new SimpleExcel();
-        $this->excel->loadFile('data.csv', 'CSV', array('delimiter' => ';'));
-//        echo Debug::vars($this->excel->getWorksheet(1)->getRecord(1));
-//        echo Debug::vars($this->excel->getWorksheet(1)->getRecord(2));
-//        die();
-        for ($i = 211; $i <= 245; $i++) {
             $this->survey = new Model_Survey();
             $this->get_excel_surveys($i);
             $excel_surveys[] = $this->survey;
@@ -381,8 +355,6 @@ class Controller_Test extends Dispatch
             $this->get_excel_raiscales($i);
             $excel_raiscales[] = $this->report;
         }
-//        echo Debug::vars($surveys, $protocols, $raiscales);
-//        echo Debug::vars($excel_surveys, $excel_protocols, $excel_raiscales);
 
         $this->template = View::factory('test');
         $this->template->headers = $this->excel->getWorksheet(1)->getRecord(1);
@@ -404,6 +376,12 @@ class Controller_Test extends Dispatch
         $excel_protocols = array();
         $excel_raiscales = array();
 
+        $this->excel = new SimpleExcel();
+        $this->excel->loadFile('data.csv', 'CSV', array('delimiter' => ';'));
+//        echo Debug::vars($this->excel->getWorksheet(1)->getRecord(1));
+//        echo Debug::vars($this->excel->getWorksheet(1)->getRecord(2));
+//        die();
+
         for ($i = 246; $i <= 280; $i++) {
             $this->survey = new Model_Survey($i);
             $this->getUnitsData();
@@ -414,15 +392,7 @@ class Controller_Test extends Dispatch
 
             $this->report = new Model_ReportRAIScales($i);
             $raiscales[] = $this->report;
-        }
 
-
-        $this->excel = new SimpleExcel();
-        $this->excel->loadFile('data.csv', 'CSV', array('delimiter' => ';'));
-//        echo Debug::vars($this->excel->getWorksheet(1)->getRecord(1));
-//        echo Debug::vars($this->excel->getWorksheet(1)->getRecord(2));
-//        die();
-        for ($i = 246; $i <= 280; $i++) {
             $this->survey = new Model_Survey();
             $this->get_excel_surveys($i);
             $excel_surveys[] = $this->survey;
@@ -435,8 +405,6 @@ class Controller_Test extends Dispatch
             $this->get_excel_raiscales($i);
             $excel_raiscales[] = $this->report;
         }
-//        echo Debug::vars($surveys, $protocols, $raiscales);
-//        echo Debug::vars($excel_surveys, $excel_protocols, $excel_raiscales);
 
         $this->template = View::factory('test');
         $this->template->headers = $this->excel->getWorksheet(1)->getRecord(1);
@@ -458,6 +426,12 @@ class Controller_Test extends Dispatch
         $excel_protocols = array();
         $excel_raiscales = array();
 
+        $this->excel = new SimpleExcel();
+        $this->excel->loadFile('data.csv', 'CSV', array('delimiter' => ';'));
+//        echo Debug::vars($this->excel->getWorksheet(1)->getRecord(1));
+//        echo Debug::vars($this->excel->getWorksheet(1)->getRecord(2));
+//        die();
+
         for ($i = 281; $i <= 315; $i++) {
             $this->survey = new Model_Survey($i);
             $this->getUnitsData();
@@ -468,15 +442,7 @@ class Controller_Test extends Dispatch
 
             $this->report = new Model_ReportRAIScales($i);
             $raiscales[] = $this->report;
-        }
 
-
-        $this->excel = new SimpleExcel();
-        $this->excel->loadFile('data.csv', 'CSV', array('delimiter' => ';'));
-//        echo Debug::vars($this->excel->getWorksheet(1)->getRecord(1));
-//        echo Debug::vars($this->excel->getWorksheet(1)->getRecord(2));
-//        die();
-        for ($i = 281; $i <= 315; $i++) {
             $this->survey = new Model_Survey();
             $this->get_excel_surveys($i);
             $excel_surveys[] = $this->survey;
@@ -489,8 +455,6 @@ class Controller_Test extends Dispatch
             $this->get_excel_raiscales($i);
             $excel_raiscales[] = $this->report;
         }
-//        echo Debug::vars($surveys, $protocols, $raiscales);
-//        echo Debug::vars($excel_surveys, $excel_protocols, $excel_raiscales);
 
         $this->template = View::factory('test');
         $this->template->headers = $this->excel->getWorksheet(1)->getRecord(1);
@@ -512,6 +476,12 @@ class Controller_Test extends Dispatch
         $excel_protocols = array();
         $excel_raiscales = array();
 
+        $this->excel = new SimpleExcel();
+        $this->excel->loadFile('data.csv', 'CSV', array('delimiter' => ';'));
+//        echo Debug::vars($this->excel->getWorksheet(1)->getRecord(1));
+//        echo Debug::vars($this->excel->getWorksheet(1)->getRecord(2));
+//        die();
+
         for ($i = 316; $i <= 349; $i++) {
             $this->survey = new Model_Survey($i);
             $this->getUnitsData();
@@ -522,15 +492,7 @@ class Controller_Test extends Dispatch
 
             $this->report = new Model_ReportRAIScales($i);
             $raiscales[] = $this->report;
-        }
 
-
-        $this->excel = new SimpleExcel();
-        $this->excel->loadFile('data.csv', 'CSV', array('delimiter' => ';'));
-//        echo Debug::vars($this->excel->getWorksheet(1)->getRecord(1));
-//        echo Debug::vars($this->excel->getWorksheet(1)->getRecord(2));
-//        die();
-        for ($i = 316; $i <= 349; $i++) {
             $this->survey = new Model_Survey();
             $this->get_excel_surveys($i);
             $excel_surveys[] = $this->survey;
@@ -543,8 +505,6 @@ class Controller_Test extends Dispatch
             $this->get_excel_raiscales($i);
             $excel_raiscales[] = $this->report;
         }
-//        echo Debug::vars($surveys, $protocols, $raiscales);
-//        echo Debug::vars($excel_surveys, $excel_protocols, $excel_raiscales);
 
         $this->template = View::factory('test');
         $this->template->headers = $this->excel->getWorksheet(1)->getRecord(1);
@@ -615,25 +575,28 @@ class Controller_Test extends Dispatch
         $excel_protocols = array();
         $excel_raiscales = array();
 
-        for ($i = 1; $i <= 349; $i++) {
-            $this->report = new Model_ReportProtocols($i);
-            $protocols[] = $this->report;
-
-            $this->report = new Model_ReportRAIScales($i);
-            $raiscales[] = $this->report;
-        }
-
         $this->excel = new SimpleExcel();
         $this->excel->loadFile('data.csv', 'CSV', array('delimiter' => ';'));
 
         for ($i = 1; $i <= 349; $i++) {
+            $protocol = new Model_ReportProtocols($i);
+
             $this->report = new Model_ReportProtocols();
             $this->get_excel_protocols($i);
-            $excel_protocols[] = $this->report;
+            $excel_protocol = $this->report;
+
+            $raiscale = new Model_ReportRAIScales($i);
 
             $this->report = new Model_ReportRAIScales();
             $this->get_excel_raiscales($i);
-            $excel_raiscales[] = $this->report;
+            $excel_raiscale = $this->report;
+
+            if ( ! ($this->protocolsValid($protocol, $excel_protocol) && $this->raiscalesValid($raiscale, $excel_raiscale) ) ) {
+                $protocols[] = $protocol;
+                $raiscales[] = $raiscale;
+                $excel_protocols[] = $excel_protocol;
+                $excel_raiscales[] = $excel_raiscale;
+            }
         }
 
         $this->template = View::factory('test1');
@@ -644,12 +607,30 @@ class Controller_Test extends Dispatch
 
         $this->template->excel_protocols = $excel_protocols;
         $this->template->excel_raiscales = $excel_raiscales;
-
     }
 
 
+    private function protocolsValid($p1, $p2){
+        if ($p1->P1 == $p2->P1 && $p1->P2 == $p2->P2 && $p1->P3 == $p2->P3 && $p1->P4 == $p2->P4 && $p1->P5 == $p2->P5 &&
+            $p1->P6 == $p2->P6 && $p1->P7 == $p2->P7 && $p1->P8 == $p2->P8 && $p1->P9 == $p2->P9 && $p1->P10 == $p2->P10 &&
+            $p1->P11 == $p2->P11 && $p1->P12 == $p2->P12 && $p1->P13 == $p2->P13 && $p1->P14 == $p2->P14 && $p1->P15 == $p2->P15) {
+
+            return true;
+        }
+
+        return false;
+    }
 
 
+    private function raiscalesValid($p1, $p2){
+        if ($p1->PURS == $p2->PURS && $p1->CPS == $p2->CPS && $p1->BMI == $p2->BMI && $p1->SRD == $p2->SRD &&
+            $p1->DRS == $p2->DRS && $p1->Pain == $p2->Pain && $p1->COMM == $p2->COMM && $p1->CHESS == $p2->CHESS &&
+            $p1->ADLH == $p2->ADLH && $p1->ABS == $p2->ABS && $p1->ADLLF == $p2->ADLLF) {
+
+            return true;
+        }
+        return false;
+    }
 
 
     private function get_excel_surveys($i) {
@@ -1324,21 +1305,21 @@ class Controller_Test extends Dispatch
         $this->survey->unitQ->Q1 = json_decode($this->survey->unitQ->Q1);
     }
 
-
     // Pressure Ulcer Risk Scale
     private function getPURS()
     {
         $G1 = json_decode($this->survey->unitG->G1);
         $K2 = json_decode($this->survey->unitK->K2);
-        $J6 = json_decode($this->survey->unitJ->J6);
 
+        $J6 = json_decode($this->survey->unitJ->J6);
         $purs = 0;
-        if ( $G1[8] >=4 ) $purs++;
-        if ( $G1[4] >=4 ) $purs++;
-        if ( $this->survey->unitH->H3 >= 2 ) $purs++;
+        if ( $G1[8] >=3 ) $purs++;
+        if ( $G1[4] >=3 ) $purs++;
+        if ( $this->survey->unitH->H3 != 8 && $this->survey->unitH->H3 >= 2 ) $purs++;
         // TODO add condition - https://github.com/kolyasha/RAIcare/issues/26
         if ( $K2[0] == 1 ) $purs++;
         if ( $J6[0] == 3 ) $purs++;
+        if ( $this->survey->unitL->L2 == 1 ) $purs = $purs + 2;
         if ( $this->survey->unitJ->J4 >= 2 ) $purs++;
 
         return $purs;

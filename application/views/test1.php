@@ -26,15 +26,23 @@
     <table class="tablesaw" data-tablesaw-mode="columntoggle" data-tablesaw-minimap>
         <thead>
             <tr>
-                <th>id</th>
+                <th>
+                    <button class="btn" style="width: 100%; display: block; margin: 0 0 10px; border-bottom: 1px solid #BBB; border-radius: 0" onclick="toggle.remove()">
+                        <i class="fa fa-flag"></i>
+                    </button>
+                    id
+                </th>
                 <? for($i = 236; $i <= 261; $i++) : ?>
                     <th scope="col"  data-tablesaw-priority="<?= $i; ?>">
+                        <button class="btn" style="width: 100%; display: block; margin: 0 0 10px; border-bottom: 1px solid #BBB; border-radius: 0" onclick="toggle.col(this)" data-col="<?= $i - 235; ?>">
+                            <i class="fa fa-flag"></i>
+                        </button>
                         <?= $headers[$i]->value; ?>
                     </th>
                 <? endfor; ?>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="tbody">
 
             <? for($i = 0; $i < count($protocols); $i++) : ?>
                 <tr>
@@ -133,6 +141,37 @@
 
 </body>
 
+<script>
+
+    var toggle = (function (toggle) {
+
+        var tbody = document.getElementById('tbody'),
+            trs   = tbody.getElementsByTagName('tr');
+
+        toggle.remove = function (element) {
+            for (var i = 0; i < trs.length; i++) {
+                trs[i].classList.remove('hide');
+            }
+        };
+
+        toggle.col = function (element) {
+
+            toggle.remove();
+
+            var col = element.dataset.col;
+
+            for (var i = 0; i < trs.length; i++) {
+                if (!trs[i].getElementsByTagName('td')[col].classList.contains('text-danger')) {
+                    trs[i].classList.add('hide');
+                }
+            }
+
+        };
+
+        return toggle;
+
+    })({});
+</script>
+
+
 </html>
-
-
