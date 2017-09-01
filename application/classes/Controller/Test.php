@@ -564,6 +564,7 @@ class Controller_Test extends Dispatch
         }
 
         echo Debug::vars('Finish!');
+        die();
 
     }
 
@@ -1017,20 +1018,20 @@ class Controller_Test extends Dispatch
      */
     private function createProtocolsReport()
     {
-        $C3 = json_decode($this->survey->unitC->C3);
-        $E1 = json_decode($this->survey->unitE->E1);
-        $E3 = json_decode($this->survey->unitE->E3);
-        $F2 = json_decode($this->survey->unitF->F2);
-        $G1 = json_decode($this->survey->unitG->G1);
-        $G3 = json_decode($this->survey->unitG->G3);
-        $G4 = json_decode($this->survey->unitG->G4);
-        $I1 = json_decode($this->survey->unitI->I1);
-        $J3 = json_decode($this->survey->unitJ->J3);
-        $J6 = json_decode($this->survey->unitJ->J6);
-        $J9 = json_decode($this->survey->unitJ->J9);
-        $K2 = json_decode($this->survey->unitK->K2);
-        $O1 = json_decode($this->survey->unitO->O1);
-        $O7 = json_decode($this->survey->unitO->O7);
+        $C3 = $this->survey->unitC->C3;
+        $E1 = $this->survey->unitE->E1;
+        $E3 = $this->survey->unitE->E3;
+        $F2 = $this->survey->unitF->F2;
+        $G1 = $this->survey->unitG->G1;
+        $G3 = $this->survey->unitG->G3;
+        $G4 = $this->survey->unitG->G4;
+        $I1 = $this->survey->unitI->I1;
+        $J3 = $this->survey->unitJ->J3;
+        $J6 = $this->survey->unitJ->J6;
+        $J9 = $this->survey->unitJ->J9;
+        $K2 = $this->survey->unitK->K2;
+        $O1 = $this->survey->unitO->O1;
+        $O7 = $this->survey->unitO->O7;
 
         $this->report = new Model_ReportProtocols();
 
@@ -1041,7 +1042,7 @@ class Controller_Test extends Dispatch
         // Behaviour - проблемное поведение
         $P1 = 0;
         if ($this->survey->unitC->C1 != 5) {
-            foreach (json_decode($this->survey->unitE->E3) as $item) { if ($item == 3) { $P1 = 2; } elseif ($item == 2 && $P1 < 2) { $P1 = 1; } }
+            foreach ($this->survey->unitE->E3 as $item) { if ($item == 3) { $P1 = 2; } elseif ($item == 2 && $P1 < 2) { $P1 = 1; } }
         } else {
             $P1 = -1;
         }
@@ -1085,7 +1086,7 @@ class Controller_Test extends Dispatch
         // Delirium - деменция
         if ($this->survey->unitC->C1 != 5) {
             $P3 = $this->survey->unitC->C4 == 1 ? 1 : 0;
-            if ($P3 == 0) { foreach (json_decode($this->survey->unitC->C3) as $item) { if ($item == 2) { $P3 = 1; break; } } }
+            if ($P3 == 0) { foreach ($this->survey->unitC->C3 as $item) { if ($item == 2) { $P3 = 1; break; } } }
         } else {
             $P3 = -1;
         }
@@ -1308,10 +1309,10 @@ class Controller_Test extends Dispatch
     // Pressure Ulcer Risk Scale
     private function getPURS()
     {
-        $G1 = json_decode($this->survey->unitG->G1);
-        $K2 = json_decode($this->survey->unitK->K2);
+        $G1 = $this->survey->unitG->G1;
+        $K2 = $this->survey->unitK->K2;
 
-        $J6 = json_decode($this->survey->unitJ->J6);
+        $J6 = $this->survey->unitJ->J6;
         $purs = 0;
         if ( $G1[8] >=3 ) $purs++;
         if ( $G1[4] >=3 ) $purs++;
@@ -1333,7 +1334,7 @@ class Controller_Test extends Dispatch
                 return 6;
                 break;
             case 4:
-                $G1j = json_decode($this->survey->unitG->G1)[9];
+                $G1j = $this->survey->unitG->G1[9];
                 if ($G1j == 6 || $G1j == 8) return 6;
                 else return 5;
                 break;
@@ -1341,7 +1342,7 @@ class Controller_Test extends Dispatch
                 // Impairment Count
                 $imp_count = 0;
                 if ($this->survey->unitC->C1 > 0) $imp_count++;
-                if (json_decode($this->survey->unitC->C2)[0] == 1) $imp_count++;
+                if ($this->survey->unitC->C2[0] == 1) $imp_count++;
                 if ($this->survey->unitD->D1 > 0 || $this->survey->unitD->D2 > 0) $imp_count++;
                 switch ($imp_count) {
                     case 0: return 0; break;
@@ -1365,14 +1366,14 @@ class Controller_Test extends Dispatch
     // Body Mass Index
     private function getBMI()
     {
-        $K1 = json_decode($this->survey->unitK->K1);
+        $K1 = $this->survey->unitK->K1;
         return number_format ($K1[1] / ($K1[0] * $K1[0]) * 10000, 2);
     }
 
     // Self Rated Depression
     private function getSRD()
     {
-        $E2 = json_decode($this->survey->unitE->E2);
+        $E2 = $this->survey->unitE->E2;
 
         if ($E2[0] == 8 || $E2[1] == 8 || $E2[2] == 8)
             return -1;
@@ -1383,7 +1384,7 @@ class Controller_Test extends Dispatch
     // Depression Rating Scale
     private function getDRS()
     {
-        $E1 = json_decode($this->survey->unitE->E1);
+        $E1 = $this->survey->unitE->E1;
         $drs = 0;
         $drs += $E1[0] == 0 ? 0 : (($E1[0] == 1 || $E1[0] == 2) ? 1 : 2);
         $drs += $E1[1] == 0 ? 0 : (($E1[1] == 1 || $E1[1] == 2) ? 1 : 2);
@@ -1398,7 +1399,7 @@ class Controller_Test extends Dispatch
     // Pain Scale
     private function getPain()
     {
-        $J6 = json_decode($this->survey->unitJ->J6);
+        $J6 = $this->survey->unitJ->J6;
         if ($J6[0] == 0 || $J6[1] == 0) return 0;
         if ($J6[0] < 3) return 1;
         if ($J6[1] < 3) return 2;
@@ -1421,9 +1422,9 @@ class Controller_Test extends Dispatch
 
         } else {
 
-            $J3 = json_decode($this->survey->unitJ->J3);
-            $J7 = json_decode($this->survey->unitJ->J7);
-            $K2 = json_decode($this->survey->unitK->K2);
+            $J3 = $this->survey->unitJ->J3;
+            $J7 = $this->survey->unitJ->J7;
+            $K2 = $this->survey->unitK->K2;
 
             $CHESS = 0;
             $count = 0;
@@ -1451,7 +1452,7 @@ class Controller_Test extends Dispatch
         //Toilet use        $this->survey->unitG->G1[7] => G1h
         //Locomotion        $this->survey->unitG->G1[5] => G1f
         //Eating            $this->survey->unitG->G1[9] => G1j
-        $G1 =  json_decode($this->survey->unitG->G1);
+        $G1 =  $this->survey->unitG->G1;
         return  ($G1[1] >= 6 && $G1[5] >= 6 && $G1[7] >= 6 && $G1[9] >= 6) ? 6 :
             (($G1[9] >= 6 || $G1[5] >= 6) ? 5 :
                 ((($G1[9] < 6 && $G1[5] < 6) && ($G1[9] == 4 || $G1[5] == 4)) ? 4 :
@@ -1463,14 +1464,14 @@ class Controller_Test extends Dispatch
     // Aggressive Behaviour Scale
     private function getABS()
     {
-        $E3 =  json_decode($this->survey->unitE->E3);
+        $E3 =  $this->survey->unitE->E3;
         return $E3[1] + $E3[2] + $E3[3] + $E3[5];
     }
 
     // Activities of Daily Living (Long Form)
     private function getADLLF()
     {
-        $G1 =  json_decode($this->survey->unitG->G1);
+        $G1 =  $this->survey->unitG->G1;
         $ADLLF = 0;
         $ADLLF += ($G1[1] == 0 || $G1[1] == 1) ? 0 : ($G1[1] == 2 ? 1 : ($G1[1] == 3 ? 2 : ($G1[1] == 4 ? 3 : 4)));
         $ADLLF += ($G1[2] == 0 || $G1[2] == 1) ? 0 : ($G1[2] == 2 ? 1 : ($G1[2] == 3 ? 2 : ($G1[2] == 4 ? 3 : 4)));
