@@ -1096,8 +1096,15 @@ class Controller_Test extends Dispatch
 //            $P2 = -1;
 //        }
 
+//        if ($this->survey->unitC->C1 != 5) {
+//            // 2 0 0
+//            $P2 = ($this->survey->unitC->C1 >= 3 && $this->survey->unitD->D1 < 3 && $this->survey->unitD->D2 < 3) ? 2 :
+//                (($this->survey->unitC->C1 < 2 && $this->survey->unitD->D1 <=3 && $this->survey->unitD->D2 <= 3) ? 1 : 0);
+//        } else {
+//            $P2 = -1;
+//        }
         if ($this->survey->unitC->C1 != 5) {
-            $P2 = ($this->survey->unitC->C1 >= 3 && $this->survey->unitD->D1 < 3 && $this->survey->unitD->D2 < 3) ? 2 :
+            $P2 = ($this->survey->unitC->C1 >= 2 && $this->survey->unitD->D1 <= 3 && $this->survey->unitD->D2 <= 3) ? 2 :
                 (($this->survey->unitC->C1 < 2 && $this->survey->unitD->D1 <=3 && $this->survey->unitD->D2 <= 3) ? 1 : 0);
         } else {
             $P2 = -1;
@@ -1141,7 +1148,7 @@ class Controller_Test extends Dispatch
         $this->report->P9 = $P9;
 
         // Pain - Повреждения
-        $P10 = ($J6[1] == 3 || $J6[1] == 4) ? 2 : (($J6[1] == 1 || $J6[1] == 2) && $J6[0] == 3) ? 1 : 0;
+        $P10 = ($J6[1] == 3 || $J6[1] == 4) ? 2 : ((($J6[1] == 1 || $J6[1] == 2) && $J6[0] == 3) ? 1 : 0);
         $this->report->P10 = $P10;
 
         // Smoking and Drinking
