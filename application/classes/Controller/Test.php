@@ -1081,12 +1081,28 @@ class Controller_Test extends Dispatch
             $P2 = ($this->survey->unitC->C1 == 2 && $this->survey->unitD->D1 <= 2 && $this->survey->unitD->D2 <= 2) ? 2 :
                 (($this->survey->unitC->C1 <= 3 && $this->survey->unitD->D1 >= 1 && $this->survey->unitD->D2 >= 1) ? 1 : 0);
         }*/
+
+//        if ($this->survey->unitC->C1 != 5) {
+//            $P2 = ($this->survey->unitC->C1 >= 3 && $this->survey->unitD->D1 < 3 && $this->survey->unitD->D2 < 3) ? 2 :
+//                (($this->survey->unitC->C1 < 3 && $this->survey->unitD->D1 >=2 && $this->survey->unitD->D2 >= 2) ? 1 : 0);
+//        } else {
+//            $P2 = -1;
+//        }
+
+//        if ($this->survey->unitC->C1 != 5) {
+//            $P2 = ($this->survey->unitC->C1 >= 2 && $this->survey->unitD->D1 <= 3 && $this->survey->unitD->D2 <= 3) ? 2 :
+//                (($this->survey->unitC->C1 < 3 && $this->survey->unitD->D1 >=2 && $this->survey->unitD->D2 >= 2) ? 1 : 0);
+//        } else {
+//            $P2 = -1;
+//        }
+
         if ($this->survey->unitC->C1 != 5) {
             $P2 = ($this->survey->unitC->C1 >= 3 && $this->survey->unitD->D1 < 3 && $this->survey->unitD->D2 < 3) ? 2 :
-                (($this->survey->unitC->C1 < 3 && $this->survey->unitD->D1 >=2 && $this->survey->unitD->D2 >= 2) ? 1 : 0);
+                (($this->survey->unitC->C1 < 2 && $this->survey->unitD->D1 <=3 && $this->survey->unitD->D2 <= 3) ? 1 : 0);
         } else {
             $P2 = -1;
         }
+
         //echo Debug::vars($this->survey->unitC->C1,$this->survey->unitD->D1,$this->survey->unitD->D2,$P2); die();
         $this->report->P2 = $P2;
 
@@ -1432,11 +1448,11 @@ class Controller_Test extends Dispatch
         return $this->survey->unitD->D1 + $this->survey->unitD->D2;
     }
 
+
     // Changes in Health, End-Stage Disease, Signs, and Symptoms Scale
     private function getCHESS()
     {
-        if ( ($this->survey->unitC->C5 == 8 && $this->survey->unitG->G5 == 8) ||
-            ($this->survey->unitC->C5 <=2 && $this->survey->unitG->G5 == 8) ) {
+        if ( ( $this->survey->unitG->G5 == 8) ) {
 
             return -1;
 
@@ -1453,13 +1469,13 @@ class Controller_Test extends Dispatch
             if ( $this->survey->unitG->G5 == 2 ) $CHESS++;
             if ( $J7[2] == 1 ) $CHESS++;
 
-            if ($count <= 2 &&$K2[1] == 1 && $K2[3] == 1) $count++;
-            if ($count <= 2 &&$K2[0] == 1) $count++;
-            if ($count <= 2 &&$K2[2] == 1) $count++;
+            if ($count < 2 &&$K2[1] == 1 && $K2[3] == 1) $count++;
+            if ($count < 2 &&$K2[0] == 1) $count++;
+            if ($count < 2 &&$K2[2] == 1) $count++;
             // может оказаться что J4>1
-            if ($count <= 2 &&$this->survey->unitJ->J4 != 0) $count++;
-            if ($count <= 2 &&$J3[13] == 2) $count++;
-            if ($count <= 2 &&$J3[20] == 2) $count++;
+            if ($count < 2 &&$this->survey->unitJ->J4 != 0) $count++;
+            if ($count < 2 &&$J3[13] == 2) $count++;
+            if ($count < 2 &&$J3[20] == 2) $count++;
 
             return $CHESS + $count ;
         }
@@ -1474,13 +1490,14 @@ class Controller_Test extends Dispatch
         //Locomotion        $this->survey->unitG->G1[5] => G1f
         //Eating            $this->survey->unitG->G1[9] => G1j
         $G1 =  $this->survey->unitG->G1;
-        return  ($G1[1] >= 6 && $G1[5] >= 6 && $G1[7] >= 6 && $G1[9] >= 6) ? 6 :
+        return ($G1[1] >= 6 && $G1[5] >= 6 && $G1[7] >= 6 && $G1[9] >= 6) ? 6 :
             (($G1[9] >= 6 || $G1[5] >= 6) ? 5 :
-                ((($G1[9] < 6 && $G1[5] < 6) && ($G1[9] == 4 || $G1[5] == 4)) ? 4 :
-                    ((($G1[1] == 4 || $G1[7] == 4) && ($G1[9] < 4 && $G1[5] < 4)) ? 3 :
+                ((($G1[9] < 6 && $G1[5] < 6) && ($G1[9] > 3 || $G1[5] > 3)) ? 4 :
+                    ((($G1[1] > 3 || $G1[7] > 3) && ($G1[9] < 4 && $G1[5] < 4)) ? 3 :
                         ((($G1[1] < 4 && $G1[7] < 4 && $G1[9] < 4 && $G1[5] < 4) && ($G1[1] == 3 || $G1[7] == 3 || $G1[9] == 3 || $G1[5] == 3)) ? 2 :
                             ((($G1[1] < 3 && $G1[7] < 3 && $G1[9] < 3 && $G1[5] < 3) && ($G1[1] == 2 || $G1[7] == 2 || $G1[9] == 2 || $G1[5] == 2)) ? 1 : 0)))));
     }
+
 
     // Aggressive Behaviour Scale
     private function getABS()
@@ -1497,13 +1514,14 @@ class Controller_Test extends Dispatch
     {
         $G1 =  $this->survey->unitG->G1;
         $ADLLF = 0;
-        $ADLLF += ($G1[1] == 0 || $G1[1] == 1) ? 0 : ($G1[1] == 2 ? 1 : ($G1[1] == 3 ? 2 : ($G1[1] == 4 ? 3 : 4)));
-        $ADLLF += ($G1[2] == 0 || $G1[2] == 1) ? 0 : ($G1[2] == 2 ? 1 : ($G1[2] == 3 ? 2 : ($G1[2] == 4 ? 3 : 4)));
-        $ADLLF += ($G1[3] == 0 || $G1[3] == 1) ? 0 : ($G1[3] == 2 ? 1 : ($G1[3] == 3 ? 2 : ($G1[3] == 4 ? 3 : 4)));
-        $ADLLF += ($G1[5] == 0 || $G1[5] == 1) ? 0 : ($G1[5] == 2 ? 1 : ($G1[5] == 3 ? 2 : ($G1[5] == 4 ? 3 : 4)));
-        $ADLLF += ($G1[7] == 0 || $G1[7] == 1) ? 0 : ($G1[7] == 2 ? 1 : ($G1[7] == 3 ? 2 : ($G1[7] == 4 ? 3 : 4)));
-        $ADLLF += ($G1[8] == 0 || $G1[8] == 1) ? 0 : ($G1[8] == 2 ? 1 : ($G1[8] == 3 ? 2 : ($G1[8] == 4 ? 3 : 4)));
-        $ADLLF += ($G1[9] == 0 || $G1[9] == 1) ? 0 : ($G1[9] == 2 ? 1 : ($G1[9] == 3 ? 2 : ($G1[9] == 4 ? 3 : 4)));
+        $ADLLF += ($G1[1] == 0 || $G1[1] == 1) ? 0 : ($G1[1] == 2 ? 1 : ($G1[1] == 3 ? 2 : (($G1[1] == 4 || $G1[1] == 5) ? 3 : 4)));
+        $ADLLF += ($G1[2] == 0 || $G1[2] == 1) ? 0 : ($G1[2] == 2 ? 1 : ($G1[2] == 3 ? 2 : (($G1[2] == 4 || $G1[2] == 5) ? 3 : 4)));
+        $ADLLF += ($G1[3] == 0 || $G1[3] == 1) ? 0 : ($G1[3] == 2 ? 1 : ($G1[3] == 3 ? 2 : (($G1[3] == 4 || $G1[3] == 5) ? 3 : 4)));
+        $ADLLF += ($G1[5] == 0 || $G1[5] == 1) ? 0 : ($G1[5] == 2 ? 1 : ($G1[5] == 3 ? 2 : (($G1[5] == 4 || $G1[5] == 5) ? 3 : 4)));
+        $ADLLF += ($G1[7] == 0 || $G1[7] == 1) ? 0 : ($G1[7] == 2 ? 1 : ($G1[7] == 3 ? 2 : (($G1[7] == 4 || $G1[7] == 5) ? 3 : 4)));
+        $ADLLF += ($G1[8] == 0 || $G1[8] == 1) ? 0 : ($G1[8] == 2 ? 1 : ($G1[8] == 3 ? 2 : (($G1[8] == 4 || $G1[8] == 5) ? 3 : 4)));
+        $ADLLF += ($G1[9] == 0 || $G1[9] == 1) ? 0 : ($G1[9] == 2 ? 1 : ($G1[9] == 3 ? 2 : (($G1[9] == 4 || $G1[9] == 5) ? 3 : 4)));
+
         return $ADLLF;
     }
 
