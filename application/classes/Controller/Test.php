@@ -1103,14 +1103,58 @@ class Controller_Test extends Dispatch
 //        } else {
 //            $P2 = -1;
 //        }
-        if ($this->survey->unitC->C1 != 5) {
-            $P2 = ($this->survey->unitC->C1 >= 2 && $this->survey->unitD->D1 <= 3 && $this->survey->unitD->D2 <= 3) ? 2 :
-                (($this->survey->unitC->C1 < 2 && $this->survey->unitD->D1 <=3 && $this->survey->unitD->D2 <= 3) ? 1 : 0);
-        } else {
-            $P2 = -1;
-        }
 
-        //echo Debug::vars($this->survey->unitC->C1,$this->survey->unitD->D1,$this->survey->unitD->D2,$P2); die();
+//        if ($this->survey->unitC->C1 != 5) {
+//            $P2 = ($this->survey->unitC->C1 >= 2 && $this->survey->unitD->D1 <= 3 && $this->survey->unitD->D2 <= 3) ? 2 :
+//                (($this->survey->unitC->C1 < 2 && $this->survey->unitD->D1 <=3 && $this->survey->unitD->D2 <= 3) ? 1 : 0);
+//        } else {
+//            $P2 = -1;
+//        }
+
+//        if ($this->survey->unitC->C1 != 5) {
+//            $P2 = ($this->survey->unitC->C1 >= 2 && $this->survey->unitD->D1 <= 3 && $this->survey->unitD->D2 <= 3) ? 2 :
+//                (($this->survey->unitC->C1 != 2 && $this->survey->unitD->D1 - $this->survey->unitD->D2 < 2) ? 1 : 0);
+//        } else {
+//            $P2 = -1;
+//        }
+
+        $C1 = $this->survey->unitC->C1;
+        $D1 = $this->survey->unitD->D1;
+        $D2 = $this->survey->unitD->D2;
+
+        if ($C1 == 5) {
+
+            $P2 = -1;
+
+        } elseif ($C1 < 2) {
+
+            if (($D1 + $D2) >= 2) {
+                $P2 = 1;
+            } else {
+                $P2 = 0;
+            }
+
+        } elseif ($C1 == 3 && $D1 == 3 && $D2 == 3) {
+
+            $P2 = 1;
+
+        } else {
+
+            if(
+                ($C1 == 2 && $D1 == 1 && $D2 == 1) || ($C1 == 3 && $D1 == 1 && $D2 == 1) ||
+                (($C1 == 2 || $C1 == 3) && ($D1 >= 3 || $D2 >= 3 || $D1 + $D2 > 2)) ||
+                ($C1 == 4 && ($D1 >= 4 || $D2 >= 4 || $D1 + $D2 > 5))
+            ) {
+
+                $P2 = 0;
+
+            } else {
+
+                $P2 = 2;
+                
+            }
+
+        }
         $this->report->P2 = $P2;
 
         // Delirium - деменция
@@ -1132,7 +1176,7 @@ class Controller_Test extends Dispatch
         $this->report->P5 = $P5;
 
         // Dehydration - Дегидратация
-        $P6 = $K2[1] == 1 ? (($K2[0] == 1 || $J3[2] >= 2 || $J3[8] >= 2 || $J3[12] >= 2 || $J3[13] >= 2 || $J3[17] >= 2) ? 2 : 1) : 0;
+        $P6 = $K2[1] == 0 ? (($K2[0] == 1 || $J3[2] >= 2 || $J3[8] >= 2 || $J3[12] >= 2 || $J3[13] >= 2 || $J3[17] >= 2) ? 2 : 1) : 0;
         $this->report->P6 = $P6;
 
         // Falls - Падения
@@ -1156,11 +1200,9 @@ class Controller_Test extends Dispatch
         $this->report->P11 = $P11;
 
         // Pressure Ulcer - Тяжелые пролежни
-        $ADLH = $this->getADLH();
         if ( $this->survey->unitC->C1 == 5 ) {
             $P12 = 3;
         } else {
-
             $P12 = $this->survey->unitL->L1 >= 2 ? 1 :
                 ($this->survey->unitL->L1 == 1 ? 2 :
                     (($this->getADLH() == 5 || $this->getADLH() == 6) && ($this->survey->unitL->L2 == 1 ||
@@ -1179,7 +1221,6 @@ class Controller_Test extends Dispatch
                     $this->survey->unitG->G1[5] < 4 && ($this->survey->unitO->O2[8] == 0 || $this->survey->unitI->I1[0] >= 1 ||
                         $this->survey->unitG->G5 == 2 || $this->survey->unitH->H2 == 2 || $this->survey->unitI->I1[17] >= 1 ||
                         $this->survey->unitJ->J3[12] >= 1)) ? 3 : 1));
-        //echo Debug::vars($this->survey->unitL, $this->getADLH(),$this->survey->unitC->C1 , $P12); die();
         $this->report->P13 = $P13;
 
         // Physical restraint - Физическая сдержанность
@@ -1198,7 +1239,6 @@ class Controller_Test extends Dispatch
         } else {
             $P15 = -1;
         }
-
         $this->report->P15 = $P15;
 
         // Physical Activities Promotion
