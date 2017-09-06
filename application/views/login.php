@@ -3,8 +3,13 @@
 <head>
     <title>Авторизация | <?= $GLOBALS['SITE_NAME']; ?></title>
     <meta charset="UTF-8">
-    <meta name="author" content="<?= $GLOBALS['SITE_NAME']; ?>" />
+
+    <meta name="author" content="<?=$content; ?>" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="white">
+
     <link type="image/x-icon" rel="shortcut icon" href="<?=$assets; ?>static/img/favicon.png" />
+    <link rel="apple-touch-icon" href="<?=$assets; ?>static/img/favicon.png">
 
     <meta name="description" content="Страница авторизации сотрудника организации" />
     <meta name="keywords" content="<?=strtolower($GLOBALS['SITE_NAME']); ?>, авторизация, страница организации" />

@@ -66,7 +66,8 @@ class Controller_Auth_Index extends Dispatch
 
         $this->redis->delete(getenv('REDIS_CONFIRMATION_HASHES') . $hash);
 
-        header('Location: //' . $_SERVER['HTTP_HOST']  . '/dashboard');
-        die();
+        $this->redirect($_SERVER['HTTP_HOST']  . '/dashboard');
+//        header('Location: //' . $_SERVER['HTTP_HOST']  . '/dashboard');
+//        die();
     }
 }

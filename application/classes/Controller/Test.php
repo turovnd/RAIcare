@@ -1025,20 +1025,45 @@ class Controller_Test extends Dispatch
      */
     private function createProtocolsReport($save = true)
     {
+        $C1 = $this->survey->unitC->C1;
         $C3 = $this->survey->unitC->C3;
+        $C4 = $this->survey->unitC->C4;
+        $C5 = $this->survey->unitC->C5;
+        $D1 = $this->survey->unitD->D1;
+        $D2 = $this->survey->unitD->D2;
         $E1 = $this->survey->unitE->E1;
         $E3 = $this->survey->unitE->E3;
         $F2 = $this->survey->unitF->F2;
         $G1 = $this->survey->unitG->G1;
         $G3 = $this->survey->unitG->G3;
         $G4 = $this->survey->unitG->G4;
+        $G5 = $this->survey->unitG->G5;
+        $H1 = $this->survey->unitH->H1;
+        $H2 = $this->survey->unitH->H2;
         $I1 = $this->survey->unitI->I1;
+        $J1 = $this->survey->unitJ->J1;
         $J3 = $this->survey->unitJ->J3;
+        $J4 = $this->survey->unitJ->J4;
         $J6 = $this->survey->unitJ->J6;
+        $J7 = $this->survey->unitJ->J7;
         $J9 = $this->survey->unitJ->J9;
         $K2 = $this->survey->unitK->K2;
+        $K3 = $this->survey->unitK->K3;
+        $K4 = $this->survey->unitK->K4;
+        $L1 = $this->survey->unitL->L1;
+        $L2 = $this->survey->unitL->L2;
+        $L3 = $this->survey->unitL->L3;
+        $L4 = $this->survey->unitL->L4;
+        $L5 = $this->survey->unitL->L5;
+        $L6 = $this->survey->unitL->L6;
+        $M1 = $this->survey->unitM->M1;
         $O1 = $this->survey->unitO->O1;
+        $O2 = $this->survey->unitO->O2;
+        $O5 = $this->survey->unitO->O5;
         $O7 = $this->survey->unitO->O7;
+        $BMI = $this->getBMI();
+        $ADLH = $this->getADLH();
+        $CPS = $this->getCPS();
 
         $this->report = new Model_ReportProtocols();
 
@@ -1048,80 +1073,14 @@ class Controller_Test extends Dispatch
 
         // Behaviour - проблемное поведение
         $P1 = 0;
-        if ($this->survey->unitC->C1 != 5) {
-            foreach ($this->survey->unitE->E3 as $item) { if ($item == 3) { $P1 = 2; } elseif ($item == 2 && $P1 < 2) { $P1 = 1; } }
+        if ($C1 != 5) {
+            foreach ($E3 as $item) { if ($item == 3) { $P1 = 2; } elseif ($item == 2 && $P1 < 2) { $P1 = 1; } }
         } else {
             $P1 = -1;
         }
         $this->report->P1 = $P1;
 
         // Communication - Коммуникация
-        /*if ($this->survey->unitC->C1 == 5) {
-            $P2 = -1;
-        } elseif ($this->survey->unitC->C1 < 2 && $this->survey->unitD->D1 <= 2 || $this->survey->unitD->D2 <= 2) {
-            // 0 || 1
-
-            if ($this->survey->unitC->C1 == 1 && ($this->survey->unitD->D1 >= 1 || $this->survey->unitD->D2 >= 1) ||
-                ($this->survey->unitC->C1 == 0 && $this->survey->unitD->D1 == 1 && $this->survey->unitD->D2 == 1)) {
-                $P2 = 1;
-            } else {
-                $P2 = 0;
-            }
-
-        } else {
-
-            // 0 || 1 || 2
-
-            if ($this->survey->unitD->D1 == 0 || $this->survey->unitD->D2 == 0) {
-                $P2 = 0;
-            } else {
-                $P2 = 1;
-            }
-
-            $P2 = ($this->survey->unitC->C1 == 2 && $this->survey->unitD->D1 <= 2 && $this->survey->unitD->D2 <= 2) ? 2 :
-                (($this->survey->unitC->C1 <= 3 && $this->survey->unitD->D1 >= 1 && $this->survey->unitD->D2 >= 1) ? 1 : 0);
-        }*/
-
-//        if ($this->survey->unitC->C1 != 5) {
-//            $P2 = ($this->survey->unitC->C1 >= 3 && $this->survey->unitD->D1 < 3 && $this->survey->unitD->D2 < 3) ? 2 :
-//                (($this->survey->unitC->C1 < 3 && $this->survey->unitD->D1 >=2 && $this->survey->unitD->D2 >= 2) ? 1 : 0);
-//        } else {
-//            $P2 = -1;
-//        }
-
-//        if ($this->survey->unitC->C1 != 5) {
-//            $P2 = ($this->survey->unitC->C1 >= 2 && $this->survey->unitD->D1 <= 3 && $this->survey->unitD->D2 <= 3) ? 2 :
-//                (($this->survey->unitC->C1 < 3 && $this->survey->unitD->D1 >=2 && $this->survey->unitD->D2 >= 2) ? 1 : 0);
-//        } else {
-//            $P2 = -1;
-//        }
-
-//        if ($this->survey->unitC->C1 != 5) {
-//            // 2 0 0
-//            $P2 = ($this->survey->unitC->C1 >= 3 && $this->survey->unitD->D1 < 3 && $this->survey->unitD->D2 < 3) ? 2 :
-//                (($this->survey->unitC->C1 < 2 && $this->survey->unitD->D1 <=3 && $this->survey->unitD->D2 <= 3) ? 1 : 0);
-//        } else {
-//            $P2 = -1;
-//        }
-
-//        if ($this->survey->unitC->C1 != 5) {
-//            $P2 = ($this->survey->unitC->C1 >= 2 && $this->survey->unitD->D1 <= 3 && $this->survey->unitD->D2 <= 3) ? 2 :
-//                (($this->survey->unitC->C1 < 2 && $this->survey->unitD->D1 <=3 && $this->survey->unitD->D2 <= 3) ? 1 : 0);
-//        } else {
-//            $P2 = -1;
-//        }
-
-//        if ($this->survey->unitC->C1 != 5) {
-//            $P2 = ($this->survey->unitC->C1 >= 2 && $this->survey->unitD->D1 <= 3 && $this->survey->unitD->D2 <= 3) ? 2 :
-//                (($this->survey->unitC->C1 != 2 && $this->survey->unitD->D1 - $this->survey->unitD->D2 < 2) ? 1 : 0);
-//        } else {
-//            $P2 = -1;
-//        }
-
-        $C1 = $this->survey->unitC->C1;
-        $D1 = $this->survey->unitD->D1;
-        $D2 = $this->survey->unitD->D2;
-
         if ($C1 == 5) {
 
             $P2 = -1;
@@ -1135,32 +1094,23 @@ class Controller_Test extends Dispatch
             }
 
         } elseif ($C1 == 3 && $D1 == 3 && $D2 == 3) {
-
             $P2 = 1;
-
         } else {
-
-            if(
-                ($C1 == 2 && $D1 == 1 && $D2 == 1) || ($C1 == 3 && $D1 == 1 && $D2 == 1) ||
+            if( ($C1 == 2 && $D1 == 1 && $D2 == 1) || ($C1 == 3 && $D1 == 1 && $D2 == 1) ||
                 (($C1 == 2 || $C1 == 3) && ($D1 >= 3 || $D2 >= 3 || $D1 + $D2 > 2)) ||
-                ($C1 == 4 && ($D1 >= 4 || $D2 >= 4 || $D1 + $D2 > 5))
-            ) {
-
+                ($C1 == 4 && ($D1 >= 4 || $D2 >= 4 || $D1 + $D2 > 5)) )
+            {
                 $P2 = 0;
-
             } else {
-
                 $P2 = 2;
-                
             }
-
         }
         $this->report->P2 = $P2;
 
         // Delirium - деменция
-        if ($this->survey->unitC->C1 != 5) {
-            $P3 = $this->survey->unitC->C4 == 1 ? 1 : 0;
-            if ($P3 == 0) { foreach ($this->survey->unitC->C3 as $item) { if ($item == 2) { $P3 = 1; break; } } }
+        if ($C1 != 5) {
+            $P3 = $C4 == 1 ? 1 : 0;
+            if ($P3 == 0) { foreach ($C3 as $item) { if ($item == 2) { $P3 = 1; break; } } }
         } else {
             $P3 = -1;
         }
@@ -1172,23 +1122,28 @@ class Controller_Test extends Dispatch
         $this->report->P4 = $P4 >= 3 ? 2 : (($P4 == 1 || $P4 == 2) ? 1 : ($P4 != -1 ? 0 : -1));
 
         // Cardio-respiratory - Сердечно-дыхательная недостаточность
-        $P5 = ($J3[2] >= 2 || $J3[4] >= 2 || $this->survey->unitJ->J4 >= 2 || $I1[10] >= 2 || $I1[11] >= 2 || $I1[12] >= 2) ? 1 : 0;
+        $P5 = ($J3[2] >= 1 || $J3[4] >= 1 || $J4 >= 1) ? 1 : 0;
         $this->report->P5 = $P5;
 
         // Dehydration - Дегидратация
-        $P6 = $K2[1] == 0 ? (($K2[0] == 1 || $J3[2] >= 2 || $J3[8] >= 2 || $J3[12] >= 2 || $J3[13] >= 2 || $J3[17] >= 2) ? 2 : 1) : 0;
+        // Возможно Delirum
+        if ($C1 == 5) {
+            $P6 = -1;
+        } else {
+            $P6 = ($K2[1] == 1 || $K2[2] == 1) ? (($K4 >= 1 || $K2[0] == 1 || $J3[2] >= 1 || $J3[11] >= 1 || $J3[12] >= 1 || $J3[13] >= 1 || $J3[17] >= 1) ? 2 : 1) : 0;
+        }
         $this->report->P6 = $P6;
 
         // Falls - Падения
-        $P7 = $this->survey->unitJ->J1 == 3 ? 2 : ($this->survey->unitJ->J1 == 0 ? 0 : 1);
+        $P7 = $J1 == 3 ? 2 : ($J1 == 0 ? 0 : 1);
         $this->report->P7 = $P7;
 
         // Feeding Tube - Питательная трубка
-        $P8 = ($this->survey->unitK->K3 < 5 || $this->survey->unitK->K3 == 9) ? 0 : (($this->survey->unitC->C1 >= 0 && $this->survey->unitC->C1 <=3) ? 2 : ($this->survey->unitC->C1 != 5 ? 1 : -1));
+        $P8 = ($K3 < 5 || $K3 == 9) ? 0 : (($C1 >= 0 && $C1 <=3) ? 2 : ($C1 != 5 ? 1 : -1));
         $this->report->P8 = $P8;
 
         // Nutrition - Питание
-        $P9 = $this->getBMI() < 19 ? 2 : $this->getBMI() > 21 ? 0 : 1;
+        $P9 = ($BMI < 19 && $J7[2] != 1) ? 2 : (($BMI > 22 || $J7[2] == 1) ? 0 : 1);
         $this->report->P9 = $P9;
 
         // Pain - Повреждения
@@ -1200,42 +1155,39 @@ class Controller_Test extends Dispatch
         $this->report->P11 = $P11;
 
         // Pressure Ulcer - Тяжелые пролежни
-        if ( $this->survey->unitC->C1 == 5 ) {
+        if ( $C1 == 5 ) {
             $P12 = 3;
         } else {
-            $P12 = $this->survey->unitL->L1 >= 2 ? 1 :
-                ($this->survey->unitL->L1 == 1 ? 2 :
-                    (($this->getADLH() == 5 || $this->getADLH() == 6) && ($this->survey->unitL->L2 == 1 ||
-                        $this->survey->unitL->L3 == 1 || $this->survey->unitL->L4 == 1 || $this->survey->unitL->L5 == 1
-                        /*|| $this->survey->unitL->L6 == 1*/) ? 3 : 0));
+            $P12 = $L1 >= 2 ? 1 :
+                ($L1 == 1 ? 2 :
+                    ((($ADLH == 5 || $ADLH == 6) && ($L2 == 1 || $L3 == 1 || $L4 == 1 || $L5 == 1) && $G1[8] >= 4 && $O2 >= 4) ? 3 : 0));
         }
         $this->report->P12 = $P12;
 
         // Urinary Incontinence - Недержание мочи
-        $P13 = ($this->getCPS() >= 5) ? 0 :
-            (($this->survey->unitH->H1 >= 2 && $this->getCPS() <= 3 &&
-                ($this->survey->unitO->O2[8] == 0 || $this->survey->unitI->I1[0] >= 1 ||
-                    $this->survey->unitG->G5 == 2 || $this->survey->unitH->H2 == 2 ||
-                    $this->survey->unitI->I1[17] >= 1 || $this->survey->unitJ->J3[12] >= 1)) ? 2 :
-                (($this->survey->unitH->H1 >= 2 && $this->survey->unitC->C1 < 2 && $this->getADLH() < 6 &&
-                    $this->survey->unitG->G1[5] < 4 && ($this->survey->unitO->O2[8] == 0 || $this->survey->unitI->I1[0] >= 1 ||
-                        $this->survey->unitG->G5 == 2 || $this->survey->unitH->H2 == 2 || $this->survey->unitI->I1[17] >= 1 ||
-                        $this->survey->unitJ->J3[12] >= 1)) ? 3 : 1));
+        $P13 = ($H1 <= 1) ? ($C1 < 4 ? 1 : 0) : (
+                ($C1 < 2 && $G1[5] < 4 && ($O2[11] == 0 || ($I1[0] > 0 || ($G5 > 1 && $G5 < 8)) || $H2 == 2 || $I1[17] > 0 || $J3[12] > 0)) ? 3 :
+                    (($C1 < 4 && $H2 != 2 && $I1[17] == 0) ? 2 : 0) );
         $this->report->P13 = $P13;
 
         // Physical restraint - Физическая сдержанность
-        $P14 = (($O7[0] > 0 || $O7[1] > 0 || $O7[2] > 0) && $this->getADLH() <= 3) ? 2 :
-            ((($O7[0] > 0 || $O7[1] > 0 || $O7[2] > 0) && ($this->getADLH() > 3)) ? 1 : 0);
+        $P14 = (($O7[1] > 0 || $O7[2] > 0) && $ADLH <= 3) ? 2 :
+            ((($O7[1] > 0 || $O7[2] > 0) && $ADLH > 3) ? 1 : 0);
         $this->report->P14 = $P14;
 
         // Activities - Активность
-        if ($this->survey->unitC->C1 != 5) {
+        if ($C1 != 5) {
             $P15count = 0;
             if ($E1[8] > 0) $P15count++;
             if ($E1[9] > 0 ) $P15count++;
             if ($F2[0] == 0 ) $P15count++;
+            if ($F2[4] == 0 ) $P15count++;
             if ($F2[1] == 0) $P15count++;
-            $P15 = ($this->survey->unitM->M1 < 3 && $this->survey->unitC->C1 <= 3 && $P15count >= 2) ? 1 : 0;
+//            if ($this->survey->unitM->M3 > 0) $P15count++;
+//            $E2 = $this->survey->unitE->E2;
+//            if ($E2[0] != 8 && $E2[0] > 0) $P15count++;
+
+            $P15 = ($M1 <= 3 && $C1 <= 3 && $P15count >= 2) ? 1 : 0;
         } else {
             $P15 = -1;
         }
@@ -1248,16 +1200,16 @@ class Controller_Test extends Dispatch
 
         // Prevention
         $P17check = ($O1[0] == 0 || $O1[1] == 0 || $O1[2] == 0 || $O1[3] == 0 || $O1[4] == 0 || $O1[5] == 0 || $O1[6] == 0 || $O1[7] == 0) ? true : false;
-        $P17 = ($this->survey->unitO->O5 < 7 && $P17check) ? 2 : (($this->survey->unitO->O5 > 7 && $P17check) ? 1 : 0);
+        $P17 = ($O5 < 7 && $P17check) ? 2 : (($O5 > 7 && $P17check) ? 1 : 0);
         $this->report->P17 = $P17;
 
         // Cognitive Loss
-        if ($this->survey->unitC->C1 != 5) {
+        if ($C1 != 5) {
             $P18count = 0;
             if ($I1[2] >= 2) $P18count++;
             if ($I1[3] >= 2) $P18count++;
-            if ($this->survey->unitD->D1 == 4) $P18count++;
-            if ($this->survey->unitD->D2 == 4) $P18count++;
+            if ($D1 == 4) $P18count++;
+            if ($D2 == 4) $P18count++;
             if ($E1[3] >= 2) $P18count++;
             if ($E1[4] >= 2) $P18count++;
             if ($E1[7] >= 2) $P18count++;
@@ -1266,10 +1218,10 @@ class Controller_Test extends Dispatch
             if ($C3[0] == 2) $P18count++;
             if ($C3[1] == 2) $P18count++;
             if ($C3[2] == 2) $P18count++;
-            if ($this->survey->unitC->C4 == 1) $P18count++;
-            if ($this->survey->unitC->C5 == 2) $P18count++;
+            if ($C4 == 1) $P18count++;
+            if ($C5 == 2) $P18count++;
 
-            $P18 = $this->getCPS() <= 2 ? ($P18count >= 2 ? 2 : ($P18count == 1 ? 1 : 0)) : 0;
+            $P18 = $CPS <= 2 ? ($P18count >= 2 ? 2 : ($P18count == 1 ? 1 : 0)) : 0;
         } else {
             $P18 = -1;
         }
