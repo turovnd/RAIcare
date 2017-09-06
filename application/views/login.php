@@ -4,7 +4,7 @@
     <title>Авторизация | <?= $GLOBALS['SITE_NAME']; ?></title>
     <meta charset="UTF-8">
 
-    <meta name="author" content="<?=$content; ?>" />
+    <meta name="author" content="<?= $GLOBALS['SITE_NAME']; ?>" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="white">
 
