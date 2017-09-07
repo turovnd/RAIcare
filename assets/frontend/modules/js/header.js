@@ -45,7 +45,7 @@ module.exports = (function (header) {
         headerBtn.classList.toggle('header__open-btn--opened');
         headerMenu.classList.toggle('header__menu--opened');
         document.body.classList.toggle('overflow--hidden');
-        document.classList.toggle('overflow--hidden');
+        document.getElementsByTagName('html')[0].classList.toggle('overflow--hidden');
 
         if (document.getElementsByClassName('backdrop')[0]) {
 
