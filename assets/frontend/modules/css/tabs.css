@@ -146,7 +146,7 @@
  * Media - Mobile
  */
 
-@media (max-width: 768px){
+@media (max-width: 767px){
     .tabs__header{
         padding: 0;
         border-bottom: 0;
