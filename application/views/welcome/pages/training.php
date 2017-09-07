@@ -13,10 +13,10 @@
 
 <div class="section">
     <div class="container bb-1">
-        <h2 class="h1 text-center text-bold text-brand m-50">
+        <h2 class="h1 text-center text-bold text-brand m-t-50 m-b-50">
             Профессиональная подготовка <?=$GLOBALS["SITE_NAME"]; ?>
         </h2>
-        <h3 class="h3 text-normal m-l-auto m-r-auto text-center t-lh-1_3 m-50">
+        <h3 class="h3 text-normal text-center t-lh-1_3 m-50 m-l-auto m-r-auto">
             Наша цель - научить наших клиентов интерпретировать и использовать информацию,
             предоставляемую нашим программным обеспечением, в максимально качественном и универсальном
             виде для своих клиентов и их собственных профессиональных навыков.
