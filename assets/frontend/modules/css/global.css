@@ -97,7 +97,7 @@ body{
 .invisible {
     visibility: hidden;
 }
-.overflow--hidden{ overflow: hidden; }
+.overflow--hidden{ overflow: hidden; height: 100%; }
 .overflowX--hidden{ overflow-x: hidden; }
 .overflowY--hidden{ overflow-y: hidden; }
 .overflow--auto{ overflow: auto; }
