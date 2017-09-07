@@ -15,7 +15,7 @@
             </tr>
             </thead>
             <tbody valign="middle">
-            <tr class="b-b-0 m-b-0 p-t-15">
+            <tr class="bb-0 m-b-0 p-t-15">
                 <td>
                     <span class="text-bold"><?=$patient->name; ?></span>
                     <small>д.р. <?= date('d M Y', strtotime($patient->birthday)); ?>, СНИЛС: <?= $patient->snils; ?></small>

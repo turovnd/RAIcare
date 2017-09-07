@@ -10,14 +10,20 @@
 
     <ul class="header__menu animated fade__in list-style--none">
         <li class="header__item">
-           <a href="<?=URL::site('/'); ?>" class="header__link">О системе</a>
+           <a href="<?=URL::site('software'); ?>" class="header__link">
+               О системе
+           </a>
         </li>
         <li class="header__item">
-            <a href="<?=URL::site('/'); ?>" class="header__link">Планы</a>
+            <a href="<?=URL::site('training'); ?>" class="header__link">
+                Обучение
+            </a>
         </li>
-        <li class="header__item">
-            <a href="<?=URL::site('/'); ?>" class="header__link">Поддержка</a>
-        </li>
+<!--        <li class="header__item">-->
+<!--            <a href="--><?//=URL::site('/'); ?><!--" class="header__link">-->
+<!--                Поддержка-->
+<!--            </a>-->
+<!--        </li>-->
         <li class="header__item hidden-sm hidden-md hidden-lg">
             <a href="<?=URL::site('join'); ?>" class="header__link">Присоединиться к <?=$GLOBALS['SITE_NAME']; ?></a>
         </li>

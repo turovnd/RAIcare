@@ -16,7 +16,7 @@
                 <? if ($co_worker->is_confirmed == 0 && $co_worker->role->id != 20) : ?>
                     <div class="form-group__control-group hide">
                         <input name="name" type="text" class="form-group__control form-group__control-group-input" value="<?= $co_worker->name; ?>" maxlength="30">
-                        <label onclick="pension.coworker.toggle(this)" class="b-l-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
+                        <label onclick="pension.coworker.toggle(this)" class="bl-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
                         <label onclick="pension.coworker.save(this)" class="cursor-pointer form-group__control-group-addon"><i class="fa fa-check" aria-hidden="true"></i></label>
                     </div>
                 <? endif; ?>
@@ -43,7 +43,7 @@
                             <? if ($co_worker->is_confirmed == 0 && $co_worker->role->id != 20) : ?>
                                 <div class="form-group__control-group hide">
                                     <input id="coWorkerUserName" name="username" type="text" class="form-group__control form-group__control-group-input" value="<?= $co_worker->username; ?>" maxlength="30">
-                                    <label onclick="pension.coworker.toggle(this)" class="b-l-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
+                                    <label onclick="pension.coworker.toggle(this)" class="bl-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
                                     <label onclick="pension.coworker.save(this)" class="cursor-pointer form-group__control-group-addon"><i class="fa fa-check" aria-hidden="true"></i></label>
                                 </div>
                             <? endif; ?>
@@ -70,7 +70,7 @@
                             <? if ($co_worker->is_confirmed == 0 && $co_worker->role->id != 20) : ?>
                                 <div class="form-group__control-group hide">
                                     <input id="coWorkerUserEmail" name="email" type="email" class="form-group__control form-group__control-group-input" value="<?= $co_worker->email; ?>" maxlength="65">
-                                    <label onclick="pension.coworker.toggle(this)" class="b-l-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
+                                    <label onclick="pension.coworker.toggle(this)" class="bl-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
                                     <label onclick="pension.coworker.save(this)" class="cursor-pointer form-group__control-group-addon"><i class="fa fa-check" aria-hidden="true"></i></label>
                                 </div>
                             <? endif; ?>
@@ -98,7 +98,7 @@
                                             <option value="<?= $role->id; ?>" <?= $co_worker->role->id == $role->id ? 'selected': ''; ?> > <?= $role->name; ?> </option>
                                         <? endforeach; ?>
                                     </select>
-                                    <label onclick="pension.coworker.toggle(this)" class="b-l-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
+                                    <label onclick="pension.coworker.toggle(this)" class="bl-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
                                     <label onclick="pension.coworker.save(this)" class="cursor-pointer form-group__control-group-addon"><i class="fa fa-check" aria-hidden="true"></i></label>
                                 </div>
                             <? endif; ?>

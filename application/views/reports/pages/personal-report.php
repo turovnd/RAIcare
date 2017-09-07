@@ -1140,7 +1140,7 @@
                                 </tr>
                             </thead>
                             <tbody valign="middle">
-                                <tr class="b-b-0">
+                                <tr class="bb-0">
                                     <td>Лечебная физкультура</td>
                                     <td><?= $O3[0][0]; ?> дн.</td>
                                     <td><?= $O3[0][1]; ?> дн.</td>

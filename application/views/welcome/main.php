@@ -4,15 +4,15 @@
     <title><?=$title; ?> | <?=$GLOBALS["SITE_NAME"]; ?></title>
     <meta charset="UTF-8">
 
-    <meta name="author" content="<?=$content; ?>" />
+    <meta name="author" content="<?=$GLOBALS['SITE_NAME']; ?>" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="white">
 
     <link type="image/x-icon" rel="shortcut icon" href="<?=$assets; ?>static/img/favicon.png" />
     <link rel="apple-touch-icon" href="<?=$assets; ?>static/img/favicon.png">
 
-    <meta name="description" content="<?=$description; ?>" />
-    <meta name="keywords" content="<?=$keywords; ?>" />
+    <meta name="description" content="<?= $GLOBALS['SITE_NAME']; ?> - Универсальное система для измерения качества и эффективности ухода за пожилыми людьми." />
+    <meta name="keywords" content="<?=strtolower($GLOBALS['SITE_NAME']); ?>" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <link rel="stylesheet" href="<?=$assets; ?>vendor/font-awesome/css/font-awesome.css?v=<?= filemtime("assets/vendor/font-awesome/css/font-awesome.css") ?>">
@@ -21,7 +21,6 @@
 
     <script type="text/javascript">
         function ready() {
-            raicare.header.init('welcome');
             raicare.parallax.init();
             raicare.notification.createHolder();
         }
@@ -35,11 +34,18 @@
 
 <body>
 
-    <header class="header header--default animated fade__in clear-fix">
-
-        <?= View::factory('welcome/blocks/header'); ?>
-
-    </header>
+    <? if ($action == 'login'): ?>
+        <header class="header">
+            <?= View::factory('welcome/blocks/header-login'); ?>
+        </header>
+    <? else: ?>
+        <header class="header header--default animated fade__in clear-fix">
+            <?= View::factory('welcome/blocks/header'); ?>
+        </header>
+        <script type="text/javascript">
+            raicare.header.init('welcome');
+        </script>
+    <? endif; ?>
 
     <section>
 
@@ -48,9 +54,11 @@
     </section>
 
     <footer class="footer">
-
-        <?= View::factory('welcome/blocks/footer'); ?>
-
+        <? if ($action == 'login') {
+            echo View::factory('welcome/blocks/footer-login');
+        }  else {
+            echo View::factory('welcome/blocks/footer');
+        } ?>
     </footer>
 
 </body>

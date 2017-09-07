@@ -14,7 +14,7 @@
                 <? if ($profile->can_edit) : ?>
                 <div class="form-group__control-group hide">
                     <input id="profileName" name="name" type="text" class="form-group__control form-group__control-group-input" value="<?= $profile->name; ?>" maxlength="256">
-                    <label onclick="profile.toggle(this)" class="b-l-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
+                    <label onclick="profile.toggle(this)" class="bl-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
                     <label onclick="profile.save(this)" class="cursor-pointer form-group__control-group-addon"><i class="fa fa-check" aria-hidden="true"></i></label>
                 </div>
                 <? endif; ?>
@@ -39,7 +39,7 @@
                 <? if ($profile->can_edit) : ?>
                     <div class="form-group__control-group hide">
                         <input id="profileEmail" name="email" type="email" class="form-group__control form-group__control-group-input" value="<?= $profile->email; ?>" maxlength="64">
-                        <label onclick="profile.toggle(this)" class="b-l-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
+                        <label onclick="profile.toggle(this)" class="bl-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
                         <label onclick="profile.save(this)" class="cursor-pointer form-group__control-group-addon"><i class="fa fa-check" aria-hidden="true"></i></label>
                     </div>
                 <? endif; ?>
@@ -58,7 +58,7 @@
                 <? if ($profile->can_edit) : ?>
                     <div class="form-group__control-group hide">
                         <input id="profileUserName" name="username" type="text" class="form-group__control form-group__control-group-input" value="<?= $profile->username; ?>" maxlength="30">
-                        <label onclick="profile.toggle(this)" class="b-l-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
+                        <label onclick="profile.toggle(this)" class="bl-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
                         <label onclick="profile.save(this)" class="cursor-pointer form-group__control-group-addon"><i class="fa fa-check" aria-hidden="true"></i></label>
                     </div>
                 <? endif; ?>
@@ -98,7 +98,7 @@
                 <? if ($profile->can_edit) : ?>
                     <div class="form-group__control-group hide">
                         <input id="profileCity" name="city" type="text" class="form-group__control form-group__control-group-input" value="<?= $profile->city; ?>">
-                        <label onclick="profile.toggle(this)" class="b-l-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
+                        <label onclick="profile.toggle(this)" class="bl-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
                         <label onclick="profile.save(this)" class="cursor-pointer form-group__control-group-addon"><i class="fa fa-check" aria-hidden="true"></i></label>
                     </div>
                 <? endif; ?>
@@ -117,7 +117,7 @@
                 <? if ($profile->can_edit) : ?>
                     <div class="form-group__control-group hide">
                         <input id="profilePhone" name="phone" type="text" class="form-group__control form-group__control-group-input" value="<?= $profile->phone; ?>">
-                        <label onclick="profile.toggle(this)" class="b-l-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
+                        <label onclick="profile.toggle(this)" class="bl-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
                         <label onclick="profile.save(this)" class="cursor-pointer form-group__control-group-addon"><i class="fa fa-check" aria-hidden="true"></i></label>
                     </div>
                 <? endif; ?>

@@ -21,7 +21,7 @@
                             </p>
                             <div class="form-group__control-group hide">
                                 <input id="pensionName" name="name" type="text" class="form-group__control form-group__control-group-input" value="<?= $pension->name; ?>" maxlength="256">
-                                <label onclick="pension.edit.toggle(this)" class="b-l-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
+                                <label onclick="pension.edit.toggle(this)" class="bl-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
                                 <label onclick="pension.edit.save(this)" class="cursor-pointer form-group__control-group-addon"><i class="fa fa-check" aria-hidden="true"></i></label>
                             </div>
                         </div>
@@ -36,7 +36,7 @@
                             </p>
                             <div class="form-group__control-group hide">
                                 <input id="pensionURI" name="uri" type="text" class="form-group__control form-group__control-group-input" value="<?= $pension->uri; ?>" maxlength="64">
-                                <label onclick="pension.edit.toggle(this)" class="b-l-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
+                                <label onclick="pension.edit.toggle(this)" class="bl-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
                                 <label onclick="pension.edit.save(this)" class="cursor-pointer form-group__control-group-addon"><i class="fa fa-check" aria-hidden="true"></i></label>
                             </div>
                         </div>

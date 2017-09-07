@@ -26,7 +26,7 @@
                             if (in_array(17, $user->permissions)) : ?>
                                 <div class="form-group__control-group hide">
                                     <input id="organizationName" name="name" type="text" class="form-group__control form-group__control-group-input" value="<?= $organization->name; ?>" maxlength="256">
-                                    <label onclick="organization.edit.toggle(this)" class="b-l-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
+                                    <label onclick="organization.edit.toggle(this)" class="bl-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
                                     <label onclick="organization.edit.save(this)" class="cursor-pointer form-group__control-group-addon"><i class="fa fa-check" aria-hidden="true"></i></label>
                                 </div>
                             <? endif; ?>
@@ -47,7 +47,7 @@
                             if (in_array(17, $user->permissions)) : ?>
                                 <div class="form-group__control-group hide">
                                     <input id="organizationURI" name="uri" type="text" class="form-group__control form-group__control-group-input" value="<?= $organization->uri; ?>" maxlength="64">
-                                    <label onclick="organization.edit.toggle(this)" class="b-l-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
+                                    <label onclick="organization.edit.toggle(this)" class="bl-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
                                     <label onclick="organization.edit.save(this)" class="cursor-pointer form-group__control-group-addon"><i class="fa fa-check" aria-hidden="true"></i></label>
                                 </div>
                             <? endif; ?>
