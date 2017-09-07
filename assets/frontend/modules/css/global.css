@@ -18,8 +18,11 @@ body{
     bottom: 0;
     top: 0;
     background: #000;
-     opacity: .75;
- }
+    opacity: .75;
+}
+.backdrop {
+    position: fixed;
+}
 .image--loading{
     filter: blur(10px);
 }
@@ -97,7 +100,7 @@ body{
 .invisible {
     visibility: hidden;
 }
-.overflow--hidden{ overflow: hidden; height: 100%; }
+.overflow--hidden{ overflow: hidden; }
 .overflowX--hidden{ overflow-x: hidden; }
 .overflowY--hidden{ overflow-y: hidden; }
 .overflow--auto{ overflow: auto; }
