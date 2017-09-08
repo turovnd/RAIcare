@@ -58,20 +58,6 @@ Class Model_ReportProtocols {
         return $this->fill_by_row($select);
     }
 
-    public static function getByPension($id, $pension) {
-
-        $select = Dao_ReportsProtocols::select()
-            ->where('id', '=', $id)
-            ->where('pension', '=', $pension)
-            ->limit(1)
-            ->cached(Date::MINUTE * 5, $pension . '_' . $id)
-            ->execute();
-
-        $report = new Model_ReportProtocols();
-        return $report->fill_by_row($select);
-    }
-
-
     public function save()
     {
         $insert = Dao_ReportsProtocols::insert();

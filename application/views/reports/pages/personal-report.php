@@ -179,7 +179,11 @@
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-sm-4 col-md-3 p-l-30 p-r-30 text-center m-t-10">
-                                    <canvas data-min="0" data-max="8" data-value="<?= $report->COMM; ?>" data-fontsize="22" width="200" height="35" data-speed="80" data-animate="true" data-inpercent="false" data-showtext="true" data-showlabels="true" class="js-progress" data-linecolor="<?= $report->COMM < 4 ? '#008DA7' : '#f05050'; ?>"></canvas>
+                                    <? if ($report->COMM == -1) : ?>
+                                        Пациент не смог (не захотел) ответить
+                                    <? else: ?>
+                                        <canvas data-min="0" data-max="8" data-value="<?= $report->COMM; ?>" data-fontsize="22" width="200" height="35" data-speed="80" data-animate="true" data-inpercent="false" data-showtext="true" data-showlabels="true" class="js-progress" data-linecolor="<?= $report->COMM < 4 ? '#008DA7' : '#f05050'; ?>"></canvas>
+                                    <? endif;?>
                                 </div>
                             </div>
                         </fieldset>
@@ -519,7 +523,11 @@
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-sm-4 col-md-3 p-l-30 p-r-30 text-center m-t-10">
-                                    <canvas data-min="0" data-max="14" data-value="<?= $report->DRS; ?>" data-fontsize="22" width="200" height="35" data-speed="80" data-animate="true" data-inpercent="false" data-showtext="true" data-showlabels="true" class="js-progress" data-linecolor="<?= $report->DRS < 9 ? '#008DA7' : '#f05050'; ?>"></canvas>
+                                    <? if ($report->DRS == -1) : ?>
+                                        Пациент не смог (не захотел) ответить
+                                    <? else: ?>
+                                        <canvas data-min="0" data-max="14" data-value="<?= $report->DRS; ?>" data-fontsize="22" width="200" height="35" data-speed="80" data-animate="true" data-inpercent="false" data-showtext="true" data-showlabels="true" class="js-progress" data-linecolor="<?= $report->DRS < 9 ? '#008DA7' : '#f05050'; ?>"></canvas>
+                                    <? endif; ?>
                                 </div>
                             </div>
                         </fieldset>
@@ -537,7 +545,11 @@
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-sm-4 col-md-3 p-l-30 p-r-30 text-center m-t-10">
-                                    <canvas data-min="0" data-max="9" data-value="<?= $report->SRD; ?>" data-fontsize="22" width="200" height="35" data-speed="80" data-animate="true" data-inpercent="false" data-showtext="true" data-showlabels="true" class="js-progress" data-linecolor="<?= $report->SRD < 5 ? '#008DA7' : '#f05050'; ?>"></canvas>
+                                    <? if ($report->SRD == -1) : ?>
+                                        Пациент не смог (не захотел) ответить
+                                    <? else: ?>
+                                        <canvas data-min="0" data-max="9" data-value="<?= $report->SRD; ?>" data-fontsize="22" width="200" height="35" data-speed="80" data-animate="true" data-inpercent="false" data-showtext="true" data-showlabels="true" class="js-progress" data-linecolor="<?= $report->SRD < 5 ? '#008DA7' : '#f05050'; ?>"></canvas>
+                                    <? endif; ?>
                                 </div>
                             </div>
                         </fieldset>
@@ -564,7 +576,11 @@
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-sm-4 col-md-3 p-l-30 p-r-30 text-center m-t-10">
-                                    <canvas data-min="0" data-max="12" data-value="<?= $report->ABS; ?>" data-fontsize="22" width="200" height="35" data-speed="80" data-animate="true" data-inpercent="false" data-showtext="true" data-showlabels="true" class="js-progress" data-linecolor="<?= $report->ABS < 6 ? '#008DA7' : '#f05050'; ?>"></canvas>
+                                    <? if ($report->ABS == -1) : ?>
+                                        Пациент не смог (не захотел) ответить
+                                    <? else: ?>
+                                        <canvas data-min="0" data-max="12" data-value="<?= $report->ABS; ?>" data-fontsize="22" width="200" height="35" data-speed="80" data-animate="true" data-inpercent="false" data-showtext="true" data-showlabels="true" class="js-progress" data-linecolor="<?= $report->ABS < 6 ? '#008DA7' : '#f05050'; ?>"></canvas>
+                                    <? endif; ?>
                                 </div>
                             </div>
                         </fieldset>
@@ -778,7 +794,11 @@
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-sm-4 col-md-3 p-l-30 p-r-30 text-center m-t-10">
-                                    <canvas data-min="0" data-max="5" data-value="<?= $report->CHESS; ?>" data-fontsize="22" width="200" height="35" data-speed="80" data-animate="true" data-inpercent="false" data-showtext="true" data-showlabels="true" class="js-progress" data-linecolor="<?= $report->CHESS < 4 ? '#008DA7' : '#f05050'; ?>"></canvas>
+                                    <? if ($report->CHESS == -1) : ?>
+                                        Пациент не смог (не захотел) ответить
+                                    <? else: ?>
+                                        <canvas data-min="0" data-max="5" data-value="<?= $report->CHESS; ?>" data-fontsize="22" width="200" height="35" data-speed="80" data-animate="true" data-inpercent="false" data-showtext="true" data-showlabels="true" class="js-progress" data-linecolor="<?= $report->CHESS < 4 ? '#008DA7' : '#f05050'; ?>"></canvas>
+                                    <? endif; ?>
                                 </div>
                             </div>
                         </fieldset>
@@ -1166,89 +1186,89 @@
 
             </div>
 
-            <h3 class="section__heading">
-                <a role="button" onclick="raicare.collapse.toggle(this)" data-area="diagnoses" data-opened="true" data-textclosed="показать" data-textopened="скрыть" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn"></a>
-                Диагнозы
-            </h3>
-
-            <div id="diagnoses">
-
-                <div class="block" >
-                    <div class="block__body p-t-20">
-                        <?
-                            $diagnoses = array(
-                                '0' => 'Заболевания костно-мышечной системы Перелом бедренной или тазовой кости в течение последних 30 дней',
-                                '1' => 'Другие переломы в течение последних 30 дней',
-                                '2' => 'Альцгеймера',
-                                '3' => 'Иной, нежели болезнь Альцгецмера, вид деменции',
-                                '4' => 'Односторонний паралич',
-                                '5' => 'Рассеянный склероз',
-                                '6' => 'Параплегия',
-                                '7' => 'Болезнь Паркинсона',
-                                '8' => 'Квадриплегия',
-                                '9' => 'Инсульт / острое нарушение мозгового кровообращения',
-                                '10' => 'Ишемическая болезнь сердца',
-                                '11' => 'Хроническое обструктивное заболевание легких',
-                                '12' => 'Застойная сердечная недостаточность',
-                                '13' => 'Тревожность',
-                                '14' => 'Биполярное расстройство',
-                                '15' => 'Депрессия',
-                                '16' => 'Шизофрения',
-                                '17' => 'Пневмония',
-                                '18' => 'Инфекции мочевыводящих путей за последние 30 дней',
-                                '19' => 'Рак',
-                                '20' => 'Сахарный диабет'
-                            );
-
-                            $diagnoseType1 = array_keys(json_decode($survey->unitI->I1),1);
-                            $diagnoseType2 = array_keys(json_decode($survey->unitI->I1),2);
-                            $diagnoseType3 = array_keys(json_decode($survey->unitI->I1),3);
-
-                        ?>
-
-
-                        <? if(!empty($diagnoseType1)) : ?>
-                            <fieldset>
-                                <p class="text-bold">Основной диагноз (основные диагнозы) для текущего пребывания в стационаре</p>
-                                <ul class="m-b-0">
-                                    <? foreach ($diagnoseType1 as $diagnose) : ?>
-                                        <li class="p-b-5"><?= $diagnoses[$diagnose]; ?></li>
-                                    <? endforeach; ?>
-
-                                    <? foreach (json_decode($survey->unitI->I2) as $id) : ?>
-                                        <? $el = new Model_MKB10($id); ?>
-                                        <li class="p-b-5"><?= $el->name . ' (' . $el->code . ')'; ?></li>
-                                    <? endforeach; ?>
-                                </ul>
-                            </fieldset>
-                        <? endif; ?>
-
-                        <? if(!empty($diagnoseType2)) : ?>
-                            <fieldset>
-                                <p class="text-bold">Диагноз установлен - пациент получает активное лечение</p>
-                                <ul class="m-b-0">
-                                    <? foreach ($diagnoseType2 as $diagnose) : ?>
-                                        <li class="p-b-5"><?= $diagnoses[$diagnose]; ?></li>
-                                    <? endforeach; ?>
-                                </ul>
-                            </fieldset>
-                        <? endif; ?>
-
-                        <? if(!empty($diagnoseType3)) : ?>
-                            <fieldset>
-                                <p class="text-bold">Диагноз установлен - пациент наблюдается, но не получает активного лечения</p>
-                                <ul class="m-b-0">
-                                    <? foreach ($diagnoseType3 as $diagnose) : ?>
-                                        <li class="p-b-5"><?= $diagnoses[$diagnose]; ?></li>
-                                    <? endforeach; ?>
-                                </ul>
-                            </fieldset>
-                        <? endif; ?>
-
-                    </div>
-                </div>
-
-            </div>
+<!--            <h3 class="section__heading">-->
+<!--                <a role="button" onclick="raicare.collapse.toggle(this)" data-area="diagnoses" data-opened="true" data-textclosed="показать" data-textopened="скрыть" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn"></a>-->
+<!--                Диагнозы-->
+<!--            </h3>-->
+<!---->
+<!--            <div id="diagnoses">-->
+<!---->
+<!--                <div class="block" >-->
+<!--                    <div class="block__body p-t-20">-->
+<!--                        --><?//
+//                            $diagnoses = array(
+//                                '0' => 'Заболевания костно-мышечной системы Перелом бедренной или тазовой кости в течение последних 30 дней',
+//                                '1' => 'Другие переломы в течение последних 30 дней',
+//                                '2' => 'Альцгеймера',
+//                                '3' => 'Иной, нежели болезнь Альцгецмера, вид деменции',
+//                                '4' => 'Односторонний паралич',
+//                                '5' => 'Рассеянный склероз',
+//                                '6' => 'Параплегия',
+//                                '7' => 'Болезнь Паркинсона',
+//                                '8' => 'Квадриплегия',
+//                                '9' => 'Инсульт / острое нарушение мозгового кровообращения',
+//                                '10' => 'Ишемическая болезнь сердца',
+//                                '11' => 'Хроническое обструктивное заболевание легких',
+//                                '12' => 'Застойная сердечная недостаточность',
+//                                '13' => 'Тревожность',
+//                                '14' => 'Биполярное расстройство',
+//                                '15' => 'Депрессия',
+//                                '16' => 'Шизофрения',
+//                                '17' => 'Пневмония',
+//                                '18' => 'Инфекции мочевыводящих путей за последние 30 дней',
+//                                '19' => 'Рак',
+//                                '20' => 'Сахарный диабет'
+//                            );
+//
+//                            $diagnoseType1 = array_keys(json_decode($survey->unitI->I1),1);
+//                            $diagnoseType2 = array_keys(json_decode($survey->unitI->I1),2);
+//                            $diagnoseType3 = array_keys(json_decode($survey->unitI->I1),3);
+//
+//                        ?>
+<!---->
+<!---->
+<!--                        --><?// if(!empty($diagnoseType1)) : ?>
+<!--                            <fieldset>-->
+<!--                                <p class="text-bold">Основной диагноз (основные диагнозы) для текущего пребывания в стационаре</p>-->
+<!--                                <ul class="m-b-0">-->
+<!--                                    --><?// foreach ($diagnoseType1 as $diagnose) : ?>
+<!--                                        <li class="p-b-5">--><?//= $diagnoses[$diagnose]; ?><!--</li>-->
+<!--                                    --><?// endforeach; ?>
+<!---->
+<!--                                    --><?// foreach (json_decode($survey->unitI->I2) as $id) : ?>
+<!--                                        --><?// $el = new Model_MKB10($id); ?>
+<!--                                        <li class="p-b-5">--><?//= $el->name . ' (' . $el->code . ')'; ?><!--</li>-->
+<!--                                    --><?// endforeach; ?>
+<!--                                </ul>-->
+<!--                            </fieldset>-->
+<!--                        --><?// endif; ?>
+<!---->
+<!--                        --><?// if(!empty($diagnoseType2)) : ?>
+<!--                            <fieldset>-->
+<!--                                <p class="text-bold">Диагноз установлен - пациент получает активное лечение</p>-->
+<!--                                <ul class="m-b-0">-->
+<!--                                    --><?// foreach ($diagnoseType2 as $diagnose) : ?>
+<!--                                        <li class="p-b-5">--><?//= $diagnoses[$diagnose]; ?><!--</li>-->
+<!--                                    --><?// endforeach; ?>
+<!--                                </ul>-->
+<!--                            </fieldset>-->
+<!--                        --><?// endif; ?>
+<!---->
+<!--                        --><?// if(!empty($diagnoseType3)) : ?>
+<!--                            <fieldset>-->
+<!--                                <p class="text-bold">Диагноз установлен - пациент наблюдается, но не получает активного лечения</p>-->
+<!--                                <ul class="m-b-0">-->
+<!--                                    --><?// foreach ($diagnoseType3 as $diagnose) : ?>
+<!--                                        <li class="p-b-5">--><?//= $diagnoses[$diagnose]; ?><!--</li>-->
+<!--                                    --><?// endforeach; ?>
+<!--                                </ul>-->
+<!--                            </fieldset>-->
+<!--                        --><?// endif; ?>
+<!---->
+<!--                    </div>-->
+<!--                </div>-->
+<!---->
+<!--            </div>-->
 
         </div>
     </div>
