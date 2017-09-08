@@ -171,9 +171,7 @@ module.exports = (function (send) {
 
     send.complete = function () {
 
-        var patientID = document.getElementById('patientID').value;
-
-        var form     = document.getElementById('progressForm'),
+        var form     = document.body,
             formData = new FormData();
 
         formData.append('survey', surveyID);
@@ -202,14 +200,14 @@ module.exports = (function (send) {
 
                 if (parseInt(response.code) === 169) {
 
-                    window.location = window.location.protocol + '//' + window.location.hostname + '/pension/' + pensionID + '/patient/' + patientID;
+                    window.location.reload();
 
                 }
 
             },
             error: function (callbacks) {
 
-                raicare.core.log('ajax error occur on updating unit data', 'error', corePrefix, callbacks);
+                raicare.core.log('ajax error occur on sending complete survey', 'error', corePrefix, callbacks);
                 form.classList.remove('loading');
 
             }

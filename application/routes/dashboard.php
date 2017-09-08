@@ -1,13 +1,9 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-/**
- * Main pages in app
- * - show all presentations
- */
-Route::set('DASHBOARD', '<action>',  array(
-        'action' => "dashboard"
-    ))
+Route::set('DASHBOARD', 'dashboard')
+    ->subdomains(array(Route::SUBDOMAIN_WILDCARD))
     ->defaults(array(
         'controller'  => 'Dashboard_Index',
+        'action'      => 'dashboard'
     ));
 

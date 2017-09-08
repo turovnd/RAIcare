@@ -6,6 +6,7 @@
 		"phpunit/phpunit": "3.7.24",
 		"phing/phing": "dev-master",
 		"vlucas/phpdotenv": "^2.4",
-		"google/recaptcha": "~1.1"
+		"google/recaptcha": "~1.1",
+		"faisalman/simple-excel-php" : "0.3.*"
 	}
 }

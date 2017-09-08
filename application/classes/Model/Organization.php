@@ -53,7 +53,7 @@ Class Model_Organization {
             ->limit(1)
             ->execute();
 
-        $organization = new Model_Organization($select['id']);
+        $organization = new Model_Organization();
         return $organization->fill_by_row($select);
 
     }

@@ -3,7 +3,7 @@ module.exports = (function (get) {
     var corePrefix       = 'Survey: get AJAX',
         unitHolder       = document.getElementsByClassName('section__content')[0],
         pensionID        = document.getElementById('pensionID'),
-        patientID        = document.getElementById('patientID'),
+        patientPK        = document.getElementById('patientPK'),
         units            = ['progress', 'unitA', 'unitB', 'unitC', 'unitD', 'unitE', 'unitF', 'unitG', 'unitH', 'unitI',
             'unitJ', 'unitK', 'unitL', 'unitM', 'unitN', 'unitO', 'unitP', 'unitQ', 'unitR'],
         surveyID         = document.getElementById('surveyID'),
@@ -11,7 +11,7 @@ module.exports = (function (get) {
 
 
     if(pensionID) pensionID = pensionID.value;
-    if(patientID) patientID = patientID.value;
+    if(patientPK) patientPK = patientPK.value;
     if(surveyID) surveyID = surveyID.value;
 
     get.unitstart = function () {
@@ -45,15 +45,14 @@ module.exports = (function (get) {
 
     function getUnitOnHashChange_() {
 
-        var unit           = window.location.hash.replace('#', ''),
-            element        = null;
-
+        var unit    = window.location.hash.replace('#', ''),
+            element = null;
 
         if (unit === '') unit = 'progress';
 
-        element = unit === 'progress' ? '' : unit;
-        element = document.querySelector('.aside__link[href="#' + element + '"]');
+        element = (unit === 'progress' ? '' : unit);
 
+        element = document.querySelector('.aside__link[href="#' + element + '"]');
         get.unit(element, unit);
 
     }
@@ -75,6 +74,7 @@ module.exports = (function (get) {
         getUnit_(unit);
 
     };
+
 
     function isAvailableUnit(unit) {
 
@@ -154,40 +154,34 @@ module.exports = (function (get) {
      *
      */
     var timeline        = null,
-        getMoreFormsBtn = null,
-        type            = null,
-        patients        = null; // json string array
+        getMoreSurveysBtn = null;
 
 
-    get.forms = function () {
+    get.timeLineItems = function () {
 
 
-        if (!timeline || !getMoreFormsBtn) {
+        if (!timeline || !getMoreSurveysBtn) {
 
-            getMoreFormsBtn = document.getElementById('getMoreFormsBtn');
+            getMoreSurveysBtn = document.getElementById('getMoreSurveysBtn');
             timeline        = document.getElementById('timeline');
-            patients        = timeline.dataset.pk;
-            type            = getMoreFormsBtn.dataset.type;
 
         }
 
         if (!ajaxSend) {
 
-            getForms_();
+            getTimeLineItems_();
 
         }
 
     };
 
-    function getForms_() {
+    function getTimeLineItems_() {
 
         var formData       = new FormData(),
-            offset         = parseInt(getMoreFormsBtn.dataset.offset);
+            offset         = parseInt(getMoreSurveysBtn.dataset.offset);
 
-        formData.append('type', type);
-        formData.append('patients', patients);
         formData.append('offset', offset);
-        formData.append('patient', patientID);
+        formData.append('patient', patientPK);
         formData.append('pension', pensionID);
         formData.append('csrf', document.getElementById('csrf').value);
 
@@ -198,8 +192,8 @@ module.exports = (function (get) {
             beforeSend: function () {
 
                 ajaxSend = true;
-                getMoreFormsBtn.getElementsByClassName('fa')[0].classList.remove('fa-plus');
-                getMoreFormsBtn.getElementsByClassName('fa')[0].classList.add('fa-spinner', 'fa-fw', 'fa-pulse');
+                getMoreSurveysBtn.getElementsByClassName('fa')[0].classList.remove('fa-plus');
+                getMoreSurveysBtn.getElementsByClassName('fa')[0].classList.add('fa-spinner', 'fa-fw', 'fa-pulse');
 
             },
             success: function (response) {
@@ -207,12 +201,12 @@ module.exports = (function (get) {
                 response = JSON.parse(response);
                 raicare.core.log(response.message, response.status, corePrefix);
                 ajaxSend = false;
-                getMoreFormsBtn.getElementsByClassName('fa')[0].classList.add('fa-plus');
-                getMoreFormsBtn.getElementsByClassName('fa')[0].classList.remove('fa-spinner', 'fa-fw', 'fa-pulse');
+                getMoreSurveysBtn.getElementsByClassName('fa')[0].classList.add('fa-plus');
+                getMoreSurveysBtn.getElementsByClassName('fa')[0].classList.remove('fa-spinner', 'fa-fw', 'fa-pulse');
 
                 if (parseInt(response.code) === 162 ) {
 
-                    if (response.forms.length !== 0) {
+                    if (response.surveys.length !== 0) {
 
                         var lastDate  = null,
                             separator = null,
@@ -220,15 +214,15 @@ module.exports = (function (get) {
 
 
 
-                        for (var i = 0; i < response.forms.length; i++) {
+                        for (var i = 0; i < response.surveys.length; i++) {
 
                             lastDate = document.querySelectorAll('[data-datetime]');
                             lastDate = new Date(lastDate[lastDate.length-1].dataset.datetime);
-                            date = new Date(response.forms[i].date);
+                            date = new Date(response.surveys[i].date);
 
                             if ( date - lastDate !== 0) {
 
-                                separator = raicare.draw.node('LI', 'time-line__separator', {'data-datetime': response.forms[i].date});
+                                separator = raicare.draw.node('LI', 'time-line__separator', {'data-datetime': response.surveys[i].date});
 
                                 timeline.insertBefore(separator, timeline.getElementsByClassName('time-line__end')[0]);
 
@@ -237,19 +231,19 @@ module.exports = (function (get) {
                             var li = raicare.draw.node('LI', 'time-line__item' + ((offset + i) % 2 === 0 ? '' : ' time-line__item--inverted'));
 
 
-                            li.innerHTML = response.forms[i].html;
+                            li.innerHTML = response.surveys[i].html;
                             timeline.insertBefore(li, timeline.getElementsByClassName('time-line__end')[0]);
 
                         }
 
 
-                        getMoreFormsBtn.dataset.offset = parseInt(offset) + parseInt(response.number);
+                        getMoreSurveysBtn.dataset.offset = parseInt(offset) + parseInt(response.number);
 
 
 
                     } else {
 
-                        getMoreFormsBtn.parentNode.remove();
+                        getMoreSurveysBtn.parentNode.remove();
 
                     }
 
@@ -267,144 +261,11 @@ module.exports = (function (get) {
 
                 raicare.core.log('ajax error occur on getting patients', 'error', corePrefix, callbacks);
                 ajaxSend = false;
-                getMoreFormsBtn.getElementsByClassName('fa')[0].classList.add('fa-plus');
-                getMoreFormsBtn.getElementsByClassName('fa')[0].classList.remove('fa-spinner', 'fa-fw', 'fa-pulse');
+                getMoreSurveysBtn.getElementsByClassName('fa')[0].classList.add('fa-plus');
+                getMoreSurveysBtn.getElementsByClassName('fa')[0].classList.remove('fa-spinner', 'fa-fw', 'fa-pulse');
 
             }
 
-        };
-
-        raicare.ajax.send(ajaxData);
-
-    }
-
-
-    /**
-     *
-     * Function for searching forms by Patient Name or Pension Name
-     *
-     */
-    var holderSearch  = document.getElementById('surveys'),
-        searchingName = '',
-        getMoreBtn    = document.getElementById('getMoreBtn');
-
-    get.search = function (element) {
-
-        searchingName = element.value;
-
-        if (!ajaxSend) {
-
-            getMoreBtn.dataset.offset = 0;
-            holderSearch.innerHTML = '';
-            getSurveys_();
-
-        }
-
-    };
-
-
-    get.surveys = function (element) {
-
-        getMoreBtn  = element;
-
-        if (!ajaxSend) {
-
-            getSurveys_();
-            document.addEventListener('scroll', checkPageOffset_);
-
-        }
-
-    };
-
-
-    /**
-     * Function checking offset of bottom of page for sending new AJAX request (getting patients)
-     * @private
-     */
-    function checkPageOffset_() {
-
-        var bottom = holderSearch.getBoundingClientRect().bottom;
-
-        if (window.innerHeight - bottom > 0 && ajaxSend === false) {
-
-            getSurveys_();
-
-        }
-
-    }
-
-    function getSurveys_() {
-
-        var formData       = new FormData(),
-            offset         = getMoreBtn.dataset.offset,
-            sendSearchName = searchingName;
-
-        formData.append('name', sendSearchName);
-        formData.append('offset', offset);
-        formData.append('csrf', document.getElementById('csrf').value);
-
-        var ajaxData = {
-            url: '/survey/search',
-            type: 'POST',
-            data: formData,
-            beforeSend: function () {
-
-                ajaxSend = true;
-                getMoreBtn.innerHTML = 'Загрузка ...';
-
-            },
-            success: function (response) {
-
-                response = JSON.parse(response);
-                raicare.core.log(response.message, response.status, corePrefix);
-                ajaxSend = false;
-
-                if (parseInt(response.code) === 162 ) {
-
-                    getMoreBtn.innerHTML = 'Загрузить ещё';
-
-                    if (response.html !== '') {
-
-                        getMoreBtn.dataset.offset = parseInt(offset) + parseInt(response.number);
-
-                        if (searchingName === sendSearchName) {
-
-                            holderSearch.innerHTML += response.html;
-
-                        } else {
-
-                            holderSearch.innerHTML = response.html;
-
-                        }
-
-                    } else {
-
-                        getMoreBtn.innerHTML = 'Всего ' + parseInt(parseInt(offset) + parseInt(response.number));
-                        document.removeEventListener('scroll', checkPageOffset_);
-
-                    }
-
-                } else {
-
-                    getMoreBtn.innerHTML = "Ошибка при загрузке. <span class='link'>Повторить</span>";
-                    document.removeEventListener('scroll', checkPageOffset_);
-
-                    raicare.notification.notify({
-                        type: response.status,
-                        message: response.message
-                    });
-
-                }
-
-            },
-            error: function (callbacks) {
-
-                raicare.core.log('ajax error occur on searching surveys', 'error', corePrefix, callbacks);
-                getMoreBtn.innerHTML = "Ошибка при загрузке. <span class='link'>Повторить</span>";
-                document.removeEventListener('scroll', checkPageOffset_);
-                ajaxSend = false;
-
-            }
         };
 
         raicare.ajax.send(ajaxData);

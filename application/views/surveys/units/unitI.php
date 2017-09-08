@@ -469,9 +469,9 @@
             </div>
 
             <? if ($can_conduct) : ?>
-                <a type="button" role="button" class="form__submit text-center text-brand text-bold" onclick="survey.send.updateunit('unitI');">
+                <button type="button" role="button" class="form__submit text-center text-bold link" onclick="survey.send.updateunit('unitI');">
                     Сохранить
-                </a>
+                </button>
             <? endif; ?>
 
         </div>

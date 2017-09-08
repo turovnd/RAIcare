@@ -1,110 +1,34 @@
 module.exports = (function (coworker) {
 
     var corePrefix   = 'Pension: coworker',
-        excludeUser  = null,
-        excludeBlock = null,
-        excludeForm  = null,
-        roleLabel    = null;
+        penID        = document.getElementById('pensionID').value,
+        excludeBlock = null;
 
-    coworker.invite = function () {
+    coworker.toggle = function (element) {
 
-        var form     = document.getElementById('inviteCoWorkerModal'),
-            formData = new FormData(),
-            permissionsBlock = document.getElementById('inviteCoWorkerPermissions').querySelectorAll('.checkbox:checked'),
-            permissions      = [];
+        var field = element.closest('.js-field-name');
 
-        for (var i = 0; i < permissionsBlock.length; i++) {
-
-            permissions.push(permissionsBlock[i].id.split('_')[1]);
-
-        }
-
-        formData.append('name', document.getElementById('inviteCoWorkerName').value);
-        formData.append('email', document.getElementById('inviteCoWorkerEmail').value);
-        formData.append('pension', document.getElementById('pensionID').value);
-        formData.append('role', document.getElementById('inviteCoWorkerRole').value);
-        formData.append('roleName', document.getElementById('inviteCoWorkerRoleName').value);
-        formData.append('permissions', JSON.stringify(permissions));
-        formData.append('csrf', document.getElementById('csrf').value);
-
-        var ajaxData = {
-            url: '/pension/inviteuser',
-            type: 'POST',
-            data: formData,
-            beforeSend: function () {
-
-                form.getElementsByClassName('modal__content')[0].classList.add('loading');
-
-            },
-            success: function (response) {
-
-                response = JSON.parse(response);
-                raicare.core.log(response.message, response.status, corePrefix);
-                form.getElementsByClassName('modal__content')[0].classList.remove('loading');
-
-                raicare.notification.notify({
-                    type: response.status,
-                    message: response.message
-                });
-
-
-                if (parseInt(response.code) === 62 ) {
-
-                    raicare.modal.hide(form);
-
-                }
-
-            },
-            error: function (callbacks) {
-
-                raicare.core.log('ajax error occur on inviting coworker', 'error', corePrefix, callbacks);
-                form.getElementsByClassName('modal__content')[0].classList.remove('loading');
-
-            }
-        };
-
-        raicare.ajax.send(ajaxData);
+        field.getElementsByClassName('form-group__control-static')[0].classList.toggle('hide');
+        field.getElementsByClassName('form-group__control-group')[0].classList.toggle('hide');
 
     };
 
-    coworker.exclude = function (element) {
+    coworker.save = function (element) {
 
-        excludeUser  = element.dataset.pk;
-        excludeBlock = element.parentNode;
-
-        var name = element.dataset.name;
-
-        excludeForm = raicare.notification.notify({
-            type: 'confirm',
-            message: '<div id="excludeForm">' +
-            '<h2>Исключить сотрудника</h2>'+
-            '<p>Вы уверены, то хотите исключить ' + name + '?</p>'+
-            '<p>Исключив сотрудника, у него больше не будет доступа к пансионту.</p>'+
-            '</div>',
-            confirmText: 'Исключить',
-            showCancelButton: true,
-            validation: true,
-            confirm: exclude_,
-            cancel: function () {
-
-                excludeUser = null;
-
-            }
-        });
-
-    };
-
-    function exclude_() {
-
-        var form     = document.getElementById('excludeForm'),
+        var form     = element.closest('.block'),
+            field    = element.closest('.js-field-name'),
+            value    = field.getElementsByClassName('form-group__control')[0].value,
+            name     = field.getElementsByClassName('form-group__control')[0].name,
             formData = new FormData();
 
-        formData.append('user', excludeUser);
-        formData.append('pension', document.getElementById('pensionID').value);
+        formData.append('id', form.dataset.id);
         formData.append('csrf', document.getElementById('csrf').value);
+        formData.append('name', name);
+        formData.append('value', value);
+        formData.append('penID', penID);
 
         var ajaxData = {
-            url: '/pension/excludeuser',
+            url: '/pension/coworkerupdate',
             type: 'POST',
             data: formData,
             beforeSend: function () {
@@ -124,11 +48,187 @@ module.exports = (function (coworker) {
                 });
 
 
+                if (parseInt(response.code) === 53 ) {
+
+                    if (name === 'role') {
+
+                        window.location.reload();
+
+                    } else {
+
+                        field.getElementsByClassName('js-co-worker-info')[0].textContent = value;
+
+                    }
+
+                    field.getElementsByClassName('form-group__control-static')[0].classList.toggle('hide');
+                    field.getElementsByClassName('form-group__control-group')[0].classList.toggle('hide');
+
+                }
+
+            },
+            error: function (callbacks) {
+
+                raicare.core.log('ajax error occur on updating co-worker info', 'error', corePrefix, callbacks);
+                form.classList.remove('loading');
+
+            }
+        };
+
+        raicare.ajax.send(ajaxData);
+
+    };
+
+    coworker.changePass = function (element) {
+
+        var form     = element.closest('.block'),
+            name     = 'password',
+            formData = new FormData();
+
+        formData.append('id', form.dataset.id);
+        formData.append('csrf', document.getElementById('csrf').value);
+        formData.append('name', name);
+        formData.append('penID', penID);
+
+        var ajaxData = {
+            url: '/pension/coworkerupdate',
+            type: 'POST',
+            data: formData,
+            beforeSend: function () {
+
+                form.classList.add('loading');
+
+            },
+            success: function (response) {
+
+                response = JSON.parse(response);
+                raicare.core.log(response.message, response.status, corePrefix);
+                form.classList.remove('loading');
+
+                raicare.notification.notify({
+                    type: response.status,
+                    message: response.message
+                });
+
+                if (parseInt(response.code) === 53 ) {
+
+                }
+
+            },
+            error: function (callbacks) {
+
+                raicare.core.log('ajax error occur on updating co-worker password', 'error', corePrefix, callbacks);
+                form.classList.remove('loading');
+
+            }
+        };
+
+        raicare.ajax.send(ajaxData);
+
+    };
+
+    coworker.invite = function () {
+
+        var form     = document.getElementById('newCoWorker'),
+            formData = new FormData(form);
+
+        formData.append('csrf', document.getElementById('csrf').value);
+        formData.append('penID', penID);
+
+        var ajaxData = {
+            url: '/pension/coworkerinvite',
+            type: 'POST',
+            data: formData,
+            beforeSend: function () {
+
+                form.getElementsByClassName('modal__wrapper')[0].classList.add('loading');
+
+            },
+            success: function (response) {
+
+                response = JSON.parse(response);
+                raicare.core.log(response.message, response.status, corePrefix);
+                form.getElementsByClassName('modal__wrapper')[0].classList.remove('loading');
+
+                raicare.notification.notify({
+                    type: response.status,
+                    message: response.message
+                });
+
+                if (parseInt(response.code) === 144 ) {
+
+                    form.reset();
+                    raicare.modal.hide(form);
+
+                }
+
+            },
+            error: function (callbacks) {
+
+                raicare.core.log('ajax error occur on inviting coworker', 'error', corePrefix, callbacks);
+                form.getElementsByClassName('modal__wrapper')[0].classList.remove('loading');
+
+            }
+        };
+
+        raicare.ajax.send(ajaxData);
+
+    };
+
+    coworker.exclude = function (element) {
+
+        var block = element.closest('.block'),
+            id    = block.dataset.id,
+            name  = block.dataset.name;
+
+        excludeBlock = raicare.notification.notify({
+            type: 'confirm',
+            message:
+                '<form id="excludeForm" data-id="' + id + '">' +
+                '<h2>Исключить сотрудника</h2>'+
+                '<p>Вы уверены, то хотите исключить ' + name + '?</p>'+
+                '<p>Исключив сотрудника, у него больше не будет доступа к пансионату.</p>'+
+                '</form>',
+            confirmText: 'Исключить',
+            showCancelButton: true,
+            validation: true,
+            confirm: exclude_
+        });
+
+    };
+
+    function exclude_() {
+
+        var form     = document.getElementById('excludeForm'),
+            formData = new FormData();
+
+        formData.append('user', form.dataset.id);
+        formData.append('penID', penID);
+        formData.append('csrf', document.getElementById('csrf').value);
+
+        var ajaxData = {
+            url: '/pension/coworkerexclude',
+            type: 'POST',
+            data: formData,
+            beforeSend: function () {
+
+                form.classList.add('loading');
+
+            },
+            success: function (response) {
+
+                response = JSON.parse(response);
+                raicare.core.log(response.message, response.status, corePrefix);
+                form.classList.remove('loading');
+
+                raicare.notification.notify({
+                    type: response.status,
+                    message: response.message
+                });
+
                 if (parseInt(response.code) === 143 ) {
 
-                    excludeBlock.remove();
-                    excludeForm.close();
-                    excludeForm = null;
+                    excludeBlock.close();
+                    document.getElementById('coWorkers').querySelector('.block[data-id="' + form.dataset.id + '"]').remove();
 
                 }
 
@@ -144,157 +244,6 @@ module.exports = (function (coworker) {
         raicare.ajax.send(ajaxData);
 
     }
-
-    coworker.openupdaterole = function (element) {
-
-        roleLabel = element.parentNode.getElementsByClassName('label')[0];
-
-        raicare.modal.create({
-            id: 'updateCoWorkerModal',
-            header: 'Изменить роль сотрудника',
-            body:
-                '<fieldset>'+
-                '<div class="form-group">'+
-                '<label for="updateCoWorkerRole" class="form-group__label">Роль</label>'+
-                '<select name="role" id="updateCoWorkerRole" data-pk="' + element.dataset.pk +'" class="form-group__control" onchange="pension.coworker.changerole(this)" data-permissions="updateCoWorkerPermissions" data-rolename="updateCoWorkerRoleName">'+
-                    getRolesOptions_() +
-                '</select>'+
-                '</div>'+
-                '</fieldset>'+
-                '<fieldset>'+
-                '<div class="form-group">'+
-                '<label for="updateCoWorkerRoleName" class="form-group__label">Название новой роли</label>'+
-                '<input type="text" id="updateCoWorkerRoleName" class="form-group__control" maxlength="64">'+
-                '</div>'+
-                '</fieldset>'+
-                '<fieldset id="updateCoWorkerPermissions" class="m-b-0">'+
-                '<div class="form-group">'+
-                    getAvailablePermissions_() +
-                '</div>'+
-                '</fieldset>',
-
-            footer:
-                '<button type="button" class="btn btn--default" data-close="modal">Отмена</button>'+
-                '<button onclick="pension.coworker.updaterole()" type="button" class="btn btn--brand">Изменить</button>',
-            onclose: 'destroy'
-        });
-
-
-    };
-
-    coworker.updaterole = function () {
-
-        var form     = document.getElementById('updateCoWorkerModal'),
-            formData = new FormData(form),
-            permissionsBlock = document.getElementById('updateCoWorkerPermissions').querySelectorAll('.checkbox:checked'),
-            permissions      = [];
-
-        for (var i = 0; i < permissionsBlock.length; i++) {
-
-            permissions.push(permissionsBlock[i].id.split('_')[1]);
-
-        }
-
-        formData.append('pension', document.getElementById('pensionID').value);
-        formData.append('role', document.getElementById('updateCoWorkerRole').value);
-        formData.append('type', 'pension');
-        formData.append('roleName', document.getElementById('updateCoWorkerRoleName').value);
-        formData.append('permissions', JSON.stringify(permissions));
-        formData.append('user', document.getElementById('updateCoWorkerRole').dataset.pk);
-        formData.append('csrf', document.getElementById('csrf').value);
-
-        var ajaxData = {
-            url: '/profile/changerole',
-            type: 'POST',
-            data: formData,
-            beforeSend: function () {
-
-                form.getElementsByClassName('modal__content')[0].classList.add('loading');
-
-            },
-            success: function (response) {
-
-                response = JSON.parse(response);
-                raicare.core.log(response.message, response.status, corePrefix);
-                form.getElementsByClassName('modal__content')[0].classList.remove('loading');
-
-                raicare.notification.notify({
-                    type: response.status,
-                    message: response.message
-                });
-
-
-                if (parseInt(response.code) === 53 ) {
-
-                    raicare.modal.destroy(form);
-                    roleLabel.textContent = response.role['name'];
-                    roleLabel = null;
-
-                }
-
-            },
-            error: function (callbacks) {
-
-                raicare.core.log('ajax error occur on changing coworker role', 'error', corePrefix, callbacks);
-                form.getElementsByClassName('modal__content')[0].classList.remove('loading');
-
-            }
-        };
-
-        raicare.ajax.send(ajaxData);
-
-    };
-
-    function getRolesOptions_() {
-
-        var options = JSON.parse(document.getElementById('availableRoles').value),
-            str     = '<option value="new">Новая</option>';
-
-        for (var i = 0; i < options.length; i++) {
-
-            str += '<option value="' + options[i]['id'] +'">' + options[i]['name'] + '</option>';
-
-        }
-
-        return str;
-
-    }
-
-    function getAvailablePermissions_() {
-
-        var permissions = JSON.parse(document.getElementById('availablePermissions').value),
-            str         = '';
-
-        for (var i = 0; i < permissions.length; i++) {
-
-            str +=
-                '<p>'+
-                '<input type="checkbox" id="modalpermission_' + permissions[i]['id'] +'" class="checkbox">'+
-                '<label for="modalpermission_' + permissions[i]['id'] +'" class="checkbox-label">' + permissions[i]['name'] +'</label>'+
-                '</p>';
-
-        }
-
-        return str;
-
-    }
-
-    coworker.changerole = function (element) {
-
-        if (element.value === 'new') {
-
-            document.getElementById(element.dataset.permissions).classList.remove('hide');
-            document.getElementById(element.dataset.rolename).parentNode.parentNode.classList.remove('hide');
-
-        } else {
-
-            document.getElementById(element.dataset.permissions).classList.add('hide');
-            document.getElementById(element.dataset.rolename).parentNode.parentNode.classList.add('hide');
-
-        }
-
-    };
-
 
     return coworker;
 

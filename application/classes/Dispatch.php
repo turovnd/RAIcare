@@ -2,8 +2,22 @@
 
 class Dispatch extends Controller_Template
 {
-    const POST                  = 'POST';
-    const GET                   = 'GET';
+    CONST POST = 'POST';
+    CONST GET  = 'GET';
+    CONST PRIVATE_SUBDOMIANS = array('admin', 'my', 'confirm', 'reset');
+
+    CONST ROLE_ADMIN                    = 1;
+    CONST ROLE_ORG_CREATOR              = 10;
+    CONST ROLE_ORG_CO_WORKER_MANAGER    = 11;
+    CONST ROLE_ORG_QUALITY_MANAGER      = 12;
+    CONST ROLE_PEN_CREATOR              = 20;
+    CONST ROLE_PEN_CO_WORKER_MANAGER    = 21;
+    CONST ROLE_PEN_QUALITY_MANAGER      = 22;
+    CONST ROLE_PEN_NURSE                = 23;
+
+    CONST ORG_AVAILABLE_ROLES = array(11,12);
+    CONST PEN_AVAILABLE_ROLES = array(21,22,23);
+
 
     /** @var string - Path to template */
     public $template = '';
@@ -141,17 +155,14 @@ class Dispatch extends Controller_Template
 
         $user = new Model_User($uid);
 
-        $role = new Model_Role($user->role);
-        $user->permissions = json_decode($role->permissions);
-
         /** Authentificated User is visible in all pages */
         View::set_global('user', $user);
         $this->user = $user;
 
         View::set_global('isLogged', self::isLogged());
         View::set_global('canLogin', self::canLogin());
-
         $address = Arr::get($_SERVER, 'HTTP_ORIGIN');
+
         View::set_global('assets', $address . DIRECTORY_SEPARATOR. 'assets' . DIRECTORY_SEPARATOR);
 
         $this->memcache = self::memcacheInstance();
@@ -176,10 +187,7 @@ class Dispatch extends Controller_Template
 
 
     /**
-     * Return "True" if user is logged
-     *
-     * Check session id
-     * Check session token (make secret from Cookie data and check in redis)
+     * If user is not logged
      * @return bool
      */
     public static function isLogged()
@@ -197,7 +205,6 @@ class Dispatch extends Controller_Template
         $secret   = Cookie::get('secret', '');
         $id       = Cookie::get('uid', '');
         $sid      = Cookie::get('sid', '');
-        $authMode = Cookie::get('mode', '');
 
         if ($secret && $id && $sid) {
             return true;
@@ -223,16 +230,13 @@ class Dispatch extends Controller_Template
         return $canLogin;
     }
 
+
     /**
-     * Checking user access for module
-     * @param $permission - module ID
-     * @throws HTTP_Exception_403
+     * Go To Login Page
      */
-    public function hasAccess($permission)
+    public function gotoLoginPage()
     {
-        if (!in_array($permission, $this->user->permissions)) {
-            throw new HTTP_Exception_403;
-        }
+        header('Location: http://' . $_SERVER['HTTP_HOST']); die();
     }
 
 

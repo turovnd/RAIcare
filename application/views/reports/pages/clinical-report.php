@@ -2,16 +2,8 @@
 
     <h3 class="section__heading">
         <a role="button" onclick="window.history.back()" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn">Назад</a>
-        <a role="button" onclick="" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn"><i class="fa fa-print" aria-hidden="true"></i></a>
         <a role="button" onclick="" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn"><i class="fa fa-floppy-o" aria-hidden="true"></i></a>
-
-        <? // WATCH_ALL_SURVEYS = 37
-        if (in_array(37, $user->permissions)) : ?>
-            Клинический отчет #<?= $survey->pk; ?>
-        <? else: ?>
-            Клинический отчет #<?= $survey->id; ?>
-        <? endif; ?>
-
+        Клинический отчет #<?= $survey->id; ?>
     </h3>
 
     <div class="row">
@@ -20,7 +12,7 @@
             <?= View::factory('reports/block/patient-info', array('survey' => $survey)); ?>
 
             <h3 class="section__heading">
-                <a role="button" data-area="raiscales" data-opened="true" data-textclosed="показать все" data-textopened="показать только выявленные" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn"></a>
+                <a onclick="report.onclick.triggered(this);" role="button" data-area="raiscales" data-opened="true" data-textclosed="показать все" data-textopened="показать только выявленные" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn"></a>
                 Шкалы RAI
             </h3>
 
@@ -101,7 +93,11 @@
                                     SRD = <?= $raiscales->SRD; ?>
                                 </td>
                                 <td>
-                                    <canvas data-min="0" data-max="9" data-value="<?= $raiscales->SRD; ?>" data-fontsize="16" width="150" height="25" data-speed="80" data-animate="true" data-inpercent="false" data-showtext="false" data-showlabels="true" class="js-progress" data-linecolor="<?= $raiscales->SRD < 5 ? '#008DA7' : '#f05050'; ?>"></canvas>
+                                    <? if ($raiscales->SRD == -1) : ?>
+                                        Пациент не смог (не захотел) ответить
+                                    <? else: ?>
+                                        <canvas data-min="0" data-max="9" data-value="<?= $raiscales->SRD; ?>" data-fontsize="16" width="150" height="25" data-speed="80" data-animate="true" data-inpercent="false" data-showtext="false" data-showlabels="true" class="js-progress" data-linecolor="<?= $raiscales->SRD < 5 ? '#008DA7' : '#f05050'; ?>"></canvas>
+                                    <? endif; ?>
                                 </td>
                                 <td>
                                     <i class="fa fa-2x fa-angle-right" aria-hidden="true"></i>
@@ -120,7 +116,11 @@
                                     }; ?>
                                 </td>
                                 <td>
-                                    <canvas data-min="0" data-max="14" data-value="<?= $raiscales->DRS; ?>" data-fontsize="16" width="150" height="25" data-speed="80" data-animate="true" data-inpercent="false" data-showtext="true" data-showlabels="true" class="js-progress" data-linecolor="<?= $raiscales->DRS < 9 ? '#008DA7' : '#f05050'; ?>"></canvas>
+                                    <? if ($raiscales->DRS == -1) : ?>
+                                        Пациент не смог (не захотел) ответить
+                                    <? else: ?>
+                                        <canvas data-min="0" data-max="14" data-value="<?= $raiscales->DRS; ?>" data-fontsize="16" width="150" height="25" data-speed="80" data-animate="true" data-inpercent="false" data-showtext="true" data-showlabels="true" class="js-progress" data-linecolor="<?= $raiscales->DRS < 9 ? '#008DA7' : '#f05050'; ?>"></canvas>
+                                    <? endif; ?>
                                 </td>
                                 <td>
                                     <i class="fa fa-2x fa-angle-right" aria-hidden="true"></i>
@@ -158,7 +158,11 @@
                                     }; ?>
                                 </td>
                                 <td>
-                                    <canvas data-min="0" data-max="8" data-value="<?= $raiscales->COMM; ?>" data-fontsize="16" width="150" height="25" data-speed="80" data-animate="true" data-inpercent="false" data-showtext="true" data-showlabels="true" class="js-progress" data-linecolor="<?= $raiscales->COMM < 4 ? '#008DA7' : '#f05050'; ?>"></canvas>
+                                    <? if ($raiscales->COMM == -1) : ?>
+                                        Пациент не смог (не захотел) ответить
+                                    <? else: ?>
+                                        <canvas data-min="0" data-max="8" data-value="<?= $raiscales->COMM; ?>" data-fontsize="16" width="150" height="25" data-speed="80" data-animate="true" data-inpercent="false" data-showtext="true" data-showlabels="true" class="js-progress" data-linecolor="<?= $raiscales->COMM < 4 ? '#008DA7' : '#f05050'; ?>"></canvas>
+                                    <? endif; ?>
                                 </td>
                                 <td>
                                     <i class="fa fa-2x fa-angle-right" aria-hidden="true"></i>
@@ -177,7 +181,11 @@
                                     }; ?>
                                 </td>
                                 <td>
-                                    <canvas data-min="0" data-max="5" data-value="<?= $raiscales->CHESS; ?>" data-fontsize="16" width="150" height="25" data-speed="80" data-animate="true" data-inpercent="false" data-showtext="true" data-showlabels="true" class="js-progress" data-linecolor="<?= $raiscales->CHESS < 4 ? '#008DA7' : '#f05050'; ?>"></canvas>
+                                    <? if ($raiscales->CHESS == -1) : ?>
+                                        Пациент не смог (не захотел) ответить
+                                    <? else: ?>
+                                        <canvas data-min="0" data-max="5" data-value="<?= $raiscales->CHESS; ?>" data-fontsize="16" width="150" height="25" data-speed="80" data-animate="true" data-inpercent="false" data-showtext="true" data-showlabels="true" class="js-progress" data-linecolor="<?= $raiscales->CHESS < 4 ? '#008DA7' : '#f05050'; ?>"></canvas>
+                                    <? endif; ?>
                                 </td>
                                 <td>
                                     <i class="fa fa-2x fa-angle-right" aria-hidden="true"></i>
@@ -215,7 +223,11 @@
                                     }; ?>
                                 </td>
                                 <td>
-                                    <canvas data-min="0" data-max="12" data-value="<?= $raiscales->ABS; ?>" data-fontsize="16" width="150" height="25" data-speed="80" data-animate="true" data-inpercent="false" data-showtext="true" data-showlabels="true" class="js-progress" data-linecolor="<?= $raiscales->ABS < 6 ? '#008DA7' : '#f05050'; ?>"></canvas>
+                                    <? if ($raiscales->ABS == -1) : ?>
+                                        Пациент не смог (не захотел) ответить
+                                    <? else: ?>
+                                        <canvas data-min="0" data-max="12" data-value="<?= $raiscales->ABS; ?>" data-fontsize="16" width="150" height="25" data-speed="80" data-animate="true" data-inpercent="false" data-showtext="true" data-showlabels="true" class="js-progress" data-linecolor="<?= $raiscales->ABS < 6 ? '#008DA7' : '#f05050'; ?>"></canvas>
+                                    <? endif; ?>
                                 </td>
                                 <td>
                                     <i class="fa fa-2x fa-angle-right" aria-hidden="true"></i>
@@ -244,7 +256,7 @@
             </div>
 
             <h3 class="section__heading">
-                <a role="button" data-area="protocols" data-opened="true" data-textclosed="показать все" data-textopened="показать только выявленные" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn"></a>
+                <a onclick="report.onclick.triggered(this);" role="button" data-area="protocols" data-opened="true" data-textclosed="показать все" data-textopened="показать только выявленные" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn"></a>
                 Протоколы оценки
             </h3>
 
@@ -262,6 +274,9 @@
                             </tr>
                         </thead>
                         <tbody valign="middle">
+
+                            <? if ($protocols->P1 != -1) : ?>
+
                             <tr data-triggered="<?= Kohana::$config->load('Protocols.P1')[$protocols->P1]['class'] == 'text-brand' ? 'false' : 'true'; ?>">
                                 <td>
                                     <i class="fa fa-flag <? if ($protocols->P1 == Kohana::$config->load('Protocols.P1')[$protocols->P1]['key']) { echo Kohana::$config->load('Protocols.P1')[$protocols->P1]['class']; }; ?>" aria-hidden="true"></i>
@@ -278,6 +293,11 @@
                                     <i class="fa fa-2x fa-angle-right" aria-hidden="true"></i>
                                 </td>
                             </tr>
+
+                            <? endif; ?>
+
+                            <? if ($protocols->P2 != -1) : ?>
+
                             <tr data-triggered="<?= Kohana::$config->load('Protocols.P2')[$protocols->P2]['class'] == 'text-brand' ? 'false' : 'true'; ?>">
                                 <td>
                                     <i class="fa fa-flag <? if ($protocols->P2 == Kohana::$config->load('Protocols.P2')[$protocols->P2]['key']) { echo Kohana::$config->load('Protocols.P2')[$protocols->P2]['class']; }; ?>" aria-hidden="true"></i>
@@ -294,6 +314,11 @@
                                     <i class="fa fa-2x fa-angle-right" aria-hidden="true"></i>
                                 </td>
                             </tr>
+
+                            <? endif; ?>
+
+                            <? if ($protocols->P3 != -1) : ?>
+
                             <tr data-triggered="<?= Kohana::$config->load('Protocols.P3')[$protocols->P3]['class'] == 'text-brand' ? 'false' : 'true'; ?>">
                                 <td>
                                     <i class="fa fa-flag <? if ($protocols->P3 == Kohana::$config->load('Protocols.P3')[$protocols->P3]['key']) { echo Kohana::$config->load('Protocols.P3')[$protocols->P3]['class']; }; ?>" aria-hidden="true"></i>
@@ -310,6 +335,11 @@
                                     <i class="fa fa-2x fa-angle-right" aria-hidden="true"></i>
                                 </td>
                             </tr>
+
+                            <? endif; ?>
+
+                            <? if ($protocols->P4 != -1) : ?>
+
                             <tr data-triggered="<?= Kohana::$config->load('Protocols.P4')[$protocols->P4]['class'] == 'text-brand' ? 'false' : 'true'; ?>">
                                 <td>
                                     <i class="fa fa-flag <? if ($protocols->P4 == Kohana::$config->load('Protocols.P4')[$protocols->P4]['key']) { echo Kohana::$config->load('Protocols.P4')[$protocols->P4]['class']; }; ?>" aria-hidden="true"></i>
@@ -326,6 +356,9 @@
                                     <i class="fa fa-2x fa-angle-right" aria-hidden="true"></i>
                                 </td>
                             </tr>
+
+                            <? endif; ?>
+
                             <tr data-triggered="<?= Kohana::$config->load('Protocols.P5')[$protocols->P5]['class'] == 'text-brand' ? 'false' : 'true'; ?>">
                                 <td>
                                     <i class="fa fa-flag <? if ($protocols->P5 == Kohana::$config->load('Protocols.P5')[$protocols->P5]['key']) { echo Kohana::$config->load('Protocols.P5')[$protocols->P5]['class']; }; ?>" aria-hidden="true"></i>
@@ -342,6 +375,9 @@
                                     <i class="fa fa-2x fa-angle-right" aria-hidden="true"></i>
                                 </td>
                             </tr>
+
+                            <? if ($protocols->P6 != -1) : ?>
+
                             <tr data-triggered="<?= Kohana::$config->load('Protocols.P6')[$protocols->P6]['class'] == 'text-brand' ? 'false' : 'true'; ?>">
                                 <td>
                                     <i class="fa fa-flag <? if ($protocols->P6 == Kohana::$config->load('Protocols.P6')[$protocols->P6]['key']) { echo Kohana::$config->load('Protocols.P6')[$protocols->P6]['class']; }; ?>" aria-hidden="true"></i>
@@ -358,6 +394,9 @@
                                     <i class="fa fa-2x fa-angle-right" aria-hidden="true"></i>
                                 </td>
                             </tr>
+
+                            <? endif; ?>
+
                             <tr data-triggered="<?= Kohana::$config->load('Protocols.P7')[$protocols->P7]['class'] == 'text-brand' ? 'false' : 'true'; ?>">
                                 <td>
                                     <i class="fa fa-flag <? if ($protocols->P7 == Kohana::$config->load('Protocols.P7')[$protocols->P7]['key']) { echo Kohana::$config->load('Protocols.P7')[$protocols->P7]['class']; }; ?>" aria-hidden="true"></i>
@@ -374,6 +413,9 @@
                                     <i class="fa fa-2x fa-angle-right" aria-hidden="true"></i>
                                 </td>
                             </tr>
+
+                            <? if ($protocols->P8 != -1) : ?>
+
                             <tr data-triggered="<?= Kohana::$config->load('Protocols.P8')[$protocols->P8]['class'] == 'text-brand' ? 'false' : 'true'; ?>">
                                 <td>
                                     <i class="fa fa-flag <? if ($protocols->P8 == Kohana::$config->load('Protocols.P8')[$protocols->P8]['key']) { echo Kohana::$config->load('Protocols.P8')[$protocols->P8]['class']; }; ?>" aria-hidden="true"></i>
@@ -390,6 +432,9 @@
                                     <i class="fa fa-2x fa-angle-right" aria-hidden="true"></i>
                                 </td>
                             </tr>
+
+                            <? endif; ?>
+
                             <tr data-triggered="<?= Kohana::$config->load('Protocols.P9')[$protocols->P9]['class'] == 'text-brand' ? 'false' : 'true'; ?>">
                                 <td>
                                     <i class="fa fa-flag <? if ($protocols->P9 == Kohana::$config->load('Protocols.P9')[$protocols->P9]['key']) { echo Kohana::$config->load('Protocols.P9')[$protocols->P9]['class']; }; ?>" aria-hidden="true"></i>
@@ -486,6 +531,9 @@
                                     <i class="fa fa-2x fa-angle-right" aria-hidden="true"></i>
                                 </td>
                             </tr>
+
+                            <? if ($protocols->P15 != -1) : ?>
+
                             <tr data-triggered="<?= Kohana::$config->load('Protocols.P15')[$protocols->P15]['class'] == 'text-brand' ? 'false' : 'true'; ?>">
                                 <td>
                                     <i class="fa fa-flag <? if ($protocols->P15 == Kohana::$config->load('Protocols.P15')[$protocols->P15]['key']) { echo Kohana::$config->load('Protocols.P15')[$protocols->P15]['class']; }; ?>" aria-hidden="true"></i>
@@ -502,6 +550,9 @@
                                     <i class="fa fa-2x fa-angle-right" aria-hidden="true"></i>
                                 </td>
                             </tr>
+
+                            <? endif; ?>
+
                             <tr data-triggered="<?= Kohana::$config->load('Protocols.P16')[$protocols->P16]['class'] == 'text-brand' ? 'false' : 'true'; ?>">
                                 <td>
                                     <i class="fa fa-flag <? if ($protocols->P16 == Kohana::$config->load('Protocols.P16')[$protocols->P16]['key']) { echo Kohana::$config->load('Protocols.P16')[$protocols->P16]['class']; }; ?>" aria-hidden="true"></i>
@@ -534,6 +585,9 @@
                                     <i class="fa fa-2x fa-angle-right" aria-hidden="true"></i>
                                 </td>
                             </tr>
+
+                            <? if ($protocols->P18 != -1) : ?>
+
                             <tr data-triggered="<?= Kohana::$config->load('Protocols.P18')[$protocols->P18]['class'] == 'text-brand' ? 'false' : 'true'; ?>">
                                 <td>
                                     <i class="fa fa-flag <? if ($protocols->P18 == Kohana::$config->load('Protocols.P18')[$protocols->P18]['key']) { echo Kohana::$config->load('Protocols.P18')[$protocols->P18]['class']; }; ?>" aria-hidden="true"></i>
@@ -550,6 +604,8 @@
                                     <i class="fa fa-2x fa-angle-right" aria-hidden="true"></i>
                                 </td>
                             </tr>
+
+                            <? endif; ?>
 
                         </tbody>
                     </table>
@@ -586,3 +642,5 @@
 
     document.addEventListener("DOMContentLoaded", ready);
 </script>
+
+<script type="text/javascript" src="<?=$assets; ?>frontend/bundles/report.min.js?v=<?= filemtime("assets/frontend/bundles/report.min.js") ?>"></script>

@@ -5,7 +5,7 @@ if (empty($surveys)) {
 }
 ?>
 
-<ul id="timeline" class="time-line" data-pk='<?=json_encode($sameSnils);?>'>
+<ul id="timeline" class="time-line">
 
 <?
 
@@ -31,7 +31,7 @@ foreach ($surveys as $key => $survey) {
 
 
     <li class="time-line__end">
-        <a id="getMoreFormsBtn" data-offset="<?= count($surveys); ?>" data-type="<?= $type; ?>" role="button" class="time-line__badge bg-gray-dark" onclick="survey.get.forms();">
+        <a id="getMoreSurveysBtn" data-offset="<?= count($surveys); ?>" role="button" class="time-line__badge bg-gray-dark" onclick="survey.get.timeLineItems();">
             <i class="fa fa-plus" aria-hidden="true"></i>
         </a>
     </li>

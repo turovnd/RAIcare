@@ -17,7 +17,7 @@
 }
 
 .header__brand{
-    margin-left: 20px;
+    margin-left: 15px;
     line-height: 50px;
     font-size: 2em;
     font-weight: bold;
@@ -136,7 +136,7 @@
 }
 
 /** Phones */
-@media (max-width: 768px) {
+@media (max-width: 767px) {
 
     .header__open-btn{
         display: block;
@@ -194,6 +194,7 @@
         transition: all .3s;
         color: #008da7;
         text-shadow: none;
+        display: block;
     }
 
     .header__wrapper {

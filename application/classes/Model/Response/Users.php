@@ -68,4 +68,16 @@ class Model_Response_Users extends Model_Response_Abstract
         'message' => 'Сброс пароля успешно отменен'
     );
 
+    protected $_USER_DOES_NOT_EXISTED_ERROR = array (
+        'type' => 'user',
+        'code' => '58',
+        'message' => 'Пользователь не существует'
+    );
+
+    protected $_USER_CONFIRM_EMAIL_ERROR = array (
+        'type' => 'user',
+        'code' => '59',
+        'message' => 'Электронная почта была ранее подтверждена'
+    );
+
 }

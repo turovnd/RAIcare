@@ -47,16 +47,19 @@ module.exports = (function (modal) {
 
         closeHeadBtn.innerHTML = '<i class="fa fa-close" aria-hidden="true"></i>';
         headerTitle.textContent = settings.header;
+
         header.appendChild(closeHeadBtn);
         header.appendChild(headerTitle);
 
-        closeHeadBtn.addEventListener('click', modal.hide);
+        if (onclose === 'remove')
+            closeHeadBtn.addEventListener('click', modal.remove);
+        else
+            closeHeadBtn.addEventListener('click', modal.hide);
 
         body.innerHTML = settings.body;
 
-        content.appendChild(wrapper);
-        content.appendChild(header);
-        content.appendChild(body);
+        wrapper.appendChild(header);
+        wrapper.appendChild(body);
 
         if (settings.footer) {
 
@@ -73,10 +76,11 @@ module.exports = (function (modal) {
 
             }
 
-            content.appendChild(footer);
+            wrapper.appendChild(footer);
 
         }
 
+        content.appendChild(wrapper);
         content.classList.add('modal__content--' + settings.size);
         modalWrapper.appendChild(content);
 
@@ -167,7 +171,9 @@ module.exports = (function (modal) {
 
             block.classList.remove('modal--opened', 'modal--closing');
             document.body.classList.remove('overflow--hidden');
-            document.getElementsByClassName('modal-backdrop')[0].remove();
+
+            if (document.getElementsByClassName('modal-backdrop')[0])
+                document.getElementsByClassName('modal-backdrop')[0].remove();
 
         }, 200);
 
@@ -204,7 +210,10 @@ module.exports = (function (modal) {
 
             block.classList.remove('modal--opened', 'modal--closing');
             document.body.classList.remove('overflow--hidden');
-            document.getElementsByClassName('modal-backdrop')[0].remove();
+
+            if (document.getElementsByClassName('modal-backdrop')[0])
+                document.getElementsByClassName('modal-backdrop')[0].remove();
+
             block.remove();
 
         }, 200);

@@ -3,6 +3,11 @@
 $DIGIT  = '\d+';
 $STRING = '\w+';
 
+/**
+ * Set the routes. Each route must have a minimum of a name, a URI and a set of
+ * defaults for the URI.
+ */
+Route::$default_subdomains = array(Route::SUBDOMAIN_EMPTY, 'www');
 
 require_once ('routes/welcome.php');
 require_once ('routes/auth.php');
@@ -22,6 +27,7 @@ require_once ('routes/reports.php');
  * Only for XMLHTTP requests
  */
 Route::set('IMAGE_TRANSPORT', 'transport/<type>')
+    ->subdomains(array(Route::SUBDOMAIN_WILDCARD))
     ->defaults(array(
         'controller' => 'Transport',
         'action'     => 'upload'

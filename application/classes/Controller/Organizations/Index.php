@@ -10,25 +10,49 @@
 
 class Controller_Organizations_Index extends Dispatch
 {
-    CONST WATCH_ALL_ORGS_PAGES      = 14;
-    CONST WATCH_CREATED_ORGS_PAGES  = 15;
-    CONST WATCH_MY_ORGS_PAGE        = 16;
-    CONST EDIT_ORGANIZATION         = 17;
-    CONST STATISTIC_ORGANIZATION    = 20;
-    CONST AVAILABLE_PERMISSIONS_ORG = array(17,18,19,20,21,22);
+    /**
+     * @const ACTION_LOGIN [String]
+     */
+    const ACTION_LOGIN = 'index';
 
     public $template = 'main';
+
+    /** Current Organization */
+    protected $organization = null;
 
     public function before()
     {
         parent::before();
 
-        if (!self::isLogged()) {
-            $this->redirect('login');
+        $org_uri = Request::$subdomain;
+
+        $this->organization = Model_Organization::getByFieldName('uri', $org_uri);
+
+        if (!$this->organization->id && !in_array($org_uri, self::PRIVATE_SUBDOMIANS)) {
+            throw new HTTP_Exception_404();
         }
 
+        switch ($this->request->action()) {
+
+            case self::ACTION_LOGIN:
+                $this->template = View::factory('welcome/main');
+                $this->request->action('login');
+                return;
+
+            default:
+                if (!self::isLogged()) self::gotoLoginPage();
+        }
+
+        if ($this->user->organization != $this->organization->id) {
+            throw new HTTP_Exception_403;
+        }
+
+        $this->organization->pensions = Model_Pension::getByOrganizationID($this->organization->id, true);
+
         $data = array(
-            'action'    => 'org_' . $this->request->action(),
+            'aside_type' => 'organization',
+            'pensions'   => $this->organization->pensions,
+            'action'     => $this->request->action(),
         );
 
         $this->template->aside = View::factory('global_blocks/aside', $data);
@@ -36,164 +60,61 @@ class Controller_Organizations_Index extends Dispatch
     }
 
 
-    public function action_all()
+    /**
+     * Login Page
+     */
+    public function action_login()
     {
-        self::hasAccess(self::WATCH_ALL_ORGS_PAGES);
-
-        $organizations = Model_Organization::getAll(0,10);
-
-        $this->template->title = "Все организации";
-        $this->template->section = View::factory('organizations/pages/organizations')
-            ->set('title', $this->template->title)
-            ->set('organizations', $organizations)
-            ->set('type', 'all_organizations');
+        $this->template->title = "Авторизация";
+        $this->template->action = $this->request->action();
+        $this->template->section = View::factory('welcome/pages/login')
+            ->set('reset', false);
     }
 
 
-    public function action_created()
+    /**
+     * Manage Page
+     * @throws HTTP_Exception_403
+     */
+    public function action_manage()
     {
-        self::hasAccess(self::WATCH_CREATED_ORGS_PAGES);
+        if ( ! ($this->user->role == self::ROLE_ORG_CREATOR
+            || $this->user->role == self::ROLE_ORG_CO_WORKER_MANAGER) ) {
 
-        $organizations = Model_Organization::getByCreator($this->user->id, 0, 10);
-
-        $this->template->title = "Созданные организации";
-        $this->template->section = View::factory('organizations/pages/organizations')
-            ->set('title', $this->template->title)
-            ->set('organizations', $organizations )
-            ->set('type', 'created_organizations');
-    }
-
-
-    public function action_my()
-    {
-        self::hasAccess(self::WATCH_MY_ORGS_PAGE);
-
-        $organizationsID = Model_UserOrganization::getOrganizations($this->user->id);
-
-        $organizations = array();
-
-        if (!empty($organizationsID)) {
-            foreach ($organizationsID as $id) {
-                $organization = new Model_Organization($id);
-                $organization->creator = new Model_User($organization->creator);
-                $organization->owner = new Model_User($organization->owner);
-                $organizations[] = $organization;
-            }
-        }
-
-        $this->template->title = "Мои организации";
-        $this->template->section = View::factory('organizations/pages/my-organizations')
-            ->set('organizations', $organizations);
-    }
-
-
-    public function action_organization()
-    {
-        $id = $this->request->param('id');
-        $organization = new Model_Organization($id);
-
-        if (!$organization->id)
-            throw new HTTP_Exception_404();
-
-        $usersIDs = Model_UserOrganization::getUsers($organization->id);
-
-        if (!(in_array($this->user->id, $usersIDs) || $organization->creator == $this->user->id || $this->user->role == 1)) {
             throw new HTTP_Exception_403();
+
         }
 
-        $users = array();
-        foreach ($usersIDs as $userID) {
-            $user = new Model_User($userID);
-            $user->role = new Model_Role($user->role);
-            $users[] = $user;
-        }
+        $co_workers = Model_User::getAllFromOrganization($this->organization->id, true);
 
-        $pensions = Model_Pension::getByOrganizationID($organization->id) ?: [];
-
-        $permissions = array();
-        foreach (self::AVAILABLE_PERMISSIONS_ORG as $permission) {
-            $permissions[] = new Model_Permission($permission);
+        foreach ($co_workers as $key => $co_worker) {
+            $co_workers[$key]->role = new Model_Role($co_workers[$key]->role);
+            $co_workers[$key]->pensions = Model_UserPension::getPensions($co_worker->id, true);
         }
 
         $roles = array();
-        $availableRoles = Model_Role::getByType('organization', $organization->id);
-        foreach ($availableRoles as $role) {
-            $roles[] = new Model_Role($role->id);
+        foreach (self::ORG_AVAILABLE_ROLES as $role) {
+            array_push($roles, new Model_Role($role));
+        }
+        array_push($roles, new Model_Role(self::ROLE_PEN_CREATOR));
+        foreach (self::PEN_AVAILABLE_ROLES as $role) {
+            array_push($roles, new Model_Role($role));
         }
 
-        $organization->pensions    = $pensions;
-        $organization->users       = $users;
-        $organization->permissions = $permissions;
-        $organization->roles       = $roles;
-
-
-        $this->template->title = $organization->name;
-        $this->template->section = View::factory('organizations/pages/main')
-            ->set('organization', $organization);
-    }
-
-
-    public function action_settings()
-    {
-        $id = $this->request->param('id');
-        $organization = new Model_Organization($id);
-
-        if (!$organization->id)
-            throw new HTTP_Exception_404();
-
-        self::hasAccess(self::EDIT_ORGANIZATION);
-
-        $usersIDs = Model_UserOrganization::getUsers($organization->id);
-
-        if (!(in_array($this->user->id, $usersIDs) || $organization->creator == $this->user->id || $this->user->role == 1)) {
-            throw new HTTP_Exception_403();
-        }
-
-        $users = array();
-        foreach ($usersIDs as $userID) {
-            $user = new Model_User($userID);
-            $user->role = new Model_Role($user->role);
-            $users[] = $user;
-        }
-
-        $permissions = array();
-        foreach (self::AVAILABLE_PERMISSIONS_ORG as $permission) {
-            $permissions[] = new Model_Permission($permission);
-        }
-
-        $roles = Model_Role::getByType('organization', $organization->id);
-
-        $organization->users       = $users;
-        $organization->permissions = $permissions;
-        $organization->roles       = $roles;
-
-        $this->template->title = $organization->name;
-        $this->template->section = View::factory('organizations/pages/settings')
-            ->set('organization', $organization);
+        $this->template->title = "Сотрудники - " . $this->organization->name;
+        $this->template->section = View::factory('organizations/pages/manage')
+            ->set('orgID', $this->organization->id)
+            ->set('co_workers', $co_workers)
+            ->set('pensions', $this->organization->pensions)
+            ->set('roles', $roles)
+            ->set('orgRolesID', self::ORG_AVAILABLE_ROLES );
 
     }
 
 
-    public function action_statistic()
-    {
-        $id = $this->request->param('id');
-        $organization = new Model_Organization($id);
-
-        if (!$organization->id)
-            throw new HTTP_Exception_404();
-
-        self::hasAccess(self::STATISTIC_ORGANIZATION);
-
-        $usersIDs = Model_UserOrganization::getUsers($organization->id);
-
-        if (!(in_array($this->user->id, $usersIDs) || $organization->creator == $this->user->id || $this->user->role == 1)) {
-            throw new HTTP_Exception_403();
-        }
-
-        $this->template->title = $organization->name;
-        $this->template->section = View::factory('organizations/pages/statistic')
-            ->set('organization', $organization);
-    }
-
+//    public function action_control_organization()
+//    {
+//
+//    }
 
 }

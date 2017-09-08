@@ -13,17 +13,6 @@ class Controller_Auth_Index extends Dispatch
 
     public $template = 'welcome/main';
 
-
-    /**
-     * Authentication page
-     */
-    public function action_login()
-    {
-        $this->template->title = "Авторизация";
-        $this->template->section = View::factory('welcome/pages/login')
-            ->set('reset', false);
-    }
-
     /**
      * Join page - create new application
      */
@@ -42,10 +31,11 @@ class Controller_Auth_Index extends Dispatch
         $id = $this->redis->get(getenv('REDIS_RESET_HASHES') . $hash);
 
         if (!$id) {
-            $this->redirect('/login');
+            throw new HTTP_Exception_400();
         }
 
         $this->template->title = "Сброс пароля";
+        $this->template->action = $this->request->action();
         $this->template->section = View::factory('welcome/pages/login')
             ->set('reset', true)
             ->set('hash', $hash);
@@ -59,8 +49,26 @@ class Controller_Auth_Index extends Dispatch
     {
         $auth = new Model_Auth();
         $auth->logout(TRUE);
-
-        $this->redirect('/');
+        self::gotoLoginPage();
     }
 
+    public function action_confirm()
+    {
+        $hash = $this->request->param('hash');
+        $id = $this->redis->get(getenv('REDIS_CONFIRMATION_HASHES') . $hash);
+
+        if (!$id) {
+            throw new HTTP_Exception_400();
+        }
+
+        $user = new Model_User($id);
+        $user->is_confirmed = 1;
+        $user->update();
+
+        $this->redis->delete(getenv('REDIS_CONFIRMATION_HASHES') . $hash);
+
+        $this->redirect($_SERVER['HTTP_HOST']  . '/dashboard');
+//        header('Location: //' . $_SERVER['HTTP_HOST']  . '/dashboard');
+//        die();
+    }
 }

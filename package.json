@@ -23,6 +23,7 @@
     "autoprefixer": "^7.1.1",
     "choices.js": "^2.8.6",
     "css-loader": "^0.28.0",
+    "d3": "^4.10.0",
     "eslint": "^3.19.0",
     "eslint-loader": "^1.7.1",
     "extract-text-webpack-plugin": "^2.1.0",

@@ -21,18 +21,24 @@ Class Model_UserPension {
         Dao_UsersPensions::delete()
             ->where('u_id', '=', $user)
             ->where('p_id', '=', $pension)
-            ->limit(1)
             ->clearcache('user_' . $user)
             ->clearcache('pension_' . $pension)
             ->execute();
     }
 
-    public static function getPensions($user)
+    public static function deleteAllPensions($user) {
+        Dao_UsersPensions::delete()
+            ->where('u_id', '=', $user)
+            ->clearcache('user_' . $user)
+            ->execute();
+    }
+
+    public static function getPensions($user, $as_model = false)
     {
         $select = Dao_UsersPensions::select()
             ->cached(Date::MINUTE * 5, 'user_' . $user)
             ->where('u_id', '=', $user)
-            ->order_by('p_id', 'DESC')
+            ->order_by('p_id', 'ASC')
             ->execute();
 
         if (empty($select)) return array();
@@ -40,7 +46,11 @@ Class Model_UserPension {
         $pensions = array();
 
         foreach ($select as $item) {
-            $pensions[] = $item['p_id'];
+            if ($as_model) {
+                $pensions[] = new Model_Pension($item['p_id']);
+            } else {
+                $pensions[] = $item['p_id'];
+            }
         }
 
         return $pensions;

@@ -29,11 +29,13 @@
 
 
 .table-style--raiscales,
-.table-style--protocols{
+.table-style--protocols,
+.table-style--surveys{
     border-collapse: collapse;
 }
 .table-style--raiscales thead th,
-.table-style--protocols thead th{
+.table-style--protocols thead th,
+.table-style--surveys thead th{
     padding: 10px 5px;
 }
 .table-style--raiscales thead th:nth-child(2),
@@ -46,18 +48,24 @@
 }
 
 .table-style--raiscales tbody tr,
-.table-style--protocols tbody tr{
+.table-style--protocols tbody tr,
+.table-style--surveys tbody tr{
     cursor: pointer;
 }
 .table-style--raiscales tbody td,
-.table-style--protocols tbody td{
+.table-style--protocols tbody td,
+.table-style--surveys tbody td{
     padding: 20px 5px;
     border-top: 1px dashed #dfdfdf;
     border-bottom: 1px dashed #dfdfdf;
 }
+.table-style--surveys tbody td{
+    padding: 5px;
+}
 
 .table-style--raiscales tbody tr:last-child td,
-.table-style--protocols tbody tr:last-child td{
+.table-style--protocols tbody tr:last-child td,
+.table-style--surveys tbody tr:last-child td{
     border: 0;
 }
 
@@ -77,11 +85,13 @@
 
 @media (max-width: 39.9375em) {
     .table-style--raiscales tbody tr,
-    .table-style--protocols tbody tr{
+    .table-style--protocols tbody tr,
+    .table-style--surveys tbody tr{
         position: relative;
     }
     .table-style--raiscales tbody td,
-    .table-style--protocols tbody td{
+    .table-style--protocols tbody td,
+    .table-style--surveys tbody td{
         border: 0;
         padding: 0;
         margin-bottom: 10px;
@@ -112,8 +122,12 @@
     }
 
     .table-style--raiscales tbody b,
-    .table-style--protocols tbody b{
+    .table-style--protocols tbody b,
+    .table-style--surveys tbody b{
         padding: 0 0 3px !important;
+    }
+    .table-style--surveys tbody b{
+        font-size: .95em;
     }
 
 }

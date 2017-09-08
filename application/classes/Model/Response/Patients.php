@@ -74,6 +74,12 @@ class Model_Response_Patients extends Model_Response_Abstract
         'message' => 'Не правильно указан номер справки об инвалидности'
     );
 
+    protected $_PATIENT_PENSION_ERROR = array (
+        'type' => 'patient',
+        'code' => '156',
+        'message' => 'Пациент не принадлежит этому пансионату'
+    );
+
 
 
 }

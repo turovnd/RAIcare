@@ -10,21 +10,13 @@
 
 class Controller_Surveys_Ajax extends Ajax
 {
-    CONST WATCH_ALL_PATIENTS_PROFILES    = 34;
-    CONST WATCH_PATIENTS_PROFILES_IN_PEN = 35;
-    CONST CAN_CONDUCT_A_SURVEY           = 36;
-    CONST WATCH_ALL_SURVEYS              = 37;
-
     protected $pension  = null;
     protected $patient  = null;
     protected $survey   = null;
 
-
     public function action_new()
     {
-        self::hasAccess(self::CAN_CONDUCT_A_SURVEY);
-
-        $this->getPatientAndPensionData();
+        if (!$this->getPatientAndPensionData()) return;
         $type = Arr::get($_POST,'type');
 
         if (empty($type)) {
@@ -33,22 +25,26 @@ class Controller_Surveys_Ajax extends Ajax
             return;
         }
 
-        $survey = Model_Survey::getFirstSurvey($this->pension->id, $this->patient->pk);
-        if ($survey->id && $survey->type == $type) {
+        $first_survey = Model_Survey::getFirstSurvey($this->pension->id, $this->patient->pk);
+        if ($first_survey->pk && $first_survey->type == $type) {
             $response = new Model_Response_Survey('SURVEY_WITH_TYPE_1_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
             return;
         }
 
+        $filling_survey = Model_Survey::getFillingSurveyByPatientAndPension($this->patient->pk, $this->pension->id);
+        if ($filling_survey->pk) {
+            $response = new Model_Response_Survey('HAS_NO_COMPLETE_SURVEY_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
 
-        $count_forms = $this->redis->get($_SERVER['REDIS_PENSION_HASHES'] . $this->pension->id . ':surveys');
-        $count_forms = $count_forms == false ? 1 : $count_forms + 1;
-        $this->redis->set($_SERVER['REDIS_PENSION_HASHES'] . $this->pension->id . ':surveys', $count_forms);
-
-        $first_survey = Model_Survey::getFirstSurvey($this->pension->id, $this->patient->id);
+        $count_surveys = $this->redis->get($_SERVER['REDIS_PENSION_HASHES'] . $this->pension->id . ':surveys');
+        $count_surveys = $count_surveys == false ? 1 : $count_surveys + 1;
+        $this->redis->set($_SERVER['REDIS_PENSION_HASHES'] . $this->pension->id . ':surveys', $count_surveys);
 
         $survey               = new Model_Survey();
-        $survey->id           = $count_forms;
+        $survey->id           = $count_surveys;
         $survey->patient      = $this->patient->pk;
         $survey->pension      = $this->pension->id;
         $survey->organization = $this->pension->organization;
@@ -57,56 +53,40 @@ class Controller_Surveys_Ajax extends Ajax
         $survey->unitB        = $first_survey->unitB;
         $survey->save();
 
-        $response = new Model_Response_Survey('SURVEY_CREATED_SUCCESS', 'success', array('id' => $count_forms));
+        $response = new Model_Response_Survey('SURVEY_CREATED_SUCCESS', 'success', array('id' => $count_surveys));
         $this->response->body(@json_encode($response->get_response()));
     }
 
     public function action_get()
     {
-        $patients = json_decode(Arr::get($_POST,'patients'));
-        $type     = Arr::get($_POST,'type');
         $offset   = Arr::get($_POST,'offset');
-        $forms = array();
-        switch ($type) {
-            case 'json':
-                self::hasAccess(self::WATCH_ALL_PATIENTS_PROFILES);
-                self::hasAccess(self::WATCH_ALL_SURVEYS);
-                $formsModel = Model_Survey::getAllFormsByPatients($patients, $offset, 10);
-                foreach ($formsModel as $key => $form) {
-                    $forms[] = array(
-                        'date' => Date('M Y', strtotime($form->dt_finish)),
-                        'html' => View::factory('patients/blocks/timeline-item', array('form' => $form))->render()
-                    );
-                }
-                break;
-            case 'id':
-                self::hasAccess(self::WATCH_PATIENTS_PROFILES_IN_PEN);
-                $this->getPatientAndPensionData();
-                $formsModel = Model_Survey::getAllFormsByPatientAndPension($this->patient->pk, $this->pension->id, $offset, 10);
-                foreach ($formsModel as $key => $form) {
-                    $forms[] = array(
-                        'date' => Date('M Y', strtotime($form->dt_finish)),
-                        'html' => View::factory('patients/blocks/timeline-item', array('form' => $form))->render()
-                    );
-                }
-                break;
+        $surveys = array();
+
+        if (!$this->getPatientAndPensionData()) return;
+
+        $surveysModel = Model_Survey::getAllFinishedByPatientAndPension($this->patient->pk, $this->pension->id, $offset, 10);
+
+        foreach ($surveysModel as $key => $survey) {
+            $surveys[] = array(
+                'date' => Date('M Y', strtotime($survey->dt_finish)),
+                'html' => View::factory('patients/blocks/timeline-item', array('survey' => $survey))->render()
+            );
         }
 
-        $response = new Model_Response_Survey('SURVEY_GET_SUCCESS', 'success', array('forms' => $forms, 'number' => count($forms)));
+        $response = new Model_Response_Survey('SURVEY_GET_SUCCESS', 'success', array('surveys' => $surveys, 'number' => count($surveys)));
         $this->response->body(@json_encode($response->get_response()));
     }
 
-    public function action_search()
+    public function action_load()
     {
-        self::hasAccess(self::WATCH_ALL_SURVEYS);
-        $name   = Arr::get($_POST,'name');
-        $offset = Arr::get($_POST,'offset');
+        $offset  = Arr::get($_POST,'offset');
+        if (!$this->getPensionData()) return;
 
-        $surveys = Model_Survey::searchForms($offset, 10, $name);
+        $surveys = Model_Survey::getAllByPension($this->pension->id, $offset, 10);
 
         $html = "";
         foreach ($surveys as $survey) {
-            $html .= View::factory('surveys/blocks/search-block', array('survey' => $survey))->render();
+            $html .= View::factory('surveys/blocks/all-surveys-item', array('survey' => $survey, 'pen_uri' => $this->pension->uri))->render();
         }
 
         $response = new Model_Response_Survey('SURVEY_GET_SUCCESS', 'success', array('html' => $html, 'number' => count($surveys)));
@@ -115,24 +95,45 @@ class Controller_Surveys_Ajax extends Ajax
 
     public function action_getunit()
     {
-        self::hasAccess(self::CAN_CONDUCT_A_SURVEY);
-
         $unit = Arr::get($_POST,'unit');
 
-        $this->getSurvey();
-        $this->getSurveyUnits();
+        if (!$this->getSurvey()) return;
+        $this->getSurveyUnits($unit);
 
-        $this->survey->pension = new Model_Pension($this->survey->pension);
-        $this->survey->patient = new Model_Patient($this->survey->patient);
-        $this->survey->patient->can_edit = true;
-        $this->survey->patient->full_info = true;
-        $this->survey->patient->creator = new Model_User($this->survey->patient->creator);
+        if ($unit == 'progress' || $unit == 'unitA' || $unit == 'unitO') {
+            $this->survey->patient = new Model_Patient($this->survey->patient);
+        }
+        if ($unit == 'unitA') {
+            $this->survey->pension = new Model_Pension($this->survey->pension);
+            $this->survey->patient->can_edit = true;
+            $this->survey->patient->full_info = true;
+            $this->survey->patient->creator = new Model_User($this->survey->patient->creator);
+        }
 
 
         $html = View::factory('surveys/units/' . $unit, array('survey' => $this->survey, 'can_conduct' => true))->render();
 
         $response = new Model_Response_Survey('SURVEY_UNIT_GET_SUCCESS', 'success', array('html' => $html));
         $this->response->body(@json_encode($response->get_response()));
+    }
+
+    private function getPensionData()
+    {
+        $pension = Arr::get($_POST,'pension');
+        $this->pension = new Model_Pension($pension);
+
+        if (!$this->pension->id) {
+            $response = new Model_Response_Pensions('PENSION_DOES_NOT_EXISTED_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return false;
+        }
+
+        $usersIDs = Model_UserPension::getUsers($this->pension->id);
+
+        if (!(in_array($this->user->id, $usersIDs))) {
+            throw new HTTP_Exception_403();
+        }
+        return true;
     }
 
     private function getPatientAndPensionData()
@@ -145,7 +146,7 @@ class Controller_Surveys_Ajax extends Ajax
         if (!$this->pension->id) {
             $response = new Model_Response_Pensions('PENSION_DOES_NOT_EXISTED_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
-            return;
+            return false;
         }
 
         $usersIDs = Model_UserPension::getUsers($this->pension->id);
@@ -159,8 +160,9 @@ class Controller_Surveys_Ajax extends Ajax
         if (!$this->patient->pk) {
             $response = new Model_Response_Patients('PATIENTS_DOES_NOT_EXISTED_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
-            return;
+            return false;
         }
+        return true;
     }
 
     private function getSurvey()
@@ -172,7 +174,7 @@ class Controller_Surveys_Ajax extends Ajax
         if (!$this->survey->pk || $this->survey->pension != $pension || $this->survey->status == 3) {
             $response = new Model_Response_Survey('SURVEY_DOES_NOT_EXISTED_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
-            return;
+            return false;
         }
 
         if ($this->survey->status == 1 && strtotime(Date::formatted_time('now')) - strtotime($this->survey->dt_create) > Date::DAY * 3) {
@@ -180,36 +182,69 @@ class Controller_Surveys_Ajax extends Ajax
             $this->survey->update();
             $response = new Model_Response_Survey('SURVEY_HAS_BEEN_DELETED_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
-            return;
+            return false;
         }
+        return true;
     }
 
-    private function getSurveyUnits()
+    private function getSurveyUnits($unit = 'progress')
     {
-        $first_survey = Model_Survey::getFirstSurvey($this->survey->pension, $this->survey->patient);
-        $this->survey->dt_first_survey = !empty($first_survey->pk) ? $first_survey->dt_create : $this->survey->dt_create;
-
-        $this->survey->unitA = new Model_SurveyUnitA($this->survey->unitA);
-
-        if ($this->survey->type == 1)
+        if ($unit == 'progress' || $unit == 'unitA') {
+            $first_survey = Model_Survey::getFirstSurvey($this->survey->pension, $this->survey->patient);
+            $this->survey->dt_first_survey = !empty($first_survey->pk) ? $first_survey->dt_create : $this->survey->dt_create;
+            $this->survey->unitA = new Model_SurveyUnitA($this->survey->unitA);
+        }
+        if ($unit == 'progress' || $unit == 'unitB') {
             $this->survey->unitB = new Model_SurveyUnitB($this->survey->unitB);
-
-        $this->survey->unitC = new Model_SurveyUnitC($this->survey->unitC);
-        $this->survey->unitD = new Model_SurveyUnitD($this->survey->unitD);
-        $this->survey->unitE = new Model_SurveyUnitE($this->survey->unitE);
-        $this->survey->unitF = new Model_SurveyUnitF($this->survey->unitF);
-        $this->survey->unitG = new Model_SurveyUnitG($this->survey->unitG);
-        $this->survey->unitH = new Model_SurveyUnitH($this->survey->unitH);
-        $this->survey->unitI = new Model_SurveyUnitI($this->survey->unitI);
-        $this->survey->unitJ = new Model_SurveyUnitJ($this->survey->unitJ);
-        $this->survey->unitK = new Model_SurveyUnitK($this->survey->unitK);
-        $this->survey->unitL = new Model_SurveyUnitL($this->survey->unitL);
-        $this->survey->unitM = new Model_SurveyUnitM($this->survey->unitM);
-        $this->survey->unitN = new Model_SurveyUnitN($this->survey->unitN);
-        $this->survey->unitO = new Model_SurveyUnitO($this->survey->unitO);
-        $this->survey->unitP = new Model_SurveyUnitP($this->survey->unitP);
-        $this->survey->unitQ = new Model_SurveyUnitQ($this->survey->unitQ);
-        $this->survey->unitR = new Model_SurveyUnitR($this->survey->unitR);
+        }
+        if ($unit == 'progress' || $unit == 'unitC') {
+            $this->survey->unitC = new Model_SurveyUnitC($this->survey->unitC);
+        }
+        if ($unit == 'progress' || $unit == 'unitD') {
+            $this->survey->unitD = new Model_SurveyUnitD($this->survey->unitD);
+        }
+        if ($unit == 'progress' || $unit == 'unitE') {
+            $this->survey->unitE = new Model_SurveyUnitE($this->survey->unitE);
+        }
+        if ($unit == 'progress' || $unit == 'unitF') {
+            $this->survey->unitF = new Model_SurveyUnitF($this->survey->unitF);
+        }
+        if ($unit == 'progress' || $unit == 'unitG') {
+            $this->survey->unitG = new Model_SurveyUnitG($this->survey->unitG);
+        }
+        if ($unit == 'progress' || $unit == 'unitH') {
+            $this->survey->unitH = new Model_SurveyUnitH($this->survey->unitH);
+        }
+        if ($unit == 'progress' || $unit == 'unitI') {
+            $this->survey->unitI = new Model_SurveyUnitI($this->survey->unitI);
+        }
+        if ($unit == 'progress' || $unit == 'unitJ') {
+            $this->survey->unitJ = new Model_SurveyUnitJ($this->survey->unitJ);
+        }
+        if ($unit == 'progress' || $unit == 'unitK') {
+            $this->survey->unitK = new Model_SurveyUnitK($this->survey->unitK);
+        }
+        if ($unit == 'progress' || $unit == 'unitL') {
+            $this->survey->unitL = new Model_SurveyUnitL($this->survey->unitL);
+        }
+        if ($unit == 'progress' || $unit == 'unitM') {
+            $this->survey->unitM = new Model_SurveyUnitM($this->survey->unitM);
+        }
+        if ($unit == 'progress' || $unit == 'unitN') {
+            $this->survey->unitN = new Model_SurveyUnitN($this->survey->unitN);
+        }
+        if ($unit == 'progress' || $unit == 'unitO') {
+            $this->survey->unitO = new Model_SurveyUnitO($this->survey->unitO);
+        }
+        if ($unit == 'progress' || $unit == 'unitP') {
+            $this->survey->unitP = new Model_SurveyUnitP($this->survey->unitP);
+        }
+        if ($unit == 'progress' || $unit == 'unitQ') {
+            $this->survey->unitQ = new Model_SurveyUnitQ($this->survey->unitQ);
+        }
+        if ($unit == 'progress' || $unit == 'unitR') {
+            $this->survey->unitR = new Model_SurveyUnitR($this->survey->unitR);
+        }
     }
 
 
@@ -218,11 +253,9 @@ class Controller_Surveys_Ajax extends Ajax
      */
     public function action_updateunit()
     {
-        self::hasAccess(self::CAN_CONDUCT_A_SURVEY);
-
         $unit = Arr::get($_POST,'unit');
 
-        $this->getSurvey();
+        if (!$this->getSurvey()) return;
 
         switch ($unit) {
             case 'unitA': $this->update_unitA(); break;
@@ -1120,14 +1153,565 @@ class Controller_Surveys_Ajax extends Ajax
 
     public function action_complete()
     {
-        $this->getSurvey();
+        if (!$this->getSurvey()) return;
 
         $this->survey->status = 2;
         $this->survey->dt_finish = Date::formatted_time('now');
         $this->survey->update();
 
+        $this->getUnitsData();
+        $this->createProtocolsReport();
+        $this->createRAIScales();
+
         $response = new Model_Response_Survey('SURVEY_COMPLETE_SUCCESS', 'success');
         $this->response->body(@json_encode($response->get_response()));
         return;
     }
+
+
+
+
+
+
+
+
+
+    /*************************************
+     *
+     *
+     * Functions for creating @reports
+     *
+     *
+     *************************************/
+
+
+    /**
+     * Get Units Data
+     */
+    private function getUnitsData()
+    {
+        $this->survey->unitC = new Model_SurveyUnitC($this->survey->unitC);
+        $this->survey->unitC->C2 = json_decode($this->survey->unitC->C2);
+        $this->survey->unitC->C3 = json_decode($this->survey->unitC->C3);
+
+        $this->survey->unitD = new Model_SurveyUnitD($this->survey->unitD);
+        $this->survey->unitD->D3 = json_decode($this->survey->unitD->D3);
+        $this->survey->unitD->D4 = json_decode($this->survey->unitD->D4);
+
+        $this->survey->unitE = new Model_SurveyUnitE($this->survey->unitE);
+        $this->survey->unitE->E1 = json_decode($this->survey->unitE->E1);
+        $this->survey->unitE->E2 = json_decode($this->survey->unitE->E2);
+        $this->survey->unitE->E3 = json_decode($this->survey->unitE->E3);
+
+        $this->survey->unitF = new Model_SurveyUnitF($this->survey->unitF);
+        $this->survey->unitF->F1 = json_decode($this->survey->unitF->F1);
+        $this->survey->unitF->F2 = json_decode($this->survey->unitF->F2);
+        $this->survey->unitF->F3 = json_decode($this->survey->unitF->F3);
+        $this->survey->unitF->F5 = json_decode($this->survey->unitF->F5);
+
+        $this->survey->unitG = new Model_SurveyUnitG($this->survey->unitG);
+        $this->survey->unitG->G1 = json_decode($this->survey->unitG->G1);
+        $this->survey->unitG->G2 = json_decode($this->survey->unitG->G2);
+        $this->survey->unitG->G3 = json_decode($this->survey->unitG->G3);
+        $this->survey->unitG->G4 = json_decode($this->survey->unitG->G4);
+
+        $this->survey->unitH = new Model_SurveyUnitH($this->survey->unitH);
+
+        $this->survey->unitI = new Model_SurveyUnitI($this->survey->unitI);
+        $this->survey->unitI->I1 = json_decode($this->survey->unitI->I1);
+
+        $this->survey->unitJ = new Model_SurveyUnitJ($this->survey->unitJ);
+        $this->survey->unitJ->J3 = json_decode($this->survey->unitJ->J3);
+        $this->survey->unitJ->J6 = json_decode($this->survey->unitJ->J6);
+        $this->survey->unitJ->J7 = json_decode($this->survey->unitJ->J7);
+        $this->survey->unitJ->J9 = json_decode($this->survey->unitJ->J9);
+
+        $this->survey->unitK = new Model_SurveyUnitK($this->survey->unitK);
+        $this->survey->unitK->K1 = json_decode($this->survey->unitK->K1);
+        $this->survey->unitK->K2 = json_decode($this->survey->unitK->K2);
+        $this->survey->unitK->K5 = json_decode($this->survey->unitK->K5);
+
+        $this->survey->unitL = new Model_SurveyUnitL($this->survey->unitL);
+
+        $this->survey->unitM = new Model_SurveyUnitM($this->survey->unitM);
+        $this->survey->unitM->M2 = json_decode($this->survey->unitM->M2);
+
+        $this->survey->unitN = new Model_SurveyUnitN($this->survey->unitN);
+
+        $this->survey->unitO = new Model_SurveyUnitO($this->survey->unitO);
+        $this->survey->unitO->O1 = json_decode($this->survey->unitO->O1);
+        $this->survey->unitO->O2 = json_decode($this->survey->unitO->O2);
+        $this->survey->unitO->O3 = json_decode($this->survey->unitO->O3);
+        $this->survey->unitO->O4 = json_decode($this->survey->unitO->O4);
+        $this->survey->unitO->O7 = json_decode($this->survey->unitO->O7);
+
+        $this->survey->unitP = new Model_SurveyUnitP($this->survey->unitP);
+        $this->survey->unitP->P1 = json_decode($this->survey->unitP->P1);
+        $this->survey->unitP->P2 = json_decode($this->survey->unitP->P2);
+
+        $this->survey->unitQ = new Model_SurveyUnitQ($this->survey->unitQ);
+        $this->survey->unitQ->Q1 = json_decode($this->survey->unitQ->Q1);
+    }
+
+
+
+    /**
+     * Create Protocols Report
+     */
+    private function createProtocolsReport()
+    {
+        $C1 = $this->survey->unitC->C1;
+        $C3 = $this->survey->unitC->C3;
+        $C4 = $this->survey->unitC->C4;
+        $C5 = $this->survey->unitC->C5;
+        $D1 = $this->survey->unitD->D1;
+        $D2 = $this->survey->unitD->D2;
+        $E1 = $this->survey->unitE->E1;
+        $E3 = $this->survey->unitE->E3;
+        $F2 = $this->survey->unitF->F2;
+        $G1 = $this->survey->unitG->G1;
+        $G3 = $this->survey->unitG->G3;
+        $G4 = $this->survey->unitG->G4;
+        $G5 = $this->survey->unitG->G5;
+        $H1 = $this->survey->unitH->H1;
+        $H2 = $this->survey->unitH->H2;
+        $I1 = $this->survey->unitI->I1;
+        $J1 = $this->survey->unitJ->J1;
+        $J3 = $this->survey->unitJ->J3;
+        $J4 = $this->survey->unitJ->J4;
+        $J6 = $this->survey->unitJ->J6;
+        $J7 = $this->survey->unitJ->J7;
+        $J9 = $this->survey->unitJ->J9;
+        $K2 = $this->survey->unitK->K2;
+        $K3 = $this->survey->unitK->K3;
+        $K4 = $this->survey->unitK->K4;
+        $L1 = $this->survey->unitL->L1;
+        $L2 = $this->survey->unitL->L2;
+        $L3 = $this->survey->unitL->L3;
+        $L4 = $this->survey->unitL->L4;
+        $L5 = $this->survey->unitL->L5;
+        $M1 = $this->survey->unitM->M1;
+        $O1 = $this->survey->unitO->O1;
+        $O2 = $this->survey->unitO->O2;
+        $O5 = $this->survey->unitO->O5;
+        $O7 = $this->survey->unitO->O7;
+        $BMI = $this->getBMI();
+        $ADLH = $this->getADLH();
+        $CPS = $this->getCPS();
+
+        $report = new Model_ReportProtocols();
+        $report->pk = $this->survey->pk;
+
+        // Behaviour - проблемное поведение
+        $P1 = 0;
+        if ($C1 != 5) {
+            foreach ($E3 as $item) { if ($item == 3) { $P1 = 2; } elseif ($item == 2 && $P1 < 2) { $P1 = 1; } }
+        } else {
+            $P1 = -1;
+        }
+        $report->P1 = $P1;
+
+        // Communication - Коммуникация
+        if ($C1 == 5) {
+
+            $P2 = -1;
+
+        } elseif ($C1 < 2) {
+
+            if (($D1 + $D2) >= 2) {
+                $P2 = 1;
+            } else {
+                $P2 = 0;
+            }
+
+        } elseif ($C1 == 3 && $D1 == 3 && $D2 == 3) {
+            $P2 = 1;
+        } else {
+            if( ($C1 == 2 && $D1 == 1 && $D2 == 1) || ($C1 == 3 && $D1 == 1 && $D2 == 1) ||
+                (($C1 == 2 || $C1 == 3) && ($D1 >= 3 || $D2 >= 3 || $D1 + $D2 > 2)) ||
+                ($C1 == 4 && ($D1 >= 4 || $D2 >= 4 || $D1 + $D2 > 5)) )
+            {
+                $P2 = 0;
+            } else {
+                $P2 = 2;
+            }
+        }
+        $report->P2 = $P2;
+
+        // Delirium - деменция
+        if ($C1 != 5) {
+            $P3 = $C4 == 1 ? 1 : 0;
+            if ($P3 == 0) { foreach ($C3 as $item) { if ($item == 2) { $P3 = 1; break; } } }
+        } else {
+            $P3 = -1;
+        }
+
+        $report->P3 = $P3;
+
+        // Mood - Настроение
+        $P4 = $this->getDRS();
+        $report->P4 = $P4 >= 3 ? 2 : (($P4 == 1 || $P4 == 2) ? 1 : ($P4 != -1 ? 0 : -1));
+
+        // Cardio-respiratory - Сердечно-дыхательная недостаточность
+        $P5 = ($J3[2] >= 1 || $J3[4] >= 1 || $J4 >= 1) ? 1 : 0;
+        $report->P5 = $P5;
+
+        // Dehydration - Дегидратация
+        // Возможно Delirum
+        if ($C1 == 5) {
+            $P6 = -1;
+        } else {
+            $P6 = ($K2[1] == 1 || $K2[2] == 1) ? (($K4 >= 1 || $K2[0] == 1 || $J3[2] >= 1 || $J3[11] >= 1 || $J3[12] >= 1 || $J3[13] >= 1 || $J3[17] >= 1) ? 2 : 1) : 0;
+        }
+        $report->P6 = $P6;
+
+        // Falls - Падения
+        $P7 = $J1 == 3 ? 2 : ($J1 == 0 ? 0 : 1);
+        $report->P7 = $P7;
+
+        // Feeding Tube - Питательная трубка
+        $P8 = ($K3 < 5 || $K3 == 9) ? 0 : (($C1 >= 0 && $C1 <=3) ? 2 : ($C1 != 5 ? 1 : -1));
+        $report->P8 = $P8;
+
+        // Nutrition - Питание
+        $P9 = ($BMI < 19 && $J7[2] != 1) ? 2 : (($BMI > 22 || $J7[2] == 1) ? 0 : 1);
+        $report->P9 = $P9;
+
+        // Pain - Повреждения
+        $P10 = ($J6[1] == 3 || $J6[1] == 4) ? 2 : ((($J6[1] == 1 || $J6[1] == 2) && $J6[0] == 3) ? 1 : 0);
+        $report->P10 = $P10;
+
+        // Smoking and Drinking
+        $P11 = ($J9[0] >= 1 || $J9[1] == 3) ? 1 : 0;
+        $report->P11 = $P11;
+
+        // Pressure Ulcer - Тяжелые пролежни
+        if ( $C1 == 5 ) {
+            $P12 = 3;
+        } else {
+            $P12 = $L1 >= 2 ? 1 :
+                ($L1 == 1 ? 2 :
+                    ((($ADLH == 5 || $ADLH == 6) && ($L2 == 1 || $L3 == 1 || $L4 == 1 || $L5 == 1) && $G1[8] >= 4 && $O2 >= 4) ? 3 : 0));
+        }
+        $report->P12 = $P12;
+
+        // Urinary Incontinence - Недержание мочи
+        $P13 = ($H1 <= 1) ? ($C1 < 4 ? 1 : 0) : (
+            ($C1 < 2 && $G1[5] < 4 && ($O2[11] == 0 || ($I1[0] > 0 || ($G5 > 1 && $G5 < 8)) || $H2 == 2 || $I1[17] > 0 || $J3[12] > 0)) ? 3 :
+                (($C1 < 4 && $H2 != 2 && $I1[17] == 0) ? 2 : 0) );
+        $report->P13 = $P13;
+
+        // Physical restraint - Физическая сдержанность
+        $P14 = (($O7[1] > 0 || $O7[2] > 0) && $ADLH <= 3) ? 2 :
+            ((($O7[1] > 0 || $O7[2] > 0) && $ADLH > 3) ? 1 : 0);
+        $report->P14 = $P14;
+
+        // Activities - Активность
+        if ($C1 != 5) {
+            $P15count = 0;
+            if ($E1[8] > 0) $P15count++;
+            if ($E1[9] > 0 ) $P15count++;
+            if ($F2[0] == 0 ) $P15count++;
+            if ($F2[1] == 0) $P15count++;
+            if ($F2[4] == 0 ) $P15count++;
+            $P15 = ($M1 != 0 && $M1 <= 3 && $C1 <= 3 && $P15count >= 2) ? 1 : 0;
+        } else {
+            $P15 = -1;
+        }
+        $report->P15 = $P15;
+
+        // Physical Activities Promotion
+        // TODO про тот триггер оставь звездочку что там могут быть еще условия потом
+        $P16 = $G3[0] <= 2 && ($G1[5] < 3 || $G4[0] == 1 || $G4[1] == 1) ? 1 : 0;
+        $report->P16 = $P16;
+
+        // Prevention
+        $P17check = ($O1[0] == 0 || $O1[1] == 0 || $O1[2] == 0 || $O1[3] == 0 || $O1[4] == 0 || $O1[5] == 0 || $O1[6] == 0 || $O1[7] == 0) ? true : false;
+        $P17 = ($O5 < 7 && $P17check) ? 2 : (($O5 > 7 && $P17check) ? 1 : 0);
+        $report->P17 = $P17;
+
+        // Cognitive Loss
+        if ($C1 != 5) {
+            $P18count = 0;
+            if ($I1[2] >= 2) $P18count++;
+            if ($I1[3] >= 2) $P18count++;
+            if ($D1 == 4) $P18count++;
+            if ($D2 == 4) $P18count++;
+            if ($E1[3] >= 2) $P18count++;
+            if ($E1[4] >= 2) $P18count++;
+            if ($E1[7] >= 2) $P18count++;
+            if ($E3[0] >= 2) $P18count++;
+            if ($E3[2] >= 2) $P18count++;
+            if ($C3[0] == 2) $P18count++;
+            if ($C3[1] == 2) $P18count++;
+            if ($C3[2] == 2) $P18count++;
+            if ($C4 == 1) $P18count++;
+            if ($C5 == 2) $P18count++;
+
+            $P18 = $CPS <= 2 ? ($P18count >= 2 ? 2 : ($P18count == 1 ? 1 : 0)) : 0;
+        } else {
+            $P18 = -1;
+        }
+
+        $report->P18 = $P18;
+
+        // Appropriate Medications
+        // TODO do it in future
+        $P19 = 0;
+        $report->P19 = $P19;
+
+        $report->save();
+    }
+
+
+
+    /**
+     * Create RAI Scales Report
+     */
+    private function createRAIScales()
+    {
+        $report = new Model_ReportRAIScales();
+        $report->pk = $this->survey->pk;
+
+        $report->PURS = $this->getPURS();
+        $report->CPS = $this->getCPS();
+        $report->BMI = $this->getBMI();
+        $report->SRD = $this->getSRD();
+        $report->DRS = $this->getDRS();
+        $report->Pain = $this->getPain();
+        $report->COMM = $this->getCOMM();
+        $report->CHESS = $this->getCHESS();
+        $report->ADLH = $this->getADLH();
+        $report->ABS = $this->getABS();
+        $report->ADLLF = $this->getADLLF();
+
+        $report->save();
+    }
+
+
+
+    /**
+     * Pressure Ulcer Risk Scale
+     */
+    private function getPURS()
+    {
+        $G1 = $this->survey->unitG->G1;
+        $K2 = $this->survey->unitK->K2;
+
+        $J6 = $this->survey->unitJ->J6;
+        $purs = 0;
+        if ( $G1[8] > 3 ) $purs++;
+        if ( $G1[4] > 3 ) $purs++;
+        if ( $this->survey->unitH->H3 > 2 ) $purs++;
+        if ( $K2[0] == 1 ) $purs++;
+        if ( $J6[0] == 3 ) $purs++;
+        if ( $this->survey->unitL->L2 == 1 ) $purs = $purs + 2;
+        if ( $this->survey->unitJ->J4 >= 2 ) $purs++;
+
+        return $purs;
+    }
+
+
+    /**
+     * Cognitive Performance Scale
+     */
+    private function getCPS()
+    {
+        switch ($this->survey->unitC->C1) {
+            case 5:
+                return 6;
+                break;
+            case 4:
+                $G1j = $this->survey->unitG->G1[9];
+                if ($G1j == 6 || $G1j == 8) return 6;
+                else return 5;
+                break;
+            default:
+                // Impairment Count
+                $imp_count = 0;
+                if ($this->survey->unitC->C1 > 0) $imp_count++;
+                if ($this->survey->unitC->C2[0] == 1) $imp_count++;
+                if ($this->survey->unitD->D1 > 0) $imp_count++;
+                switch ($imp_count) {
+                    case 0: return 0; break;
+                    case 1: return 1; break;
+                    default:
+                        // Severe Impairment Count
+                        $sev_imp_count = 0;
+                        if ($this->survey->unitC->C1 == 3) $sev_imp_count++;
+                        if ($this->survey->unitD->D1 >= 3) $sev_imp_count++;
+                        switch ($sev_imp_count) {
+                            case 0: return 2; break;
+                            case 1: return 3; break;
+                            case 2: return 4; break;
+                        }
+                        break;
+                }
+                break;
+        }
+    }
+
+
+    /**
+     * Body Mass Index
+     */
+    private function getBMI()
+    {
+        $K1 = $this->survey->unitK->K1;
+        return number_format ($K1[1] / ($K1[0] * $K1[0]) * 10000, 2);
+    }
+
+
+    /**
+     * Self Rated Depression
+     */
+    private function getSRD()
+    {
+        $C1 = $this->survey->unitC->C1;
+        $E2 = $this->survey->unitE->E2;
+
+        if ($E2[0] == 8 || $E2[1] == 8 || $E2[2] == 8 || $C1 == 5)
+            return -1;
+        else
+            return $E2[0] + $E2[1] + $E2[2];
+    }
+
+
+    /**
+     * Depression Rating Scale
+     */
+    private function getDRS()
+    {
+        if ($this->survey->unitC->C1 == 5)
+            return -1;
+
+        $E1 = $this->survey->unitE->E1;
+        $drs = 0;
+        $drs += $E1[0] == 0 ? 0 : (($E1[0] == 1 || $E1[0] == 2) ? 1 : 2);
+        $drs += $E1[1] == 0 ? 0 : (($E1[1] == 1 || $E1[1] == 2) ? 1 : 2);
+        $drs += $E1[2] == 0 ? 0 : (($E1[2] == 1 || $E1[2] == 2) ? 1 : 2);
+        $drs += $E1[3] == 0 ? 0 : (($E1[3] == 1 || $E1[3] == 2) ? 1 : 2);
+        $drs += $E1[4] == 0 ? 0 : (($E1[4] == 1 || $E1[4] == 2) ? 1 : 2);
+        $drs += $E1[5] == 0 ? 0 : (($E1[5] == 1 || $E1[5] == 2) ? 1 : 2);
+        $drs += $E1[6] == 0 ? 0 : (($E1[6] == 1 || $E1[6] == 2) ? 1 : 2);
+        return $drs;
+    }
+
+
+    /**
+     * Pain Scale
+     */
+    private function getPain()
+    {
+        $J6 = $this->survey->unitJ->J6;
+
+        if ($J6[0] == 3) {
+            if ($J6[1] >= 3) return 3;
+            return 2;
+        }
+
+        if ($J6[0] > 0) return 1;
+
+        return 0;
+    }
+
+
+    /**
+     * Communication Scale
+     */
+    private function getCOMM()
+    {
+        if ($this->survey->unitC->C1 == 5)
+            return -1;
+
+        return $this->survey->unitD->D1 + $this->survey->unitD->D2;
+    }
+
+
+    /**
+     * Changes in Health, End-Stage Disease, Signs, and Symptoms Scale
+     */
+    private function getCHESS()
+    {
+        if ( ( $this->survey->unitG->G5 == 8) ) {
+
+            return -1;
+
+        } else {
+
+            $J3 = $this->survey->unitJ->J3;
+            $J7 = $this->survey->unitJ->J7;
+            $K2 = $this->survey->unitK->K2;
+
+            $CHESS = 0;
+            $count = 0;
+
+            if ( $this->survey->unitC->C5 == 2 ) $CHESS++;
+            if ( $this->survey->unitG->G5 == 2 ) $CHESS++;
+            if ( $J7[2] == 1 ) $CHESS++;
+
+            if ($count < 2 &&$K2[1] == 1 && $K2[3] == 1) $count++;
+            if ($count < 2 &&$K2[0] == 1) $count++;
+            if ($count < 2 &&$K2[2] == 1) $count++;
+            // может оказаться что J4>1
+            if ($count < 2 &&$this->survey->unitJ->J4 != 0) $count++;
+            if ($count < 2 &&$J3[13] == 2) $count++;
+            if ($count < 2 &&$J3[20] == 2) $count++;
+
+            return $CHESS + $count ;
+        }
+
+    }
+
+
+    /**
+     * Activities of Daily Living (Hierarchy)
+     */
+    private function getADLH()
+    {
+        //Personal hygiene  $this->survey->unitG->G1[1] => G1b
+        //Toilet use        $this->survey->unitG->G1[7] => G1h
+        //Locomotion        $this->survey->unitG->G1[5] => G1f
+        //Eating            $this->survey->unitG->G1[9] => G1j
+        $G1 =  $this->survey->unitG->G1;
+        return ($G1[1] >= 6 && $G1[5] >= 6 && $G1[7] >= 6 && $G1[9] >= 6) ? 6 :
+            (($G1[9] >= 6 || $G1[5] >= 6) ? 5 :
+                ((($G1[9] < 6 && $G1[5] < 6) && ($G1[9] > 3 || $G1[5] > 3)) ? 4 :
+                    ((($G1[1] > 3 || $G1[7] > 3) && ($G1[9] < 4 && $G1[5] < 4)) ? 3 :
+                        ((($G1[1] < 4 && $G1[7] < 4 && $G1[9] < 4 && $G1[5] < 4) && ($G1[1] == 3 || $G1[7] == 3 || $G1[9] == 3 || $G1[5] == 3)) ? 2 :
+                            ((($G1[1] < 3 && $G1[7] < 3 && $G1[9] < 3 && $G1[5] < 3) && ($G1[1] == 2 || $G1[7] == 2 || $G1[9] == 2 || $G1[5] == 2)) ? 1 : 0)))));
+    }
+
+
+    /**
+     * Aggressive Behaviour Scale
+     */
+    private function getABS()
+    {
+        if ($this->survey->unitC->C1 == 5)
+            return -1;
+
+        $E3 =  $this->survey->unitE->E3;
+        return $E3[1] + $E3[2] + $E3[3] + $E3[5];
+    }
+
+
+    /**
+     * Activities of Daily Living (Long Form)
+     */
+    private function getADLLF()
+    {
+        $G1 =  $this->survey->unitG->G1;
+        $ADLLF = 0;
+        $ADLLF += ($G1[1] == 0 || $G1[1] == 1) ? 0 : ($G1[1] == 2 ? 1 : ($G1[1] == 3 ? 2 : (($G1[1] == 4 || $G1[1] == 5) ? 3 : 4)));
+        $ADLLF += ($G1[2] == 0 || $G1[2] == 1) ? 0 : ($G1[2] == 2 ? 1 : ($G1[2] == 3 ? 2 : (($G1[2] == 4 || $G1[2] == 5) ? 3 : 4)));
+        $ADLLF += ($G1[3] == 0 || $G1[3] == 1) ? 0 : ($G1[3] == 2 ? 1 : ($G1[3] == 3 ? 2 : (($G1[3] == 4 || $G1[3] == 5) ? 3 : 4)));
+        $ADLLF += ($G1[5] == 0 || $G1[5] == 1) ? 0 : ($G1[5] == 2 ? 1 : ($G1[5] == 3 ? 2 : (($G1[5] == 4 || $G1[5] == 5) ? 3 : 4)));
+        $ADLLF += ($G1[7] == 0 || $G1[7] == 1) ? 0 : ($G1[7] == 2 ? 1 : ($G1[7] == 3 ? 2 : (($G1[7] == 4 || $G1[7] == 5) ? 3 : 4)));
+        $ADLLF += ($G1[8] == 0 || $G1[8] == 1) ? 0 : ($G1[8] == 2 ? 1 : ($G1[8] == 3 ? 2 : (($G1[8] == 4 || $G1[8] == 5) ? 3 : 4)));
+        $ADLLF += ($G1[9] == 0 || $G1[9] == 1) ? 0 : ($G1[9] == 2 ? 1 : ($G1[9] == 3 ? 2 : (($G1[9] == 4 || $G1[9] == 5) ? 3 : 4)));
+
+        return $ADLLF;
+    }
+
 }

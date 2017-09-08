@@ -7,7 +7,7 @@ Class Model_Pension {
     public $name;
     public $uri;
     public $organization;
-    public $owner;
+    public $places;
     public $creator;
     public $cover = "no-image.png";
     public $is_removed;
@@ -47,6 +47,18 @@ Class Model_Pension {
 
     }
 
+    public static function getByFieldName($field, $value) {
+
+        $select = Dao_Pensions::select()
+            ->where($field, '=', $value)
+            ->limit(1)
+            ->execute();
+
+        $pension = new Model_Pension();
+        return $pension->fill_by_row($select);
+
+    }
+
     public function save()
     {
         $this->dt_create = Date::formatted_time('now');
@@ -56,6 +68,8 @@ Class Model_Pension {
         foreach ($this as $fieldname => $value) {
             if (property_exists($this, $fieldname)) $insert->set($fieldname, $value);
         }
+
+        $insert->clearcache('organization_' . $this->organization);
 
         $result = $insert->execute();
 
@@ -70,8 +84,10 @@ Class Model_Pension {
             if (property_exists($this, $fieldname)) $insert->set($fieldname, $value);
         }
 
-        $insert->clearcache($this->id);
         $insert->where('id', '=', $this->id);
+
+        $insert->clearcache($this->id);
+        $insert->clearcache('organization_' . $this->organization);
 
         $insert->execute();
 
@@ -161,10 +177,11 @@ Class Model_Pension {
     }
 
 
-    public static function getByOrganizationID($id) {
+    public static function getByOrganizationID($id, $as_model = false) {
 
         $select = Dao_Pensions::select()
             ->where('organization','=', $id)
+            ->cached(Date::MINUTE * 5, 'organization_' . $id)
             ->order_by('dt_create', 'DESC')
             ->execute();
 
@@ -173,12 +190,27 @@ Class Model_Pension {
         if ( empty($select) ) return $pensions;
 
         foreach ($select as $item) {
-            $pension = new Model_Pension();
-            $pensions[] = $pension->fill_by_row($item);
+            if ($as_model) {
+                $pension = new Model_Pension();
+                $pensions[] = $pension->fill_by_row($item);
+            } else {
+                $pensions[] = $item['id'];
+            }
         }
 
         return $pensions;
 
+    }
+
+    public static function isEmptyURI($uri, $organization)
+    {
+        $select = Dao_Pensions::select()
+            ->where('organization','=', $organization)
+            ->where('uri','=', $uri)
+            ->limit(1)
+            ->execute();
+
+        return !empty($select['id']);
     }
 
 }

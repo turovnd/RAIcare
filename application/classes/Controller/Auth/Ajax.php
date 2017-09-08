@@ -47,10 +47,10 @@ class Controller_Auth_Ajax extends Auth
             return;
         }
 
-        $user = new Model_Auth();
+        $auth = new Model_Auth();
         $password = $this->makeHash('md5', $password . getenv('SALT'));
 
-        if (!$user->login($username, $password)) {
+        if (!$auth->login($username, $password)) {
             $this->makeAttempt();
             $response = new Model_Response_Auth('LOGIN_INVALID_INPUT_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
@@ -116,8 +116,10 @@ class Controller_Auth_Ajax extends Auth
         $uid    = Cookie::get('uid');
         $sid    = Cookie::get('sid');
 
-        $hash   = $this->makeHash('sha256', getenv('SALT') . $sid . getenv('AUTHSALT') . $uid);
+        $auth = new Model_Auth();
+        $auth->logout();
 
+        $hash   = $this->makeHash('sha256', getenv('SALT') . $sid . getenv('AUTHSALT') . $uid);
         $this->redis->delete(getenv('REDIS_SESSIONS_HASHES'). $hash);
 
         $this->clearCookie();
@@ -162,7 +164,7 @@ class Controller_Auth_Ajax extends Auth
         $template = View::factory('email-templates/reset-password', array('user' => $user, 'hash' => $hash));
 
         $email = new Email();
-        $email = $email->send($user->email, $_SERVER['INFO_EMAIL'], 'Восстановление пароля', $template, true);
+        $email = $email->send($user->email, array($_SERVER['INFO_EMAIL'], $_SERVER['INFO_EMAIL_NAME']), 'Восстановление пароля', $template, true);
 
         if ($email == 1) {
             $this->redis->set(getenv('REDIS_RESET_HASHES') . $hash, $user->id, array('nx', 'ex' => Date::HOUR));
@@ -219,7 +221,7 @@ class Controller_Auth_Ajax extends Auth
         $auth->login($user->email, $password);
 
         $this->redis->delete(getenv('REDIS_RESET_HASHES') . $hash);
-        
+
         $response = new Model_Response_Users('USER_RESET_PASSWORD_SUCCESS', 'success');
         $this->response->body(@json_encode($response->get_response()));
         return;
@@ -284,7 +286,7 @@ class Controller_Auth_Ajax extends Auth
     /**
      * Set `secret` to cookie and Redis
      */
-    protected function setSecret($sid, $uid)
+    private function setSecret($sid, $uid)
     {
         // генерируем новый хэш c новый session id
         $hash = $this->makeHash('sha256', getenv('SALT') . $sid . getenv('AUTHSALT') . $uid);
@@ -294,31 +296,5 @@ class Controller_Auth_Ajax extends Auth
 
         // сохраняем в редис
         $this->redis->set(getenv('REDIS_SESSIONS_HASHES') . $hash, $sid . ':' . $uid , array('nx', 'ex' => Date::WEEK));
-    }
-
-    /**
-     * action - Checking Email Confirmation hash
-     * @throws HTTP_Exception_400
-     */
-    public function action_confirmEmail()
-    {
-        $hash = $this->request->param('hash');
-
-        $id = $this->redis->get(getenv('REDIS_RESET_HASHES') . $hash);
-
-        if (!$id) {
-            throw new HTTP_Exception_400;
-        }
-
-        $user = new Model_User($id);
-
-        $user->is_confirmed = 1;
-
-        $user->update();
-
-        $this->redis->delete(getenv('REDIS_CONFIRMATION_HASHES') . $hash);
-
-        $this->redirect('app');
-
     }
 }

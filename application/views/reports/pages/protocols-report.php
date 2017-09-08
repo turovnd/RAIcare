@@ -3,16 +3,8 @@
 
     <h3 class="section__heading">
         <a role="button" onclick="window.history.back()" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn">Назад</a>
-        <a role="button" onclick="" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn"><i class="fa fa-print" aria-hidden="true"></i></a>
         <a role="button" onclick="" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn"><i class="fa fa-floppy-o" aria-hidden="true"></i></a>
-
-        <? // WATCH_ALL_SURVEYS = 37
-        if (in_array(37, $user->permissions)) : ?>
-            Итоговый протокол оценки #<?= $survey->pk; ?>
-        <? else: ?>
-            Итоговый протокол оценки #<?= $survey->id; ?>
-        <? endif; ?>
-
+        Итоговый протокол оценки #<?= $survey->id; ?>
     </h3>
 
     <div class="row">
@@ -27,7 +19,9 @@
             <div class="block">
                 <div class="block__body">
 
-                    <fieldset>
+                    <? if ($protocols->P1 != -1) : ?>
+
+                        <fieldset>
                         <div class="form-group">
                             <label class="form-group__label col-xs-12">
                                 <span class="fl_r f-s-1_25 <?= $protocols->P1 == 0 ? 'text-brand' : 'text-danger'; ?>"><i class="fa fa-flag" aria-hidden="true"></i></span>
@@ -56,7 +50,11 @@
                         </div>
                     </fieldset>
 
-                    <fieldset>
+                    <? endif; ?>
+
+                    <? if ($protocols->P2 != -1) : ?>
+
+                        <fieldset>
                         <div class="form-group">
                             <label class="form-group__label col-xs-12">
                                 <span class="fl_r f-s-1_25 <?= $protocols->P2 == 0 ? 'text-brand' : 'text-danger'; ?>"><i class="fa fa-flag" aria-hidden="true"></i></span>
@@ -84,6 +82,10 @@
                             </div>
                         </div>
                     </fieldset>
+
+                    <? endif; ?>
+
+                    <? if ($protocols->P3 != -1) : ?>
 
                     <fieldset>
                         <div class="form-group">
@@ -114,6 +116,10 @@
                         </div>
                     </fieldset>
 
+                    <? endif; ?>
+
+                    <? if ($protocols->P4 != -1) : ?>
+
                     <fieldset>
                         <div class="form-group">
                             <label class="form-group__label col-xs-12">
@@ -142,6 +148,8 @@
                             </div>
                         </div>
                     </fieldset>
+
+                    <? endif; ?>
 
                     <fieldset>
                         <div class="form-group">
@@ -172,6 +180,8 @@
                         </div>
                     </fieldset>
 
+                    <? if ($protocols->P6 != -1) : ?>
+
                     <fieldset>
                         <div class="form-group">
                             <label class="form-group__label col-xs-12">
@@ -200,6 +210,8 @@
                             </div>
                         </div>
                     </fieldset>
+
+                    <? endif; ?>
 
                     <fieldset>
                         <div class="form-group">
@@ -230,6 +242,8 @@
                         </div>
                     </fieldset>
 
+                    <? if ($protocols->P8 != -1) : ?>
+
                     <fieldset>
                         <div class="form-group">
                             <label class="form-group__label col-xs-12">
@@ -258,6 +272,8 @@
                             </div>
                         </div>
                     </fieldset>
+
+                    <? endif; ?>
 
                     <fieldset>
                         <div class="form-group">
@@ -433,6 +449,8 @@
                         </div>
                     </fieldset>
 
+                    <? if ($protocols->P15 != -1) : ?>
+
                     <fieldset>
                         <div class="form-group">
                             <label class="form-group__label col-xs-12">
@@ -461,6 +479,8 @@
                             </div>
                         </div>
                     </fieldset>
+
+                    <? endif; ?>
 
                     <fieldset>
                         <div class="form-group">
@@ -520,7 +540,9 @@
                         </div>
                     </fieldset>
 
-                    <fieldset>
+                    <? if ($protocols->P18 != -1) : ?>
+
+                        <fieldset>
                         <div class="form-group">
                             <label class="form-group__label col-xs-12">
                                 <span class="fl_r f-s-1_25 <?= $protocols->P18 == 0 ? 'text-brand' : 'text-danger'; ?>"><i class="fa fa-flag" aria-hidden="true"></i></span>
@@ -548,6 +570,8 @@
                             </div>
                         </div>
                     </fieldset>
+
+                    <? endif; ?>
 
                 </div>
             </div>

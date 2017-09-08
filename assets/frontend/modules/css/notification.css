@@ -63,7 +63,7 @@
 .notification--large{
     width: 750px;
 }
-@media (max-width: 768px) {
+@media (max-width: 767px) {
     .notification--prompt,
     .notification--confirm {
         width: 90%;

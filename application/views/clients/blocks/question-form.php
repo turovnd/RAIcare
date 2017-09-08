@@ -62,7 +62,7 @@
                         <? if ($client->status == 2) : ?>
                             <div class="form-group__control-group hide">
                                 <input id="clientName" name="name" type="text" class="form-group__control form-group__control-group-input" value="<?= $client->name; ?>" maxlength="256">
-                                <label onclick="clients.edit.toggle(this)" class="b-l-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
+                                <label onclick="clients.edit.toggle(this)" class="bl-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
                                 <label onclick="clients.edit.save(this)" class="cursor-pointer form-group__control-group-addon"><i class="fa fa-check" aria-hidden="true"></i></label>
                             </div>
                         <? endif; ?>
@@ -92,7 +92,7 @@
                         <? if ($client->status == 2) : ?>
                             <div class="form-group__control-group hide">
                                 <input id="clientEmail" name="email" type="email" class="form-group__control form-group__control-group-input" value="<?= $client->email; ?>" maxlength="64">
-                                <label onclick="clients.edit.toggle(this)" class="b-l-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
+                                <label onclick="clients.edit.toggle(this)" class="bl-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
                                 <label onclick="clients.edit.save(this)" class="cursor-pointer form-group__control-group-addon"><i class="fa fa-check" aria-hidden="true"></i></label>
                             </div>
                         <? endif; ?>
@@ -111,7 +111,7 @@
                         <? if ($client->status == 2) : ?>
                             <div class="form-group__control-group hide">
                                 <input id="clientOrganization" name="organization" type="text" class="form-group__control form-group__control-group-input" value="<?= $client->organization; ?>">
-                                <label onclick="clients.edit.toggle(this)" class="b-l-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
+                                <label onclick="clients.edit.toggle(this)" class="bl-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
                                 <label onclick="clients.edit.save(this)" class="cursor-pointer form-group__control-group-addon"><i class="fa fa-check" aria-hidden="true"></i></label>
                             </div>
                         <? endif; ?>
@@ -130,7 +130,7 @@
                         <? if ($client->status == 2) : ?>
                             <div class="form-group__control-group hide">
                                 <input id="clientCity" name="city" type="text" class="form-group__control form-group__control-group-input" value="<?= $client->city; ?>">
-                                <label onclick="clients.edit.toggle(this)" class="b-l-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
+                                <label onclick="clients.edit.toggle(this)" class="bl-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
                                 <label onclick="clients.edit.save(this)" class="cursor-pointer form-group__control-group-addon"><i class="fa fa-check" aria-hidden="true"></i></label>
                             </div>
                         <? endif; ?>
@@ -149,7 +149,7 @@
                         <? if ($client->status == 2) : ?>
                             <div class="form-group__control-group hide">
                                 <input id="clientPhone" name="phone" type="text" class="form-group__control form-group__control-group-input" value="<?= $client->phone; ?>" maxlength="20">
-                                <label onclick="clients.edit.toggle(this)" class="b-l-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
+                                <label onclick="clients.edit.toggle(this)" class="bl-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
                                 <label onclick="clients.edit.save(this)" class="cursor-pointer form-group__control-group-addon"><i class="fa fa-check" aria-hidden="true"></i></label>
                             </div>
                         <? endif; ?>
@@ -168,7 +168,7 @@
                         <? if ($client->status == 2) : ?>
                             <div class="form-group__control-group hide">
                                 <textarea name="comment" id="clientComment" rows="5" class="form-group__control form-group__control-group-input"><?= $client->comment; ?></textarea>
-                                <label onclick="clients.edit.toggle(this)" class="b-l-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
+                                <label onclick="clients.edit.toggle(this)" class="bl-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
                                 <label onclick="clients.edit.save(this)" class="cursor-pointer form-group__control-group-addon"><i class="fa fa-check" aria-hidden="true"></i></label>
                             </div>
                         <? endif; ?>

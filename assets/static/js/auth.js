@@ -1,5 +1,7 @@
 var auth = ( function (auth) {
 
+    raicare.notification.createHolder();
+
     var corePrefix   = "RAIcare auth",
         host         = window.location.host,
         protocol     = window.location.protocol,
@@ -135,6 +137,7 @@ var auth = ( function (auth) {
             },
             success: function(response) {
                 response = JSON.parse(response);
+
                 forget.classList.remove('loading');
                 raicare.core.log(response.message, response.status, corePrefix);
 

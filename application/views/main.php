@@ -3,8 +3,13 @@
 <head>
     <title><?=$title . ' | ' . $GLOBALS['SITE_NAME']; ?></title>
     <meta charset="UTF-8">
+
     <meta name="author" content="<?=$content; ?>" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="white">
+
     <link type="image/x-icon" rel="shortcut icon" href="<?=$assets; ?>static/img/favicon.png" />
+    <link rel="apple-touch-icon" href="<?=$assets; ?>static/img/favicon.png">
 
     <meta name="description" content="<?=$description; ?>" />
     <meta name="keywords" content="<?=$keywords; ?>" />
@@ -17,7 +22,6 @@
 
     <script type="text/javascript">
         function ready() {
-            raicare.header.init('app');
             raicare.collapse.init();
             raicare.aside.init();
             raicare.notification.createHolder();

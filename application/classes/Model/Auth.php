@@ -47,15 +47,16 @@ class Model_Auth extends Model {
         {
             // Destroy the session completely
             $this->_session->destroy();
+            echo Debug::vars($this->_session->destroy());
         }
         else
         {
             // Remove the user from the session
-            $this->_session->delete();
+            $this->_session->delete('uid');
+            $this->_session->delete('name');
+            $this->_session->delete('email');
 
         }
-
-        return false;
     }
 
     private function complete($select)

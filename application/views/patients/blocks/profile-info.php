@@ -7,12 +7,7 @@
             <div class="col-xs-12 col-sm-8 col-md-9">
                 <p class="form-group__control-static">
                     <span class="js-patient-info">
-                        <? // WATCH_ALL_PATIENTS_PROFILES = 34;
-                        if (in_array(34, $user->permissions)) : ?>
-                            <a class="link" href="<?=URL::site('patient/'. $patient->id); ?>"><?=$patient->name; ?></a>
-                        <? else: ?>
-                            <?=$patient->name; ?>
-                        <? endif; ?>
+                        <?=$patient->name; ?>
                     </span>
                     <? if ($patient->can_edit) : ?>
                         <a onclick="patient.edit.toggle(this)" role="button" class="m-l-5"><i class="fa fa-pencil" aria-hidden="true"></i></a>
@@ -21,7 +16,7 @@
                 <? if ($patient->can_edit) : ?>
                     <div class="form-group__control-group hide">
                         <input id="patientName" name="name" type="text" class="form-group__control form-group__control-group-input" value="<?= $patient->name; ?>" maxlength="80">
-                        <label onclick="patient.edit.toggle(this)" class="b-l-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
+                        <label onclick="patient.edit.toggle(this)" class="bl-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
                         <label onclick="patient.edit.save(this)" class="cursor-pointer form-group__control-group-addon"><i class="fa fa-check" aria-hidden="true"></i></label>
                     </div>
                 <? endif; ?>
@@ -31,7 +26,12 @@
             <label for="patientBirthday" class="form-group__label col-xs-12 col-sm-4 col-md-3">Дата рождения</label>
             <div class="col-xs-12 col-sm-8 col-md-9">
                 <p class="form-group__control-static">
-                    <span class="js-patient-info"><?= date('d M Y', strtotime($patient->birthday)); ?></span>
+                    <span class="js-patient-info">
+                        <?= date('d M Y', strtotime($patient->birthday)); ?>
+                        <span class="f-s-0_8">
+                        <?= '  ('. Methods_Time::relativeTimeWithPlural(intval((time()-strtotime($patient->birthday))/Date::YEAR), false, 'yy') . ')'; ?>
+                    </span>
+                    </span>
                     <? if ($patient->can_edit) : ?>
                         <a onclick="patient.edit.toggle(this)" role="button" class="m-l-5"><i class="fa fa-pencil" aria-hidden="true"></i></a>
                     <? endif; ?>
@@ -39,7 +39,7 @@
                 <? if ($patient->can_edit) : ?>
                     <div class="form-group__control-group hide">
                         <input id="patientBirthday" name="birthday" type="date" class="form-group__control form-group__control-group-input" value="<?= $patient->birthday; ?>">
-                        <label onclick="patient.edit.toggle(this)" class="b-l-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
+                        <label onclick="patient.edit.toggle(this)" class="bl-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
                         <label onclick="patient.edit.save(this)" class="cursor-pointer form-group__control-group-addon"><i class="fa fa-check" aria-hidden="true"></i></label>
                     </div>
                 <? endif; ?>
@@ -57,12 +57,13 @@
                 <? if ($patient->can_edit) : ?>
                     <div class="form-group__control-group hide">
                         <input id="patientSnils" name="snils" type="text" class="form-group__control form-group__control-group-input letter-spacing--5" value="<?= $patient->snils; ?>" maxlength="11">
-                        <label onclick="patient.edit.toggle(this)" class="b-l-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
+                        <label onclick="patient.edit.toggle(this)" class="bl-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
                         <label onclick="patient.edit.save(this)" class="cursor-pointer form-group__control-group-addon"><i class="fa fa-check" aria-hidden="true"></i></label>
                     </div>
                 <? endif; ?>
             </div>
         </div>
+
         <? if ($patient->full_info) : ?>
 
             <div class="col-xs-12 collapse" id="personalInfo">
@@ -78,11 +79,11 @@
                             </p>
                             <? if ($patient->can_edit) : ?>
                                 <div class="form-group__control-group hide">
-                                    <select name="sex" id="patientSex" class="form-group__control form-group__control-group-input" >
+                                    <select name="sex" id="patientSex" class="form-group__control form-group__control-group-input js-single-select">
                                         <option value="1" <?= $patient->sex == 1 ? 'selected': ''; ?>>мужской</option>
                                         <option value="2" <?= $patient->sex == 2 ? 'selected': ''; ?>>женский</option>
                                     </select>
-                                    <label onclick="patient.edit.toggle(this)" class="b-l-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
+                                    <label onclick="patient.edit.toggle(this)" class="bl-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
                                     <label onclick="patient.edit.save(this)" class="cursor-pointer form-group__control-group-addon"><i class="fa fa-check" aria-hidden="true"></i></label>
                                 </div>
                             <? endif; ?>
@@ -99,12 +100,12 @@
                             </p>
                             <? if ($patient->can_edit) : ?>
                                 <div class="form-group__control-group hide">
-                                    <select name="relation" id="patientRelation" class="form-group__control form-group__control-group-input">
+                                    <select name="relation" id="patientRelation" class="form-group__control form-group__control-group-input js-single-select">
                                         <? foreach (Kohana::$config->load('form_relations') as $key => $value) : ?>
                                             <option value="<?= $key; ?>" <?= $patient->relation == $key ? 'selected' : ''?>><?= $value; ?></option>
                                         <? endforeach; ?>
                                     </select>
-                                    <label onclick="patient.edit.toggle(this)" class="b-l-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
+                                    <label onclick="patient.edit.toggle(this)" class="bl-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
                                     <label onclick="patient.edit.save(this)" class="cursor-pointer form-group__control-group-addon"><i class="fa fa-check" aria-hidden="true"></i></label>
                                 </div>
                             <? endif; ?>
@@ -122,7 +123,7 @@
                             <? if ($patient->can_edit) : ?>
                                 <div class="form-group__control-group hide">
                                     <input id="patientOms" name="oms" type="text" class="form-group__control form-group__control-group-input letter-spacing--5" value="<?= $patient->oms; ?>" maxlength="16">
-                                    <label onclick="patient.edit.toggle(this)" class="b-l-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
+                                    <label onclick="patient.edit.toggle(this)" class="bl-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
                                     <label onclick="patient.edit.save(this)" class="cursor-pointer form-group__control-group-addon"><i class="fa fa-check" aria-hidden="true"></i></label>
                                 </div>
                             <? endif; ?>
@@ -140,7 +141,7 @@
                             <? if ($patient->can_edit) : ?>
                                 <div class="form-group__control-group hide">
                                     <input id="patientDisCer" name="disability_certificate" type="text" class="form-group__control form-group__control-group-input letter-spacing--5" value="<?= $patient->disability_certificate; ?>" maxlength="18">
-                                    <label onclick="patient.edit.toggle(this)" class="b-l-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
+                                    <label onclick="patient.edit.toggle(this)" class="bl-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
                                     <label onclick="patient.edit.save(this)" class="cursor-pointer form-group__control-group-addon"><i class="fa fa-check" aria-hidden="true"></i></label>
                                 </div>
                             <? endif; ?>
@@ -152,7 +153,7 @@
                             <div class="form-group__control-static">
                                 <ol class="js-patient-info">
                                     <? foreach (json_decode($patient->sources) as $source) : ?>
-                                        <li><?= Kohana::$config->load('form_sources')[$source]; ?></li>
+                                        <li class="p-b-5"><?= Kohana::$config->load('form_sources')[$source]; ?></li>
                                     <? endforeach; ?>
                                 </ol>
                                 <? if ($patient->can_edit) : ?>
@@ -179,12 +180,18 @@
                             <p class="form-group__control-static"><?= date('d M Y', strtotime($patient->dt_create)); ?></p>
                         </div>
                     </div>
+                    <div class="form-group m-b-5">
+                        <label class="form-group__label col-xs-12 col-sm-4 col-md-3">Создатель</label>
+                        <div class="col-xs-12 col-sm-8 col-md-9">
+                            <p class="form-group__control-static"><?= $patient->creator->name; ?></p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <input type="hidden" id="patientID" value="<?=$patient->pk;?>">
         <? endif; ?>
+
+        <input type="hidden" id="patientPK" value="<?=$patient->pk;?>">
+
     </div>
 </div>
-
-<script type="text/javascript" src="<?=$assets; ?>frontend/bundles/patient.min.js?v=<?= filemtime("assets/frontend/bundles/patient.min.js") ?>"></script>

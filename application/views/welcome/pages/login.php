@@ -1,5 +1,4 @@
-
-<div class="section m-t-150 m-b-100">
+<div class="section p-t-150 p-b-100">
 
     <div class="container animated fade__in">
 
@@ -16,9 +15,9 @@
                             <p class="h3 bold text-center m-t-30 m-b-30">Продолжить как</p>
 
 
-                                <h2 class="text-bold f-s-1_2">
-                                    <?= $user->name; ?>
-                                </h2>
+                            <h2 class="text-bold f-s-1_2">
+                                <?= $user->name; ?>
+                            </h2>
 
                             <div class="form-group m-b-30">
                                 <div class="form-group__control-group">

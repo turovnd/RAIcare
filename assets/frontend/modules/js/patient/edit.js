@@ -34,7 +34,7 @@ module.exports = (function (edit) {
 
         }
 
-        formData.append('id', document.getElementById('patientID').value);
+        formData.append('pk', document.getElementById('patientPK').value);
         formData.append('pension', document.getElementById('pensionID').value);
         formData.append('csrf', document.getElementById('csrf').value);
         formData.append('name', name);
@@ -67,15 +67,15 @@ module.exports = (function (edit) {
 
                         var date = new Date(input);
 
-                        field.getElementsByClassName('js-patient-info')[0].textContent = date.getDate() + '-' + date.getMonth() + '-' + date.getFullYear();
+                        field.getElementsByClassName('js-patient-info')[0].textContent = date.getDate() + ' ' + getMonth(date) + ' ' + date.getFullYear();
 
                     } else if (name === 'sex') {
 
-                        field.getElementsByClassName('js-patient-info')[0].textContent = input === 1 ? 'мужской' : 'женский';
+                        field.getElementsByClassName('js-patient-info')[0].innerHTML = (parseInt(input) === 1 ? '<i class="fa fa-male" aria-hidden="true"></i> мужской' : '<i class="fa fa-female" aria-hidden="true"></i> женский');
 
                     } else if (name === 'relation') {
 
-                        field.getElementsByClassName('js-patient-info')[0].textContent = field.getElementsByClassName('form-group__control-group')[0].getElementsByTagName('option')[input - 1].textContent;
+                        field.getElementsByClassName('js-patient-info')[0].textContent = field.getElementsByClassName('form-group__control-group')[0].getElementsByTagName('option')[0].textContent;
 
                     } else if (name === 'sources') {
 
@@ -85,7 +85,7 @@ module.exports = (function (edit) {
 
                         for (i = 0; i < selected.length; i++) {
 
-                            outstr += '<li>' + checkboxes[selected[i]-1].textContent + '</li>';
+                            outstr += '<li class="p-b-5">' + checkboxes[selected[i]-1].textContent + '</li>';
 
                         }
 
@@ -114,6 +114,25 @@ module.exports = (function (edit) {
         raicare.ajax.send(ajaxData);
 
     };
+
+    function getMonth(date) {
+
+        switch (date.getMonth() + 1) {
+            case 1: return 'января';
+            case 2: return 'февраля';
+            case 3: return 'марта';
+            case 4: return 'апреля';
+            case 5: return 'мая';
+            case 6: return 'июня';
+            case 7: return 'июля';
+            case 8: return 'августа';
+            case 9: return 'сентября';
+            case 10: return 'октября';
+            case 11: return 'ноября';
+            case 12: return 'декабря';
+        }
+
+    }
 
 
     return edit;

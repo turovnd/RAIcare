@@ -6,7 +6,7 @@ class HTTP_Exception_403 extends Kohana_HTTP_Exception_403 {
         'status'  => 'error',
         'type'    => 'ajax',
         'code'    => '999',
-        'message' => 'Достп запрещен'
+        'message' => 'Доступ запрещен'
     );
 
     function get_response()

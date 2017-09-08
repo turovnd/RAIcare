@@ -59,7 +59,9 @@ class Controller_Clients_Ajax extends Ajax
 
         $client->save();
 
-        $this->send_application_request($client);
+        $template = View::factory('email-templates/application-request', array('name' => $client->name, 'email' => $client->email));
+        $email = new Email();
+        $email->send($client->email, array($_SERVER['INFO_EMAIL'], $_SERVER['INFO_EMAIL_NAME']), 'Заявка принята - ' . $GLOBALS['SITE_NAME'], $template, true);
 
         $response = new Model_Response_Clients('CLIENTS_CREATE_SUCCESS', 'success');
         $this->response->body(@json_encode($response->get_response()));
@@ -68,8 +70,8 @@ class Controller_Clients_Ajax extends Ajax
 
     public function action_add()
     {
-        self::hasAccess(self::MODULE_CLIENTS);
-        self::hasAccess(self::ADD_NEW_CLIENT);
+        //self::hasAccess(self::MODULE_CLIENTS);
+        //self::hasAccess(self::ADD_NEW_CLIENT);
 
         $name           = Arr::get($_POST,'name');
         $email          = Arr::get($_POST,'email');
@@ -212,22 +214,6 @@ class Controller_Clients_Ajax extends Ajax
 
         $response = new Model_Response_Clients('CLIENT_UPDATE_SUCCESS', 'success');
         $this->response->body(@json_encode($response->get_response()));
-    }
-
-
-
-    /**
-     * Send information to email about success creating new application
-     * @param $client
-     */
-    private function send_application_request($client) {
-
-        $template = View::factory('email_templates/application_request', array('name' => $client->name, 'email' => $client->email));
-
-        $email = new Email();
-
-        $email->send($client->email, $_SERVER['INFO_EMAIL'], 'Заявка принята - ' . $GLOBALS['SITE_NAME'], $template, true);
-
     }
 
 }

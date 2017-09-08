@@ -1,26 +1,19 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-
-Route::set('PENSIONS', 'pensions/<action>', array(
-        'action' => $STRING
+Route::set('PENSION','<pen_uri>(/<action>)', array(
+        'pen_uri' => $STRING,
+        'action'  => 'settings|manage|control'
     ))
+    ->subdomains(array(Route::SUBDOMAIN_WILDCARD))
     ->defaults(array(
         'controller'  => 'Pensions_Index',
+        'action'      => 'index'
     ));
 
-Route::set('PENSION', 'pension/<id>(/<action>)', array(
-        'id' => $DIGIT,
-        'action' => 'pension|settings|statistic'
-    ))
-    ->defaults(array(
-        'controller'  => 'Pensions_Index',
-        'action'      => 'pension'
-    ));
-
-
-Route::set('PENSIONS_AJAX', 'pension/<action>', array(
+Route::set('PENSION_AJAX', 'pension/<action>', array(
         'action' => $STRING
     ))
+    ->subdomains(array(Route::SUBDOMAIN_WILDCARD))
     ->defaults(array(
         'controller'  => 'Pensions_Ajax'
     ));

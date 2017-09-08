@@ -1,11 +1,13 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
 /**
- * Welcome page
+ * Welcome pages
  */
-Route::set('WELCOME_PAGE', '')
+Route::set('WELCOME_PAGE', '(<action>)', array(
+        'action' => 'software|training|join'
+    ))
+    ->subdomains(array(Route::SUBDOMAIN_EMPTY, 'www'))
     ->defaults(array(
         'controller' => 'Welcome',
         'action'     => 'index',
-    ))
-    ->cache();
+    ));

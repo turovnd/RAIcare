@@ -17,8 +17,6 @@
 
     raicare.table.init();
 
-    document.getElementById('pen_survey').classList.remove('hide');
-
     function ready() {
         survey.get.unitstart();
     }

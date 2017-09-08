@@ -135,6 +135,9 @@ canvas{
 .text-italic{
     font-style: italic;
 }
+.text-black {
+    color: #000;
+}
 .text-brand {
     color: #008DA7;
 }
@@ -163,6 +166,13 @@ a.text-danger:focus {
 a.text-white:hover,
 a.text-white:focus {
     color: #FCFCFC;
+}
+
+.text-gray{
+    color: #a0a0a0;
+}
+.text-gray--dark {
+    color: #3a3f51;
 }
 
 .bg-brand {
@@ -243,3 +253,26 @@ a.bg-gray-dark:focus {
     color: #FCFCFC;
     background-color: #27c24c;
 }
+
+.t-lh-1{line-height:1em}
+.t-lh-1_2{line-height:1.2em}
+.t-lh-1_3{line-height:1.3em}
+.t-lh-1_4{line-height:1.4em}
+.t-lh-1_5{line-height:1.5em}
+.t-lh-1_6{line-height:1.6em}
+.t-lh-2{line-height:2em}
+
+.bt-0{border-top:0;}
+.bl-0{border-left:0;}
+.br-0{border-right:0;}
+.bb-0{border-bottom:0;}
+
+.bt-1{border-top: 1px solid #e7e8ec;}
+.bl-1{border-left: 1px solid #e7e8ec;}
+.br-1{border-right: 1px solid #e7e8ec;}
+.bb-1{border-bottom: 1px solid #e7e8ec;}
+
+.bt-1--light{border-top: 1px solid rgba(0,0,0,.15);}
+.bl-1--light{border-left: 1px solid rgba(0,0,0,.15);}
+.br-1--light{border-right: 1px solid rgba(0,0,0,.15);}
+.bb-1--light{border-bottom: 1px solid rgba(0,0,0,.15);}
