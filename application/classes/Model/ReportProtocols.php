@@ -4,8 +4,6 @@
 Class Model_ReportProtocols {
 
     public $pk;         // primary key - copy from survey.pk
-    public $id;         // copy from survey.id
-    public $pension;    // pension.id
     public $P1;         // Behaviour - проблемное поведение
     public $P2;         // Communication - Коммуникация
     public $P3;         // Delirium - Деменция

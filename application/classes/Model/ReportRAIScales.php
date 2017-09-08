@@ -4,8 +4,6 @@
 Class Model_ReportRAIScales {
 
     public $pk;         // primary key - copy from survey.pk
-    public $id;         // copy from survey.id
-    public $pension;    // pension.id
     public $PURS;       // Pressure Ulcer Risk Scale
     public $CPS;        // Cognitive Performance Scale
     public $BMI;        // Body Mass Index
