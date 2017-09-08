@@ -35,7 +35,7 @@
 
 <body>
 
-    <header class="header <?= $action == 'login' ? '' : 'header--default animated fade__in clear-fix'; ?>">
+    <header class="header <?= ($action == 'login' || $action == 'join') ? '' : 'header--default animated fade__in clear-fix'; ?>">
         <? if ($action == 'login') {
             echo View::factory('welcome/blocks/header-login');
         }  else {
@@ -60,7 +60,7 @@
 </body>
 
 <script type="text/javascript">
-    welcome.init( <?= $action == 'login' ? "['footer']" : "['header','footer']"; ?> );
+    welcome.init( <?= ($action == 'login' || $action == 'join') ? "['footer']" : "['header','footer']"; ?> );
 </script>
 
 <!-- Yandex.Metrika counter -->
