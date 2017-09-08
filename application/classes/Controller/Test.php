@@ -1181,13 +1181,9 @@ class Controller_Test extends Dispatch
             if ($E1[8] > 0) $P15count++;
             if ($E1[9] > 0 ) $P15count++;
             if ($F2[0] == 0 ) $P15count++;
-            if ($F2[4] == 0 ) $P15count++;
             if ($F2[1] == 0) $P15count++;
-//            if ($this->survey->unitM->M3 > 0) $P15count++;
-//            $E2 = $this->survey->unitE->E2;
-//            if ($E2[0] != 8 && $E2[0] > 0) $P15count++;
-
-            $P15 = ($M1 <= 3 && $C1 <= 3 && $P15count >= 2) ? 1 : 0;
+            if ($F2[4] == 0 ) $P15count++;
+            $P15 = ($M1 != 0 && $M1 <= 3 && $C1 <= 3 && $P15count >= 2) ? 1 : 0;
         } else {
             $P15 = -1;
         }
