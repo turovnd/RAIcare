@@ -12,7 +12,6 @@ module.exports = ( function (raicare) {
     raicare.transport    = require('./modules/transport');
     raicare.ajax         = require('./modules/js/ajax');
     raicare.parallax     = require('./modules/js/parallax');
-    raicare.header       = require('./modules/js/header');
     raicare.aside        = require('./modules/js/aside');
     raicare.collapse     = require('./modules/js/collapse');
     raicare.cookies      = require('./modules/js/cookies');

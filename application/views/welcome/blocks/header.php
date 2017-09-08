@@ -19,11 +19,6 @@
                 Обучение
             </a>
         </li>
-<!--        <li class="header__item">-->
-<!--            <a href="--><?//=URL::site('/'); ?><!--" class="header__link">-->
-<!--                Поддержка-->
-<!--            </a>-->
-<!--        </li>-->
         <li class="header__item hidden-sm hidden-md hidden-lg">
             <a href="<?=URL::site('join'); ?>" class="header__link">Присоединиться к <?=$GLOBALS['SITE_NAME']; ?></a>
         </li>

@@ -22,7 +22,6 @@
 
     <script type="text/javascript">
         function ready() {
-            raicare.header.init('app');
             raicare.collapse.init();
             raicare.aside.init();
             raicare.notification.createHolder();

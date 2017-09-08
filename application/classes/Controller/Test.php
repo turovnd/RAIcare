@@ -1023,7 +1023,7 @@ class Controller_Test extends Dispatch
     /**
      * Create Protocols Report
      */
-    private function createProtocolsReport($save = true)
+    private function createProtocolsReport()
     {
         $C1 = $this->survey->unitC->C1;
         $C3 = $this->survey->unitC->C3;
@@ -1229,14 +1229,13 @@ class Controller_Test extends Dispatch
         $P19 = 0;
         $this->report->P19 = $P19;
 
-        if ($save == true)
-            $this->report->save();
+        $this->report->save();
     }
 
     /**
      * Create RAI Scales Report
      */
-    private function createRAIScales($save = true)
+    private function createRAIScales()
     {
         $this->report = new Model_ReportRAIScales();
 
@@ -1256,8 +1255,7 @@ class Controller_Test extends Dispatch
         $this->report->ABS = $this->getABS();
         $this->report->ADLLF = $this->getADLLF();
 
-        if ($save == true)
-            $this->report->save();
+        $this->report->save();
     }
 
     // Get All Units Data
