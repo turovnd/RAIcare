@@ -5,7 +5,7 @@
 		<title>Ошибка <?= $code; ?>. Неверный запрос</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
         <link type="image/x-icon" rel="shortcut icon" href="/assets/static/img/favicon.png" />
-		<link rel='stylesheet' href="<?= URL::site('assets/static/css/error.css'); ?>">
+		<link rel='stylesheet' href="/assets/static/css/error.css">
 	</head>
 	<body class="error-block">
 		<div class="error-block__center">

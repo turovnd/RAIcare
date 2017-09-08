@@ -118,7 +118,7 @@
 
 
 /** Phones */
-@media (max-width: 768px) {
+@media (max-width: 767px) {
     .aside{
         left: -210px;
         visibility: hidden;

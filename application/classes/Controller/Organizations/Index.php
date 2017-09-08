@@ -35,6 +35,8 @@ class Controller_Organizations_Index extends Dispatch
         switch ($this->request->action()) {
 
             case self::ACTION_LOGIN:
+                $this->template = View::factory('welcome/main');
+                $this->request->action('login');
                 return;
 
             default:
@@ -61,9 +63,11 @@ class Controller_Organizations_Index extends Dispatch
     /**
      * Login Page
      */
-    public function action_index()
+    public function action_login()
     {
-        $this->template = View::factory('login')
+        $this->template->title = "Авторизация";
+        $this->template->action = $this->request->action();
+        $this->template->section = View::factory('welcome/pages/login')
             ->set('reset', false);
     }
 

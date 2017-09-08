@@ -19,7 +19,9 @@
             <div class="block">
                 <div class="block__body">
 
-                    <fieldset>
+                    <? if ($protocols->P1 != -1) : ?>
+
+                        <fieldset>
                         <div class="form-group">
                             <label class="form-group__label col-xs-12">
                                 <span class="fl_r f-s-1_25 <?= $protocols->P1 == 0 ? 'text-brand' : 'text-danger'; ?>"><i class="fa fa-flag" aria-hidden="true"></i></span>
@@ -48,7 +50,11 @@
                         </div>
                     </fieldset>
 
-                    <fieldset>
+                    <? endif; ?>
+
+                    <? if ($protocols->P2 != -1) : ?>
+
+                        <fieldset>
                         <div class="form-group">
                             <label class="form-group__label col-xs-12">
                                 <span class="fl_r f-s-1_25 <?= $protocols->P2 == 0 ? 'text-brand' : 'text-danger'; ?>"><i class="fa fa-flag" aria-hidden="true"></i></span>
@@ -76,6 +82,10 @@
                             </div>
                         </div>
                     </fieldset>
+
+                    <? endif; ?>
+
+                    <? if ($protocols->P3 != -1) : ?>
 
                     <fieldset>
                         <div class="form-group">
@@ -106,6 +116,10 @@
                         </div>
                     </fieldset>
 
+                    <? endif; ?>
+
+                    <? if ($protocols->P4 != -1) : ?>
+
                     <fieldset>
                         <div class="form-group">
                             <label class="form-group__label col-xs-12">
@@ -134,6 +148,8 @@
                             </div>
                         </div>
                     </fieldset>
+
+                    <? endif; ?>
 
                     <fieldset>
                         <div class="form-group">
@@ -164,6 +180,8 @@
                         </div>
                     </fieldset>
 
+                    <? if ($protocols->P6 != -1) : ?>
+
                     <fieldset>
                         <div class="form-group">
                             <label class="form-group__label col-xs-12">
@@ -192,6 +210,8 @@
                             </div>
                         </div>
                     </fieldset>
+
+                    <? endif; ?>
 
                     <fieldset>
                         <div class="form-group">
@@ -222,6 +242,8 @@
                         </div>
                     </fieldset>
 
+                    <? if ($protocols->P8 != -1) : ?>
+
                     <fieldset>
                         <div class="form-group">
                             <label class="form-group__label col-xs-12">
@@ -250,6 +272,8 @@
                             </div>
                         </div>
                     </fieldset>
+
+                    <? endif; ?>
 
                     <fieldset>
                         <div class="form-group">
@@ -425,6 +449,8 @@
                         </div>
                     </fieldset>
 
+                    <? if ($protocols->P15 != -1) : ?>
+
                     <fieldset>
                         <div class="form-group">
                             <label class="form-group__label col-xs-12">
@@ -453,6 +479,8 @@
                             </div>
                         </div>
                     </fieldset>
+
+                    <? endif; ?>
 
                     <fieldset>
                         <div class="form-group">
@@ -512,7 +540,9 @@
                         </div>
                     </fieldset>
 
-                    <fieldset>
+                    <? if ($protocols->P18 != -1) : ?>
+
+                        <fieldset>
                         <div class="form-group">
                             <label class="form-group__label col-xs-12">
                                 <span class="fl_r f-s-1_25 <?= $protocols->P18 == 0 ? 'text-brand' : 'text-danger'; ?>"><i class="fa fa-flag" aria-hidden="true"></i></span>
@@ -540,6 +570,8 @@
                             </div>
                         </div>
                     </fieldset>
+
+                    <? endif; ?>
 
                 </div>
             </div>

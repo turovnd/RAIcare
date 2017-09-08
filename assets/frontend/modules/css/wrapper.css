@@ -127,7 +127,7 @@
     margin-left: 65px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
     .wrapper .section,
     .wrapper .aside--collapsed + .section{
         margin-left:0;

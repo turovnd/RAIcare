@@ -28,11 +28,11 @@
 
 <div class="bg-gray-dark p-15 m-b-30">
     <div class="display-flex">
-        <div class="col-xs-4 text-center b-r-light">
+        <div class="col-xs-4 text-center br-1--light">
             <h3 class="h3 m-0"><?= $pension->places; ?></h3>
             <small class="m-0 "><?= Methods_Plural::getWithPlural($pension->places,'places');?></small>
         </div>
-        <div class="col-xs-4 text-center b-r-light">
+        <div class="col-xs-4 text-center br-1--light">
             <h3 class="h3 m-0"><?= $count_patients; ?></h3>
             <small class="m-0 "><?= Methods_Plural::getWithPlural($count_patients,'patients');?></small>
         </div>

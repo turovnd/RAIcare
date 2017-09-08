@@ -16,7 +16,7 @@
                 <? if ($patient->can_edit) : ?>
                     <div class="form-group__control-group hide">
                         <input id="patientName" name="name" type="text" class="form-group__control form-group__control-group-input" value="<?= $patient->name; ?>" maxlength="80">
-                        <label onclick="patient.edit.toggle(this)" class="b-l-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
+                        <label onclick="patient.edit.toggle(this)" class="bl-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
                         <label onclick="patient.edit.save(this)" class="cursor-pointer form-group__control-group-addon"><i class="fa fa-check" aria-hidden="true"></i></label>
                     </div>
                 <? endif; ?>
@@ -39,7 +39,7 @@
                 <? if ($patient->can_edit) : ?>
                     <div class="form-group__control-group hide">
                         <input id="patientBirthday" name="birthday" type="date" class="form-group__control form-group__control-group-input" value="<?= $patient->birthday; ?>">
-                        <label onclick="patient.edit.toggle(this)" class="b-l-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
+                        <label onclick="patient.edit.toggle(this)" class="bl-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
                         <label onclick="patient.edit.save(this)" class="cursor-pointer form-group__control-group-addon"><i class="fa fa-check" aria-hidden="true"></i></label>
                     </div>
                 <? endif; ?>
@@ -57,7 +57,7 @@
                 <? if ($patient->can_edit) : ?>
                     <div class="form-group__control-group hide">
                         <input id="patientSnils" name="snils" type="text" class="form-group__control form-group__control-group-input letter-spacing--5" value="<?= $patient->snils; ?>" maxlength="11">
-                        <label onclick="patient.edit.toggle(this)" class="b-l-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
+                        <label onclick="patient.edit.toggle(this)" class="bl-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
                         <label onclick="patient.edit.save(this)" class="cursor-pointer form-group__control-group-addon"><i class="fa fa-check" aria-hidden="true"></i></label>
                     </div>
                 <? endif; ?>
@@ -83,7 +83,7 @@
                                         <option value="1" <?= $patient->sex == 1 ? 'selected': ''; ?>>мужской</option>
                                         <option value="2" <?= $patient->sex == 2 ? 'selected': ''; ?>>женский</option>
                                     </select>
-                                    <label onclick="patient.edit.toggle(this)" class="b-l-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
+                                    <label onclick="patient.edit.toggle(this)" class="bl-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
                                     <label onclick="patient.edit.save(this)" class="cursor-pointer form-group__control-group-addon"><i class="fa fa-check" aria-hidden="true"></i></label>
                                 </div>
                             <? endif; ?>
@@ -105,7 +105,7 @@
                                             <option value="<?= $key; ?>" <?= $patient->relation == $key ? 'selected' : ''?>><?= $value; ?></option>
                                         <? endforeach; ?>
                                     </select>
-                                    <label onclick="patient.edit.toggle(this)" class="b-l-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
+                                    <label onclick="patient.edit.toggle(this)" class="bl-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
                                     <label onclick="patient.edit.save(this)" class="cursor-pointer form-group__control-group-addon"><i class="fa fa-check" aria-hidden="true"></i></label>
                                 </div>
                             <? endif; ?>
@@ -123,7 +123,7 @@
                             <? if ($patient->can_edit) : ?>
                                 <div class="form-group__control-group hide">
                                     <input id="patientOms" name="oms" type="text" class="form-group__control form-group__control-group-input letter-spacing--5" value="<?= $patient->oms; ?>" maxlength="16">
-                                    <label onclick="patient.edit.toggle(this)" class="b-l-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
+                                    <label onclick="patient.edit.toggle(this)" class="bl-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
                                     <label onclick="patient.edit.save(this)" class="cursor-pointer form-group__control-group-addon"><i class="fa fa-check" aria-hidden="true"></i></label>
                                 </div>
                             <? endif; ?>
@@ -141,7 +141,7 @@
                             <? if ($patient->can_edit) : ?>
                                 <div class="form-group__control-group hide">
                                     <input id="patientDisCer" name="disability_certificate" type="text" class="form-group__control form-group__control-group-input letter-spacing--5" value="<?= $patient->disability_certificate; ?>" maxlength="18">
-                                    <label onclick="patient.edit.toggle(this)" class="b-l-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
+                                    <label onclick="patient.edit.toggle(this)" class="bl-0 cursor-pointer form-group__control-group-addon"><i class="fa fa-times" aria-hidden="true"></i></label>
                                     <label onclick="patient.edit.save(this)" class="cursor-pointer form-group__control-group-addon"><i class="fa fa-check" aria-hidden="true"></i></label>
                                 </div>
                             <? endif; ?>
