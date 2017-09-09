@@ -22,13 +22,13 @@
                                         <p style="margin:0 0 18px;font-weight: bold;font-size: 2em;">Заявка подана - <?=$GLOBALS['SITE_NAME']; ?>!</p>
 
                                         <p style="margin:12px 0 24px;font-size: 1.3em;"><?=$name; ?>,  Вы успешно подали заявку на сайте
-                                            <a style="text-decoration: none;color: #008DA7;padding-bottom: 2px;border-bottom: 2px solid #008DA7;" href="<?=URL::base();?>"><?= 'https://' . $_SERVER['HTTP_HOST']; ?></a>!
+                                            <a style="text-decoration: none;color: #008DA7;padding-bottom: 2px;border-bottom: 2px solid #008DA7;" href="<?=URL::base();?>"><?= 'http://' . $_SERVER['HTTP_HOST']; ?></a>!
                                         </p>
 
                                         <p style="margin:20px 0 0 0;font-size: .9em; line-height: 1.3; color: #777">
                                             Это сообщение сгенерировано автоматически и было отправлено на электронную почту:
-                                            <a style="text-decoration: none; color: #777;" href="mailto:<?=$email; ?> "><?=$email; ?> </a> посредством отправки заявке на странице
-                                            <a style="text-decoration: none; padding: 0 1px 2px; border-bottom: 1px solid #777;color: #777;" href="<?=URL::base();?>"><?='https://' . $_SERVER['HTTP_HOST'] . '/join'; ?></a>!
+                                            <a style="text-decoration: none; color: #777;" href="mailto:<?=$email; ?> "><?=$email; ?> </a> посредством отправки заявки на странице
+                                            <a style="text-decoration: none; padding: 0 1px 2px; border-bottom: 1px solid #777;color: #777;" href="<?=URL::base();?>"><?='http://' . $_SERVER['HTTP_HOST'] . '/join'; ?></a>!
                                         </p>
                                     </td>
                                 </tr>
