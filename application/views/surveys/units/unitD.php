@@ -12,7 +12,7 @@
     <? if (!$can_conduct) : ?>
         <a role="button" onclick="raicare.collapse.toggle(this)" data-area="unitD" data-opened="true" data-textclosed="показать" data-textopened="скрыть" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn"></a>
     <? endif; ?>
-    Коммуникация и зрение
+    РАЗДЕЛ D. Коммуникация и зрение
 </h3>
 
 <form class="row" id="unitD" onsubmit="event.preventDefault()">
@@ -25,8 +25,8 @@
 
                 <fieldset>
                     <div class="form-group">
-                        <label for="D1" class="form-group__label col-xs-12">
-                            Способность доносить сообщения (Передача информации)
+                        <label for="D1" class="form-group__label col-xs-12 f-s-1">
+                            D1. Способность доносить сообщения (Передача информации)
                             <small class="text-italic text-normal">Способность выражать информационные сообщения - вербальные и невербальные</small>
                         </label>
                         <div class="col-xs-12">
@@ -45,8 +45,8 @@
                 </fieldset>
                 <fieldset>
                     <div class="form-group">
-                        <label for="D2" class="form-group__label col-xs-12">
-                            Способность понимать окружающих (Восприятие информации)
+                        <label for="D2" class="form-group__label col-xs-12 f-s-1">
+                            D2. Способность понимать окружающих (Восприятие информации)
                             <small class="text-italic text-normal">Способность пациента распознавать вербальную информацию (сообщенную пациенту любым способом; при включенном слуховом аппарате, если он используется)</small>
                         </label>
                         <div class="col-xs-12">
@@ -65,11 +65,11 @@
                 </fieldset>
                 <fieldset>
                     <p class="col-xs-12 text-bold">
-                        Восприятие на слух
+                        D3. Восприятие на слух
                     </p>
                     <div class="form-group">
                         <label for="D3a" class="form-group__label col-xs-12">
-                            Способность слышать
+                            a. Способность слышать
                             <small class="text-italic text-normal">С помощью вспомогательных устройств, если они используются</small>
                         </label>
                         <div class="col-xs-12">
@@ -87,17 +87,17 @@
                     </div>
                     <div class="form-group">
                         <label for="D3b" class="form-group__label col-xs-12">
-                            Использование слухового аппарата
+                            b. Использование слухового аппарата
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
                                 <span>
-                                    <input id="D3b_1" name="D3b" type="radio" class="radio" value="1" <?= $survey->unitD->D3 != NULL && $survey->unitD->D3[1] == 1 ? 'checked' : '' ?>>
-                                    <label for="D3b_1" class="radio-label">Да</label>
+                                    <input id="D3b_1" name="D3b" type="radio" class="radio" value="0" <?= $survey->unitD->D3 != NULL  && $survey->unitD->D3[1] == 0 ? 'checked' : '' ?>>
+                                    <label for="D3b_1" class="radio-label">Нет</label>
                                 </span>
                                 <span class="m-l-20">
-                                    <input id="D3b_2" name="D3b" type="radio" class="radio" value="0" <?= $survey->unitD->D3 != NULL  && $survey->unitD->D3[1] == 0 ? 'checked' : '' ?>>
-                                    <label for="D3b_2" class="radio-label">Нет</label>
+                                    <input id="D3b_2" name="D3b" type="radio" class="radio" value="1" <?= $survey->unitD->D3 != NULL && $survey->unitD->D3[1] == 1 ? 'checked' : '' ?>>
+                                    <label for="D3b_2" class="radio-label">Да</label>
                                 </span>
                             <? else : ?>
                                 <p class="form-group__control-static p-l-0"> <? if ($survey->unitD->D3 != NULL) { if ($survey->unitD->D3[1] == 1) { echo 'Да'; } elseif ($survey->unitD->D3[1] == 0) { echo 'Нет'; } else { echo 'Не указано'; } } else { echo 'Не указано'; } ?> </p>
@@ -107,11 +107,11 @@
                 </fieldset>
                 <fieldset>
                     <p class="col-xs-12 text-bold">
-                        Зрение
+                        D4. Зрение
                     </p>
                     <div class="form-group">
                         <label for="D4a" class="form-group__label col-xs-12">
-                            Способность видеть при адекватном освещении
+                            a. Способность видеть при адекватном освещении
                             <small class="text-italic text-normal">В очках или с помощью других оптических приборов, которыми обычно пользуется пациент</small>
                         </label>
                         <div class="col-xs-12">
@@ -128,18 +128,18 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="D3b" class="form-group__label col-xs-12">
-                            Используется приспособление для корректировки зрения
+                        <label for="D4b" class="form-group__label col-xs-12">
+                            b. Используется приспособление для корректировки зрения
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
                                 <span>
-                                    <input id="D4b_1" name="D4b" type="radio" class="radio" value="1" <?= $survey->unitD->D4 != NULL && $survey->unitD->D4[1] == 1 ? 'checked' : '' ?>>
-                                    <label for="D4b_1" class="radio-label">Да</label>
+                                    <input id="D4b_1" name="D4b" type="radio" class="radio" value="0" <?= $survey->unitD->D4 != NULL && $survey->unitD->D4[1] == 0 ? 'checked' : '' ?>>
+                                    <label for="D4b_1" class="radio-label">Нет</label>
                                 </span>
                                 <span class="m-l-20">
-                                    <input id="D4b_2" name="D4b" type="radio" class="radio" value="0" <?= $survey->unitD->D4 != NULL && $survey->unitD->D4[1] == 0 ? 'checked' : '' ?>>
-                                    <label for="D4b_2" class="radio-label">Нет</label>
+                                    <input id="D4b_2" name="D4b" type="radio" class="radio" value="1" <?= $survey->unitD->D4 != NULL && $survey->unitD->D4[1] == 1 ? 'checked' : '' ?>>
+                                    <label for="D4b_2" class="radio-label">Да</label>
                                 </span>
                             <? else : ?>
                                 <p class="form-group__control-static p-l-0"> <? if ($survey->unitD->D4 != NULL) { if ($survey->unitD->D4[1] == 1) { echo 'Да'; } elseif ($survey->unitD->D4[1] == 0) { echo 'Нет'; } else { echo 'Не указано'; } } else { echo 'Не указано'; } ?> </p>

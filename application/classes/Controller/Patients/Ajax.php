@@ -76,9 +76,9 @@ class Controller_Patients_Ajax extends Ajax
             return;
         }
 
-        $count_patients = $this->redis->get(getenv('REDIS_PATIENT_HASHES') . $pension->id . ':patients');
+        $count_patients = $this->redis->get(getenv('REDIS_PENSION_HASHES') . $pension->id . ':patients');
         $count_patients = $count_patients == false ? 1 : $count_patients + 1;
-        $this->redis->set(getenv('REDIS_PATIENT_HASHES') . $pension->id . ':patients', $count_patients);
+        $this->redis->set(getenv('REDIS_PENSION_HASHES') . $pension->id . ':patients', $count_patients);
 
         $patient = new Model_Patient();
 
@@ -86,6 +86,7 @@ class Controller_Patients_Ajax extends Ajax
         $patient->pension                = $pension->id;
         $patient->name                   = $name;
         $patient->sex                    = $sex;
+        $patient->status                 = 1; // в пансионате
         $patient->birthday               = $birthday;
         $patient->relation               = $relation;
         $patient->snils                  = $snils;
@@ -97,9 +98,9 @@ class Controller_Patients_Ajax extends Ajax
         $patient = $patient->save();
 
         // create new survey
-        $count_surveys = $this->redis->get(getenv('REDIS_PATIENT_HASHES') . $pension->id . ':surveys');
+        $count_surveys = $this->redis->get(getenv('REDIS_PENSION_HASHES') . $pension->id . ':surveys');
         $count_surveys = $count_surveys == false ? 1 : $count_surveys + 1;
-        $this->redis->set(getenv('REDIS_PATIENT_HASHES') . $pension->id . ':surveys', $count_surveys);
+        $this->redis->set(getenv('REDIS_PENSION_HASHES') . $pension->id . ':surveys', $count_surveys);
 
         $survey = new Model_Survey();
         $survey->id           = $count_surveys;
@@ -114,39 +115,6 @@ class Controller_Patients_Ajax extends Ajax
         $this->response->body(@json_encode($response->get_response()));
     }
 
-    public function action_get()
-    {
-        if (! ($this->user->role == self::ROLE_PEN_CREATOR ||
-            $this->user->role == self::ROLE_PEN_QUALITY_MANAGER ||
-            $this->user->role == self::ROLE_PEN_NURSE) ) {
-
-            throw new HTTP_Exception_403;
-        }
-
-        $mode    = Arr::get($_POST, 'mode');
-        $name    = Arr::get($_POST, 'name');
-        $offset  = Arr::get($_POST, 'offset');
-        $pension = Arr::get($_POST, 'pension');
-
-        $pension = new Model_Pension($pension);
-
-        if (!$pension->id) {
-            $response = new Model_Response_Pensions('PENSION_DOES_NOT_EXISTED_ERROR', 'error');
-            $this->response->body(@json_encode($response->get_response()));
-            return;
-        }
-
-        $patients = Model_Patient::getByPension($pension->id, $offset, 10, $name);
-
-        $html = "";
-        foreach ($patients as $patient) {
-            $patient->survey = Model_Survey::getFillingSurveyByPatientAndPension($patient->pk, $pension->id);
-            $html .= View::factory('patients/blocks/search-block', array('patient' => $patient))->render();
-        }
-
-        $response = new Model_Response_Patients('PATIENTS_GET_SUCCESS', 'success', array('html'=>$html, 'number'=>count($patients)));
-        $this->response->body(@json_encode($response->get_response()));
-    }
 
     public function action_update()
     {

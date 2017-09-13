@@ -7,7 +7,7 @@
     <? if (!$can_conduct) : ?>
         <a role="button" onclick="raicare.collapse.toggle(this)" data-area="unitA" data-opened="true" data-textclosed="показать" data-textopened="скрыть" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn"></a>
     <? endif; ?>
-    Персональная информация
+    РАЗДЕЛ A. Персональная информация
 </h3>
 
 <div class="row">

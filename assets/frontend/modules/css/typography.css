@@ -229,6 +229,7 @@ a.bg-gray-dark:focus {
     font-weight: bold;
     line-height: normal;
     text-align: center;
+    border: 1px solid transparent;
     border-radius: 5px;
 }
 .label--absolute{

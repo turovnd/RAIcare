@@ -10,7 +10,7 @@
     <? if (!$can_conduct) : ?>
         <a role="button" onclick="raicare.collapse.toggle(this)" data-area="unitQ" data-opened="true" data-textclosed="показать" data-textopened="скрыть" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn"></a>
     <? endif; ?>
-    Перспективы выписки
+    РАЗДЕЛ Q. Перспективы выписки
 </h3>
 
 <form class="row" id="unitQ" onsubmit="event.preventDefault()">
@@ -24,22 +24,22 @@
                 <fieldset>
 
                     <p class="col-xs-12 text-bold">
-                        Перспективы выписки
+                        Q1. Перспективы выписки
                     </p>
 
                     <div class="form-group">
                         <label class="form-group__label col-xs-12">
-                            Пациент выражает желание вернуться в свое домашнее окружение или оставаться там
+                            a. Пациент выражает желание вернуться в свое домашнее окружение или оставаться там
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
                                 <span>
-                                    <input id="Q1a_1" name="Q1a" type="radio" class="radio" value="1" <?= $survey->unitQ->Q1 != NULL && $survey->unitQ->Q1[0] == 1 ? 'checked' : '' ?> >
-                                    <label for="Q1a_1" class="radio-label">Да</label>
+                                    <input id="Q1a_1" name="Q1a" type="radio" class="radio" value="0" <?= $survey->unitQ->Q1 != NULL && $survey->unitQ->Q1[0] == 0 ? 'checked' : '' ?> >
+                                    <label for="Q1a_1" class="radio-label">Нет</label>
                                 </span>
                                 <span class="m-l-20">
-                                    <input id="Q1a_2" name="Q1a" type="radio" class="radio" value="0" <?= $survey->unitQ->Q1 != NULL && $survey->unitQ->Q1[0] == 0 ? 'checked' : '' ?> >
-                                    <label for="Q1a_2" class="radio-label">Нет</label>
+                                    <input id="Q1a_2" name="Q1a" type="radio" class="radio" value="1" <?= $survey->unitQ->Q1 != NULL && $survey->unitQ->Q1[0] == 1 ? 'checked' : '' ?> >
+                                    <label for="Q1a_2" class="radio-label">Да</label>
                                 </span>
                             <? else : ?>
                                 <p class="form-group__control-static p-l-0"> <? if ($survey->unitQ->Q1 != NULL) { if ($survey->unitQ->Q1[0] == 1) { echo 'Да'; } elseif ($survey->unitQ->Q1[0] == 0) { echo 'Нет'; } else { echo 'Не указано'; } } else { echo 'Не указано'; } ?> </p>
@@ -49,18 +49,18 @@
 
                     <div class="form-group">
                         <label class="form-group__label col-xs-12">
-                            У пациента есть поддерживающее лицо, которое положительно смотрит на
+                            b. У пациента есть поддерживающее лицо, которое положительно смотрит на
                             выписку пациента или на продолжение его жизни в местном сообществе
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
                                 <span>
-                                    <input id="Q1b_1" name="Q1b" type="radio" class="radio" value="1" <?= $survey->unitQ->Q1 != NULL && $survey->unitQ->Q1[1] == 1 ? 'checked' : '' ?> >
-                                    <label for="Q1b_1" class="radio-label">Да</label>
+                                    <input id="Q1b_1" name="Q1b" type="radio" class="radio" value="0" <?= $survey->unitQ->Q1 != NULL && $survey->unitQ->Q1[1] == 0 ? 'checked' : '' ?> >
+                                    <label for="Q1b_1" class="radio-label">Нет</label>
                                 </span>
                                 <span class="m-l-20">
-                                    <input id="Q1b_2" name="Q1b" type="radio" class="radio" value="0" <?= $survey->unitQ->Q1 != NULL && $survey->unitQ->Q1[1] == 0 ? 'checked' : '' ?> >
-                                    <label for="Q1b_2" class="radio-label">Нет</label>
+                                    <input id="Q1b_2" name="Q1b" type="radio" class="radio" value="1" <?= $survey->unitQ->Q1 != NULL && $survey->unitQ->Q1[1] == 1 ? 'checked' : '' ?> >
+                                    <label for="Q1b_2" class="radio-label">Да</label>
                                 </span>
                             <? else : ?>
                                 <p class="form-group__control-static p-l-0"> <? if ($survey->unitQ->Q1 != NULL) { if ($survey->unitQ->Q1[1] == 1) { echo 'Да'; } elseif ($survey->unitQ->Q1[1] == 0) { echo 'Нет'; } else { echo 'Не указано'; } } else { echo 'Не указано'; } ?> </p>
@@ -70,17 +70,17 @@
 
                     <div class="form-group">
                         <label class="form-group__label col-xs-12">
-                            У пациента есть в распоряжении жилье, где он может проживать
+                            c. У пациента есть в распоряжении жилье, где он может проживать
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
                                 <span>
-                                    <input id="Q1c_1" name="Q1c" type="radio" class="radio" value="1" <?= $survey->unitQ->Q1 != NULL && $survey->unitQ->Q1[2] == 1 ? 'checked' : '' ?> >
-                                    <label for="Q1c_1" class="radio-label">Да</label>
+                                    <input id="Q1c_1" name="Q1c" type="radio" class="radio" value="0" <?= $survey->unitQ->Q1 != NULL && $survey->unitQ->Q1[2] == 0 ? 'checked' : '' ?> >
+                                    <label for="Q1c_1" class="radio-label">Нет</label>
                                 </span>
                                 <span class="m-l-20">
-                                    <input id="Q1c_2" name="Q1c" type="radio" class="radio" value="0" <?= $survey->unitQ->Q1 != NULL && $survey->unitQ->Q1[2] == 0 ? 'checked' : '' ?> >
-                                    <label for="Q1c_2" class="radio-label">Нет</label>
+                                    <input id="Q1c_2" name="Q1c" type="radio" class="radio" value="1" <?= $survey->unitQ->Q1 != NULL && $survey->unitQ->Q1[2] == 1 ? 'checked' : '' ?> >
+                                    <label for="Q1c_2" class="radio-label">Да</label>
                                 </span>
                             <? else : ?>
                                 <p class="form-group__control-static p-l-0"> <? if ($survey->unitQ->Q1 != NULL) { if ($survey->unitQ->Q1[2] == 1) { echo 'Да'; } elseif ($survey->unitQ->Q1[2] == 0) { echo 'Нет'; } else { echo 'Не указано'; } } else { echo 'Не указано'; } ?> </p>
@@ -94,7 +94,7 @@
                     
                     <div class="form-group">
                         <label for="Q2" class="form-group__label col-xs-12">
-                            Сколько времени пациент предположительно проведет в данном
+                            Q2. Сколько времени пациент предположительно проведет в данном
                             учреждении или будет пользоваться медицинскими услугами этого
                             учреждения до момента выписки
                         </label>

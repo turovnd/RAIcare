@@ -47,6 +47,19 @@ Class Model_Pension {
 
     }
 
+    public static function getByUri($uri) {
+
+        $select = Dao_Pensions::select()
+            ->where('uri', '=', $uri)
+            ->limit(1)
+            ->cached(Date::MINUTE * 5, $uri)
+            ->execute();
+
+        $pension = new Model_Pension();
+        return $pension->fill_by_row($select);
+
+    }
+
     public static function getByFieldName($field, $value) {
 
         $select = Dao_Pensions::select()
@@ -87,6 +100,7 @@ Class Model_Pension {
         $insert->where('id', '=', $this->id);
 
         $insert->clearcache($this->id);
+        $insert->clearcache($this->uri);
         $insert->clearcache('organization_' . $this->organization);
 
         $insert->execute();
@@ -94,88 +108,16 @@ Class Model_Pension {
         return $this->get_($this->id);
     }
 
-    public static function check_uri($uri)
+    public static function check_uri($uri, $organization)
     {
         $select = Dao_Pensions::select()
-            ->where('uri', '=', $uri)
+            ->where('organization','=', $organization)
+            ->where('uri','=', $uri)
             ->limit(1)
             ->execute();
 
         return boolval($select);
-
     }
-
-    public static function getAll($offset, $limit = 10, $name = "")
-    {
-        if ($name == "") {
-            $select = Dao_Pensions::select()
-                ->order_by('dt_create', 'DESC')
-                ->offset($offset)
-                ->limit($limit)
-                ->execute();
-
-        } else {
-            $select = Dao_Pensions::select()
-                ->where('name','LIKE', '%' . $name . '%')
-                ->order_by('dt_create', 'DESC')
-                ->offset($offset)
-                ->limit($limit)
-                ->execute();
-        }
-
-        $pensions = array();
-
-        if ( empty($select) ) return $pensions;
-
-        foreach ($select as $item) {
-            $pension = new Model_Pension();
-            $pension = $pension->fill_by_row($item);
-            $pension->creator = new Model_User($pension->creator);
-            $pension->owner = new Model_User($pension->owner);
-            $pension->organization = new Model_Organization($pension->organization);
-            $pensions[] = $pension;
-        }
-
-        return $pensions;
-    }
-
-
-    public static function getByCreator($id, $offset, $limit = 10, $name = "")
-    {
-        if ($name == "") {
-            $select = Dao_Pensions::select()
-                ->where('creator','=', $id)
-                ->order_by('dt_create', 'DESC')
-                ->offset($offset)
-                ->limit($limit)
-                ->execute();
-
-        } else {
-            $select = Dao_Pensions::select()
-                ->where('creator','=', $id)
-                ->where('name','LIKE', '%' . $name . '%')
-                ->order_by('dt_create', 'DESC')
-                ->offset($offset)
-                ->limit($limit)
-                ->execute();
-        }
-
-        $pensions = array();
-
-        if ( empty($select) ) return $pensions;
-
-        foreach ($select as $item) {
-            $pension = new Model_Pension();
-            $pension = $pension->fill_by_row($item);
-            $pension->creator = new Model_User($pension->creator);
-            $pension->owner = new Model_User($pension->owner);
-            $pension->organization = new Model_Organization($pension->organization);
-            $pensions[] = $pension;
-        }
-
-        return $pensions;
-    }
-
 
     public static function getByOrganizationID($id, $as_model = false) {
 
@@ -200,17 +142,6 @@ Class Model_Pension {
 
         return $pensions;
 
-    }
-
-    public static function isEmptyURI($uri, $organization)
-    {
-        $select = Dao_Pensions::select()
-            ->where('organization','=', $organization)
-            ->where('uri','=', $uri)
-            ->limit(1)
-            ->execute();
-
-        return !empty($select['id']);
     }
 
 }

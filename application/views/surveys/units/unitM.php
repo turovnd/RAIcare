@@ -10,7 +10,7 @@
     <? if (!$can_conduct) : ?>
         <a role="button" onclick="raicare.collapse.toggle(this)" data-area="unitM" data-opened="true" data-textclosed="показать" data-textopened="скрыть" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn"></a>
     <? endif; ?>
-    Досуг
+    РАЗДЕЛ M. Досуг
 </h3>
 
 <form class="row" id="unitM" onsubmit="event.preventDefault()">
@@ -24,8 +24,8 @@
                 <fieldset>
 
                     <div class="form-group">
-                        <label for="M1" class="form-group__label col-xs-12">
-                            Средняя длительность участия в колективной деятельности
+                        <label for="M1" class="form-group__label col-xs-12 f-s-1">
+                            M1. Средняя длительность участия в колективной деятельности
                             <small class="text-italic text-normal">Например: самостоятельной или групповой. Примечание: когда пациент бодрствует и не
                             получает уход в области повседневной деятельности.</small>
                         </label>
@@ -49,12 +49,12 @@
                 <fieldset>
 
                     <p class="col-xs-12 text-bold">
-                        Предпочитаемая и осуществляемая деятельность (в рамках текущих возможностей)
+                        M2. Предпочитаемая и осуществляемая деятельность (в рамках текущих возможностей)
                     </p>
 
                     <div class="form-group">
                         <label for="M2a" class="form-group__label col-xs-12">
-                            Карты, игры или головоломки
+                            a. Карты, игры или головоломки
                         </label>
 
                         <div class="col-xs-12">
@@ -73,7 +73,7 @@
 
                     <div class="form-group">
                         <label for="M2b" class="form-group__label col-xs-12">
-                            Занятия за компьютером
+                            b. Занятия за компьютером
                         </label>
 
                         <div class="col-xs-12">
@@ -92,7 +92,7 @@
 
                     <div class="form-group">
                         <label for="M2c" class="form-group__label col-xs-12">
-                            Беседа или телефонный разговор
+                            c. Беседа или телефонный разговор
                         </label>
 
                         <div class="col-xs-12">
@@ -111,7 +111,7 @@
 
                     <div class="form-group">
                         <label for="M2d" class="form-group__label col-xs-12">
-                            Ремесла или искусства
+                            d. Ремесла или искусства
                         </label>
 
                         <div class="col-xs-12">
@@ -130,7 +130,7 @@
 
                     <div class="form-group">
                         <label for="M2e" class="form-group__label col-xs-12">
-                            Танцы
+                            e. Танцы
                         </label>
 
                         <div class="col-xs-12">
@@ -149,7 +149,7 @@
 
                     <div class="form-group">
                         <label for="M2f" class="form-group__label col-xs-12">
-                            Обсуждения / воспоминания о жизни
+                            f. Обсуждения / воспоминания о жизни
                         </label>
 
                         <div class="col-xs-12">
@@ -168,7 +168,7 @@
 
                     <div class="form-group">
                         <label for="M2g" class="form-group__label col-xs-12">
-                            Упражнения или спорт
+                            g. Упражнения или спорт
                         </label>
 
                         <div class="col-xs-12">
@@ -187,7 +187,7 @@
 
                     <div class="form-group">
                         <label for="M2h" class="form-group__label col-xs-12">
-                            Садоводство или уход за растениями
+                            h. Садоводство или уход за растениями
                         </label>
 
                         <div class="col-xs-12">
@@ -206,7 +206,7 @@
 
                     <div class="form-group">
                         <label for="M2i" class="form-group__label col-xs-12">
-                            Помощь другим людям
+                            i. Помощь другим людям
                         </label>
 
                         <div class="col-xs-12">
@@ -225,7 +225,7 @@
 
                     <div class="form-group">
                         <label for="M2j" class="form-group__label col-xs-12">
-                            Музыка или пение
+                            j. Музыка или пение
                         </label>
 
                         <div class="col-xs-12">
@@ -244,7 +244,7 @@
 
                     <div class="form-group">
                         <label for="M2k" class="form-group__label col-xs-12">
-                            Домашние животные
+                            k. Домашние животные
                         </label>
 
                         <div class="col-xs-12">
@@ -263,7 +263,7 @@
 
                     <div class="form-group">
                         <label for="M2l" class="form-group__label col-xs-12">
-                            Чтение, письмо или решение кроссвордов
+                            l. Чтение, письмо или решение кроссвордов
                         </label>
 
                         <div class="col-xs-12">
@@ -282,7 +282,7 @@
 
                     <div class="form-group">
                         <label for="M2m" class="form-group__label col-xs-12">
-                            Духовные или религиозные мероприятия
+                            m. Духовные или религиозные мероприятия
                         </label>
 
                         <div class="col-xs-12">
@@ -301,7 +301,7 @@
 
                     <div class="form-group">
                         <label for="M2n" class="form-group__label col-xs-12">
-                            Поездки или покупки
+                            n. Поездки или покупки
                         </label>
 
                         <div class="col-xs-12">
@@ -320,7 +320,7 @@
 
                     <div class="form-group">
                         <label for="M2o" class="form-group__label col-xs-12">
-                            Пешеходные прогулки или прогулки в инвалидной коляске
+                            o. Пешеходные прогулки или прогулки в инвалидной коляске
                         </label>
 
                         <div class="col-xs-12">
@@ -339,7 +339,7 @@
 
                     <div class="form-group">
                         <label for="M2p" class="form-group__label col-xs-12">
-                            Просмотр телевизионных или прослушивание радиопередач
+                            p. Просмотр телевизионных или прослушивание радиопередач
                         </label>
 
                         <div class="col-xs-12">
@@ -361,8 +361,8 @@
                 <fieldset>
 
                     <div class="form-group">
-                        <label for="M3" class="form-group__label col-xs-12">
-                            Длительность дневного сна
+                        <label for="M3" class="form-group__label col-xs-12 f-s-1">
+                            M3. Длительность дневного сна
                         </label>
 
                         <div class="col-xs-12">

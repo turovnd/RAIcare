@@ -14,7 +14,7 @@
     <? if (!$can_conduct) : ?>
         <a role="button" onclick="raicare.collapse.toggle(this)" data-area="unitF" data-opened="true" data-textclosed="показать" data-textopened="скрыть" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn"></a>
     <? endif; ?>
-    Психосоциальное благополучие
+    РАЗДЕЛ F. Психосоциальное благополучие
 </h3>
 
 <form class="row" id="unitF" onsubmit="event.preventDefault()">
@@ -28,13 +28,13 @@
                 <fieldset>
 
                     <p class="col-xs-12 text-bold">
-                        Социальные взаимоотношения
+                        F1. Социальные взаимоотношения
                         <small class="text-italic text-normal">Примечание: При возможности задавайте вопросы пациенту, сотрудникам, осуществляющим непосредственный уход за пациентом, и членам его семьи.</small>
                     </p>
 
                     <div class="form-group">
                         <label for="F1a" class="form-group__label col-xs-12">
-                            Участие в социальных мероприятиях, представляющих устойчивый интерес
+                            a. Участие в социальных мероприятиях, представляющих устойчивый интерес
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -52,7 +52,7 @@
 
                     <div class="form-group">
                         <label for="F1b" class="form-group__label col-xs-12">
-                            Личное общение со старым знакомым или членом семьи
+                            b. Личное общение со старым знакомым или членом семьи
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -70,7 +70,7 @@
 
                     <div class="form-group">
                         <label for="F1c" class="form-group__label col-xs-12">
-                            Иное взаимодействие со старым знакомым или членом семьи
+                            c. Иное взаимодействие со старым знакомым или членом семьи
                             <small class="text-italic text-normal">Например: по телефону или по электронной почте</small>
                         </label>
                         <div class="col-xs-12">
@@ -92,12 +92,12 @@
                 <fieldset>
 
                     <p class="col-xs-12 text-bold">
-                        Чувство вовлеченности
+                        F2. Чувство вовлеченности
                     </p>
 
                     <div class="form-group">
                         <label for="F2a" class="form-group__label col-xs-12">
-                            Легко взаимодействует с окружающими
+                            a. Легко взаимодействует с окружающими
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -115,7 +115,7 @@
 
                     <div class="form-group">
                         <label for="F2b" class="form-group__label col-xs-12">
-                            Легко участвует в спланированных или организованных мероприятиях
+                            b. Легко участвует в спланированных или организованных мероприятиях
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -133,7 +133,7 @@
 
                     <div class="form-group">
                         <label for="F2c" class="form-group__label col-xs-12">
-                            Принимает приглашения на большинство групповых мероприятий
+                            c. Принимает приглашения на большинство групповых мероприятий
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -151,7 +151,7 @@
 
                     <div class="form-group">
                         <label for="F2d" class="form-group__label col-xs-12">
-                            Стремится участвовать в жизни учреждения
+                            d. Стремится участвовать в жизни учреждения
                             <small class="text-normal">Например: заводит друзей и поддерживает дружеские отношения, участвует в групповых мероприятиях, позитивно реагирует на новые мероприятия, помогает в проведении религиозных служб.</small>
                         </label>
                         <div class="col-xs-12">
@@ -170,7 +170,7 @@
 
                     <div class="form-group">
                         <label for="F2e" class="form-group__label col-xs-12">
-                            Инициирует взаимодействие с окружающими
+                            e. Инициирует взаимодействие с окружающими
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -188,7 +188,7 @@
 
                     <div class="form-group">
                         <label for="F2f" class="form-group__label col-xs-12">
-                            Положительно реагирует на предложения окружающих о взаимодействии
+                            f. Положительно реагирует на предложения окружающих о взаимодействии
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -206,7 +206,7 @@
 
                     <div class="form-group">
                         <label for="F2g" class="form-group__label col-xs-12">
-                            Принимает приглашения на большинство групповых мероприятий
+                            g. Принимает приглашения на большинство групповых мероприятий
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -227,12 +227,12 @@
                 <fieldset>
 
                     <p class="col-xs-12 text-bold">
-                        Неурегулированные взаимоотношения
+                        F3. Неурегулированные взаимоотношения
                     </p>
 
                     <div class="form-group">
                         <label for="F3a" class="form-group__label col-xs-12">
-                            Конфликт или повторяющаяся критика других получателей медицинского ухода
+                            a. Конфликт или повторяющаяся критика других получателей медицинского ухода
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -250,7 +250,7 @@
 
                     <div class="form-group">
                         <label for="F3b" class="form-group__label col-xs-12">
-                            Конфликт или повторяющаяся критика персонала
+                            b. Конфликт или повторяющаяся критика персонала
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -268,7 +268,7 @@
 
                     <div class="form-group">
                         <label for="F3c" class="form-group__label col-xs-12">
-                            Персонал сообщает о стойком чувстве стресса при взаимодействии с пациентом
+                            c. Персонал сообщает о стойком чувстве стресса при взаимодействии с пациентом
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -286,7 +286,7 @@
 
                     <div class="form-group">
                         <label for="F3d" class="form-group__label col-xs-12">
-                            Члены семьи или близкие друзья сообщают, что они подавлены болезнью пациента
+                            d. Члены семьи или близкие друзья сообщают, что они подавлены болезнью пациента
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -304,7 +304,7 @@
 
                     <div class="form-group">
                         <label for="F3e" class="form-group__label col-xs-12">
-                            Пациент говорит или показывает, что чувствует себя одиноко
+                            e. Пациент говорит или показывает, что чувствует себя одиноко
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -325,16 +325,16 @@
                 <fieldset>
 
                     <div class="form-group">
-                        <label for="F4" class="form-group__label col-xs-12">
-                            Источники сильного стресса за последние 90 дней
+                        <label for="F4" class="form-group__label col-xs-12 f-s-1">
+                            F4. Источники сильного стресса за последние 90 дней
                             <small class="text-italic text-normal">Например: серьезная болезнь пациента, смерть или серьезная болезнь члена семьи или друга, потеря дома пациентом, значительная потеря дохода или активов, совершение в отношении пациента преступления (ограбления или нападения), потеря водительских прав или машины пациента.</small>
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
                                 <select name="F4" id="F4" class="form-group__control js-single-select">
                                     <option selected disabled value="-1">Не выбрано</option>
-                                    <option value="1" <?= $survey->unitF->F4 != NULL && $survey->unitF->F4 == 1 ? 'selected' : '' ?>>Да</option>
                                     <option value="0" <?= $survey->unitF->F4 != NULL && $survey->unitF->F4 == 0 ? 'selected' : '' ?>>Нет</option>
+                                    <option value="1" <?= $survey->unitF->F4 != NULL && $survey->unitF->F4 == 1 ? 'selected' : '' ?>>Да</option>
                                 </select>
                             <? else : ?>
                                 <p class="form-group__control-static p-l-0"> <? if ($survey->unitF->F4 != NULL) { if ($survey->unitF->F4 == 1) { echo 'Да'; } elseif ($survey->unitF->F4 == 0) { echo 'Нет'; } else { echo 'Не указано'; } } else { echo 'Не указано'; } ?> </p>
@@ -347,12 +347,12 @@
                 <fieldset>
 
                     <p class="col-xs-12 text-bold">
-                        Сильные стороны пациента
+                        F5. Сильные стороны пациента
                     </p>
 
                     <div class="form-group">
                         <label for="F5a" class="form-group__label col-xs-12">
-                            Устойчивое позитивное мироощущение
+                            a. Устойчивое позитивное мироощущение
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -370,7 +370,7 @@
 
                     <div class="form-group">
                         <label for="F5b" class="form-group__label col-xs-12">
-                            Пациент видит смысл в своей повседневной жизни
+                            b. Пациент видит смысл в своей повседневной жизни
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -388,7 +388,7 @@
 
                     <div class="form-group">
                         <label for="F5c" class="form-group__label col-xs-12">
-                            Сильная связь с семьей и поддержка со стороны семьи
+                            c. Сильная связь с семьей и поддержка со стороны семьи
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>

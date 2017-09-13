@@ -64,9 +64,7 @@
             </div>
         </div>
 
-        <? if ($patient->full_info) : ?>
-
-            <div class="col-xs-12 collapse" id="personalInfo">
+        <div class="col-xs-12 collapse" id="personalInfo">
                 <div class="row">
                     <div class="form-group m-b-5 js-field-name">
                         <label for="patientSex" class="form-group__label col-xs-12 col-sm-4 col-md-3">Пол</label>
@@ -188,8 +186,6 @@
                     </div>
                 </div>
             </div>
-
-        <? endif; ?>
 
         <input type="hidden" id="patientPK" value="<?=$patient->pk;?>">
 

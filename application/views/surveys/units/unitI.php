@@ -9,7 +9,7 @@
     <? if (!$can_conduct) : ?>
         <a role="button" onclick="raicare.collapse.toggle(this)" data-area="unitI" data-opened="true" data-textclosed="показать" data-textopened="скрыть" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn"></a>
     <? endif; ?>
-    Диагнозы
+    РАЗДЕЛ I. Диагнозы
 </h3>
 
 <form class="row" id="unitI" onsubmit="event.preventDefault()">
@@ -23,15 +23,15 @@
                 <fieldset>
 
                     <p class="col-xs-12 text-bold">
-                        Диагнозы
+                        I1. Диагнозы
                     </p>
-                    <p class="col-xs-12 text-bold text-italic">
+                    <p class="col-xs-12 text-bold text-italic m-t-10 f-s-0_9">
                         Заболевания костно-мышечной системы
                     </p>
 
                     <div class="form-group">
                         <label for="I1a" class="form-group__label col-xs-12">
-                            Перелом бедренной или тазовой кости в течение последних 30 дней
+                            a. Перелом бедренной или тазовой кости в течение последних 30 дней
                             <small class="text-italic text-normal">Или с момента последней оценки, если она проводилась менее чем 30 дней назад.</small>
                         </label>
                         <div class="col-xs-12">
@@ -50,7 +50,7 @@
 
                     <div class="form-group">
                         <label for="I1b" class="form-group__label col-xs-12">
-                            Другие переломы в течение последних 30 дней
+                            b. Другие переломы в течение последних 30 дней
                             <small class="text-italic text-normal">Или с момента последней оценки, если она проводилась менее чем 30 дней назад.</small>
                         </label>
                         <div class="col-xs-12">
@@ -67,13 +67,13 @@
                         </div>
                     </div>
 
-                    <p class="col-xs-12 text-bold text-italic">
+                    <p class="col-xs-12 text-bold text-italic m-t-10 f-s-0_9">
                         Неврологические заболевания
                     </p>
 
                     <div class="form-group">
                         <label for="I1c" class="form-group__label col-xs-12">
-                            Болезнь Альцгеймера
+                            c. Болезнь Альцгеймера
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -91,7 +91,7 @@
 
                     <div class="form-group">
                         <label for="I1d" class="form-group__label col-xs-12">
-                            Иной, нежели болезнь Альцгецмера, вид деменции
+                            d. Иной, нежели болезнь Альцгецмера, вид деменции
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -109,7 +109,7 @@
 
                     <div class="form-group">
                         <label for="I1e" class="form-group__label col-xs-12">
-                            Односторонний паралич
+                            e. Односторонний паралич
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -127,7 +127,7 @@
 
                     <div class="form-group">
                         <label for="I1f" class="form-group__label col-xs-12">
-                            Рассеянный склероз
+                            f. Рассеянный склероз
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -145,7 +145,7 @@
 
                     <div class="form-group">
                         <label for="I1g" class="form-group__label col-xs-12">
-                            Параплегия
+                            g. Параплегия
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -163,7 +163,7 @@
 
                     <div class="form-group">
                         <label for="I1h" class="form-group__label col-xs-12">
-                            Болезнь Паркинсона
+                            h. Болезнь Паркинсона
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -181,7 +181,7 @@
 
                     <div class="form-group">
                         <label for="I1i" class="form-group__label col-xs-12">
-                            Квадриплегия
+                            i. Квадриплегия
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -199,7 +199,7 @@
 
                     <div class="form-group">
                         <label for="I1j" class="form-group__label col-xs-12">
-                            Инсульт / острое нарушение мозгового кровообращения
+                            j. Инсульт / острое нарушение мозгового кровообращения
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -215,13 +215,13 @@
                         </div>
                     </div>
 
-                    <p class="col-xs-12 text-bold text-italic">
+                    <p class="col-xs-12 text-bold text-italic m-t-10 f-s-0_9">
                         Кардиологические или пульмонологические заболевания
                     </p>
 
                     <div class="form-group">
                         <label for="I1k" class="form-group__label col-xs-12">
-                            Ишемическая болезнь сердца
+                            k. Ишемическая болезнь сердца
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -239,7 +239,7 @@
 
                     <div class="form-group">
                         <label for="I1l" class="form-group__label col-xs-12">
-                            Хроническое обструктивное заболевание легких
+                            l. Хроническое обструктивное заболевание легких
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -257,7 +257,7 @@
 
                     <div class="form-group">
                         <label for="I1m" class="form-group__label col-xs-12">
-                            Застойная сердечная недостаточность
+                            m. Застойная сердечная недостаточность
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -273,13 +273,13 @@
                         </div>
                     </div>
 
-                    <p class="col-xs-12 text-bold text-italic">
+                    <p class="col-xs-12 text-bold text-italic m-t-10 f-s-0_9">
                         Психиатрические заболевания
                     </p>
 
                     <div class="form-group">
                         <label for="I1n" class="form-group__label col-xs-12">
-                            Тревожность
+                            n. Тревожность
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -297,7 +297,7 @@
 
                     <div class="form-group">
                         <label for="I1o" class="form-group__label col-xs-12">
-                            Биполярное расстройство
+                            o. Биполярное расстройство
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -315,7 +315,7 @@
 
                     <div class="form-group">
                         <label for="I1p" class="form-group__label col-xs-12">
-                            Депрессия
+                            p. Депрессия
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -333,7 +333,7 @@
 
                     <div class="form-group">
                         <label for="I1q" class="form-group__label col-xs-12">
-                            Шизофрения
+                            q. Шизофрения
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -349,13 +349,13 @@
                         </div>
                     </div>
 
-                    <p class="col-xs-12 text-bold text-italic">
+                    <p class="col-xs-12 text-bold text-italic m-t-10 f-s-0_9">
                         Инфекции
                     </p>
 
                     <div class="form-group">
                         <label for="I1r" class="form-group__label col-xs-12">
-                            Пневмония
+                            r. Пневмония
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -373,7 +373,7 @@
 
                     <div class="form-group">
                         <label for="I1s" class="form-group__label col-xs-12">
-                            Инфекции мочевыводящих путей за последние 30 дней
+                            s. Инфекции мочевыводящих путей за последние 30 дней
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -389,13 +389,13 @@
                         </div>
                     </div>
 
-                    <p class="col-xs-12 text-bold text-italic">
+                    <p class="col-xs-12 text-bold text-italic m-t-10 f-s-0_9">
                         Иные общие или серьезные заболевания
                     </p>
 
                     <div class="form-group">
                         <label for="I1t" class="form-group__label col-xs-12">
-                            Рак
+                            t. Рак
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -413,7 +413,7 @@
 
                     <div class="form-group">
                         <label for="I1u" class="form-group__label col-xs-12">
-                            Сахарный диабет
+                            u. Сахарный диабет
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -434,8 +434,8 @@
                 <fieldset>
 
                     <div class="form-group">
-                        <label for="I2" class="form-group__label col-xs-12">
-                            Другие диагнозы
+                        <label for="I2" class="form-group__label col-xs-12 f-s-1">
+                            I2. Другие диагнозы
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>

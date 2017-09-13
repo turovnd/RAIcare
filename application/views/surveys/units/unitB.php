@@ -15,7 +15,7 @@
     <? if (!$can_conduct) : ?>
         <a role="button" onclick="raicare.collapse.toggle(this)" data-area="unitB" data-opened="true" data-textclosed="показать" data-textopened="скрыть" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn"></a>
     <? endif; ?>
-    Первоначальная история
+    РАЗДЕЛ B. Первоначальная история
 </h3>
 
 <form class="row" id="unitB" onsubmit="event.preventDefault()">
@@ -28,8 +28,8 @@
 
                 <fieldset>
                     <div class="form-group">
-                        <label for="B1" class="form-group__label col-xs-12">
-                            Степень самостоятельности пациента при принятии решение о поступление в лечебное учреждение по уходу
+                        <label for="B1" class="form-group__label col-xs-12 f-s-1">
+                            B1. Степень самостоятельности пациента при принятии решение о поступление в лечебное учреждение по уходу
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -47,8 +47,8 @@
                 </fieldset>
                 <fieldset>
                     <div class="form-group">
-                        <label for="B2" class="form-group__label col-xs-12">
-                            Дата начала пребывания
+                        <label for="B2" class="form-group__label col-xs-12 f-s-1">
+                            B2. Дата начала пребывания
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -61,8 +61,8 @@
                 </fieldset>
                 <fieldset>
                     <div class="form-group">
-                        <label for="B3" class="form-group__label col-xs-12">
-                            Национальность и раса
+                        <label for="B3" class="form-group__label col-xs-12 f-s-1">
+                            B3. Национальность и раса
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -90,8 +90,8 @@
                 </fieldset>
                 <fieldset>
                     <div class="form-group">
-                        <label for="B4" class="form-group__label col-xs-12">
-                            Основной язык
+                        <label for="B4" class="form-group__label col-xs-12 f-s-1">
+                            B4. Основной язык
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -108,9 +108,13 @@
                     </div>
                 </fieldset>
                 <fieldset>
+                    <p class="col-xs-12 text-bold">
+                        B5. Местоположение, из которого поступил пациент, и его постоянное место проживания
+                    </p>
+
                     <div class="form-group">
                         <label for="B5a" class="form-group__label col-xs-12">
-                            Местоположение, из которого поступил пациент
+                            a. Поступил из
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -127,7 +131,7 @@
                     </div>
                     <div class="form-group">
                         <label for="B5b" class="form-group__label col-xs-12">
-                            Постоянное место проживания пациента
+                            b. Постоянное место проживания
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -145,8 +149,8 @@
                 </fieldset>
                 <fieldset>
                     <div class="form-group">
-                        <label for="B6" class="form-group__label col-xs-12">
-                            Почтовый индекс постоянного места проживания до поступления в лечебное учреждение
+                        <label for="B6" class="form-group__label col-xs-12 f-s-1">
+                            B6. Почтовый индекс постоянного места проживания до поступления в лечебное учреждение
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -165,8 +169,8 @@
                 </fieldset>
                 <fieldset>
                     <div class="form-group">
-                        <label for="B7" class="form-group__label col-xs-12">
-                            С кем проживал пациент до поступления в лечебное учреждение
+                        <label for="B7" class="form-group__label col-xs-12 f-s-1">
+                            B7. С кем проживал пациент до поступления в лечебное учреждение
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -184,8 +188,8 @@
                 </fieldset>
                 <fieldset>
                     <div class="form-group">
-                        <label for="B8" class="form-group__label col-xs-12">
-                            История проживания пациента в учреждениях с коллективным проживание за последних 5 лет
+                        <label for="B8" class="form-group__label col-xs-12 f-s-1">
+                            B8. История проживания пациента в учреждениях с коллективным проживание за последних 5 лет
                             <small class="text-italic text-normal">Отметьте все жилищные условия, в которых пациент жил за последние 5 ЛЕТ перед поступлением в лечебное учреждение</small>
                         </label>
                         <div class="col-xs-12">
@@ -214,19 +218,19 @@
                 </fieldset>
                 <fieldset>
                     <div class="form-group">
-                        <label for="B9" class="form-group__label col-xs-12">
-                            Душевное здоровье
+                        <label for="B9" class="form-group__label col-xs-12 f-s-1">
+                            B9. Душевное здоровье
                             <small class="text-italic text-normal">Эта запись показывает наличие/отсутствие душевного заболевания или умственной отсталости</small>
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
                                 <span>
-                                    <input id="B9_1" name="B9" type="radio" class="radio" value="1" <?= $survey->unitB->B9 != NULL && $survey->unitB->B9 == 1 ? 'checked' : '' ?>>
-                                    <label for="B9_1" class="radio-label">Да</label>
+                                    <input id="B9_1" name="B9" type="radio" class="radio" value="0" <?= $survey->unitB->B9 != NULL && $survey->unitB->B9 == 0 ? 'checked' : '' ?>>
+                                    <label for="B9_1" class="radio-label">Нет</label>
                                 </span>
                                 <span class="m-l-20">
-                                    <input id="B9_2" name="B9" type="radio" class="radio" value="0" <?= $survey->unitB->B9 != NULL && $survey->unitB->B9 == 0 ? 'checked' : '' ?>>
-                                    <label for="B9_2" class="radio-label">Нет</label>
+                                    <input id="B9_2" name="B9" type="radio" class="radio" value="1" <?= $survey->unitB->B9 != NULL && $survey->unitB->B9 == 1 ? 'checked' : '' ?>>
+                                    <label for="B9_2" class="radio-label">Да</label>
                                 </span>
                             <? else : ?>
                                 <p class="form-group__control-static p-l-0"> <? if ($survey->unitB->B9 != NULL) { if ($survey->unitB->B9 == 1) { echo 'Да'; } elseif ($survey->unitB->B9 == 0) { echo 'Нет'; } else { echo 'Не указано'; } } else { echo 'Не указано'; } ?> </p>

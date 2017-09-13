@@ -12,7 +12,7 @@
     <? if (!$can_conduct) : ?>
         <a role="button" onclick="raicare.collapse.toggle(this)" data-area="unitC" data-opened="true" data-textclosed="показать" data-textopened="скрыть" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn"></a>
     <? endif; ?>
-    Когнитивные способности
+    РАЗДЕЛ C. Когнитивные способности
 </h3>
 
 <form class="row" id="unitC" onsubmit="event.preventDefault()">
@@ -25,8 +25,8 @@
 
                 <fieldset>
                     <div class="form-group">
-                        <label for="C1" class="form-group__label col-xs-12">
-                            Когнетивные способности в области принятия повседневных решений
+                        <label for="C1" class="form-group__label col-xs-12 f-s-1">
+                            C1. Когнетивные способности в области принятия повседневных решений
                             <small class="text-italic text-normal">Принятие решений о каждодневных задачах (напр.: когда встать или пообедать, какую одежду надеть или чем заниматься)</small>
                         </label>
                         <div class="col-xs-12">
@@ -47,13 +47,12 @@
                     <fieldset>
                         <div class="form-group">
                             <p class="col-xs-12">
-                                <span class="text-bold">Способность запоминать / вспоминать</span>
+                                <span class="text-bold">C2. Способность запоминать / вспоминать</span>
                             </p>
-
 
                             <div class="form-group">
                                 <label for="C2a" class="form-group__label col-xs-12">
-                                    Кратковременная память
+                                    a. Кратковременная память
                                     <small class="text-italic text-normal">Пациент может вспомнить информацию, полученную 5 минут назад</small>
                                 </label>
                                 <div class="col-xs-12">
@@ -72,7 +71,7 @@
 
                             <div class="form-group">
                                 <label for="C2b" class="form-group__label col-xs-12">
-                                    Долговременная память
+                                    b. Долговременная память
                                     <small class="text-italic text-normal">Пациент может вспомнить информацию, полученную в отдаленном прошлом</small>
                                 </label>
                                 <div class="col-xs-12">
@@ -91,7 +90,7 @@
 
                             <div class="form-group">
                                 <label for="C2c" class="form-group__label col-xs-12">
-                                    Процедурная память
+                                    c. Процедурная память
                                     <small class="text-italic text-normal">Пациент может выполнять все или почти все шаги многозадачной последовательности без подсказок</small>
                                 </label>
                                 <div class="col-xs-12">
@@ -110,7 +109,7 @@
 
                             <div class="form-group">
                                 <label for="C2d" class="form-group__label col-xs-12">
-                                    Ситуационная память
+                                    d. Ситуационная память
                                     <small class="text-italic text-normal">Пациент одновременно узнает имена и лица представителей обслуживающего персонала, с которыми часто сталкивается, И помнит расположение регулярно посещаемых мест (например, спальни, столовой, комнаты для физических упражнений, процедурной комнаты)</small>
                                 </label>
                                 <div class="col-xs-12">
@@ -130,13 +129,13 @@
                     </fieldset>
                     <fieldset>
                         <p class="col-xs-12">
-                            <span class="text-bold">Периоды беспорядочности мышления или спутанности сознания</span>
+                            <span class="text-bold">C3. Периоды беспорядочности мышления или спутанности сознания</span>
                             <small class="text-italic">Примечание: Для точной оценки необходимо побеседовать с персоналом, семьей и другими лицами, владеющими информацией о поведении пациента в течение соответствующего времени</small>
                         </p>
 
                         <div class="form-group">
                             <label for="C3a" class="form-group__label col-xs-12">
-                                Легко отвлекается
+                                a. Легко отвлекается
                                 <small class="text-italic text-normal">Например: имеют место эпизодические трудности с концентрацией внимания; пациент уходит от темы</small>
                             </label>
                             <div class="col-xs-12">
@@ -155,7 +154,7 @@
 
                         <div class="form-group">
                             <label for="C3b" class="form-group__label col-xs-12">
-                                Отмечены эпизоды беспорядочной речи
+                                b. Отмечены эпизоды беспорядочной речи
                                 <small class="text-italic text-normal">Например: бессмысленная речь, пациент теряет нить рассуждения</small>
                             </label>
                             <div class="col-xs-12">
@@ -174,7 +173,7 @@
 
                         <div class="form-group">
                             <label for="C3a" class="form-group__label col-xs-12">
-                                Мыслительные способности меняются в течение дня
+                                c. Мыслительные способности меняются в течение дня
                                 <small class="text-italic text-normal">Например: временами лучше, временами хуже</small>
                             </label>
                             <div class="col-xs-12">
@@ -193,19 +192,19 @@
                     </fieldset>
                     <fieldset>
                         <div class="form-group">
-                            <label for="C4" class="form-group__label col-xs-12">
-                                Острое изменение состояния мыслительных способностей пациента по сравнению с его обычным состоянием
+                            <label for="C4" class="form-group__label col-xs-12 f-s-1">
+                                C4. Острое изменение состояния мыслительных способностей пациента по сравнению с его обычным состоянием
                                 <small class="text-italic text-normal">Например: возбужденное состояние, заторможенность, трудности при пробуждении или неадекватное восприятие окружающей действительности</small>
                             </label>
                             <div class="col-xs-12">
                                 <? if ($can_conduct) : ?>
                                     <span>
-                                        <input id="C4_1" name="C4" type="radio" class="radio" value="1" <?= $survey->unitC->C4 != NULL && $survey->unitC->C4 == 1 ? 'checked' : '' ?>>
-                                        <label for="C4_1" class="radio-label">Да</label>
+                                        <input id="C4_1" name="C4" type="radio" class="radio" value="0" <?= $survey->unitC->C4 != NULL && $survey->unitC->C4 == 0 ? 'checked' : '' ?>>
+                                        <label for="C4_1" class="radio-label">Нет</label>
                                     </span>
                                     <span class="m-l-20">
-                                        <input id="C4_2" name="C4" type="radio" class="radio" value="0" <?= $survey->unitC->C4 != NULL && $survey->unitC->C4 == 0 ? 'checked' : '' ?>>
-                                        <label for="C4_2" class="radio-label">Нет</label>
+                                        <input id="C4_2" name="C4" type="radio" class="radio" value="1" <?= $survey->unitC->C4 != NULL && $survey->unitC->C4 == 1 ? 'checked' : '' ?>>
+                                        <label for="C4_2" class="radio-label">Да</label>
                                     </span>
                                 <? else : ?>
                                     <p class="form-group__control-static p-l-0"> <? if ($survey->unitC->C4 != NULL) { if ($survey->unitC->C4 == 1) { echo 'Да'; } elseif ($survey->unitC->C4 == 0) { echo 'Нет'; } else { echo 'Не указано'; } } else { echo 'Не указано'; } ?> </p>
@@ -215,8 +214,8 @@
                     </fieldset>
                     <fieldset>
                         <div class="form-group">
-                            <label for="C5" class="form-group__label col-xs-12">
-                                Динамика способности пациента к принятию решений за последние 90 дней
+                            <label for="C5" class="form-group__label col-xs-12 f-s-1">
+                                C5. Динамика способности пациента к принятию решений за последние 90 дней
                                 <small class="text-italic text-normal">Или за меньший срок, если последняя оценка проводилась меньше, чем 90 дней назад</small>
                             </label>
                             <div class="col-xs-12">

@@ -1,6 +1,8 @@
-
 .collapse {
     display: none;
+}
+.block.collapse{
+    box-shadow: none;
 }
 .collapse--opened{
     display: block;

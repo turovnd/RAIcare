@@ -20,14 +20,6 @@
     <script type="text/javascript" src="<?=$assets; ?>frontend/bundles/raicare.min.js?v=<?= filemtime("assets/frontend/bundles/raicare.min.js") ?>"></script>
     <script type="text/javascript" src="<?=$assets; ?>static/js/welcome.js?v=<?= filemtime("assets/static/js/welcome.js") ?>"></script>
 
-    <script type="text/javascript">
-        function ready() {
-            raicare.parallax.init();
-            raicare.notification.createHolder();
-        }
-        document.addEventListener("DOMContentLoaded", ready);
-    </script>
-
     <!-- =============== VENDOR STYLES ===============-->
     <link rel="stylesheet" href="<?=$assets; ?>static/css/welcome.css?v=<?= filemtime("assets/static/css/welcome.css") ?>">
 
@@ -60,9 +52,12 @@
 </body>
 
 <script type="text/javascript">
-    welcome.init( <?= ($action == 'login' || $action == 'join') ? "['footer']" : "['header','footer']"; ?> );
+    function ready() {
+        raicare.initWelcome();
+        welcome.init( <?= ($action == 'login' || $action == 'join') ? "['footer']" : "['header','footer']"; ?> );
+    }
+    document.addEventListener("DOMContentLoaded", ready);
 </script>
-
 
 <? if ( getenv('KOHANA_ENV') == 'PRODUCTION' ): ?>
     <!-- Yandex.Metrika counter -->

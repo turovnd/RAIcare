@@ -7,6 +7,7 @@ Class Model_Patient {
     public $id;                     // not unique in  global + getting via redis
     public $pension;
     public $name;
+    public $status;                 // 1 - в пансионате, 2 - в архиве
     public $sex;                    // 1 - male, 2 - female
     public $birthday;
     public $relation;               // семейное положение
@@ -25,7 +26,7 @@ Class Model_Patient {
 
     }
 
-    private function fill_by_row($db_selection) {
+    public function fill_by_row($db_selection) {
 
         if (empty($db_selection['pk'])) return $this;
 
@@ -74,6 +75,13 @@ Class Model_Patient {
             if (property_exists($this, $fieldname)) $insert->set($fieldname, $value);
         }
 
+        $insert
+            ->clearcache($this->pk)
+            ->clearcache('id_' . $this->id)
+            ->clearcache('pension_' . $this->pension)
+            ->clearcache('pension_' . $this->pension . '_status_' . $this->status)
+            ->clearcache('count_pension_' . $this->pension);
+
         $result = $insert->execute();
 
         return $this->get_($result);
@@ -87,7 +95,13 @@ Class Model_Patient {
             if (property_exists($this, $fieldname)) $insert->set($fieldname, $value);
         }
 
-        $insert->clearcache($this->pk);
+        $insert
+            ->clearcache($this->pk)
+            ->clearcache('id_' . $this->id)
+            ->clearcache('pension_' . $this->pension)
+            ->clearcache('pension_' . $this->pension . '_status_' . $this->status)
+            ->clearcache('count_pension_' . $this->pension);
+
         $insert->where('pk', '=', $this->pk);
 
         $insert->execute();
@@ -96,131 +110,46 @@ Class Model_Patient {
     }
 
 
-
-//    public static function getAll($offset, $limit = 10, $name = "")
-//    {
-//        if ($name == "") {
-//            $select = Dao_Patients::select()
-//                ->join('Pensions_Patients')
-//                ->on('pk','=','pat_id')
-//                ->order_by('dt_create', 'DESC')
-//                ->offset($offset)
-//                ->limit($limit)
-//                ->execute();
-//
-//        } else {
-//            $select = Dao_Patients::select()
-//                ->or_having('name', '%' . $name . '%')
-//                ->or_having('snils', '%' . $name . '%')
-//                ->join('Pensions_Patients')
-//                ->on('pk','=','pat_id')
-//                ->order_by('dt_create', 'DESC')
-//                ->offset($offset)
-//                ->limit($limit)
-//                ->execute();
-//        }
-//
-//        $patients = array();
-//
-//        if ( empty($select) ) return $patients;
-//
-//        foreach ($select as $item) {
-//            $patient = new Model_Patient();
-//            $patient = $patient->fill_by_row($item);
-//            $patient->creator = new Model_User($patient->creator);
-//            $patient->pension = new Model_Pension($item['pension']);
-//            $patients[] = $patient;
-//        }
-//
-//        return $patients;
-//    }
-
-
-    public static function getByPension($pension, $offset, $limit = 10, $name = "")
+    /**
+     * Get All Patients by Pension and Status
+     * @param $pension - pension->id
+     * @param $status - patient->status
+     * @param bool $as_model
+     * @return array|Dao_Patients
+     */
+    public static function getAllByPensionStatus($pension, $status, $as_model = true)
     {
-
-        if ($name == "") {
-            $select = Dao_Patients::select()
-                ->where('pension','=', $pension)
-                ->order_by('dt_create', 'DESC')
-                ->offset($offset)
-                ->limit($limit)
-                ->execute();
-
-        } else {
-            $select = Dao_Patients::select()
-                ->or_having('name', '%' . $name . '%')
-                ->or_having('snils', '%' . $name . '%')
-                ->where('pension','=', $pension)
-                ->order_by('dt_create', 'DESC')
-                ->offset($offset)
-                ->limit($limit)
-                ->execute();
-        }
-
+        $select = Dao_Patients::select()
+            ->where('pension','=', $pension)
+            ->where('status','=', $status)
+            ->order_by('id', 'ASC')
+            ->cached(Date::MINUTE * 5, 'pension_' . $pension . '_status_' . $status)
+            ->execute();
 
         $patients = array();
 
-        if ( empty($select) ) return $patients;
+        if (empty($select)) return $patients;
 
-        foreach ($select as $item) {
+        if (!$as_model) return $select;
+
+        foreach ($select as $db_selection) {
             $patient = new Model_Patient();
-            $patient = $patient->fill_by_row($item);
-            $patient->creator = new Model_User($patient->creator);
-            $patient->pension = new Model_Pension($item['pension']);
-            $patients[] = $patient;
+            $patients[] = $patient->fill_by_row($db_selection);
         }
 
         return $patients;
     }
 
-
-    public static function checkBySnilsAndPension($snils, $pension)
-    {
-        return (bool) Dao_Patients::select()
-            ->where('snils','=', $snils)
-            ->where('pension','=', $pension)
-            ->limit(1)
-            ->execute();
-    }
-
-    public static function getByPensionAndID($pension, $patient)
-    {
-        $select = Dao_Patients::select()
-            ->where('id','=', $patient)
-            ->where('pension','=', $pension)
-            ->limit(1)
-            ->execute();
-
-        $patient = new Model_Patient();
-
-        return $patient->fill_by_row($select);
-    }
-
-//    public static function getSamePatients($patient)
-//    {
-//        return Dao_Patients::select(array('pension' , 'pat_id'))
-//            ->where('snils','=', $patient->snils)
-//            ->join('Pensions_Patients')
-//            ->on('pk','=','pat_id')
-//            ->order_by('dt_create', 'DESC')
-//            ->execute();
-//
-//    }
-
-    public static function countByPension($pension)
-    {
-        $select = Dao_Patients::select()
-            ->where('pension', '=', $pension)
-            ->execute();
-
-        return count($select);
-    }
-
+    /**
+     * Get All Patients by Pension
+     * @param $pension - pension->id
+     * @return array of Model_Patient
+     */
     public static function getAllByPension($pension)
     {
         $select = Dao_Patients::select()
             ->where('pension', '=', $pension)
+            ->cached(Date::MINUTE * 5, 'pension_' . $pension)
             ->execute();
 
         $patients = array();
@@ -234,6 +163,58 @@ Class Model_Patient {
         }
 
         return $patients;
+    }
+
+
+    /**
+     * Get Patent
+     * @param $pension - pension->id
+     * @param $patient - patient->id
+     * @return Model_Patient
+     */
+    public static function getByPensionPatID($pension, $patient)
+    {
+        $select = Dao_Patients::select()
+            ->where('id','=', $patient)
+            ->where('pension','=', $pension)
+            ->cached(Date::MINUTE * 5, 'id_' . $patient)
+            ->limit(1)
+            ->execute();
+
+        $patient = new Model_Patient();
+        return $patient->fill_by_row($select);
+    }
+
+
+    /**
+     * Check Patient SNILS on exist
+     * @param $snils - patient->snils
+     * @param $pension - pension->id
+     * @return bool
+     */
+    public static function checkBySnilsAndPension($snils, $pension)
+    {
+        return (bool) Dao_Patients::select()
+            ->where('snils','=', $snils)
+            ->where('pension','=', $pension)
+            ->limit(1)
+            ->execute();
+    }
+
+
+    /**
+     * Count Patients By Pension
+     * @param $pension - pension->id
+     * @return int
+     */
+    public static function countByPension($pension)
+    {
+        $select = Dao_Patients::select()
+            ->where('pension', '=', $pension)
+            ->cached(Date::MONTH * 5, 'count_pension_' . $pension)
+            ->execute();
+
+        return count($select);
     }
 
 }

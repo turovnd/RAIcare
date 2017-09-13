@@ -1,8 +1,7 @@
 /**
  * Webpack configuration
  *
- * @author Khaydarov Murod <murod.haydarov@gmail.com>
- * @copyright Votepad Team 2017
+ * @copyright RAIcare
  */
 'use strict';
 

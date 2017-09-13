@@ -27,18 +27,17 @@ class Controller_Patients_Index extends Dispatch
     {
         parent::before();
 
-        $org_uri = Request::$subdomain;
+        if (!self::isLogged()) self::gotoLoginPage();
 
-        $this->organization = Model_Organization::getByFieldName('uri', $org_uri);
+        $org_uri = Request::$subdomain;
+        $this->organization = Model_Organization::getByUri($org_uri);
 
         if (!$this->organization->id && !in_array($org_uri, self::PRIVATE_SUBDOMIANS)) {
             throw new HTTP_Exception_404();
         }
 
-        if (!self::isLogged()) self::gotoLoginPage();
-
         $pen_uri = $this->request->param('pen_uri');
-        $this->pension = Model_Pension::getByFieldName('uri', $pen_uri);
+        $this->pension = Model_Pension::getByUri($pen_uri);
 
         if (!$this->pension->id || $this->pension->organization != $this->organization->id) {
             throw new HTTP_Exception_404();
@@ -64,107 +63,77 @@ class Controller_Patients_Index extends Dispatch
     }
 
 
-//    public function action_all_patients()
-//    {
-//        self::hasAccess(self::WATCH_ALL_PATIENTS_PROFILES);
-//
-//        $patients = Model_Patient::getAll(0,10);
-//
-//        $this->template->title = "База данных пациентов всех пансионатов";
-//        $this->template->section = View::factory('patients/pages/all-patients')
-//            ->set('patients', $patients);
-//    }
-//
-//
-//    public function action_all_patient()
-//    {
-//        self::hasAccess(self::WATCH_ALL_PATIENTS_PROFILES);
-//
-//        $this->getPatient();
-//
-//        $pensions   = array();
-//        $sameSnils  = array();
-//
-//        $same_patients = Model_Patient::getSamePatients($this->patient);
-//
-//        foreach ($same_patients as $same_patient) {
-//            $sameSnils[] = $same_patient['pat_id'];
-//            $pension = new Model_Pension($same_patient['pen_id']);
-//            $pension->organization = new Model_Organization($pension->organization );
-//            $pension->owner = new Model_User($pension->owner);
-//            $pension->creator = new Model_User($pension->creator);
-//            $pensions[] = $pension;
-//        }
-//
-//        $surveys = Model_Survey::getAllFormsByPatients($sameSnils, 0, 10);
-//
-//        $this->patient->creator   = new Model_User($this->patient->creator);
-//        $this->patient->pensions  = $pensions;
-//        $this->patient->sameSnils = $sameSnils;
-//        $this->patient->surveys   = $surveys;
-//        $this->patient->full_info = true;
-//
-//        $this->template->title = "Профиль пациента " . $this->patient->name;
-//        $this->template->section = View::factory('patients/pages/profile-full')
-//            ->set('patient', $this->patient);
-//    }
-
-
+    /**
+     * Patients Page in Pension
+     * @throws HTTP_Exception_403
+     */
     public function action_patients()
     {
         if (! ($this->user->role == self::ROLE_PEN_CREATOR ||
-            $this->user->role == self::ROLE_PEN_QUALITY_MANAGER ||
-            $this->user->role == self::ROLE_PEN_NURSE) ) {
+                $this->user->role == self::ROLE_PEN_QUALITY_MANAGER ||
+                $this->user->role == self::ROLE_PEN_NURSE) ) {
 
             throw new HTTP_Exception_403;
         }
 
-        $patients = Model_Patient::getByPension($this->pension->id, 0, 10);
+        $patients_selections = Model_Patient::getAllByPensionStatus($this->pension->id, 1, false);
 
-        foreach ($patients as $key => $patient) {
-            $patients[$key]->survey = Model_Survey::getFillingSurveyByPatientAndPension($patient->pk, $this->pension->id);
+        $patients = array();
+
+        foreach ($patients_selections as $item) {
+            $patient = new Model_Patient();
+            $patient = $patient->fill_by_row($item);
+            $patient->survey = Model_Survey::getLastByPensionPatient($patient->pension, $patient->pk);
+            $patient->survey->creator = new Model_User($patient->creator);
+            $patient->survey->dt_create_timestamp = strtotime($patient->survey->dt_create);
+            $patients[] = $patient;
         }
 
-        $this->template->title = "Все пациенты пансионата - " . $this->pension->name;
+        $this->template->title = "Пациенты пансионата - " . $this->pension->name;
         $this->template->section = View::factory('patients/pages/patients-in-pension')
             ->set('pension', $this->pension)
             ->set('patients', $patients);
     }
 
 
+    /**
+     * Patient Profile Page in pension
+     * @throws HTTP_Exception_403
+     * @throws HTTP_Exception_404
+     */
     public function action_patient()
     {
         if (! ($this->user->role == self::ROLE_PEN_CREATOR ||
-            $this->user->role == self::ROLE_PEN_QUALITY_MANAGER ||
-            $this->user->role == self::ROLE_PEN_NURSE) ) {
+            $this->user->role == self::ROLE_PEN_QUALITY_MANAGER) ) {
 
             throw new HTTP_Exception_403;
         }
 
         $pat_id = $this->request->param('id');
 
-        $this->patient = Model_Patient::getByPensionAndID($this->pension->id, $pat_id);
+        $this->patient = Model_Patient::getByPensionPatID($this->pension->id, $pat_id);
 
         if (!$this->patient->pk) {
             throw new HTTP_Exception_404();
         }
 
-        $surveys = Model_Survey::getAllFinishedByPatientAndPension($this->patient->pk, $this->pension->id, 0, 10);
+        $surveys = Model_Survey::getAllByPensionPatient($this->pension->id, $this->patient->pk);
 
         $this->patient->creator = new Model_User($this->patient->creator);
-        $this->patient->surveys = $surveys;
-        $this->patient->full_info = true;
+        $this->patient->survey = Model_Survey::getLastByPensionPatient($this->patient->pension, $this->patient->pk);
+        $this->patient->survey->dt_create_timestamp = strtotime($this->patient->survey->dt_create);
 
-        if ( $this->user->role == self::ROLE_PEN_QUALITY_MANAGER || $this->user->role == self::ROLE_PEN_NURSE ) {
+        if ( $this->user->role == self::ROLE_PEN_QUALITY_MANAGER ) {
             $this->patient->can_edit = true;
         } else {
             $this->patient->can_edit = false;
         }
 
-        $this->template->title = "Профиль пациента " . $this->patient->name;
+        $this->template->title = "Личное дело #" . $this->patient->id;
         $this->template->section = View::factory('patients/pages/profile')
+            ->set('pension', $this->pension)
+            ->set('surveys', $surveys)
             ->set('patient', $this->patient);
     }
-
 
 }

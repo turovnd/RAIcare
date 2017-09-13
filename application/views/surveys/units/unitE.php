@@ -12,7 +12,7 @@
     <? if (!$can_conduct) : ?>
         <a role="button" onclick="raicare.collapse.toggle(this)" data-area="unitE" data-opened="true" data-textclosed="показать" data-textopened="скрыть" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn"></a>
     <? endif; ?>
-    Настроение и поведение
+    РАЗДЕЛ E. Настроение и поведение
 </h3>
 
 <form class="row" id="unitE" onsubmit="event.preventDefault()">
@@ -25,13 +25,13 @@
 
                 <fieldset>
                     <p class="col-xs-12 text-bold">
-                        Признаки возможного наличия подавленного, тревожного или грустного настроения у пациента
+                        E1. Признаки возможного наличия подавленного, тревожного или грустного настроения у пациента
                         <small class="text-italic text-normal">Запишите признаки, наблюдавшиеся в последние 3 дня, вне зависимости от их предполагаемой причины. Примечание: при любой возможности задавайте вопросы пациенту</small>
                     </p>
 
                     <div class="form-group">
                         <label for="E1a" class="form-group__label col-xs-12">
-                            Пациент высказывал утверждения негативного характера
+                            a. Пациент высказывал утверждения негативного характера
                             <small class="text-italic text-normal">Например: "Все равно", "Скорей бы умереть", "К чему все это?", "Зачем я прожил так долго", "Дайте мне спокойно умереть."</small>
                         </label>
                         <div class="col-xs-12">
@@ -49,7 +49,7 @@
                     </div>
                     <div class="form-group">
                         <label for="E1b" class="form-group__label col-xs-12">
-                            Постоянная злость на себя или окружающих
+                            b. Постоянная злость на себя или окружающих
                             <small class="text-italic text-normal">Например: пациент быстро раздражается, его легко разозлить в ходе осуществления ухода за ним</small>
                         </label>
                         <div class="col-xs-12">
@@ -67,7 +67,7 @@
                     </div>
                     <div class="form-group">
                         <label for="E1c" class="form-group__label col-xs-12">
-                            Выражения, в т.ч. невербальные, демонстрирующие необоснованные страхи пациента
+                            c. Выражения, в т.ч. невербальные, демонстрирующие необоснованные страхи пациента
                             <small class="text-italic text-normal">Например: боязнь быть покинутым, остаться одному или, наоборот, с другими; сильная боязнь конкретных объектов или ситуаций</small>
                         </label>
                         <div class="col-xs-12">
@@ -85,7 +85,7 @@
                     </div>
                     <div class="form-group">
                         <label for="E1d" class="form-group__label col-xs-12">
-                            Повторяющиеся жалобы на здоровье
+                            d. Повторяющиеся жалобы на здоровье
                             <small class="text-italic text-normal">Например: пациент, не переставая, требует внимания врачей, постоянно озабочен функционированием своего организма</small>
                         </label>
                         <div class="col-xs-12">
@@ -103,7 +103,7 @@
                     </div>
                     <div class="form-group">
                         <label for="E1e" class="form-group__label col-xs-12">
-                            Повторяющиеся жалобы / выражение озабоченности (не связанное со здоровьем)
+                            e. Повторяющиеся жалобы / выражение озабоченности (не связанное со здоровьем)
                             <small class="text-italic text-normal">Например: пациент, не переставая, требует внимания / поддержки в вопросах режима дня, приема пищи, стирки, выбора одежды и отношений с другими людьми</small>
                         </label>
                         <div class="col-xs-12">
@@ -121,7 +121,7 @@
                     </div>
                     <div class="form-group">
                         <label for="E1f" class="form-group__label col-xs-12">
-                            Грустное, искаженное болью или взволнованное выражение лица
+                            f. Грустное, искаженное болью или взволнованное выражение лица
                             <small class="text-italic text-normal">Например: пациент морщит брови и постоянно хмурится</small>
                         </label>
                         <div class="col-xs-12">
@@ -139,7 +139,7 @@
                     </div>
                     <div class="form-group">
                         <label for="E1g" class="form-group__label col-xs-12">
-                            Плач, слезливость
+                            g. Плач, слезливость
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -156,7 +156,7 @@
                     </div>
                     <div class="form-group">
                         <label for="E1h" class="form-group__label col-xs-12">
-                            Повторяющиеся утверждения о том, что вот-вот произойдет нечто ужасное
+                            h. Повторяющиеся утверждения о том, что вот-вот произойдет нечто ужасное
                             <small class="text-italic text-normal">Например: пациент считает, что он вот-вот умрет или с ним случится инфаркт</small>
                         </label>
                         <div class="col-xs-12">
@@ -174,7 +174,7 @@
                     </div>
                     <div class="form-group">
                         <label for="E1i" class="form-group__label col-xs-12">
-                            Отказ от ранее интересных для пациента занятий
+                            i. Отказ от ранее интересных для пациента занятий
                             <small class="text-italic text-normal">Например: от давних многолетних занятий, проведения времени с семьей или друзьями</small>
                         </label>
                         <div class="col-xs-12">
@@ -192,7 +192,7 @@
                     </div>
                     <div class="form-group">
                         <label for="E1j" class="form-group__label col-xs-12">
-                            Уменьшение социальных контактов
+                            j. Уменьшение социальных контактов
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -209,7 +209,7 @@
                     </div>
                     <div class="form-group">
                         <label for="E1k" class="form-group__label col-xs-12">
-                            Выражения, в том числе невербальные, говорящие о потере чувства радости
+                            k. Выражения, в том числе невербальные, говорящие о потере чувства радости
                             <small class="text-italic text-normal">Например: пациент говорит: "Мне больше ничего не приносит удовольствия"</small>
                         </label>
                         <div class="col-xs-12">
@@ -229,12 +229,12 @@
 
                 <fieldset>
                     <p class="col-xs-12 text-bold">
-                        Пациент о своем настроении
+                        E2. Пациент о своем настроении
                     </p>
 
                     <div class="form-group">
                         <label for="E2a" class="form-group__label col-xs-12">
-                            Задайте вопрос: "На протяжении последних 3 дней как часто вы испытывали слабый интерес или удовольствие от вещей, которые вам обычно нравятся?"
+                            a. Задайте вопрос: "На протяжении последних 3 дней как часто вы испытывали слабый интерес или удовольствие от вещей, которые вам обычно нравятся?"
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -251,7 +251,7 @@
                     </div>
                     <div class="form-group">
                         <label for="E2b" class="form-group__label col-xs-12">
-                            Задайте вопрос: "На протяжении последних 3 дней как часто вы испытывали тревогу, беспокойство, неловкость?"
+                            b. Задайте вопрос: "На протяжении последних 3 дней как часто вы испытывали тревогу, беспокойство, неловкость?"
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -268,7 +268,7 @@
                     </div>
                     <div class="form-group">
                         <label for="E2c" class="form-group__label col-xs-12">
-                            Задайте вопрос: "На протяжении последних 3 дней как часто вы испытывали грусть, депрессию или безысходность?"
+                            c. Задайте вопрос: "На протяжении последних 3 дней как часто вы испытывали грусть, депрессию или безысходность?"
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -287,13 +287,13 @@
 
                 <fieldset>
                     <p class="col-xs-12 text-bold">
-                        Поведенческие симптомы
+                        E3. Поведенческие симптомы
                         <small class="text-italic text-normal">Запишите признаки, наблюдавшиеся в последние 3 дня, вне зависимости от их предполагаемой причины</small>
                     </p>
 
                     <div class="form-group">
                         <label for="E3a" class="form-group__label col-xs-12">
-                            Бесцельное перемещение
+                            a. Бесцельное перемещение
                             <small class="text-italic text-normal">Пациент бродил без ясной, рационально объяснимой цели</small>
                         </label>
                         <div class="col-xs-12">
@@ -311,7 +311,7 @@
                     </div>
                     <div class="form-group">
                         <label for="E3b" class="form-group__label col-xs-12">
-                            Словесная агрессия
+                            b. Словесная агрессия
                             <small class="text-italic text-normal">Например: пациент угрожал, кричал на окружающих или проклинал их.</small>
                         </label>
                         <div class="col-xs-12">
@@ -329,7 +329,7 @@
                     </div>
                     <div class="form-group">
                         <label for="E3c" class="form-group__label col-xs-12">
-                            Физическое насилие
+                            c. Физическое насилие
                             <small class="text-italic text-normal">Например: пациент бил, толкал, царапал или осуществлял развратные действия по отношению к окружающим.</small>
                         </label>
                         <div class="col-xs-12">
@@ -347,7 +347,7 @@
                     </div>
                     <div class="form-group">
                         <label for="E3d" class="form-group__label col-xs-12">
-                            Социально неприемлемое или нарушающее порядок поведение
+                            d. Социально неприемлемое или нарушающее порядок поведение
                             <small class="text-italic text-normal">Пациент издавал звуки или производил шумы, нарушающие порядок в отделении, что-нибудь выкрикивал, размазывал или бросал пищу или фекалии, прятал чужие вещи или рылся в них.</small>
                         </label>
                         <div class="col-xs-12">
@@ -365,7 +365,7 @@
                     </div>
                     <div class="form-group">
                         <label for="E3e" class="form-group__label col-xs-12">
-                            Непристойное публичное сексуальное поведение или публичное обнажение
+                            e. Непристойное публичное сексуальное поведение или публичное обнажение
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -382,7 +382,7 @@
                     </div>
                     <div class="form-group">
                         <label for="E3f" class="form-group__label col-xs-12">
-                            Пациент противится уходу за ним
+                            f. Пациент противится уходу за ним
                             <small class="text-italic text-normal">Например: пациент сопротивлялся приему лекарств/уколам, толкал представителей персонала в процессе оказания помощи в повседневной деятельности, еде.</small>
                         </label>
                         <div class="col-xs-12">
