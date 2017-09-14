@@ -18,7 +18,7 @@
         Текущее состояние
     </a>
 
-    <div class="btn btn--lg btn--default m-t-10">
+    <div class="btn btn--lg btn--default m-t-10 pointer-events--none">
         Следующее
         <span class="js-date" data-timestamp="<?= $patient->survey->dt_create_timestamp + Date::MONTH * 3; ?>">
             <?= date('d.m.Y',$patient->survey->dt_create_timestamp + Date::MONTH * 3); ?>

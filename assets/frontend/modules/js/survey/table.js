@@ -2,12 +2,11 @@
 
 module.exports = (function (table) {
 
-    var surveysHistoryTable = document.getElementById('surveysHistory');
+    var surveysHistoryTable = document.getElementById('surveysHistory'),
+        surveyProgressTable = document.getElementById('surveyProgress');
 
-    if (surveysHistoryTable) initHistoryTable_();
 
-
-    function initHistoryTable_() {
+    var initHistoryTable_ = function () {
 
         raicare.moment.setLocale();
         raicare.moment.createDate('CLASS', 'js-date', true);
@@ -34,7 +33,7 @@ module.exports = (function (table) {
 
 
         // Toggle Columns on click `openBtn`
-        function toggleColumns_() {
+        var toggleColumns_ = function () {
 
             if (openBtn.dataset.opened === 'false') {
 
@@ -50,10 +49,10 @@ module.exports = (function (table) {
 
             updateTable_();
 
-        }
+        };
 
         // Change table
-        function changeTable_(e) {
+        var changeTable_ = function (e) {
 
             var input = e.target;
 
@@ -72,18 +71,18 @@ module.exports = (function (table) {
 
             }
 
-        }
+        };
 
         // Update Table
-        function updateTable_() {
+        var updateTable_ = function () {
 
             checkAll.checked = false;
             inputs = [].slice.call(surveysHistoryTable.body.getElementsByClassName('checkbox'));
 
-        }
+        };
 
         // Generate Report
-        function getReport_() {
+        var getReport_ = function () {
 
             var checked = surveysHistoryTable.body.querySelectorAll('input:checked'),
                 ids     = [];
@@ -112,7 +111,7 @@ module.exports = (function (table) {
 
             }
 
-        }
+        };
 
         // Generate Report
         btn.addEventListener('click', getReport_);
@@ -132,11 +131,28 @@ module.exports = (function (table) {
         surveysHistoryTable.columns().sort(2, 'asc');
         surveysHistoryTable.columns().hide([ 5 ]);
 
-    }
+    };
 
 
 
+    table.initProgressTable = function () {
 
+        var surveyProgressTable = new DataTable('#surveyProgress', {
+            perPage: 20,
+            searchable: false,
+            sortable: true,
+            footer: true
+        });
+
+        surveyProgressTable.wrapper.getElementsByClassName('dataTable-top')[0].remove();
+        surveyProgressTable.wrapper.getElementsByClassName('dataTable-bottom')[0].remove();
+
+    };
+
+
+    // init
+    if (surveysHistoryTable) initHistoryTable_();
+    if (surveyProgressTable) table.initProgressTable();
 
 
 
