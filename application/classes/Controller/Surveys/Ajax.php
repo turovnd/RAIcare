@@ -1249,6 +1249,10 @@ class Controller_Surveys_Ajax extends Ajax
 
         $report = new Model_ReportProtocols();
         $report->pk = $this->survey->pk;
+        $report->id = $this->survey->id;
+        $report->pension= $this->pension->id;
+        $report->patient= $this->patient->pk;
+        $report->organization = $this->survey->organization;
 
         // Behaviour - проблемное поведение
         $P1 = 0;
@@ -1412,7 +1416,6 @@ class Controller_Surveys_Ajax extends Ajax
     }
 
 
-
     /**
      * Create RAI Scales Report
      */
@@ -1420,6 +1423,10 @@ class Controller_Surveys_Ajax extends Ajax
     {
         $report = new Model_ReportRAIScales();
         $report->pk = $this->survey->pk;
+        $report->id = $this->survey->id;
+        $report->pension= $this->pension->id;
+        $report->patient= $this->patient->pk;
+        $report->organization = $this->survey->organization;
 
         $report->PURS = $this->getPURS();
         $report->CPS = $this->getCPS();

@@ -93,6 +93,7 @@ Class Model_Survey {
 
         $result = $insert
             ->clearcache($this->pk)
+            ->clearcache('pension_' . $this->pension . '_id_' . $this->id)
             ->clearcache('count_pension_' . $this->pension)
             ->clearcache('first_pension_' . $this->pension . '_patient_' . $this->patient)
             ->clearcache('last_pension_' . $this->pension . '_patient_' . $this->patient)
@@ -112,6 +113,7 @@ Class Model_Survey {
 
         $insert
             ->clearcache($this->pk)
+            ->clearcache('pension_' . $this->pension . '_id_' . $this->id)
             ->clearcache('count_pension_' . $this->pension)
             ->clearcache('first_pension_' . $this->pension . '_patient_' . $this->patient)
             ->clearcache('last_pension_' . $this->pension . '_patient_' . $this->patient)
@@ -125,6 +127,26 @@ Class Model_Survey {
         return $this->get_($this->pk);
     }
 
+
+    /**
+     * Get Survey by Pension and ID
+     * @param $pension - pension->id
+     * @param $id - survey->id
+     * @return Model_Survey
+     * @internal param $patient - patient->pk
+     */
+    public static function getByPensionAndID($pension, $id)
+    {
+        $select = Dao_Surveys::select()
+            ->where('pension', '=', $pension)
+            ->where('id', '=', $id)
+            ->cached(Date::MINUTE * 5, 'pension_' . $pension . '_id_' . $id)
+            ->limit(1)
+            ->execute();
+
+        $survey = new Model_Survey();
+        return $survey->fill_by_row($select);
+    }
 
     /**
      * Get First Survey for Patient
@@ -152,17 +174,23 @@ Class Model_Survey {
      * Get Last Survey for Patient
      * @param $pension - pension->id
      * @param $patient - patient->pk
+     * @param null $status
      * @return Model_Survey
      */
-    public static function getLastByPensionPatient($pension, $patient)
+    public static function getLastByPensionPatient($pension, $patient, $status = NULL)
     {
         $select = Dao_Surveys::select()
             ->where('pension', '=', $pension)
             ->where('patient', '=', $patient)
             ->order_by('pk', 'desc')
             ->cached(Date::MINUTE * 5, 'first_pension_' . $pension . '_patient_' . $patient)
-            ->limit(1)
-            ->execute();
+            ->limit(1);
+
+        if ($status != NULL) {
+            $select->where('status', '=', $status);
+        }
+
+        $select = $select->execute();
 
         $survey = new Model_Survey();
         return $survey->fill_by_row($select);

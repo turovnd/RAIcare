@@ -2,7 +2,7 @@
     <?= $GLOBALS['SITE_NAME']; ?>
 </a>
 
-<div class="header__wrapper fl_r">
+<div class="header__wrapper pos-absolute right-0">
 
     <ul class="fl_r list-style--none">
 
@@ -18,12 +18,6 @@
             </a>
         </li>
 
-<!--        <li class="header__item">-->
-<!--            <a role="button" class="header__link p-l-15 p-r-15 m-l-0">-->
-<!--                <i class="fa fa-bell-o" aria-hidden="true"></i>-->
-<!--                <div class="label label--absolute label--danger m-t-5">12</div>-->
-<!--            </a>-->
-<!--        </li>-->
 
         <li class="header__item">
             <a href="<?= '//' . $_SERVER['HTTP_HOST'] . '/logout'; ?>" class="header__link p-l-15 p-r-15 m-l-0">

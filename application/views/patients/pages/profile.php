@@ -107,8 +107,10 @@
                                 <? endif; ?>
                             </td>
                             <td class="text-center">
-                                <input id="checkSurvey_<?= $survey->id; ?>" type="checkbox" class="checkbox" value="<?= $survey->pk; ?>">
-                                <label for="checkSurvey_<?= $survey->id; ?>" class="checkbox-label"></label>
+                                <? if ($survey->status == 2) :?>
+                                    <input id="checkSurvey_<?= $survey->id; ?>" type="checkbox" class="checkbox" value="<?= $survey->pk; ?>">
+                                    <label for="checkSurvey_<?= $survey->id; ?>" class="checkbox-label"></label>
+                                <? endif; ?>
                             </td>
                         </tr>
 

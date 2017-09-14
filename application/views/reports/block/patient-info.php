@@ -5,21 +5,21 @@
             <label class="form-group__label col-xs-12 col-sm-4 col-md-3">Пациент</label>
             <div class="col-xs-12 col-sm-8 col-md-9">
                 <p class="form-group__control-static">
-                    <a class="link" href="<?= '/\/' . $_SERVER['HTTP_HOST'] . '/' . $survey->pension->uri . '/patient/'. $survey->patient->id; ?>"><?= $survey->patient->name; ?></a>
+                    <a class="link" href="<?= '/\/' . $_SERVER['HTTP_HOST'] . '/' . $pension->uri . '/patient/'. $patient->id; ?>"><?= $patient->name; ?></a>
                 </p>
             </div>
         </div>
         <div class="form-group">
             <label class="form-group__label col-xs-12 col-sm-4 col-md-3">Дата рождения</label>
             <div class="col-xs-12 col-sm-8 col-md-9">
-                <p class="form-group__control-static"><?= date('d M Y', strtotime($survey->patient->birthday)) . '  ('. Methods_Time::relativeTimeWithPlural(intval((time()-strtotime($survey->patient->birthday))/Date::YEAR), false, 'yy') . ')'; ?></p>
+                <p class="form-group__control-static"><?= date('d M Y', strtotime($patient->birthday)) . '  ('. Methods_Time::relativeTimeWithPlural(intval((time()-strtotime($patient->birthday))/Date::YEAR), false, 'yy') . ')'; ?></p>
             </div>
         </div>
         <div class="fl_l collapse" id="patientInfo">
             <div class="form-group">
                 <label class="form-group__label col-xs-12 col-sm-4 col-md-3">Пол</label>
                 <div class="col-xs-12 col-sm-8 col-md-9">
-                    <p class="form-group__control-static"><?= $survey->patient->sex == 1 ? 'мужской' : 'женский'; ?></p>
+                    <p class="form-group__control-static"><?= $patient->sex == 1 ? 'мужской' : 'женский'; ?></p>
                 </div>
             </div>
             <div class="form-group">
@@ -31,27 +31,25 @@
             <div class="form-group">
                 <label class="form-group__label col-xs-12 col-sm-4 col-md-3">Дата поступления</label>
                 <div class="col-xs-12 col-sm-8 col-md-9">
-                    <p class="form-group__control-static"><?= date('d M Y H:i', strtotime($survey->dt_first_survey)); ?></p>
+                    <p class="form-group__control-static"><?= date('d M Y', strtotime($patient->dt_first_survey)); ?></p>
                 </div>
             </div>
             <div class="form-group">
                 <label class="form-group__label col-xs-12 col-sm-4 col-md-3">Дата начала прохождения оценки</label>
                 <div class="col-xs-12 col-sm-8 col-md-9">
-                    <p class="form-group__control-static"><?= date('d M Y H:i', strtotime($survey->dt_create)); ?></p>
+                    <p class="form-group__control-static"><?= date('d M Y', strtotime($survey->dt_create)); ?></p>
                 </div>
             </div>
             <div class="form-group">
                 <label class="form-group__label col-xs-12 col-sm-4 col-md-3">Дата окончания прохождения оценки</label>
                 <div class="col-xs-12 col-sm-8 col-md-9">
-                    <p class="form-group__control-static"><?= date('d M Y H:i', strtotime($survey->dt_finish)); ?></p>
+                    <p class="form-group__control-static"><?= date('d M Y', strtotime($survey->dt_finish)); ?></p>
                 </div>
             </div>
             <div class="form-group">
                 <label class="form-group__label col-xs-12 col-sm-4 col-md-3">Пансионат</label>
                 <div class="col-xs-12 col-sm-8 col-md-9">
-                    <p class="form-group__control-static">
-                        <a class="link" href="<?= '/\/' . $_SERVER['HTTP_HOST']. '/'. $survey->pension->uri; ?>"><?= $survey->pension->name; ?></a>
-                    </p>
+                    <p class="form-group__control-static"><?= $pension->name; ?></p>
                 </div>
             </div>
         </div>

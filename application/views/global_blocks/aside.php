@@ -39,7 +39,7 @@
     <? endif; ?>
 
 
-    <? if ( $aside_type == 'pension' || $aside_type == 'survey' || $aside_type == 'report') : ?>
+    <? if ( $aside_type == 'pension' || $aside_type == 'survey' || $aside_type == 'patient' || $aside_type == 'report') : ?>
 
         <li class="divider"></li>
         <li class="aside__text text-bold f-s-0_8 p-5">Раздел пансионата</li>
@@ -78,7 +78,8 @@
         <? // ROLE_PEN_CREATOR || ROLE_PEN_QUALITY_MANAGER || ROLE_PEN_NURSE => 20 || 22 || 23
         if ( $user->role == 20 || $user->role == 22 || $user->role == 23 ) : ?>
 
-            <li class="aside__item <? echo $action == "patients" ||
+            <li class="aside__item <? echo $aside_type == "patient" ||
+                                            $action == "patients" ||
                                             $action == "survey" ||
                                             $action == "patient" ? 'aside__item--active' : ''; ?>">
                 <a href="<?='/\/' . $_SERVER['HTTP_HOST'] . '/' . $pension->uri. '/patients'; ?>" class="aside__link <? echo $action == "patients" ? 'aside__link--active' : ''; ?>">
@@ -93,7 +94,7 @@
         <? // ROLE_PEN_CREATOR || ROLE_PEN_QUALITY_MANAGER => 20 || 22
         if ( $user->role == 20 || $user->role == 22 ) : ?>
 
-            <li class="aside__item <? echo $aside_type == 'report' ? 'aside__item--active' : ''; ?>">
+            <li class="hide aside__item <? echo $aside_type == 'report' ? 'aside__item--active' : ''; ?>">
                 <a role="button" data-toggle="collapse" data-area="reportsMenu" data-opened="<?= $aside_type == 'report' ? 'true' : 'false'?>"
                                                                     class="aside__link <?= $aside_type == 'report' ? 'aside__link--active' : ''; ?>">
                     <i class="fa fa-file aside__icon" aria-hidden="true"></i>

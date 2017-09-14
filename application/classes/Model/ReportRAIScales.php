@@ -3,7 +3,11 @@
 
 Class Model_ReportRAIScales {
 
-    public $pk;         // primary key - copy from survey.pk
+    public $pk;         // primary key - copy from survey->pk
+    public $id;         // id - copy from survey->id
+    public $pension;    // id - copy from pension->id
+    public $patient;    // patient->pk
+    public $organization; // organization->id
     public $PURS;       // Pressure Ulcer Risk Scale
     public $CPS;        // Cognitive Performance Scale
     public $BMI;        // Body Mass Index
@@ -57,10 +61,26 @@ Class Model_ReportRAIScales {
 
         $result = $insert
             ->clearcache($this->pk)
+            ->clearcache('pension_' . $this->pension . '_id_' . $this->id)
             ->execute();
 
         return $this->get_($result);
     }
+
+
+    public static function getByPensionAndID($pension, $id)
+    {
+        $select = Dao_ReportsRAIScales::select()
+            ->where('pension', '=', $pension)
+            ->where('id', '=', $id)
+            ->cached(Date::MINUTE * 5, 'pension_' . $pension . '_id_' . $id)
+            ->limit(1)
+            ->execute();
+
+        $report = new Model_ReportRAIScales();
+        return $report->fill_by_row($select);
+    }
+
 
     public static function delete($pk)
     {
@@ -69,6 +89,5 @@ Class Model_ReportRAIScales {
             ->clearcache($pk)
             ->execute();
     }
-
 
 }
