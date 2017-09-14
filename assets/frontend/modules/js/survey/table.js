@@ -1,14 +1,15 @@
+
+
 module.exports = (function (table) {
 
     var surveysHistoryTable = document.getElementById('surveysHistory');
-
 
     if (surveysHistoryTable) initHistoryTable_();
 
 
     function initHistoryTable_() {
 
-        moment.locale('ru');
+        raicare.moment.setLocale();
         raicare.moment.createDate('CLASS', 'js-date', true);
         raicare.moment.createDateFromNow('CLASS', 'js-data-fromNow');
 

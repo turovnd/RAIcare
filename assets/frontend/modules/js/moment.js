@@ -1,9 +1,16 @@
 module.exports = (function (momentjs) {
 
-
     var corePrefix = 'RAIcare: momentJS',
         date       = null;
 
+    /**
+     * Set Russian Language
+     */
+    momentjs.setLocale = function () {
+
+        moment.locale('ru');
+
+    };
 
     /**
      * Create moment date

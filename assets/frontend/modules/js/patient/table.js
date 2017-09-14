@@ -1,12 +1,12 @@
-module.exports = (function (get) {
+module.exports = (function (table) {
 
-    get.init = function () {
+    table.initAllPatients = function () {
 
-        moment.locale('ru');
+        raicare.moment.setLocale();
         raicare.moment.createDate('CLASS', 'js-date', true);
         raicare.moment.createDateFromNow('CLASS', 'js-data-fromNow');
 
-        var dataTable = new DataTable('#patients', {
+        var dataTable = new DataTable(document.querySelector('#patients'), {
             perPage: 20,
             perPageSelect: [20, 40, 60, 80, 100],
             searchable: true,
@@ -25,6 +25,6 @@ module.exports = (function (get) {
 
     };
 
-    return get;
+    return table;
 
 })({});
