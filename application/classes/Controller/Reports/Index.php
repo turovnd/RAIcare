@@ -126,41 +126,6 @@ class Controller_Reports_Index extends Dispatch
     }
 
 
-    /**
-     * Patient Status Report On Pension Page
-     * @throws HTTP_Exception_404
-     */
-    public function action_status()
-    {
-        $id = $this->request->param('id');
-
-        $this->survey = Model_Survey::getByPensionAndID($this->pension->id, $id);
-
-        if (! $this->survey->pk ) throw new HTTP_Exception_404();
-
-        $this->patient = new Model_Patient($this->survey->patient);
-
-        if (! $this->patient->pk ) throw new HTTP_Exception_404();
-
-        $this->patient->dt_first_survey = Model_Survey::getFirstByPensionPatient($this->pension->id, $this->patient->pk)->dt_create;
-
-        $this->survey->unitD = new Model_SurveyUnitD($this->survey->unitD);
-        $this->survey->unitD->D3 = json_decode($this->survey->unitD->D3);
-        $this->survey->unitD->D4 = json_decode($this->survey->unitD->D4);
-
-        $this->survey->unitG = new Model_SurveyUnitG($this->survey->unitG);
-        $this->survey->unitG->G1 = json_decode($this->survey->unitG->G1);
-
-
-
-        $this->template->title = "Текущее состояние пациента #" . $this->patient->id;
-        $this->template->section = View::factory('reports/patient/status')
-            ->set('pension', $this->pension)
-            ->set('patient', $this->patient)
-            ->set('survey', $this->survey);
-    }
-
-
 
 
     /**

@@ -96,11 +96,11 @@
                                                 Личное дело
                                             </a>
                                         <? endif; ?>
-                                        <a href="<?= '/\/' . $_SERVER['HTTP_HOST'] . '/' . $pension->uri . '/report/' . $patient->survey->id .'/careplan'; ?>" class="btn btn--sm btn--default m-5">
+                                        <a href="<?= '/\/' . $_SERVER['HTTP_HOST'] . '/' . $pension->uri . '/patient/' . $patient->id .'/careplan'; ?>" class="btn btn--sm btn--default m-5">
                                             План ухода
                                         </a>
                                         <br>
-                                        <a href="<?= '/\/' . $_SERVER['HTTP_HOST'] . '/' . $pension->uri . '/report/' . $patient->survey->id .'/status'; ?>" class="btn btn--sm btn--default m-5">
+                                        <a href="<?= '/\/' . $_SERVER['HTTP_HOST'] . '/' . $pension->uri . '/patient/' . $patient->id .'/status'; ?>" class="btn btn--sm btn--default m-5">
                                             Текущее состояние
                                         </a>
                                     </td>

@@ -7,99 +7,116 @@
 
     <?= View::factory('reports/block/patient-info', array('pension' => $pension, 'patient' => $patient, 'survey' => $survey)); ?>
 
-    <div class="block">
-
-        <div class="block__body">
-
-            <table>
-                <thead>
-                    <tr>
-                        <th>ADL support provided</th>
-                        <th>No activity</th>
-                        <th>Given support</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>G1j - Eating (0..6 || 8) - Прием пищи</td>
-                        <td><?= $survey->unitG->G1[9] == 8 ? 'yes' : ''; ?></td>
-                        <td><?= $survey->unitG->G1[9] . '/6'; ?></td>
-                    </tr>
-                    <tr>
-                        <td>G1b - Personal hygiene (0..6 || 8) - Личная гигиена</td>
-                        <td><?= $survey->unitG->G1[1] == 8 ? 'yes' : ''; ?></td>
-                        <td><?= $survey->unitG->G1[1] . '/6'; ?></td>
-                    </tr>
-                    <tr>
-                        <td>G1g - Transfer toilet (0..6 || 8) - Доступ к туалету</td>
-                        <td><?= $survey->unitG->G1[6] == 8 ? 'yes' : ''; ?></td>
-                        <td><?= $survey->unitG->G1[6] . '/6'; ?></td>
-                    </tr>
-                    <tr>
-                        <td>G1h - Toilet use (0..6 || 8) -  Пользование туалетом</td>
-                        <td><?= $survey->unitG->G1[7] == 8 ? 'yes' : ''; ?></td>
-                        <td><?= $survey->unitG->G1[7] . '/6'; ?></td>
-                    </tr>
-                    <tr>
-                        <td>G1a - Bathing (0..6 || 8) - Ванные процедуры</td>
-                        <td><?= $survey->unitG->G1[0] == 8 ? 'yes' : ''; ?></td>
-                        <td><?= $survey->unitG->G1[0] . '/6'; ?></td>
-                    </tr>
-                    <tr>
-                        <td>G1c - Dressing upper body (0..6 || 8) - Одевание верхней части тела</td>
-                        <td><?= $survey->unitG->G1[2] == 8 ? 'yes' : ''; ?></td>
-                        <td><?= $survey->unitG->G1[2] . '/6'; ?></td>
-                    </tr>
-                    <tr>
-                        <td>G1d - Dressing lower body (0..6 || 8) - Одевание нижней части тела</td>
-                        <td><?= $survey->unitG->G1[3] == 8 ? 'yes' : ''; ?></td>
-                        <td><?= $survey->unitG->G1[3] . '/6'; ?></td>
-                    </tr>
-                    <tr>
-                        <td>G1i - Bed mobility (0..6 || 8) - Перемещения в кровати</td>
-                        <td><?= $survey->unitG->G1[8] == 8 ? 'yes' : ''; ?></td>
-                        <td><?= $survey->unitG->G1[8] . '/6'; ?></td>
-                    </tr>
-                    <tr>
-                        <td>G1e - Walking (0..6 || 8) - Ходьба</td>
-                        <td><?= $survey->unitG->G1[4] == 8 ? 'yes' : ''; ?></td>
-                        <td><?= $survey->unitG->G1[4] . '/6'; ?></td>
-                    </tr>
-                    <tr>
-                        <td>G1f - Locomotion (0..6 || 8) - Передвижение</td>
-                        <td><?= $survey->unitG->G1[5] == 8 ? 'yes' : ''; ?></td>
-                        <td><?= $survey->unitG->G1[5] . '/6'; ?></td>
-                    </tr>
-                </tbody>
-            </table>
-
-        </div>
-
-    </div>
 
     <div class="row">
-        <div class=" col-xs-12 col-sm-6">
+
+        <div class="col-xs-12 col-sm-6">
 
             <div class="block">
 
                 <div class="block__body">
 
-                    <table>
+                    <table id="adlSupport">
                         <thead>
-                            <tr>
-                                <th>Hearing / Vision - Слух и зрение</th>
-                                <th>Given support</th>
-                            </tr>
+                        <tr >
+                            <th class="f-s-1_2 valign-middle text-center">Эффективность действий пациента</th>
+                            <th class="text-center">
+                                <img src="/assets/static/img/status-report/adl-self-0.svg" alt="">
+                                <small>самостоятельность</small>
+                            </th>
+                        </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>D3a - Hearing (0..4) - Восприятие на слух (способность слышать)</td>
-                                <td><?= $survey->unitD->D3[0] . '/4'; ?></td>
-                            </tr>
-                            <tr>
-                                <td>D4a - Vision (0..4) - Зрение (способность видеть)</td>
-                                <td><?= $survey->unitD->D4[0] . '/4'; ?></td>
-                            </tr>
+                        <tr class="text-center">
+                            <td>
+                                <img src="/assets/static/img/status-report/eating.svg" alt="">
+                                <small> Прием пищи </small>
+                            </td>
+                            <td>
+                                <img src="/assets/static/img/status-report/adl-self-<?= $survey->unitG->G1[9]; ?>.svg" alt="">
+                            </td>
+                        </tr>
+                        <tr class="text-center">
+                            <td>
+                                <img src="/assets/static/img/status-report/hygiene.svg" alt="">
+                                <small> Личная гигиена </small>
+                            </td>
+                            <td>
+                                <img src="/assets/static/img/status-report/adl-self-<?= $survey->unitG->G1[1]; ?>.svg" alt="">
+                            </td>
+                        </tr>
+                        <tr class="text-center">
+                            <td>
+                                <img src="/assets/static/img/status-report/transfer-toilet.svg" alt="">
+                                <small> Доступ к туалету </small>
+                            </td>
+                            <td>
+                                <img src="/assets/static/img/status-report/adl-self-<?= $survey->unitG->G1[6]; ?>.svg" alt="">
+                            </td>
+                        </tr>
+                        <tr class="text-center">
+                            <td>
+                                <img src="/assets/static/img/status-report/toilet-use.svg" alt="">
+                                <small> Пользование туалетом </small>
+                            </td>
+                            <td>
+                                <img src="/assets/static/img/status-report/adl-self-<?= $survey->unitG->G1[7]; ?>.svg" alt="">
+                            </td>
+                        </tr>
+                        <tr class="text-center">
+                            <td>
+                                <img src="/assets/static/img/status-report/bathing.svg" alt="">
+                                <small> Ванные процедуры </small>
+                            </td>
+                            <td>
+                                <img src="/assets/static/img/status-report/adl-self-<?= $survey->unitG->G1[0]; ?>.svg" alt="">
+                            </td>
+                        </tr>
+                        <tr class="text-center">
+                            <td>
+                                <img src="/assets/static/img/status-report/dressing-upper.svg" alt="">
+                                <small> Одевание верхней части тела </small>
+                            </td>
+                            <td>
+                                <img src="/assets/static/img/status-report/adl-self-<?= $survey->unitG->G1[2]; ?>.svg" alt="">
+                            </td>
+                        </tr>
+                        <tr class="text-center">
+                            <td>
+                                <img src="/assets/static/img/status-report/dressing-lower.svg" alt="">
+                                <small> Одевание нижней части тела </small>
+                            </td>
+                            <td>
+                                <img src="/assets/static/img/status-report/adl-self-<?= $survey->unitG->G1[3]; ?>.svg" alt="">
+                            </td>
+                        </tr>
+                        <tr class="text-center">
+                            <td>
+                                <img src="/assets/static/img/status-report/bed-mobility.svg" alt="">
+                                <small> Перемещения в кровати </small>
+                            </td>
+                            <td>
+                                <img src="/assets/static/img/status-report/adl-self-<?= $survey->unitG->G1[8]; ?>.svg" alt="">
+                            </td>
+                        </tr>
+                        <tr class="text-center">
+                            <td>
+                                <img src="/assets/static/img/status-report/walking.svg" alt="">
+                                <small> Ходьба </small>
+                            </td>
+                            <td>
+                                <img src="/assets/static/img/status-report/adl-self-<?= $survey->unitG->G1[4]; ?>.svg" alt="">
+                            </td>
+                        </tr>
+                        <tr class="text-center">
+                            <td>
+                                <img src="/assets/static/img/status-report/locomotion.svg" alt="">
+                                <small> Передвижение </small>
+                            </td>
+                            <td>
+                                <img src="/assets/static/img/status-report/adl-self-<?= $survey->unitG->G1[5]; ?>.svg" alt="">
+                            </td>
+                        </tr>
                         </tbody>
                     </table>
 
@@ -110,34 +127,149 @@
         </div>
 
 
-        <div class=" col-xs-12 col-sm-6">
+        <div class="col-xs-12 col-sm-6">
+
 
             <div class="block">
 
                 <div class="block__body">
 
-                    <table>
+                    <table id="vision">
                         <thead>
-                            <tr>
-                                <th>Communication - Коммуникация</th>
-                                <th>Given support</th>
-                            </tr>
+                        <tr>
+                            <th class="f-s-1_2 valign-middle text-center">Кома</th>
+                            <th class="text-center">
+
+                            </th>
+                        </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>D1 - Making self understood (0..4) - Способность передавать информацию</td>
-                                <td><?= $survey->unitD->D1 . '/4'; ?></td>
-                            </tr>
-                            <tr>
-                                <td>D2 - Ability to understand others (0..4) - Способность воспринимать информацию</td>
-                                <td><?= $survey->unitD->D2 . '/4'; ?></td>
-                            </tr>
+                        <tr class="text-center">
+                            <td>
+                                <img src="/assets/static/img/status-report/coma.svg" alt="">
+                                <small> Нет признаков <br> сознания </small>
+                            </td>
+                            <td>
+                                <? if ( $survey->unitC->C1 == 5 ) : ?>
+                                    <img src="/assets/static/img/status-report/coma.svg" alt="">
+                                <? else: ?>
+                                    <img src="/assets/static/img/status-report/no-coma.svg" alt="">
+                                <? endif; ?>
+                            </td>
+                        </tr>
                         </tbody>
                     </table>
 
                 </div>
 
             </div>
+
+
+            <? if ( $survey->unitC->C1 != 5 ) : ?>
+
+
+                <div class="block">
+
+                    <div class="block__body">
+
+                        <table id="hearing">
+                            <thead>
+                            <tr>
+                                <th class="f-s-1_2 valign-middle text-center">Слух</th>
+                                <th class="text-center">
+                                    <img src="/assets/static/img/status-report/hearing-4.svg" alt="">
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="text-center">
+                                <td>
+                                    <img src="/assets/static/img/status-report/hearing.svg" alt="">
+                                    <small> Восприятие на слух <br> (способность слышать) </small>
+                                </td>
+                                <td>
+                                    <img src="/assets/static/img/status-report/hearing-<?= $survey->unitD->D3[0]; ?>.svg" alt="">
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                </div>
+
+
+                <div class="block">
+
+                    <div class="block__body">
+
+                        <table id="vision">
+                            <thead>
+                            <tr>
+                                <th class="f-s-1_2 valign-middle text-center">Зрение</th>
+                                <th class="text-center">
+                                    <img src="/assets/static/img/status-report/vision-4.svg" alt="">
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="text-center">
+                                <td>
+                                    <img src="/assets/static/img/status-report/vision.svg" alt="">
+                                    <small> Зрение <br> (способность видеть) </small>
+                                </td>
+                                <td>
+                                    <img src="/assets/static/img/status-report/vision-<?= $survey->unitD->D4[0]; ?>.svg" alt="">
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                </div>
+
+
+                <div class="block">
+
+                    <div class="block__body">
+
+                        <table id="communication">
+                            <thead>
+                            <tr>
+                                <th class="f-s-1_2 valign-middle text-center">Коммуникация</th>
+                                <th class="text-center">
+                                    <img src="/assets/static/img/status-report/communication-4.svg" alt="">
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="text-center">
+                                <td>
+                                    <img src="/assets/static/img/status-report/communication-man.svg" alt="">
+                                    <small> Способность передавать <br> информацию </small>
+                                </td>
+                                <td>
+                                    <img src="/assets/static/img/status-report/communication-<?= $survey->unitD->D1; ?>.svg" alt="">
+                                </td>
+                            </tr>
+                            <tr class="text-center">
+                                <td>
+                                    <img src="/assets/static/img/status-report/communication-man.svg" alt="">
+                                    <small> Способность воспринимать <br> информацию </small>
+                                </td>
+                                <td>
+                                    <img src="/assets/static/img/status-report/communication-<?= $survey->unitD->D1; ?>.svg" alt="">
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                </div>
+
+            <? endif; ?>
 
         </div>
 
@@ -146,4 +278,9 @@
 
 </div>
 
+<script type="text/javascript" src="<?=$assets; ?>vendor/vanilla-datatables/dist/vanilla-dataTables.min.js?v=<?= filemtime("assets/vendor/vanilla-datatables/dist/vanilla-dataTables.min.js") ?>"></script>
+
 <script type="text/javascript" src="<?=$assets; ?>frontend/bundles/report.min.js?v=<?= filemtime("assets/frontend/bundles/report.min.js") ?>"></script>
+<script type="text/javascript">
+    report.table.initStatus();
+</script>

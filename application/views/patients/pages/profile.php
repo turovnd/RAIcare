@@ -10,11 +10,11 @@
 
 
 
-    <a href="<?= '/\/' . $_SERVER['HTTP_HOST'] . '/' . $pension->uri . '/report/' . $patient->survey->id .'/careplan'; ?>" class="btn btn--lg btn--brand m-t-10 m-r-30">
+    <a href="<?= '/\/' . $_SERVER['HTTP_HOST'] . '/' . $pension->uri . '/patient/' . $patient->id .'/careplan'; ?>" class="btn btn--lg btn--brand m-t-10 m-r-30">
         План ухода
     </a>
 
-    <a href="<?= '/\/' . $_SERVER['HTTP_HOST'] . '/' . $pension->uri . '/report/' . $patient->survey->id .'/status'; ?>" class="btn btn--lg btn--brand m-t-10 m-r-30">
+    <a href="<?= '/\/' . $_SERVER['HTTP_HOST'] . '/' . $pension->uri . '/patient/' . $patient->id .'/status'; ?>" class="btn btn--lg btn--brand m-t-10 m-r-30">
         Текущее состояние
     </a>
 

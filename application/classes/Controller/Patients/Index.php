@@ -54,7 +54,7 @@ class Controller_Patients_Index extends Dispatch
         }
 
         $data = array(
-            'aside_type' => 'pension',
+            'aside_type' => 'patient',
             'pension'    => $this->pension,
             'action'     => $this->request->action()
         );
@@ -136,4 +136,43 @@ class Controller_Patients_Index extends Dispatch
             ->set('patient', $this->patient);
     }
 
+
+    /**
+     * Patient Status Report On Pension Page
+     * - report is base on the last finished survey
+     * @throws HTTP_Exception_404
+     */
+    public function action_status()
+    {
+        $pat_id = $this->request->param('id');
+
+        $this->patient = Model_Patient::getByPensionPatID($this->pension->id, $pat_id);
+
+        if (!$this->patient->pk)
+            throw new HTTP_Exception_404();
+
+        $survey = Model_Survey::getLastByPensionPatient($this->pension->id, $this->patient->id, 2);
+
+        if (! $survey->pk )
+            throw new HTTP_Exception_404();
+
+
+        $this->patient->dt_first_survey = Model_Survey::getFirstByPensionPatient($this->pension->id, $this->patient->pk)->dt_create;
+
+        $survey->unitC = new Model_SurveyUnitC($survey->unitC);
+
+        $survey->unitD = new Model_SurveyUnitD($survey->unitD);
+        $survey->unitD->D3 = json_decode($survey->unitD->D3);
+        $survey->unitD->D4 = json_decode($survey->unitD->D4);
+
+        $survey->unitG = new Model_SurveyUnitG($survey->unitG);
+        $survey->unitG->G1 = json_decode($survey->unitG->G1);
+
+
+        $this->template->title = "Текущее состояние пациента #" . $this->patient->id;
+        $this->template->section = View::factory('reports/patient/status')
+            ->set('pension', $this->pension)
+            ->set('patient', $this->patient)
+            ->set('survey', $survey);
+    }
 }
