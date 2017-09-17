@@ -120,7 +120,7 @@ class Controller_Patients_Index extends Dispatch
         $surveys = Model_Survey::getAllByPensionPatient($this->pension->id, $this->patient->pk);
 
         $this->patient->creator = new Model_User($this->patient->creator);
-        $this->patient->survey = Model_Survey::getLastByPensionPatient($this->patient->pension, $this->patient->pk, 2);
+        $this->patient->survey = Model_Survey::getLastByPensionPatient($this->pension->id, $this->patient->pk, 2);
         $this->patient->survey->dt_create_timestamp = strtotime($this->patient->survey->dt_create);
 
         if ( $this->user->role == self::ROLE_PEN_QUALITY_MANAGER ) {
@@ -151,7 +151,7 @@ class Controller_Patients_Index extends Dispatch
         if (!$this->patient->pk)
             throw new HTTP_Exception_404();
 
-        $survey = Model_Survey::getLastByPensionPatient($this->pension->id, $this->patient->id, 2);
+        $survey = Model_Survey::getLastByPensionPatient($this->pension->id, $this->patient->pk, 2);
 
         if (! $survey->pk )
             throw new HTTP_Exception_404();

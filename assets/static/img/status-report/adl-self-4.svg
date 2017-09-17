@@ -53,9 +53,9 @@
      inkscape:window-height="705"
      id="namedview8"
      showgrid="false"
-     inkscape:zoom="5.6568542"
-     inkscape:cx="-4.8843894"
-     inkscape:cy="35.983255"
+     inkscape:zoom="7.9999999"
+     inkscape:cx="28.328408"
+     inkscape:cy="32.406914"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
@@ -72,7 +72,7 @@
        inkscape:connector-curvature="0"
        id="circle4187"
        d="M 32.005862,1.4804834 C 15.149333,1.4795745 1.484031,15.144571 1.4843916,32.001285 c 0,16.856711 13.6649424,30.521708 30.5214704,30.520799 C 48.861626,62.521933 62.525736,48.857232 62.525379,32.001285 62.525754,15.145334 48.861626,1.4806509 32.005862,1.4804834 Z"
-       style="opacity:1;fill:#bbbbbf;fill-opacity:0.94117647;fill-rule:evenodd;stroke:#000000;stroke-width:2.95345592;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+       style="opacity:1;fill:#bbbbbf;fill-opacity:0.94117647;fill-rule:evenodd;stroke:#000000;stroke-width:2;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
   </g>
   <g
      inkscape:groupmode="layer"
@@ -123,7 +123,7 @@
        sodipodi:cx="-32.008194"
        sodipodi:type="arc"
        id="path4492-2-1"
-       style="opacity:1;fill:#e0e0e0;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:3;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="opacity:1;fill:#e0e0e0;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:2;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        transform="scale(-1,1)" />
   </g>
   <g

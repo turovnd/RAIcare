@@ -13,6 +13,7 @@ Route::set('PENSION_PATIENTS', '<pen_uri>/patients', array(
 Route::set('PENSION_PATIENT', '<pen_uri>/patient/<id>(/<action>)', array(
         'pen_uri' => $STRING,
         'id'      => $DIGIT,
+        'action'  => 'status|careplan'
     ))
     ->subdomains(array(Route::SUBDOMAIN_WILDCARD))
     ->defaults(array(

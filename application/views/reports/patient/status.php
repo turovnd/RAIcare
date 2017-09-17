@@ -101,7 +101,7 @@
                         </tr>
                         <tr class="text-center">
                             <td>
-                                <img src="/assets/static/img/status-report/walking.svg" alt="">
+                                <img src="/assets/static/img/status-report/walking-man.svg" alt="" style="width: 64px">
                                 <small> Ходьба </small>
                             </td>
                             <td>
@@ -255,7 +255,7 @@
                             </tr>
                             <tr class="text-center">
                                 <td>
-                                    <img src="/assets/static/img/status-report/communication-man.svg" alt="">
+                                    <img src="/assets/static/img/status-report/communication-med.svg" alt="">
                                     <small> Способность воспринимать <br> информацию </small>
                                 </td>
                                 <td>

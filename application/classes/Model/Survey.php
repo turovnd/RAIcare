@@ -161,7 +161,7 @@ Class Model_Survey {
             ->where('patient', '=', $patient)
             ->where('status', '=', 2)
             ->where('type', '=', 1)
-            ->cached(Date::MINUTE * 5, 'last_pension_' . $pension . '_patient_' . $patient)
+            ->cached(Date::MINUTE * 5, 'first_pension_' . $pension . '_patient_' . $patient)
             ->limit(1)
             ->execute();
 
@@ -181,16 +181,17 @@ Class Model_Survey {
     {
         $select = Dao_Surveys::select()
             ->where('pension', '=', $pension)
-            ->where('patient', '=', $patient)
-            ->order_by('pk', 'desc')
-            ->cached(Date::MINUTE * 5, 'first_pension_' . $pension . '_patient_' . $patient)
-            ->limit(1);
+            ->where('patient', '=', $patient);
 
         if ($status != NULL) {
             $select->where('status', '=', $status);
         }
 
-        $select = $select->execute();
+        $select = $select
+            ->order_by('pk', 'desc')
+            ->cached(Date::MINUTE * 5, 'last_pension_' . $pension . '_patient_' . $patient)
+            ->limit(1)
+            ->execute();
 
         $survey = new Model_Survey();
         return $survey->fill_by_row($select);
