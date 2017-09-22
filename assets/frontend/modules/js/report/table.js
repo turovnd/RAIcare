@@ -1,5 +1,6 @@
 module.exports = (function (table) {
 
+
     table.initStatus = function () {
 
         var adlSupportTable = new DataTable('#adlSupport', {
@@ -55,6 +56,44 @@ module.exports = (function (table) {
 
         }
 
+
+    };
+
+
+    table.initClinical = function () {
+
+        var raiscalesTable = new DataTable('#raiscales', {
+            perPage: 10,
+            searchable: false,
+            sortable: true,
+            footer: true
+        });
+
+        raiscalesTable.on('datatable.sort', function () {
+
+            raicare.progress.init();
+            document.querySelector('[data-area="raiscales"]').dataset.opened = true;
+
+        });
+
+        raiscalesTable.wrapper.getElementsByClassName('dataTable-top')[0].remove();
+        raiscalesTable.wrapper.getElementsByClassName('dataTable-bottom')[0].remove();
+
+        var protocolsTable = new DataTable('#protocols', {
+            perPage: 20,
+            searchable: false,
+            sortable: true,
+            footer: true
+        });
+
+        protocolsTable.on('datatable.sort', function () {
+
+            document.querySelector('[data-area="protocols"]').dataset.opened = true;
+
+        });
+
+        protocolsTable.wrapper.getElementsByClassName('dataTable-top')[0].remove();
+        protocolsTable.wrapper.getElementsByClassName('dataTable-bottom')[0].remove();
 
     };
 

@@ -137,7 +137,7 @@ module.exports = (function (table) {
 
     table.initProgressTable = function () {
 
-        var surveyProgressTable = new DataTable('#surveyProgress', {
+        surveyProgressTable = new DataTable('#surveyProgress', {
             perPage: 20,
             searchable: false,
             sortable: true,

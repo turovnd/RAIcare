@@ -18,8 +18,7 @@
 .dataTable-input {
     background-color: #fff;
     border-radius: 3px;
-    box-shadow: 0 1px 0 0 #d7d8db, 0 0 0 1px #e3e4e8;
-    border: 0;
+    border: 1px solid #d7d8db;
 }
 
 .dataTable-selector {

@@ -6,11 +6,10 @@
     display: block;
     background-color: #fff;
     border-radius: 3px;
-    box-shadow: 0 1px 0 0 #d7d8db, 0 0 0 1px #e3e4e8;
     margin-bottom: 20px;
     width: 100%;
     padding: 10px 40px 10px 15px;
-    border: 0;
+    border: 1px solid #d7d8db;
 }
 
 .search__submit {

@@ -10,12 +10,12 @@ return array
             'class' => 'text-brand'
         ),
         '1' => array(
-            'name' => 'Выявлено - снижение инцидентов ежедневного проблемного поведения',
+            'name' => 'Выявлено - необходимо вмешателсьво для снижения числа ежедневного проявления эпиходов беспокоящего поведения',
             'key'  => 1,
             'class' => 'text-danger'
         ),
         '2' => array(
-            'name' => 'Выявлено - предотвращение ежедневных инцидентов проблемного поведения',
+            'name' => 'Выявлено - необходимо вмешательство для предотвращения ежедневного появления эпизодов беспокоящего поведения',
             'key'  => 2,
             'class' => 'text-danger'
         ),
@@ -28,12 +28,12 @@ return array
             'class' => 'text-brand'
         ),
         '1' => array(
-            'name' => 'Выявлено - потенциал для улучшения',
+            'name' => 'Выявлено - необходимо вмешателсьво для улучшения состояния когнетивных способностей',
             'key'  => 1,
             'class' => 'text-danger'
         ),
         '2' => array(
-            'name' => 'Выявлено - риск снижения',
+            'name' => 'Выявлено - необходимо вмешателсьво для предотварщения снижения функции',
             'key'  => 2,
             'class' => 'text-danger'
         ),
@@ -46,7 +46,7 @@ return array
             'class' => 'text-brand'
         ),
         '1' => array(
-            'name' => 'Выявлено',
+            'name' => 'Выявлено - необходимо вмешателсьво',
             'key'  => 1,
             'class' => 'text-danger'
         ),
@@ -59,12 +59,12 @@ return array
             'class' => 'text-brand'
         ),
         '1' => array(
-            'name' => 'Выявлено - низкий риск',
+            'name' => 'Выявлено - необходимо вмешателсьво, низкий риск',
             'key'  => 1,
             'class' => 'text-danger'
         ),
         '2' => array(
-            'name' => 'Выявлено - высокий риск',
+            'name' => 'Выявлено - необходимо вмешателсьво, высокий риск',
             'key'  => 2,
             'class' => 'text-danger'
         ),
@@ -77,7 +77,7 @@ return array
             'class' => 'text-brand'
         ),
         '1' => array(
-            'name' => 'Выявлено',
+            'name' => 'Выявлено - необходимо вмешателсьво',
             'key'  => 1,
             'class' => 'text-danger'
         ),
@@ -90,12 +90,12 @@ return array
             'class' => 'text-brand'
         ),
         '1' => array(
-            'name' => 'Выявлено - низкий уровень дегидратация',
+            'name' => 'Выявлено - необходимо вмешателсьво, низкий уровень обезвоживания',
             'key'  => 1,
             'class' => 'text-danger'
         ),
         '2' => array(
-            'name' => 'Выявлено - высокий уровень дегидратация',
+            'name' => 'Выявлено - необходимо вмешателсьво, высокий уровень обезвоживания',
             'key'  => 2,
             'class' => 'text-danger'
         ),
@@ -108,12 +108,12 @@ return array
             'class' => 'text-brand'
         ),
         '1' => array(
-            'name' => 'Выявлено - низкий риск',
+            'name' => 'Выявлено - необходимо вмешателсьво, группа среднего риска',
             'key'  => 1,
             'class' => 'text-danger'
         ),
         '2' => array(
-            'name' => 'Выявлено - высокий риск',
+            'name' => 'Выявлено - необходимо вмешателсьво, группа высокого риска',
             'key'  => 2,
             'class' => 'text-danger'
         ),
@@ -126,17 +126,17 @@ return array
             'class' => 'text-brand'
         ),
         '1' => array(
-            'name' => 'Выявлено - низкий риск',
+            'name' => 'Выявлено - необходимо вмешателсьво, низкий риск',
             'key'  => 1,
             'class' => 'text-danger'
         ),
         '2' => array(
-            'name' => 'Выявлено - высокий риск',
+            'name' => 'Выявлено - необходимо вмешателсьво, высокий риск',
             'key'  => 2,
             'class' => 'text-danger'
         ),
     ),
-    // Nutrition
+    // Undernutrition
     'P9' => array(
         '0' => array(
             'name' => 'Не выявлено',
@@ -144,12 +144,12 @@ return array
             'class' => 'text-brand'
         ),
         '1' => array(
-            'name' => 'Выявлено - в зоне риска',
+            'name' => 'Выявлено - необходимо вмешателсьво, в зоне среднего риска',
             'key'  => 1,
             'class' => 'text-danger'
         ),
         '2' => array(
-            'name' => 'Выявлено - в зоне высокого риск',
+            'name' => 'Выявлено - необходимо вмешателсьво, в зоне высокого риска',
             'key'  => 2,
             'class' => 'text-danger'
         ),
@@ -162,12 +162,12 @@ return array
             'class' => 'text-brand'
         ),
         '1' => array(
-            'name' => 'Выявлено - средний приоритет',
+            'name' => 'Выявлено - необходимо вмешателсьво, в зоне среднего риска',
             'key'  => 1,
             'class' => 'text-danger'
         ),
         '2' => array(
-            'name' => 'Выявлено - высокий приоритет',
+            'name' => 'Выявлено - необходимо вмешателсьво, в зоне высокого риска',
             'key'  => 2,
             'class' => 'text-danger'
         ),
@@ -180,7 +180,7 @@ return array
             'class' => 'text-brand'
         ),
         '1' => array(
-            'name' => 'Выявлено',
+            'name' => 'Выявлено - необходимо вмешателсьво',
             'key'  => 1,
             'class' => 'text-danger'
         ),
@@ -193,17 +193,17 @@ return array
             'class' => 'text-brand'
         ),
         '1' => array(
-            'name' => 'Выявлено - has stage 2 ulcer',
+            'name' => 'Выявлено - необходимо вмешателсьво, у пациента пролежневая язва 2 степени',
             'key'  => 1,
             'class' => 'text-danger'
         ),
         '2' => array(
-            'name' => 'Выявлено - at risk, has stage 1 ulcer',
+            'name' => 'Выявлено - необходимо вмешателсьво, у пациента пролежневая язва 1 степени',
             'key'  => 2,
             'class' => 'text-danger'
         ),
         '3' => array(
-            'name' => 'Выявлено - at risk, no ulcer now',
+            'name' => 'Выявлено - необходимо вмешателсьво, высокий риск появления пролежневых язв',
             'key'  => 3,
             'class' => 'text-danger'
         ),
@@ -211,22 +211,22 @@ return array
     // Urinary Incontinence
     'P13' => array(
         '0' => array(
-            'name' => 'Не выявлено - poor decision making at baseline',
+            'name' => 'Не выявлено - плохое принятие решений на базовом уровне',
             'key'  => 0,
             'class' => 'text-brand'
         ),
         '1' => array(
-            'name' => 'Не выявлено - continent at baseline',
+            'name' => 'Не выявлено - базовый уровень',
             'key'  => 1,
             'class' => 'text-brand'
         ),
         '2' => array(
-            'name' => 'Выявлено - prevent decline',
+            'name' => 'Выявлено - необходимо вмешательство для предотвращения снижения функции',
             'key'  => 2,
             'class' => 'text-danger'
         ),
         '3' => array(
-            'name' => 'Выявлено -  facilitate improvement',
+            'name' => 'Выявлено -  необходимо вмешателсьво для улушения состояния',
             'key'  => 3,
             'class' => 'text-danger'
         ),
@@ -239,12 +239,12 @@ return array
             'class' => 'text-brand'
         ),
         '1' => array(
-            'name' => 'Выявлено - Little ADL ability',
+            'name' => 'Выявлено - необходимо вмешателсьво в целях отказа от ограничителей при умеренной повседневной активности',
             'key'  => 1,
             'class' => 'text-danger'
         ),
         '2' => array(
-            'name' => 'Выявлено - ADL ability present',
+            'name' => 'Выявлено - необходимо вмешателсьво в целях отказа от ограничителей при низкой повседневной активности',
             'key'  => 2,
             'class' => 'text-danger'
         ),
@@ -257,7 +257,7 @@ return array
             'class' => 'text-brand'
         ),
         '1' => array(
-            'name' => 'Выявлено',
+            'name' => 'Выявлено - необходимо вмешательство',
             'key'  => 1,
             'class' => 'text-danger'
         ),
@@ -270,7 +270,7 @@ return array
             'class' => 'text-brand'
         ),
         '1' => array(
-            'name' => 'Выявлено - Trigger to facilitate improvement',
+            'name' => 'Выявлено - необходимо вмешателсьво для ускорения выздоровления',
             'key'  => 1,
             'class' => 'text-danger'
         ),
@@ -283,12 +283,12 @@ return array
             'class' => 'text-brand'
         ),
         '1' => array(
-            'name' => 'Выявлено - Preventive strategy was not pursed, and there has been no recent physican visit',
+            'name' => 'Выявлено - необходимо вмешателсьво: стратегия профилактики не реализовывалась, в последнее время не было посещений терапевта',
             'key'  => 1,
             'class' => 'text-danger'
         ),
         '2' => array(
-            'name' => 'Выявлено - Preventive strategy was not pursed, despite a recent physican visit',
+            'name' => 'Выявлено - необходимо вмешателсьво: стратегия профилактики не реализовывалась, несмотря на недавние посещения терапевта',
             'key'  => 2,
             'class' => 'text-danger'
         ),
@@ -301,12 +301,12 @@ return array
             'class' => 'text-brand'
         ),
         '1' => array(
-            'name' => 'Выявлено - to monitor risk of cognitive decline',
+            'name' => 'Выявлено - необходимо вмешателсьво для мониторинга риска ослабления когнитивных способностей',
             'key'  => 1,
             'class' => 'text-danger'
         ),
         '2' => array(
-            'name' => 'Выявлено - to prevent decline',
+            'name' => 'Выявлено - необходимо вмешателсьво для предотвращения снижения функций',
             'key'  => 2,
             'class' => 'text-danger'
         ),
@@ -319,7 +319,7 @@ return array
             'class' => 'text-brand'
         ),
         '1' => array(
-            'name' => 'Выявлено',
+            'name' => 'Выявлено - необходимо вмешателсьво',
             'key'  => 1,
             'class' => 'text-danger'
         ),
