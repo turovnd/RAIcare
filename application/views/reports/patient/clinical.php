@@ -628,10 +628,7 @@
             <h4 class="modal__title"></h4>
         </div>
         <div class="modal__body">
-            <?= View::factory('reports/caps/appropriate-medications/problem'); ?>
-            <?= View::factory('reports/caps/appropriate-medications/goals'); ?>
-            <?= View::factory('reports/caps/appropriate-medications/trigger'); ?>
-            <?= View::factory('reports/caps/appropriate-medications/guidelines'); ?>
+            <?= View::factory('reports/scales/CPS'); ?>
         </div>
     </div>
 </div>
