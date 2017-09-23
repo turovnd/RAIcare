@@ -26,7 +26,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="cursor-pointer" data-triggered="<?= $raiscales->PURS < 4 ? 'false' : 'true'; ?>" onclick="alert(1);">
+                    <tr class="cursor-pointer" data-triggered="<?= $raiscales->PURS < 4 ? 'false' : 'true'; ?>" onclick="report.get.scale('PURS')">
                         <td class="text-center">
                             <i class="fa fa-flag <?= $raiscales->PURS < 4 ? 'text-brand' : 'text-danger'; ?>" aria-hidden="true"></i>
                         </td>
@@ -45,7 +45,7 @@
                             <i class="fa fa-2x fa-angle-right" aria-hidden="true"></i>
                         </td>
                     </tr>
-                    <tr class="cursor-pointer" data-triggered="<?= $raiscales->CPS < 4 ? 'false' : 'true'; ?>">
+                    <tr class="cursor-pointer" data-triggered="<?= $raiscales->CPS < 4 ? 'false' : 'true'; ?>" onclick="report.get.scale('CPS')">
                         <td class="text-center">
                             <i class="fa fa-flag <?= $raiscales->CPS < 4 ? 'text-brand' : 'text-danger'; ?>" aria-hidden="true"></i>
                         </td>
@@ -64,7 +64,7 @@
                             <i class="fa fa-2x fa-angle-right" aria-hidden="true"></i>
                         </td>
                     </tr>
-                    <tr class="cursor-pointer" data-triggered="<?= $raiscales->BMI <= 25 && $raiscales->BMI >= 20 ? 'false' : 'true'; ?>">
+                    <tr class="cursor-pointer" data-triggered="<?= $raiscales->BMI <= 25 && $raiscales->BMI >= 20 ? 'false' : 'true'; ?>" onclick="report.get.scale('BMI')">
                         <td class="text-center">
                             <i class="fa fa-flag <?= $raiscales->BMI <= 25 && $raiscales->BMI >= 20 ? 'text-brand' : 'text-danger'; ?>" aria-hidden="true"></i>
                         </td>
@@ -79,7 +79,7 @@
                             <i class="fa fa-2x fa-angle-right" aria-hidden="true"></i>
                         </td>
                     </tr>
-                    <tr class="cursor-pointer" data-triggered="<?= $raiscales->SRD < 3 ? 'false' : 'true'; ?>">
+                    <tr data-triggered="<?= $raiscales->SRD < 3 ? 'false' : 'true'; ?>">
                         <td class="text-center">
                             <i class="fa fa-flag <?= $raiscales->SRD < 3 ? 'text-brand' : 'text-danger'; ?>" aria-hidden="true"></i>
                         </td>
@@ -94,11 +94,9 @@
                                 </small>
                             <? endif; ?>
                         </td>
-                        <td class="text-center">
-                            <i class="fa fa-2x fa-angle-right" aria-hidden="true"></i>
-                        </td>
+                        <td></td>
                     </tr>
-                    <tr class="cursor-pointer" data-triggered="<?= $raiscales->DRS < 3 ? 'false' : 'true'; ?>">
+                    <tr class="cursor-pointer" data-triggered="<?= $raiscales->DRS < 3 ? 'false' : 'true'; ?>" onclick="report.get.scale('DRS')">
                         <td class="text-center">
                             <i class="fa fa-flag <?= $raiscales->DRS < 3 ? 'text-brand' : 'text-danger'; ?>" aria-hidden="true"></i>
                         </td>
@@ -121,7 +119,7 @@
                             <i class="fa fa-2x fa-angle-right" aria-hidden="true"></i>
                         </td>
                     </tr>
-                    <tr class="cursor-pointer" data-triggered="<?= $raiscales->Pain < 2 ? 'false' : 'true'; ?>">
+                    <tr class="cursor-pointer" data-triggered="<?= $raiscales->Pain < 2 ? 'false' : 'true'; ?>" onclick="report.get.scale('Pain')">
                         <td class="text-center">
                             <i class="fa fa-flag <?= $raiscales->Pain < 2 ? 'text-brand' : 'text-danger'; ?>" aria-hidden="true"></i>
                         </td>
@@ -140,7 +138,7 @@
                             <i class="fa fa-2x fa-angle-right" aria-hidden="true"></i>
                         </td>
                     </tr>
-                    <tr class="cursor-pointer" data-triggered="<?= $raiscales->COMM < 3 ? 'false' : 'true'; ?>">
+                    <tr class="cursor-pointer" data-triggered="<?= $raiscales->COMM < 3 ? 'false' : 'true'; ?>" onclick="report.get.scale('COMM')">
                         <td class="text-center">
                             <i class="fa fa-flag <?= $raiscales->COMM < 3 ? 'text-brand' : 'text-danger'; ?>" aria-hidden="true"></i>
                         </td>
@@ -163,7 +161,7 @@
                             <i class="fa fa-2x fa-angle-right" aria-hidden="true"></i>
                         </td>
                     </tr>
-                    <tr class="cursor-pointer" data-triggered="<?= $raiscales->CHESS < 2 ? 'false' : 'true'; ?>">
+                    <tr class="cursor-pointer" data-triggered="<?= $raiscales->CHESS < 2 ? 'false' : 'true'; ?>" onclick="report.get.scale('CHESS')">
                         <td class="text-center">
                             <i class="fa fa-flag <?= $raiscales->CHESS < 2 ? 'text-brand' : 'text-danger'; ?>" aria-hidden="true"></i>
                         </td>
@@ -186,7 +184,7 @@
                             <i class="fa fa-2x fa-angle-right" aria-hidden="true"></i>
                         </td>
                     </tr>
-                    <tr class="cursor-pointer" data-triggered="<?= $raiscales->ADLH < 2 ? 'false' : 'true'; ?>">
+                    <tr class="cursor-pointer" data-triggered="<?= $raiscales->ADLH < 2 ? 'false' : 'true'; ?>" onclick="report.get.scale('ADLH')">
                         <td class="text-center">
                             <i class="fa fa-flag <?= $raiscales->ADLH < 2  ? 'text-brand' : 'text-danger'; ?>" aria-hidden="true"></i>
                         </td>
@@ -205,7 +203,7 @@
                             <i class="fa fa-2x fa-angle-right" aria-hidden="true"></i>
                         </td>
                     </tr>
-                    <tr class="cursor-pointer" data-triggered="<?= $raiscales->ABS == 0 ? 'false' : 'true'; ?>">
+                    <tr class="cursor-pointer" data-triggered="<?= $raiscales->ABS == 0 ? 'false' : 'true'; ?>" onclick="report.get.scale('ABS')">
                         <td class="text-center">
                             <i class="fa fa-flag <?= $raiscales->ABS == 0 ? 'text-brand' : 'text-danger'; ?>" aria-hidden="true"></i>
                         </td>
@@ -228,7 +226,7 @@
                             <i class="fa fa-2x fa-angle-right" aria-hidden="true"></i>
                         </td>
                     </tr>
-                    <tr class="cursor-pointer" data-triggered="<?= $raiscales->ADLLF < 7 ? 'false' : 'true'; ?>">
+                    <tr data-triggered="<?= $raiscales->ADLLF < 7 ? 'false' : 'true'; ?>">
                         <td class="text-center">
                             <i class="fa fa-flag <?= $raiscales->ADLLF < 7 ? 'text-brand' : 'text-danger'; ?>" aria-hidden="true"></i>
                         </td>
@@ -239,9 +237,7 @@
                                 ADLLF = <?= $raiscales->ADLLF; ?>
                             </small>
                         </td>
-                        <td class="text-center">
-                            <i class="fa fa-2x fa-angle-right" aria-hidden="true"></i>
-                        </td>
+                        <td></td>
                     </tr>
                 </tbody>
             </table>
@@ -272,7 +268,7 @@
 
                     <? if ($protocols->P1 != -1) : ?>
 
-                        <tr class="cursor-pointer" data-triggered="<?= Kohana::$config->load('Protocols.P1')[$protocols->P1]['class'] == 'text-brand' ? 'false' : 'true'; ?>">
+                        <tr class="cursor-pointer" data-triggered="<?= Kohana::$config->load('Protocols.P1')[$protocols->P1]['class'] == 'text-brand' ? 'false' : 'true'; ?>" onclick="report.get.cap('behaviour')">
                             <td class="text-center">
                                 <i class="fa fa-flag <? if ($protocols->P1 == Kohana::$config->load('Protocols.P1')[$protocols->P1]['key']) { echo Kohana::$config->load('Protocols.P1')[$protocols->P1]['class']; }; ?>" aria-hidden="true"></i>
                             </td>
@@ -293,7 +289,7 @@
 
                     <? if ($protocols->P2 != -1) : ?>
 
-                        <tr class="cursor-pointer" data-triggered="<?= Kohana::$config->load('Protocols.P2')[$protocols->P2]['class'] == 'text-brand' ? 'false' : 'true'; ?>">
+                        <tr class="cursor-pointer" data-triggered="<?= Kohana::$config->load('Protocols.P2')[$protocols->P2]['class'] == 'text-brand' ? 'false' : 'true'; ?>" onclick="report.get.cap('communication')">
                             <td class="text-center">
                                 <i class="fa fa-flag <? if ($protocols->P2 == Kohana::$config->load('Protocols.P2')[$protocols->P2]['key']) { echo Kohana::$config->load('Protocols.P2')[$protocols->P2]['class']; }; ?>" aria-hidden="true"></i>
                             </td>
@@ -314,7 +310,7 @@
 
                     <? if ($protocols->P3 != -1) : ?>
 
-                        <tr class="cursor-pointer" data-triggered="<?= Kohana::$config->load('Protocols.P3')[$protocols->P3]['class'] == 'text-brand' ? 'false' : 'true'; ?>">
+                        <tr class="cursor-pointer" data-triggered="<?= Kohana::$config->load('Protocols.P3')[$protocols->P3]['class'] == 'text-brand' ? 'false' : 'true'; ?>" onclick="report.get.cap('delirium')">
                             <td class="text-center">
                                 <i class="fa fa-flag <? if ($protocols->P3 == Kohana::$config->load('Protocols.P3')[$protocols->P3]['key']) { echo Kohana::$config->load('Protocols.P3')[$protocols->P3]['class']; }; ?>" aria-hidden="true"></i>
                             </td>
@@ -335,7 +331,7 @@
 
                     <? if ($protocols->P4 != -1) : ?>
 
-                        <tr class="cursor-pointer" data-triggered="<?= Kohana::$config->load('Protocols.P4')[$protocols->P4]['class'] == 'text-brand' ? 'false' : 'true'; ?>">
+                        <tr class="cursor-pointer" data-triggered="<?= Kohana::$config->load('Protocols.P4')[$protocols->P4]['class'] == 'text-brand' ? 'false' : 'true'; ?>" onclick="report.get.cap('mood')">
                             <td class="text-center">
                                 <i class="fa fa-flag <? if ($protocols->P4 == Kohana::$config->load('Protocols.P4')[$protocols->P4]['key']) { echo Kohana::$config->load('Protocols.P4')[$protocols->P4]['class']; }; ?>" aria-hidden="true"></i>
                             </td>
@@ -354,7 +350,7 @@
 
                     <? endif; ?>
 
-                    <tr class="cursor-pointer" data-triggered="<?= Kohana::$config->load('Protocols.P5')[$protocols->P5]['class'] == 'text-brand' ? 'false' : 'true'; ?>">
+                    <tr class="cursor-pointer" data-triggered="<?= Kohana::$config->load('Protocols.P5')[$protocols->P5]['class'] == 'text-brand' ? 'false' : 'true'; ?>" onclick="report.get.cap('cardiorespiratory')">
                         <td class="text-center">
                             <i class="fa fa-flag <? if ($protocols->P5 == Kohana::$config->load('Protocols.P5')[$protocols->P5]['key']) { echo Kohana::$config->load('Protocols.P5')[$protocols->P5]['class']; }; ?>" aria-hidden="true"></i>
                         </td>
@@ -373,7 +369,7 @@
 
                     <? if ($protocols->P6 != -1) : ?>
 
-                        <tr class="cursor-pointer" data-triggered="<?= Kohana::$config->load('Protocols.P6')[$protocols->P6]['class'] == 'text-brand' ? 'false' : 'true'; ?>">
+                        <tr class="cursor-pointer" data-triggered="<?= Kohana::$config->load('Protocols.P6')[$protocols->P6]['class'] == 'text-brand' ? 'false' : 'true'; ?>" onclick="report.get.cap('dehydrodation')">
                             <td class="text-center">
                                 <i class="fa fa-flag <? if ($protocols->P6 == Kohana::$config->load('Protocols.P6')[$protocols->P6]['key']) { echo Kohana::$config->load('Protocols.P6')[$protocols->P6]['class']; }; ?>" aria-hidden="true"></i>
                             </td>
@@ -392,7 +388,7 @@
 
                     <? endif; ?>
 
-                    <tr class="cursor-pointer" data-triggered="<?= Kohana::$config->load('Protocols.P7')[$protocols->P7]['class'] == 'text-brand' ? 'false' : 'true'; ?>">
+                    <tr class="cursor-pointer" data-triggered="<?= Kohana::$config->load('Protocols.P7')[$protocols->P7]['class'] == 'text-brand' ? 'false' : 'true'; ?>" onclick="report.get.cap('falls')">
                         <td class="text-center">
                             <i class="fa fa-flag <? if ($protocols->P7 == Kohana::$config->load('Protocols.P7')[$protocols->P7]['key']) { echo Kohana::$config->load('Protocols.P7')[$protocols->P7]['class']; }; ?>" aria-hidden="true"></i>
                         </td>
@@ -411,7 +407,7 @@
 
                     <? if ($protocols->P8 != -1) : ?>
 
-                        <tr class="cursor-pointer" data-triggered="<?= Kohana::$config->load('Protocols.P8')[$protocols->P8]['class'] == 'text-brand' ? 'false' : 'true'; ?>">
+                        <tr class="cursor-pointer" data-triggered="<?= Kohana::$config->load('Protocols.P8')[$protocols->P8]['class'] == 'text-brand' ? 'false' : 'true'; ?>" onclick="report.get.cap('feeding-tube')">
                             <td class="text-center">
                                 <i class="fa fa-flag <? if ($protocols->P8 == Kohana::$config->load('Protocols.P8')[$protocols->P8]['key']) { echo Kohana::$config->load('Protocols.P8')[$protocols->P8]['class']; }; ?>" aria-hidden="true"></i>
                             </td>
@@ -430,7 +426,7 @@
 
                     <? endif; ?>
 
-                    <tr class="cursor-pointer" data-triggered="<?= Kohana::$config->load('Protocols.P9')[$protocols->P9]['class'] == 'text-brand' ? 'false' : 'true'; ?>">
+                    <tr class="cursor-pointer" data-triggered="<?= Kohana::$config->load('Protocols.P9')[$protocols->P9]['class'] == 'text-brand' ? 'false' : 'true'; ?>" onclick="report.get.cap('undernutrition')">
                         <td class="text-center">
                             <i class="fa fa-flag <? if ($protocols->P9 == Kohana::$config->load('Protocols.P9')[$protocols->P9]['key']) { echo Kohana::$config->load('Protocols.P9')[$protocols->P9]['class']; }; ?>" aria-hidden="true"></i>
                         </td>
@@ -447,11 +443,11 @@
                         </td>
                     </tr>
 
-                    <tr class="cursor-pointer" data-triggered="<?= Kohana::$config->load('Protocols.P10')[$protocols->P10]['class'] == 'text-brand' ? 'false' : 'true'; ?>">
+                    <tr class="cursor-pointer" data-triggered="<?= Kohana::$config->load('Protocols.P10')[$protocols->P10]['class'] == 'text-brand' ? 'false' : 'true'; ?>" onclick="report.get.cap('pain')">
                         <td class="text-center">
                             <i class="fa fa-flag <? if ($protocols->P10 == Kohana::$config->load('Protocols.P10')[$protocols->P10]['key']) { echo Kohana::$config->load('Protocols.P10')[$protocols->P10]['class']; }; ?>" aria-hidden="true"></i>
                         </td>
-                        <td>Повреждения</td>
+                        <td>Боль</td>
                         <td>
                             <? $P10 = Kohana::$config->load('Protocols.P10')[$protocols->P10];
                                 if ($protocols->P10 == $P10['key']) {
@@ -464,7 +460,7 @@
                         </td>
                     </tr>
 
-                    <tr class="cursor-pointer" data-triggered="<?= Kohana::$config->load('Protocols.P11')[$protocols->P11]['class'] == 'text-brand' ? 'false' : 'true'; ?>">
+                    <tr class="cursor-pointer" data-triggered="<?= Kohana::$config->load('Protocols.P11')[$protocols->P11]['class'] == 'text-brand' ? 'false' : 'true'; ?>" onclick="report.get.cap('smoking-drinking')">
                         <td class="text-center">
                             <i class="fa fa-flag <? if ($protocols->P11 == Kohana::$config->load('Protocols.P11')[$protocols->P11]['key']) { echo Kohana::$config->load('Protocols.P11')[$protocols->P11]['class']; }; ?>" aria-hidden="true"></i>
                         </td>
@@ -481,7 +477,7 @@
                         </td>
                     </tr>
 
-                    <tr class="cursor-pointer" data-triggered="<?= Kohana::$config->load('Protocols.P12')[$protocols->P12]['class'] == 'text-brand' ? 'false' : 'true'; ?>">
+                    <tr class="cursor-pointer" data-triggered="<?= Kohana::$config->load('Protocols.P12')[$protocols->P12]['class'] == 'text-brand' ? 'false' : 'true'; ?>" onclick="report.get.cap('pressure-ulcer')">
                         <td class="text-center">
                             <i class="fa fa-flag <? if ($protocols->P12 == Kohana::$config->load('Protocols.P12')[$protocols->P12]['key']) { echo Kohana::$config->load('Protocols.P12')[$protocols->P12]['class']; }; ?>" aria-hidden="true"></i>
                         </td>
@@ -498,7 +494,7 @@
                         </td>
                     </tr>
 
-                    <tr class="cursor-pointer" data-triggered="<?= Kohana::$config->load('Protocols.P13')[$protocols->P13]['class'] == 'text-brand' ? 'false' : 'true'; ?>">
+                    <tr class="cursor-pointer" data-triggered="<?= Kohana::$config->load('Protocols.P13')[$protocols->P13]['class'] == 'text-brand' ? 'false' : 'true'; ?>" onclick="report.get.cap('urinary-incontinence')">
                         <td class="text-center">
                             <i class="fa fa-flag <? if ($protocols->P13 == Kohana::$config->load('Protocols.P13')[$protocols->P13]['key']) { echo Kohana::$config->load('Protocols.P13')[$protocols->P13]['class']; }; ?>" aria-hidden="true"></i>
                         </td>
@@ -515,7 +511,7 @@
                         </td>
                     </tr>
 
-                    <tr class="cursor-pointer" data-triggered="<?= Kohana::$config->load('Protocols.P14')[$protocols->P14]['class'] == 'text-brand' ? 'false' : 'true'; ?>">
+                    <tr class="cursor-pointer" data-triggered="<?= Kohana::$config->load('Protocols.P14')[$protocols->P14]['class'] == 'text-brand' ? 'false' : 'true'; ?>" onclick="report.get.cap('physical-restraint')">
                         <td class="text-center">
                             <i class="fa fa-flag <? if ($protocols->P14 == Kohana::$config->load('Protocols.P14')[$protocols->P14]['key']) { echo Kohana::$config->load('Protocols.P14')[$protocols->P14]['class']; }; ?>" aria-hidden="true"></i>
                         </td>
@@ -534,7 +530,7 @@
 
                     <? if ($protocols->P15 != -1) : ?>
 
-                        <tr class="cursor-pointer" data-triggered="<?= Kohana::$config->load('Protocols.P15')[$protocols->P15]['class'] == 'text-brand' ? 'false' : 'true'; ?>">
+                        <tr class="cursor-pointer" data-triggered="<?= Kohana::$config->load('Protocols.P15')[$protocols->P15]['class'] == 'text-brand' ? 'false' : 'true'; ?>" onclick="report.get.cap('activities')">
                             <td class="text-center">
                                 <i class="fa fa-flag <? if ($protocols->P15 == Kohana::$config->load('Protocols.P15')[$protocols->P15]['key']) { echo Kohana::$config->load('Protocols.P15')[$protocols->P15]['class']; }; ?>" aria-hidden="true"></i>
                             </td>
@@ -553,7 +549,7 @@
 
                     <? endif; ?>
 
-                    <tr class="cursor-pointer" data-triggered="<?= Kohana::$config->load('Protocols.P16')[$protocols->P16]['class'] == 'text-brand' ? 'false' : 'true'; ?>">
+                    <tr class="cursor-pointer" data-triggered="<?= Kohana::$config->load('Protocols.P16')[$protocols->P16]['class'] == 'text-brand' ? 'false' : 'true'; ?>" onclick="report.get.cap('physical-activities-promotion')">
                         <td class="text-center">
                             <i class="fa fa-flag <? if ($protocols->P16 == Kohana::$config->load('Protocols.P16')[$protocols->P16]['key']) { echo Kohana::$config->load('Protocols.P16')[$protocols->P16]['class']; }; ?>" aria-hidden="true"></i>
                         </td>
@@ -570,7 +566,7 @@
                         </td>
                     </tr>
 
-                    <tr class="cursor-pointer" data-triggered="<?= Kohana::$config->load('Protocols.P17')[$protocols->P17]['class'] == 'text-brand' ? 'false' : 'true'; ?>">
+                    <tr class="cursor-pointer" data-triggered="<?= Kohana::$config->load('Protocols.P17')[$protocols->P17]['class'] == 'text-brand' ? 'false' : 'true'; ?>" onclick="report.get.cap('prevention')">
                         <td class="text-center">
                             <i class="fa fa-flag <? if ($protocols->P17 == Kohana::$config->load('Protocols.P17')[$protocols->P17]['key']) { echo Kohana::$config->load('Protocols.P17')[$protocols->P17]['class']; }; ?>" aria-hidden="true"></i>
                         </td>
@@ -589,7 +585,7 @@
 
                     <? if ($protocols->P18 != -1) : ?>
 
-                        <tr class="cursor-pointer" data-triggered="<?= Kohana::$config->load('Protocols.P18')[$protocols->P18]['class'] == 'text-brand' ? 'false' : 'true'; ?>">
+                        <tr class="cursor-pointer" data-triggered="<?= Kohana::$config->load('Protocols.P18')[$protocols->P18]['class'] == 'text-brand' ? 'false' : 'true'; ?>" onclick="report.get.cap('cognitive-loss')">
                             <td class="text-center">
                                 <i class="fa fa-flag <? if ($protocols->P18 == Kohana::$config->load('Protocols.P18')[$protocols->P18]['key']) { echo Kohana::$config->load('Protocols.P18')[$protocols->P18]['class']; }; ?>" aria-hidden="true"></i>
                             </td>
@@ -617,18 +613,35 @@
 
 </div>
 
-<button data-area="qq" data-toggle="modal" class="btn btn--lg" id="1">fasd</button>
+<div class="modal" id="modalScale" tabindex="-1">
+    <div class="modal__content modal__content--small">
+        <div class="modal__wrapper">
+            <div class="modal__header">
+                <button type="button" class="modal__title-close" data-close="modal">
+                    <i class="fa fa-close" aria-hidden="true"></i>
+                </button>
+                <h4 class="modal__title">Значения шкалы RAI</h4>
+            </div>
+            <div class="modal__body">
 
-<div class="modal" id="qq" tabindex="-1">
-    <div class="modal__content modal__content--large">
-        <div class="modal__header">
-            <button type="button" class="modal__title-close" data-close="modal">
-                <i class="fa fa-close" aria-hidden="true"></i>
-            </button>
-            <h4 class="modal__title"></h4>
+            </div>
         </div>
-        <div class="modal__body">
-            <?= View::factory('reports/scales/CPS'); ?>
+    </div>
+</div>
+
+
+<div class="modal" id="modalCAP" tabindex="-1">
+    <div class="modal__content modal__content--large">
+        <div class="modal__wrapper">
+            <div class="modal__header">
+                <button type="button" class="modal__title-close" data-close="modal">
+                    <i class="fa fa-close" aria-hidden="true"></i>
+                </button>
+                <h4 class="modal__title">Значения ПКО</h4>
+            </div>
+            <div class="modal__body">
+
+            </div>
         </div>
     </div>
 </div>
@@ -639,9 +652,4 @@
 <script type="text/javascript" src="<?=$assets; ?>frontend/bundles/report.min.js?v=<?= filemtime("assets/frontend/bundles/report.min.js") ?>"></script>
 <script type="text/javascript">
     report.table.initClinical();
-
-    function r() {
-        document.getElementById('1').click();
-    }
-    window.setTimeout(r,500);
 </script>

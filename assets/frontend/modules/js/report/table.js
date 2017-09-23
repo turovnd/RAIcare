@@ -1,6 +1,5 @@
 module.exports = (function (table) {
 
-
     table.initStatus = function () {
 
         var adlSupportTable = new DataTable('#adlSupport', {
@@ -63,7 +62,7 @@ module.exports = (function (table) {
     table.initClinical = function () {
 
         var raiscalesTable = new DataTable('#raiscales', {
-            perPage: 10,
+            perPage: 11,
             searchable: false,
             sortable: true,
             footer: true

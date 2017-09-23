@@ -26,7 +26,7 @@
                         <div class="col-xs-12 col-sm-8 col-md-9">
                             <div class="form-group">
                                 <div class="form-group__label col-xs-12">
-                                    Cognitive Performance Scale [CPS]
+                                    Шкала когнитивных способностей [CPS]
                                     <div class="text-normal p-t-5">
                                         <? foreach (Kohana::$config->load('RAIScales.CPS') as $CPS) {
                                             if (is_array($CPS['key'])) {
@@ -161,7 +161,7 @@
                         <div class="col-xs-12 col-sm-8 col-md-9">
                             <div class="form-group">
                                 <div class="form-group__label col-xs-12">
-                                    Communication Scale [COMM]
+                                    Шкала коммуникативных способностей [COMM]
                                     <div class="text-normal p-t-5">
                                         <? foreach (Kohana::$config->load('RAIScales.COMM') as $COMM) {
 
@@ -247,7 +247,7 @@
                         <div class="col-xs-12 col-sm-8 col-md-9">
                             <div class="form-group">
                                 <div class="form-group__label col-xs-12">
-                                    Activities of Daily Living Hierarchy [ADLH]
+                                    Шкала ежедневных активностей (Иерархическая) [ADLH]
                                     <div class="text-normal p-t-5">
                                         <? foreach (Kohana::$config->load('RAIScales.ADLH') as $ADLH) {
 
@@ -274,7 +274,7 @@
                         <div class="col-xs-12 col-sm-8 col-md-9">
                             <div class="form-group">
                                 <div class="form-group__label col-xs-12">
-                                    Activities of Daily Living Long Form [ADLLF]
+                                    Шкала ежедневных активностей (Полный перечень) [ADLLF]
                                     <div class="text-normal p-t-5">
                                         ADLLF = <?= $report->ADLLF; ?>
                                     </div>
@@ -505,7 +505,7 @@
                         <div class="col-xs-12 col-sm-8 col-md-9">
                             <div class="form-group">
                                 <div class="form-group__label col-xs-12">
-                                    Depression Rating Scale [DRS]
+                                    Шкала оценки депрессии [DRS]
                                     <div class="text-normal p-t-5">
                                         <? foreach (Kohana::$config->load('RAIScales.DRS') as $DRS) {
 
@@ -536,7 +536,7 @@
                         <div class="col-xs-12 col-sm-8 col-md-9">
                             <div class="form-group">
                                 <div class="form-group__label col-xs-12">
-                                    Self Rated Depression [SRD]
+                                    Шкала собственной оценка депрессии [SRD]
                                     <div class="text-normal p-t-5">
                                         SRD = <?= $report->SRD; ?>
                                     </div>
@@ -558,7 +558,7 @@
                         <div class="col-xs-12 col-sm-8 col-md-9">
                             <div class="form-group">
                                 <div class="form-group__label col-xs-12">
-                                    Aggressive Behavior Scale [ABS]
+                                    Шкала агрессивного поведения [ABS]
                                     <div class="text-normal p-t-5">
                                         <? foreach (Kohana::$config->load('RAIScales.ABS') as $ABS) {
 
@@ -749,7 +749,7 @@
                         <div class="col-xs-12 col-sm-8 col-md-9">
                             <div class="form-group">
                                 <div class="form-group__label col-xs-12">
-                                    Pain Scale [Pain]
+                                    Шкала боли [Pain]
                                     <div class="text-normal p-t-5">
                                         <? foreach (Kohana::$config->load('RAIScales.Pain') as $Pain) {
 
@@ -776,7 +776,7 @@
                         <div class="col-xs-12 col-sm-8 col-md-9">
                             <div class="form-group">
                                 <div class="form-group__label col-xs-12">
-                                    Changes in Health, End-Stage Disease, Signs, and Symptoms Scale [CHESS]
+                                    Шкала изменений здоровья, смертельных диагнозов, признаков и симптомов [CHESS]
                                     <div class="text-normal p-t-5">
                                         <? foreach (Kohana::$config->load('RAIScales.CHESS') as $CHESS) {
 
@@ -915,7 +915,7 @@
                         <div class="col-xs-12 col-sm-8 col-md-9">
                             <div class="form-group">
                                 <div class="form-group__label col-xs-12">
-                                    Body Mass Index [BMI]
+                                    Индекс массы тела [BMI]
                                     <div class="text-normal p-t-5">
                                         BMI = <?= $report->BMI; ?>
                                     </div>
@@ -1002,7 +1002,7 @@
                         <div class="col-xs-12 col-sm-8 col-md-9">
                             <div class="form-group">
                                 <div class="form-group__label col-xs-12">
-                                    Pressure Ulcer Risk Scale [PURS]
+                                    Шкала риска пролежней [PURS]
                                     <div class="text-normal p-t-5">
                                         <? foreach (Kohana::$config->load('RAIScales.PURS') as $PURS) {
 
