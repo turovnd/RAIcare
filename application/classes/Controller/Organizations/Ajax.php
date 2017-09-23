@@ -374,7 +374,7 @@ class Controller_Organizations_Ajax extends Ajax
             return;
         }
 
-        if ( (in_array($role, self::PEN_AVAILABLE_ROLES) || $role = self::ROLE_PEN_CREATOR ) && empty($pensions) ) {
+        if ( (in_array($role, self::PEN_AVAILABLE_ROLES) || $role == self::ROLE_PEN_CREATOR ) && empty($pensions) ) {
             $response = new Model_Response_Organizations('ORGANIZATION_USER_INVITE_PENSION_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
             return;
@@ -386,7 +386,7 @@ class Controller_Organizations_Ajax extends Ajax
 
         $user = $user->save();
 
-        if (in_array($role, self::PEN_AVAILABLE_ROLES) || $role = self::ROLE_PEN_CREATOR ) {
+        if (in_array($role, self::PEN_AVAILABLE_ROLES) || $role == self::ROLE_PEN_CREATOR ) {
             foreach ($pensions as $pension) {
                 Model_UserPension::add($user->id, $pension);
             }

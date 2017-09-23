@@ -33,7 +33,7 @@
 
         <header class="header clear-fix">
 
-            <?=View::factory('global_blocks/header');?>
+            <?=View::factory('global-blocks/header');?>
 
         </header>
 
@@ -52,7 +52,7 @@
 
         <footer class="footer">
 
-            <?=View::factory('global_blocks/footer');?>
+            <?=View::factory('global-blocks/footer');?>
 
         </footer>
 

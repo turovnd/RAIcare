@@ -22,16 +22,10 @@
 
         <? // ROLE_ORG_CREATOR || ROLE_ORG_QUALITY_MANAGER => 10 || 12
         if ( $user->role == 10 || $user->role == 12 ) : ?>
-            <li class="aside__item <? echo $action == "control_organization" ? 'aside__item--active' : ''; ?>">
+            <li class="hide aside__item <? echo $action == "control_organization" ? 'aside__item--active' : ''; ?>">
                 <a href="<?= '/\/' .$_SERVER['HTTP_HOST'] . '/control/organization'; ?>" class="aside__link <? echo $action == "control_organization" ? 'aside__link--active' : ''; ?>">
                     <i class="fa fa-pie-chart aside__icon" aria-hidden="true"></i>
-                    <span class="aside__text">Динамика орг-ии</span>
-                </a>
-            </li>
-            <li class="aside__item <? echo $action == "control_pension" ? 'aside__item--active' : ''; ?>">
-                <a href="<?= '/\/' .$_SERVER['HTTP_HOST'] . '/control/pension'; ?>" class="aside__link <? echo $action == "control_pension" ? 'aside__link--active' : ''; ?>">
-                    <i class="fa fa-area-chart aside__icon" aria-hidden="true"></i>
-                    <span class="aside__text">Динамика пан-та</span>
+                    <span class="aside__text">отчеты</span>
                 </a>
             </li>
         <? endif; ?>
@@ -52,7 +46,7 @@
         </li>
 
         <? // ROLE_PEN_CREATOR => 20
-        if ( $user->role == 20 ) : ?>
+        if ( $user->role == 1 || $user->role == 20 ) : ?>
 
             <li class="aside__item <? echo $action == "settings" ? 'aside__item--active' : ''; ?>">
                 <a href="<?='/\/' . $_SERVER['HTTP_HOST'] . '/' . $pension->uri. '/settings' ?>" class="aside__link <? echo $action == "settings" ? 'aside__link--active' : ''; ?>">

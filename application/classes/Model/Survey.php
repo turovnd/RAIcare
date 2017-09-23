@@ -96,7 +96,6 @@ Class Model_Survey {
             ->clearcache('pension_' . $this->pension . '_id_' . $this->id)
             ->clearcache('count_pension_' . $this->pension)
             ->clearcache('first_pension_' . $this->pension . '_patient_' . $this->patient)
-            ->clearcache('last_pension_' . $this->pension . '_patient_' . $this->patient)
             ->clearcache('all_pension_' . $this->pension . '_patient_' . $this->patient)
             ->execute();
 
@@ -113,11 +112,10 @@ Class Model_Survey {
 
         $insert
             ->clearcache($this->pk)
-            ->clearcache('pension_' . $this->pension . '_id_' . $this->id)
-            ->clearcache('count_pension_' . $this->pension)
-            ->clearcache('first_pension_' . $this->pension . '_patient_' . $this->patient)
-            ->clearcache('last_pension_' . $this->pension . '_patient_' . $this->patient)
-            ->clearcache('all_pension_' . $this->pension . '_patient_' . $this->patient);
+            ->clearcache('pension_' . $this->pension . '_id_' . $this->id);
+//            ->clearcache('count_pension_' . $this->pension)
+//            ->clearcache('first_pension_' . $this->pension . '_patient_' . $this->patient)
+//            ->clearcache('all_pension_' . $this->pension . '_patient_' . $this->patient);
 
 
         $insert->where('pk', '=', $this->pk);
@@ -189,7 +187,6 @@ Class Model_Survey {
 
         $select = $select
             ->order_by('pk', 'desc')
-            ->cached(Date::MINUTE * 5, 'last_pension_' . $pension . '_patient_' . $patient)
             ->limit(1)
             ->execute();
 

@@ -228,7 +228,7 @@ module.exports = (function (coworker) {
                 if (parseInt(response.code) === 143 ) {
 
                     excludeBlock.close();
-                    document.getElementById('coWorkers').querySelector('.block[data-id="' + form.dataset.id + '"]').remove();
+                    document.getElementById('coWorkers').querySelector('.block[data-id="' + form.dataset.id + '"]').parentNode.remove();
 
                 }
 

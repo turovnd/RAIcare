@@ -55,7 +55,7 @@ class Controller_Organizations_Index extends Dispatch
             'action'     => $this->request->action(),
         );
 
-        $this->template->aside = View::factory('global_blocks/aside', $data);
+        $this->template->aside = View::factory('global-blocks/aside', $data);
 
     }
 

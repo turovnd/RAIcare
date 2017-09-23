@@ -59,7 +59,7 @@ class Controller_Patients_Index extends Dispatch
             'action'     => $this->request->action()
         );
 
-        $this->template->aside = View::factory('global_blocks/aside', $data);
+        $this->template->aside = View::factory('global-blocks/aside', $data);
     }
 
 
@@ -84,7 +84,7 @@ class Controller_Patients_Index extends Dispatch
             $patient = new Model_Patient();
             $patient = $patient->fill_by_row($item);
             $patient->survey = Model_Survey::getLastByPensionPatient($patient->pension, $patient->pk);
-            $patient->survey->creator = new Model_User($patient->creator);
+            $patient->survey->creator = new Model_User($patient->survey->creator);
             $patient->survey->dt_create_timestamp = strtotime($patient->survey->dt_create);
             $patients[] = $patient;
         }

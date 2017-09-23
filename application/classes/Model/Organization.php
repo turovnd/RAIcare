@@ -8,7 +8,6 @@ Class Model_Organization {
     public $uri;
     public $owner;
     public $creator;
-    public $cover = "no-image.png";
     public $is_removed;
     public $dt_create;
 

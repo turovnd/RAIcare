@@ -51,6 +51,12 @@ class Model_Response_Pensions extends Model_Response_Abstract
         'message' => 'Пансионаты получены'
     );
 
+    protected $_PENSION_USER_UPDATE_SUCCESS = array (
+        'type' => 'pension',
+        'code' => '147',
+        'message' => 'Информация о пансионатах обновлена'
+    );
+
     protected $_PENSION_USER_NOT_EMPTY_PENSIONS_ERROR = array (
         'type' => 'pension',
         'code' => '148',
