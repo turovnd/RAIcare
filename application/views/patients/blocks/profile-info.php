@@ -27,7 +27,7 @@
             <div class="col-xs-12 col-sm-8 col-md-9">
                 <p class="form-group__control-static">
                     <span class="js-patient-info">
-                        <?= date('d M Y', strtotime($patient->birthday)); ?>
+                        <?= strftime('%e %b %Y', strtotime($patient->birthday)); ?>
                         <span class="f-s-0_8">
                         <?= '  ('. Methods_Time::relativeTimeWithPlural(intval((time()-strtotime($patient->birthday))/Date::YEAR), false, 'yy') . ')'; ?>
                     </span>
@@ -175,7 +175,7 @@
                     <div class="form-group m-b-5">
                         <label class="form-group__label col-xs-12 col-sm-4 col-md-3">Дата создания</label>
                         <div class="col-xs-12 col-sm-8 col-md-9">
-                            <p class="form-group__control-static"><?= date('d M Y', strtotime($patient->dt_create)); ?></p>
+                            <p class="form-group__control-static"><?= strftime('%e %b %Y', strtotime($patient->dt_create)); ?></p>
                         </div>
                     </div>
                     <div class="form-group m-b-5">
