@@ -49,10 +49,12 @@
                                         <? if ($patient->survey->status == 1) : ?>
                                             <small class="text-bold <?= ($patient->survey->dt_create_timestamp + Date::DAY * 3 - time()) < Date::DAY / 2 ? 'text-danger' : 'text-brand'; ?>">
                                                 <span class="f-s-1_2"><?= Model_Survey::getTotalProgress($patient->survey->pk) . '%'; ?></span>
-                                                <br>
-                                                <span>Завершиться</span>
-                                                <br>
-                                                <span class="js-data-fromNow" data-timestamp="<?= $patient->survey->dt_create_timestamp + Date::DAY * 3; ?>"> </span>
+                                                <? if ($user->role != 2): ?>
+                                                    <br>
+                                                    <span>Завершиться</span>
+                                                    <br>
+                                                    <span class="js-data-fromNow" data-timestamp="<?= $patient->survey->dt_create_timestamp + Date::DAY * 3; ?>"> </span>
+                                                <? endif;?>
                                             </small>
                                             <a href="<?= '/\/' . $_SERVER['HTTP_HOST'] . '/' . $pension->uri . '/survey/' . $patient->survey->id; ?>" class="btn btn--sm m-5 <?= ($patient->survey->dt_create_timestamp + Date::DAY * 3 - time()) < Date::DAY / 2 ? 'btn--danger' : 'btn--brand'; ?>">
                                                 <?= // ROLE_PEN_NURSE => 23;
@@ -67,7 +69,7 @@
                                                 </span>
                                             </small>
                                             <? // ROLE_PEN_NURSE => 23;
-                                            if ($user->role == 23) : ?>
+                                            if ($user->role == 2 || $user->role == 23) : ?>
                                                 <button class="btn btn--sm m-5 <?= $patient->survey->dt_create_timestamp + Date::MONTH * 3 - time() < 0 ? 'btn--brand' : 'btn--default'; ?>"
                                                         data-pk="<?= $patient->pk; ?>" onclick="survey.new.createModal(this);">
                                                     Новая оценка
@@ -80,7 +82,7 @@
                                                 <span>проведите снова</span>
                                             </small>
                                             <? // ROLE_PEN_NURSE => 23;
-                                            if ($user->role == 23) : ?>
+                                            if ($user->role == 2 || $user->role == 23) : ?>
                                                 <button class="btn btn--sm btn--danger m-5" data-pk="<?= $patient->pk; ?>" onclick="survey.new.createModal(this);">
                                                     Новая оценка
                                                 </button>
@@ -91,7 +93,7 @@
 
                                     <td class="text-center">
                                         <? // ROLE_PEN_CREATOR || ROLE_PEN_QUALITY_MANAGER => 20 || 22
-                                        if ($user->role == 20 || $user->role == 22) : ?>
+                                        if ($user->role == 2 || $user->role == 20 || $user->role == 22) : ?>
                                             <a href="<?= '/\/' . $_SERVER['HTTP_HOST'] . '/' . $pension->uri . '/patient/' . $patient->id; ?>" class="btn btn--sm btn--default m-5">
                                                 Личное дело
                                             </a>

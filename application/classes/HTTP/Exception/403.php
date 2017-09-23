@@ -9,6 +9,7 @@ class HTTP_Exception_403 extends Kohana_HTTP_Exception_403 {
         'message' => 'Доступ запрещен'
     );
 
+
     function get_response()
     {
         $response = Response::factory();

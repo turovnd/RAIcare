@@ -47,7 +47,8 @@ class Controller_Patients_Index extends Dispatch
 
         if (! ( in_array($this->user->role,self::PEN_AVAILABLE_ROLES) ||
             $this->user->role == self::ROLE_PEN_CREATOR ||
-            in_array($this->user->id, $this->pension->users) || $this->user->role == 1) ) {
+            in_array($this->user->id, $this->pension->users) ||
+            $this->user->role == self::ROLE_ADMIN) ) {
 
             throw new HTTP_Exception_403();
 
@@ -70,8 +71,9 @@ class Controller_Patients_Index extends Dispatch
     public function action_patients()
     {
         if (! ($this->user->role == self::ROLE_PEN_CREATOR ||
-                $this->user->role == self::ROLE_PEN_QUALITY_MANAGER ||
-                $this->user->role == self::ROLE_PEN_NURSE) ) {
+            $this->user->role == self::ROLE_PEN_QUALITY_MANAGER ||
+            $this->user->role == self::ROLE_PEN_NURSE ||
+            $this->user->role == self::ROLE_DEMO ) ) {
 
             throw new HTTP_Exception_403;
         }
@@ -104,7 +106,8 @@ class Controller_Patients_Index extends Dispatch
     public function action_patient()
     {
         if (! ($this->user->role == self::ROLE_PEN_CREATOR ||
-            $this->user->role == self::ROLE_PEN_QUALITY_MANAGER) ) {
+            $this->user->role == self::ROLE_PEN_QUALITY_MANAGER ||
+            $this->user->role == self::ROLE_DEMO ) ) {
 
             throw new HTTP_Exception_403;
         }

@@ -63,7 +63,7 @@ class Controller_Pensions_Ajax extends Ajax
     public function action_update()
     {
         if ( ! ($this->user->role == self::ROLE_PEN_CREATOR ||
-            $this->user->role == 1) ) {
+            $this->user->role == self::ROLE_ADMIN) ) {
             throw new HTTP_Exception_403();
         }
 

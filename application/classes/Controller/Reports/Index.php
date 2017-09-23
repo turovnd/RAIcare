@@ -52,7 +52,7 @@ class Controller_Reports_Index extends Dispatch
 
         if (! ( in_array($this->user->role,self::PEN_AVAILABLE_ROLES) ||
             $this->user->role == self::ROLE_PEN_CREATOR ||
-            in_array($this->user->id, $this->pension->users) || $this->user->role == 1) ) {
+            in_array($this->user->id, $this->pension->users) || $this->user->role == self::ROLE_ADMIN) ) {
 
             throw new HTTP_Exception_403();
 

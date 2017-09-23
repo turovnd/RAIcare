@@ -49,7 +49,8 @@ class Controller_Surveys_Index extends Dispatch
 
         if (! ( in_array($this->user->role,self::PEN_AVAILABLE_ROLES) ||
             $this->user->role == self::ROLE_PEN_CREATOR ||
-            in_array($this->user->id, $this->pension->users) || $this->user->role == 1) ) {
+            in_array($this->user->id, $this->pension->users) ||
+            $this->user->role == self::ROLE_ADMIN) ) {
 
             throw new HTTP_Exception_403();
 
@@ -57,13 +58,13 @@ class Controller_Surveys_Index extends Dispatch
 
         if ($this->request->action() == 'survey') {
             $survey = $this->request->param('id');
-            $this->survey = Model_Survey::getByFieldName('id', $survey);
+            $this->survey = Model_Survey::getByPensionAndID($this->pension->id, $survey);
 
             if (!$this->survey->pk || $this->survey->pension != $this->pension->id) {
                 throw new HTTP_Exception_404();
             }
 
-            if ($this->survey->status == 1 && time() - strtotime($this->survey->dt_create) > Date::DAY * 3) {
+            if ($this->survey->status == 1 && time() - strtotime($this->survey->dt_create) > Date::DAY * 3 && $org_uri != 'demo') {
                 $this->survey->status= 3;
                 $this->survey->update();
             }
@@ -89,7 +90,7 @@ class Controller_Surveys_Index extends Dispatch
      */
     public function action_survey()
     {
-        if ($this->user->role == self::ROLE_PEN_NURSE) {
+        if ($this->user->role == self::ROLE_PEN_NURSE || $this->user->role == self::ROLE_DEMO) {
 
             $this->survey->unavailable_units = json_encode($this->getUnavailableUnits());
             $section = 'survey-filling';

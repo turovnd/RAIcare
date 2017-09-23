@@ -2,6 +2,13 @@
 
 class Ajax extends Dispatch {
 
+    const DEMO_ERROR = array(
+        'status'  => 'error',
+        'type'    => 'ajax',
+        'code'    => '999',
+        'message' => 'В демо режиме редактирование запрещено'
+    );
+
     function before() {
         $this->auto_render = false;
 
@@ -10,6 +17,10 @@ class Ajax extends Dispatch {
         }
 
         parent::before();
+
+        if ($this->user->role == 2 && $this->request->action() != 'getunit') {
+            throw new HTTP_Exception_403;
+        }
 
         $this->checkCsrf();
 
