@@ -16,21 +16,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <link rel="stylesheet" href="<?=$assets; ?>vendor/font-awesome/css/font-awesome.css?v=<?= filemtime("assets/vendor/font-awesome/css/font-awesome.css") ?>">
-
     <link rel="stylesheet" href="<?=$assets; ?>frontend/bundles/raicare.min.css?v=<?= filemtime("assets/frontend/bundles/raicare.min.css") ?>">
     <script type="text/javascript" src="<?=$assets; ?>frontend/bundles/raicare.min.js?v=<?= filemtime("assets/frontend/bundles/raicare.min.js") ?>"></script>
-
     <script type="text/javascript">
         function ready() {
-            raicare.collapse.init();
-            raicare.aside.init();
-            raicare.notification.createHolder();
-            raicare.modal.init();
-            raicare.loader.init();
-            raicare.progress.init();
-            raicare.select.init();
+            raicare.init();
         }
-
         document.addEventListener("DOMContentLoaded", ready);
     </script>
 
@@ -42,7 +33,7 @@
 
         <header class="header clear-fix">
 
-            <?=View::factory('global_blocks/header');?>
+            <?=View::factory('global-blocks/header');?>
 
         </header>
 
@@ -61,7 +52,7 @@
 
         <footer class="footer">
 
-            <?=View::factory('global_blocks/footer');?>
+            <?=View::factory('global-blocks/footer');?>
 
         </footer>
 
@@ -72,5 +63,3 @@
 </body>
 
 </html>
-
-

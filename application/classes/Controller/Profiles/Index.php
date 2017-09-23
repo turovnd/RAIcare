@@ -37,7 +37,7 @@ class Controller_Profiles_Index extends Dispatch
             $this->organization->pensions = Model_UserPension::getPensions($this->user->id, true);
         }
 
-        if ($this->user->organization != $this->organization->id) {
+        if ($this->user->organization != $this->organization->id && !($this->user->role == 1 || $this->user->role == 2)) {
             throw new HTTP_Exception_403;
         }
 
@@ -47,7 +47,7 @@ class Controller_Profiles_Index extends Dispatch
             'action'    => 'profile',
         );
 
-        $this->template->aside = View::factory('global_blocks/aside', $data);
+        $this->template->aside = View::factory('global-blocks/aside', $data);
 
     }
 

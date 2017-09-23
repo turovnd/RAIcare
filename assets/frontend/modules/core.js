@@ -3,7 +3,7 @@ module.exports = (function (core) {
     /**
      * Logging method
      * @param msg   - string
-     * @param type  - ['log', 'info', 'warn']
+     * @param type  - 'log' || 'info' || 'warn' || 'error'
      * @param prefix
      * @param arg
      */

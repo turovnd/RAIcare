@@ -59,83 +59,51 @@ class Controller_Pensions_Ajax extends Ajax
 //        $response = new Model_Response_Pensions('PENSION_CREATE_SUCCESS', 'success', $data);
 //        $this->response->body(@json_encode($response->get_response()));
 //    }
-//
-//    public function action_update()
-//    {
-//        $id     = Arr::get($_POST, 'id');
-//        $field  = Arr::get($_POST, 'name');
-//        $value  = Arr::get($_POST, 'value');
-//
-//        $pension = new Model_Pension($id);
-//
-//        if (!$pension->id) {
-//            $response = new Model_Response_Pensions('PENSION_DOES_NOT_EXISTED_ERROR', 'error');
-//            $this->response->body(@json_encode($response->get_response()));
-//            return;
-//        }
-//
-//        if ($pension->$field == $value) {
-//            $response = new Model_Response_Pensions('PENSION_UPDATE_WARNING', 'warning');
-//            $this->response->body(@json_encode($response->get_response()));
-//            return;
-//        }
-//
-//        if (empty($value)) {
-//            $response = new Model_Response_Form('EMPTY_FIELD_ERROR', 'error');
-//            $this->response->body(@json_encode($response->get_response()));
-//            return;
-//        }
-//
-//        if ($field == "uri") {
-//
-//            if ($pension->isEmptyURI($value, $pension->organization)) {
-//                $response = new Model_Response_Pensions('PENSION_EXISTED_URI_ERROR', 'error');
-//                $this->response->body(@json_encode($response->get_response()));
-//                return;
-//            }
-//
-//        }
-//
-//        $pension->$field = $value;
-//        $pension->update();
-//
-//        $response = new Model_Response_Pensions('PENSION_UPDATE_SUCCESS', 'success');
-//        $this->response->body(@json_encode($response->get_response()));
-//    }
-//
-//    public function action_get()
-//    {
-//        $name   = Arr::get($_POST, 'name');
-//        $type   = Arr::get($_POST, 'type');
-//        $offset = Arr::get($_POST, 'offset');
-//
-//        switch ($type) {
-//            case 'all_pensions':
-//                self::hasAccess(self::WATCH_ALL_PENSIONS_PAGE);
-//                if ($name != "") {
-//                    $pensions = Model_Pension::getAll($offset,10, $name);
-//                } else {
-//                    $pensions = Model_Pension::getAll($offset,10);
-//                }
-//                break;
-//            case 'created_pensions':
-//                self::hasAccess(self::WATCH_CREATED_PENSIONS_PAGE);
-//                if ($name != "") {
-//                    $pensions = Model_Pension::getByCreator($this->user->id, $offset,10, $name);
-//                } else {
-//                    $pensions = Model_Pension::getByCreator($this->user->id,$offset,10);
-//                }
-//                break;
-//        }
-//
-//        $html = "";
-//        foreach ($pensions as $pension) {
-//            $html .= View::factory('pensions/blocks/search-block', array('pension' => $pension))->render();
-//        }
-//
-//        $response = new Model_Response_Pensions('PENSION_GET_SUCCESS', 'success', array('html'=>$html, 'number'=>count($pensions)));
-//        $this->response->body(@json_encode($response->get_response()));
-//    }
+
+    public function action_update()
+    {
+        if ( ! ($this->user->role == self::ROLE_PEN_CREATOR ||
+            $this->user->role == 1) ) {
+            throw new HTTP_Exception_403();
+        }
+
+        $id     = Arr::get($_POST, 'id');
+        $field  = Arr::get($_POST, 'name');
+        $value  = Arr::get($_POST, 'value');
+
+        $pension = new Model_Pension($id);
+
+        if (!$pension->id) {
+            $response = new Model_Response_Pensions('PENSION_DOES_NOT_EXISTED_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        if ($pension->$field == $value) {
+            $response = new Model_Response_Pensions('PENSION_UPDATE_WARNING', 'warning');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        if (empty($value)) {
+            $response = new Model_Response_Form('EMPTY_FIELD_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        if ($field == "uri" && $pension->check_uri($value, $pension->organization) ) {
+            $response = new Model_Response_Pensions('PENSION_EXISTED_URI_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        $pension->$field = $value;
+        $pension->update();
+
+        $response = new Model_Response_Pensions('PENSION_UPDATE_SUCCESS', 'success');
+        $this->response->body(@json_encode($response->get_response()));
+    }
+
 
     public function action_coworkerupdate()
     {
@@ -379,4 +347,5 @@ class Controller_Pensions_Ajax extends Ajax
             throw new HTTP_Exception_403();
         }
     }
+
 }

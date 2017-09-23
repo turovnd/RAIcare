@@ -37,7 +37,7 @@ class Controller_Dashboard_Index extends Dispatch
             $this->organization->pensions = Model_UserPension::getPensions($this->user->id, true);
         }
 
-        if ($this->user->organization != $this->organization->id) {
+        if ($this->user->organization != $this->organization->id && !($this->user->role == 1 || $this->user->role == 2)) {
             throw new HTTP_Exception_403;
         }
 
@@ -47,13 +47,14 @@ class Controller_Dashboard_Index extends Dispatch
             'action'    => 'dashboard',
         );
 
-        $this->template->aside = View::factory('global_blocks/aside', $data);
+        $this->template->aside = View::factory('global-blocks/aside', $data);
     }
 
     public function action_dashboard()
     {
         switch ($this->user->role) {
             case 1:  $page = 'dashboard-admin'; break;
+            case 2:  $page = 'dashboard-demo'; break;
             case 10: $page = 'dashboard-org-10'; break;
             case 11: $page = 'dashboard-org-11'; break;
             case 12: $page = 'dashboard-org-12'; break;

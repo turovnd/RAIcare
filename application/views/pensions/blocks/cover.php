@@ -32,10 +32,10 @@
             <h3 class="h3 m-0"><?= $pension->places; ?></h3>
             <small class="m-0 "><?= Methods_Plural::getWithPlural($pension->places,'places');?></small>
         </div>
-        <div class="col-xs-4 text-center br-1--light">
+        <a href="<?='/\/' . $_SERVER['HTTP_HOST'] . '/' . $pension->uri . '/patients'; ?>" class="col-xs-4 text-center br-1--light text-white">
             <h3 class="h3 m-0"><?= $count_patients; ?></h3>
             <small class="m-0 "><?= Methods_Plural::getWithPlural($count_patients,'patients');?></small>
-        </div>
+        </a>
         <div class="col-xs-4 text-center">
             <h3 class="h3 m-0"><?= $count_surveys; ?></h3>
             <small class="m-0 "><?= Methods_Plural::getWithPlural($count_surveys,'surveys');?></small>

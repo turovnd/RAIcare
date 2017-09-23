@@ -15,7 +15,7 @@ class Dispatch extends Controller_Template
     CONST ROLE_PEN_QUALITY_MANAGER      = 22;
     CONST ROLE_PEN_NURSE                = 23;
 
-    CONST ORG_AVAILABLE_ROLES = array(11,12);
+    CONST ORG_AVAILABLE_ROLES = array(11/*,12*/);
     CONST PEN_AVAILABLE_ROLES = array(21,22,23);
 
 

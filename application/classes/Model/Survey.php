@@ -92,8 +92,11 @@ Class Model_Survey {
         }
 
         $result = $insert
-            ->clearcache($this->patient)
             ->clearcache($this->pk)
+            ->clearcache('pension_' . $this->pension . '_id_' . $this->id)
+            ->clearcache('count_pension_' . $this->pension)
+            ->clearcache('first_pension_' . $this->pension . '_patient_' . $this->patient)
+            ->clearcache('all_pension_' . $this->pension . '_patient_' . $this->patient)
             ->execute();
 
         return $this->get_($result);
@@ -107,8 +110,13 @@ Class Model_Survey {
             if (property_exists($this, $fieldname)) $insert->set($fieldname, $value);
         }
 
-        $insert->clearcache($this->pk)
-               ->clearcache($this->patient);
+        $insert
+            ->clearcache($this->pk)
+            ->clearcache('pension_' . $this->pension . '_id_' . $this->id);
+//            ->clearcache('count_pension_' . $this->pension)
+//            ->clearcache('first_pension_' . $this->pension . '_patient_' . $this->patient)
+//            ->clearcache('all_pension_' . $this->pension . '_patient_' . $this->patient);
+
 
         $insert->where('pk', '=', $this->pk);
 
@@ -117,179 +125,41 @@ Class Model_Survey {
         return $this->get_($this->pk);
     }
 
-    public static function getFillingSurveyByPatientAndPension($patient, $pension)
+
+    /**
+     * Get Survey by Pension and ID
+     * @param $pension - pension->id
+     * @param $id - survey->id
+     * @return Model_Survey
+     * @internal param $patient - patient->pk
+     */
+    public static function getByPensionAndID($pension, $id)
     {
         $select = Dao_Surveys::select()
-            ->where('pension','=', $pension)
-            ->where('patient','=', $patient)
-            ->where('status','=', 1)
+            ->where('pension', '=', $pension)
+            ->where('id', '=', $id)
+            ->cached(Date::MINUTE * 5, 'pension_' . $pension . '_id_' . $id)
             ->limit(1)
             ->execute();
 
         $survey = new Model_Survey();
-
         return $survey->fill_by_row($select);
-
     }
 
-    public static function getAll($offset, $limit)
-    {
-        $select = Dao_Surveys::select()
-            ->offset($offset)
-            ->limit($limit)
-            ->execute();
-
-        $surveys = array();
-
-        if (empty($select)) return $surveys;
-
-        foreach ($select as $item) {
-            $survey = new Model_Survey();
-            $survey->fill_by_row($item);
-            $survey->organization = new Model_Organization($survey->organization);
-            $survey->pension = new Model_Pension($survey->pension);
-            $survey->patient = new Model_Patient($survey->patient);
-            $survey->creator = new Model_User($survey->creator);
-            $surveys[] = $survey;
-        }
-
-        return $surveys;
-    }
-
-
-
-    public static function getAllFinishedByPatientAndPension($patient, $pension, $offset, $limit)
-    {
-        $select = Dao_Surveys::select()
-            ->where('pension','=', $pension)
-            ->where('patient','=', $patient)
-            ->where('status','=', 2)
-            ->offset($offset)
-            ->limit($limit)
-            ->order_by('dt_finish', 'DESC')
-            ->execute();
-
-        $surveys = array();
-
-        if (empty($select)) return $surveys;
-
-        foreach ($select as $item) {
-            $survey = new Model_Survey();
-            $survey->fill_by_row($item);
-            $survey->pension = new Model_Pension($survey->pension);
-            $survey->creator = new Model_User($survey->creator);
-            $survey->creator->role = new Model_Role($survey->creator->role);
-            $surveys[] = $survey;
-        }
-
-        return $surveys;
-    }
-
-    public static function getAllByPension($pension, $offset, $limit)
-    {
-        $select = Dao_Surveys::select()
-            ->where('pension','=', $pension)
-            ->order_by('dt_create', 'DESC')
-            ->offset($offset)
-            ->limit($limit)
-            ->execute();
-
-        $surveys = array();
-
-        if (empty($select)) return $surveys;
-
-        foreach ($select as $item) {
-            $survey = new Model_Survey();
-            $survey->fill_by_row($item);
-            $survey->patient= new Model_Patient($survey->patient);
-            $survey->creator = new Model_User($survey->creator);
-            $surveys[] = $survey;
-        }
-
-        return $surveys;
-    }
-
-//    public static function searchForms($offset, $limit, $name)
-//    {
-//        if ($name == "") {
-//            $select = Dao_Surveys::select('pk')
-//                ->offset($offset)
-//                ->limit($limit)
-//                ->execute();
-//        } else {
-//            echo Debug::vars();
-//
-//            $select = DB::query(Database::SELECT,
-//                'SELECT `Surveys`.`pk` AS `pk` '.
-//                    'FROM `Surveys` '.
-//                        'JOIN `Patients` ON (`Surveys`.`patient` = `Patients`.`pk`)'.
-//                        'JOIN `Pensions` ON (`Surveys`.`pension` = `Pensions`.`id`)'.
-//                    'WHERE `Patients`.`name` LIKE \'%'. $name .'%\' '.
-//                        'OR `Pensions`.`name` LIKE \'%'. $name .'%\' '.
-//                    ' LIMIT '. $limit .
-//                    ' OFFSET '. $offset)
-//                ->execute()
-//                ->as_array();
-//        }
-//
-//        $surveys = array();
-//
-//        if (empty($select)) return $surveys;
-//
-//        foreach ($select as $item) {
-//            $survey = new Model_Survey($item['pk']);
-//            $survey->organization = new Model_Organization($survey->organization);
-//            $survey->patient = new Model_Patient($survey->patient);
-//            $survey->pension = new Model_Pension($survey->pension);
-//            $survey->creator = new Model_User($survey->creator);
-//            $surveys[] = $survey;
-//        }
-//
-//        return $surveys;
-//    }
-
-//    public static function getAllFormsByPatients($patients, $offset, $limit)
-//    {
-//        $sql = "";
-//        $key = 0;
-//
-//        foreach ($patients as $patient) {
-//            $key++;
-//            if ($key == count($patients)) {
-//                $sql .= '`patient` = ' . $patient;
-//            } else {
-//                $sql .= '`patient` = ' . $patient . ' OR ';
-//            }
-//        }
-//
-//        $select = DB::query(Database::SELECT,'SELECT * from Surveys WHERE `status` = 2 AND (' . $sql . ') ORDER BY `dt_finish` DESC LIMIT ' .  $offset . ', ' . $limit)
-//            ->execute()
-//            ->as_array();
-//
-//        $surveys = array();
-//
-//        if (empty($select)) return $surveys;
-//
-//        foreach ($select as $item) {
-//            $survey = new Model_Survey();
-//            $survey->fill_by_row($item);
-//            $survey->organization = new Model_Organization($survey->organization);
-//            $survey->pension = new Model_Pension($survey->pension);
-//            $survey->creator = new Model_User($survey->creator);
-//            $survey->creator->role = new Model_Role($survey->creator->role);
-//            $surveys[] = $survey;
-//        }
-//
-//        return $surveys;
-//    }
-
-    public static function getFirstSurvey($pension, $patient)
+    /**
+     * Get First Survey for Patient
+     * @param $pension - pension->id
+     * @param $patient - patient->pk
+     * @return Model_Survey
+     */
+    public static function getFirstByPensionPatient($pension, $patient)
     {
         $select = Dao_Surveys::select()
             ->where('pension', '=', $pension)
             ->where('patient', '=', $patient)
             ->where('status', '=', 2)
             ->where('type', '=', 1)
+            ->cached(Date::MINUTE * 5, 'first_pension_' . $pension . '_patient_' . $patient)
             ->limit(1)
             ->execute();
 
@@ -297,6 +167,69 @@ Class Model_Survey {
         return $survey->fill_by_row($select);
     }
 
+
+    /**
+     * Get Last Survey for Patient
+     * @param $pension - pension->id
+     * @param $patient - patient->pk
+     * @param null $status
+     * @return Model_Survey
+     */
+    public static function getLastByPensionPatient($pension, $patient, $status = NULL)
+    {
+        $select = Dao_Surveys::select()
+            ->where('pension', '=', $pension)
+            ->where('patient', '=', $patient);
+
+        if ($status != NULL) {
+            $select->where('status', '=', $status);
+        }
+
+        $select = $select
+            ->order_by('pk', 'desc')
+            ->limit(1)
+            ->execute();
+
+        $survey = new Model_Survey();
+        return $survey->fill_by_row($select);
+    }
+
+
+    /**
+     * Get All Surveys for Patient
+     * @param $pension - pension->id
+     * @param $patient - patient->pk
+     * @return array of Model_Survey
+     */
+    public static function getAllByPensionPatient($pension, $patient)
+    {
+        $select = Dao_Surveys::select()
+            ->where('pension','=', $pension)
+            ->where('patient','=', $patient)
+            ->cached(Date::MINUTE * 5, 'all_pension_' . $pension . '_patient_' . $patient)
+            ->execute();
+
+        $surveys = array();
+
+        if (empty($select)) return $surveys;
+
+        foreach ($select as $db_selection) {
+            $survey = new Model_Survey();
+            $survey->fill_by_row($db_selection);
+            $survey->dt_create_timestamp = strtotime($survey->dt_create);
+            $survey->creator = new Model_User($survey->creator);
+            $surveys[] = $survey;
+        }
+
+        return $surveys;
+    }
+
+
+    /**
+     * Total Progress For Survey
+     * @param $pk - survey->pk
+     * @return int
+     */
     public static function getTotalProgress($pk)
     {
         $survey = new Model_Survey($pk);
@@ -360,12 +293,20 @@ Class Model_Survey {
         return intval($progress / $count);
     }
 
+
+    /**
+     * Count Surveys By Pension
+     * @param $pension - pension->id
+     * @return int
+     */
     public static function countByPension($pension)
     {
         $select = Dao_Surveys::select()
             ->where('pension', '=', $pension)
+            ->cached(Date::MONTH * 5, 'count_pension_' . $pension)
             ->execute();
 
         return count($select);
     }
+
 }

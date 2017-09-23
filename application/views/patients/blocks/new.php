@@ -87,7 +87,7 @@
             </div>
             <div class="modal__footer">
                 <button type="button" class="btn btn--default" data-close="modal">Отмена</button>
-                <button onclick="survey.send.newpatientform()" type="button" class="btn btn--brand">Создать</button>
+                <button type="submit" class="btn btn--brand">Создать</button>
             </div>
         </div>
     </div>

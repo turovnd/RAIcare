@@ -54,7 +54,7 @@ class Controller_Pensions_Index extends Dispatch
             'action'     => $this->request->action()
         );
 
-        $this->template->aside = View::factory('global_blocks/aside', $data);
+        $this->template->aside = View::factory('global-blocks/aside', $data);
     }
 
 
@@ -95,7 +95,7 @@ class Controller_Pensions_Index extends Dispatch
      */
     public function action_settings()
     {
-        if ( $this->user->role != self::ROLE_PEN_CREATOR ) {
+        if ( $this->user->role != self::ROLE_PEN_CREATOR && $this->user->role != 1 ) {
             throw new HTTP_Exception_403();
         }
 
@@ -136,19 +136,5 @@ class Controller_Pensions_Index extends Dispatch
             ->set('pension', $this->pension);
 
     }
-
-    /**
-     * Control Page
-     */
-//    public function action_control()
-//    {
-//        $this->template->title = 'Динамика - ' . $this->pension->name;
-//        $this->template->section = View::factory('pensions/pages/control')
-//            ->set('pension', $this->pension);
-//
-//    }
-
-
-
 
 }

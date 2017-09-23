@@ -36,6 +36,15 @@ body{
     margin: auto;
     vertical-align: middle;
 }
+.valign-middle {
+    vertical-align: middle;
+}
+.valign-bottom {
+    vertical-align: bottom;
+}
+.valign-top {
+    vertical-align: top;
+}
 
 
 /**

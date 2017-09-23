@@ -5,27 +5,27 @@ return array
 
     'PURS' => array(
         '0' => array(
-            'name' => '0 Very low risk',
+            'name' => '0 Очень низкий риск',
             'key'  => 0,
             'class' => 'text-brand'
         ),
         '1' => array(
-            'name' => '1 - 2 Low risk',
+            'name' => '1 - 2 Низкий риск',
             'key'  => array(1, 2),
             'class' => 'text-brand'
         ),
         '2' => array(
-            'name' => '3 Moderate risk',
+            'name' => '3 Умеренный риск',
             'key'  => 3,
-            'class' => 'text-brand'
+            'class' => 'text-danger'
         ),
         '3' => array(
-            'name' => '4 - 5 High risk',
+            'name' => '4 - 5 Высокий риск',
             'key'  => array(4, 5),
             'class' => 'text-danger'
         ),
         '4' => array(
-            'name' => '6 - 8 Very high risk',
+            'name' => '6 - 8 Очень высокий риск',
             'key'  => array(6, 7, 8),
             'class' => 'text-danger'
         ),
@@ -33,37 +33,37 @@ return array
 
     'CPS' => array(
         '0' => array(
-            'name' => '0 Intact',
+            'name' => '0 Нормальные',
             'key'  => 0,
             'class' => 'text-brand'
         ),
         '1' => array(
-            'name' => '1 Borderline intact',
+            'name' => '1 В пределах нормы',
             'key'  => 1,
             'class' => 'text-brand'
         ),
         '2' => array(
-            'name' => '2 Mild impairment',
+            'name' => '2 Незначительные отклонения',
             'key'  => 2,
             'class' => 'text-brand'
         ),
         '3' => array(
-            'name' => '3 Moderate impairment',
+            'name' => '3 Умеренные отклонения',
             'key'  => 3,
-            'class' => 'text-brand'
+            'class' => 'text-danger'
         ),
         '4' => array(
-            'name' => '4 Moderate / severe impairment',
+            'name' => '4 Умеренные / серьезные отклонения',
             'key'  => 4,
             'class' => 'text-danger'
         ),
         '5' => array(
-            'name' => '5 Severe impairment',
+            'name' => '5 Серьезные отклонения',
             'key'  => 5,
             'class' => 'text-danger'
         ),
         '6' => array(
-            'name' => '6 Very severe impairment',
+            'name' => '6 Очень серьезные отклонения',
             'key'  => 6,
             'class' => 'text-danger'
         ),
@@ -71,12 +71,12 @@ return array
 
     'BMI' => array(
         '0' => array(
-            'name' => '20 Minimum for normal BMI ',
+            'name' => '<20 Ниже нормы',
             'key'  => 20,
             'class' => 'text-brand'
         ),
         '1' => array(
-            'name' => '25 Maximum for normal BMI',
+            'name' => '>25 Выше нормы',
             'key'  => 25,
             'class' => 'text-brand'
         )
@@ -84,17 +84,17 @@ return array
 
     'DRS' => array(
         '0' => array(
-            'name' => '0 - 2 No depression',
+            'name' => '0 - 2 Нет депрессии',
             'key'  => array(0,1,2),
             'class' => 'text-brand'
         ),
         '1' => array(
-            'name' => '3 - 8 Depressive symptoms, likelihood of at least mild depression',
+            'name' => '3 - 8 Симптомы депрессии, вероятна умеренная депрессия',
             'key'  => array(3,4,5,6,7,8),
-            'class' => 'text-brand'
+            'class' => 'text-danger'
         ),
         '2' => array(
-            'name' => '9 - 14 Depressive symptoms, high likelihood of major depression',
+            'name' => '9 - 14 Симптомы депрессии, вероятна серьезная депрессия',
             'key'  => array(9,10,11,12,13,14),
             'class' => 'text-danger'
         ),
@@ -102,27 +102,27 @@ return array
 
     'Pain' => array(
         '0' => array(
-            'name' => '0 No pain',
+            'name' => '0 Нет болей',
             'key'  => 0,
             'class' => 'text-brand'
         ),
         '1' => array(
-            'name' => '1 Less than daily pain',
+            'name' => '1 Не ежедневные боли',
             'key'  => 1,
             'class' => 'text-brand'
         ),
         '2' => array(
-            'name' => '2 Daily pain but not severe',
+            'name' => '2 Ежедневные не значительные боли',
             'key'  => 2,
-            'class' => 'text-brand'
+            'class' => 'text-danger'
         ),
         '3' => array(
-            'name' => '3 Daily severe pain',
+            'name' => '3 Ежедневные значительные боли',
             'key'  => 3,
             'class' => 'text-danger'
         ),
         '4' => array(
-            'name' => '4 Daily excruciating pain',
+            'name' => '4 Ежедневные мучительные боли',
             'key'  => 4,
             'class' => 'text-danger'
         ),
@@ -130,47 +130,47 @@ return array
 
     'COMM' => array(
         '0' => array(
-            'name' => '0 Intact',
+            'name' => '0 Нормальные',
             'key'  => 0,
             'class' => 'text-brand'
         ),
         '1' => array(
-            'name' => '1 Borderline intact',
+            'name' => '1 В пределах нормы',
             'key'  => 1,
             'class' => 'text-brand'
         ),
         '2' => array(
-            'name' => '2 Mild impairment',
+            'name' => '2 Незначительные отклонения',
             'key'  => 2,
             'class' => 'text-brand'
         ),
         '3' => array(
-            'name' => '3 Mild / moderate impairment',
+            'name' => '3 Незначительные / умеренные отклонения',
             'key'  => 3,
-            'class' => 'text-brand'
+            'class' => 'text-danger'
         ),
         '4' => array(
-            'name' => '4 Moderate impairment',
+            'name' => '4 Умеренные отклонения',
             'key'  => 4,
             'class' => 'text-danger'
         ),
         '5' => array(
-            'name' => '5 Moderate / severe impairment',
+            'name' => '5 Умеренные / серьезные отклонения',
             'key'  => 5,
             'class' => 'text-danger'
         ),
         '6' => array(
-            'name' => '6 Severe impairment',
+            'name' => '6 Серьезные отклонения',
             'key'  => 6,
             'class' => 'text-danger'
         ),
         '7' => array(
-            'name' => '7 Severe / very severe impairment',
+            'name' => '7 Серьезные / очень серьезные отклонения',
             'key'  => 7,
             'class' => 'text-danger'
         ),
         '8' => array(
-            'name' => '8 Very severe impairment',
+            'name' => '8 Очень серьезные отклонения',
             'key'  => 8,
             'class' => 'text-danger'
         ),
@@ -178,32 +178,32 @@ return array
 
     'CHESS' => array(
         '0' => array(
-            'name' => '0 No health instability',
+            'name' => '0 Стабильное здоровье',
             'key'  => 0,
             'class' => 'text-brand'
         ),
         '1' => array(
-            'name' => '1 Minimal health instability',
+            'name' => '1 Минимальная нестабильность здоровья',
             'key'  => 1,
             'class' => 'text-brand'
         ),
         '2' => array(
-            'name' => '2 Low health instability',
+            'name' => '2 Низкая нестабильность здоровья',
             'key'  => 2,
-            'class' => 'text-brand'
+            'class' => 'text-danger'
         ),
         '3' => array(
-            'name' => '3 Moderate health instability',
+            'name' => '3 Средняя нестабильность здоровья',
             'key'  => 3,
-            'class' => 'text-brand'
+            'class' => 'text-danger'
         ),
         '4' => array(
-            'name' => '4 High health instability',
+            'name' => '4 Высокая нестабильность здоровья',
             'key'  => 4,
             'class' => 'text-danger'
         ),
         '5' => array(
-            'name' => '5 Very high health instability',
+            'name' => '5 Очень высокая нестабильность здоровья',
             'key'  => 5,
             'class' => 'text-danger'
         ),
@@ -211,37 +211,37 @@ return array
 
     'ADLH' => array(
         '0' => array(
-            'name' => '0 Independent',
+            'name' => '0 Независим',
             'key'  => 0,
             'class' => 'text-brand'
         ),
         '1' => array(
-            'name' => '1 Supervision required',
+            'name' => '1 Требуется присмотр',
             'key'  => 1,
             'class' => 'text-brand'
         ),
         '2' => array(
-            'name' => '2 Limited impairment',
+            'name' => '2 Ограничивающие отклонения',
             'key'  => 2,
-            'class' => 'text-brand'
+            'class' => 'text-danger'
         ),
         '3' => array(
-            'name' => '3 Maximal',
+            'name' => '3 Требуется максимальная поддержка',
             'key'  => 3,
-            'class' => 'text-brand'
+            'class' => 'text-danger'
         ),
         '4' => array(
-            'name' => '4 Extensive assistance required - 1',
+            'name' => '4 Требуется экстенсивная поддержка',
             'key'  => 4,
             'class' => 'text-danger'
         ),
         '5' => array(
-            'name' => '5 Dependent',
+            'name' => '5 Зависим',
             'key'  => 5,
             'class' => 'text-danger'
         ),
         '6' => array(
-            'name' => '6 Total dependence',
+            'name' => '6 Полностью зависим',
             'key'  => 6,
             'class' => 'text-danger'
         ),
@@ -249,17 +249,17 @@ return array
 
     'ABS' => array(
         '0' => array(
-            'name' => '0 No aggressive behavior',
+            'name' => '0 Не агрессивное поведение',
             'key'  => 0,
             'class' => 'text-brand'
         ),
         '1' => array(
-            'name' => '1 - 5 Mild to moderate aggressive behavior',
+            'name' => '1 - 5 Умеренное - среднее агрессивное поведение',
             'key'  => array(1,2,3,4,5),
-            'class' => 'text-brand'
+            'class' => 'text-danger'
         ),
         '2' => array(
-            'name' => '6 - 12 Severe aggressive behavior',
+            'name' => '6 - 12 Серьезное агрессивное поведение',
             'key'  => array(6,7,8,9,10,11,12),
             'class' => 'text-danger'
         ),

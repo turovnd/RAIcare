@@ -42,7 +42,7 @@
     padding-left: 50px;
 }
 .aside__icon{
-    width: 20px;
+    min-width: 20px;
     margin-right: 10px;
     text-align: center;
 }

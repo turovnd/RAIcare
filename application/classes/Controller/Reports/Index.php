@@ -32,27 +32,19 @@ class Controller_Reports_Index extends Dispatch
     {
         parent::before();
 
-        $org_uri = Request::$subdomain;
+        if (!self::isLogged()) self::gotoLoginPage();
 
-        $this->organization = Model_Organization::getByFieldName('uri', $org_uri);
+        $org_uri = Request::$subdomain;
+        $this->organization = Model_Organization::getByUri($org_uri);
 
         if (!$this->organization->id && !in_array($org_uri, self::PRIVATE_SUBDOMIANS)) {
             throw new HTTP_Exception_404();
         }
 
-        if (!self::isLogged()) self::gotoLoginPage();
-
         $pen_uri = $this->request->param('pen_uri');
-        $this->pension = Model_Pension::getByFieldName('uri', $pen_uri);
+        $this->pension = Model_Pension::getByUri($pen_uri);
 
         if (!$this->pension->id || $this->pension->organization != $this->organization->id) {
-            throw new HTTP_Exception_404();
-        }
-
-        $survey = $this->request->param('id');
-        $this->survey = Model_Survey::getByFieldName('id', $survey);
-
-        if (!$this->survey->pk || $this->survey->pension != $this->pension->id || $this->survey->status != 2) {
             throw new HTTP_Exception_404();
         }
 
@@ -66,112 +58,74 @@ class Controller_Reports_Index extends Dispatch
 
         }
 
-        $first_survey = Model_Survey::getFirstSurvey($this->survey->pension, $this->survey->patient);
-        $this->survey->dt_first_survey = !empty($first_survey->pk) ? $first_survey->dt_create : $this->survey->dt_create;
-
-        $this->survey->patient = new Model_Patient($this->survey->patient);
-        $this->survey->creator = new Model_User($this->survey->creator);
-        $this->survey->pension = new Model_Pension($this->survey->pension);
+        $patient_actions = array('personal', 'clinical', 'status', 'careplan');
 
         $data = array(
-            'aside_type' => 'report',
+            'aside_type' => in_array($this->request->action(), $patient_actions ) ? 'patient' : 'report',
             'pension'    => $this->pension,
             'action'     => $this->request->action()
         );
 
-        $this->template->aside = View::factory('global_blocks/aside', $data);
+        $this->template->aside = View::factory('global-blocks/aside', $data);
     }
-
-    /**
-     * Patient Full Survey Report On Pension Page (based on questions)
-     */
-    public function action_pen_fullreport()
-    {
-        $this->getUnitsData();
-
-        $this->survey->patient->can_edit = false;
-        $this->survey->patient->full_info = true;
-        $this->survey->patient->creator = new Model_User($this->survey->patient->creator);
-
-        $this->template->title = "Детальный отчет #" . $this->survey->id;
-        $this->template->section = View::factory('reports/pages/full-report')
-            ->set('survey', $this->survey);
-    }
-
-
-    /**
-     * Patient Protocols Report On Pension Page
-     * @throws HTTP_Exception_404
-     */
-    public function action_pen_protocolsreport()
-    {
-        $this->report = new Model_ReportProtocols($this->survey->pk);
-
-        if (!$this->report->pk) throw new HTTP_Exception_404();
-
-        $this->template->title = "Итоговый протокол оценки #" . $this->survey->id;
-        $this->template->section = View::factory('reports/pages/protocols-report')
-            ->set('survey', $this->survey)
-            ->set('protocols', $this->report);
-    }
-
-
-    /**
-     * Patient RAI Scales Report On Pension Page
-     * @throws HTTP_Exception_404
-     */
-    public function action_pen_raiscalesreport()
-    {
-        $this->report = new Model_ReportRAIScales($this->survey->pk);
-
-        if (!$this->report->pk) throw new HTTP_Exception_404();
-
-        $this->template->title = "Отчет по шкалам RAI #" . $this->survey->id;
-        $this->template->section = View::factory('reports/pages/rai-scales-report')
-            ->set('survey', $this->survey)
-            ->set('report', $this->report);
-    }
-
 
     /**
      * Patient Personal Report On Pension Page
+     * @throws HTTP_Exception_404
      */
-    public function action_pen_personalreport()
+    public function action_personal()
     {
-        $this->report = new Model_ReportRAIScales($this->survey->pk);
+        $id = $this->request->param('id');
+        $this->report = Model_ReportRAIScales::getByPensionAndID($this->pension->id, $id);
 
         if (!$this->report->pk) throw new HTTP_Exception_404();
+
+        $this->survey = new Model_Survey($this->report->pk);
+        $this->patient = new Model_Patient($this->survey->patient);
+        $this->patient->dt_first_survey = Model_Survey::getFirstByPensionPatient($this->pension->id, $this->patient->pk)->dt_create;
+
+        if (! ($this->survey->pk && $this->patient->pk) ) throw new HTTP_Exception_404();
 
         $this->getUnitsData();
 
         $this->template->title = "Персональный отчет #" . $this->survey->id;
-        $this->template->section = View::factory('reports/pages/personal-report')
+        $this->template->section = View::factory('reports/patient/personal')
+            ->set('pension', $this->pension)
+            ->set('patient', $this->patient)
             ->set('survey', $this->survey)
             ->set('report', $this->report);
     }
 
 
     /**
-     * Patient Personal Report On Pension Page
+     * Patient Clinical Report On Pension Page
+     * @throws HTTP_Exception_404
      */
-    public function action_pen_clinicalreport()
+    public function action_clinical()
     {
-        $raiscales = new Model_ReportRAIScales($this->survey->pk);
+        $id = $this->request->param('id');
 
-        if (!$raiscales->pk) throw new HTTP_Exception_404();
+        $raiscales = Model_ReportRAIScales::getByPensionAndID($this->pension->id, $id);
+        $protocols = Model_ReportProtocols::getByPensionAndID($this->pension->id, $id);
 
-        $protocols = new Model_ReportProtocols($this->survey->pk);
+        if (! ( $raiscales->pk && $protocols->pk) ) throw new HTTP_Exception_404();
 
-        if (!$protocols->pk) throw new HTTP_Exception_404();
+        $this->survey = new Model_Survey($raiscales->pk);
+        $this->patient = new Model_Patient($this->survey->patient);
+        $this->patient->dt_first_survey = Model_Survey::getFirstByPensionPatient($this->pension->id, $this->patient->pk)->dt_create;
 
-        $this->getUnitsData();
+        if (! ($this->survey->pk && $this->patient->pk) ) throw new HTTP_Exception_404();
 
         $this->template->title = "Клинический отчет #" . $this->survey->id;
-        $this->template->section = View::factory('reports/pages/clinical-report')
+        $this->template->section = View::factory('reports/patient/clinical')
+            ->set('pension', $this->pension)
+            ->set('patient', $this->patient)
             ->set('survey', $this->survey)
             ->set('protocols', $protocols)
             ->set('raiscales', $raiscales);
     }
+
+
 
 
     /**

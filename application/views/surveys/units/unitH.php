@@ -8,7 +8,7 @@
     <? if (!$can_conduct) : ?>
         <a role="button" onclick="raicare.collapse.toggle(this)" data-area="unitH" data-opened="true" data-textclosed="показать" data-textopened="скрыть" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn"></a>
     <? endif; ?>
-    Недержание
+    РАЗДЕЛ H. Недержание
 </h3>
 
 <form class="row" id="unitH" onsubmit="event.preventDefault()">
@@ -23,7 +23,7 @@
 
                     <div class="form-group">
                         <p class="col-xs-12 text-bold">
-                            Недержание мочи
+                            H1. Недержание мочи
                         </p>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -45,7 +45,7 @@
 
                     <div class="form-group">
                         <p class="col-xs-12 text-bold">
-                            Устройство для сбора мочи
+                            H2. Устройство для сбора мочи
                         </p>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -67,7 +67,7 @@
 
                     <div class="form-group">
                         <p class="col-xs-12 text-bold">
-                            Недержание кишечного содержания
+                            H3. Недержание кишечного содержания
                         </p>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -89,17 +89,17 @@
 
                     <div class="form-group">
                         <p class="col-xs-12 text-bold">
-                            Наличие стомы
+                            H4. Наличие стомы
                         </p>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
                                 <span>
-                                    <input id="H4_1" name="H4" type="radio" class="radio" value="1" <?= $survey->unitH->H4 != NULL && $survey->unitH->H4 == 1 ? 'checked' : '' ?> >
-                                    <label for="H4_1" class="radio-label">Да</label>
+                                    <input id="H4_1" name="H4" type="radio" class="radio" value="0" <?= $survey->unitH->H4 != NULL && $survey->unitH->H4 == 0 ? 'checked' : '' ?> >
+                                    <label for="H4_1" class="radio-label">Нет</label>
                                 </span>
                                 <span class="m-l-20">
-                                    <input id="H4_2" name="H4" type="radio" class="radio" value="0" <?= $survey->unitH->H4 != NULL && $survey->unitH->H4 == 0 ? 'checked' : '' ?> >
-                                    <label for="H4_2" class="radio-label">Нет</label>
+                                    <input id="H4_2" name="H4" type="radio" class="radio" value="1" <?= $survey->unitH->H4 != NULL && $survey->unitH->H4 == 1 ? 'checked' : '' ?> >
+                                    <label for="H4_2" class="radio-label">Да</label>
                                 </span>
                             <? else : ?>
                                 <p class="form-group__control-static p-l-0"> <? if ($survey->unitH->H4 != NULL) { if ($survey->unitH->H4 == 1) { echo 'Да'; } elseif ($survey->unitH->H4 == 0) { echo 'Нет'; } else { echo 'Не указано'; } } else { echo 'Не указано'; } ?> </p>

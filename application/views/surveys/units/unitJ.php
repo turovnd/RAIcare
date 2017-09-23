@@ -21,7 +21,7 @@
     <? if (!$can_conduct) : ?>
         <a role="button" onclick="raicare.collapse.toggle(this)" data-area="unitJ" data-opened="true" data-textclosed="показать" data-textopened="скрыть" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn"></a>
     <? endif; ?>
-    Нарушения состояния здоровья
+    РАЗДЕЛ J. Нарушения состояния здоровья
 </h3>
 
 <form class="row" id="unitJ" onsubmit="event.preventDefault()">
@@ -36,7 +36,7 @@
 
                     <div class="form-group">
                         <p class="col-xs-12 text-bold">
-                            Падения
+                            J1. Падения
                         </p>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -60,17 +60,17 @@
 
                         <div class="form-group">
                             <p class="col-xs-12 text-bold">
-                                Недавние падения
+                                J2. Недавние падения
                             </p>
                             <div class="col-xs-12">
                                 <? if ($can_conduct) : ?>
                                     <span>
-                                        <input id="J2_1" name="J2" type="radio" class="radio" value="1" <?= $survey->unitJ->J2 != NULL && $survey->unitJ->J2 == 1 ? 'checked' : '' ?> >
-                                        <label for="J2_1" class="radio-label">Да</label>
+                                        <input id="J2_1" name="J2" type="radio" class="radio" value="0" <?= $survey->unitJ->J2 != NULL && $survey->unitJ->J2 == 0 ? 'checked' : '' ?> >
+                                        <label for="J2_1" class="radio-label">Нет</label>
                                     </span>
                                     <span class="m-l-20">
-                                        <input id="J2_2" name="J2" type="radio" class="radio" value="0" <?= $survey->unitJ->J2 != NULL && $survey->unitJ->J2 == 0 ? 'checked' : '' ?> >
-                                        <label for="J2_2" class="radio-label">Нет</label>
+                                        <input id="J2_2" name="J2" type="radio" class="radio" value="1" <?= $survey->unitJ->J2 != NULL && $survey->unitJ->J2 == 1 ? 'checked' : '' ?> >
+                                        <label for="J2_2" class="radio-label">Да</label>
                                     </span>
                                 <? else : ?>
                                     <p class="form-group__control-static p-l-0"> <? if ($survey->unitJ->J2 != NULL) { if ($survey->unitJ->J2 == 1) { echo 'Да'; } elseif ($survey->unitJ->J2 == 0) { echo 'Нет'; } else { echo 'Не указано'; } } else { echo 'Не указано'; } ?> </p>
@@ -85,14 +85,14 @@
                 <fieldset>
 
                     <p class="col-xs-12 text-bold">
-                        Частота возникновения проблем
+                        J3. Частота возникновения проблем
                     </p>
-                    <p class="col-xs-12 text-bold text-italic">
-                        1. Равновесие
+                    <p class="col-xs-12 text-bold text-italic m-t-10 f-s-0_9">
+                        Равновесие
                     </p>
                     <div class="form-group">
                         <label for="J3a" class="form-group__label col-xs-12">
-                            Неспособность привести себя в вертикальное положение без посторонней помощи или затруднения при этом действии
+                            a. Неспособность привести себя в вертикальное положение без посторонней помощи или затруднения при этом действии
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -109,7 +109,7 @@
                     </div>
                     <div class="form-group">
                         <label for="J3b" class="form-group__label col-xs-12">
-                            Неспособность развернуться и встать в противоположном направлении или затруднения при этом действии
+                            b. Неспособность развернуться и встать в противоположном направлении или затруднения при этом действии
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -126,7 +126,7 @@
                     </div>
                     <div class="form-group">
                         <label for="J3c" class="form-group__label col-xs-12">
-                            Головокружение
+                            c. Головокружение
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -143,7 +143,7 @@
                     </div>
                     <div class="form-group">
                         <label for="J3d" class="form-group__label col-xs-12">
-                            Неверная походка
+                            d. Неверная походка
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -159,12 +159,12 @@
                         </div>
                     </div>
 
-                    <p class="col-xs-12 text-bold text-italic">
-                        2. Сердечные или легочные нарушения
+                    <p class="col-xs-12 text-bold text-italic m-t-10 f-s-0_9">
+                        Сердечные или легочные нарушения
                     </p>
                     <div class="form-group">
                         <label for="J3e" class="form-group__label col-xs-12">
-                            Боль в груди
+                            e. Боль в груди
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -181,7 +181,7 @@
                     </div>
                     <div class="form-group">
                         <label for="J3f" class="form-group__label col-xs-12">
-                            Трудности при удалении выделений дыхательных путей
+                            f. Трудности при удалении выделений дыхательных путей
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -197,12 +197,12 @@
                         </div>
                     </div>
 
-                    <p class="col-xs-12 text-bold text-italic">
-                        3. Психиатрические нарушения
+                    <p class="col-xs-12 text-bold text-italic m-t-10 f-s-0_9">
+                        Психиатрические нарушения
                     </p>
                     <div class="form-group">
                         <label for="J3g" class="form-group__label col-xs-12">
-                            Аномальный процесс мышления
+                            g. Аномальный процесс мышления
                             <small class="text-italic text-normal">Например: беспорядочный поток ассоциаций,
                                 блокирование мыслей, вихрь идей, тангенциальность мышления, излишняя
                                 детализация, ассоциация слов по звуковому сходству, бессвязная речь, неологизмы,
@@ -223,7 +223,7 @@
                     </div>
                     <div class="form-group">
                         <label for="J3h" class="form-group__label col-xs-12">
-                            Бредовые идеи - стойкие ложные представления
+                            h. Бредовые идеи - стойкие ложные представления
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -240,7 +240,7 @@
                     </div>
                     <div class="form-group">
                         <label for="J3i" class="form-group__label col-xs-12">
-                            Галлюцинации - ложные сенсорные восприятия
+                            i. Галлюцинации - ложные сенсорные восприятия
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -256,12 +256,12 @@
                         </div>
                     </div>
 
-                    <p class="col-xs-12 text-bold text-italic">
-                        4. Неврологические нарушения
+                    <p class="col-xs-12 text-bold text-italic m-t-10 f-s-0_9">
+                        Неврологические нарушения
                     </p>
                     <div class="form-group">
                         <label for="J3j" class="form-group__label col-xs-12">
-                            Афазия
+                            j. Афазия
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -277,12 +277,12 @@
                         </div>
                     </div>
 
-                    <p class="col-xs-12 text-bold text-italic">
-                        5. Состояние желудочно-кишечного тракта
+                    <p class="col-xs-12 text-bold text-italic m-t-10 f-s-0_9">
+                        Состояние желудочно-кишечного тракта
                     </p>
                     <div class="form-group">
                         <label for="J3k" class="form-group__label col-xs-12">
-                            Кислотный рефлюкс - регургитация кислоты из желудка в глотку
+                            k. Кислотный рефлюкс - регургитация кислоты из желудка в глотку
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -299,7 +299,7 @@
                     </div>
                     <div class="form-group">
                         <label for="J3l" class="form-group__label col-xs-12">
-                            Запор
+                            l. Запор
                             <small class="text-italic text-normal">Отсутствие дефекации на протяжении 3 дней или тяжелая проходимость твердого стула.</small>
                         </label>
                         <div class="col-xs-12">
@@ -317,7 +317,7 @@
                     </div>
                     <div class="form-group">
                         <label for="J3m" class="form-group__label col-xs-12">
-                            Диарея
+                            m. Диарея
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -334,7 +334,7 @@
                     </div>
                     <div class="form-group">
                         <label for="J3n" class="form-group__label col-xs-12">
-                            Рвота
+                            n. Рвота
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -350,12 +350,12 @@
                         </div>
                     </div>
 
-                    <p class="col-xs-12 text-bold text-italic">
-                        6. Проблемы со сном
+                    <p class="col-xs-12 text-bold text-italic m-t-10 f-s-0_9">
+                        Проблемы со сном
                     </p>
                     <div class="form-group">
                         <label for="J3o" class="form-group__label col-xs-12">
-                            Трудности с засыпанием или сном
+                            o. Трудности с засыпанием или сном
                             <small class="text-italic text-normal">Слишком раннее пробуждение / возбужденное состояние / беспокойный сон.</small>
                         </label>
                         <div class="col-xs-12">
@@ -373,7 +373,7 @@
                     </div>
                     <div class="form-group">
                         <label for="J3p" class="form-group__label col-xs-12">
-                            Слишком долгий сон
+                            p. Слишком долгий сон
                             <small class="text-italic text-normal">Избыточная длительность сна, которая влияет на нормальное функционирование пациента.</small>
                         </label>
                         <div class="col-xs-12">
@@ -390,12 +390,12 @@
                         </div>
                     </div>
 
-                    <p class="col-xs-12 text-bold text-italic">
-                        7. Другое
+                    <p class="col-xs-12 text-bold text-italic m-t-10 f-s-0_9">
+                        Другое
                     </p>
                     <div class="form-group">
                         <label for="J3q" class="form-group__label col-xs-12">
-                            Аспирация
+                            q. Аспирация
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -412,7 +412,7 @@
                     </div>
                     <div class="form-group">
                         <label for="J3r" class="form-group__label col-xs-12">
-                            Жар
+                            r. Жар
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -429,7 +429,7 @@
                     </div>
                     <div class="form-group">
                         <label for="J3s" class="form-group__label col-xs-12">
-                            Желудочно-кишечное или урогенитальное кровотечение
+                            s. Желудочно-кишечное или урогенитальное кровотечение
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -446,7 +446,7 @@
                     </div>
                     <div class="form-group">
                         <label for="J3t" class="form-group__label col-xs-12">
-                            Проблемы с гигиеной
+                            t. Проблемы с гигиеной
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -463,7 +463,7 @@
                     </div>
                     <div class="form-group">
                         <label for="J3u" class="form-group__label col-xs-12">
-                            Периферический отек
+                            u. Периферический отек
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -484,8 +484,8 @@
                 <fieldset>
 
                     <div class="form-group">
-                        <label for="J4" class="form-group__label col-xs-12">
-                            Одышка (затрудненное дыхание)
+                        <label for="J4" class="form-group__label col-xs-12 f-s-1">
+                            J4. Одышка (затрудненное дыхание)
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -506,8 +506,8 @@
                 <fieldset>
 
                     <div class="form-group">
-                        <label for="J5" class="form-group__label col-xs-12">
-                            Утомляемость
+                        <label for="J5" class="form-group__label col-xs-12 f-s-1">
+                            J5. Утомляемость
                             <small class="text-italic text-normal">Неспособность выполнять обычные задачи - например: в рамках повседневной деятельности</small>
                         </label>
                         <div class="col-xs-12">
@@ -529,7 +529,7 @@
                 <fieldset>
 
                     <p class="col-xs-12 text-bold">
-                        Болевые симптомы
+                        J6. Болевые симптомы
                         <small class="text-italic text-normal">Примечание: Всегда спрашивайте пациента о частоте и интенсивности
                             боли, а также об обезболивании. Наблюдайте за пациентом и задавайте
                             вопросы лицам, контактирующим с пациентом.</small>
@@ -537,7 +537,7 @@
 
                     <div class="form-group">
                         <label class="form-group__label col-xs-12">
-                            Частота, с которой пациент жалуется на боль или демонстрирует ее
+                            a. Частота, с которой пациент жалуется на боль или демонстрирует ее
                             <small class="text-italic text-normal">В т.ч. гримасами, сжатием зубов, стоном, отшатыванием при касании или иными невербальными знаками, говорящими о боли, а также сторонится прикосновений</small>
                         </label>
                         <div class="col-xs-12">
@@ -555,7 +555,7 @@
                     </div>
                     <div class="form-group">
                         <label class="form-group__label col-xs-12">
-                            Самый высокий уровень интенсивности испытываемой боли
+                            b. Самый высокий уровень интенсивности испытываемой боли
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -572,7 +572,7 @@
                     </div>
                     <div class="form-group">
                         <label class="form-group__label col-xs-12">
-                            Устойчивость боли - частота боли
+                            c. Устойчивость боли - частота боли
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -589,18 +589,18 @@
                     </div>
                     <div class="form-group">
                         <label class="form-group__label col-xs-12">
-                            Прорыв боли
+                            d. Прорыв боли
                             <small class="text-italic text-normal">В течение ПОСЛЕДНИХ 3 ДНЕЙ пациент испытал один или несколько внезапных резких приступов боли</small>
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
                                 <span>
-                                    <input id="J6d_1" name="J6d" type="radio" class="radio" value="1" <?= $survey->unitJ->J6 != NULL && $survey->unitJ->J6[3] == 1 ? 'checked' : ''; ?> >
-                                    <label for="J6d_1" class="radio-label">Да</label>
+                                    <input id="J6d_1" name="J6d" type="radio" class="radio" value="0" <?= $survey->unitJ->J6 != NULL && $survey->unitJ->J6[3] == 0 ? 'checked' : ''; ?> >
+                                    <label for="J6d_1" class="radio-label">Нет</label>
                                 </span>
                                 <span class="m-l-20">
-                                    <input id="J6d_2" name="J6d" type="radio" class="radio" value="0" <?= $survey->unitJ->J6 != NULL && $survey->unitJ->J6[3] == 0 ? 'checked' : ''; ?> >
-                                    <label for="J6d_2" class="radio-label">Нет</label>
+                                    <input id="J6d_2" name="J6d" type="radio" class="radio" value="1" <?= $survey->unitJ->J6 != NULL && $survey->unitJ->J6[3] == 1 ? 'checked' : ''; ?> >
+                                    <label for="J6d_2" class="radio-label">Да</label>
                                 </span>
                             <? else : ?>
                                 <p class="form-group__control-static p-l-0"> <?= $survey->unitJ->J6 != NULL ? $survey->unitJ->J6[3] == 0 ? "Нет" : $survey->unitJ->J6[3] == 1 ? "Да" : 'Не указано' : 'Не указано'; ?> </p>
@@ -609,7 +609,7 @@
                     </div>
                     <div class="form-group">
                         <label class="form-group__label col-xs-12">
-                            Управление болью (болеутоление)
+                            e. Управление болью (болеутоление)
                             <small class="text-italic text-normal">Адекватность текущего лечебного режима в области болеутоления (с точки зрения пациента)</small>
                         </label>
                         <div class="col-xs-12">
@@ -632,24 +632,24 @@
                 <fieldset>
 
                     <p class="col-xs-12 text-bold">
-                        Нестабильность в состоянии здоровья
+                        J7. Нестабильность в состоянии здоровья
                     </p>
 
                     <div class="form-group">
                         <label class="form-group__label col-xs-12">
-                            Нарушения состояния здоровья / заболевания проводят к нестабильности
+                            a. Нарушения состояния здоровья / заболевания проводят к нестабильности
                             (колебаниям, неустойчивости или ухудшению) когнитивной деятельности,
                             повседневной деятельности, настроения или поведения пациента
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
                                 <span>
-                                    <input id="J7a_1" name="J7a" type="radio" class="radio" value="1" <?= $survey->unitJ->J7 != NULL && $survey->unitJ->J7[0] == 1 ? 'checked' : ''; ?> >
-                                    <label for="J7a_1" class="radio-label">Да</label>
+                                    <input id="J7a_1" name="J7a" type="radio" class="radio" value="0" <?= $survey->unitJ->J7 != NULL && $survey->unitJ->J7[0] == 0 ? 'checked' : ''; ?> >
+                                    <label for="J7a_1" class="radio-label">Нет</label>
                                 </span>
                                 <span class="m-l-20">
-                                    <input id="J7a_2" name="J7a" type="radio" class="radio" value="0" <?= $survey->unitJ->J7 != NULL && $survey->unitJ->J7[0] == 0 ? 'checked' : ''; ?> >
-                                    <label for="J7a_2" class="radio-label">Нет</label>
+                                    <input id="J7a_2" name="J7a" type="radio" class="radio" value="1" <?= $survey->unitJ->J7 != NULL && $survey->unitJ->J7[0] == 1 ? 'checked' : ''; ?> >
+                                    <label for="J7a_2" class="radio-label">Да</label>
                                 </span>
                             <? else : ?>
                                 <p class="form-group__control-static p-l-0"> <? if ($survey->unitJ->J7 != NULL) { if ($survey->unitJ->J7[0] == 1) { echo 'Да'; } elseif ($survey->unitJ->J7[0] == 0) { echo 'Нет'; } else { echo 'Не указано'; } } else { echo 'Не указано'; } ?> </p>
@@ -658,17 +658,17 @@
                     </div>
                     <div class="form-group">
                         <label class="form-group__label col-xs-12">
-                            Острый эпизод рецидивирующей или хронической проблемы со здоровьем
+                            b. Острый эпизод рецидивирующей или хронической проблемы со здоровьем
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
                                 <span>
-                                    <input id="J7b_1" name="J7b" type="radio" class="radio" value="1" <?= $survey->unitJ->J7 != NULL && $survey->unitJ->J7[1] == 1 ? 'checked' : ''; ?> >
-                                    <label for="J7b_1" class="radio-label">Да</label>
+                                    <input id="J7b_1" name="J7b" type="radio" class="radio" value="0" <?= $survey->unitJ->J7 != NULL && $survey->unitJ->J7[1] == 0 ? 'checked' : ''; ?> >
+                                    <label for="J7b_1" class="radio-label">Нет</label>
                                 </span>
                                 <span class="m-l-20">
-                                    <input id="J7b_2" name="J7b" type="radio" class="radio" value="0" <?= $survey->unitJ->J7 != NULL && $survey->unitJ->J7[1] == 0 ? 'checked' : ''; ?> >
-                                    <label for="J7b_2" class="radio-label">Нет</label>
+                                    <input id="J7b_2" name="J7b" type="radio" class="radio" value="1" <?= $survey->unitJ->J7 != NULL && $survey->unitJ->J7[1] == 1 ? 'checked' : ''; ?> >
+                                    <label for="J7b_2" class="radio-label">Да</label>
                                 </span>
                             <? else : ?>
                                 <p class="form-group__control-static p-l-0"> <? if ($survey->unitJ->J7 != NULL) { if ($survey->unitJ->J7[1] == 1) { echo 'Да'; } elseif ($survey->unitJ->J7[1] == 0) { echo 'Нет'; } else { echo 'Не указано'; } } else { echo 'Не указано'; } ?> </p>
@@ -677,17 +677,17 @@
                     </div>
                     <div class="form-group">
                         <label class="form-group__label col-xs-12">
-                            Заболевание в терминальной стадии, пациенту осталось жить 6 месяцев или менее
+                            c. Заболевание в терминальной стадии, пациенту осталось жить 6 месяцев или менее
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
                                 <span>
-                                    <input id="J7c_1" name="J7c" type="radio" class="radio" value="1" <?= $survey->unitJ->J7 != NULL && $survey->unitJ->J7[2] == 1 ? 'checked' : ''; ?> >
-                                    <label for="J7c_1" class="radio-label">Да</label>
+                                    <input id="J7c_1" name="J7c" type="radio" class="radio" value="0" <?= $survey->unitJ->J7 != NULL && $survey->unitJ->J7[2] == 0 ? 'checked' : ''; ?> >
+                                    <label for="J7c_1" class="radio-label">Нет</label>
                                 </span>
                                 <span class="m-l-20">
-                                    <input id="J7c_2" name="J7c" type="radio" class="radio" value="0" <?= $survey->unitJ->J7 != NULL && $survey->unitJ->J7[2] == 0 ? 'checked' : ''; ?> >
-                                    <label for="J7c_2" class="radio-label">Нет</label>
+                                    <input id="J7c_2" name="J7c" type="radio" class="radio" value="1" <?= $survey->unitJ->J7 != NULL && $survey->unitJ->J7[2] == 1 ? 'checked' : ''; ?> >
+                                    <label for="J7c_2" class="radio-label">Да</label>
                                 </span>
                             <? else : ?>
                                 <p class="form-group__control-static p-l-0"> <? if ($survey->unitJ->J7 != NULL) { if ($survey->unitJ->J7[2] == 1) { echo 'Да'; } elseif ($survey->unitJ->J7[2] == 0) { echo 'Нет'; } else { echo 'Не указано'; } } else { echo 'Не указано'; } ?> </p>
@@ -700,8 +700,8 @@
                 <fieldset>
 
                     <div class="form-group">
-                        <label for="J8" class="form-group__label col-xs-12">
-                            Оценка пациентом своего состояния здоровья
+                        <label for="J8" class="form-group__label col-xs-12 f-s-1">
+                            J8. Оценка пациентом своего состояния здоровья
                             <small class="text-italic text-normal">Задайте пациенту общий вопрос: "Как бы вы оценили свое состояние здоровья в целом?"</small>
                         </label>
                         <div class="col-xs-12">
@@ -723,12 +723,12 @@
                 <fieldset>
 
                     <p class="col-xs-12 text-bold">
-                        Табак и алкоголь
+                        J9. Табак и алкоголь
                     </p>
 
                     <div class="form-group">
                         <label for="J9a" class="form-group__label col-xs-12">
-                            Пациент курит табак ежедневно
+                            a. Пациент курит табак ежедневно
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -745,7 +745,7 @@
                     </div>
                     <div class="form-group">
                         <label for="J9b" class="form-group__label col-xs-12">
-                            Алкоголь
+                            b. Алкоголь
                             <small class="text-italic text-normal">Наибольшее число доз (дринков), выпитых за один раз за ПОСЛЕДНИЕ 14 ДНЕЙ</small>
                         </label>
                         <div class="col-xs-12">

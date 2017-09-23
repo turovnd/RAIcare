@@ -13,7 +13,7 @@
     <? if (!$can_conduct) : ?>
         <a role="button" onclick="raicare.collapse.toggle(this)" data-area="unitO" data-opened="true" data-textclosed="показать" data-textopened="скрыть" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn"></a>
     <? endif; ?>
-    Лечебные мероприятия и процедуры
+    РАЗДЕЛ O. Лечебные мероприятия и процедуры
 </h3>
 
 <form class="row" id="unitO" onsubmit="event.preventDefault()">
@@ -27,22 +27,22 @@
                 <fieldset>
 
                     <p class="col-xs-12 text-bold">
-                        Проведенные профилактические процедуры
+                        O1. Проведенные профилактические процедуры
                     </p>
 
                     <div class="form-group">
                         <label class="form-group__label col-xs-12">
-                            Измерение артериального давления за ПОСЛЕДНИЙ ГОД
+                            a. Измерение артериального давления за ПОСЛЕДНИЙ ГОД
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
                                 <span>
-                                    <input id="O1a_1" name="O1a" type="radio" class="radio" value="1" <?= $survey->unitO->O1 != NULL && $survey->unitO->O1[0] == 1 ? 'checked' : ''; ?> >
-                                    <label for="O1a_1" class="radio-label">Да</label>
+                                    <input id="O1a_1" name="O1a" type="radio" class="radio" value="0" <?= $survey->unitO->O1 != NULL && $survey->unitO->O1[0] == 0 ? 'checked' : ''; ?> >
+                                    <label for="O1a_1" class="radio-label">Нет</label>
                                 </span>
                                 <span class="m-l-20">
-                                    <input id="O1a_2" name="O1a" type="radio" class="radio" value="0" <?= $survey->unitO->O1 != NULL && $survey->unitO->O1[0] == 0 ? 'checked' : ''; ?> >
-                                    <label for="O1a_2" class="radio-label">Нет</label>
+                                    <input id="O1a_2" name="O1a" type="radio" class="radio" value="1" <?= $survey->unitO->O1 != NULL && $survey->unitO->O1[0] == 1 ? 'checked' : ''; ?> >
+                                    <label for="O1a_2" class="radio-label">Да</label>
                                 </span>
                             <? else : ?>
                                 <p class="form-group__control-static p-l-0"> <? if ($survey->unitO->O1[0] == 1) { echo 'Да'; } elseif ($survey->unitO->O1[0] == 0) { echo 'Нет'; } else { echo 'Не указано'; } ?> </p>
@@ -52,17 +52,17 @@
 
                     <div class="form-group">
                         <label class="form-group__label col-xs-12">
-                            Колоноскопия за ПОСЛЕДНИЕ 5 ЛЕТ
+                            b. Колоноскопия за ПОСЛЕДНИЕ 5 ЛЕТ
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
                                 <span>
-                                    <input id="O1b_1" name="O1b" type="radio" class="radio" value="1" <?= $survey->unitO->O1 != NULL && $survey->unitO->O1[1] == 1 ? 'checked' : ''; ?> >
-                                    <label for="O1b_1" class="radio-label">Да</label>
+                                    <input id="O1b_1" name="O1b" type="radio" class="radio" value="0" <?= $survey->unitO->O1 != NULL && $survey->unitO->O1[1] == 0 ? 'checked' : ''; ?> >
+                                    <label for="O1b_1" class="radio-label">Нет</label>
                                 </span>
                                 <span class="m-l-20">
-                                    <input id="O1b_2" name="O1b" type="radio" class="radio" value="0" <?= $survey->unitO->O1 != NULL && $survey->unitO->O1[1] == 0 ? 'checked' : ''; ?> >
-                                    <label for="O1b_2" class="radio-label">Нет</label>
+                                    <input id="O1b_2" name="O1b" type="radio" class="radio" value="1" <?= $survey->unitO->O1 != NULL && $survey->unitO->O1[1] == 1 ? 'checked' : ''; ?> >
+                                    <label for="O1b_2" class="radio-label">Да</label>
                                 </span>
                             <? else : ?>
                                 <p class="form-group__control-static p-l-0"> <? if ($survey->unitO->O1[1] == 1) { echo 'Да'; } elseif ($survey->unitO->O1[1] == 0) { echo 'Нет'; } else { echo 'Не указано'; } ?> </p>
@@ -72,17 +72,17 @@
 
                     <div class="form-group">
                         <label class="form-group__label col-xs-12">
-                            Осмотр состояния зубов за ПОСЛЕДНИЙ ГОД
+                            c. Осмотр состояния зубов за ПОСЛЕДНИЙ ГОД
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
                                 <span>
-                                    <input id="O1c_1" name="O1c" type="radio" class="radio" value="1" <?= $survey->unitO->O1 != NULL && $survey->unitO->O1[2] == 1 ? 'checked' : ''; ?> >
-                                    <label for="O1c_1" class="radio-label">Да</label>
+                                    <input id="O1c_1" name="O1c" type="radio" class="radio" value="0" <?= $survey->unitO->O1 != NULL && $survey->unitO->O1[2] == 0 ? 'checked' : ''; ?> >
+                                    <label for="O1c_1" class="radio-label">Нет</label>
                                 </span>
                                 <span class="m-l-20">
-                                    <input id="O1c_2" name="O1c" type="radio" class="radio" value="0" <?= $survey->unitO->O1 != NULL && $survey->unitO->O1[2] == 0 ? 'checked' : ''; ?> >
-                                    <label for="O1c_2" class="radio-label">Нет</label>
+                                    <input id="O1c_2" name="O1c" type="radio" class="radio" value="1" <?= $survey->unitO->O1 != NULL && $survey->unitO->O1[2] == 1 ? 'checked' : ''; ?> >
+                                    <label for="O1c_2" class="radio-label">Да</label>
                                 </span>
                             <? else : ?>
                                 <p class="form-group__control-static p-l-0"> <? if ($survey->unitO->O1[2] == 1) { echo 'Да'; } elseif ($survey->unitO->O1[2] == 0) { echo 'Нет'; } else { echo 'Не указано'; } ?> </p>
@@ -92,17 +92,17 @@
 
                     <div class="form-group">
                         <label class="form-group__label col-xs-12">
-                            Осмотр состояния глаз за ПОСЛЕДНИЙ ГОД
+                            d. Осмотр состояния глаз за ПОСЛЕДНИЙ ГОД
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
                                 <span>
-                                    <input id="O1d_1" name="O1d" type="radio" class="radio" value="1" <?= $survey->unitO->O1 != NULL && $survey->unitO->O1[3] == 1 ? 'checked' : ''; ?> >
-                                    <label for="O1d_1" class="radio-label">Да</label>
+                                    <input id="O1d_1" name="O1d" type="radio" class="radio" value="0" <?= $survey->unitO->O1 != NULL && $survey->unitO->O1[3] == 0 ? 'checked' : ''; ?> >
+                                    <label for="O1d_1" class="radio-label">Нет</label>
                                 </span>
                                 <span class="m-l-20">
-                                    <input id="O1d_2" name="O1d" type="radio" class="radio" value="0" <?= $survey->unitO->O1 != NULL && $survey->unitO->O1[3] == 0 ? 'checked' : ''; ?> >
-                                    <label for="O1d_2" class="radio-label">Нет</label>
+                                    <input id="O1d_2" name="O1d" type="radio" class="radio" value="1" <?= $survey->unitO->O1 != NULL && $survey->unitO->O1[3] == 1 ? 'checked' : ''; ?> >
+                                    <label for="O1d_2" class="radio-label">Да</label>
                                 </span>
                             <? else : ?>
                                 <p class="form-group__control-static p-l-0"> <? if ($survey->unitO->O1[3] == 1) { echo 'Да'; } elseif ($survey->unitO->O1[3] == 0) { echo 'Нет'; } else { echo 'Не указано'; } ?> </p>
@@ -112,17 +112,17 @@
 
                     <div class="form-group">
                         <label class="form-group__label col-xs-12">
-                            Проверка слуха за ПОСЛЕДНИЕ 2 ГОДА
+                            e. Проверка слуха за ПОСЛЕДНИЕ 2 ГОДА
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
                                 <span>
-                                    <input id="O1e_1" name="O1e" type="radio" class="radio" value="1" <?= $survey->unitO->O1 != NULL && $survey->unitO->O1[4] == 1 ? 'checked' : ''; ?> >
-                                    <label for="O1e_1" class="radio-label">Да</label>
+                                    <input id="O1e_1" name="O1e" type="radio" class="radio" value="0" <?= $survey->unitO->O1 != NULL && $survey->unitO->O1[4] == 0 ? 'checked' : ''; ?> >
+                                    <label for="O1e_1" class="radio-label">Нет</label>
                                 </span>
                                 <span class="m-l-20">
-                                    <input id="O1e_2" name="O1e" type="radio" class="radio" value="0" <?= $survey->unitO->O1 != NULL && $survey->unitO->O1[4] == 0 ? 'checked' : ''; ?> >
-                                    <label for="O1e_2" class="radio-label">Нет</label>
+                                    <input id="O1e_2" name="O1e" type="radio" class="radio" value="1" <?= $survey->unitO->O1 != NULL && $survey->unitO->O1[4] == 1 ? 'checked' : ''; ?> >
+                                    <label for="O1e_2" class="radio-label">Да</label>
                                 </span>
                             <? else : ?>
                                 <p class="form-group__control-static p-l-0"> <? if ($survey->unitO->O1[4] == 1) { echo 'Да'; } elseif ($survey->unitO->O1[4] == 0) { echo 'Нет'; } else { echo 'Не указано'; } ?> </p>
@@ -132,17 +132,17 @@
 
                     <div class="form-group">
                         <label class="form-group__label col-xs-12">
-                            Противигриппозная вакцинация за ПОСЛЕДНИЙ ГОД
+                            f. Противигриппозная вакцинация за ПОСЛЕДНИЙ ГОД
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
                                 <span>
-                                    <input id="O1f_1" name="O1f" type="radio" class="radio" value="1" <?= $survey->unitO->O1 != NULL && $survey->unitO->O1[5] == 1 ? 'checked' : ''; ?> >
-                                    <label for="O1f_1" class="radio-label">Да</label>
+                                    <input id="O1f_1" name="O1f" type="radio" class="radio" value="0" <?= $survey->unitO->O1 != NULL && $survey->unitO->O1[5] == 0 ? 'checked' : ''; ?> >
+                                    <label for="O1f_1" class="radio-label">Нет</label>
                                 </span>
                                 <span class="m-l-20">
-                                    <input id="O1f_2" name="O1f" type="radio" class="radio" value="0" <?= $survey->unitO->O1 != NULL && $survey->unitO->O1[5] == 0 ? 'checked' : ''; ?> >
-                                    <label for="O1f_2" class="radio-label">Нет</label>
+                                    <input id="O1f_2" name="O1f" type="radio" class="radio" value="1" <?= $survey->unitO->O1 != NULL && $survey->unitO->O1[5] == 1 ? 'checked' : ''; ?> >
+                                    <label for="O1f_2" class="radio-label">Да</label>
                                 </span>
                             <? else : ?>
                                 <p class="form-group__control-static p-l-0"> <? if ($survey->unitO->O1[5] == 1) { echo 'Да'; } elseif ($survey->unitO->O1[5] == 0) { echo 'Нет'; } else { echo 'Не указано'; } ?> </p>
@@ -155,17 +155,17 @@
 
                         <div class="form-group">
                             <label class="form-group__label col-xs-12">
-                                Маммография или осмотр груди за ПОСЛЕДНИЕ 2 ГОДА (для женщин)
+                                g. Маммография или осмотр груди за ПОСЛЕДНИЕ 2 ГОДА (для женщин)
                             </label>
                             <div class="col-xs-12">
                                 <? if ($can_conduct) : ?>
                                     <span>
-                                        <input id="O1g_1" name="O1g" type="radio" class="radio" value="1" <?= $survey->unitO->O1 != NULL && $survey->unitO->O1[6] == 1 ? 'checked' : ''; ?> >
-                                        <label for="O1g_1" class="radio-label">Да</label>
+                                        <input id="O1g_1" name="O1g" type="radio" class="radio" value="0" <?= $survey->unitO->O1 != NULL && $survey->unitO->O1[6] == 0 ? 'checked' : ''; ?> >
+                                        <label for="O1g_1" class="radio-label">Нет</label>
                                     </span>
                                     <span class="m-l-20">
-                                        <input id="O1g_2" name="O1g" type="radio" class="radio" value="0" <?= $survey->unitO->O1 != NULL && $survey->unitO->O1[6] == 0 ? 'checked' : ''; ?> >
-                                        <label for="O1g_2" class="radio-label">Нет</label>
+                                        <input id="O1g_2" name="O1g" type="radio" class="radio" value="1" <?= $survey->unitO->O1 != NULL && $survey->unitO->O1[6] == 1 ? 'checked' : ''; ?> >
+                                        <label for="O1g_2" class="radio-label">Да</label>
                                     </span>
                                 <? else : ?>
                                     <p class="form-group__control-static p-l-0"> <? if ($survey->unitO->O1[6] == 1) { echo 'Да'; } elseif ($survey->unitO->O1[6] == 0) { echo 'Нет'; } else { echo 'Не указано'; } ?> </p>
@@ -177,17 +177,17 @@
 
                     <div class="form-group">
                         <label class="form-group__label col-xs-12">
-                            Вакцинация за ПОСЛЕДНИЕ 5 ЛЕТ
+                            h. Вакцинация за ПОСЛЕДНИЕ 5 ЛЕТ
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
                                 <span>
-                                    <input id="O1h_1" name="O1h" type="radio" class="radio" value="1" <?= $survey->unitO->O1 != NULL && $survey->unitO->O1[7] == 1 ? 'checked' : ''; ?> >
-                                    <label for="O1h_1" class="radio-label">Да</label>
+                                    <input id="O1h_1" name="O1h" type="radio" class="radio" value="0" <?= $survey->unitO->O1 != NULL && $survey->unitO->O1[7] == 0 ? 'checked' : ''; ?> >
+                                    <label for="O1h_1" class="radio-label">Нет</label>
                                 </span>
                                 <span class="m-l-20">
-                                    <input id="O1h_2" name="O1h" type="radio" class="radio" value="0" <?= $survey->unitO->O1 != NULL && $survey->unitO->O1[7] == 0 ? 'checked' : ''; ?> >
-                                    <label for="O1h_2" class="radio-label">Нет</label>
+                                    <input id="O1h_2" name="O1h" type="radio" class="radio" value="1" <?= $survey->unitO->O1 != NULL && $survey->unitO->O1[7] == 1 ? 'checked' : ''; ?> >
+                                    <label for="O1h_2" class="radio-label">Да</label>
                                 </span>
                             <? else : ?>
                                 <p class="form-group__control-static p-l-0"> <? if ($survey->unitO->O1[7] == 1) { echo 'Да'; } elseif ($survey->unitO->O1[7] == 0) { echo 'Нет'; } else { echo 'Не указано'; } ?> </p>
@@ -200,19 +200,19 @@
                 <fieldset>
 
                     <p class="col-xs-12 text-bold">
-                        Лечебные мероприятия и программы, назначенные или
+                        O2. Лечебные мероприятия и программы, назначенные или
                         пройденные пациентом за последние 3 дня (или со дня
                         последней оценки, если со времени ее проведения прошло
                         менее 3 дней)
                     </p>
 
-                    <p class="col-xs-12 text-bold text-italic">
+                    <p class="col-xs-12 text-bold text-italic m-t-10 f-s-0_9">
                         Лечебные мероприятия
                     </p>
 
                     <div class="form-group">
                         <label for="O2a" class="form-group__label col-xs-12">
-                            Химиотерапия
+                            a. Химиотерапия
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -230,7 +230,7 @@
 
                     <div class="form-group">
                         <label for="O2b" class="form-group__label col-xs-12">
-                            Диализ
+                            b. Диализ
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -248,7 +248,7 @@
 
                     <div class="form-group">
                         <label for="O2c" class="form-group__label col-xs-12">
-                            Инфекционный контроль
+                            c. Инфекционный контроль
                             <small class="text-italic text-normal">Например: карантин или изоляция.</small>
                         </label>
                         <div class="col-xs-12">
@@ -267,7 +267,7 @@
 
                     <div class="form-group">
                         <label for="O2d" class="form-group__label col-xs-12">
-                            Внутривенное введение лекарств
+                            d. Внутривенное введение лекарств
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -285,7 +285,7 @@
 
                     <div class="form-group">
                         <label for="O2e" class="form-group__label col-xs-12">
-                            Кислородная терапия
+                            e. Кислородная терапия
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -303,7 +303,7 @@
 
                     <div class="form-group">
                         <label for="O2f" class="form-group__label col-xs-12">
-                            Радиационная терапия
+                            f. Радиационная терапия
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -321,7 +321,7 @@
 
                     <div class="form-group">
                         <label for="O2g" class="form-group__label col-xs-12">
-                            Отсасывание жидкости
+                            g. Отсасывание жидкости
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -339,7 +339,7 @@
 
                     <div class="form-group">
                         <label for="O2h" class="form-group__label col-xs-12">
-                            Уход после трахеостомии
+                            h. Уход после трахеостомии
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -357,7 +357,7 @@
 
                     <div class="form-group">
                         <label for="O2i" class="form-group__label col-xs-12">
-                            Переливание
+                            i. Переливание
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -375,7 +375,7 @@
 
                     <div class="form-group">
                         <label for="O2j" class="form-group__label col-xs-12">
-                            Вентилятор или респиратор
+                            j. Вентилятор или респиратор
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -393,7 +393,7 @@
 
                     <div class="form-group">
                         <label for="O2k" class="form-group__label col-xs-12">
-                            Уход за ранами
+                            k. Уход за ранами
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -409,13 +409,13 @@
                         </div>
                     </div>
 
-                    <p class="col-xs-12 text-bold text-italic">
+                    <p class="col-xs-12 text-bold text-italic m-t-10 f-s-0_9">
                         Программы
                     </p>
 
                     <div class="form-group">
                         <label for="O2l" class="form-group__label col-xs-12">
-                            Программа-график туалетных процедур
+                            l. Программа-график туалетных процедур
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -433,7 +433,7 @@
 
                     <div class="form-group">
                         <label for="O2m" class="form-group__label col-xs-12">
-                            Программа паллиативной терапии
+                            m. Программа паллиативной терапии
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -451,7 +451,7 @@
 
                     <div class="form-group">
                         <label for="O2n" class="form-group__label col-xs-12">
-                            Программа переворачивания / перемены положения
+                            n. Программа переворачивания / перемены положения
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -472,7 +472,7 @@
                 <fieldset>
 
                     <p class="col-xs-12 text-bold">
-                        Терапия / сестринские услуги за последние 7 дней
+                        O3. Терапия / сестринские услуги за последние 7 дней
                         <small class="text-italic text-normal">
                             <span class="m-b-5">Например: действия практического врача или ассистента под руководством врача. Примечание: учитывается только терапия, проводимая после поступления в данное медицинское учреждение</span>
                             <br> <span class="m-b-5"><b>A. Число дней</b> из ПОСЛЕДНИХ 7 ДНЕЙ, <b>на которые было назначено проведение лечебных мероприятий</b> [от 0 до 7]</span>
@@ -485,7 +485,7 @@
 
                     <div class="form-group">
                         <label class="form-group__label col-xs-12">
-                            Лечебная физкультура
+                            a. Лечебная физкультура
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -529,7 +529,7 @@
 
                     <div class="form-group">
                         <label class="form-group__label col-xs-12">
-                            Эрготерапия
+                            b. Эрготерапия
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -573,7 +573,7 @@
 
                     <div class="form-group">
                         <label class="form-group__label col-xs-12">
-                            Услуги в области языковых, речевых патологий и аудиологии
+                            c. Услуги в области языковых, речевых патологий и аудиологии
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -617,7 +617,7 @@
 
                     <div class="form-group">
                         <label class="form-group__label col-xs-12">
-                            Респираторная терапия
+                            d. Респираторная терапия
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -661,7 +661,7 @@
 
                     <div class="form-group">
                         <label class="form-group__label col-xs-12">
-                            Функциональная реабилитация или программа восстановления навыков ходьбы с лицензированной медсестрой
+                            e. Функциональная реабилитация или программа восстановления навыков ходьбы с лицензированной медсестрой
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -705,7 +705,7 @@
 
                     <div class="form-group">
                         <label class="form-group__label col-xs-12">
-                            Психологическая терапия (проводит специалист в области душевного здоровья)
+                            f. Психологическая терапия (проводит специалист в области душевного здоровья)
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -752,7 +752,7 @@
                 <fieldset>
 
                     <p class="col-xs-12 text-bold">
-                        Госпитализация и посещение отделений неотложной помощи
+                        O4. Госпитализация и посещение отделений неотложной помощи
                         <small class="text-italic text-normal">
                             Введите число соответствующее числу раз госпитализации или посещений отделений неотложной помощи
                             за ПОСЛЕДНИЕ 90 ДНЕЙ (или со дня последней оценки, если со времени ее проведения прошло МЕНЕЕ 90 ДНЕЙ) [от 0 до 99]
@@ -761,7 +761,7 @@
 
                     <div class="form-group">
                         <label for="O4a" class="form-group__label col-xs-12">
-                            Госпитализация в стационар (с оставлением на ночь) для получения неотложной помощи
+                            a. Госпитализация в стационар (с оставлением на ночь) для получения неотложной помощи
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -774,7 +774,7 @@
 
                     <div class="form-group">
                         <label for="O4b" class="form-group__label col-xs-12">
-                            Посещение отделения неотложной помощи (без оставления на ночь)
+                            b. Посещение отделения неотложной помощи (без оставления на ночь)
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -790,8 +790,8 @@
                 <fieldset>
 
                     <div class="form-group">
-                        <label for="O5" class="form-group__label col-xs-12">
-                            Посещение терапевта
+                        <label for="O5" class="form-group__label col-xs-12 f-s-1">
+                            O5. Посещение терапевта
                             <small class="text-italic text-normal">
                                 Число дней, когда пациента посещал терапевт, за ПОСЛЕДНИЕ 14 ДНЕЙ
                                 (либо с момента последней оценки, если она проводилась менее 14 дней
@@ -814,8 +814,8 @@
                 <fieldset>
 
                     <div class="form-group">
-                        <label for="O6" class="form-group__label col-xs-12">
-                            Предписания терапевта
+                        <label for="O6" class="form-group__label col-xs-12 f-s-1">
+                            O6. Предписания терапевта
                             <small class="text-italic text-normal">
                                 Число дней за ПОСЛЕДНИЕ 14 ДНЕЙ (либо с момента последней оценки, если
                                 она проводилась менее 14 дней назад), когда терапевт менял назначения
@@ -839,12 +839,12 @@
                 <fieldset>
 
                     <p class="col-xs-12 text-bold">
-                        Ограничивающие устройства
+                        O7. Ограничивающие устройства
                     </p>
 
                     <div class="form-group">
                         <label for="O7a" class="form-group__label col-xs-12">
-                            Полные рамы со всех открытых сторон кровати
+                            a. Полные рамы со всех открытых сторон кровати
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -862,7 +862,7 @@
 
                     <div class="form-group">
                         <label for="O7b" class="form-group__label col-xs-12">
-                            Обездвиживание тела
+                            b. Обездвиживание тела
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -880,7 +880,7 @@
 
                     <div class="form-group">
                         <label for="O7c" class="form-group__label col-xs-12">
-                            Удерживающие стулья
+                            c. Удерживающие стулья
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>

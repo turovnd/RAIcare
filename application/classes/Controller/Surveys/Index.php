@@ -29,18 +29,17 @@ class Controller_Surveys_Index extends Dispatch
     {
         parent::before();
 
-        $org_uri = Request::$subdomain;
+        if (!self::isLogged()) self::gotoLoginPage();
 
-        $this->organization = Model_Organization::getByFieldName('uri', $org_uri);
+        $org_uri = Request::$subdomain;
+        $this->organization = Model_Organization::getByUri($org_uri);
 
         if (!$this->organization->id && !in_array($org_uri, self::PRIVATE_SUBDOMIANS)) {
             throw new HTTP_Exception_404();
         }
 
-        if (!self::isLogged()) self::gotoLoginPage();
-
         $pen_uri = $this->request->param('pen_uri');
-        $this->pension = Model_Pension::getByFieldName('uri', $pen_uri);
+        $this->pension = Model_Pension::getByUri($pen_uri);
 
         if (!$this->pension->id || $this->pension->organization != $this->organization->id) {
             throw new HTTP_Exception_404();
@@ -64,10 +63,12 @@ class Controller_Surveys_Index extends Dispatch
                 throw new HTTP_Exception_404();
             }
 
-            if ($this->survey->status == 1 && strtotime(Date::formatted_time('now')) - strtotime($this->survey->dt_create) > Date::DAY * 3) {
+            if ($this->survey->status == 1 && time() - strtotime($this->survey->dt_create) > Date::DAY * 3) {
                 $this->survey->status= 3;
                 $this->survey->update();
             }
+
+            if ($this->survey->status != 1) throw new HTTP_Exception_404();
         }
 
         $data = array(
@@ -77,22 +78,18 @@ class Controller_Surveys_Index extends Dispatch
             'action'     => $this->request->action()
         );
 
-        $this->template->aside = View::factory('global_blocks/aside', $data);
+        $this->template->aside = View::factory('global-blocks/aside', $data);
     }
 
-    public function action_surveys()
-    {
-        $surveys = Model_Survey::getAllByPension($this->pension->id, 0, 10);
 
-        $this->template->title = "Все формы оценки - " . $this->pension->name;
-        $this->template->section = View::factory('surveys/pages/surveys')
-            ->set('pension', $this->pension)
-            ->set('surveys', $surveys);
-    }
-
+    /**
+     * Survey Page
+     * - voting if nurse
+     * - control others
+     */
     public function action_survey()
     {
-        if ($this->survey->status == 1 && $this->user->role == self::ROLE_PEN_NURSE) {
+        if ($this->user->role == self::ROLE_PEN_NURSE) {
 
             $this->survey->unavailable_units = json_encode($this->getUnavailableUnits());
             $section = 'survey-filling';
@@ -105,14 +102,18 @@ class Controller_Surveys_Index extends Dispatch
 
         }
 
-        $this->template->title = "Форма оценки #" . $this->survey->id . " - " . $this->pension->name;
+        $this->template->title = "Анкета #" . $this->survey->id . " - " . $this->pension->name;
         $this->template->section = View::factory('surveys/pages/' . $section)
             ->set('pension', $this->pension)
             ->set('patient', $this->patient)
-            ->set('survey', $this->survey)
-            ->set('can_conduct', true);
+            ->set('survey', $this->survey);
     }
 
+
+    /**
+     * Get Unavailable Units of Survey
+     * @return array
+     */
     private function getUnavailableUnits()
     {
         $unitC = new Model_SurveyUnitC($this->survey->unitC);
@@ -129,6 +130,9 @@ class Controller_Surveys_Index extends Dispatch
         return $units;
     }
 
+    /**
+     * Get Survey Units
+     */
     private function getSurveyUnits()
     {
         $this->survey->unitA = new Model_SurveyUnitA($this->survey->unitA);

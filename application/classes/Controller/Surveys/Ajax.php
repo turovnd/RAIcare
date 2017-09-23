@@ -14,34 +14,35 @@ class Controller_Surveys_Ajax extends Ajax
     protected $patient  = null;
     protected $survey   = null;
 
+
     public function action_new()
     {
         if (!$this->getPatientAndPensionData()) return;
         $type = Arr::get($_POST,'type');
 
-        if (empty($type)) {
+        if (empty($type) || $type == -1) {
             $response = new Model_Response_Survey('SURVEY_TYPE_EMPTY_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
             return;
         }
 
-        $first_survey = Model_Survey::getFirstSurvey($this->pension->id, $this->patient->pk);
+        $first_survey = Model_Survey::getFirstByPensionPatient($this->pension->id, $this->patient->pk);
         if ($first_survey->pk && $first_survey->type == $type) {
             $response = new Model_Response_Survey('SURVEY_WITH_TYPE_1_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
             return;
         }
 
-        $filling_survey = Model_Survey::getFillingSurveyByPatientAndPension($this->patient->pk, $this->pension->id);
-        if ($filling_survey->pk) {
+        $last_survey = Model_Survey::getLastByPensionPatient($this->pension->id, $this->patient->pk);
+        if ($last_survey->status == 1) {
             $response = new Model_Response_Survey('HAS_NO_COMPLETE_SURVEY_ERROR', 'error');
             $this->response->body(@json_encode($response->get_response()));
             return;
         }
 
-        $count_surveys = $this->redis->get($_SERVER['REDIS_PENSION_HASHES'] . $this->pension->id . ':surveys');
+        $count_surveys = $this->redis->get(getenv('REDIS_PENSION_HASHES') . $this->pension->id . ':surveys');
         $count_surveys = $count_surveys == false ? 1 : $count_surveys + 1;
-        $this->redis->set($_SERVER['REDIS_PENSION_HASHES'] . $this->pension->id . ':surveys', $count_surveys);
+        $this->redis->set(getenv('REDIS_PENSION_HASHES') . $this->pension->id . ':surveys', $count_surveys);
 
         $survey               = new Model_Survey();
         $survey->id           = $count_surveys;
@@ -57,41 +58,6 @@ class Controller_Surveys_Ajax extends Ajax
         $this->response->body(@json_encode($response->get_response()));
     }
 
-    public function action_get()
-    {
-        $offset   = Arr::get($_POST,'offset');
-        $surveys = array();
-
-        if (!$this->getPatientAndPensionData()) return;
-
-        $surveysModel = Model_Survey::getAllFinishedByPatientAndPension($this->patient->pk, $this->pension->id, $offset, 10);
-
-        foreach ($surveysModel as $key => $survey) {
-            $surveys[] = array(
-                'date' => Date('M Y', strtotime($survey->dt_finish)),
-                'html' => View::factory('patients/blocks/timeline-item', array('survey' => $survey))->render()
-            );
-        }
-
-        $response = new Model_Response_Survey('SURVEY_GET_SUCCESS', 'success', array('surveys' => $surveys, 'number' => count($surveys)));
-        $this->response->body(@json_encode($response->get_response()));
-    }
-
-    public function action_load()
-    {
-        $offset  = Arr::get($_POST,'offset');
-        if (!$this->getPensionData()) return;
-
-        $surveys = Model_Survey::getAllByPension($this->pension->id, $offset, 10);
-
-        $html = "";
-        foreach ($surveys as $survey) {
-            $html .= View::factory('surveys/blocks/all-surveys-item', array('survey' => $survey, 'pen_uri' => $this->pension->uri))->render();
-        }
-
-        $response = new Model_Response_Survey('SURVEY_GET_SUCCESS', 'success', array('html' => $html, 'number' => count($surveys)));
-        $this->response->body(@json_encode($response->get_response()));
-    }
 
     public function action_getunit()
     {
@@ -106,10 +72,8 @@ class Controller_Surveys_Ajax extends Ajax
         if ($unit == 'unitA') {
             $this->survey->pension = new Model_Pension($this->survey->pension);
             $this->survey->patient->can_edit = true;
-            $this->survey->patient->full_info = true;
             $this->survey->patient->creator = new Model_User($this->survey->patient->creator);
         }
-
 
         $html = View::factory('surveys/units/' . $unit, array('survey' => $this->survey, 'can_conduct' => true))->render();
 
@@ -117,24 +81,6 @@ class Controller_Surveys_Ajax extends Ajax
         $this->response->body(@json_encode($response->get_response()));
     }
 
-    private function getPensionData()
-    {
-        $pension = Arr::get($_POST,'pension');
-        $this->pension = new Model_Pension($pension);
-
-        if (!$this->pension->id) {
-            $response = new Model_Response_Pensions('PENSION_DOES_NOT_EXISTED_ERROR', 'error');
-            $this->response->body(@json_encode($response->get_response()));
-            return false;
-        }
-
-        $usersIDs = Model_UserPension::getUsers($this->pension->id);
-
-        if (!(in_array($this->user->id, $usersIDs))) {
-            throw new HTTP_Exception_403();
-        }
-        return true;
-    }
 
     private function getPatientAndPensionData()
     {
@@ -165,6 +111,7 @@ class Controller_Surveys_Ajax extends Ajax
         return true;
     }
 
+
     private function getSurvey()
     {
         $survey  = Arr::get($_POST,'survey');
@@ -187,10 +134,11 @@ class Controller_Surveys_Ajax extends Ajax
         return true;
     }
 
+
     private function getSurveyUnits($unit = 'progress')
     {
         if ($unit == 'progress' || $unit == 'unitA') {
-            $first_survey = Model_Survey::getFirstSurvey($this->survey->pension, $this->survey->patient);
+            $first_survey = Model_Survey::getFirstByPensionPatient($this->survey->pension, $this->survey->patient);
             $this->survey->dt_first_survey = !empty($first_survey->pk) ? $first_survey->dt_create : $this->survey->dt_create;
             $this->survey->unitA = new Model_SurveyUnitA($this->survey->unitA);
         }
@@ -249,7 +197,7 @@ class Controller_Surveys_Ajax extends Ajax
 
 
     /**
-     * Update
+     * Update units
      */
     public function action_updateunit()
     {
@@ -1301,6 +1249,10 @@ class Controller_Surveys_Ajax extends Ajax
 
         $report = new Model_ReportProtocols();
         $report->pk = $this->survey->pk;
+        $report->id = $this->survey->id;
+        $report->pension= $this->pension->id;
+        $report->patient= $this->patient->pk;
+        $report->organization = $this->survey->organization;
 
         // Behaviour - проблемное поведение
         $P1 = 0;
@@ -1464,7 +1416,6 @@ class Controller_Surveys_Ajax extends Ajax
     }
 
 
-
     /**
      * Create RAI Scales Report
      */
@@ -1472,6 +1423,10 @@ class Controller_Surveys_Ajax extends Ajax
     {
         $report = new Model_ReportRAIScales();
         $report->pk = $this->survey->pk;
+        $report->id = $this->survey->id;
+        $report->pension= $this->pension->id;
+        $report->patient= $this->patient->pk;
+        $report->organization = $this->survey->organization;
 
         $report->PURS = $this->getPURS();
         $report->CPS = $this->getCPS();

@@ -37,7 +37,7 @@
                     </li>
 
                     <li class="m-b-15">
-                        <label class="label label--danger fl_r">new</label>
+                        <label class="label label--danger fl_r">скоро</label>
                         <p>Совсем скоро будет готов модуль статистики пансионата по результатам анкетирований пациентов.</p>
                         <a href="<?= '//'  . $_SERVER['HTTP_HOST'] . '/' . $pension->uri . '/control'; ?>" class="btn btn--default m-b-0">Динамика пансионата</a>
                     </li>

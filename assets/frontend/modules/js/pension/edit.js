@@ -45,8 +45,10 @@ module.exports = (function (edit) {
                     message: response.message
                 });
 
+                if (parseInt(response.code) === 145 ) {
 
-                if (parseInt(response.code) === 144 ) {
+                    if (name === 'uri')
+                        window.location.assign('/dashboard');
 
                     field.getElementsByClassName('js-pension-info')[0].textContent = input;
                     field.getElementsByClassName('form-group__control-static')[0].classList.toggle('hide');

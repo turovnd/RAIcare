@@ -2,7 +2,7 @@ module.exports = (function (onclick) {
 
     var corePrefix       = 'Report: onclick';
 
-    onclick.triggered = function (element) {
+    onclick.showTriggered = function (element) {
 
         var area        = element.dataset.area,
             block       = document.getElementById(area).getElementsByTagName('tbody')[0],

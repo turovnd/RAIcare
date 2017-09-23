@@ -121,8 +121,14 @@ module.exports = (function (get) {
                 if (parseInt(response.code) === 165 ) {
 
                     unitHolder.innerHTML = response.html;
-                    survey.table.init();
-                    raicare.loader.init();
+
+                    if (unit === 'progress') {
+
+                        survey.table.initProgressTable();
+                        raicare.loader.init();
+
+                    }
+
                     initSelects_();
 
                 } else {

@@ -8,7 +8,7 @@
     <? if (!$can_conduct) : ?>
         <a role="button" onclick="raicare.collapse.toggle(this)" data-area="unitR" data-opened="true" data-textclosed="показать" data-textopened="скрыть" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn"></a>
     <? endif; ?>
-    Выписка
+    РАЗДЕЛ R. Выписка
 </h3>
 
 <form class="row" id="unitR" onsubmit="event.preventDefault()">
@@ -22,7 +22,7 @@
                 <fieldset>
                     <div class="form-group">
                         <label for="R1" class="form-group__label col-xs-12">
-                            Последний день пребывания в лечебном учреждении
+                            R1. Последний день пребывания в лечебном учреждении
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -37,7 +37,7 @@
                 <fieldset>
                     <div class="form-group">
                         <label for="R2" class="form-group__label col-xs-12">
-                            Жилищные условия после выписки
+                            R2. Жилищные условия после выписки
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -57,7 +57,7 @@
                 <fieldset>
                     <div class="form-group">
                         <label class="form-group__label col-xs-12">
-                            Пациенту дано направление на получение услуг по уходу на дому после выписки
+                            R3. Пациенту дано направление на получение услуг по уходу на дому после выписки
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>

@@ -136,9 +136,9 @@ module.exports = (function (coworker) {
             header: 'Радактирование пансионатов',
             onclose: 'remove',
             body:
-            '<fieldset class="p-b-5">'+
+            '<div class="p-b-5">'+
                 '<p class="text-bold">Выберите пансионаты, к которым имеет доступ сотрудник</p>'+
-            '</fieldset>'+
+            '</div>'+
 
             getPensions_(allPensions, coWorkerPensions),
 
@@ -363,7 +363,7 @@ module.exports = (function (coworker) {
                 if (parseInt(response.code) === 133 ) {
 
                     excludeBlock.close();
-                    document.getElementById('coWorkers').querySelector('.block[data-id="' + form.dataset.id + '"]').remove();
+                    document.getElementById('coWorkers').querySelector('.block[data-id="' + form.dataset.id + '"]').parentNode.remove();
 
                 }
 

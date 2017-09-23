@@ -3,7 +3,11 @@
 
 Class Model_ReportProtocols {
 
-    public $pk;         // primary key - copy from survey.pk
+    public $pk;         // primary key - copy from survey->pk
+    public $id;         // primary key - copy from survey->id
+    public $pension;    // pension->id
+    public $patient;    // patient->pk
+    public $organization; // organization->id
     public $P1;         // Behaviour - проблемное поведение
     public $P2;         // Communication - Коммуникация
     public $P3;         // Delirium - Деменция
@@ -66,9 +70,23 @@ Class Model_ReportProtocols {
 
         $result = $insert
             ->clearcache($this->pk)
+            ->clearcache('pension_' . $this->pension . '_id_' . $this->id)
             ->execute();
 
         return $this->get_($result);
+    }
+
+    public static function getByPensionAndID($pension, $id)
+    {
+        $select = Dao_ReportsProtocols::select()
+            ->where('pension', '=', $pension)
+            ->where('id', '=', $id)
+            ->cached(Date::MINUTE * 5, 'pension_' . $pension . '_id_' . $id)
+            ->limit(1)
+            ->execute();
+
+        $report = new Model_ReportProtocols();
+        return $report->fill_by_row($select);
     }
 
     public static function delete($pk)
@@ -78,6 +96,5 @@ Class Model_ReportProtocols {
             ->clearcache($pk)
             ->execute();
     }
-
 
 }
