@@ -14,7 +14,7 @@
 
             <div class="block">
 
-                <div class="block__body">
+                <div class="block__body overflow--hidden">
 
                     <table id="adlSupport">
                         <thead>
@@ -132,7 +132,7 @@
 
             <div class="block">
 
-                <div class="block__body">
+                <div class="block__body overflow--hidden">
 
                     <table id="vision">
                         <thead>
@@ -170,7 +170,7 @@
 
                 <div class="block">
 
-                    <div class="block__body">
+                    <div class="block__body overflow--hidden">
 
                         <table id="hearing">
                             <thead>
@@ -201,7 +201,7 @@
 
                 <div class="block">
 
-                    <div class="block__body">
+                    <div class="block__body overflow--hidden">
 
                         <table id="vision">
                             <thead>
@@ -232,7 +232,7 @@
 
                 <div class="block">
 
-                    <div class="block__body">
+                    <div class="block__body overflow--hidden">
 
                         <table id="communication">
                             <thead>

@@ -9,7 +9,6 @@
     <?= View::factory('patients/blocks/profile-info', array('patient' => $patient))?>
 
 
-
 <!--    <a href="--><?//= '/\/' . $_SERVER['HTTP_HOST'] . '/' . $pension->uri . '/patient/' . $patient->id .'/careplan'; ?><!--" class="btn btn--lg btn--brand m-t-10 m-r-30">-->
 <!--        План ухода-->
 <!--    </a>-->
@@ -28,7 +27,7 @@
 
 
     <h3 class="section__heading">
-        <a id="openCompareBtn" role="button" data-toggle="collapse" data-area="compareReportsBlock" data-opened="false" data-textclosed="cравнить" data-textopened="отмена" class="btn btn--default btn--sm m-b-0 m-r-0 fl_r collapse-btn"></a>
+        <a id="openCompareBtn" role="button" data-toggle="collapse" data-area="compareReportsBlock" data-opened="false" data-textclosed="сравнить" data-textopened="отмена" class="btn btn--default btn--sm m-b-0 m-r-0 fl_r collapse-btn hide"></a>
         История анкетирований
     </h3>
 

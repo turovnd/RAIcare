@@ -1,8 +1,7 @@
 <div class="section__content">
 
     <h3 class="section__heading">
-        <? // ROLE_PEN_NURSE => 23;
-        if ($user->role == 23) : ?>
+        <? if ($user->role == 23) : ?>
             <a role="button" data-toggle="modal" data-area="newPatientModalForm" class="btn btn--brand btn--sm m-0 fl_r">Новый пациент</a>
         <? endif; ?>
         Пациенты пансионата - <?= $pension->name; ?>
@@ -13,7 +12,7 @@
         <div class="col-xs-12">
 
             <div class="block">
-                <div class="block__body">
+                <div class="block__body overflow--hidden">
                     <table class="" id="patients">
                         <thead>
                             <tr>
@@ -54,11 +53,10 @@
                                                     <span>Завершиться</span>
                                                     <br>
                                                     <span class="js-data-fromNow" data-timestamp="<?= $patient->survey->dt_create_timestamp + Date::DAY * 3; ?>"> </span>
-                                                <? endif;?>
+                                                <? endif; ?>
                                             </small>
                                             <a href="<?= '/\/' . $_SERVER['HTTP_HOST'] . '/' . $pension->uri . '/survey/' . $patient->survey->id; ?>" class="btn btn--sm m-5 <?= ($patient->survey->dt_create_timestamp + Date::DAY * 3 - time()) < Date::DAY / 2 ? 'btn--danger' : 'btn--brand'; ?>">
-                                                <?= // ROLE_PEN_NURSE => 23;
-                                                ($user->role == 23) ? 'Продолжить' : 'Подробно'; ?>
+                                                <?= ($user->role == 23) ? 'Продолжить' : 'Подробно'; ?>
                                             </a>
                                         <? elseif ($patient->survey->status == 2): ?>
                                             <small class="text-italic text-gray">
@@ -68,8 +66,7 @@
                                                     <?= date('d.m.Y',$patient->survey->dt_create_timestamp + Date::MONTH * 3); ?>
                                                 </span>
                                             </small>
-                                            <? // ROLE_PEN_NURSE => 23;
-                                            if ($user->role == 2 || $user->role == 23) : ?>
+                                            <? if ($user->role == 2 || $user->role == 23) : ?>
                                                 <button class="btn btn--sm m-5 <?= $patient->survey->dt_create_timestamp + Date::MONTH * 3 - time() < 0 ? 'btn--brand' : 'btn--default'; ?>"
                                                         data-pk="<?= $patient->pk; ?>" onclick="survey.new.createModal(this);">
                                                     Новая оценка
@@ -81,8 +78,7 @@
                                                 <br>
                                                 <span>проведите снова</span>
                                             </small>
-                                            <? // ROLE_PEN_NURSE => 23;
-                                            if ($user->role == 2 || $user->role == 23) : ?>
+                                            <? if ($user->role == 2 || $user->role == 23) : ?>
                                                 <button class="btn btn--sm btn--danger m-5" data-pk="<?= $patient->pk; ?>" onclick="survey.new.createModal(this);">
                                                     Новая оценка
                                                 </button>
@@ -92,8 +88,7 @@
                                     </td>
 
                                     <td class="text-center">
-                                        <? // ROLE_PEN_CREATOR || ROLE_PEN_QUALITY_MANAGER => 20 || 22
-                                        if ($user->role == 2 || $user->role == 20 || $user->role == 22) : ?>
+                                        <? if ($user->role == 2 || $user->role == 10 || $user->role == 12 || $user->role == 20 || $user->role == 22) : ?>
                                             <a href="<?= '/\/' . $_SERVER['HTTP_HOST'] . '/' . $pension->uri . '/patient/' . $patient->id; ?>" class="btn btn--sm btn--default m-5">
                                                 Личное дело
                                             </a>
@@ -130,8 +125,7 @@
     </div>
 
 
-    <? // ROLE_PEN_NURSE => 23;
-    if ($user->role == 23) : ?>
+    <? if ($user->role == 23) : ?>
 
         <?= View::factory('patients/blocks/new'); ?>
 
