@@ -91,7 +91,7 @@ class Controller_Organizations_Ajax extends Ajax
 //
 //        if ($field == "uri") {
 //
-//            $check_org = Model_Organization::getByFieldName("uri", $value);
+//            $check_org = Model_Organization::getByUri("uri", $value);
 //
 //            if ($check_org->id) {
 //                $response = new Model_Response_Organizations('ORGANIZATION_EXISTED_URI_ERROR', 'error');

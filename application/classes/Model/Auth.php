@@ -47,7 +47,6 @@ class Model_Auth extends Model {
         {
             // Destroy the session completely
             $this->_session->destroy();
-            echo Debug::vars($this->_session->destroy());
         }
         else
         {
@@ -62,6 +61,7 @@ class Model_Auth extends Model {
     private function complete($select)
     {
         $this->_session->set('uid', $select['id']);
+        $this->_session->set('oid', $select['organization']);
         $this->_session->set('name', $select['name']);
         $this->_session->set('email', $select['email']);
 

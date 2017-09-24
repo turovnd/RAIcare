@@ -21,7 +21,7 @@ class Controller_Dashboard_Index extends Dispatch
 
         $org_uri = Request::$subdomain;
 
-        $this->organization = Model_Organization::getByFieldName('uri', $org_uri);
+        $this->organization = Model_Organization::getByUri($org_uri);
 
         if (!$this->organization->id && !in_array($org_uri, self::PRIVATE_SUBDOMIANS)) {
             throw new HTTP_Exception_404();
@@ -29,7 +29,7 @@ class Controller_Dashboard_Index extends Dispatch
 
         if (!self::isLogged()) self::gotoLoginPage();
 
-        $this->organization = Model_Organization::getByFieldName('uri', $org_uri);
+        $this->organization = Model_Organization::getByUri($org_uri);
 
         if ( in_array($this->user->role,self::ORG_AVAILABLE_ROLES) ||
             $this->user->role == self::ROLE_ORG_CREATOR ||

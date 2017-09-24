@@ -108,7 +108,7 @@ class Controller_Pensions_Ajax extends Ajax
         $penID = Arr::get($_POST,'penID');
 
         $org_uri = Request::$subdomain;
-        $organization = Model_Organization::getByFieldName('uri', $org_uri);
+        $organization = Model_Organization::getByUri($org_uri);
 
         if (!$organization->id) {
             $response = new Model_Response_Organizations('ORGANIZATION_DOES_NOT_EXISTED_ERROR', 'error');
@@ -192,7 +192,7 @@ class Controller_Pensions_Ajax extends Ajax
         $penID  = Arr::get($_POST,'penID');
 
         $org_uri = Request::$subdomain;
-        $organization = Model_Organization::getByFieldName('uri', $org_uri);
+        $organization = Model_Organization::getByUri($org_uri);
 
         if (!$organization->id) {
             $response = new Model_Response_Organizations('ORGANIZATION_DOES_NOT_EXISTED_ERROR', 'error');
@@ -263,7 +263,7 @@ class Controller_Pensions_Ajax extends Ajax
         }
 
         $org_uri = Request::$subdomain;
-        $organization = Model_Organization::getByFieldName('uri', $org_uri);
+        $organization = Model_Organization::getByUri($org_uri);
 
         if (!$organization->id) {
             $response = new Model_Response_Organizations('ORGANIZATION_DOES_NOT_EXISTED_ERROR', 'error');

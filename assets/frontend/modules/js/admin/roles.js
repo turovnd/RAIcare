@@ -1,98 +1,97 @@
 module.exports = (function (roles) {
 
-    var corePrefix   = 'RAIcare admin', i,
-        roleID       = null,
-        rolesWrapper = null;
-
-    roles.openmodal = function (element) {
-
-        roleID       = element.dataset.pk;
-        rolesWrapper = element.parentNode;
-
-        var rolename = element.dataset.rolename,
-            selectedPermissions = JSON.parse(element.dataset.permissions);
-
-        raicare.modal.create({
-            id: 'updateRoleModal',
-            header: 'Изменить права доступа роли: ' + rolename,
-            body:
-            '<fieldset>'+
-            '<div class="form-group">'+
-            '<label for="updateRoleName" class="form-group__label">Название роли</label>'+
-            '<input type="text" id="updateRoleName" class="form-group__control" maxlength="128" value="' + rolename + '">'+
-            '</div>'+
-            '</fieldset>'+
-            '<fieldset id="updatePermissions" class="m-b-0">'+
-            '<div class="form-group">'+
-                getPermissions_(selectedPermissions) +
-            '</div>'+
-            '</fieldset>',
-
-            footer:
-            '<button type="button" class="btn btn--default" data-close="modal">Отмена</button>'+
-            '<button onclick="admin.roles.updaterole()" type="button" class="btn btn--brand">Изменить</button>'
-        });
-
-    };
+    var corePrefix  = 'Admin: roles',
+        currentRow  = null,
+        newModal    = null,
+        updateModal = null;
 
 
-    roles.updaterole = function () {
+    /**
+     * Create New Role
+     * @private
+     */
+    var newRole_ = function (event) {
 
-        var form             = document.getElementById('updateRoleModal'),
-            formData         = new FormData(),
-            permissionsBlock = document.getElementById('updatePermissions').querySelectorAll('.checkbox:checked'),
-            permissions      = [],
-            permis           = [];
-
-        for (i = 0; i < permissionsBlock.length; i++) {
-
-            permissions.push(permissionsBlock[i].id.split('_')[1]);
-            permis.push({
-                id: permissionsBlock[i].id.split('_')[1],
-                name: permissionsBlock[i].value
-            });
-
-        }
-
-        formData.append('role', roleID);
-        formData.append('name', document.getElementById('updateRoleName').value);
-        formData.append('permissions', JSON.stringify(permissions));
-        formData.append('csrf', document.getElementById('csrf').value);
+        event.preventDefault();
 
         var ajaxData = {
-            url: '/admin/role/update',
+            url: '/admin/newrole',
             type: 'POST',
-            data: formData,
+            data: new FormData(newModal),
             beforeSend: function () {
 
-                form.getElementsByClassName('modal__content')[0].classList.add('loading');
+                newModal.getElementsByClassName('modal__wrapper')[0].classList.add('loading');
 
             },
             success: function (response) {
 
                 response = JSON.parse(response);
-                raicare.core.log(response.message, response.status, corePrefix);
-                form.getElementsByClassName('modal__content')[0].classList.remove('loading');
+                newModal.getElementsByClassName('modal__wrapper')[0].classList.remove('loading');
 
+                if (parseInt(response.code) === 100 ) {
+
+                    window.location.reload();
+
+                }
+
+                raicare.modal.hide(newModal);
                 raicare.notification.notify({
                     type: response.status,
                     message: response.message
                 });
 
+            },
+            error: function (callbacks) {
 
-                if (parseInt(response.code) === 103 ) {
+                raicare.core.log('ajax error occur on creating new role', 'error', corePrefix, callbacks);
+                newModal.getElementsByClassName('modal__wrapper')[0].classList.remove('loading');
 
-                    rolesWrapper.innerHTML = updateHTML_(permis);
-                    raicare.modal.hide(form);
-                    form.remove();
+            }
+        };
+
+        raicare.ajax.send(ajaxData);
+
+    };
+
+    /**
+     * Update Role
+     * @private
+     */
+    var updateRole_ = function (event) {
+
+        event.preventDefault();
+
+        var ajaxData = {
+            url: '/admin/updaterole',
+            type: 'POST',
+            data: new FormData(updateModal),
+            beforeSend: function () {
+
+                updateModal.getElementsByClassName('modal__wrapper')[0].classList.add('loading');
+
+            },
+            success: function (response) {
+
+                response = JSON.parse(response);
+                updateModal.getElementsByClassName('modal__wrapper')[0].classList.remove('loading');
+
+                if (parseInt(response.code) === 101 ) {
+
+                    currentRow.getElementsByTagName('td')[1].textContent = document.getElementById('updateRoleName').value;
 
                 }
+
+                raicare.modal.hide(updateModal);
+                raicare.notification.notify({
+                    type: response.status,
+                    message: response.message
+                });
 
             },
             error: function (callbacks) {
 
-                raicare.core.log('ajax error occur on changing user role', 'error', corePrefix, callbacks);
-                form.getElementsByClassName('modal__content')[0].classList.remove('loading');
+                raicare.core.log('ajax error occur on updating role', 'error', corePrefix, callbacks);
+                updateModal.getElementsByClassName('modal__wrapper')[0].classList.remove('loading');
 
             }
         };
@@ -102,67 +101,83 @@ module.exports = (function (roles) {
     };
 
 
-    function getPermissions_(selectedPermissions) {
+    /**
+     * Delete Role
+     * @param id - role ID
+     * @private
+     */
+    var deleteRole_ = function (id) {
 
-        var allPermissions = document.getElementsByClassName('permission-name'),
-            str            = '',
-            permissions    = [];
+        var formData = new FormData();
+
+        formData.append('id', id);
+        formData.append('csrf', document.getElementById('csrf').value);
+
+        var ajaxData = {
+            url: '/admin/deleterole',
+            type: 'POST',
+            data: formData,
+            beforeSend: function () {
+
+                document.body.classList.add('loading');
+
+            },
+            success: function (response) {
+
+                response = JSON.parse(response);
+                document.body.classList.remove('loading');
+
+                if (parseInt(response.code) === 102 ) {
+
+                    window.location.reload();
+
+                }
+
+                raicare.notification.notify({
+                    type: response.status,
+                    message: response.message
+                });
+
+            },
+            error: function (callbacks) {
+
+                raicare.core.log('ajax error occur on deleting role', 'error', corePrefix, callbacks);
+                document.body.classList.remove('loading');
+
+            }
+        };
+
+        raicare.ajax.send(ajaxData);
+
+    };
 
 
-        for (i = 0; i < allPermissions.length; i++) {
+    roles.openmodal = function (element) {
 
-            permissions[allPermissions[i].dataset.id] = {
-                id: allPermissions[i].dataset.id,
-                name: allPermissions[i].textContent,
-                checked: ''
-            };
+        currentRow = element.parentNode.parentNode;
 
-        }
+        document.getElementById('currentRoleID').value = currentRow.getElementsByTagName('td')[0].textContent;
+        document.getElementById('updateRoleName').value = currentRow.getElementsByTagName('td')[1].textContent;
 
-        for (i = 0; i < selectedPermissions.length; i++) {
+        raicare.modal.show(updateModal);
 
-            permissions[selectedPermissions[i]['id']].checked = 'checked';
+    };
 
-        }
+    roles.delete = function (id) {
 
-        while (permissions.length > 1) {
+        deleteRole_(id);
 
-            var el = permissions.pop();
+    };
 
-            str =
-                '<p>' +
-                '<input type="checkbox" id="modalpermission_' + el.id + '" class="checkbox" ' + el.checked + ' value="' + el.name + '">' +
-                '<label for="modalpermission_' + el.id + '" class="checkbox-label">' + el.name + '</label>' +
-                '</p>' + str ;
+    roles.init = function () {
 
-        }
+        updateModal = document.getElementById('updateRoleModal');
+        updateModal.addEventListener('submit', updateRole_);
 
+        newModal = document.getElementById('newRoleModal');
+        newModal.addEventListener('submit', newRole_);
 
-        return str;
-
-    }
-
-    function updateHTML_(permis) {
-
-        var name    = document.getElementById('updateRoleName').value,
-            str     = '';
-
-        str =
-            '<span class="role-name">' + name + '</span>'+
-            '<button onclick="admin.roles.openmodal(this)" role="button" class="m-l-5" data-pk="' + roleID + '" data-rolename="' + name + '" data-permissions=\'' + JSON.stringify(permis) + '\'><i class="fa fa-edit text-brand" aria-hidden="true"></i></button>'+
-            '<ul>';
-
-        for (i = 0; i < permis.length; i++) {
-
-            str += '<li data-permission="' + permis[i].id + '">' + permis[i].name + '</li>';
-
-        }
-
-        str += '</ul>';
-
-        return str;
-
-    }
+    };
 
     return roles;
 

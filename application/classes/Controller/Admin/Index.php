@@ -10,64 +10,42 @@
 
 class Controller_Admin_Index extends Dispatch
 {
-    CONST MODULE_ADMIN      = 1;
-    CONST PERMISSIONS       = 2;
-    CONST CREATE_USERS      = 5;
-
     public $template = 'main';
 
     public function before()
     {
         parent::before();
 
-        if (!self::isLogged()) {
-            $this->redirect('login');
+        $subdomain = Request::$subdomain;
+
+        if (!in_array($subdomain, self::PRIVATE_SUBDOMIANS)) {
+            throw new HTTP_Exception_404();
         }
 
-        self::hasAccess(self::MODULE_ADMIN);
+        if (!self::isLogged()) self::gotoLoginPage();
+
+        if ($this->user->role != self::ROLE_ADMIN) {
+            throw new HTTP_Exception_403;
+        }
 
         $data = array(
-            'action'    => $this->request->action(),
+            'aside_type' => 'admin',
+            'action'     => $this->request->action(),
         );
 
         $this->template->aside = View::factory('global-blocks/aside', $data);
-
     }
 
 
-    public function action_rules()
-    {
-        self::hasAccess(self::PERMISSIONS);
+    /**
+     * Manage Roles
+     */
+    public function action_roles() {
 
-        $roles = Model_Role::getByType('admin', 1);
+        $roles = Model_Role::getAll();
 
-        foreach ($roles as $role) {
-            $permissions = json_decode($role->permissions);
-            $role->permissions = array();
-            foreach ($permissions as $permission) {
-                $role->permissions[] = new Model_Permission($permission);
-            }
-        }
-
-        $permissions = Model_Permission::getAll();
-
-        $this->template->title = "Роли и права доступа";
-        $this->template->section = View::factory('admin/rules')
-            ->set('roles', $roles)
-            ->set('permissions', $permissions);
-    }
-
-
-    public function action_newuser()
-    {
-        self::hasAccess(self::CREATE_USERS);
-
-        $permissions = Model_Permission::getAll();
-        $roles = Model_Role::getByType('admin', 1);
-
-        $this->template->title = "Содание пользователей";
-        $this->template->section = View::factory('admin/new-user')
-            ->set('permissions', $permissions)
+        $this->template->title = "Роли";
+        $this->template->section = View::factory('admin/pages/roles')
             ->set('roles', $roles);
     }
 
