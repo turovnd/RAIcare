@@ -45,12 +45,16 @@ class Controller_Patients_Index extends Dispatch
 
         $this->pension->users = Model_UserPension::getUsers($this->pension->id);
 
-        if (! ( in_array($this->user->role,self::PEN_AVAILABLE_ROLES) ||
-            $this->user->role == self::ROLE_PEN_CREATOR ||
-            in_array($this->user->id, $this->pension->users) || $this->user->role == 1) ) {
+        if (! ( ( in_array($this->user->id, $this->pension->users) && (
+                $this->user->role == self::ROLE_PEN_CREATOR ||
+                $this->user->role == self::ROLE_PEN_QUALITY_MANAGER ||
+                $this->user->role == self::ROLE_PEN_NURSE ) ) ||
+            $this->user->role == self::ROLE_ORG_CREATOR ||
+            $this->user->role == self::ROLE_ORG_QUALITY_MANAGER ||
+            $this->user->role == self::ROLE_ADMIN ||
+            $this->user->role == self::ROLE_DEMO ) ) {
 
-            throw new HTTP_Exception_403();
-
+            throw new HTTP_Exception_403;
         }
 
         $data = array(
@@ -69,13 +73,6 @@ class Controller_Patients_Index extends Dispatch
      */
     public function action_patients()
     {
-        if (! ($this->user->role == self::ROLE_PEN_CREATOR ||
-                $this->user->role == self::ROLE_PEN_QUALITY_MANAGER ||
-                $this->user->role == self::ROLE_PEN_NURSE) ) {
-
-            throw new HTTP_Exception_403;
-        }
-
         $patients_selections = Model_Patient::getAllByPensionStatus($this->pension->id, 1, false);
 
         $patients = array();
@@ -103,12 +100,6 @@ class Controller_Patients_Index extends Dispatch
      */
     public function action_patient()
     {
-        if (! ($this->user->role == self::ROLE_PEN_CREATOR ||
-            $this->user->role == self::ROLE_PEN_QUALITY_MANAGER) ) {
-
-            throw new HTTP_Exception_403;
-        }
-
         $pat_id = $this->request->param('id');
 
         $this->patient = Model_Patient::getByPensionPatID($this->pension->id, $pat_id);

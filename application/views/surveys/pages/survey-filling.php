@@ -4,8 +4,9 @@
 
 </div>
 
-<input type="hidden" id="surveyID" value="<?=$survey->pk; ?>">
+<input type="hidden" id="surveyPK" value="<?=$survey->pk; ?>">
 <input type="hidden" id="pensionID" value="<?=$pension->id; ?>">
+<input type="hidden" id="patientPK" value="<?=$survey->patient; ?>">
 <input type="hidden" id="pensionURI" value="<?=$pension->uri; ?>">
 <input type="hidden" id="unavailableUnits" value='<?= $survey->unavailable_units; ?>'>
 

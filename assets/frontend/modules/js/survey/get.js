@@ -6,13 +6,13 @@ module.exports = (function (get) {
         patientPK        = document.getElementById('patientPK'),
         units            = ['progress', 'unitA', 'unitB', 'unitC', 'unitD', 'unitE', 'unitF', 'unitG', 'unitH', 'unitI',
             'unitJ', 'unitK', 'unitL', 'unitM', 'unitN', 'unitO', 'unitP', 'unitQ', 'unitR'],
-        surveyID         = document.getElementById('surveyID'),
+        surveyPK         = document.getElementById('surveyPK'),
         ajaxSend         = false;
 
 
     if(pensionID) pensionID = pensionID.value;
     if(patientPK) patientPK = patientPK.value;
-    if(surveyID) surveyID = surveyID.value;
+    if(surveyPK) surveyPK = surveyPK.value;
 
     get.unitstart = function () {
 
@@ -99,7 +99,7 @@ module.exports = (function (get) {
         var formData = new FormData();
 
         formData.append('unit', unit);
-        formData.append('survey', surveyID);
+        formData.append('survey', surveyPK);
         formData.append('pension', pensionID);
         formData.append('csrf', document.getElementById('csrf').value);
 

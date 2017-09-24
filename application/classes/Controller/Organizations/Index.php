@@ -78,8 +78,9 @@ class Controller_Organizations_Index extends Dispatch
      */
     public function action_manage()
     {
-        if ( ! ($this->user->role == self::ROLE_ORG_CREATOR
-            || $this->user->role == self::ROLE_ORG_CO_WORKER_MANAGER) ) {
+        if ( ! ($this->user->role == self::ROLE_DEMO ||
+            $this->user->role == self::ROLE_ORG_CREATOR ||
+            $this->user->role == self::ROLE_ORG_CO_WORKER_MANAGER) ) {
 
             throw new HTTP_Exception_403();
 

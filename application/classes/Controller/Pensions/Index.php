@@ -41,11 +41,15 @@ class Controller_Pensions_Index extends Dispatch
 
         $this->pension->users = Model_UserPension::getUsers($this->pension->id);
 
-        if (! ( in_array($this->user->role,self::ORG_AVAILABLE_ROLES) || $this->user->role == self::ROLE_ORG_CREATOR ||
-            in_array($this->user->role,self::PEN_AVAILABLE_ROLES) || $this->user->role == self::ROLE_PEN_CREATOR ||
-            in_array($this->user->id, $this->pension->users) || $this->user->role == 1 ) ) {
+        if (! ( ( in_array($this->user->id, $this->pension->users) && (
+                    $this->user->role == self::ROLE_PEN_CREATOR ||
+                    in_array($this->user->role,self::PEN_AVAILABLE_ROLES) ) ) ||
+            $this->user->role == self::ROLE_ORG_CREATOR ||
+            in_array($this->user->role,self::ORG_AVAILABLE_ROLES) ||
+            $this->user->role == self::ROLE_ADMIN ||
+            $this->user->role == self::ROLE_DEMO ) ) {
 
-                throw new HTTP_Exception_403();
+            throw new HTTP_Exception_403;
         }
 
         $data = array(
@@ -95,7 +99,10 @@ class Controller_Pensions_Index extends Dispatch
      */
     public function action_settings()
     {
-        if ( $this->user->role != self::ROLE_PEN_CREATOR && $this->user->role != 1 ) {
+        if ( ! ($this->user->role == self::ROLE_ORG_CREATOR ||
+            $this->user->role == self::ROLE_PEN_CREATOR ||
+            $this->user->role == self::ROLE_ADMIN ||
+            $this->user->role == self::ROLE_DEMO ) ) {
             throw new HTTP_Exception_403();
         }
 
@@ -110,8 +117,9 @@ class Controller_Pensions_Index extends Dispatch
      */
     public function action_manage()
     {
-        if ( ! ($this->user->role == self::ROLE_PEN_CREATOR
-            || $this->user->role == self::ROLE_PEN_CO_WORKER_MANAGER) ) {
+        if ( ! ($this->user->role == self::ROLE_PEN_CREATOR ||
+            $this->user->role == self::ROLE_PEN_CO_WORKER_MANAGER ||
+            $this->user->role == self::ROLE_DEMO ) ) {
 
             throw new HTTP_Exception_403();
 

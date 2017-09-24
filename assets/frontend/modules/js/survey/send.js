@@ -1,13 +1,15 @@
 module.exports = (function (send) {
 
     var corePrefix  = 'Survey: send AJAX',
-        surveyID    = document.getElementById('surveyID'),
+        surveyPK    = document.getElementById('surveyPK'),
+        patientPK   = document.getElementById('patientPK'),
         pensionID   = document.getElementById('pensionID'),
         pensionURI  = document.getElementById('pensionURI');
 
-    if(surveyID) surveyID= surveyID.value;
+    if(surveyPK) surveyPK= surveyPK.value;
     if(pensionID) pensionID = pensionID.value;
     if(pensionURI) pensionURI = pensionURI.value;
+    if(patientPK) patientPK = patientPK.value;
 
     send.updateunit = function (unit) {
 
@@ -18,7 +20,7 @@ module.exports = (function (send) {
         var formData = new FormData(form);
 
         formData.append('unit', unit);
-        formData.append('survey', surveyID);
+        formData.append('survey', surveyPK);
         formData.append('pension', pensionID);
         formData.append('csrf', document.getElementById('csrf').value);
 
@@ -66,8 +68,9 @@ module.exports = (function (send) {
         var form     = document.body,
             formData = new FormData();
 
-        formData.append('survey', surveyID);
+        formData.append('survey', surveyPK);
         formData.append('pension', pensionID);
+        formData.append('patient', patientPK);
         formData.append('csrf', document.getElementById('csrf').value);
 
         var ajaxData = {
@@ -92,7 +95,7 @@ module.exports = (function (send) {
 
                 if (parseInt(response.code) === 169) {
 
-                    window.location.assign('/' + pensionURI + '/report/' + surveyID + '/status');
+                    window.location.assign('/' + pensionURI + '/patient/' + response.id + '/status');
 
                 }
 

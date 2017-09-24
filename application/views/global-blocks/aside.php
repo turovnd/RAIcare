@@ -10,8 +10,7 @@
 
     <? if ( $aside_type == 'organization' || $aside_type == 'dashboard' || $aside_type == 'profile') : ?>
 
-        <? // ROLE_ORG_CREATOR || ROLE_ORG_CO_WORKER_MANAGER => 10 || 11
-        if ( $user->role == 10 || $user->role == 11) : ?>
+        <? if ( $user->role == 2 || $user->role == 10 || $user->role == 11) : ?>
             <li class="aside__item <? echo $action == "manage" ? 'aside__item--active' : ''; ?>">
                 <a href="<?= '/\/' .$_SERVER['HTTP_HOST'] . '/manage'; ?>" class="aside__link <? echo $action == "manage" ? 'aside__link--active' : ''; ?>">
                     <i class="fa fa-group aside__icon" aria-hidden="true"></i>
@@ -20,8 +19,7 @@
             </li>
         <? endif; ?>
 
-        <? // ROLE_ORG_CREATOR || ROLE_ORG_QUALITY_MANAGER => 10 || 12
-        if ( $user->role == 10 || $user->role == 12 ) : ?>
+        <? if ( $user->role == 2 || $user->role == 10 || $user->role == 12 ) : ?>
             <li class="hide aside__item <? echo $action == "control_organization" ? 'aside__item--active' : ''; ?>">
                 <a href="<?= '/\/' .$_SERVER['HTTP_HOST'] . '/control/organization'; ?>" class="aside__link <? echo $action == "control_organization" ? 'aside__link--active' : ''; ?>">
                     <i class="fa fa-pie-chart aside__icon" aria-hidden="true"></i>
@@ -45,8 +43,7 @@
             </a>
         </li>
 
-        <? // ROLE_PEN_CREATOR => 20
-        if ( $user->role == 1 || $user->role == 20 ) : ?>
+        <? if ( $user->role == 1 || $user->role == 2 || $user->role == 10 || $user->role == 20 ) : ?>
 
             <li class="aside__item <? echo $action == "settings" ? 'aside__item--active' : ''; ?>">
                 <a href="<?='/\/' . $_SERVER['HTTP_HOST'] . '/' . $pension->uri. '/settings' ?>" class="aside__link <? echo $action == "settings" ? 'aside__link--active' : ''; ?>">
@@ -57,8 +54,7 @@
 
         <? endif; ?>
 
-        <? // ROLE_PEN_CREATOR || ROLE_PEN_CO_WORKER_MANAGER => 20 || 21
-        if ( $user->role == 20 || $user->role == 21) : ?>
+        <? if ( $user->role == 2 || $user->role == 20 || $user->role == 21) : ?>
 
             <li class="aside__item <? echo $action == "manage" ? 'aside__item--active' : ''; ?>">
                 <a href="<?= '/\/' . $_SERVER['HTTP_HOST'] . '/' . $pension->uri . '/manage'; ?>" class="aside__link <? echo $action == "manage" ? 'aside__link--active' : ''; ?>">
@@ -69,8 +65,8 @@
 
         <? endif; ?>
 
-        <? // ROLE_PEN_CREATOR || ROLE_PEN_QUALITY_MANAGER || ROLE_PEN_NURSE => 20 || 22 || 23
-        if ( $user->role == 20 || $user->role == 22 || $user->role == 23 ) : ?>
+        <? if ( $user->role == 1 || $user->role == 2 || $user->role == 10 || $user->role == 12 ||
+                $user->role == 20 || $user->role == 22 || $user->role == 23 ) : ?>
 
             <li class="aside__item <? echo $aside_type == "patient" ||
                                             $action == "patients" ||
@@ -85,8 +81,7 @@
         <? endif; ?>
 
 
-        <? // ROLE_PEN_CREATOR || ROLE_PEN_QUALITY_MANAGER => 20 || 22
-        if ( $user->role == 20 || $user->role == 22 ) : ?>
+        <? if ( $user->role == 2 || $user->role == 20 || $user->role == 22 ) : ?>
 
             <li class="hide aside__item <? echo $aside_type == 'report' ? 'aside__item--active' : ''; ?>">
                 <a role="button" data-toggle="collapse" data-area="reportsMenu" data-opened="<?= $aside_type == 'report' ? 'true' : 'false'?>"
@@ -131,8 +126,7 @@
 
     <? endif; ?>
 
-    <? // ROLE_PEN_NURSE => 23
-    if (!empty($survey) && $survey->status == 1 && $user->role == 23) : ?>
+    <? if (!empty($survey) && $survey->status == 1 && ($user->role == 23 || $user->role == 2)) : ?>
 
         <li class="divider"></li>
         <li class="aside__text text-bold f-s-0_8 p-5">Анкета #<?= $survey->id; ?></li>

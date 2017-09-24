@@ -29,7 +29,7 @@
                             Дата первичной оценки в учреждение
                         </label>
                         <div class="col-xs-12">
-                            <p class="form-group__control-static p-l-0 p-r-0"> strftime('%e %b %Y', strtotime($survey->dt_first_survey)); ?> </p>
+                            <p class="form-group__control-static p-l-0 p-r-0"> <?= strftime('%e %b %Y', strtotime($survey->dt_first_survey)); ?> </p>
                         </div>
                     </div>
                 </fieldset>

@@ -7,6 +7,7 @@ class Dispatch extends Controller_Template
     CONST PRIVATE_SUBDOMIANS = array('admin', 'my', 'confirm', 'reset');
 
     CONST ROLE_ADMIN                    = 1;
+    CONST ROLE_DEMO                     = 2;
     CONST ROLE_ORG_CREATOR              = 10;
     CONST ROLE_ORG_CO_WORKER_MANAGER    = 11;
     CONST ROLE_ORG_QUALITY_MANAGER      = 12;

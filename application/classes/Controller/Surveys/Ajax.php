@@ -111,7 +111,6 @@ class Controller_Surveys_Ajax extends Ajax
         return true;
     }
 
-
     private function getSurvey()
     {
         $survey  = Arr::get($_POST,'survey');
@@ -124,7 +123,9 @@ class Controller_Surveys_Ajax extends Ajax
             return false;
         }
 
-        if ($this->survey->status == 1 && strtotime(Date::formatted_time('now')) - strtotime($this->survey->dt_create) > Date::DAY * 3) {
+        if ($this->survey->status == 1 &&
+            strtotime(Date::formatted_time('now')) - strtotime($this->survey->dt_create) > Date::DAY * 3 &&
+            Request::$subdomain != 'demo') {
             $this->survey->status= 3;
             $this->survey->update();
             $response = new Model_Response_Survey('SURVEY_HAS_BEEN_DELETED_ERROR', 'error');
@@ -1102,6 +1103,7 @@ class Controller_Surveys_Ajax extends Ajax
     public function action_complete()
     {
         if (!$this->getSurvey()) return;
+        if (!$this->getPatientAndPensionData()) return;
 
         $this->survey->status = 2;
         $this->survey->dt_finish = Date::formatted_time('now');
@@ -1111,7 +1113,7 @@ class Controller_Surveys_Ajax extends Ajax
         $this->createProtocolsReport();
         $this->createRAIScales();
 
-        $response = new Model_Response_Survey('SURVEY_COMPLETE_SUCCESS', 'success');
+        $response = new Model_Response_Survey('SURVEY_COMPLETE_SUCCESS', 'success', array('id' => $this->patient->id));
         $this->response->body(@json_encode($response->get_response()));
         return;
     }
