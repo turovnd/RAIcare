@@ -49,8 +49,7 @@ Class Model_Role {
 
         foreach ($select as $db_selection) {
             $role = new Model_Role();
-            $role->fill_by_row($db_selection);
-            $roles[] = $role;
+            $roles[] = $role->fill_by_row($db_selection);
         }
 
         return $roles;

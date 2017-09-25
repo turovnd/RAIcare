@@ -1,21 +1,22 @@
-module.exports = (function (roles) {
+module.exports = (function (users) {
 
-    var corePrefix  = 'Admin: roles',
+    var corePrefix      = 'Admin: users',
+        passwordSymbols = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890',
         currentRow  = null,
         newModal    = null,
         updateModal = null;
 
 
     /**
-     * Create New Role
+     * Create New User
      * @private
      */
-    var createRole_ = function (event) {
+    var createUser_ = function (event) {
 
         event.preventDefault();
 
         var ajaxData = {
-            url: '/admin/role/create',
+            url: '/admin/user/create',
             type: 'POST',
             data: new FormData(newModal),
             beforeSend: function () {
@@ -28,7 +29,7 @@ module.exports = (function (roles) {
                 response = JSON.parse(response);
                 newModal.getElementsByClassName('modal__wrapper')[0].classList.remove('loading');
 
-                if (parseInt(response.code) === 100 ) {
+                if (parseInt(response.code) === 50 ) {
 
                     window.location.reload();
 
@@ -42,7 +43,7 @@ module.exports = (function (roles) {
             },
             error: function (callbacks) {
 
-                raicare.core.log('ajax error occur on creating new role', 'error', corePrefix, callbacks);
+                raicare.core.log('ajax error occur on creating new user', 'error', corePrefix, callbacks);
                 newModal.getElementsByClassName('modal__wrapper')[0].classList.remove('loading');
 
             }
@@ -53,7 +54,7 @@ module.exports = (function (roles) {
     };
 
     /**
-     * Update Role
+     * Update User
      * @private
      */
     var updateRole_ = function (event) {
@@ -61,7 +62,7 @@ module.exports = (function (roles) {
         event.preventDefault();
 
         var ajaxData = {
-            url: '/admin/role/update',
+            url: '/admin/updaterole',
             type: 'POST',
             data: new FormData(updateModal),
             beforeSend: function () {
@@ -101,7 +102,7 @@ module.exports = (function (roles) {
 
 
     /**
-     * Delete Role
+     * Delete User
      * @param id - role ID
      * @private
      */
@@ -113,7 +114,7 @@ module.exports = (function (roles) {
         formData.append('csrf', document.getElementById('csrf').value);
 
         var ajaxData = {
-            url: '/admin/role/delete',
+            url: '/admin/deleterole',
             type: 'POST',
             data: formData,
             beforeSend: function () {
@@ -151,7 +152,7 @@ module.exports = (function (roles) {
     };
 
 
-    roles.openmodal = function (element) {
+    users.openmodal = function (element) {
 
         currentRow = element.parentNode.parentNode;
 
@@ -162,22 +163,61 @@ module.exports = (function (roles) {
 
     };
 
-    roles.delete = function (id) {
+    users.delete = function (id) {
 
         deleteRole_(id);
 
     };
 
-    roles.init = function () {
+    /**
+     * Generate Random Password
+     * @param element
+     */
+    users.randompassword = function (element) {
 
-        updateModal = document.getElementById('updateRoleModal');
-        updateModal.addEventListener('submit', updateRole_);
+        var password = '',
+            rand;
 
-        newModal = document.getElementById('newRoleModal');
-        newModal.addEventListener('submit', createRole_);
+        for (var i = 0; i < 10; i++) {
+
+            rand = Math.floor(Math.random()*passwordSymbols.length);
+            password += passwordSymbols.substring(rand, rand+1);
+
+        }
+
+        element.parentNode.getElementsByTagName('input')[0].value = password;
 
     };
 
-    return roles;
+    users.init = function (type) {
+
+        if (type === 'all') {
+
+            newModal = document.getElementById('newUserModal');
+            newModal.addEventListener('submit', createUser_);
+
+            new DataTable('#users', {
+                perPage: 20,
+                perPageSelect: [20, 40, 60, 80, 100],
+                searchable: true,
+                sortable: true,
+                labels: {
+                    placeholder: 'Поиск...',
+                    perPage: '{select} пользователей на странице',
+                    noRows: 'Пользователи не найдены',
+                    info: 'Показано с {start} по {end} из {rows}',
+                },
+                nextPrev: false,
+                footer: true
+            });
+
+        } else {
+            // updateModal = document.getElementById('updateRoleModal');
+            // updateModal.addEventListener('submit', updateRole_);
+        }
+
+    };
+
+    return users;
 
 })({});

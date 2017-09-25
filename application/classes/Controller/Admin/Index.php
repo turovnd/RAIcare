@@ -38,7 +38,9 @@ class Controller_Admin_Index extends Dispatch
 
 
     /**
-     * Manage Roles
+     * @MODULE Roles
+     *
+     * All roles
      */
     public function action_roles() {
 
@@ -47,6 +49,42 @@ class Controller_Admin_Index extends Dispatch
         $this->template->title = "Роли";
         $this->template->section = View::factory('admin/pages/roles')
             ->set('roles', $roles);
+    }
+
+
+    /**
+     * @MODULE User
+     *
+     * All users
+     */
+    public function action_users() {
+
+        $roles = Model_Role::getAll();
+        $users = Model_User::getAll();
+
+        $this->template->title = "Пользователи";
+        $this->template->section = View::factory('admin/pages/users/all')
+            ->set('users', $users)
+            ->set('roles', $roles);
+    }
+
+    /**
+     * @MODULE User
+     *
+     * Certain User
+     *
+     * @throws HTTP_Exception_404
+     */
+    public function action_user() {
+
+        $id = $this->request->param('id');
+        $user = new Model_User($id);
+
+        if (!$user->id) throw new HTTP_Exception_404;
+
+        $this->template->title = "Пользователь #" . $user->id;
+        $this->template->section = View::factory('admin/pages/users/certain')
+            ->set('user', $user);
     }
 
 }
