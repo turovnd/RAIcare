@@ -144,4 +144,25 @@ Class Model_Pension {
 
     }
 
+
+    public static function searchByName($name) {
+
+        $select = Dao_Pensions::select()
+            ->or_having('name', '%' . $name . '%')
+            ->order_by('id', 'DESC')
+            ->limit(30)
+            ->execute();
+
+        $pensions = array();
+
+        if (empty($select)) return $pensions;
+
+        foreach ($select as $db_selection) {
+            $pension = new Model_Pension();
+            $pensions[] = $pension->fill_by_row($db_selection);
+        }
+
+        return $pensions;
+    }
+
 }

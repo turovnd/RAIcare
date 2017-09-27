@@ -138,4 +138,104 @@ class Controller_Admin_Ajax extends Ajax
         $response = new Model_Response_Users('USER_CREATE_SUCCESS', 'success');
         $this->response->body(@json_encode($response->get_response()));
     }
+
+    /**
+     * @MODULE User
+     *
+     * Update User
+     */
+    public function action_user_update() {
+
+        $id    = Arr::get($_POST, 'id');
+        $name  = Arr::get($_POST, 'name');
+        $value = Arr::get($_POST, 'value');
+
+        if (empty($value)) {
+            $response = new Model_Response_Form('EMPTY_FIELD_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        if ($name == 'email' && !Valid::email($value)) {
+            $response = new Model_Response_Email('EMAIL_FORMAT_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        $user = new Model_User($id);
+
+        if (!$user->id) {
+            $response = new Model_Response_Users('USER_DOES_NOT_EXISTED_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        if ($name == 'pensions[]') {
+            Model_UserPension::deleteAllPensions($user->id);
+
+            $penIDs = array_unique(json_decode($value), SORT_STRING);
+            foreach ($penIDs as $id) {
+                Model_UserPension::add($user->id, $id);
+            }
+
+            goto finish;
+        }
+
+        if($name != 'password' && $user->$name == $value) {
+            $response = new Model_Response_Users('USER_UPDATE_WARNING', 'warning');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        if($name == 'password') {
+            $value = $this->makeHash('md5', $value . getenv('SALT'));
+        }
+
+        $user->$name = $value;
+
+        if($name == 'email' && $user->emptyEmail()) {
+            $response = new Model_Response_Users('USER_EXISTED_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        if($name == 'username' && $user->emptyUserName()) {
+            $response = new Model_Response_Users('USERNAME_EXISTED_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        $user->update();
+
+        finish:
+
+        $response = new Model_Response_Users('USER_UPDATE_SUCCESS', 'success');
+        $this->response->body(@json_encode($response->get_response()));
+    }
+
+
+
+    /**
+     * @MODULE Organization
+     *
+     * Get Organizations By Name
+     */
+    public function action_organization_get() {
+        $name = $this->request->query('name');
+        $organizations = Model_Organization::searchByName($name);
+        $this->response->body(@json_encode($organizations));
+    }
+
+
+    /**
+     * @MODULE Pension
+     *
+     * Get Pensions By Name
+     */
+    public function action_pension_get() {
+        $name = $this->request->query('name');
+        $organizations = Model_Pension::searchByName($name);
+        $this->response->body(@json_encode($organizations));
+    }
+
 }

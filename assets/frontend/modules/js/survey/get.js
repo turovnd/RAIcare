@@ -300,6 +300,7 @@ module.exports = (function (get) {
                 noChoicesText: 'Нет элементов для выбора',
                 itemSelectText: 'выбрать',
                 searchEnabled: true,
+                searchChoices: false,
                 searchFloor: 2,
                 searchResultLimit: 30,
                 resetScrollPosition: false
@@ -308,21 +309,18 @@ module.exports = (function (get) {
 
             I2.passedElement.addEventListener('search', function (event) {
 
-                I2.clearStore();
-
                 I2.ajax(function (callback) {
 
                     fetch('/mkb10/get?name=' + event.detail.value)
                         .then(function (response) {
 
-                            response.json().then(function (data) {
+                            return response.json();
 
-                                callback(data, 'value', 'label');
+                        }).then(function (data) {
 
-                            });
+                            I2.setChoices(data, 'value', 'label', true);
 
-                        })
-                        .catch(function (error) {
+                        }).catch(function (error) {
 
                             console.log(error);
 

@@ -82,9 +82,15 @@ class Controller_Admin_Index extends Dispatch
 
         if (!$user->id) throw new HTTP_Exception_404;
 
+        $user->organization = new Model_Organization($user->organization);
+        $user->pensions = Model_UserPension::getPensions($user->id, true);
+
+        $roles = Model_Role::getAll();
+
         $this->template->title = "Пользователь #" . $user->id;
         $this->template->section = View::factory('admin/pages/users/certain')
-            ->set('user', $user);
+            ->set('user', $user)
+            ->set('roles', $roles);
     }
 
 }

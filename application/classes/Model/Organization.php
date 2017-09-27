@@ -112,4 +112,46 @@ Class Model_Organization {
         return boolval($select);
     }
 
+    public static function searchByName($name) {
+
+        $select = Dao_Organizations::select()
+            ->or_having('name', '%' . $name . '%')
+            ->order_by('id', 'DESC')
+            ->limit(30)
+            ->execute();
+
+        $organizations = array();
+
+        if (empty($select)) return $organizations;
+
+        foreach ($select as $db_selection) {
+            $organization = new Model_Organization();
+            $organizations[] = $organization->fill_by_row($db_selection);
+        }
+
+        return $organizations;
+    }
+
+    public static function getAll($only_existed = false) {
+
+        $select = Dao_Organizations::select();
+
+        if ($only_existed) {
+            $select->where('is_removed', '=', 0);
+        }
+
+        $select = $select->execute();
+
+        $organizations = array();
+
+        if (empty($select)) return $organizations;
+
+        foreach ($select as $db_selection) {
+            $organization = new Model_Organization();
+            $organizations[] = $organization->fill_by_row($db_selection);
+        }
+
+        return $organizations;
+    }
+
 }
