@@ -2,7 +2,6 @@ module.exports = (function (users) {
 
     var corePrefix      = 'Admin: users',
         passwordSymbols = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890',
-        currentRow  = null,
         newModal    = null,
         userID      = null,
         userInfo    = null;
@@ -77,7 +76,7 @@ module.exports = (function (users) {
 
             var options = input.getElementsByTagName('option');
 
-            for (var i =0; i< options.length; i++) {
+            for (var i = 0; i< options.length; i++) {
 
                 if (pensionsVal.indexOf(options[i].value) === -1) {
 
@@ -126,7 +125,7 @@ module.exports = (function (users) {
 
                         fieldStatic.innerHTML = '';
 
-                        for (var i = 0; i < pensionsVal.length; i++) {
+                        for (i = 0; i < pensionsVal.length; i++) {
 
                             fieldStatic.innerHTML +=
                                 '<a href="' + window.location.origin + '/pension/' + pensionsVal[i] + '" class="js-user-info link m-r-10">' +
@@ -248,7 +247,7 @@ module.exports = (function (users) {
 
             userOrganization.passedElement.addEventListener('search', function (event) {
 
-                userOrganization.ajax(function (callback) {
+                userOrganization.ajax(function () {
 
                     fetch('/admin/organization/get?name=' + event.detail.value)
                         .then(function (response) {
@@ -285,7 +284,7 @@ module.exports = (function (users) {
 
             userPensions.passedElement.addEventListener('search', function (event) {
 
-                userPensions.ajax(function (callback) {
+                userPensions.ajax(function () {
 
                     fetch('/admin/pension/get?name=' + event.detail.value)
                         .then(function (response) {

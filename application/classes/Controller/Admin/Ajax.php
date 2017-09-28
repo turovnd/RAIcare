@@ -213,7 +213,132 @@ class Controller_Admin_Ajax extends Ajax
         $this->response->body(@json_encode($response->get_response()));
     }
 
+    /**
+     * @MODULE User
+     *
+     * Get User By Name
+     */
+    public function action_user_get() {
+        $name = $this->request->query('name');
+        $users = Model_User::searchByName($name);
+        $this->response->body(@json_encode($users));
+    }
 
+
+
+
+
+    /**
+     * @MODULE Organization
+     *
+     * Create Organization
+     */
+    public function action_organization_create() {
+
+        $name  = Arr::get($_POST, 'name');
+        $uri   = Arr::get($_POST, 'uri');
+        $owner = Arr::get($_POST, 'owner');
+
+        if (empty($name) || empty($uri) || empty($owner)) {
+            $response = new Model_Response_Form('EMPTY_FIELDS_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        if (Model_Organization::check_uri($uri)) {
+            $response = new Model_Response_Organizations('ORGANIZATION_EXISTED_URI_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        $organization = new Model_Organization();
+        $organization->name = $name;
+        $organization->uri = $uri;
+        $organization->owner = $owner;
+        $organization->creator = $this->user->id;
+        $organization->is_removed = 0;
+
+        $organization = $organization->save();
+
+        $user = new Model_User($owner);
+        $user->organization = $organization->id;
+        $user->update();
+
+        $response = new Model_Response_Organizations('ORGANIZATION_CREATE_SUCCESS', 'success');
+        $this->response->body(@json_encode($response->get_response()));
+    }
+
+    /**
+     * @MODULE Organization
+     *
+     * Update Organization
+     */
+    public function action_organization_update() {
+
+        $id    = Arr::get($_POST, 'id');
+        $name  = Arr::get($_POST, 'name');
+        $value = Arr::get($_POST, 'value');
+
+        if (empty($value)) {
+            $response = new Model_Response_Form('EMPTY_FIELD_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        $organization = new Model_Organization($id);
+
+        if (!$organization->id) {
+            $response = new Model_Response_Organizations('ORGANIZATION_DOES_NOT_EXISTED_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        if ($name == 'users[]') {
+            $old_users = Model_User::getAllFromOrganization($organization->id, false);
+            $cur_users = array_unique(json_decode($value), SORT_STRING);
+            $del_users = array_diff($old_users, $cur_users);
+            $add_users = array_diff($cur_users, $old_users);
+
+            foreach ($del_users as $id) {
+                if ($id != $organization->owner) {
+                    $user = new Model_User($id);
+                    $user->old_organization = $user->organization;
+                    $user->organization = NULL;
+                    $user->changeOrg();
+                }
+            }
+            foreach ($add_users as $id) {
+                if ($id != $organization->owner) {
+                    $user = new Model_User($id);
+                    $user->old_organization = $user->organization;
+                    $user->organization = $organization->id;
+                    $user->changeOrg();
+                }
+            }
+
+            goto finish;
+        }
+
+        if($organization->$name == $value) {
+            $response = new Model_Response_Users('USER_UPDATE_WARNING', 'warning');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        if ($name == 'uri' && Model_Organization::check_uri($value)) {
+            $response = new Model_Response_Organizations('ORGANIZATION_EXISTED_URI_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        $organization->$name = $value;
+        $organization->update();
+
+        finish:
+
+        $response = new Model_Response_Organizations('ORGANIZATION_UPDATE_SUCCESS', 'success');
+        $this->response->body(@json_encode($response->get_response()));
+    }
 
     /**
      * @MODULE Organization

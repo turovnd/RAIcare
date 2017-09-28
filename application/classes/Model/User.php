@@ -86,15 +86,17 @@ Class Model_User
 
     public function update()
     {
-        $insert = Dao_Users::update();
+        $insert = Dao_Users::update()
+            ->where('id', '=', $this->id);
 
         foreach ($this as $fieldname => $value) {
             if (property_exists($this, $fieldname)) $insert->set($fieldname, $value);
         }
 
-        $insert->clearcache($this->id);
-        $insert->clearcache('org_' . $this->organization);
-        $insert->where('id', '=', $this->id);
+        $insert
+            ->clearcache('org_' . $this->organization)
+            ->clearcache($this->id);
+
         $insert->execute();
 
         return $this->get_($this->id);
@@ -207,4 +209,45 @@ Class Model_User
         return $users;
     }
 
+    /**
+     * Search User
+     * @param $name - `name` or `username`
+     * @return array - Model_Users
+     */
+    public static function searchByName($name) {
+
+        $select = Dao_Users::select()
+            ->or_having('name', '%' . $name . '%')
+            ->or_having('username', '%' . $name . '%')
+            ->order_by('id', 'DESC')
+            ->limit(30)
+            ->execute();
+
+        $users = array();
+
+        if (empty($select)) return $users;
+
+        foreach ($select as $db_selection) {
+            $user = new Model_User();
+            $user = $user->fill_by_row($db_selection);
+            $user->search = $user->name . ' (' . $user->username . ')';
+            $users[] = $user;
+        }
+
+        return $users;
+    }
+
+    /**
+     * Change User->organization with clear cache of oldOrgID and curOrgID
+     */
+    public function changeOrg()
+    {
+        Dao_Users::update()
+            ->where('id', '=', $this->id)
+            ->set('organization', $this->organization)
+            ->clearcache('org_' . $this->organization)
+            ->clearcache('org_' . $this->old_organization)
+            ->clearcache($this->id)->execute();
+
+    }
 }

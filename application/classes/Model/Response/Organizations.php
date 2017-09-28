@@ -40,7 +40,7 @@ class Model_Response_Organizations extends Model_Response_Abstract
 
     protected $_ORGANIZATION_UPDATE_WARNING = array (
         'type' => 'organization',
-        'code' => '135',
+        'code' => '136',
         'message' => 'Вы ничего не изменили'
     );
 

@@ -298,6 +298,7 @@ class Controller_Auth_Ajax extends Auth
         Cookie::delete('sid');
         Cookie::delete('uid');
         Cookie::delete('secret');
+        Cookie::delete('session_name');
     }
 
     /**

@@ -1,6 +1,6 @@
 module.exports = (function (onclick) {
 
-    var corePrefix       = 'Report: onclick';
+    // var corePrefix       = 'Report: onclick';
 
     onclick.showTriggered = function (element) {
 

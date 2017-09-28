@@ -309,7 +309,7 @@ module.exports = (function (get) {
 
             I2.passedElement.addEventListener('search', function (event) {
 
-                I2.ajax(function (callback) {
+                I2.ajax(function () {
 
                     fetch('/mkb10/get?name=' + event.detail.value)
                         .then(function (response) {

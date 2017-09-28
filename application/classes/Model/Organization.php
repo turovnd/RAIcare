@@ -50,7 +50,7 @@ Class Model_Organization {
         $select = Dao_Organizations::select()
             ->where('uri', '=', $uri)
             ->limit(1)
-            ->cached(Date::MINUTE * 5, $uri)
+            ->cached(Date::MINUTE * 5, 'uri_' . $uri)
             ->execute();
 
         $organization = new Model_Organization();
@@ -93,11 +93,11 @@ Class Model_Organization {
             if (property_exists($this, $fieldname)) $insert->set($fieldname, $value);
         }
 
-        $insert->clearcache($this->id);
-        $insert->clearcache($this->uri);
-        $insert->where('id', '=', $this->id);
-
-        $insert->execute();
+        $insert
+            ->where('id', '=', $this->id)
+            ->clearcache($this->id)
+            ->clearcache('uri_' . $this->uri)
+            ->execute();
 
         return $this->get_($this->id);
     }
@@ -132,15 +132,10 @@ Class Model_Organization {
         return $organizations;
     }
 
-    public static function getAll($only_existed = false) {
+    public static function getAll() {
 
-        $select = Dao_Organizations::select();
-
-        if ($only_existed) {
-            $select->where('is_removed', '=', 0);
-        }
-
-        $select = $select->execute();
+        $select = Dao_Organizations::select()
+            ->execute();
 
         $organizations = array();
 

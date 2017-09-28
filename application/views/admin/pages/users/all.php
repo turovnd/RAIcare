@@ -3,7 +3,6 @@
     <h3 class="section__heading">
         <a role="button" data-toggle="modal" data-area="newUserModal" class="btn btn--brand btn--sm m-0 fl_r">Новый пользователь</a>
         Пользователи
-        <small>Поиск возможен по email или логину</small>
     </h3>
 
     <div class="block">

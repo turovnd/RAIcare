@@ -2,7 +2,7 @@
 
 class Ajax extends Dispatch {
 
-    const GET_ACTIONS= array('organization_get', 'pension_get');
+    const GET_ACTIONS= array('user_get', 'organization_get', 'pension_get');
 
     function before() {
         $this->auto_render = false;

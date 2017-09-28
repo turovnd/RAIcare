@@ -52,6 +52,9 @@ class Controller_Admin_Index extends Dispatch
     }
 
 
+
+
+
     /**
      * @MODULE User
      *
@@ -91,6 +94,48 @@ class Controller_Admin_Index extends Dispatch
         $this->template->section = View::factory('admin/pages/users/certain')
             ->set('user', $user)
             ->set('roles', $roles);
+    }
+
+
+
+
+
+    /**
+     * @MODULE Organization
+     *
+     * All organizations
+     */
+    public function action_organizations() {
+
+        $organizations = Model_Organization::getAll();
+
+        $this->template->title = "Организации";
+        $this->template->section = View::factory('admin/pages/organizations/all')
+            ->set('organizations', $organizations);
+    }
+
+    /**
+     * @MODULE Organization
+     *
+     * Certain Organization
+     *
+     * @throws HTTP_Exception_404
+     */
+    public function action_organization() {
+
+        $id = $this->request->param('id');
+        $organization = new Model_Organization($id);
+
+        if (!$organization->id) throw new HTTP_Exception_404;
+
+        $organization->owner = new Model_User($organization->owner);
+
+        $organization->users = Model_User::getAllFromOrganization($organization->id, true);
+        $organization->pensions = Model_Pension::getByOrganizationID($organization->id, true);
+
+        $this->template->title = "Организация #" . $organization->id;
+        $this->template->section = View::factory('admin/pages/organizations/certain')
+            ->set('organization', $organization);
     }
 
 }
