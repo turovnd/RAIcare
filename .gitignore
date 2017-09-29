@@ -16,7 +16,6 @@ uploads/*
 # Others
 .env
 .htaccess
-robots.txt
 composer.lock
 
 # Node
