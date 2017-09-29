@@ -135,7 +135,7 @@ class Dao_MySQL_Base {
     public function cached($seconds, $key = null, array $tags = null)
     {
         $this->lifetime = $seconds;
-        if ($key) $this->keycached = $this->cache_key .':'. $key;
+        if ($key) $this->keycached = getenv('CACHE_PACKAGE') . ':' . $this->cache_key .':'. $key;
         if ($tags) $this->tagcached = $tags;
         return $this;
     }
@@ -146,7 +146,7 @@ class Dao_MySQL_Base {
         $memcache = $this->getMemcacheInstance();
 
         if ($key) {
-            $full_key = $this->cache_key .':'. $key;
+            $full_key = getenv('CACHE_PACKAGE') . ':' . $this->cache_key .':'. $key;
             $memcache->delete(mb_strtolower($full_key));
         }
 
