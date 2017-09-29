@@ -58,7 +58,7 @@ class Controller_Clients_Ajax extends Ajax
         $email = new Email();
         $email->send($client->email, array($_SERVER['INFO_EMAIL'], $_SERVER['INFO_EMAIL_NAME']), 'Заявка принята - ' . $GLOBALS['SITE_NAME'], $template, true);
 
-        $response = new Model_Response_Clients('$_CLIENTS_APPLICATION_SEND_SUCCESS', 'success');
+        $response = new Model_Response_Clients('CLIENTS_APPLICATION_SEND_SUCCESS', 'success');
         $this->response->body(@json_encode($response->get_response()));
 
     }
