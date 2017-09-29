@@ -40,7 +40,7 @@ class Model_Response_Organizations extends Model_Response_Abstract
 
     protected $_ORGANIZATION_UPDATE_WARNING = array (
         'type' => 'organization',
-        'code' => '135',
+        'code' => '136',
         'message' => 'Вы ничего не изменили'
     );
 
@@ -54,5 +54,11 @@ class Model_Response_Organizations extends Model_Response_Abstract
         'type' => 'organization',
         'code' => '137',
         'message' => 'Для данной роли необходимо выбрать хотя бы один пансионат'
+    );
+
+    protected $_ORGANIZATION_ACCESS_ERROR = array(
+        'type' => 'organization',
+        'code' => '138',
+        'message' => 'У Вас нет доступа к этой организации'
     );
 }

@@ -2,17 +2,12 @@
 
 class Ajax extends Dispatch {
 
-    const DEMO_ERROR = array(
-        'status'  => 'error',
-        'type'    => 'ajax',
-        'code'    => '999',
-        'message' => 'В демо режиме редактирование запрещено'
-    );
+    const GET_ACTIONS= array('user_get', 'organization_get', 'pension_get');
 
     function before() {
         $this->auto_render = false;
 
-        if (!self::is_ajax()) {
+        if (!self::is_ajax() && !in_array($this->request->action(), self::GET_ACTIONS)) {
             throw new HTTP_Exception_403;
         }
 
@@ -22,7 +17,9 @@ class Ajax extends Dispatch {
             throw new HTTP_Exception_403;
         }
 
-        $this->checkCsrf();
+        if (!in_array($this->request->action(), self::GET_ACTIONS)) {
+            $this->checkCsrf();
+        }
 
     }
 

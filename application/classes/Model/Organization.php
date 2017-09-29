@@ -50,7 +50,7 @@ Class Model_Organization {
         $select = Dao_Organizations::select()
             ->where('uri', '=', $uri)
             ->limit(1)
-            ->cached(Date::MINUTE * 5, $uri)
+            ->cached(Date::MINUTE * 5, 'uri_' . $uri)
             ->execute();
 
         $organization = new Model_Organization();
@@ -93,11 +93,11 @@ Class Model_Organization {
             if (property_exists($this, $fieldname)) $insert->set($fieldname, $value);
         }
 
-        $insert->clearcache($this->id);
-        $insert->clearcache($this->uri);
-        $insert->where('id', '=', $this->id);
-
-        $insert->execute();
+        $insert
+            ->where('id', '=', $this->id)
+            ->clearcache($this->id)
+            ->clearcache('uri_' . $this->uri)
+            ->execute();
 
         return $this->get_($this->id);
     }
@@ -110,6 +110,43 @@ Class Model_Organization {
             ->execute();
 
         return boolval($select);
+    }
+
+    public static function searchByName($name) {
+
+        $select = Dao_Organizations::select()
+            ->or_having('name', '%' . $name . '%')
+            ->order_by('id', 'DESC')
+            ->limit(30)
+            ->execute();
+
+        $organizations = array();
+
+        if (empty($select)) return $organizations;
+
+        foreach ($select as $db_selection) {
+            $organization = new Model_Organization();
+            $organizations[] = $organization->fill_by_row($db_selection);
+        }
+
+        return $organizations;
+    }
+
+    public static function getAll() {
+
+        $select = Dao_Organizations::select()
+            ->execute();
+
+        $organizations = array();
+
+        if (empty($select)) return $organizations;
+
+        foreach ($select as $db_selection) {
+            $organization = new Model_Organization();
+            $organizations[] = $organization->fill_by_row($db_selection);
+        }
+
+        return $organizations;
     }
 
 }

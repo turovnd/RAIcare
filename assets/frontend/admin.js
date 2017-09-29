@@ -5,9 +5,10 @@
 
 module.exports = ( function (admin) {
 
-    admin.permissions   = require('./modules/js/admin/permissions');
     admin.roles         = require('./modules/js/admin/roles');
-    admin.newuser       = require('./modules/js/admin/new-user');
+    admin.users         = require('./modules/js/admin/users');
+    admin.organizations = require('./modules/js/admin/organizations');
+    admin.pensions      = require('./modules/js/admin/pensions');
 
     return admin;
 

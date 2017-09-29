@@ -14,7 +14,7 @@ module.exports = (function (load) {
 
     };
 
-    load.surveys = function (element) {
+    load.surveys = function () {
 
         if (!ajaxSend) {
 

@@ -24,7 +24,7 @@ class Controller_Pensions_Index extends Dispatch
 
         $org_uri = Request::$subdomain;
 
-        $this->organization = Model_Organization::getByFieldName('uri', $org_uri);
+        $this->organization = Model_Organization::getByUri($org_uri);
 
         if (!$this->organization->id && !in_array($org_uri, self::PRIVATE_SUBDOMIANS)) {
             throw new HTTP_Exception_404();

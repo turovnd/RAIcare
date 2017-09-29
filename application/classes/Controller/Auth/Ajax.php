@@ -39,7 +39,6 @@ class Controller_Auth_Ajax extends Auth
         $username   = Arr::get($_POST, 'username');
         $password   = Arr::get($_POST, 'password');
 
-
         if ( empty($username) || empty($password)) {
             $this->makeAttempt();
             $response = new Model_Response_Form('EMPTY_FIELDS_ERROR', 'error');
@@ -63,6 +62,12 @@ class Controller_Auth_Ajax extends Auth
         $sid = $session->id();
         $uid = $session->get('uid');
 
+        if (!$this->has_access($session->get('oid'))) {
+            $response = new Model_Response_Organizations('ORGANIZATION_ACCESS_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
         $this->setSecret($sid, $uid);
 
         $response = new Model_Response_Auth('LOGIN_SUCCESS', 'success');
@@ -85,8 +90,14 @@ class Controller_Auth_Ajax extends Auth
 
         $id = $this->recover();
 
+        if ($id === "HAS_NO_ACCESS") {
+            $response = new Model_Response_Organizations('ORGANIZATION_ACCESS_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
         // Если сессия была уничтожена или хэш не совпал
-        if (!$id) {
+        if ($id === NULL) {
             $this->clearCookie();
 
             $response = new Model_Response_Auth('LOGIN_RECOVER_ERROR', 'error');
@@ -246,6 +257,12 @@ class Controller_Auth_Ajax extends Auth
      */
     private function recover()
     {
+        $session = Session::instance();
+
+        if (!$this->has_access($session->get('oid'))) {
+            return "HAS_NO_ACCESS";
+        }
+
         /** get data from cookie  */
         $uid    = Cookie::get('uid');
         $sid    = Cookie::get('sid');
@@ -281,6 +298,7 @@ class Controller_Auth_Ajax extends Auth
         Cookie::delete('sid');
         Cookie::delete('uid');
         Cookie::delete('secret');
+        Cookie::delete('session_name');
     }
 
     /**
@@ -296,5 +314,19 @@ class Controller_Auth_Ajax extends Auth
 
         // сохраняем в редис
         $this->redis->set(getenv('REDIS_SESSIONS_HASHES') . $hash, $sid . ':' . $uid , array('nx', 'ex' => Date::WEEK));
+    }
+
+    private function has_access($oid) {
+        $subdomain = Request::$subdomain;
+
+        if (in_array($subdomain, self::PRIVATE_SUBDOMIANS) && $oid == 0)
+            return true;
+
+        $organization = Model_Organization::getByUri($subdomain);
+
+        if ($oid != $organization->id) {
+            return false;
+        }
+        return true;
     }
 }

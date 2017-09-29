@@ -37,7 +37,22 @@ Class Model_Role {
         $this->fill_by_row($select);
 
         return $this;
+    }
 
+    public static function getAll() {
+
+        $select = Dao_Roles::select()->execute();
+
+        $roles = array();
+
+        if (empty($select)) return $roles;
+
+        foreach ($select as $db_selection) {
+            $role = new Model_Role();
+            $roles[] = $role->fill_by_row($db_selection);
+        }
+
+        return $roles;
     }
 
      public function save()
@@ -48,6 +63,7 @@ Class Model_Role {
             if (property_exists($this, $fieldname)) $insert->set($fieldname, $value);
         }
 
+        $insert->clearcache($this->id);
         $result = $insert->execute();
 
         return $this->get_($result);
@@ -70,11 +86,11 @@ Class Model_Role {
         return $this->get_($result);
      }
 
-     public static function delete($id)
+     public function delete()
      {
          Dao_Roles::delete()
-             ->where('id', '=', $id)
-             ->clearcache($id)
+             ->where('id', '=', $this->id)
+             ->clearcache($this->id)
              ->limit(1)
              ->execute();
      }

@@ -8,6 +8,8 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="white">
 
+    <meta name="google-site-verification" content="2A5l-Kfp7HZsMpEaosQct7HcShfqhosraM5UE6mOzMM" />
+
     <link type="image/x-icon" rel="shortcut icon" href="<?=$assets; ?>static/img/favicon.png" />
     <link rel="apple-touch-icon" href="<?=$assets; ?>static/img/favicon.png">
 

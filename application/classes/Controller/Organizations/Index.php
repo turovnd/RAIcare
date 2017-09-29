@@ -20,13 +20,14 @@ class Controller_Organizations_Index extends Dispatch
     /** Current Organization */
     protected $organization = null;
 
+
     public function before()
     {
         parent::before();
 
         $org_uri = Request::$subdomain;
 
-        $this->organization = Model_Organization::getByFieldName('uri', $org_uri);
+        $this->organization = Model_Organization::getByUri($org_uri);
 
         if (!$this->organization->id && !in_array($org_uri, self::PRIVATE_SUBDOMIANS)) {
             throw new HTTP_Exception_404();
@@ -111,11 +112,5 @@ class Controller_Organizations_Index extends Dispatch
             ->set('orgRolesID', self::ORG_AVAILABLE_ROLES );
 
     }
-
-
-//    public function action_control_organization()
-//    {
-//
-//    }
 
 }
