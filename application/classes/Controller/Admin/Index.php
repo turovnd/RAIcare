@@ -178,4 +178,19 @@ class Controller_Admin_Index extends Dispatch
             ->set('pension', $pension);
     }
 
+
+    /**
+     * @MODULE Clients
+     *
+     * All clients
+     */
+    public function action_clients() {
+
+        $clients = Model_Client::getAll();
+
+        $this->template->title = "Клиенты";
+        $this->template->section = View::factory('admin/pages/clients/all')
+            ->set('clients', $clients);
+    }
+
 }

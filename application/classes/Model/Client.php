@@ -4,7 +4,6 @@
 Class Model_Client {
 
     public $id;
-    public $user_id;
     public $name;
     public $status;     // 0 - spam || reject, 1 - new client, 2 - has no access, 3 - has access
     public $email;
@@ -12,7 +11,6 @@ Class Model_Client {
     public $city;
     public $phone;
     public $comment;
-    public $created_by;
     public $dt_create;
 
     
@@ -82,37 +80,21 @@ Class Model_Client {
         return $this->get_($this->id);
     }
 
-    public static function getClientsByStatus($status)
-    {
+    public static function getAll() {
+
         $select = Dao_Clients::select()
-            ->where('status', '=', $status)
-            ->order_by('dt_create', 'DESC')
             ->execute();
 
         $clients = array();
 
-        if ( empty($select) ) return $clients;
+        if (empty($select)) return $clients;
 
-        foreach ($select as $item) {
+        foreach ($select as $db_selection) {
             $client = new Model_Client();
-            $clients[] = $client->fill_by_row($item);
+            $clients[] = $client->fill_by_row($db_selection);
         }
 
         return $clients;
-    }
-
-
-    public static function getByUserId($id)
-    {
-        $select = Dao_Clients::select()
-            ->where('user_id', '=', $id)
-            ->limit(1)
-            ->execute();
-
-        $client = new Model_Client();
-        $client = $client->fill_by_row($select);
-
-        return $client;
     }
 
 }

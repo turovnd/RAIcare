@@ -6,15 +6,17 @@
 
     <div class="block">
 
-        <div class="block__body">
+        <div class="block__body p-b-5">
 
-            <a href="<?= '//'  . $_SERVER['HTTP_HOST'] . '/roles'; ?>" class="btn btn--default m-b-0">Роли</a>
+            <a href="<?= '//'  . $_SERVER['HTTP_HOST'] . '/roles'; ?>" class="btn btn--default">Роли</a>
 
-            <a href="<?= '//'  . $_SERVER['HTTP_HOST'] . '/users'; ?>" class="btn btn--default m-b-0">Пользователи</a>
+            <a href="<?= '//'  . $_SERVER['HTTP_HOST'] . '/users'; ?>" class="btn btn--default">Пользователи</a>
 
-            <a href="<?= '//'  . $_SERVER['HTTP_HOST'] . '/organizations'; ?>" class="btn btn--default m-b-0">Организации</a>
+            <a href="<?= '//'  . $_SERVER['HTTP_HOST'] . '/organizations'; ?>" class="btn btn--default">Организации</a>
 
-            <a href="<?= '//'  . $_SERVER['HTTP_HOST'] . '/pensions'; ?>" class="btn btn--default m-b-0">Пансионаты</a>
+            <a href="<?= '//'  . $_SERVER['HTTP_HOST'] . '/pensions'; ?>" class="btn btn--default">Пансионаты</a>
+
+            <a href="<?= '//'  . $_SERVER['HTTP_HOST'] . '/clients'; ?>" class="btn btn--default">Клиенты</a>
 
         </div>
 

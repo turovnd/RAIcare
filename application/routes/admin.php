@@ -1,7 +1,7 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
 Route::set('ADMIN', '<action>', array(
-        'action' => 'roles|users|organizations|pensions'
+        'action' => 'roles|users|organizations|pensions|clients'
     ))
     ->subdomains(array('admin'))
     ->defaults(array(

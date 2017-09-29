@@ -25,7 +25,6 @@ module.exports = {
     entry: {
         "raicare"       : path.resolve(__dirname, "../raicare.js"),
         "admin"         : path.resolve(__dirname, "../admin.js"),
-        "clients"       : path.resolve(__dirname, "../clients.js"),
         "organization"  : path.resolve(__dirname, "../organization.js"),
         "pension"       : path.resolve(__dirname, "../pension.js"),
         "patient"       : path.resolve(__dirname, "../patient.js"),
