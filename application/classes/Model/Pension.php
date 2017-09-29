@@ -165,4 +165,20 @@ Class Model_Pension {
         return $pensions;
     }
 
+    public static function getAll() {
+
+        $select = Dao_Pensions::select()
+            ->execute();
+
+        $pensions = array();
+
+        if (empty($select)) return $pensions;
+
+        foreach ($select as $db_selection) {
+            $pension = new Model_Pension();
+            $pensions[] = $pension->fill_by_row($db_selection);
+        }
+
+        return $pensions;
+    }
 }

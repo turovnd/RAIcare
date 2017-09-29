@@ -320,7 +320,7 @@ class Controller_Admin_Ajax extends Ajax
         }
 
         if($organization->$name == $value) {
-            $response = new Model_Response_Users('USER_UPDATE_WARNING', 'warning');
+            $response = new Model_Response_Organizations('ORGANIZATION_UPDATE_WARNING', 'warning');
             $this->response->body(@json_encode($response->get_response()));
             return;
         }
@@ -352,6 +352,113 @@ class Controller_Admin_Ajax extends Ajax
     }
 
 
+
+
+
+    /**
+     * @MODULE Pension
+     *
+     * Create Pension
+     */
+    public function action_pension_create() {
+
+        $name         = Arr::get($_POST, 'name');
+        $uri          = Arr::get($_POST, 'uri');
+        $places       = Arr::get($_POST, 'places');
+        $organization = Arr::get($_POST, 'organization');
+
+        if (empty($name) || empty($uri) || empty($places) || empty($organization)) {
+            $response = new Model_Response_Form('EMPTY_FIELDS_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        if (Model_Pension::check_uri($uri, $organization)) {
+            $response = new Model_Response_Pensions('PENSION_EXISTED_URI_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        $pension = new Model_Pension();
+        $pension->name = $name;
+        $pension->uri = $uri;
+        $pension->places = $places;
+        $pension->organization = $organization;
+        $pension->creator = $this->user->id;
+        $pension->is_removed = 0;
+
+        $pension->save();
+
+        $response = new Model_Response_Pensions('PENSION_CREATE_SUCCESS', 'success');
+        $this->response->body(@json_encode($response->get_response()));
+    }
+
+    /**
+     * @MODULE Pension
+     *
+     * Update Pension
+     */
+    public function action_pension_update() {
+
+        $id    = Arr::get($_POST, 'id');
+        $name  = Arr::get($_POST, 'name');
+        $value = Arr::get($_POST, 'value');
+
+        if (empty($value)) {
+            $response = new Model_Response_Form('EMPTY_FIELD_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        $pension = new Model_Pension($id);
+
+        if (!$pension->id) {
+            $response = new Model_Response_Pensions('PENSION_DOES_NOT_EXISTED_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        $users = array();
+
+        if ($name == 'users[]') {
+
+            Model_UserPension::deleteAllUsers($pension->id);
+
+            $cur_users = array_unique(json_decode($value), SORT_STRING);
+
+            foreach ($cur_users as $id) {
+                $user = new Model_User($id);
+
+                if ($user->organization == $pension->organization) {
+                    Model_UserPension::add($user->id, $pension->id);
+                    $users[] = $user;
+                }
+            }
+
+            goto finish;
+        }
+
+        if($pension->$name == $value) {
+            $response = new Model_Response_Pensions('PENSION_UPDATE_WARNING', 'warning');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        if ($name == 'uri' && Model_Pension::check_uri($value, $pension->organization)) {
+            $response = new Model_Response_Pensions('PENSION_EXISTED_URI_ERROR', 'error');
+            $this->response->body(@json_encode($response->get_response()));
+            return;
+        }
+
+        $pension->$name = $value;
+        $pension->update();
+
+        finish:
+
+        $response = new Model_Response_Pensions('PENSION_UPDATE_SUCCESS', 'success', array('users' => $users));
+        $this->response->body(@json_encode($response->get_response()));
+    }
+
     /**
      * @MODULE Pension
      *
@@ -359,8 +466,8 @@ class Controller_Admin_Ajax extends Ajax
      */
     public function action_pension_get() {
         $name = $this->request->query('name');
-        $organizations = Model_Pension::searchByName($name);
-        $this->response->body(@json_encode($organizations));
+        $pensions = Model_Pension::searchByName($name);
+        $this->response->body(@json_encode($pensions));
     }
 
 }

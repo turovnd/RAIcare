@@ -1,21 +1,21 @@
-module.exports = (function (organizations) {
+module.exports = (function (pensions) {
 
-    var corePrefix       = 'Admin: organizations',
+    var corePrefix       = 'Admin: pensions',
         newModal         = null,
-        organizationID   = null,
-        organizationInfo = null;
+        pensionID   = null,
+        pensionInfo = null;
 
 
     /**
-     * Create New Organization
+     * Create New Pension
      * @private
      */
-    var createOrganization_ = function (event) {
+    var createPension_ = function (event) {
 
         event.preventDefault();
 
         var ajaxData = {
-            url: '/admin/organization/create',
+            url: '/admin/pension/create',
             type: 'POST',
             data: new FormData(newModal),
             beforeSend: function () {
@@ -28,7 +28,7 @@ module.exports = (function (organizations) {
                 response = JSON.parse(response);
                 newModal.getElementsByClassName('modal__wrapper')[0].classList.remove('loading');
 
-                if (parseInt(response.code) === 131 ) {
+                if (parseInt(response.code) === 141 ) {
 
                     window.location.reload();
 
@@ -42,7 +42,7 @@ module.exports = (function (organizations) {
             },
             error: function (callbacks) {
 
-                raicare.core.log('ajax error occur on creating new organization', 'error', corePrefix, callbacks);
+                raicare.core.log('ajax error occur on creating new pension', 'error', corePrefix, callbacks);
                 newModal.getElementsByClassName('modal__wrapper')[0].classList.remove('loading');
 
             }
@@ -55,19 +55,18 @@ module.exports = (function (organizations) {
 
 
     /**
-     * Update Organization
+     * Update Pension
      * @private
      */
-    var updateOrganization_ = function (element) {
+    var updatePension_ = function (element) {
 
         var field        = element.closest('.js-field-name'),
             input        = field.getElementsByClassName('form-group__control')[0],
             formData     = new FormData(),
-            pensionsVal  = [],
-            pensionsName = [];
+            pensionsVal  = [];
 
         formData.append('csrf', document.getElementById('csrf').value);
-        formData.append('id', organizationID.value);
+        formData.append('id', pensionID.value);
         formData.append('name', input.name);
         formData.append('value', input.value);
 
@@ -80,7 +79,6 @@ module.exports = (function (organizations) {
                 if (pensionsVal.indexOf(options[i].value) === -1) {
 
                     pensionsVal.push(options[i].value);
-                    pensionsName.push(options[i].textContent);
 
                 }
 
@@ -91,51 +89,53 @@ module.exports = (function (organizations) {
         }
 
         var ajaxData = {
-            url: '/admin/organization/update',
+            url: '/admin/pension/update',
             type: 'POST',
             data: formData,
             beforeSend: function () {
 
-                organizationInfo.classList.add('loading');
+                pensionInfo.classList.add('loading');
 
             },
             success: function (response) {
 
                 response = JSON.parse(response);
-                organizationInfo.classList.remove('loading');
+                pensionInfo.classList.remove('loading');
 
-                if (parseInt(response.code) === 135) {
+                if (parseInt(response.code) === 145) {
 
                     field.getElementsByClassName('form-group__control-static')[0].classList.toggle('hide');
                     field.getElementsByClassName('form-group__control-group')[0].classList.toggle('hide');
 
-                    if (input.name === 'owner') {
+                    if (input.name === 'organization') {
 
-                        field.getElementsByClassName('js-organization-info')[0].textContent = field.getElementsByClassName('form-group__control')[0].getElementsByTagName('option')[0].textContent;
-                        field.getElementsByClassName('js-organization-info')[0].href = window.location.origin + '/user/' + input.value;
+                        field.getElementsByClassName('js-pension-info')[0].textContent = field.getElementsByClassName('form-group__control')[0].getElementsByTagName('option')[0].textContent;
+                        field.getElementsByClassName('js-pension-info')[0].href = window.location.origin + '/organization/' + input.value;
 
                     } else if (input.name === 'users[]') {
 
-                        var fieldStatic  = field.getElementsByClassName('form-group__control-static')[0];
+                        var fieldStatic = field.getElementsByClassName('form-group__control-static')[0],
+                            users       = response.users;
+
 
                         fieldStatic.innerHTML = '';
 
-                        for (i = 0; i < pensionsVal.length; i++) {
+                        for (i = 0; i < users.length; i++) {
 
                             fieldStatic.innerHTML +=
-                                '<a href="' + window.location.origin + '/user/' + pensionsVal[i] + '" class="js-organization-info link m-r-10">' +
-                                    pensionsName[i] +
+                                '<a href="' + window.location.origin + '/user/' + users[i]['id'] + '" class="js-pension-info link m-r-10">' +
+                                    users[i]['name'] + ' (' + users[i]['username'] + ')' +
                                 '</a>';
 
                         }
                         fieldStatic.innerHTML +=
-                            '<a onclick="admin.organizations.edit(this)" role="button" class="m-l-5">' +
+                            '<a onclick="admin.pensions.edit(this)" role="button" class="m-l-5">' +
                                 '<i class="fa fa-pencil" aria-hidden="true"></i>' +
                             '</a>';
 
                     } else {
 
-                        field.getElementsByClassName('js-organization-info')[0].textContent = input.value;
+                        field.getElementsByClassName('js-pension-info')[0].textContent = input.value;
 
                     }
 
@@ -149,8 +149,8 @@ module.exports = (function (organizations) {
             },
             error: function (callbacks) {
 
-                raicare.core.log('ajax error occur on updating organization info', 'error', corePrefix, callbacks);
-                organizationInfo.classList.remove('loading');
+                raicare.core.log('ajax error occur on updating pension info', 'error', corePrefix, callbacks);
+                pensionInfo.classList.remove('loading');
 
             }
         };
@@ -159,9 +159,9 @@ module.exports = (function (organizations) {
 
     };
 
-    organizations.update = function (element) {
+    pensions.update = function (element) {
 
-        updateOrganization_(element);
+        updatePension_(element);
 
     };
 
@@ -170,7 +170,7 @@ module.exports = (function (organizations) {
      * Open editing form
      * @param element
      */
-    organizations.edit = function (element) {
+    pensions.edit = function (element) {
 
         var field = element.closest('.js-field-name');
 
@@ -180,14 +180,14 @@ module.exports = (function (organizations) {
     };
 
 
-    organizations.init = function (type) {
+    pensions.init = function (type) {
 
         if (type === 'all') {
 
-            newModal = document.getElementById('newOrganizationModal');
-            newModal.addEventListener('submit', createOrganization_);
+            newModal = document.getElementById('newPensionModal');
+            newModal.addEventListener('submit', createPension_);
 
-            new DataTable('#organizations', {
+            new DataTable('#pensions', {
                 perPage: 20,
                 perPageSelect: [20, 40, 60, 80, 100],
                 searchable: true,
@@ -204,10 +204,10 @@ module.exports = (function (organizations) {
 
         } else {
 
-            organizationID   = document.getElementById('organizationID');
-            organizationInfo = document.getElementById('organizationInfo');
+            pensionID   = document.getElementById('pensionID');
+            pensionInfo = document.getElementById('pensionInfo');
 
-            var organizationUsers = new raicare.choices('#organizationUsers', {
+            var pensionUsers = new raicare.choices('#pensionUsers', {
                 placeholderValue: 'Введите имя или логин пользователя',
                 loadingText: 'Загрузка...',
                 noResultsText: 'Ничего не найдено',
@@ -221,9 +221,9 @@ module.exports = (function (organizations) {
                 resetScrollPosition: false
             });
 
-            organizationUsers.passedElement.addEventListener('search', function (event) {
+            pensionUsers.passedElement.addEventListener('search', function (event) {
 
-                organizationUsers.ajax(function () {
+                pensionUsers.ajax(function () {
 
                     fetch('/admin/user/get?name=' + event.detail.value)
                         .then(function (response) {
@@ -232,7 +232,7 @@ module.exports = (function (organizations) {
 
                         }).then(function (data) {
 
-                            organizationUsers.setChoices(data, 'id', 'search', true);
+                            pensionUsers.setChoices(data, 'id', 'search', true);
 
                         }).catch(function (error) {
 
@@ -246,7 +246,7 @@ module.exports = (function (organizations) {
 
         }
 
-        var organizationOwner = new raicare.choices('#organizationOwner', {
+        var pensionOrganization = new raicare.choices('#pensionOrganization', {
             placeholderValue: 'Введите имя или логин пользователя',
             loadingText: 'Загрузка...',
             noResultsText: 'Ничего не найдено',
@@ -260,18 +260,18 @@ module.exports = (function (organizations) {
             resetScrollPosition: false
         });
 
-        organizationOwner.passedElement.addEventListener('search', function (event) {
+        pensionOrganization.passedElement.addEventListener('search', function (event) {
 
-            organizationOwner.ajax(function () {
+            pensionOrganization.ajax(function () {
 
-                fetch('/admin/user/get?name=' + event.detail.value)
+                fetch('/admin/organization/get?name=' + event.detail.value)
                     .then(function (response) {
 
                         return response.json();
 
                     }).then(function (data) {
 
-                        organizationOwner.setChoices(data, 'id', 'search', true);
+                        pensionOrganization.setChoices(data, 'id', 'name', true);
 
                     }).catch(function (error) {
 
@@ -285,6 +285,6 @@ module.exports = (function (organizations) {
 
     };
 
-    return organizations;
+    return pensions;
 
 })({});

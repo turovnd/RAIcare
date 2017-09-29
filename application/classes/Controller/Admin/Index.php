@@ -74,7 +74,7 @@ class Controller_Admin_Index extends Dispatch
     /**
      * @MODULE User
      *
-     * Certain User
+     * Certain user
      *
      * @throws HTTP_Exception_404
      */
@@ -117,7 +117,7 @@ class Controller_Admin_Index extends Dispatch
     /**
      * @MODULE Organization
      *
-     * Certain Organization
+     * Certain organization
      *
      * @throws HTTP_Exception_404
      */
@@ -136,6 +136,46 @@ class Controller_Admin_Index extends Dispatch
         $this->template->title = "Организация #" . $organization->id;
         $this->template->section = View::factory('admin/pages/organizations/certain')
             ->set('organization', $organization);
+    }
+
+
+
+
+
+    /**
+     * @MODULE Pension
+     *
+     * All pensions
+     */
+    public function action_pensions() {
+
+        $pensions = Model_Pension::getAll();
+
+        $this->template->title = "Пансионаты";
+        $this->template->section = View::factory('admin/pages/pensions/all')
+            ->set('pensions', $pensions);
+    }
+
+    /**
+     * @MODULE Pension
+     *
+     * Certain pension
+     *
+     * @throws HTTP_Exception_404
+     */
+    public function action_pension() {
+
+        $id = $this->request->param('id');
+        $pension = new Model_Pension($id);
+
+        if (!$pension->id) throw new HTTP_Exception_404;
+
+        $pension->organization = new Model_Organization($pension->organization);
+        $pension->users = Model_UserPension::getUsers($pension->id, true);
+
+        $this->template->title = "Пансионат #" . $pension->id;
+        $this->template->section = View::factory('admin/pages/pensions/certain')
+            ->set('pension', $pension);
     }
 
 }
