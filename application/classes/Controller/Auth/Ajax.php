@@ -257,12 +257,6 @@ class Controller_Auth_Ajax extends Auth
      */
     private function recover()
     {
-        $session = Session::instance();
-
-        if (!$this->has_access($session->get('oid'))) {
-            return "HAS_NO_ACCESS";
-        }
-
         /** get data from cookie  */
         $uid    = Cookie::get('uid');
         $sid    = Cookie::get('sid');
@@ -280,6 +274,11 @@ class Controller_Auth_Ajax extends Auth
             $session = Session::instance();
             $sid = $session->id();
             $uid = $session->get('uid');
+            $oid = $session->get('oid');
+
+            if (!$this->has_access($oid)) {
+                return "HAS_NO_ACCESS";
+            }
 
             $this->setSecret($sid, $uid);
 
