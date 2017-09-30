@@ -166,20 +166,20 @@ class Controller_Pensions_Index extends Dispatch
                 array( 'name' => 'Сильная', 'number' => 0 ) ) );
 
         $RAI_scales['CPS'] = array( 'total' => count($reports),
-            'data' => array( array( 'name' => 'Нормальные', 'number' => 0 ),
+            'data' => array( array( 'name' => 'Нет', 'number' => 0 ),
                 array( 'name' => 'В приделах нормы', 'number' => 0 ),
-                array( 'name' => 'Незн. отклонения', 'number' => 0 ),
-                array( 'name' => 'Ум. отклонения', 'number' => 0 ),
-                array( 'name' => 'Ум/сер отклонения', 'number' => 0 ),
-                array( 'name' => 'Сер. отклонения', 'number' => 0 ),
-                array( 'name' => 'Оч.сер отклонения', 'number' => 0 ) ) );
+                array( 'name' => 'Незначительные', 'number' => 0 ),
+                array( 'name' => 'Умеренные', 'number' => 0 ),
+                array( 'name' => 'Умер./серьез.', 'number' => 0 ),
+                array( 'name' => 'Серьезные', 'number' => 0 ),
+                array( 'name' => 'Очень серьезные', 'number' => 0 ) ) );
 
         $RAI_scales['COMM'] = array( 'total' => count($reports),
             'data' => array( array( 'name' => 'В приделах нормы', 'number' => 0 ),
-                array( 'name' => 'Незн. отклонения', 'number' => 0 ),
-                array( 'name' => 'Умер. отклонения', 'number' => 0 ),
-                array( 'name' => 'Cер. отклонения', 'number' => 0 ),
-                array( 'name' => 'Оч.сер отклонения', 'number' => 0 ) ) );
+                array( 'name' => 'Незначительные', 'number' => 0 ),
+                array( 'name' => 'Умеренные', 'number' => 0 ),
+                array( 'name' => 'Серьезные', 'number' => 0 ),
+                array( 'name' => 'Очень серьезные', 'number' => 0 ) ) );
 
 
         foreach ($reports as $report) {

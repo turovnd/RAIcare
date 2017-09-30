@@ -178,7 +178,7 @@ module.exports = (function (d3draw) {
 
         drawCircleDiagram({
             id: 'RAIScalesCPS',
-            title: 'Уровень когнетивных способностей'
+            title: 'Когнитивные способности (отклонения)'
         });
 
     };
@@ -187,7 +187,7 @@ module.exports = (function (d3draw) {
 
         drawCircleDiagram({
             id: 'RAIScalesCOMM',
-            title: 'Уровень коммуникативных способностей'
+            title: 'Коммуникативные способности(отклонения)'
         });
 
     };
