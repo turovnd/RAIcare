@@ -62,9 +62,18 @@ Class Model_ReportRAIScales {
         $result = $insert
             ->clearcache($this->pk)
             ->clearcache('pension_' . $this->pension . '_id_' . $this->id)
+            ->clearcache('pension_' . $this->pension)
             ->execute();
 
         return $this->get_($result);
+    }
+
+    public static function delete($pk)
+    {
+        Dao_ReportsRAIScales::delete()
+            ->where('pk', '=', $pk)
+            ->clearcache($pk)
+            ->execute();
     }
 
 
@@ -81,13 +90,22 @@ Class Model_ReportRAIScales {
         return $report->fill_by_row($select);
     }
 
-
-    public static function delete($pk)
+    public static function getAllByPension($pension)
     {
-        Dao_ReportsRAIScales::delete()
-            ->where('pk', '=', $pk)
-            ->clearcache($pk)
+        $select = Dao_ReportsRAIScales::select()
+            ->where('pension', '=', $pension)
+            ->cached(Date::MINUTE * 5, 'pension_' . $pension)
             ->execute();
-    }
 
+        $reports = array();
+
+        if (empty($select)) return $reports;
+
+        foreach ($select as $db_selection) {
+            $report = new Model_ReportRAIScales();
+            $reports[] = $report->fill_by_row($db_selection);
+        }
+
+        return $reports;
+    }
 }

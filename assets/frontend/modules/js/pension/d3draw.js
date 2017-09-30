@@ -2,15 +2,34 @@ module.exports = (function (d3draw) {
 
     var d3 = require('d3');
 
-    d3draw.patientsAges = function () {
+    var getColors = function (number) {
 
-        var patientsBlock = document.getElementById('patientsAgeBlock'),
-            dataValue = JSON.parse(patientsBlock.dataset.value),
-            data = dataValue.data;
+        if (number === 7)
+            return ['#008da7', '#D0EA2B', '#FEFE33', '#FABC02', '#FE2712', '#8501AF', '#A67200'];
 
-        patientsBlock.removeAttribute('data-value');
+        if (number === 3)
+            return ['#008da7', '#FABC02', '#FE2712'];
 
-        var svg = d3.select(patientsBlock),
+        if (number === 2)
+            return ['#008da7', '#FE2712'];
+
+    };
+
+    /**
+     * Draw Circle Diagram
+     * @param options - params
+     *      id      - block id of diagram
+     *      title   - title of diagram
+     */
+    var drawCircleDiagram = function (options) {
+
+        var block     = document.getElementById(options.id),
+            dataValue = JSON.parse(block.dataset.value),
+            data      = dataValue.data;
+
+        block.removeAttribute('data-value');
+
+        var svg = d3.select(block),
             width = +svg.attr('width'),
             height = +svg.attr('height'),
             radius = Math.min(width, height) / 2;
@@ -18,7 +37,7 @@ module.exports = (function (d3draw) {
         var g = svg.append('g')
             .attr('transform', 'translate(' + width / 3 + ',' + height / 2 + ')');
 
-        var color = d3.scaleOrdinal(['#A0A0A0', '#FAD732', '#F45050']);
+        var color = d3.scaleOrdinal(getColors(data.length));
 
         var pie = d3.pie()
             .sort(null)
@@ -29,35 +48,40 @@ module.exports = (function (d3draw) {
             });
 
         var path = d3.arc()
-            .outerRadius(radius - 10)
+            .outerRadius(radius - 20)
             .innerRadius(0);
 
 
         var arc = g.selectAll('.arc')
             .data(pie(data))
             .enter().append('g')
-            .attr('class', 'age');
+            .attr('class', 'diagram');
 
         arc.append('path')
             .attr('d', path)
             .style('fill', function (d) {
 
-                return color(d.data.age);
+                return color(d.data.name);
 
             });
+
+        var labelArc = d3.arc()
+            .outerRadius(radius - 40)
+            .innerRadius(radius - 40);
 
         arc.append('text')
             .attr('transform', function (d) {
 
-                return 'translate(' + path.centroid(d) + ')';
+                return 'translate(' + labelArc.centroid(d) +  ')';
 
             })
             .style('text-anchor', 'middle')
+            .style('font-size', 12)
             .text(function (d) {
 
                 if (parseInt(d.data.number) !== 0) {
 
-                    return (parseInt(d.data.number) / dataValue.total * 100).toFixed(0) + '%';
+                    return (parseInt(d.data.number) / parseInt(dataValue.total) * 100).toFixed(0) + '%';
 
                 }
 
@@ -73,10 +97,10 @@ module.exports = (function (d3draw) {
             .attr('fill', '#008da7')
             .attr('font-weight', 'bold')
             .attr('text-anchor', 'end')
-            .text('Возраст');
+            .text(options.title);
 
 
-        var legendTable = d3.select(patientsBlock).append('g')
+        var legendTable = d3.select(block).append('g')
             .attr('transform', 'translate(0, 25)');
 
         var legend = legendTable.selectAll('.legend')
@@ -96,7 +120,7 @@ module.exports = (function (d3draw) {
             .attr('height', 10)
             .style('fill', function (d) {
 
-                return color(d.data.age);
+                return color(d.data.name);
 
             });
 
@@ -108,121 +132,46 @@ module.exports = (function (d3draw) {
             .style('text-anchor', 'end')
             .text(function (d) {
 
-                return d.data.age;
+                return d.data.name;
 
             });
 
     };
 
+
+    d3draw.patientsAges = function () {
+
+        drawCircleDiagram({
+            id: 'patientsAgeBlock',
+            title: 'Возраст'
+        });
+
+    };
+
     d3draw.patientsSex = function () {
 
-        var patientsBlock = document.getElementById('patientsSexBlock'),
-            dataValue = JSON.parse(patientsBlock.dataset.value),
-            data = dataValue.data;
+        drawCircleDiagram({
+            id: 'patientsSexBlock',
+            title: 'Пол'
+        });
 
-        patientsBlock.removeAttribute('data-value');
+    };
 
-        var svg = d3.select(patientsBlock),
-            width = +svg.attr('width'),
-            height = +svg.attr('height'),
-            radius = Math.min(width, height) / 2;
+    d3draw.ADLH = function () {
 
-        var g = svg.append('g')
-            .attr('transform', 'translate(' + width / 3 + ',' + height / 2 + ')');
+        drawCircleDiagram({
+            id: 'RAIScalesADLH',
+            title: 'Макс. зависимость'
+        });
 
-        var color = d3.scaleOrdinal(['#008da7', '#FF7373']);
+    };
 
-        var pie = d3.pie()
-            .sort(null)
-            .value(function (d) {
+    d3draw.DRS = function () {
 
-                return d.number;
-
-            });
-
-        var path = d3.arc()
-            .outerRadius(radius - 10)
-            .innerRadius(0);
-
-
-        var arc = g.selectAll('.arc')
-            .data(pie(data))
-            .enter().append('g')
-            .attr('class', 'age');
-
-        arc.append('path')
-            .attr('d', path)
-            .style('fill', function (d) {
-
-                return color(d.data.sex);
-
-            });
-
-        arc.append('text')
-            .attr('transform', function (d) {
-
-                return 'translate(' + path.centroid(d) + ')';
-
-            })
-            .style('text-anchor', 'middle')
-            .text(function (d) {
-
-                if (parseInt(d.data.number) !== 0) {
-
-                    return (parseInt(d.data.number) / dataValue.total * 100).toFixed(0) + '%';
-
-                }
-
-            });
-
-        svg.append('g')
-            .attr('class', 'axis')
-            .append('text')
-            .attr('x', width - 2)
-            .attr('y', 14)
-            .attr('font-family', 'sans-serif')
-            .attr('font-size', 14)
-            .attr('fill', '#008da7')
-            .attr('font-weight', 'bold')
-            .attr('text-anchor', 'end')
-            .text('Пол');
-
-
-        var legendTable = d3.select(patientsBlock).append('g')
-            .attr('transform', 'translate(0, 25)');
-
-        var legend = legendTable.selectAll('.legend')
-            .data(pie(data))
-            .enter().append('g')
-            .attr('class', 'legend')
-            .attr('transform', function (d, i) {
-
-                return 'translate(0, ' + i * 20 + ')';
-
-            });
-
-        legend.append('rect')
-            .attr('x', width - 10)
-            .attr('y', 0)
-            .attr('width', 10)
-            .attr('height', 10)
-            .style('fill', function (d) {
-
-                return color(d.data.sex);
-
-            });
-
-        legend.append('text')
-            .attr('x', width - 14)
-            .attr('y', 9)
-            .attr('font-family', 'sans-serif')
-            .attr('font-size', 14)
-            .style('text-anchor', 'end')
-            .text(function (d) {
-
-                return d.data.sex;
-
-            });
+        drawCircleDiagram({
+            id: 'RAIScalesDRS',
+            title: 'Уровень депрессии'
+        });
 
     };
 

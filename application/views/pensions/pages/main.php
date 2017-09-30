@@ -3,7 +3,6 @@
     <?= View::factory('pensions/blocks/cover', array('pension' => $pension)); ?>
 
 
-
     <div class="col-xs-12 col-md-6">
         <div class="block">
             <div class="block__body text-center overflow--hidden">
@@ -24,6 +23,27 @@
         </div>
     </div>
 
+    <div class="col-xs-12 col-md-6">
+        <div class="block">
+            <div class="block__body text-center overflow--hidden">
+
+                <svg id="RAIScalesADLH" data-value='<?= json_encode($RAI_scales['ADLH']); ?>' width="300" height="200"></svg>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xs-12 col-md-6">
+        <div class="block">
+            <div class="block__body text-center overflow--hidden">
+
+                <svg id="RAIScalesDRS" data-value='<?= json_encode($RAI_scales['DRS']); ?>' width="300" height="200"></svg>
+
+            </div>
+        </div>
+    </div>
+
+
     <input type="hidden" id="pensionID" value="<?=$pension->id; ?>">
 
 </div>
@@ -33,5 +53,7 @@
     raicare.parallax.init();
     pension.d3draw.patientsAges();
     pension.d3draw.patientsSex();
+    pension.d3draw.ADLH();
+    pension.d3draw.DRS();
 </script>
 
