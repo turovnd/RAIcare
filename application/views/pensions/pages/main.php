@@ -37,6 +37,26 @@
         <div class="block">
             <div class="block__body text-center overflow--hidden">
 
+                <svg id="RAIScalesCPS" data-value='<?= json_encode($RAI_scales['CPS']); ?>' width="300" height="200"></svg>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xs-12 col-md-6">
+        <div class="block">
+            <div class="block__body text-center overflow--hidden">
+
+                <svg id="RAIScalesCOMM" data-value='<?= json_encode($RAI_scales['COMM']); ?>' width="300" height="200"></svg>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xs-12 col-md-6">
+        <div class="block">
+            <div class="block__body text-center overflow--hidden">
+
                 <svg id="RAIScalesDRS" data-value='<?= json_encode($RAI_scales['DRS']); ?>' width="300" height="200"></svg>
 
             </div>
@@ -51,9 +71,6 @@
 <script type="text/javascript" src="<?=$assets; ?>frontend/bundles/pension.min.js?v=<?= filemtime("assets/frontend/bundles/pension.min.js") ?>"></script>
 <script type="text/javascript">
     raicare.parallax.init();
-    pension.d3draw.patientsAges();
-    pension.d3draw.patientsSex();
-    pension.d3draw.ADLH();
-    pension.d3draw.DRS();
+    pension.d3draw.init();
 </script>
 

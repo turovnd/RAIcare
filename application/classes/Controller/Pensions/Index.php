@@ -165,6 +165,22 @@ class Controller_Pensions_Index extends Dispatch
                 array( 'name' => 'Умеренная', 'number' => 0 ),
                 array( 'name' => 'Сильная', 'number' => 0 ) ) );
 
+        $RAI_scales['CPS'] = array( 'total' => count($reports),
+            'data' => array( array( 'name' => 'Нормальные', 'number' => 0 ),
+                array( 'name' => 'В приделах нормы', 'number' => 0 ),
+                array( 'name' => 'Незн. отклонения', 'number' => 0 ),
+                array( 'name' => 'Ум. отклонения', 'number' => 0 ),
+                array( 'name' => 'Ум/сер отклонения', 'number' => 0 ),
+                array( 'name' => 'Сер. отклонения', 'number' => 0 ),
+                array( 'name' => 'Оч.сер отклонения', 'number' => 0 ) ) );
+
+        $RAI_scales['COMM'] = array( 'total' => count($reports),
+            'data' => array( array( 'name' => 'В приделах нормы', 'number' => 0 ),
+                array( 'name' => 'Незн. отклонения', 'number' => 0 ),
+                array( 'name' => 'Умер. отклонения', 'number' => 0 ),
+                array( 'name' => 'Cер. отклонения', 'number' => 0 ),
+                array( 'name' => 'Оч.сер отклонения', 'number' => 0 ) ) );
+
 
         foreach ($reports as $report) {
             if ($report->ADLH == 0) $RAI_scales['ADLH']['data'][0]['number']++;
@@ -176,9 +192,22 @@ class Controller_Pensions_Index extends Dispatch
             else $RAI_scales['ADLH']['data'][6]['number']++;
 
             if ($report->DRS == 0 || $report->DRS == 1 || $report->DRS == 2) $RAI_scales['DRS']['data'][0]['number']++;
-            elseif ($report->DRS == 3 || $report->DRS == 4 || $report->DRS == 5 ||
-                    $report->DRS == 6 || $report->DRS == 7 || $report->DRS == 8) $RAI_scales['DRS']['data'][1]['number']++;
+            elseif ($report->DRS == 3 || $report->DRS == 4 || $report->DRS == 5 || $report->DRS == 6 || $report->DRS == 7 || $report->DRS == 8) $RAI_scales['DRS']['data'][1]['number']++;
             else $RAI_scales['DRS']['data'][2]['number']++;
+
+            if ($report->CPS == 0) $RAI_scales['CPS']['data'][0]['number']++;
+            elseif ($report->CPS == 1) $RAI_scales['CPS']['data'][1]['number']++;
+            elseif ($report->CPS == 2) $RAI_scales['CPS']['data'][2]['number']++;
+            elseif ($report->CPS == 3) $RAI_scales['CPS']['data'][3]['number']++;
+            elseif ($report->CPS == 4) $RAI_scales['CPS']['data'][4]['number']++;
+            elseif ($report->CPS == 5) $RAI_scales['CPS']['data'][5]['number']++;
+            else $RAI_scales['CPS']['data'][6]['number']++;
+
+            if ($report->COMM == 0 || $report->COMM == 1) $RAI_scales['COMM']['data'][0]['number']++;
+            elseif ($report->COMM == 2 || $report->COMM == 3) $RAI_scales['COMM']['data'][1]['number']++;
+            elseif ($report->COMM == 4 || $report->COMM == 5) $RAI_scales['COMM']['data'][2]['number']++;
+            elseif ($report->COMM == 6 || $report->COMM == 7) $RAI_scales['COMM']['data'][3]['number']++;
+            else $RAI_scales['COMM']['data'][4]['number']++;
         }
 
         return $RAI_scales;
