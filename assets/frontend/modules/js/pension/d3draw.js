@@ -81,7 +81,8 @@ module.exports = (function (d3draw) {
             .style('font-size', 11)
             .text(function (d) {
 
-                return (parseInt(d.data.number) / parseInt(dataValue.total) * 100).toFixed(0) + '%';
+                if (parseInt(d.data.number) !== 0 )
+                    return (parseInt(d.data.number) / parseInt(dataValue.total) * 100).toFixed(0) + '%';
 
             });
 
