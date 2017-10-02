@@ -5,25 +5,25 @@ class Model_Response_Patients extends Model_Response_Abstract
     protected $_PATIENTS_GET_SUCCESS = array (
         'type' => 'patient',
         'code' => '150',
-        'message' => 'Пациенты получены'
+        'message' => 'Резиденты получены'
     );
 
     protected $_PATIENTS_CREATE_SUCCESS = array (
         'type' => 'patient',
         'code' => '151',
-        'message' => 'Пациент успешно добавлен'
+        'message' => 'Резидент успешно добавлен'
     );
 
     protected $_PATIENTS_DOES_NOT_EXISTED_ERROR = array (
         'type' => 'patient',
         'code' => '152',
-        'message' => 'Пациент не существет'
+        'message' => 'Резидент не существет'
     );
 
     protected $_PATIENTS_UPDATE_SUCCESS = array (
         'type' => 'patient',
         'code' => '153',
-        'message' => 'Информация о пациенте успешно обновлена'
+        'message' => 'Информация о резиденте успешно обновлена'
     );
 
     protected $_PATIENTS_UPDATE_WARNING = array (
@@ -53,7 +53,7 @@ class Model_Response_Patients extends Model_Response_Abstract
     protected $_PATIENTS_SNILS_EXISTED_ERROR = array (
         'type' => 'patient',
         'code' => '155',
-        'message' => 'В вашем пансионате уже заведен профиль пациентам с указанным номером СНИЛСа'
+        'message' => 'В вашем пансионате уже заведен профиль резидентам с указанным номером СНИЛСа'
     );
 
     protected $_PATIENTS_EXSISTED_ERROR = array (
@@ -77,7 +77,7 @@ class Model_Response_Patients extends Model_Response_Abstract
     protected $_PATIENT_PENSION_ERROR = array (
         'type' => 'patient',
         'code' => '156',
-        'message' => 'Пациент не принадлежит этому пансионату'
+        'message' => 'Резидент не принадлежит этому пансионату'
     );
 
 

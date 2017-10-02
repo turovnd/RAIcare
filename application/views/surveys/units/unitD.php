@@ -47,7 +47,7 @@
                     <div class="form-group">
                         <label for="D2" class="form-group__label col-xs-12 f-s-1">
                             D2. Способность понимать окружающих (Восприятие информации)
-                            <small class="text-italic text-normal">Способность пациента распознавать вербальную информацию (сообщенную пациенту любым способом; при включенном слуховом аппарате, если он используется)</small>
+                            <small class="text-italic text-normal">Способность резидента распознавать вербальную информацию (сообщенную резиденту любым способом; при включенном слуховом аппарате, если он используется)</small>
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -112,7 +112,7 @@
                     <div class="form-group">
                         <label for="D4a" class="form-group__label col-xs-12">
                             a. Способность видеть при адекватном освещении
-                            <small class="text-italic text-normal">В очках или с помощью других оптических приборов, которыми обычно пользуется пациент</small>
+                            <small class="text-italic text-normal">В очках или с помощью других оптических приборов, которыми обычно пользуется резидент</small>
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>

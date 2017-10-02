@@ -86,7 +86,7 @@
                         <td>Шкала собственной оценка депрессии [SRD]</td>
                         <td class="text-center">
                             <? if ($raiscales->SRD == -1) : ?>
-                                Пациент не смог <br> (не захотел) ответить
+                                Резидент не смог <br> (не захотел) ответить
                             <? else: ?>
                                 <canvas data-min="0" data-max="9" data-value="<?= $raiscales->SRD; ?>" data-fontsize="16" width="150" height="25" data-speed="80" data-animate="true" data-inpercent="false" data-showtext="false" data-showlabels="true" class="js-progress" data-linecolor="<?= $raiscales->SRD < 3 ? '#008DA7' : '#f05050'; ?>"></canvas>
                                 <small>
@@ -103,7 +103,7 @@
                         <td>Шкала оценки депрессии [DRS]</td>
                         <td class="text-center">
                             <? if ($raiscales->DRS == -1) : ?>
-                                Пациент не смог <br> (не захотел) ответить
+                                Резидент не смог <br> (не захотел) ответить
                             <? else: ?>
                                 <canvas data-min="0" data-max="14" data-value="<?= $raiscales->DRS; ?>" data-fontsize="16" width="150" height="25" data-speed="80" data-animate="true" data-inpercent="false" data-showtext="true" data-showlabels="true" class="js-progress" data-linecolor="<?= $raiscales->DRS < 3 ? '#008DA7' : '#f05050'; ?>"></canvas>
                                 <small>
@@ -145,7 +145,7 @@
                         <td>Шкала коммуникативных способностей [COMM]</td>
                         <td class="text-center">
                             <? if ($raiscales->COMM == -1) : ?>
-                                Пациент не смог <br> (не захотел) ответить
+                                Резидент не смог <br> (не захотел) ответить
                             <? else: ?>
                                 <canvas data-min="0" data-max="8" data-value="<?= $raiscales->COMM; ?>" data-fontsize="16" width="150" height="25" data-speed="80" data-animate="true" data-inpercent="false" data-showtext="true" data-showlabels="true" class="js-progress" data-linecolor="<?= $raiscales->COMM < 3 ? '#008DA7' : '#f05050'; ?>"></canvas>
                                 <small>
@@ -168,7 +168,7 @@
                         <td>Шкала изменений здоровья, смертельных диагнозов, признаков и симптомов [CHESS]</td>
                         <td class="text-center">
                             <? if ($raiscales->CHESS == -1) : ?>
-                                Пациент не смог <br> (не захотел) ответить
+                                Резидент не смог <br> (не захотел) ответить
                             <? else: ?>
                                 <canvas data-min="0" data-max="5" data-value="<?= $raiscales->CHESS; ?>" data-fontsize="16" width="150" height="25" data-speed="80" data-animate="true" data-inpercent="false" data-showtext="true" data-showlabels="true" class="js-progress" data-linecolor="<?= $raiscales->CHESS < 2 ? '#008DA7' : '#f05050'; ?>"></canvas>
                                 <small>
@@ -210,7 +210,7 @@
                         <td>Шкала агрессивного поведения [ABS]</td>
                         <td class="text-center">
                             <? if ($raiscales->ABS == -1) : ?>
-                                Пациент не смог <br> (не захотел) ответить
+                                Резидент не смог <br> (не захотел) ответить
                             <? else: ?>
                                 <canvas data-min="0" data-max="12" data-value="<?= $raiscales->ABS; ?>" data-fontsize="16" width="150" height="25" data-speed="80" data-animate="true" data-inpercent="false" data-showtext="true" data-showlabels="true" class="js-progress" data-linecolor="<?= $raiscales->ABS == 0 ? '#008DA7' : '#f05050'; ?>"></canvas>
                                 <small>

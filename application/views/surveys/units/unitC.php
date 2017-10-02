@@ -53,7 +53,7 @@
                             <div class="form-group">
                                 <label for="C2a" class="form-group__label col-xs-12">
                                     a. Кратковременная память
-                                    <small class="text-italic text-normal">Пациент может вспомнить информацию, полученную 5 минут назад</small>
+                                    <small class="text-italic text-normal">Резидент может вспомнить информацию, полученную 5 минут назад</small>
                                 </label>
                                 <div class="col-xs-12">
                                     <? if ($can_conduct) : ?>
@@ -72,7 +72,7 @@
                             <div class="form-group">
                                 <label for="C2b" class="form-group__label col-xs-12">
                                     b. Долговременная память
-                                    <small class="text-italic text-normal">Пациент может вспомнить информацию, полученную в отдаленном прошлом</small>
+                                    <small class="text-italic text-normal">Резидент может вспомнить информацию, полученную в отдаленном прошлом</small>
                                 </label>
                                 <div class="col-xs-12">
                                     <? if ($can_conduct) : ?>
@@ -91,7 +91,7 @@
                             <div class="form-group">
                                 <label for="C2c" class="form-group__label col-xs-12">
                                     c. Процедурная память
-                                    <small class="text-italic text-normal">Пациент может выполнять все или почти все шаги многозадачной последовательности без подсказок</small>
+                                    <small class="text-italic text-normal">Резидент может выполнять все или почти все шаги многозадачной последовательности без подсказок</small>
                                 </label>
                                 <div class="col-xs-12">
                                     <? if ($can_conduct) : ?>
@@ -110,7 +110,7 @@
                             <div class="form-group">
                                 <label for="C2d" class="form-group__label col-xs-12">
                                     d. Ситуационная память
-                                    <small class="text-italic text-normal">Пациент одновременно узнает имена и лица представителей обслуживающего персонала, с которыми часто сталкивается, И помнит расположение регулярно посещаемых мест (например, спальни, столовой, комнаты для физических упражнений, процедурной комнаты)</small>
+                                    <small class="text-italic text-normal">Резидент одновременно узнает имена и лица представителей обслуживающего персонала, с которыми часто сталкивается, И помнит расположение регулярно посещаемых мест (например, спальни, столовой, комнаты для физических упражнений, процедурной комнаты)</small>
                                 </label>
                                 <div class="col-xs-12">
                                     <? if ($can_conduct) : ?>
@@ -130,13 +130,13 @@
                     <fieldset>
                         <p class="col-xs-12">
                             <span class="text-bold">C3. Периоды беспорядочности мышления или спутанности сознания</span>
-                            <small class="text-italic">Примечание: Для точной оценки необходимо побеседовать с персоналом, семьей и другими лицами, владеющими информацией о поведении пациента в течение соответствующего времени</small>
+                            <small class="text-italic">Примечание: Для точной оценки необходимо побеседовать с персоналом, семьей и другими лицами, владеющими информацией о поведении резидента в течение соответствующего времени</small>
                         </p>
 
                         <div class="form-group">
                             <label for="C3a" class="form-group__label col-xs-12">
                                 a. Легко отвлекается
-                                <small class="text-italic text-normal">Например: имеют место эпизодические трудности с концентрацией внимания; пациент уходит от темы</small>
+                                <small class="text-italic text-normal">Например: имеют место эпизодические трудности с концентрацией внимания; резидент уходит от темы</small>
                             </label>
                             <div class="col-xs-12">
                                 <? if ($can_conduct) : ?>
@@ -155,7 +155,7 @@
                         <div class="form-group">
                             <label for="C3b" class="form-group__label col-xs-12">
                                 b. Отмечены эпизоды беспорядочной речи
-                                <small class="text-italic text-normal">Например: бессмысленная речь, пациент теряет нить рассуждения</small>
+                                <small class="text-italic text-normal">Например: бессмысленная речь, резидент теряет нить рассуждения</small>
                             </label>
                             <div class="col-xs-12">
                                 <? if ($can_conduct) : ?>
@@ -193,7 +193,7 @@
                     <fieldset>
                         <div class="form-group">
                             <label for="C4" class="form-group__label col-xs-12 f-s-1">
-                                C4. Острое изменение состояния мыслительных способностей пациента по сравнению с его обычным состоянием
+                                C4. Острое изменение состояния мыслительных способностей резидента по сравнению с его обычным состоянием
                                 <small class="text-italic text-normal">Например: возбужденное состояние, заторможенность, трудности при пробуждении или неадекватное восприятие окружающей действительности</small>
                             </label>
                             <div class="col-xs-12">
@@ -215,7 +215,7 @@
                     <fieldset>
                         <div class="form-group">
                             <label for="C5" class="form-group__label col-xs-12 f-s-1">
-                                C5. Динамика способности пациента к принятию решений за последние 90 дней
+                                C5. Динамика способности резидента к принятию решений за последние 90 дней
                                 <small class="text-italic text-normal">Или за меньший срок, если последняя оценка проводилась меньше, чем 90 дней назад</small>
                             </label>
                             <div class="col-xs-12">

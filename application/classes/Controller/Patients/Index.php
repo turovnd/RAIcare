@@ -86,7 +86,7 @@ class Controller_Patients_Index extends Dispatch
             $patients[] = $patient;
         }
 
-        $this->template->title = "Пациенты пансионата - " . $this->pension->name;
+        $this->template->title = "Резиденты пансионата - " . $this->pension->name;
         $this->template->section = View::factory('patients/pages/patients-in-pension')
             ->set('pension', $this->pension)
             ->set('patients', $patients);
@@ -160,7 +160,7 @@ class Controller_Patients_Index extends Dispatch
         $survey->unitG->G1 = json_decode($survey->unitG->G1);
 
 
-        $this->template->title = "Текущее состояние пациента #" . $this->patient->id;
+        $this->template->title = "Текущее состояние резидента #" . $this->patient->id;
         $this->template->section = View::factory('reports/patient/status')
             ->set('pension', $this->pension)
             ->set('patient', $this->patient)

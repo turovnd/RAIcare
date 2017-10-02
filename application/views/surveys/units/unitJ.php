@@ -374,7 +374,7 @@
                     <div class="form-group">
                         <label for="J3p" class="form-group__label col-xs-12">
                             p. Слишком долгий сон
-                            <small class="text-italic text-normal">Избыточная длительность сна, которая влияет на нормальное функционирование пациента.</small>
+                            <small class="text-italic text-normal">Избыточная длительность сна, которая влияет на нормальное функционирование резидента.</small>
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -530,14 +530,14 @@
 
                     <p class="col-xs-12 text-bold">
                         J6. Болевые симптомы
-                        <small class="text-italic text-normal">Примечание: Всегда спрашивайте пациента о частоте и интенсивности
-                            боли, а также об обезболивании. Наблюдайте за пациентом и задавайте
-                            вопросы лицам, контактирующим с пациентом.</small>
+                        <small class="text-italic text-normal">Примечание: Всегда спрашивайте резидента о частоте и интенсивности
+                            боли, а также об обезболивании. Наблюдайте за резидентом и задавайте
+                            вопросы лицам, контактирующим с резидентом.</small>
                     </p>
 
                     <div class="form-group">
                         <label class="form-group__label col-xs-12">
-                            a. Частота, с которой пациент жалуется на боль или демонстрирует ее
+                            a. Частота, с которой резидент жалуется на боль или демонстрирует ее
                             <small class="text-italic text-normal">В т.ч. гримасами, сжатием зубов, стоном, отшатыванием при касании или иными невербальными знаками, говорящими о боли, а также сторонится прикосновений</small>
                         </label>
                         <div class="col-xs-12">
@@ -590,7 +590,7 @@
                     <div class="form-group">
                         <label class="form-group__label col-xs-12">
                             d. Прорыв боли
-                            <small class="text-italic text-normal">В течение ПОСЛЕДНИХ 3 ДНЕЙ пациент испытал один или несколько внезапных резких приступов боли</small>
+                            <small class="text-italic text-normal">В течение ПОСЛЕДНИХ 3 ДНЕЙ резидент испытал один или несколько внезапных резких приступов боли</small>
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -610,7 +610,7 @@
                     <div class="form-group">
                         <label class="form-group__label col-xs-12">
                             e. Управление болью (болеутоление)
-                            <small class="text-italic text-normal">Адекватность текущего лечебного режима в области болеутоления (с точки зрения пациента)</small>
+                            <small class="text-italic text-normal">Адекватность текущего лечебного режима в области болеутоления (с точки зрения резидента)</small>
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -639,7 +639,7 @@
                         <label class="form-group__label col-xs-12">
                             a. Нарушения состояния здоровья / заболевания проводят к нестабильности
                             (колебаниям, неустойчивости или ухудшению) когнитивной деятельности,
-                            повседневной деятельности, настроения или поведения пациента
+                            повседневной деятельности, настроения или поведения резидента
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -677,7 +677,7 @@
                     </div>
                     <div class="form-group">
                         <label class="form-group__label col-xs-12">
-                            c. Заболевание в терминальной стадии, пациенту осталось жить 6 месяцев или менее
+                            c. Заболевание в терминальной стадии, резиденту осталось жить 6 месяцев или менее
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -701,8 +701,8 @@
 
                     <div class="form-group">
                         <label for="J8" class="form-group__label col-xs-12 f-s-1">
-                            J8. Оценка пациентом своего состояния здоровья
-                            <small class="text-italic text-normal">Задайте пациенту общий вопрос: "Как бы вы оценили свое состояние здоровья в целом?"</small>
+                            J8. Оценка резидентом своего состояния здоровья
+                            <small class="text-italic text-normal">Задайте резиденту общий вопрос: "Как бы вы оценили свое состояние здоровья в целом?"</small>
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -728,7 +728,7 @@
 
                     <div class="form-group">
                         <label for="J9a" class="form-group__label col-xs-12">
-                            a. Пациент курит табак ежедневно
+                            a. Резидент курит табак ежедневно
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>

@@ -3,7 +3,7 @@
     <div class="block__body clear-fix">
 
         <div class="form-group m-b-5 js-field-name">
-            <label for="patientName" class="form-group__label col-xs-12 col-sm-4 col-md-3">Пациент</label>
+            <label for="patientName" class="form-group__label col-xs-12 col-sm-4 col-md-3">Резидент</label>
             <div class="col-xs-12 col-sm-8 col-md-9">
                 <p class="form-group__control-static">
                     <span class="js-patient-info">

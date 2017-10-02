@@ -7,7 +7,7 @@ class Methods_Plural
         $format = array(
             'places'    => array('Койка','Койки','Коек'),
             'pensions'  => array('Пансионат','Пансионата','Пансионатов'),
-            'patients'  => array('Пациент', 'Пациента', 'Пациентов'),
+            'patients'  => array('Резидент', 'Резидента', 'Резидентов'),
             'surveys'   => array('Анкета','Анкеты','Анкет'),
         );
 

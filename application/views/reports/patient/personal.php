@@ -179,7 +179,7 @@
                         </div>
                         <div class="col-xs-12 col-sm-4 col-md-3 p-l-30 p-r-30 text-center m-t-10">
                             <? if ($report->COMM == -1) : ?>
-                                Пациент не смог (не захотел) ответить
+                                Резидент не смог (не захотел) ответить
                             <? else: ?>
                                 <canvas data-min="0" data-max="8" data-value="<?= $report->COMM; ?>" data-fontsize="22" width="200" height="35" data-speed="80" data-animate="true" data-inpercent="false" data-showtext="true" data-showlabels="true" class="js-progress" data-linecolor="<?= $report->COMM < 4 ? '#008DA7' : '#f05050'; ?>"></canvas>
                             <? endif;?>
@@ -454,7 +454,7 @@
                         <div class="col-xs-12 col-sm-8 col-md-9">
                             <div class="form-group">
                                 <div class="form-group__label col-xs-12">
-                                    Пациент полагает, что он способен повысить эффективность своих физических функций
+                                    Резидент полагает, что он способен повысить эффективность своих физических функций
                                     <div class="text-normal p-t-5">
                                         <?= Kohana::$config->load('Units.G.G4')[json_decode($survey->unitG->G4)[0]];?>
                                     </div>
@@ -472,7 +472,7 @@
                         <div class="col-xs-12 col-sm-8 col-md-9">
                             <div class="form-group">
                                 <div class="form-group__label col-xs-12">
-                                    Специалист в области ухода полагает, что пациент способен повысить эффективность своих физических функций
+                                    Специалист в области ухода полагает, что резидент способен повысить эффективность своих физических функций
                                     <div class="text-normal p-t-5">
                                         <?= Kohana::$config->load('Units.G.G4')[json_decode($survey->unitG->G4)[1]];?>
                                     </div>
@@ -523,7 +523,7 @@
                         </div>
                         <div class="col-xs-12 col-sm-4 col-md-3 p-l-30 p-r-30 text-center m-t-10">
                             <? if ($report->DRS == -1) : ?>
-                                Пациент не смог (не захотел) ответить
+                                Резидент не смог (не захотел) ответить
                             <? else: ?>
                                 <canvas data-min="0" data-max="14" data-value="<?= $report->DRS; ?>" data-fontsize="22" width="200" height="35" data-speed="80" data-animate="true" data-inpercent="false" data-showtext="true" data-showlabels="true" class="js-progress" data-linecolor="<?= $report->DRS < 9 ? '#008DA7' : '#f05050'; ?>"></canvas>
                             <? endif; ?>
@@ -545,7 +545,7 @@
                         </div>
                         <div class="col-xs-12 col-sm-4 col-md-3 p-l-30 p-r-30 text-center m-t-10">
                             <? if ($report->SRD == -1) : ?>
-                                Пациент не смог (не захотел) ответить
+                                Резидент не смог (не захотел) ответить
                             <? else: ?>
                                 <canvas data-min="0" data-max="9" data-value="<?= $report->SRD; ?>" data-fontsize="22" width="200" height="35" data-speed="80" data-animate="true" data-inpercent="false" data-showtext="true" data-showlabels="true" class="js-progress" data-linecolor="<?= $report->SRD < 5 ? '#008DA7' : '#f05050'; ?>"></canvas>
                             <? endif; ?>
@@ -576,7 +576,7 @@
                         </div>
                         <div class="col-xs-12 col-sm-4 col-md-3 p-l-30 p-r-30 text-center m-t-10">
                             <? if ($report->ABS == -1) : ?>
-                                Пациент не смог (не захотел) ответить
+                                Резидент не смог (не захотел) ответить
                             <? else: ?>
                                 <canvas data-min="0" data-max="12" data-value="<?= $report->ABS; ?>" data-fontsize="22" width="200" height="35" data-speed="80" data-animate="true" data-inpercent="false" data-showtext="true" data-showlabels="true" class="js-progress" data-linecolor="<?= $report->ABS < 6 ? '#008DA7' : '#f05050'; ?>"></canvas>
                             <? endif; ?>
@@ -645,7 +645,7 @@
                             <div class="col-xs-12 col-sm-8 col-md-9">
                                 <div class="form-group">
                                     <div class="form-group__label col-xs-12">
-                                        Пациент противится уходу за ним
+                                        Резидент противится уходу за ним
                                         <div class="text-normal p-t-5">
                                             <?= Kohana::$config->load('Units.E.E3')[json_decode($survey->unitE->E3)[5]]; ?>
                                         </div>
@@ -794,7 +794,7 @@
                         </div>
                         <div class="col-xs-12 col-sm-4 col-md-3 p-l-30 p-r-30 text-center m-t-10">
                             <? if ($report->CHESS == -1) : ?>
-                                Пациент не смог (не захотел) ответить
+                                Резидент не смог (не захотел) ответить
                             <? else: ?>
                                 <canvas data-min="0" data-max="5" data-value="<?= $report->CHESS; ?>" data-fontsize="22" width="200" height="35" data-speed="80" data-animate="true" data-inpercent="false" data-showtext="true" data-showlabels="true" class="js-progress" data-linecolor="<?= $report->CHESS < 4 ? '#008DA7' : '#f05050'; ?>"></canvas>
                             <? endif; ?>
@@ -882,7 +882,7 @@
                         <div class="col-xs-12 col-sm-8 col-md-9">
                             <div class="form-group">
                                 <div class="form-group__label col-xs-12">
-                                    Оценка пациентом своего состояния здоровья
+                                    Оценка резидентом своего состояния здоровья
                                     <div class="text-normal p-t-5">
                                         <?= Kohana::$config->load('Units.J.J8')[$survey->unitJ->J8]; ?>
                                     </div>
@@ -1244,7 +1244,7 @@
 <!---->
 <!--                        --><?// if(!empty($diagnoseType2)) : ?>
 <!--                            <fieldset>-->
-<!--                                <p class="text-bold">Диагноз установлен - пациент получает активное лечение</p>-->
+<!--                                <p class="text-bold">Диагноз установлен - резидент получает активное лечение</p>-->
 <!--                                <ul class="m-b-0">-->
 <!--                                    --><?// foreach ($diagnoseType2 as $diagnose) : ?>
 <!--                                        <li class="p-b-5">--><?//= $diagnoses[$diagnose]; ?><!--</li>-->
@@ -1255,7 +1255,7 @@
 <!---->
 <!--                        --><?// if(!empty($diagnoseType3)) : ?>
 <!--                            <fieldset>-->
-<!--                                <p class="text-bold">Диагноз установлен - пациент наблюдается, но не получает активного лечения</p>-->
+<!--                                <p class="text-bold">Диагноз установлен - резидент наблюдается, но не получает активного лечения</p>-->
 <!--                                <ul class="m-b-0">-->
 <!--                                    --><?// foreach ($diagnoseType3 as $diagnose) : ?>
 <!--                                        <li class="p-b-5">--><?//= $diagnoses[$diagnose]; ?><!--</li>-->

@@ -27,8 +27,8 @@
                 <ol>
 
                     <li class="m-b-15">
-                        <p>Все пациенты пансионата доступны по ссылке</p>
-                        <a href="<?= '//'  . $_SERVER['HTTP_HOST'] . '/' . $pension->uri . '/patients'; ?>" class="btn btn--default m-b-0">Пациенты</a>
+                        <p>Все резиденты пансионата доступны по ссылке</p>
+                        <a href="<?= '//'  . $_SERVER['HTTP_HOST'] . '/' . $pension->uri . '/patients'; ?>" class="btn btn--default m-b-0">Резиденты</a>
                     </li>
 
                     <li class="m-b-15">
