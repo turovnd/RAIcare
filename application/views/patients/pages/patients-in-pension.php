@@ -2,9 +2,9 @@
 
     <h3 class="section__heading">
         <? if ($user->role == 23) : ?>
-            <a role="button" data-toggle="modal" data-area="newPatientModalForm" class="btn btn--brand btn--sm m-0 fl_r">Новый пациент</a>
+            <a role="button" data-toggle="modal" data-area="newPatientModalForm" class="btn btn--brand btn--sm m-0 fl_r">Новый резидент</a>
         <? endif; ?>
-        Пациенты пансионата - <?= $pension->name; ?>
+        Резиденты пансионата - <?= $pension->name; ?>
     </h3>
 
     <div class="row">
@@ -17,7 +17,7 @@
                         <thead>
                             <tr>
                                 <th data-sortable="true" width="5%">#</th>
-                                <th data-sortable="true" width="20%">Пациент</th>
+                                <th data-sortable="true" width="20%">Резидент</th>
                                 <th data-sortable="true" data-type="date" data-format="DD MMM YYYY" width="15%">Посл.анкетир.</th>
                                 <th data-sortable="true" width="20%">Ответственный</th>
                                 <th class="text-center" data-sortable="false" width="20%">Текущий статус</th>
@@ -109,7 +109,7 @@
                         <tfoot>
                             <tr>
                                 <th>#</th>
-                                <th>Пациент</th>
+                                <th>Резидент</th>
                                 <th>Посл.анкетир.</th>
                                 <th>Ответственный</th>
                                 <th class="text-center">Текущий статус</th>

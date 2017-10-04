@@ -114,13 +114,13 @@ class Model_Response_Survey extends Model_Response_Abstract
     protected $_SURVEY_UNIT_O5_ERROR = array(
         'type' => 'survey',
         'code' => '168',
-        'message' => 'Не правильно указано число дней, когда пациента посещал терапевта'
+        'message' => 'Не правильно указано число дней, когда резидента посещал терапевта'
     );
 
     protected $_SURVEY_UNIT_O6_ERROR = array(
         'type' => 'survey',
         'code' => '168',
-        'message' => 'Не правильно указано число дней, когда терапевт менял назначения пациента'
+        'message' => 'Не правильно указано число дней, когда терапевт менял назначения резидента'
     );
 
     protected $_SURVEY_UNIT_UPDATE_WITH_REFRESH_SUCCESS = array(

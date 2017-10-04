@@ -36,7 +36,7 @@
                 <fieldset>
                     <div class="form-group">
                         <label for="A10" class="form-group__label col-xs-12">
-                            Цели получения медицинской помощи, выраженные пациентом
+                            Цели получения медицинской помощи, выраженные резидентом
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>

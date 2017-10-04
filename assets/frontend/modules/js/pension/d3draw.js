@@ -2,23 +2,44 @@ module.exports = (function (d3draw) {
 
     var d3 = require('d3');
 
-    d3draw.patientsAges = function () {
+    var getColors = function (number) {
 
-        var patientsBlock = document.getElementById('patientsAgeBlock'),
-            dataValue = JSON.parse(patientsBlock.dataset.value),
-            data = dataValue.data;
+        if (number === 9)
+            return ['#008da7', '#D0EA2B', '#FEFE33', '#FABC02', '#FE2712', '#8501AF', '#A67200', '#BBBBBB', '#7A3D3D'];
 
-        patientsBlock.removeAttribute('data-value');
+        if (number === 7)
+            return ['#98abc5', '#8a89a6', '#7b6888', '#6b486b', '#a05d56', '#d0743c', '#ff8c00'];
 
-        var svg = d3.select(patientsBlock),
+        if (number === 5)
+            return ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd'];
+
+        if (number === 3)
+            return ['#008da7', '#FABC02', '#FE2712'];
+
+        if (number === 2)
+            return ['#008da7', '#FE2712'];
+
+    };
+
+    /**
+     * Draw Circle Diagram
+     * @param options - params
+     *      id      - block id of diagram
+     *      title   - title of diagram
+     */
+    var drawCircleDiagram = function (options) {
+
+        var block = document.getElementById(options.id),
+            svg = d3.select(block),
             width = +svg.attr('width'),
             height = +svg.attr('height'),
-            radius = Math.min(width, height) / 2;
+            radius = Math.min(width, height) / 2,
+            g = svg.append('g')
+                .attr('transform', 'translate(' + width / 3 + ',' + height / 2 + ')'),
+            dataValue = JSON.parse(block.dataset.value),
+            data = dataValue.data;
 
-        var g = svg.append('g')
-            .attr('transform', 'translate(' + width / 3 + ',' + height / 2 + ')');
-
-        var color = d3.scaleOrdinal(['#A0A0A0', '#FAD732', '#F45050']);
+        block.removeAttribute('data-value');
 
         var pie = d3.pie()
             .sort(null)
@@ -29,74 +50,77 @@ module.exports = (function (d3draw) {
             });
 
         var path = d3.arc()
-            .outerRadius(radius - 10)
+            .outerRadius(radius - 20)
             .innerRadius(0);
+
+        var label = d3.arc()
+            .outerRadius(radius - 40)
+            .innerRadius(radius - 40);
 
 
         var arc = g.selectAll('.arc')
             .data(pie(data))
             .enter().append('g')
-            .attr('class', 'age');
+            .attr('class', 'arc');
 
         arc.append('path')
             .attr('d', path)
-            .style('fill', function (d) {
+            .attr('fill', function (d, i) {
 
-                return color(d.data.age);
+                return getColors(data.length)[i];
 
             });
 
         arc.append('text')
             .attr('transform', function (d) {
 
-                return 'translate(' + path.centroid(d) + ')';
+                return 'translate(' + label.centroid(d) + ')';
 
             })
             .style('text-anchor', 'middle')
+            .style('font-size', 11)
             .text(function (d) {
 
-                if (parseInt(d.data.number) !== 0) {
-
-                    return (parseInt(d.data.number) / dataValue.total * 100).toFixed(0) + '%';
-
-                }
+                if (parseInt(d.data.number) !== 0 )
+                    return (parseInt(d.data.number) / parseInt(dataValue.total) * 100).toFixed(0) + '%';
 
             });
 
-        svg.append('g')
-            .attr('class', 'axis')
+        var textBlock = svg.append('g')
+            .attr('transform', 'translate(0, 12)');
+
+        textBlock.append('g')
+            .attr('class', 'legend-title')
+            .attr('transform', 'translate(0, 0)')
             .append('text')
-            .attr('x', width - 2)
-            .attr('y', 14)
+            .attr('x', width)
+            .attr('y', 0)
             .attr('font-family', 'sans-serif')
             .attr('font-size', 14)
             .attr('fill', '#008da7')
             .attr('font-weight', 'bold')
             .attr('text-anchor', 'end')
-            .text('Возраст');
+            .text(options.title);
 
 
-        var legendTable = d3.select(patientsBlock).append('g')
-            .attr('transform', 'translate(0, 25)');
-
-        var legend = legendTable.selectAll('.legend')
+        var legend = textBlock.selectAll('.legend')
             .data(pie(data))
             .enter().append('g')
             .attr('class', 'legend')
             .attr('transform', function (d, i) {
 
-                return 'translate(0, ' + i * 20 + ')';
+                return 'translate(0, ' + (i * 20 + 10) + ')';
 
             });
 
         legend.append('rect')
             .attr('x', width - 10)
             .attr('y', 0)
-            .attr('width', 10)
-            .attr('height', 10)
-            .style('fill', function (d) {
+            .attr('width', 8)
+            .attr('height', 8)
+            .style('fill', function (d, i) {
 
-                return color(d.data.age);
+                return getColors(data.length)[i];
 
             });
 
@@ -104,125 +128,79 @@ module.exports = (function (d3draw) {
             .attr('x', width - 14)
             .attr('y', 9)
             .attr('font-family', 'sans-serif')
-            .attr('font-size', 14)
+            .attr('font-size', 12)
             .style('text-anchor', 'end')
             .text(function (d) {
 
-                return d.data.age;
+                return d.data.name;
 
             });
 
     };
 
-    d3draw.patientsSex = function () {
 
-        var patientsBlock = document.getElementById('patientsSexBlock'),
-            dataValue = JSON.parse(patientsBlock.dataset.value),
-            data = dataValue.data;
+    var drawPatientsAges = function () {
 
-        patientsBlock.removeAttribute('data-value');
+        drawCircleDiagram({
+            id: 'patientsAgeBlock',
+            title: 'Возраст'
+        });
 
-        var svg = d3.select(patientsBlock),
-            width = +svg.attr('width'),
-            height = +svg.attr('height'),
-            radius = Math.min(width, height) / 2;
+    };
 
-        var g = svg.append('g')
-            .attr('transform', 'translate(' + width / 3 + ',' + height / 2 + ')');
+    var drawPatientsSex = function () {
 
-        var color = d3.scaleOrdinal(['#008da7', '#FF7373']);
+        drawCircleDiagram({
+            id: 'patientsSexBlock',
+            title: 'Пол'
+        });
 
-        var pie = d3.pie()
-            .sort(null)
-            .value(function (d) {
+    };
 
-                return d.number;
+    var drawADLH = function () {
 
-            });
+        drawCircleDiagram({
+            id: 'RAIScalesADLH',
+            title: 'Самостоятельность'
+        });
 
-        var path = d3.arc()
-            .outerRadius(radius - 10)
-            .innerRadius(0);
+    };
 
+    var drawDRS = function () {
 
-        var arc = g.selectAll('.arc')
-            .data(pie(data))
-            .enter().append('g')
-            .attr('class', 'age');
+        drawCircleDiagram({
+            id: 'RAIScalesDRS',
+            title: 'Уровень депрессии'
+        });
 
-        arc.append('path')
-            .attr('d', path)
-            .style('fill', function (d) {
+    };
 
-                return color(d.data.sex);
+    var drawCPS = function () {
 
-            });
+        drawCircleDiagram({
+            id: 'RAIScalesCPS',
+            title: 'Когнитивные способности (отклонения)'
+        });
 
-        arc.append('text')
-            .attr('transform', function (d) {
+    };
 
-                return 'translate(' + path.centroid(d) + ')';
+    var drawCOMM = function () {
 
-            })
-            .style('text-anchor', 'middle')
-            .text(function (d) {
+        drawCircleDiagram({
+            id: 'RAIScalesCOMM',
+            title: 'Коммуникативные способности(отклонения)'
+        });
 
-                if (parseInt(d.data.number) !== 0) {
+    };
 
-                    return (parseInt(d.data.number) / dataValue.total * 100).toFixed(0) + '%';
+    d3draw.init = function () {
 
-                }
-
-            });
-
-        svg.append('g')
-            .attr('class', 'axis')
-            .append('text')
-            .attr('x', width - 2)
-            .attr('y', 14)
-            .attr('font-family', 'sans-serif')
-            .attr('font-size', 14)
-            .attr('fill', '#008da7')
-            .attr('font-weight', 'bold')
-            .attr('text-anchor', 'end')
-            .text('Пол');
-
-
-        var legendTable = d3.select(patientsBlock).append('g')
-            .attr('transform', 'translate(0, 25)');
-
-        var legend = legendTable.selectAll('.legend')
-            .data(pie(data))
-            .enter().append('g')
-            .attr('class', 'legend')
-            .attr('transform', function (d, i) {
-
-                return 'translate(0, ' + i * 20 + ')';
-
-            });
-
-        legend.append('rect')
-            .attr('x', width - 10)
-            .attr('y', 0)
-            .attr('width', 10)
-            .attr('height', 10)
-            .style('fill', function (d) {
-
-                return color(d.data.sex);
-
-            });
-
-        legend.append('text')
-            .attr('x', width - 14)
-            .attr('y', 9)
-            .attr('font-family', 'sans-serif')
-            .attr('font-size', 14)
-            .style('text-anchor', 'end')
-            .text(function (d) {
-
-                return d.data.sex;
-
-            });
+        drawPatientsAges ();
+        drawPatientsSex();
+        drawADLH();
+        drawDRS();
+        drawCPS();
+        drawCOMM();
 
     };
 

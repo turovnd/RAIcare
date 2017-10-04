@@ -74,7 +74,7 @@
                                             $action == "patient" ? 'aside__item--active' : ''; ?>">
                 <a href="<?='/\/' . $_SERVER['HTTP_HOST'] . '/' . $pension->uri. '/patients'; ?>" class="aside__link <? echo $action == "patients" ? 'aside__link--active' : ''; ?>">
                     <i class="fa fa-database aside__icon" aria-hidden="true"></i>
-                    <span class="aside__text">Пациенты</span>
+                    <span class="aside__text">Резиденты</span>
                 </a>
             </li>
 

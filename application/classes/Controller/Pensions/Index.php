@@ -69,27 +69,29 @@ class Controller_Pensions_Index extends Dispatch
     {
         $patients = Model_Patient::getAllByPension($this->pension->id);
         $patientsAges = array( 'total' => count($patients),
-                                'data' => array( array( 'age' => 'Меньше 65 лет', 'number' => 0 ),
-                                                 array( 'age' => '66-84 лет', 'number' => 0 ),
-                                                 array( 'age' => 'Старше 85 лет', 'number' => 0 ) ) );
+                                'data' => array( array( 'name' => 'Меньше 65 лет', 'number' => 0 ),
+                                                 array( 'name' => '66-84 лет', 'number' => 0 ),
+                                                 array( 'name' => 'Старше 85 лет', 'number' => 0 ) ) );
 
         $patientsSex = array( 'total' => count($patients),
-                                'data' => array( array( 'sex' => 'Мужской', 'number' => 0 ),
-                                                 array( 'sex' => 'Женский', 'number' => 0 ) ) );
+                                'data' => array( array( 'name' => 'Мужской', 'number' => 0 ),
+                                                 array( 'name' => 'Женский', 'number' => 0 ) ) );
 
         foreach ($patients as $patient) {
-
-            if ($patient->age < 65)  $patientsAges['data'][0]['number']++;
-            elseif($patient->age > 85)  $patientsAges['data'][2]['number']++;
-            else  $patientsAges['data'][1]['number']++;
+            if ($patient->age < 65) $patientsAges['data'][0]['number']++;
+                elseif($patient->age > 85) $patientsAges['data'][2]['number']++;
+                    else $patientsAges['data'][1]['number']++;
 
             if ($patient->sex == 1) $patientsSex['data'][0]['number']++;
-            else $patientsSex['data'][1]['number']++;
+                else $patientsSex['data'][1]['number']++;
         }
+
+        $RAI_scales = $this->getRAIScales();
 
         $this->template->title = $this->pension->name;
         $this->template->section = View::factory('pensions/pages/main')
             ->set('pension', $this->pension)
+            ->set('RAI_scales', $RAI_scales)
             ->set('patientsAges', json_encode($patientsAges))
             ->set('patientsSex', json_encode($patientsSex));
     }
@@ -143,6 +145,72 @@ class Controller_Pensions_Index extends Dispatch
             ->set('roles', $roles)
             ->set('pension', $this->pension);
 
+    }
+
+
+    private function getRAIScales() {
+        $reports = Model_ReportRAIScales::getAllByPension($this->pension->id);
+
+        $RAI_scales['ADLH'] = array( 'total' => count($reports),
+            'data' => array( array( 'name' => 'Независим', 'number' => 0 ),
+                array( 'name' => 'Присмотр', 'number' => 0 ),
+                array( 'name' => 'Мин. помощь', 'number' => 0 ),
+                array( 'name' => 'Сред. помощь', 'number' => 0 ),
+                array( 'name' => 'Макс. помощь', 'number' => 0 ),
+                array( 'name' => 'Зависим', 'number' => 0 ),
+                array( 'name' => 'Макс. зависим', 'number' => 0 ) ) );
+
+        $RAI_scales['DRS'] = array( 'total' => count($reports),
+            'data' => array( array( 'name' => 'Отсутствует', 'number' => 0 ),
+                array( 'name' => 'Умеренная', 'number' => 0 ),
+                array( 'name' => 'Сильная', 'number' => 0 ) ) );
+
+        $RAI_scales['CPS'] = array( 'total' => count($reports),
+            'data' => array( array( 'name' => 'Нет', 'number' => 0 ),
+                array( 'name' => 'В приделах нормы', 'number' => 0 ),
+                array( 'name' => 'Незначительные', 'number' => 0 ),
+                array( 'name' => 'Умеренные', 'number' => 0 ),
+                array( 'name' => 'Умер./серьез.', 'number' => 0 ),
+                array( 'name' => 'Серьезные', 'number' => 0 ),
+                array( 'name' => 'Очень серьезные', 'number' => 0 ) ) );
+
+        $RAI_scales['COMM'] = array( 'total' => count($reports),
+            'data' => array( array( 'name' => 'В приделах нормы', 'number' => 0 ),
+                array( 'name' => 'Незначительные', 'number' => 0 ),
+                array( 'name' => 'Умеренные', 'number' => 0 ),
+                array( 'name' => 'Серьезные', 'number' => 0 ),
+                array( 'name' => 'Очень серьезные', 'number' => 0 ) ) );
+
+
+        foreach ($reports as $report) {
+            if ($report->ADLH == 0) $RAI_scales['ADLH']['data'][0]['number']++;
+            elseif ($report->ADLH == 1) $RAI_scales['ADLH']['data'][1]['number']++;
+            elseif ($report->ADLH == 2) $RAI_scales['ADLH']['data'][2]['number']++;
+            elseif ($report->ADLH == 3) $RAI_scales['ADLH']['data'][3]['number']++;
+            elseif ($report->ADLH == 4) $RAI_scales['ADLH']['data'][4]['number']++;
+            elseif ($report->ADLH == 5) $RAI_scales['ADLH']['data'][5]['number']++;
+            else $RAI_scales['ADLH']['data'][6]['number']++;
+
+            if ($report->DRS == 0 || $report->DRS == 1 || $report->DRS == 2) $RAI_scales['DRS']['data'][0]['number']++;
+            elseif ($report->DRS == 3 || $report->DRS == 4 || $report->DRS == 5 || $report->DRS == 6 || $report->DRS == 7 || $report->DRS == 8) $RAI_scales['DRS']['data'][1]['number']++;
+            else $RAI_scales['DRS']['data'][2]['number']++;
+
+            if ($report->CPS == 0) $RAI_scales['CPS']['data'][0]['number']++;
+            elseif ($report->CPS == 1) $RAI_scales['CPS']['data'][1]['number']++;
+            elseif ($report->CPS == 2) $RAI_scales['CPS']['data'][2]['number']++;
+            elseif ($report->CPS == 3) $RAI_scales['CPS']['data'][3]['number']++;
+            elseif ($report->CPS == 4) $RAI_scales['CPS']['data'][4]['number']++;
+            elseif ($report->CPS == 5) $RAI_scales['CPS']['data'][5]['number']++;
+            else $RAI_scales['CPS']['data'][6]['number']++;
+
+            if ($report->COMM == 0 || $report->COMM == 1) $RAI_scales['COMM']['data'][0]['number']++;
+            elseif ($report->COMM == 2 || $report->COMM == 3) $RAI_scales['COMM']['data'][1]['number']++;
+            elseif ($report->COMM == 4 || $report->COMM == 5) $RAI_scales['COMM']['data'][2]['number']++;
+            elseif ($report->COMM == 6 || $report->COMM == 7) $RAI_scales['COMM']['data'][3]['number']++;
+            else $RAI_scales['COMM']['data'][4]['number']++;
+        }
+
+        return $RAI_scales;
     }
 
 }

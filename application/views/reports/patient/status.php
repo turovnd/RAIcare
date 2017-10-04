@@ -2,7 +2,7 @@
 
     <h3 class="section__heading">
         <a role="button" onclick="" class="btn btn--default btn--sm m-b-0 fl_r collapse-btn"><i class="fa fa-floppy-o" aria-hidden="true"></i></a>
-        Текущее состояние пациента #<?= $patient->id; ?>
+        Текущее состояние резидента #<?= $patient->id; ?>
     </h3>
 
     <?= View::factory('reports/block/patient-info', array('pension' => $pension, 'patient' => $patient, 'survey' => $survey)); ?>
@@ -19,7 +19,7 @@
                     <table id="adlSupport">
                         <thead>
                         <tr >
-                            <th class="f-s-1_2 valign-middle text-center">Эффективность действий пациента</th>
+                            <th class="f-s-1_2 valign-middle text-center">Эффективность действий резидента</th>
                             <th class="text-center">
                                 <img src="/assets/static/img/status-report/adl-self-0.svg" alt="">
                                 <small>самостоятельность</small>

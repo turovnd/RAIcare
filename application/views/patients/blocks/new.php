@@ -6,7 +6,7 @@
                 <button type="button" class="modal__title-close" data-close="modal">
                     <i class="fa fa-close" aria-hidden="true"></i>
                 </button>
-                <h4 class="modal__title">Новый пациент</h4>
+                <h4 class="modal__title">Новый резидент</h4>
             </div>
             <div class="modal__body">
                 <div class="text-danger m-b-15">

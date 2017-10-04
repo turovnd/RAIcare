@@ -57,7 +57,7 @@
                 <fieldset>
                     <div class="form-group">
                         <label class="form-group__label col-xs-12">
-                            R3. Пациенту дано направление на получение услуг по уходу на дому после выписки
+                            R3. Резиденту дано направление на получение услуг по уходу на дому после выписки
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>

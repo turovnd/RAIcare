@@ -2,7 +2,7 @@
     <div class="block__body">
         <a role="button" data-toggle="collapse" data-area="patientInfo" data-opened="false" data-textclosed="подробно" data-textopened="кратко" class="pos-absolute right-0 btn btn--sm btn--default m-b-0 m-r-15 collapse-btn" style="z-index: 1"></a>
         <div class="form-group">
-            <label class="form-group__label col-xs-12 col-sm-4 col-md-3">Пациент</label>
+            <label class="form-group__label col-xs-12 col-sm-4 col-md-3">Резидент</label>
             <div class="col-xs-12 col-sm-8 col-md-9">
                 <p class="form-group__control-static">
                     <a class="link" href="<?= '/\/' . $_SERVER['HTTP_HOST'] . '/' . $pension->uri . '/patient/'. $patient->id; ?>"><?= $patient->name; ?></a>

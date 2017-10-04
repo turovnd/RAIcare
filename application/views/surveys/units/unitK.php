@@ -198,7 +198,7 @@
 
                     <div class="form-group">
                         <label class="form-group__label col-xs-12">
-                            a. Пациент носит «вставные зубы» (съемный протез)
+                            a. Резидент носит «вставные зубы» (съемный протез)
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -218,7 +218,7 @@
 
                     <div class="form-group">
                         <label class="form-group__label col-xs-12">
-                            b. Свои (естественные) зубы пациента сломаны, фрагментированы, шатаются или иным образом повреждены
+                            b. Свои (естественные) зубы резидента сломаны, фрагментированы, шатаются или иным образом повреждены
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -238,7 +238,7 @@
 
                     <div class="form-group">
                         <label class="form-group__label col-xs-12">
-                            c. Пациент сообщает о боли/дискомфорте в области лица или ротовой полости
+                            c. Резидент сообщает о боли/дискомфорте в области лица или ротовой полости
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -258,7 +258,7 @@
 
                     <div class="form-group">
                         <label class="form-group__label col-xs-12">
-                            d. Пациент сообщает о сухости во рту
+                            d. Резидент сообщает о сухости во рту
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -278,7 +278,7 @@
 
                     <div class="form-group">
                         <label class="form-group__label col-xs-12">
-                            e. Пациент сообщает о трудностях при жевании
+                            e. Резидент сообщает о трудностях при жевании
                         </label>
                         <div class="col-xs-12">
                             <? if ($can_conduct) : ?>
@@ -298,7 +298,7 @@
 
                     <div class="form-group">
                         <label class="form-group__label col-xs-12">
-                            f. У пациента воспаление или кровотечение десен (мягких тканей),
+                            f. У резидента воспаление или кровотечение десен (мягких тканей),
                             расположенных в непосредственной близости от естественных зубов или их
                             фрагментов
                         </label>

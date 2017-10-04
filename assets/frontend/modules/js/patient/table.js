@@ -13,8 +13,8 @@ module.exports = (function (table) {
             sortable: true,
             labels: {
                 placeholder: 'Поиск...',
-                perPage: '{select} пациентов на странице',
-                noRows: 'Пациенты не найдены',
+                perPage: '{select} резидентов на странице',
+                noRows: 'Резиденты не найдены',
                 info: 'Показано с {start} по {end} из {rows}',
             },
             nextPrev: false,
